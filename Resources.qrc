@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>share/easyrpg.png</file>
+        <file>share/old_11_scale.png</file>
+        <file>share/old_12_scale.png</file>
+        <file>share/old_14_scale.png</file>
+        <file>share/old_18_scale.png</file>
+        <file>share/old_circle.png</file>
+        <file>share/old_create_game_disk.png</file>
+        <file>share/old_database.png</file>
+        <file>share/old_easyrpg.png</file>
+        <file>share/old_event_layer.png</file>
+        <file>share/old_fill.png</file>
+        <file>share/old_lower_layer.png</file>
+        <file>share/old_map.png</file>
+        <file>share/old_music.png</file>
+        <file>share/old_pen.png</file>
+        <file>share/old_playtest.png</file>
+        <file>share/old_rectangle.png</file>
+        <file>share/old_select.png</file>
+        <file>share/old_title.png</file>
+        <file>share/old_upper_layer.png</file>
+        <file>share/old_zoom.png</file>
+        <file>share/standard.png</file>
+        <file>share/old_script_editor.png</file>
+        <file>share/old_close.png</file>
+        <file>share/old_fullscreen.png</file>
+        <file>share/old_new.png</file>
+        <file>share/old_open.png</file>
+        <file>share/old_quit.png</file>
+        <file>share/old_resources.png</file>
+        <file>share/old_revert.png</file>
+        <file>share/old_save_all.png</file>
+        <file>share/old_search.png</file>
+        <file>share/old_help.png</file>
+    </qresource>
+</RCC>

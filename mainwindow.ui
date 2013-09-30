@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>761</width>
+    <height>352</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EasyRPG Editor</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resources.qrc">
+    <normaloff>:/icons/share/old_easyrpg.png</normaloff>:/icons/share/old_easyrpg.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>761</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuGame">
+    <property name="title">
+     <string>Game &amp;Project</string>
+    </property>
+    <addaction name="action_New_Project"/>
+    <addaction name="action_Open_Project"/>
+    <addaction name="action_Close_Project"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreate_Game_Disk"/>
+    <addaction name="separator"/>
+    <addaction name="action_Quit"/>
+   </widget>
+   <widget class="QMenu" name="menuMaps">
+    <property name="title">
+     <string>Maps</string>
+    </property>
+    <widget class="QMenu" name="menuEdition_Mode">
+     <property name="title">
+      <string>Edition &amp;Mode</string>
+     </property>
+     <addaction name="action_Lower_Layer"/>
+     <addaction name="action_Upper_Layer"/>
+     <addaction name="action_Events"/>
+    </widget>
+    <widget class="QMenu" name="menuZoom">
+     <property name="title">
+      <string>&amp;Zoom</string>
+     </property>
+     <addaction name="actionScale_1_1"/>
+     <addaction name="actionScale_1_2"/>
+     <addaction name="actionScale_1_4"/>
+     <addaction name="actionScale_1_8"/>
+    </widget>
+    <addaction name="action_Save_all_Maps"/>
+    <addaction name="actionRevert_all_Maps"/>
+    <addaction name="separator"/>
+    <addaction name="menuEdition_Mode"/>
+    <addaction name="menuZoom"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionData_Base"/>
+    <addaction name="actionResource_Manager"/>
+    <addaction name="actionJukebox"/>
+    <addaction name="actionSearch"/>
+    <addaction name="action_Script_Editor"/>
+   </widget>
+   <widget class="QMenu" name="menuGame_2">
+    <property name="title">
+     <string>Game</string>
+    </property>
+    <addaction name="action_Play_Test"/>
+    <addaction name="separator"/>
+    <addaction name="action_Full_Screen"/>
+    <addaction name="action_Title_Background"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionContents"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <addaction name="menuGame"/>
+   <addaction name="menuMaps"/>
+   <addaction name="menuTools"/>
+   <addaction name="menuGame_2"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_New_Project"/>
+   <addaction name="action_Open_Project"/>
+   <addaction name="action_Close_Project"/>
+   <addaction name="separator"/>
+   <addaction name="actionCreate_Game_Disk"/>
+   <addaction name="separator"/>
+   <addaction name="action_Save_all_Maps"/>
+   <addaction name="actionRevert_all_Maps"/>
+   <addaction name="separator"/>
+   <addaction name="action_Lower_Layer"/>
+   <addaction name="action_Upper_Layer"/>
+   <addaction name="action_Events"/>
+   <addaction name="separator"/>
+   <addaction name="actionScale_1_1"/>
+   <addaction name="actionScale_1_2"/>
+   <addaction name="actionScale_1_4"/>
+   <addaction name="actionScale_1_8"/>
+   <addaction name="separator"/>
+   <addaction name="actionData_Base"/>
+   <addaction name="action_Script_Editor"/>
+   <addaction name="actionResource_Manager"/>
+   <addaction name="actionJukebox"/>
+   <addaction name="actionSearch"/>
+   <addaction name="separator"/>
+   <addaction name="action_Play_Test"/>
+   <addaction name="separator"/>
+   <addaction name="action_Full_Screen"/>
+   <addaction name="action_Title_Background"/>
+   <addaction name="separator"/>
+   <addaction name="actionContents"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_Open_Project">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_open.png</normaloff>:/icons/share/old_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open Project</string>
+   </property>
+  </action>
+  <action name="action_New_Project">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_new.png</normaloff>:/icons/share/old_new.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New Project</string>
+   </property>
+  </action>
+  <action name="action_Close_Project">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_close.png</normaloff>:/icons/share/old_close.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Close Project</string>
+   </property>
+  </action>
+  <action name="actionCreate_Game_Disk">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_create_game_disk.png</normaloff>:/icons/share/old_create_game_disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Create Game &amp;Disk</string>
+   </property>
+  </action>
+  <action name="action_Quit">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_quit.png</normaloff>:/icons/share/old_quit.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+  </action>
+  <action name="action_Save_all_Maps">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_save_all.png</normaloff>:/icons/share/old_save_all.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save all Maps</string>
+   </property>
+  </action>
+  <action name="actionRevert_all_Maps">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Revert all Maps</string>
+   </property>
+  </action>
+  <action name="action_Lower_Layer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_lower_layer.png</normaloff>:/icons/share/old_lower_layer.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Lower Layer</string>
+   </property>
+  </action>
+  <action name="action_Upper_Layer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_upper_layer.png</normaloff>:/icons/share/old_upper_layer.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Upper Layer</string>
+   </property>
+  </action>
+  <action name="action_Events">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_event_layer.png</normaloff>:/icons/share/old_event_layer.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Events</string>
+   </property>
+  </action>
+  <action name="actionScale_1_1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_11_scale.png</normaloff>:/icons/share/old_11_scale.png</iconset>
+   </property>
+   <property name="text">
+    <string>Scale 1/&amp;1</string>
+   </property>
+  </action>
+  <action name="actionScale_1_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_12_scale.png</normaloff>:/icons/share/old_12_scale.png</iconset>
+   </property>
+   <property name="text">
+    <string>Scale 1/&amp;2</string>
+   </property>
+  </action>
+  <action name="actionScale_1_4">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_14_scale.png</normaloff>:/icons/share/old_14_scale.png</iconset>
+   </property>
+   <property name="text">
+    <string>Scale 1/&amp;4</string>
+   </property>
+  </action>
+  <action name="actionScale_1_8">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_18_scale.png</normaloff>:/icons/share/old_18_scale.png</iconset>
+   </property>
+   <property name="text">
+    <string>Scale 1/&amp;8</string>
+   </property>
+  </action>
+  <action name="actionData_Base">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_database.png</normaloff>:/icons/share/old_database.png</iconset>
+   </property>
+   <property name="text">
+    <string>Data Base</string>
+   </property>
+  </action>
+  <action name="actionResource_Manager">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_create_game_disk.png</normaloff>:/icons/share/old_create_game_disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>Resource Manager</string>
+   </property>
+  </action>
+  <action name="actionJukebox">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_music.png</normaloff>:/icons/share/old_music.png</iconset>
+   </property>
+   <property name="text">
+    <string>Jukebox</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_search.png</normaloff>:/icons/share/old_search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </action>
+  <action name="action_Play_Test">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_playtest.png</normaloff>:/icons/share/old_playtest.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Play Test</string>
+   </property>
+  </action>
+  <action name="action_Full_Screen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_fullscreen.png</normaloff>:/icons/share/old_fullscreen.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Full Screen</string>
+   </property>
+  </action>
+  <action name="action_Title_Background">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_title.png</normaloff>:/icons/share/old_title.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Title Background</string>
+   </property>
+  </action>
+  <action name="actionContents">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/standard.png</normaloff>:/icons/share/standard.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Contents</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="action_Script_Editor">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_script_editor.png</normaloff>:/icons/share/old_script_editor.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Script Editor</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
