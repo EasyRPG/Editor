@@ -18,6 +18,10 @@ public:
 private slots:
     void on_action_Quit_triggered();
 
+    void on_actionPalete_triggered(bool checked);
+
+    void on_actionMap_Tree_triggered(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

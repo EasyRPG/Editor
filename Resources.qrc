@@ -33,5 +33,6 @@
         <file>share/old_save_all.png</file>
         <file>share/old_search.png</file>
         <file>share/old_help.png</file>
+        <file>share/old_palette.png</file>
     </qresource>
 </RCC>
