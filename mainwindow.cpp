@@ -11,6 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeMap->hideColumn(0);
     // Created hardcoded toolbar for palette window.
     ui->toolBar->setParent(ui->dockWidgetContents);
+    //Create dialogs
+    dlg_resource = new DialogResourceManager(this);
+    dlg_resource->setModal(true);
+    dlg_db = new DialogDataBase(this);
+    dlg_db->setModal(true);
 }
 
 MainWindow::~MainWindow()
@@ -37,4 +42,14 @@ void MainWindow::on_actionMap_Tree_triggered(bool checked)
         ui->dockMapTree->show();
     else
         ui->dockMapTree->hide();
+}
+
+void MainWindow::on_actionResource_Manager_triggered()
+{
+    dlg_resource->show();
+}
+
+void MainWindow::on_actionData_Base_triggered()
+{
+    dlg_db->show();
 }

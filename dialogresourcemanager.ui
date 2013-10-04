@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogResourceManager</class>
+ <widget class="QDialog" name="DialogResourceManager">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>425</width>
+    <height>377</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QListWidget" name="listResourceType">
+     <item>
+      <property name="text">
+       <string>Backdrop</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Battle</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Battle2</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>BattleCharset</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>BattleWeapon</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CharSet</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ChipSet</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>FaceSet</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Frame</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>GameOver</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Monster</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Movie</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Music</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Panorama</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Picture</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Sound</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>System</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>System2</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Title</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Resources.qrc">
+        <normaloff>:/icons/share/old_folder.png</normaloff>:/icons/share/old_folder.png</iconset>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QListWidget" name="listResources"/>
+   </item>
+   <item row="0" column="2">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="pushImport">
+       <property name="text">
+        <string>Import</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushExport">
+       <property name="text">
+        <string>Export</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushDelete">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="widget" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

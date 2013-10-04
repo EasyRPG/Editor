@@ -13,11 +13,17 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    dialogresourcemanager.cpp \
+    dialogdatabase.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    dialogresourcemanager.h \
+    dialogdatabase.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialogresourcemanager.ui \
+    dialogdatabase.ui
 
 RESOURCES += \
     Resources.qrc
