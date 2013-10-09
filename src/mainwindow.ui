@@ -369,6 +369,9 @@
    </property>
   </action>
   <action name="action_Events">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_event_layer.png</normaloff>:/icons/share/old_event_layer.png</iconset>

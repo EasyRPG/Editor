@@ -12,18 +12,18 @@ TARGET = EasyRPG-Editor
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    dialogresourcemanager.cpp \
-    dialogdatabase.cpp
+SOURCES += src/mainwindow.cpp \
+    src/main.cpp \
+    src/dialogresourcemanager.cpp \
+    src/dialogdatabase.cpp
 
-HEADERS  += mainwindow.h \
-    dialogresourcemanager.h \
-    dialogdatabase.h
+HEADERS  += src/mainwindow.h \
+    src/dialogresourcemanager.h \
+    src/dialogdatabase.h
 
-FORMS    += mainwindow.ui \
-    dialogresourcemanager.ui \
-    dialogdatabase.ui
+FORMS    += src/mainwindow.ui \
+    src/dialogresourcemanager.ui \
+    src/dialogdatabase.ui
 
 RESOURCES += \
-    Resources.qrc
+    src/Resources.qrc
