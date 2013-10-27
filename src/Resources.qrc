@@ -21,7 +21,6 @@
         <file>share/old_title.png</file>
         <file>share/old_upper_layer.png</file>
         <file>share/old_zoom.png</file>
-        <file>share/standard.png</file>
         <file>share/old_script_editor.png</file>
         <file>share/old_close.png</file>
         <file>share/old_fullscreen.png</file>
@@ -35,5 +34,10 @@
         <file>share/old_help.png</file>
         <file>share/old_palette.png</file>
         <file>share/old_folder.png</file>
+        <file>share/old_add.png</file>
+        <file>share/old_delete.png</file>
+        <file>share/old_movedown.png</file>
+        <file>share/old_moveup.png</file>
+        <file>share/old_edit.png</file>
     </qresource>
 </RCC>

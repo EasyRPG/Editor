@@ -19,7 +19,9 @@ SOURCES += src/mainwindow.cpp \
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
-    src/dialogdatabase.h
+    src/dialogdatabase.h \
+    src/gamecharacter.h \
+    src/gamecharactermodel.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
