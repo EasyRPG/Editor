@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
+#include "gameproject.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,7 @@ private slots:
     void on_actionData_Base_triggered();
 
 private:
+    GameProject *m_project;
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;

@@ -6,13 +6,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    m_project = new GameProject();
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(0);
     // Created hardcoded toolbar for palette window.
     ui->toolBar->setParent(ui->dockWidgetContents);
     //Create dialogs
-    dlg_resource = new DialogResourceManager(this);
+    dlg_resource = new DialogResourceManager(this, m_project);
     dlg_resource->setModal(true);
     dlg_db = new DialogDataBase(this);
     dlg_db->setModal(true);

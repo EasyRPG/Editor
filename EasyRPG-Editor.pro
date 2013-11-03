@@ -15,13 +15,15 @@ TEMPLATE = app
 SOURCES += src/mainwindow.cpp \
     src/main.cpp \
     src/dialogresourcemanager.cpp \
-    src/dialogdatabase.cpp
+    src/dialogdatabase.cpp \
+    src/gameproject.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
     src/dialogdatabase.h \
     src/gamecharacter.h \
-    src/gamecharactermodel.h
+    src/gamecharactermodel.h \
+    src/gameproject.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
