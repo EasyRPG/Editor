@@ -78,6 +78,25 @@ private:
     QStringList m_system;
     QStringList m_system2;
     QStringList m_title;
+    QStringList r_backdrop;
+    QStringList r_battle;
+    QStringList r_battle2;
+    QStringList r_battlecharset;
+    QStringList r_battleweapon;
+    QStringList r_charset;
+    QStringList r_chipset;
+    QStringList r_faceset;
+    QStringList r_frame;
+    QStringList r_gameover;
+    QStringList r_monster;
+    QStringList r_movie;
+    QStringList r_music;
+    QStringList r_background;
+    QStringList r_picture;
+    QStringList r_sound;
+    QStringList r_system;
+    QStringList r_system2;
+    QStringList r_title;
 };
 
 #endif // GAMEPROJECT_H
