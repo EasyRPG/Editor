@@ -29,6 +29,8 @@ private slots:
 
     void on_actionData_Base_triggered();
 
+    void update_actions();
+
 private:
     GameProject *m_project;
     Ui::MainWindow *ui;
