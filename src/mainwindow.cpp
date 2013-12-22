@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Created hardcoded toolbar for palette window.
     ui->toolBar->setParent(ui->dockWidgetContents);
     //Create dialogs
-    dlg_resource = new DialogResourceManager(this, m_project);
+    dlg_resource = new DialogResourceManager(this);
     dlg_resource->setModal(true);
     dlg_db = new DialogDataBase(this);
     dlg_db->setModal(true);
@@ -48,6 +48,7 @@ void MainWindow::on_actionMap_Tree_triggered(bool checked)
 
 void MainWindow::on_actionResource_Manager_triggered()
 {
+    dlg_resource->setProject(m_project);
     dlg_resource->show();
 }
 
@@ -115,4 +116,10 @@ void MainWindow::update_actions()
         ui->action_Title_Background->setEnabled(true);
         ui->action_Upper_Layer->setEnabled(true);
     }
+}
+
+void MainWindow::on_action_New_Project_triggered()
+{
+    m_project = new GameProject();
+    update_actions();
 }

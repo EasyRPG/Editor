@@ -31,6 +31,8 @@ private slots:
 
     void update_actions();
 
+    void on_action_New_Project_triggered();
+
 private:
     GameProject *m_project;
     Ui::MainWindow *ui;

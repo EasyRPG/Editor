@@ -14,9 +14,11 @@ class DialogResourceManager : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogResourceManager(QWidget *parent = 0, GameProject *project = 0);
+    explicit DialogResourceManager(QWidget *parent = 0);
     ~DialogResourceManager();
     
+    void setProject (GameProject* n_project);
+
 private slots:
     void on_listResourceType_currentRowChanged(int currentRow);
 

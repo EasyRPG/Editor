@@ -6,9 +6,9 @@
 #include <QDebug>
 #include "dialogimportimage.h"
 
-DialogResourceManager::DialogResourceManager(QWidget *parent, GameProject *project) :
+DialogResourceManager::DialogResourceManager(QWidget *parent) :
     QDialog(parent),
-    m_project(project),
+    m_project(0),
     ui(new Ui::DialogResourceManager)
 {
     ui->setupUi(this);
@@ -25,6 +25,12 @@ DialogResourceManager::~DialogResourceManager()
 {
     delete ui;
 }
+
+void DialogResourceManager::setProject(GameProject *n_project)
+{
+    m_project = n_project;
+}
+
 void DialogResourceManager::on_listResourceType_currentRowChanged(int currentRow)
 {
     if (m_project == 0)
@@ -174,6 +180,11 @@ void DialogResourceManager::on_pushImport_clicked()
             msg.exec();
             return;
         }
+        dialog = new DialogImportImage(filename,this);
+        dialog->exec();
+        if (dialog->result() == QDialog::Accepted)
+            image = dialog->image();
+        image.save(m_project->getProjectPath()+"/Battle/"+info.baseName()+".PNG");
         break;
     case 6:
         size = QImage(filename).size();
