@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <QDebug>
+#include "dialogimportimage.h"
 
 DialogResourceManager::DialogResourceManager(QWidget *parent, GameProject *project) :
     QDialog(parent),
@@ -107,20 +109,26 @@ void DialogResourceManager::on_pushImport_clicked()
     else //Picture
         filename = QFileDialog::getOpenFileName(this,tr("Select a file to import"), m_lastpicturepath == QString() ? QStandardPaths::standardLocations(QStandardPaths::PicturesLocation)[0] : m_lastpicturepath, tr("All formats (*.bmp *.png *.xyz);;BMP (*.bmp);;PNG (*.png);;XYZ (*.xyz)"));
 
-    if (!QFileInfo(filename).exists() || QFileInfo(filename).isDir())
-        return;
-
     //Check file
     QSize size;
+    QImage image;
+    QFileInfo info(filename);
+    if (!info.exists() || info.isDir())
+        return;
+
+    DialogImportImage *dialog;
+
     switch (ui->listResourceType->currentIndex().row())
     {
     case 0:
-        size = QImage(filename).size();
+        image = QImage(filename);
+        size = image.size();
         if (size != QSize(320,240)){
             QMessageBox msg(QMessageBox::Critical, "Error", tr("Backdrop images's size should be 320x240."), QMessageBox::Ok);
             msg.exec();
             return;
         }
+        image.save(m_project->getProjectPath()+"/Backdrop/"+info.baseName()+".PNG");
         break;
     case 1:
         size = QImage(filename).size();
@@ -129,6 +137,11 @@ void DialogResourceManager::on_pushImport_clicked()
             msg.exec();
             return;
         }
+        dialog = new DialogImportImage(filename,this);
+        dialog->exec();
+        if (dialog->result() == QDialog::Accepted)
+            image = dialog->image();
+        image.save(m_project->getProjectPath()+"/Battle/"+info.baseName()+".PNG");
         break;
     case 2:
         size = QImage(filename).size();
