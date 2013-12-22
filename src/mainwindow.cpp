@@ -1,3 +1,4 @@
+#include "dialognewproject.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
@@ -120,6 +121,15 @@ void MainWindow::update_actions()
 
 void MainWindow::on_action_New_Project_triggered()
 {
-    m_project = new GameProject();
-    update_actions();
+    DialogNewProject dlg(this);
+    dlg.exec();
+    if (dlg.result() == QDialog::Accepted){
+        if (dlg.getProjectPath() == QString())
+            return;
+        m_project = new GameProject();
+        m_project->setProjectPath(dlg.getProjectPath());
+        m_project->setGameTitle(dlg.getGameTitle());
+        m_project->setTileSize(dlg.getTileSize());
+        update_actions();
+    }
 }

@@ -13,9 +13,16 @@ public:
     GameProject();
 
     inline QVector<GameCharacter> characters() {return m_characters;}
+    inline GameCharacter* character(int id) {return &m_characters[id];}
 
     inline QString getProjectPath() {return m_path;}
     inline void setProjectPath(QString n_path) {m_path = n_path;}
+
+    inline QString getGameTitle() {return m_gametitle;}
+    inline void setGameTitle(QString n_name) {m_gametitle = n_name;}
+
+    inline int getTileSize() {return m_tilesize;}
+    inline void setTileSize(int n_size) {m_tilesize = n_size;}
 
     QStringList backdroplist(bool with_none = false) const;
     QStringList battlelist(bool with_none = false) const;
@@ -58,6 +65,8 @@ public:
     inline void regtitle(QString file) {reg(file, m_title); }
 private:
     QString m_path;
+    QString m_gametitle;
+    int m_tilesize;
     QVector<GameCharacter> m_characters;
     QStringList m_backdrop;
     QStringList m_battle;
