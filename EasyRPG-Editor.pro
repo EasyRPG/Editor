@@ -18,8 +18,8 @@ SOURCES += src/mainwindow.cpp \
     src/dialogdatabase.cpp \
     src/gameproject.cpp \
     src/dialogimportimage.cpp \
-    src/tools/qimportelement.cpp \
-    src/dialognewproject.cpp
+    src/dialognewproject.cpp \
+    src/tools/QGraphicsImportItem.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -28,8 +28,8 @@ HEADERS  += src/mainwindow.h \
     src/gamecharactermodel.h \
     src/gameproject.h \
     src/dialogimportimage.h \
-    src/tools/qimportelement.h \
-    src/dialognewproject.h
+    src/dialognewproject.h \
+    src/tools/QGraphicsImportItem.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

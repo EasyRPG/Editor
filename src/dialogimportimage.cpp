@@ -13,7 +13,7 @@ DialogImportImage::DialogImportImage(QString n_filepath, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_pixmap = new QImportElement(QPixmap(m_filepath));
+    m_pixmap = new QGraphicsImportItem(QPixmap(m_filepath));
 
 
     scene = new QGraphicsScene(this);

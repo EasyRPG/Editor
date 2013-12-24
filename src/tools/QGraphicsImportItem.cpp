@@ -1,20 +1,20 @@
-#include "qimportelement.h"
+#include "QGraphicsImportItem.h"
 #include <QBitmap>
 
-QImportElement::QImportElement(const QPixmap pix) :
+QGraphicsImportItem::QGraphicsImportItem(const QPixmap pix) :
     QGraphicsPixmapItem(pix),
     m_original_pix(pix)
 {
 
 }
 
-void QImportElement::mousePressEvent(QGraphicsSceneMouseEvent  *event)
+void QGraphicsImportItem::mousePressEvent(QGraphicsSceneMouseEvent  *event)
 {
     updateKeyColor(event->pos());
     QGraphicsItem::mousePressEvent(event);
 }
 
-void QImportElement::updateKeyColor(QPointF pos)
+void QGraphicsImportItem::updateKeyColor(QPointF pos)
 {
     QColor keycolor = QColor(pixmap().toImage().pixel(pos.toPoint()));
     QPixmap pix = QPixmap(m_original_pix);

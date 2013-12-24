@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QGraphicsPixmapItem>
 
-#include "tools/qimportelement.h"
+#include "tools/QGraphicsImportItem.h"
 
 namespace Ui {
 class DialogImportImage;
@@ -33,7 +33,7 @@ private:
     qreal m_scale;
     QString m_filepath;
     QGraphicsScene *scene;
-    QImportElement * m_pixmap;
+    QGraphicsImportItem * m_pixmap;
 
 };
 
