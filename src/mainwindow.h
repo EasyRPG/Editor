@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
 #include "gameproject.h"
@@ -17,6 +18,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void LoadProject(QString p_path);
     
 private slots:
     void on_action_Quit_triggered();
@@ -38,6 +41,8 @@ private:
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;
+    QSettings m_settings;
+    QString m_defDir;
 };
 
 #endif // MAINWINDOW_H

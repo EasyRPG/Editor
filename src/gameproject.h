@@ -15,6 +15,9 @@ public:
     inline QVector<GameCharacter> characters() {return m_characters;}
     inline GameCharacter* character(int id) {return &m_characters[id];}
 
+    inline QString getRtpPath() {return r_path;}
+    inline void setRtpPath(QString n_path) {r_path = n_path;}
+
     inline QString getProjectPath() {return m_path;}
     inline void setProjectPath(QString n_path) {m_path = n_path;}
 
@@ -105,6 +108,7 @@ public:
     inline void regtitle(QString file) {reg(file, m_title); }
 private:
     QString m_path;
+    QString r_path;
     QString m_gametitle;
     int m_tilesize;
     QVector<GameCharacter> m_characters;

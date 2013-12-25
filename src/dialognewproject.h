@@ -19,11 +19,14 @@ public:
     QString getGameTitle();
     int getTileSize();
 
+    inline void setDefDir(QString n_defDir) {m_defDir = n_defDir;}
+
 private slots:
     void on_toolProjectPath_clicked();
 
 private:
     Ui::DialogNewProject *ui;
+    QString m_defDir;
 };
 
 #endif // DIALOGNEWPROJECT_H

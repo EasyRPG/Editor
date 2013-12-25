@@ -2,12 +2,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
+#include <QApplication>
+#include <QFileInfo>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     m_project(0),
     ui(new Ui::MainWindow)
 {
+    const QString DEFAULT_DIR_KEY("default_dir");
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(0);
@@ -19,11 +22,21 @@ MainWindow::MainWindow(QWidget *parent) :
     dlg_db = new DialogDataBase(this);
     dlg_db->setModal(true);
     update_actions();
+    m_defDir = m_settings.value(DEFAULT_DIR_KEY, qApp->applicationDirPath()).toString();
+    QFileInfo info(m_defDir+"project.erp");
+    if (info.exists())
+        LoadProject(m_defDir);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::LoadProject(QString p_path)
+{
+    //Load project file from here.
+    p_path = ""; //prevent warning
 }
 
 void MainWindow::on_action_Quit_triggered()
@@ -121,15 +134,19 @@ void MainWindow::update_actions()
 
 void MainWindow::on_action_New_Project_triggered()
 {
+    const QString DEFAULT_DIR_KEY("default_dir");
     DialogNewProject dlg(this);
+    dlg.setDefDir(m_defDir);
     dlg.exec();
     if (dlg.result() == QDialog::Accepted){
         if (dlg.getProjectPath() == QString())
             return;
         m_project = new GameProject();
+        m_project->setRtpPath(qApp->applicationDirPath()+"RTP\\");
         m_project->setProjectPath(dlg.getProjectPath());
         m_project->setGameTitle(dlg.getGameTitle());
         m_project->setTileSize(dlg.getTileSize());
+        m_settings.setValue(DEFAULT_DIR_KEY,m_project->getProjectPath());
         update_actions();
     }
 }

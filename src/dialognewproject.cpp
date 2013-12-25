@@ -6,6 +6,7 @@
 
 DialogNewProject::DialogNewProject(QWidget *parent) :
     QDialog(parent),
+    m_defDir(QString()),
     ui(new Ui::DialogNewProject)
 {
     ui->setupUi(this);
@@ -38,7 +39,7 @@ int DialogNewProject::getTileSize()
 
 void DialogNewProject::on_toolProjectPath_clicked()
 {
-    QString path = QFileDialog::getExistingDirectory(this, "Select destination forlder");
+    QString path = QFileDialog::getExistingDirectory(this, "Select destination forlder", m_defDir);
     if (path == QString())
         return;
     QDir dir(path);
