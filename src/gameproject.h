@@ -24,6 +24,46 @@ public:
     inline int getTileSize() {return m_tilesize;}
     inline void setTileSize(int n_size) {m_tilesize = n_size;}
 
+    inline QString pathBackdrop() {return m_path+"Backdrop\\";}
+    inline QString pathBackdrop(QString fileName) {return pathBackdrop()+fileName;}
+    inline QString pathBattle() {return m_path+"Battle\\";}
+    inline QString pathBattle(QString fileName) {return pathBattle()+fileName;}
+    inline QString pathBattle2() {return m_path+"Battle2\\";}
+    inline QString pathBattle2(QString fileName) {return pathBattle2()+fileName;}
+    inline QString pathBattleCharSet() {return m_path+"BattleCharSet\\";}
+    inline QString pathBattleCharSet(QString fileName) {return pathBattleCharSet()+fileName;}
+    inline QString pathBattleWeapon() {return m_path+"BattleWeapon\\";}
+    inline QString pathBattleWeapon(QString fileName) {return pathBattleWeapon()+fileName;}
+    inline QString pathCharSet() {return m_path+"CharSet\\";}
+    inline QString pathCharSet(QString fileName) {return pathCharSet()+fileName;}
+    inline QString pathChipSet() {return m_path+"ChipSet\\";}
+    inline QString pathChipSet(QString fileName) {return pathChipSet()+fileName;}
+    inline QString pathFaceSet() {return m_path+"FaceSet\\";}
+    inline QString pathFaceSet(QString fileName) {return pathFaceSet()+fileName;}
+    inline QString pathFrame() {return m_path+"Frame\\";}
+    inline QString pathFrame(QString fileName) {return pathFrame()+fileName;}
+    inline QString pathGameOver() {return m_path+"GameOver\\";}
+    inline QString pathGameOver(QString fileName) {return pathGameOver()+fileName;}
+    inline QString pathMonster() {return m_path+"Monster\\";}
+    inline QString pathMonster(QString fileName) {return pathMonster()+fileName;}
+    inline QString pathMovie() {return m_path+"Movie\\";}
+    inline QString pathMovie(QString fileName) {return pathMovie()+fileName;}
+    inline QString pathMusic() {return m_path+"Music\\";}
+    inline QString pathMusic(QString fileName) {return pathMusic()+fileName;}
+    inline QString pathBackground() {return m_path+"Background\\";}
+    inline QString pathBackground(QString fileName) {return pathBackground()+fileName;}
+    inline QString pathPicture() {return m_path+"Picture\\";}
+    inline QString pathPicture(QString fileName) {return pathPicture()+fileName;}
+    inline QString pathSound() {return m_path+"Sound\\";}
+    inline QString pathSound(QString fileName) {return pathSound()+fileName;}
+    inline QString pathSystem() {return m_path+"System\\";}
+    inline QString pathSystem(QString fileName) {return pathSystem()+fileName;}
+    inline QString pathSystem2() {return m_path+"System2\\";}
+    inline QString pathSystem2(QString fileName) {return pathSystem2()+fileName;}
+    inline QString pathTitle() {return m_path+"Title\\";}
+    inline QString pathTitle(QString fileName) {return pathTitle()+fileName;}
+
+
     QStringList backdroplist(bool with_none = false) const;
     QStringList battlelist(bool with_none = false) const;
     QStringList battle2list(bool with_none = false) const;

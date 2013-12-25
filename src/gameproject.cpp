@@ -1,17 +1,17 @@
 #include "gameproject.h"
-#include <QString>
+#include <QStringList>
 
 GameProject::GameProject()
 {
-    m_backdrop = QStringList();
-
 }
 
 QStringList GameProject::backdroplist(bool with_none) const
 {
-    QStringList list = QStringList(m_backdrop);
+    QStringList list;
+    for (int i = 0; i < m_backdrop.size();i++)
+        list.append(m_backdrop.at(i).split(".").at(0));
     for (int i = 0; i < r_backdrop.size();i++)
-        list.append("<RTP> " + r_backdrop[i]);
+        list.append("<RTP> " + r_backdrop[i].split(".").at(0));
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -20,9 +20,11 @@ QStringList GameProject::backdroplist(bool with_none) const
 
 QStringList GameProject::battlelist(bool with_none) const
 {
-    QStringList list = QStringList(m_battle);
+    QStringList list;
+    for (int i = 0; i < m_battle.size();i++)
+        list.append(m_battle[i].split(".")[0]);
     for (int i = 0; i < r_battle.size();i++)
-        list.append("<RTP> " + r_battle[i]);
+        list.append("<RTP> " + r_battle[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -31,9 +33,11 @@ QStringList GameProject::battlelist(bool with_none) const
 
 QStringList GameProject::battle2list(bool with_none) const
 {
-    QStringList list = QStringList(m_battle2);
+    QStringList list;
+    for (int i = 0; i < m_battle2.size();i++)
+        list.append(m_battle2[i].split(".")[0]);
     for (int i = 0; i < r_battle2.size();i++)
-        list.append("<RTP> " + r_battle2[i]);
+        list.append("<RTP> " + r_battle2[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -42,9 +46,11 @@ QStringList GameProject::battle2list(bool with_none) const
 
 QStringList GameProject::battlecharsetlist(bool with_none)
 {
-    QStringList list = QStringList(m_battlecharset);
+    QStringList list;
+    for (int i = 0; i < m_battlecharset.size();i++)
+        list.append(m_battlecharset[i].split(".")[0]);
     for (int i = 0; i < r_battlecharset.size();i++)
-        list.append("<RTP> " + r_battlecharset[i]);
+        list.append("<RTP> " + r_battlecharset[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -53,9 +59,11 @@ QStringList GameProject::battlecharsetlist(bool with_none)
 
 QStringList GameProject::battleweaponlist(bool with_none) const
 {
-    QStringList list = QStringList(m_battleweapon);
+    QStringList list;
+    for (int i = 0; i < m_battleweapon.size();i++)
+        list.append(m_battleweapon[i].split(".")[0]);
     for (int i = 0; i < r_battleweapon.size();i++)
-        list.append("<RTP> " + r_battleweapon[i]);
+        list.append("<RTP> " + r_battleweapon[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -64,9 +72,11 @@ QStringList GameProject::battleweaponlist(bool with_none) const
 
 QStringList GameProject::charsetlist(bool with_none) const
 {
-    QStringList list = QStringList(m_charset);
+    QStringList list;
+    for (int i = 0; i < m_charset.size();i++)
+        list.append(m_charset[i].split(".")[0]);
     for (int i = 0; i < r_charset.size();i++)
-        list.append("<RTP> " + r_charset[i]);
+        list.append("<RTP> " + r_charset[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -75,9 +85,11 @@ QStringList GameProject::charsetlist(bool with_none) const
 
 QStringList GameProject::chipsetlist(bool with_none) const
 {
-    QStringList list = QStringList(m_chipset);
+    QStringList list;
+    for (int i = 0; i < m_chipset.size();i++)
+        list.append(m_chipset[i].split(".")[0]);
     for (int i = 0; i < r_chipset.size();i++)
-        list.append("<RTP> " + r_chipset[i]);
+        list.append("<RTP> " + r_chipset[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -86,9 +98,11 @@ QStringList GameProject::chipsetlist(bool with_none) const
 
 QStringList GameProject::facesetlist(bool with_none) const
 {
-    QStringList list = QStringList(m_faceset);
+    QStringList list;
+    for (int i = 0; i < m_faceset.size();i++)
+        list.append(m_faceset[i].split(".")[0]);
     for (int i = 0; i < r_faceset.size();i++)
-        list.append("<RTP> " + r_faceset[i]);
+        list.append("<RTP> " + r_faceset[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -97,9 +111,11 @@ QStringList GameProject::facesetlist(bool with_none) const
 
 QStringList GameProject::framelist(bool with_none) const
 {
-    QStringList list = QStringList(m_frame);
+    QStringList list;
+    for (int i = 0; i < m_frame.size();i++)
+        list.append(m_frame[i].split(".")[0]);
     for (int i = 0; i < r_frame.size();i++)
-        list.append("<RTP> " + r_frame[i]);
+        list.append("<RTP> " + r_frame[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -108,9 +124,11 @@ QStringList GameProject::framelist(bool with_none) const
 
 QStringList GameProject::gameoverlist(bool with_none) const
 {
-    QStringList list = QStringList(m_gameover);
+    QStringList list;
+    for (int i = 0; i < m_gameover.size();i++)
+        list.append(m_gameover[i].split(".")[0]);
     for (int i = 0; i < r_gameover.size();i++)
-        list.append("<RTP> " + r_gameover[i]);
+        list.append("<RTP> " + r_gameover[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -119,9 +137,11 @@ QStringList GameProject::gameoverlist(bool with_none) const
 
 QStringList GameProject::monsterlist(bool with_none) const
 {
-    QStringList list = QStringList(m_monster);
+    QStringList list;
+    for (int i = 0; i < m_monster.size();i++)
+        list.append(m_monster[i].split(".")[0]);
     for (int i = 0; i < r_monster.size();i++)
-        list.append("<RTP> " + r_monster[i]);
+        list.append("<RTP> " + r_monster[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -130,9 +150,11 @@ QStringList GameProject::monsterlist(bool with_none) const
 
 QStringList GameProject::movielist(bool with_none) const
 {
-    QStringList list = QStringList(m_movie);
+    QStringList list;
+    for (int i = 0; i < m_movie.size();i++)
+        list.append(m_movie[i].split(".")[0]);
     for (int i = 0; i < r_movie.size();i++)
-        list.append("<RTP> " + r_movie[i]);
+        list.append("<RTP> " + r_movie[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -141,9 +163,11 @@ QStringList GameProject::movielist(bool with_none) const
 
 QStringList GameProject::musiclist(bool with_none) const
 {
-    QStringList list = QStringList(m_music);
+    QStringList list;
+    for (int i = 0; i < m_music.size();i++)
+        list.append(m_music[i].split(".")[0]);
     for (int i = 0; i < r_music.size();i++)
-        list.append("<RTP> " + r_music[i]);
+        list.append("<RTP> " + r_music[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -152,9 +176,11 @@ QStringList GameProject::musiclist(bool with_none) const
 
 QStringList GameProject::backgroundlist(bool with_none) const
 {
-    QStringList list = QStringList(m_background);
+    QStringList list;
+    for (int i = 0; i < m_background.size();i++)
+        list.append(m_background[i].split(".")[0]);
     for (int i = 0; i < r_background.size();i++)
-        list.append("<RTP> " + r_background[i]);
+        list.append("<RTP> " + r_background[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -163,9 +189,11 @@ QStringList GameProject::backgroundlist(bool with_none) const
 
 QStringList GameProject::picturelist(bool with_none) const
 {
-    QStringList list = QStringList(m_picture);
+    QStringList list;
+    for (int i = 0; i < m_picture.size();i++)
+        list.append(m_picture[i].split(".")[0]);
     for (int i = 0; i < r_picture.size();i++)
-        list.append("<RTP> " + r_picture[i]);
+        list.append("<RTP> " + r_picture[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -174,9 +202,11 @@ QStringList GameProject::picturelist(bool with_none) const
 
 QStringList GameProject::soundlist(bool with_none) const
 {
-    QStringList list = QStringList(m_sound);
+    QStringList list;
+    for (int i = 0; i < m_sound.size();i++)
+        list.append(m_sound[i].split(".")[0]);
     for (int i = 0; i < r_sound.size();i++)
-        list.append("<RTP> " + r_sound[i]);
+        list.append("<RTP> " + r_sound[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -185,9 +215,11 @@ QStringList GameProject::soundlist(bool with_none) const
 
 QStringList GameProject::systemlist(bool with_none) const
 {
-    QStringList list = QStringList(m_system);
+    QStringList list;
+    for (int i = 0; i < m_system.size();i++)
+        list.append(m_system[i].split(".")[0]);
     for (int i = 0; i < r_system.size();i++)
-        list.append("<RTP> " + r_system[i]);
+        list.append("<RTP> " + r_system[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -196,9 +228,11 @@ QStringList GameProject::systemlist(bool with_none) const
 
 QStringList GameProject::system2list(bool with_none) const
 {
-    QStringList list = QStringList(m_system2);
+    QStringList list;
+    for (int i = 0; i < m_system2.size();i++)
+        list.append(m_system2[i].split(".")[0]);
     for (int i = 0; i < r_system2.size();i++)
-        list.append("<RTP> " + r_system2[i]);
+        list.append("<RTP> " + r_system2[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
@@ -207,9 +241,11 @@ QStringList GameProject::system2list(bool with_none) const
 
 QStringList GameProject::titlelist(bool with_none) const
 {
-    QStringList list = QStringList(m_title);
+    QStringList list;
+    for (int i = 0; i < m_title.size();i++)
+        list.append(m_title[i].split(".")[0]);
     for (int i = 0; i < r_title.size();i++)
-        list.append("<RTP> " + r_title[i]);
+        list.append("<RTP> " + r_title[i].split(".")[0]);
     if (with_none)
         list.prepend("<none>");
     list.sort(Qt::CaseInsensitive);
