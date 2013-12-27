@@ -29,7 +29,8 @@ HEADERS  += src/mainwindow.h \
     src/gameproject.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
-    src/tools/QGraphicsImportItem.h
+    src/tools/QGraphicsImportItem.h \
+    src/tools/picojson.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

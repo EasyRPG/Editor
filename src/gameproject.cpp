@@ -1,8 +1,89 @@
 #include "gameproject.h"
 #include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
 GameProject::GameProject()
 {
+}
+
+bool GameProject::Save()
+{
+    picojson::object j_project;
+    j_project["GameTitle"] = picojson::value(m_gametitle.toStdString());
+    j_project["TileSize"] = picojson::value((double)m_tilesize);
+#define ARR(var,list,key) picojson::array var;for (int i = 0; i < list.size(); i++)var.push_back(picojson::value(list[i].toStdString().c_str()));j_project[key] = picojson::value(var);
+    ARR(j_backdrop,m_backdrop,"Backdrop");
+    ARR(j_battle,m_battle,"Battle");
+    ARR(j_battle2,m_battle2,"Battle2");
+    ARR(j_battlecharset,m_battlecharset,"BattleCharSet");
+    ARR(j_battleweapon,m_battleweapon,"BattleWeapon");
+    ARR(j_charset,m_charset,"CharSet");
+    ARR(j_chipset,m_chipset,"ChipSet");
+    ARR(j_faceset,m_faceset,"FaceSet");
+    ARR(j_frame,m_frame,"Frame");
+    ARR(j_gameover,m_gameover,"GameOver");
+    ARR(j_monster,m_monster,"Monster");
+    ARR(j_movie,m_movie,"Movie");
+    ARR(j_music,m_music,"Music");
+    ARR(j_background,m_background,"Background");
+    ARR(j_picture,m_picture,"Picture");
+    ARR(j_sound,m_sound,"Sound");
+    ARR(j_system,m_system,"System");
+    ARR(j_system2,m_system2,"System2");
+    ARR(j_title,m_title,"Title");
+#undef ARR
+    QString f_text = QString::fromStdString(picojson::value(j_project).serialize());
+    if (f_text.isEmpty())
+        return false;
+    QFile m_file(m_path+"project.erp");
+    if (!m_file.open(QFile::WriteOnly | QFile::Text))
+        return false;
+    QTextStream out(&m_file);
+    out << f_text;
+    m_file.flush();
+    m_file.close();
+    return true;
+}
+
+bool GameProject::Load()
+{
+    QFile m_file(m_path+"project.erp");
+    if (!m_file.open(QFile::ReadOnly | QFile::Text))
+        return false;
+    QTextStream in(&m_file);
+    QString f_text;
+    in >> f_text;
+    picojson::value j_project;
+    const char *json = f_text.toStdString().c_str();
+    QString err = QString::fromStdString(picojson::parse(j_project,json,json+strlen(json)));
+    if (!err.isEmpty())
+        return false;
+    m_gametitle = j_project.get("GameTitle").get<std::string>().c_str();
+    m_tilesize = (int)j_project.get("TileSize").get<double>();
+#define ARR(var,list,key)picojson::array var = j_project.get(key).get<picojson::array>(); for (picojson::array::iterator iter = var.begin(); iter != var.end(); ++iter) list.push_back((*iter).get<std::string>().c_str());
+    ARR(j_backdrop,m_backdrop,"Backdrop");
+    ARR(j_battle,m_battle,"Battle");
+    ARR(j_battle2,m_battle2,"Battle2");
+    ARR(j_battlecharset,m_battlecharset,"BattleCharSet");
+    ARR(j_battleweapon,m_battleweapon,"BattleWeapon");
+    ARR(j_charset,m_charset,"CharSet");
+    ARR(j_chipset,m_chipset,"ChipSet");
+    ARR(j_faceset,m_faceset,"FaceSet");
+    ARR(j_frame,m_frame,"Frame");
+    ARR(j_gameover,m_gameover,"GameOver");
+    ARR(j_monster,m_monster,"Monster");
+    ARR(j_movie,m_movie,"Movie");
+    ARR(j_music,m_music,"Music");
+    ARR(j_background,m_background,"Background");
+    ARR(j_picture,m_picture,"Picture");
+    ARR(j_sound,m_sound,"Sound");
+    ARR(j_system,m_system,"System");
+    ARR(j_system2,m_system2,"System2");
+    ARR(j_title,m_title,"Title");
+#undef ARR
+    m_file.close();
+    return true;
 }
 
 QStringList GameProject::backdroplist(bool with_none) const

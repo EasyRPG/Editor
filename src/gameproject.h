@@ -6,11 +6,15 @@
 #include <QStringList>
 #include <QVector>
 #include "gamecharacter.h"
+#include "tools/picojson.h"
 
 class GameProject
 {
 public:
     GameProject();
+
+    bool Load();
+    bool Save();
 
     inline QVector<GameCharacter> characters() {return m_characters;}
     inline GameCharacter* character(int id) {return &m_characters[id];}

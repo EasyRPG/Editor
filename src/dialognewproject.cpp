@@ -53,7 +53,7 @@ void DialogNewProject::on_toolProjectPath_clicked()
         }
     }
     if (count == 0)
-        ui->lineProjectPath->setText(path);
+        ui->lineProjectPath->setText(path+"/");
     else{
         QMessageBox box(QMessageBox::Warning, "Wrong folder selected", "Please select an empty folder",QMessageBox::Ok);
         box.exec();

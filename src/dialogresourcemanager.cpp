@@ -29,6 +29,7 @@ DialogResourceManager::~DialogResourceManager()
 void DialogResourceManager::setProject(GameProject *n_project)
 {
     m_project = n_project;
+    on_listResourceType_currentRowChanged(ui->listResourceType->currentRow());
 }
 
 void DialogResourceManager::on_listResourceType_currentRowChanged(int currentRow)

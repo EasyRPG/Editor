@@ -4,6 +4,7 @@
 #include <QToolBar>
 #include <QApplication>
 #include <QFileInfo>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -35,8 +36,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadProject(QString p_path)
 {
-    //Load project file from here.
-    p_path = ""; //prevent warning
+    if (m_project != 0)
+        delete m_project;
+    m_project = new GameProject();
+    m_project->setProjectPath(p_path);
+    m_project->Load();
+    update_actions();
 }
 
 void MainWindow::on_action_Quit_triggered()
@@ -141,12 +146,16 @@ void MainWindow::on_action_New_Project_triggered()
     if (dlg.result() == QDialog::Accepted){
         if (dlg.getProjectPath() == QString())
             return;
+        if (m_project != 0)
+            delete m_project;
         m_project = new GameProject();
         m_project->setRtpPath(qApp->applicationDirPath()+"RTP\\");
         m_project->setProjectPath(dlg.getProjectPath());
         m_project->setGameTitle(dlg.getGameTitle());
         m_project->setTileSize(dlg.getTileSize());
         m_settings.setValue(DEFAULT_DIR_KEY,m_project->getProjectPath());
+        if (!m_project->Save())
+            QMessageBox::warning(this,"Error","An error ocurred while saving",QMessageBox::Ok,QMessageBox::Cancel);
         update_actions();
     }
 }
