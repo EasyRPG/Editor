@@ -37,6 +37,9 @@ private slots:
     void on_action_New_Project_triggered();
 
 private:
+
+    bool removeDir(const QString & dirName);
+
     GameProject *m_project;
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;

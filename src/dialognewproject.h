@@ -18,8 +18,10 @@ public:
     QString getProjectPath();
     QString getGameTitle();
     int getTileSize();
+    //TODO: generate RTP template code.
 
-    inline void setDefDir(QString n_defDir) {m_defDir = n_defDir;}
+    void setDefDir(QString n_defDir);
+    QString getDefDir();
 
 private slots:
     void on_toolProjectPath_clicked();

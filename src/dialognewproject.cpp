@@ -6,9 +6,10 @@
 
 DialogNewProject::DialogNewProject(QWidget *parent) :
     QDialog(parent),
-    m_defDir(QString()),
     ui(new Ui::DialogNewProject)
 {
+
+    m_defDir = QString();
     ui->setupUi(this);
     setModal(true);
 }
@@ -20,7 +21,7 @@ DialogNewProject::~DialogNewProject()
 
 QString DialogNewProject::getProjectPath()
 {
-    return ui->lineProjectPath->text();
+    return ui->lineProjectPath->text()+getGameTitle()+"/";
 }
 
 QString DialogNewProject::getGameTitle()
@@ -37,26 +38,16 @@ int DialogNewProject::getTileSize()
     return val;
 }
 
+void DialogNewProject::setDefDir(QString n_defDir) {m_defDir = n_defDir;}
+
+QString DialogNewProject::getDefDir() {return ui->lineProjectPath->text();}
+
 void DialogNewProject::on_toolProjectPath_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this, "Select destination forlder", m_defDir);
     if (path == QString())
         return;
-    QDir dir(path);
-    QStringList list = dir.entryList();
-    int count = 0;
-    for(int x=0;x<list.count(); x++)
-    {
-        if(list.at(x) != "." && list.at(x) != "..")
-        {
-            count++;
-        }
-    }
-    if (count == 0)
-        ui->lineProjectPath->setText(path+"/");
-    else{
-        QMessageBox box(QMessageBox::Warning, "Wrong folder selected", "Please select an empty folder",QMessageBox::Ok);
-        box.exec();
-        on_toolProjectPath_clicked();
-    }
+    ui->lineProjectPath->setText(path+"/");
 }
+
+//TODO: generate RTP template code.

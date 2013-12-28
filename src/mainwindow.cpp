@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -146,16 +147,77 @@ void MainWindow::on_action_New_Project_triggered()
     if (dlg.result() == QDialog::Accepted){
         if (dlg.getProjectPath() == QString())
             return;
+        QDir d_gamepath(dlg.getProjectPath());
+            if (d_gamepath.exists())
+            {
+                int response = QMessageBox::warning(this,
+                                "Game folder exist",
+                                QString("The folder %1 where you want to place your new game already exist. Do you want to delete this folder and all it's content?").arg(dlg.getProjectPath()),
+                                QMessageBox::Ok,
+                                QMessageBox::Cancel);
+                if (response == QMessageBox::Cancel)
+                    return;
+                removeDir(dlg.getProjectPath());
+            }
         if (m_project != 0)
-            delete m_project;
+            delete m_project; //TODO: save previus opened project.
         m_project = new GameProject();
-        m_project->setRtpPath(qApp->applicationDirPath()+"RTP\\");
+        if (!d_gamepath.exists())
+            d_gamepath.mkdir(dlg.getProjectPath());
+        m_project->setRtpPath(qApp->applicationDirPath()+"RTP/");
         m_project->setProjectPath(dlg.getProjectPath());
         m_project->setGameTitle(dlg.getGameTitle());
         m_project->setTileSize(dlg.getTileSize());
-        m_settings.setValue(DEFAULT_DIR_KEY,m_project->getProjectPath());
+        d_gamepath.mkdir(m_project->pathBackdrop());
+        d_gamepath.mkdir(m_project->pathBackground());
+        d_gamepath.mkdir(m_project->pathBattle());
+        d_gamepath.mkdir(m_project->pathBattle2());
+        d_gamepath.mkdir(m_project->pathBattleCharSet());
+        d_gamepath.mkdir(m_project->pathBattleWeapon());
+        d_gamepath.mkdir(m_project->pathCharSet());
+        d_gamepath.mkdir(m_project->pathChipSet());
+        d_gamepath.mkdir(m_project->pathFaceSet());
+        d_gamepath.mkdir(m_project->pathFrame());
+        d_gamepath.mkdir(m_project->pathGameOver());
+        d_gamepath.mkdir(m_project->pathMonster());
+        d_gamepath.mkdir(m_project->pathMovie());
+        d_gamepath.mkdir(m_project->pathMusic());
+        d_gamepath.mkdir(m_project->pathPicture());
+        d_gamepath.mkdir(m_project->pathSound());
+        d_gamepath.mkdir(m_project->pathSystem());
+        d_gamepath.mkdir(m_project->pathSystem2());
+        d_gamepath.mkdir(m_project->pathTitle());
+        m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+        //TODO: write RPT template code
         if (!m_project->Save())
             QMessageBox::warning(this,"Error","An error ocurred while saving",QMessageBox::Ok,QMessageBox::Cancel);
         update_actions();
     }
+}
+
+bool MainWindow::removeDir(const QString & dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    if (dir.exists(dirName)) {
+        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst))
+        {
+            if (info.isDir())
+                result = removeDir(info.absoluteFilePath());
+            else
+                result = QFile::remove(info.absoluteFilePath());
+
+            if (!result)
+            {
+                QMessageBox::warning(this,
+                                     "An error ocurred",
+                                     QString("Could't delete %1").arg(info.absoluteFilePath()),
+                                     QMessageBox::Ok, 0);
+                return false;
+            }
+        }
+        result = dir.rmdir(dirName);
+    }
+    return result;
 }
