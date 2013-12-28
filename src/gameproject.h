@@ -1,8 +1,6 @@
 #ifndef GAMEPROJECT_H
 #define GAMEPROJECT_H
 
-#define reg(string, list) if (list.contains(string)) return; list.append(string);list.sort(Qt::CaseInsensitive);
-
 #include <QStringList>
 #include <QVector>
 #include "gamecharacter.h"
@@ -16,59 +14,59 @@ public:
     bool Load();
     bool Save();
 
-    inline QVector<GameCharacter> characters() {return m_characters;}
-    inline GameCharacter* character(int id) {return &m_characters[id];}
+    QVector<GameCharacter> characters();
+    GameCharacter* character(int id);
 
-    inline QString getRtpPath() {return r_path;}
-    inline void setRtpPath(QString n_path) {r_path = n_path;}
+    QString getRtpPath();
+    void setRtpPath(QString n_path);
 
-    inline QString getProjectPath() {return m_path;}
-    inline void setProjectPath(QString n_path) {m_path = n_path;}
+    QString getProjectPath();
+    void setProjectPath(QString n_path);
 
-    inline QString getGameTitle() {return m_gametitle;}
-    inline void setGameTitle(QString n_name) {m_gametitle = n_name;}
+    QString getGameTitle();
+    void setGameTitle(QString n_name);
 
-    inline int getTileSize() {return m_tilesize;}
-    inline void setTileSize(int n_size) {m_tilesize = n_size;}
+    int getTileSize();
+    void setTileSize(int n_size);
 
-    inline QString pathBackdrop() {return m_path+"Backdrop/";}
-    inline QString pathBackdrop(QString fileName) {return pathBackdrop()+fileName;}
-    inline QString pathBattle() {return m_path+"Battle/";}
-    inline QString pathBattle(QString fileName) {return pathBattle()+fileName;}
-    inline QString pathBattle2() {return m_path+"Battle2/";}
-    inline QString pathBattle2(QString fileName) {return pathBattle2()+fileName;}
-    inline QString pathBattleCharSet() {return m_path+"BattleCharSet/";}
-    inline QString pathBattleCharSet(QString fileName) {return pathBattleCharSet()+fileName;}
-    inline QString pathBattleWeapon() {return m_path+"BattleWeapon/";}
-    inline QString pathBattleWeapon(QString fileName) {return pathBattleWeapon()+fileName;}
-    inline QString pathCharSet() {return m_path+"CharSet/";}
-    inline QString pathCharSet(QString fileName) {return pathCharSet()+fileName;}
-    inline QString pathChipSet() {return m_path+"ChipSet/";}
-    inline QString pathChipSet(QString fileName) {return pathChipSet()+fileName;}
-    inline QString pathFaceSet() {return m_path+"FaceSet/";}
-    inline QString pathFaceSet(QString fileName) {return pathFaceSet()+fileName;}
-    inline QString pathFrame() {return m_path+"Frame/";}
-    inline QString pathFrame(QString fileName) {return pathFrame()+fileName;}
-    inline QString pathGameOver() {return m_path+"GameOver/";}
-    inline QString pathGameOver(QString fileName) {return pathGameOver()+fileName;}
-    inline QString pathMonster() {return m_path+"Monster/";}
-    inline QString pathMonster(QString fileName) {return pathMonster()+fileName;}
-    inline QString pathMovie() {return m_path+"Movie/";}
-    inline QString pathMovie(QString fileName) {return pathMovie()+fileName;}
-    inline QString pathMusic() {return m_path+"Music/";}
-    inline QString pathMusic(QString fileName) {return pathMusic()+fileName;}
-    inline QString pathBackground() {return m_path+"Background/";}
-    inline QString pathBackground(QString fileName) {return pathBackground()+fileName;}
-    inline QString pathPicture() {return m_path+"Picture/";}
-    inline QString pathPicture(QString fileName) {return pathPicture()+fileName;}
-    inline QString pathSound() {return m_path+"Sound/";}
-    inline QString pathSound(QString fileName) {return pathSound()+fileName;}
-    inline QString pathSystem() {return m_path+"System/";}
-    inline QString pathSystem(QString fileName) {return pathSystem()+fileName;}
-    inline QString pathSystem2() {return m_path+"System2/";}
-    inline QString pathSystem2(QString fileName) {return pathSystem2()+fileName;}
-    inline QString pathTitle() {return m_path+"Title/";}
-    inline QString pathTitle(QString fileName) {return pathTitle()+fileName;}
+    QString pathBackdrop();
+    QString pathBackdrop(QString fileName);
+    QString pathBattle();
+    QString pathBattle(QString fileName);
+    QString pathBattle2();
+    QString pathBattle2(QString fileName);
+    QString pathBattleCharSet();
+    QString pathBattleCharSet(QString fileName);
+    QString pathBattleWeapon();
+    QString pathBattleWeapon(QString fileName);
+    QString pathCharSet();
+    QString pathCharSet(QString fileName);
+    QString pathChipSet();
+    QString pathChipSet(QString fileName);
+    QString pathFaceSet();
+    QString pathFaceSet(QString fileName);
+    QString pathFrame();
+    QString pathFrame(QString fileName);
+    QString pathGameOver();
+    QString pathGameOver(QString fileName);
+    QString pathMonster();
+    QString pathMonster(QString fileName);
+    QString pathMovie();
+    QString pathMovie(QString fileName);
+    QString pathMusic();
+    QString pathMusic(QString fileName);
+    QString pathBackground();
+    QString pathBackground(QString fileName);
+    QString pathPicture();
+    QString pathPicture(QString fileName);
+    QString pathSound();
+    QString pathSound(QString fileName);
+    QString pathSystem();
+    QString pathSystem(QString fileName);
+    QString pathSystem2();
+    QString pathSystem2(QString fileName);
+    QString pathTitle();
+    QString pathTitle(QString fileName);
 
 
     QStringList backdroplist(bool with_none = false) const;
@@ -91,25 +89,25 @@ public:
     QStringList system2list(bool with_none = false) const;
     QStringList titlelist(bool with_none = false) const;
 
-    inline void regbackdrop(QString file) {reg(file, m_backdrop);}
-    inline void regbattle(QString file) {reg(file, m_battle);}
-    inline void regbattle2(QString file) {reg(file, m_battle2);}
-    inline void regbattlecharset(QString file) {reg(file, m_battlecharset);}
-    inline void regbattleweapon(QString file) {reg(file, m_battleweapon);}
-    inline void regcharset(QString file) {reg(file, m_charset);}
-    inline void regchipset(QString file) {reg(file, m_chipset);}
-    inline void regfaceset(QString file) {reg(file, m_faceset);}
-    inline void regframe(QString file) {reg(file, m_frame);}
-    inline void reggameover(QString file) {reg(file, m_gameover);}
-    inline void regmonster(QString file) {reg(file, m_monster);}
-    inline void regmovie(QString file) {reg(file, m_movie);}
-    inline void regmusic(QString file) {reg(file, m_music);}
-    inline void regbackground(QString file) {reg(file, m_background);}
-    inline void regpicture(QString file) {reg(file, m_picture);}
-    inline void regsound(QString file) {reg(file, m_sound);}
-    inline void regsystem(QString file) {reg(file, m_system);}
-    inline void regsystem2(QString file) {reg(file, m_system2);}
-    inline void regtitle(QString file) {reg(file, m_title); }
+    void regbackdrop(QString file);
+    void regbattle(QString file);
+    void regbattle2(QString file);
+    void regbattlecharset(QString file);
+    void regbattleweapon(QString file);
+    void regcharset(QString file);
+    void regchipset(QString file);
+    void regfaceset(QString file);
+    void regframe(QString file);
+    void reggameover(QString file);
+    void regmonster(QString file);
+    void regmovie(QString file);
+    void regmusic(QString file);
+    void regbackground(QString file);
+    void regpicture(QString file);
+    void regsound(QString file);
+    void regsystem(QString file);
+    void regsystem2(QString file);
+    void regtitle(QString file);
 private:
     QString m_path;
     QString r_path;

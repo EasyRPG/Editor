@@ -46,6 +46,61 @@ bool GameProject::Save()
     return true;
 }
 
+QVector<GameCharacter> GameProject::characters() {return m_characters;}
+
+GameCharacter *GameProject::character(int id) {return &m_characters[id];}
+
+QString GameProject::getRtpPath() {return r_path;}
+void GameProject::setRtpPath(QString n_path) {r_path = n_path;}
+
+QString GameProject::getProjectPath() {return m_path;}
+void GameProject::setProjectPath(QString n_path) {m_path = n_path;}
+
+QString GameProject::getGameTitle() {return m_gametitle;}
+void GameProject::setGameTitle(QString n_name) {m_gametitle = n_name;}
+
+int GameProject::getTileSize() {return m_tilesize;}
+void GameProject::setTileSize(int n_size) {m_tilesize = n_size;}
+
+QString GameProject::pathBackdrop(QString fileName) {return pathBackdrop()+fileName;}
+QString GameProject::pathBattle(QString fileName) {return pathBattle()+fileName;}
+QString GameProject::pathBattle2(QString fileName) {return pathBattle2()+fileName;}
+QString GameProject::pathBattleCharSet(QString fileName) {return pathBattleCharSet()+fileName;}
+QString GameProject::pathBattleWeapon(QString fileName) {return pathBattleWeapon()+fileName;}
+QString GameProject::pathCharSet(QString fileName) {return pathCharSet()+fileName;}
+QString GameProject::pathChipSet(QString fileName) {return pathChipSet()+fileName;}
+QString GameProject::pathFaceSet(QString fileName) {return pathFaceSet()+fileName;}
+QString GameProject::pathFrame(QString fileName) {return pathFrame()+fileName;}
+QString GameProject::pathGameOver(QString fileName) {return pathGameOver()+fileName;}
+QString GameProject::pathMonster(QString fileName) {return pathMonster()+fileName;}
+QString GameProject::pathMovie(QString fileName) {return pathMovie()+fileName;}
+QString GameProject::pathMusic(QString fileName) {return pathMusic()+fileName;}
+QString GameProject::pathBackground(QString fileName) {return pathBackground()+fileName;}
+QString GameProject::pathPicture(QString fileName) {return pathPicture()+fileName;}
+QString GameProject::pathSound(QString fileName) {return pathSound()+fileName;}
+QString GameProject::pathSystem(QString fileName) {return pathSystem()+fileName;}
+QString GameProject::pathSystem2(QString fileName) {return pathSystem2()+fileName;}
+QString GameProject::pathTitle(QString fileName) {return pathTitle()+fileName;}
+QString GameProject::pathTitle() {return m_path+"Title/";}
+QString GameProject::pathSystem2() {return m_path+"System2/";}
+QString GameProject::pathSystem() {return m_path+"System/";}
+QString GameProject::pathSound() {return m_path+"Sound/";}
+QString GameProject::pathPicture() {return m_path+"Picture/";}
+QString GameProject::pathBackground() {return m_path+"Background/";}
+QString GameProject::pathMusic() {return m_path+"Music/";}
+QString GameProject::pathMovie() {return m_path+"Movie/";}
+QString GameProject::pathMonster() {return m_path+"Monster/";}
+QString GameProject::pathGameOver() {return m_path+"GameOver/";}
+QString GameProject::pathFrame() {return m_path+"Frame/";}
+QString GameProject::pathFaceSet() {return m_path+"FaceSet/";}
+QString GameProject::pathChipSet() {return m_path+"ChipSet/";}
+QString GameProject::pathCharSet() {return m_path+"CharSet/";}
+QString GameProject::pathBattleWeapon() {return m_path+"BattleWeapon/";}
+QString GameProject::pathBattleCharSet() {return m_path+"BattleCharSet/";}
+QString GameProject::pathBattle2() {return m_path+"Battle2/";}
+QString GameProject::pathBattle() {return m_path+"Battle/";}
+QString GameProject::pathBackdrop() {return m_path+"Backdrop/";}
+
 bool GameProject::Load()
 {
     QFile m_file(m_path+"project.erp");
@@ -332,3 +387,25 @@ QStringList GameProject::titlelist(bool with_none) const
     list.sort(Qt::CaseInsensitive);
     return list;
 }
+
+#define reg(string, list) if (list.contains(string)) return; list.append(string);list.sort(Qt::CaseInsensitive);
+
+void GameProject::regbackdrop(QString file) {reg(file, m_backdrop);}
+void GameProject::regbattle(QString file) {reg(file, m_battle);}
+void GameProject::regbattle2(QString file) {reg(file, m_battle2);}
+void GameProject::regbattlecharset(QString file) {reg(file, m_battlecharset);}
+void GameProject::regbattleweapon(QString file) {reg(file, m_battleweapon);}
+void GameProject::regcharset(QString file) {reg(file, m_charset);}
+void GameProject::regchipset(QString file) {reg(file, m_chipset);}
+void GameProject::regfaceset(QString file) {reg(file, m_faceset);}
+void GameProject::regframe(QString file) {reg(file, m_frame);}
+void GameProject::reggameover(QString file) {reg(file, m_gameover);}
+void GameProject::regmonster(QString file) {reg(file, m_monster);}
+void GameProject::regmovie(QString file) {reg(file, m_movie);}
+void GameProject::regmusic(QString file) {reg(file, m_music);}
+void GameProject::regbackground(QString file) {reg(file, m_background);}
+void GameProject::regpicture(QString file) {reg(file, m_picture);}
+void GameProject::regsound(QString file) {reg(file, m_sound);}
+void GameProject::regsystem(QString file) {reg(file, m_system);}
+void GameProject::regsystem2(QString file) {reg(file, m_system2);}
+void GameProject::regtitle(QString file) {reg(file, m_title); }
