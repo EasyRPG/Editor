@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     const QString DEFAULT_DIR_KEY("default_dir");
+    const QString CURRENT_PROJECT_KEY("current_project");
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(0);
@@ -25,9 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
     dlg_db->setModal(true);
     update_actions();
     m_defDir = m_settings.value(DEFAULT_DIR_KEY, qApp->applicationDirPath()).toString();
-    QFileInfo info(m_defDir+"project.erp");
-    if (info.exists())
-        LoadProject(m_defDir);
+    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
+    QFileInfo info(m_defDir+l_project+"/project.erp");
+    if (l_project != QString() && info.exists())
+        LoadProject(m_defDir+l_project+"/");
 }
 
 MainWindow::~MainWindow()
@@ -37,11 +39,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadProject(QString p_path)
 {
+    const QString CURRENT_PROJECT_KEY("current_project");
     if (m_project != 0)
         delete m_project;
     m_project = new GameProject();
     m_project->setProjectPath(p_path);
     m_project->Load();
+    setWindowTitle("EasyRPG Editor - " + m_project->getGameTitle());
+    m_settings.setValue(CURRENT_PROJECT_KEY, m_project->getGameTitle());
     update_actions();
 }
 
@@ -141,6 +146,7 @@ void MainWindow::update_actions()
 void MainWindow::on_action_New_Project_triggered()
 {
     const QString DEFAULT_DIR_KEY("default_dir");
+    const QString CURRENT_PROJECT_KEY("current_project");
     DialogNewProject dlg(this);
     dlg.setDefDir(m_defDir);
     dlg.exec();
@@ -157,13 +163,13 @@ void MainWindow::on_action_New_Project_triggered()
                                 QMessageBox::Cancel);
                 if (response == QMessageBox::Cancel)
                     return;
-                removeDir(dlg.getProjectPath());
+                removeDir(dlg.getProjectPath(),dlg.getProjectPath());
             }
         if (m_project != 0)
-            delete m_project; //TODO: save previus opened project.
+            on_action_Close_Project_triggered();
         m_project = new GameProject();
         if (!d_gamepath.exists())
-            d_gamepath.mkdir(dlg.getProjectPath());
+            d_gamepath.mkdir(".");
         m_project->setRtpPath(qApp->applicationDirPath()+"RTP/");
         m_project->setProjectPath(dlg.getProjectPath());
         m_project->setGameTitle(dlg.getGameTitle());
@@ -188,14 +194,17 @@ void MainWindow::on_action_New_Project_triggered()
         d_gamepath.mkdir(m_project->pathSystem2());
         d_gamepath.mkdir(m_project->pathTitle());
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+        setWindowTitle("EasyRPG Editor - " + m_project->getGameTitle());
+        m_settings.setValue(CURRENT_PROJECT_KEY, m_project->getGameTitle());
         //TODO: write RPT template code
+
         if (!m_project->Save())
             QMessageBox::warning(this,"Error","An error ocurred while saving",QMessageBox::Ok,QMessageBox::Cancel);
         update_actions();
     }
 }
 
-bool MainWindow::removeDir(const QString & dirName)
+bool MainWindow::removeDir(const QString & dirName, const QString &root)
 {
     bool result = true;
     QDir dir(dirName);
@@ -204,7 +213,7 @@ bool MainWindow::removeDir(const QString & dirName)
         Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst))
         {
             if (info.isDir())
-                result = removeDir(info.absoluteFilePath());
+                result = removeDir(info.absoluteFilePath(),root);
             else
                 result = QFile::remove(info.absoluteFilePath());
 
@@ -217,7 +226,20 @@ bool MainWindow::removeDir(const QString & dirName)
                 return false;
             }
         }
-        result = dir.rmdir(dirName);
+        if (root != dirName)
+            result = dir.rmdir(dirName);
     }
     return result;
+}
+
+void MainWindow::on_action_Close_Project_triggered()
+{
+    //TODO: check if there are unsaved maps and ask for saving.
+    const QString CURRENT_PROJECT_KEY("current_project");
+    m_settings.setValue(CURRENT_PROJECT_KEY, QString());
+    if (m_project != 0)
+        delete m_project;
+    m_project = 0;
+    update_actions();
+    setWindowTitle("EasyRPG Editor");
 }

@@ -36,9 +36,11 @@ private slots:
 
     void on_action_New_Project_triggered();
 
+    void on_action_Close_Project_triggered();
+
 private:
 
-    bool removeDir(const QString & dirName);
+    bool removeDir(const QString & dirName, const QString &root);
 
     GameProject *m_project;
     Ui::MainWindow *ui;

@@ -38,7 +38,8 @@ int DialogNewProject::getTileSize()
     return val;
 }
 
-void DialogNewProject::setDefDir(QString n_defDir) {m_defDir = n_defDir;}
+void DialogNewProject::setDefDir(QString n_defDir) {ui->lineProjectPath->setText(n_defDir);
+                                                    m_defDir = n_defDir;}
 
 QString DialogNewProject::getDefDir() {return ui->lineProjectPath->text();}
 
