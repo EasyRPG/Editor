@@ -20,7 +20,8 @@ SOURCES += src/mainwindow.cpp \
     src/dialogimportimage.cpp \
     src/dialognewproject.cpp \
     src/tools/QGraphicsImportItem.cpp \
-    src/gamecharacter.cpp
+    src/gamecharacter.cpp \
+    src/dialogopenproject.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -31,13 +32,15 @@ HEADERS  += src/mainwindow.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
     src/tools/QGraphicsImportItem.h \
-    src/tools/picojson.h
+    src/tools/picojson.h \
+    src/dialogopenproject.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
     src/dialogdatabase.ui \
     src/dialogimportimage.ui \
-    src/dialognewproject.ui
+    src/dialognewproject.ui \
+    src/dialogopenproject.ui
 
 RESOURCES += \
     src/Resources.qrc

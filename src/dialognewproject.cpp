@@ -49,6 +49,7 @@ void DialogNewProject::on_toolProjectPath_clicked()
     if (path == QString())
         return;
     ui->lineProjectPath->setText(path+"/");
+    m_defDir = ui->lineProjectPath->text();
 }
 
 //TODO: generate RTP template code.

@@ -38,6 +38,8 @@ private slots:
 
     void on_action_Close_Project_triggered();
 
+    void on_action_Open_Project_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);

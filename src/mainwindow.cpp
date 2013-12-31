@@ -1,4 +1,5 @@
 #include "dialognewproject.h"
+#include "dialogopenproject.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
@@ -242,4 +243,13 @@ void MainWindow::on_action_Close_Project_triggered()
     m_project = 0;
     update_actions();
     setWindowTitle("EasyRPG Editor");
+}
+
+void MainWindow::on_action_Open_Project_triggered()
+{
+    DialogOpenProject dlg(this);
+    dlg.setDefDir(m_defDir);
+    if (dlg.exec() == QDialog::Accepted)
+        LoadProject(dlg.getProjectPath());
+    m_defDir = dlg.getDefDir();
 }
