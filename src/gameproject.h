@@ -17,58 +17,6 @@ public:
     QVector<GameCharacter> characters();
     GameCharacter* character(int id);
 
-    QString getRtpPath();
-    void setRtpPath(QString n_path);
-
-    QString getProjectPath();
-    void setProjectPath(QString n_path);
-
-    QString getGameTitle();
-    void setGameTitle(QString n_name);
-
-    int getTileSize();
-    void setTileSize(int n_size);
-
-    QString pathBackdrop();
-    QString pathBackdrop(QString fileName);
-    QString pathBattle();
-    QString pathBattle(QString fileName);
-    QString pathBattle2();
-    QString pathBattle2(QString fileName);
-    QString pathBattleCharSet();
-    QString pathBattleCharSet(QString fileName);
-    QString pathBattleWeapon();
-    QString pathBattleWeapon(QString fileName);
-    QString pathCharSet();
-    QString pathCharSet(QString fileName);
-    QString pathChipSet();
-    QString pathChipSet(QString fileName);
-    QString pathFaceSet();
-    QString pathFaceSet(QString fileName);
-    QString pathFrame();
-    QString pathFrame(QString fileName);
-    QString pathGameOver();
-    QString pathGameOver(QString fileName);
-    QString pathMonster();
-    QString pathMonster(QString fileName);
-    QString pathMovie();
-    QString pathMovie(QString fileName);
-    QString pathMusic();
-    QString pathMusic(QString fileName);
-    QString pathBackground();
-    QString pathBackground(QString fileName);
-    QString pathPicture();
-    QString pathPicture(QString fileName);
-    QString pathSound();
-    QString pathSound(QString fileName);
-    QString pathSystem();
-    QString pathSystem(QString fileName);
-    QString pathSystem2();
-    QString pathSystem2(QString fileName);
-    QString pathTitle();
-    QString pathTitle(QString fileName);
-
-
     QStringList backdroplist(bool with_none = false) const;
     QStringList battlelist(bool with_none = false) const;
     QStringList battle2list(bool with_none = false) const;
@@ -109,10 +57,6 @@ public:
     void regsystem2(QString file);
     void regtitle(QString file);
 private:
-    QString m_path;
-    QString r_path;
-    QString m_gametitle;
-    int m_tilesize;
     QVector<GameCharacter> m_characters;
     QStringList m_backdrop;
     QStringList m_battle;

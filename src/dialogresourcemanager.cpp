@@ -5,18 +5,18 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include "dialogimportimage.h"
+#include "EasyRPGCore.h"
 
 DialogResourceManager::DialogResourceManager(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogResourceManager)
 {
-    m_project = 0;
     ui->setupUi(this);
     m_model = new QStringListModel(this);
-    if (m_project == 0)
+    if (!project())
         m_model->setStringList(QStringList());
     else{
-        m_model->setStringList(QStringList(m_project->backdroplist()));
+        m_model->setStringList(QStringList(project()->backdroplist()));
     }
     ui->listResources->setModel(m_model);
 }
@@ -26,74 +26,68 @@ DialogResourceManager::~DialogResourceManager()
     delete ui;
 }
 
-void DialogResourceManager::setProject(GameProject *n_project)
-{
-    m_project = n_project;
-    on_listResourceType_currentRowChanged(ui->listResourceType->currentRow());
-}
-
 void DialogResourceManager::on_listResourceType_currentRowChanged(int currentRow)
 {
-    if (m_project == 0)
+    if (!project())
         return;
     switch (currentRow)
     {
     case 0:
-        m_model->setStringList(m_project->backdroplist());
+        m_model->setStringList(project()->backdroplist());
         break;
     case 1:
-        m_model->setStringList(m_project->battlelist());
+        m_model->setStringList(project()->battlelist());
         break;
     case 2:
-        m_model->setStringList(m_project->battle2list());
+        m_model->setStringList(project()->battle2list());
         break;
     case 3:
-        m_model->setStringList(m_project->battlecharsetlist());
+        m_model->setStringList(project()->battlecharsetlist());
         break;
     case 4:
-        m_model->setStringList(m_project->battleweaponlist());
+        m_model->setStringList(project()->battleweaponlist());
         break;
     case 5:
-        m_model->setStringList(m_project->charsetlist());
+        m_model->setStringList(project()->charsetlist());
         break;
     case 6:
-        m_model->setStringList(m_project->chipsetlist());
+        m_model->setStringList(project()->chipsetlist());
         break;
     case 7:
-        m_model->setStringList(m_project->facesetlist());
+        m_model->setStringList(project()->facesetlist());
         break;
     case 8:
-        m_model->setStringList(m_project->framelist());
+        m_model->setStringList(project()->framelist());
         break;
     case 9:
-        m_model->setStringList(m_project->gameoverlist());
+        m_model->setStringList(project()->gameoverlist());
         break;
     case 10:
-        m_model->setStringList(m_project->monsterlist());
+        m_model->setStringList(project()->monsterlist());
         break;
     case 11:
-        m_model->setStringList(m_project->movielist());
+        m_model->setStringList(project()->movielist());
         break;
     case 12:
-        m_model->setStringList(m_project->musiclist());
+        m_model->setStringList(project()->musiclist());
         break;
     case 13:
-        m_model->setStringList(m_project->backgroundlist());
+        m_model->setStringList(project()->backgroundlist());
         break;
     case 14:
-        m_model->setStringList(m_project->picturelist());
+        m_model->setStringList(project()->picturelist());
         break;
     case 15:
-        m_model->setStringList(m_project->soundlist());
+        m_model->setStringList(project()->soundlist());
         break;
     case 16:
-        m_model->setStringList(m_project->systemlist());
+        m_model->setStringList(project()->systemlist());
         break;
     case 17:
-        m_model->setStringList(m_project->system2list());
+        m_model->setStringList(project()->system2list());
         break;
     case 18:
-        m_model->setStringList(m_project->titlelist());
+        m_model->setStringList(project()->titlelist());
         break;
     default:
         m_model->setStringList(QStringList());
@@ -135,7 +129,7 @@ void DialogResourceManager::on_pushImport_clicked()
             msg.exec();
             return;
         }
-        image.save(m_project->getProjectPath()+"/Backdrop/"+info.baseName()+".PNG");
+        image.save(EasyRPGCore::pathBackdrop()+info.baseName()+".PNG");
         break;
     case 1:
         size = QImage(filename).size();
@@ -148,7 +142,7 @@ void DialogResourceManager::on_pushImport_clicked()
         dialog->exec();
         if (dialog->result() == QDialog::Accepted)
             image = dialog->image();
-        image.save(m_project->getProjectPath()+"/Battle/"+info.baseName()+".PNG");
+        image.save(EasyRPGCore::pathBattle()+info.baseName()+".PNG");
         break;
     case 2:
         size = QImage(filename).size();
@@ -185,7 +179,7 @@ void DialogResourceManager::on_pushImport_clicked()
         dialog->exec();
         if (dialog->result() == QDialog::Accepted)
             image = dialog->image();
-        image.save(m_project->getProjectPath()+"/Battle/"+info.baseName()+".PNG");
+        image.save(EasyRPGCore::pathCharSet()+info.baseName()+".PNG");
         break;
     case 6:
         size = QImage(filename).size();

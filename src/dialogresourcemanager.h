@@ -16,8 +16,6 @@ class DialogResourceManager : public QDialog
 public:
     explicit DialogResourceManager(QWidget *parent = 0);
     ~DialogResourceManager();
-    
-    void setProject (GameProject* n_project);
 
 private slots:
     void on_listResourceType_currentRowChanged(int currentRow);
@@ -26,7 +24,6 @@ private slots:
 
 private:
     Ui::DialogResourceManager *ui;
-    GameProject *m_project;
     QStringListModel *m_model;
 
     QString m_lastmusicpath;

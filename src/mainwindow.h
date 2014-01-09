@@ -44,7 +44,6 @@ private:
 
     bool removeDir(const QString & dirName, const QString &root);
 
-    GameProject *m_project;
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;

@@ -7,10 +7,10 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDir>
+#include "EasyRPGCore.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    m_project(0),
     ui(new Ui::MainWindow)
 {
     const QString DEFAULT_DIR_KEY("default_dir");
@@ -41,13 +41,11 @@ MainWindow::~MainWindow()
 void MainWindow::LoadProject(QString p_path)
 {
     const QString CURRENT_PROJECT_KEY("current_project");
-    if (m_project != 0)
-        delete m_project;
-    m_project = new GameProject();
-    m_project->setProjectPath(p_path);
-    m_project->Load();
-    setWindowTitle("EasyRPG Editor - " + m_project->getGameTitle());
-    m_settings.setValue(CURRENT_PROJECT_KEY, m_project->getGameTitle());
+    EasyRPGCore::setCurrentProject(new GameProject());
+    EasyRPGCore::setCurrentProjectPath(p_path);
+    project()->Load();
+    setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
+    m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
     update_actions();
 }
 
@@ -74,7 +72,6 @@ void MainWindow::on_actionMap_Tree_triggered(bool checked)
 
 void MainWindow::on_actionResource_Manager_triggered()
 {
-    dlg_resource->setProject(m_project);
     dlg_resource->show();
 }
 
@@ -85,7 +82,7 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-    if (m_project == 0){
+    if (!project()){
         ui->actionCircle->setEnabled(false);
         ui->actionCreate_Game_Disk->setEnabled(false);
         ui->actionData_Base->setEnabled(false);
@@ -166,40 +163,39 @@ void MainWindow::on_action_New_Project_triggered()
                     return;
                 removeDir(dlg.getProjectPath(),dlg.getProjectPath());
             }
-        if (m_project != 0)
+        if (!project())
             on_action_Close_Project_triggered();
-        m_project = new GameProject();
+        EasyRPGCore::setCurrentProject(new GameProject());
         if (!d_gamepath.exists())
             d_gamepath.mkdir(".");
-        m_project->setRtpPath(qApp->applicationDirPath()+"RTP/");
-        m_project->setProjectPath(dlg.getProjectPath());
-        m_project->setGameTitle(dlg.getGameTitle());
-        m_project->setTileSize(dlg.getTileSize());
-        d_gamepath.mkdir(m_project->pathBackdrop());
-        d_gamepath.mkdir(m_project->pathBackground());
-        d_gamepath.mkdir(m_project->pathBattle());
-        d_gamepath.mkdir(m_project->pathBattle2());
-        d_gamepath.mkdir(m_project->pathBattleCharSet());
-        d_gamepath.mkdir(m_project->pathBattleWeapon());
-        d_gamepath.mkdir(m_project->pathCharSet());
-        d_gamepath.mkdir(m_project->pathChipSet());
-        d_gamepath.mkdir(m_project->pathFaceSet());
-        d_gamepath.mkdir(m_project->pathFrame());
-        d_gamepath.mkdir(m_project->pathGameOver());
-        d_gamepath.mkdir(m_project->pathMonster());
-        d_gamepath.mkdir(m_project->pathMovie());
-        d_gamepath.mkdir(m_project->pathMusic());
-        d_gamepath.mkdir(m_project->pathPicture());
-        d_gamepath.mkdir(m_project->pathSound());
-        d_gamepath.mkdir(m_project->pathSystem());
-        d_gamepath.mkdir(m_project->pathSystem2());
-        d_gamepath.mkdir(m_project->pathTitle());
+        EasyRPGCore::setCurrentProjectPath(dlg.getProjectPath());
+        EasyRPGCore::setCurrentGameTitle(dlg.getGameTitle());
+        EasyRPGCore::setTileSize(dlg.getTileSize());
+        d_gamepath.mkdir(EasyRPGCore::pathBackdrop());
+        d_gamepath.mkdir(EasyRPGCore::pathBackground());
+        d_gamepath.mkdir(EasyRPGCore::pathBattle());
+        d_gamepath.mkdir(EasyRPGCore::pathBattle2());
+        d_gamepath.mkdir(EasyRPGCore::pathBattleCharSet());
+        d_gamepath.mkdir(EasyRPGCore::pathBattleWeapon());
+        d_gamepath.mkdir(EasyRPGCore::pathCharSet());
+        d_gamepath.mkdir(EasyRPGCore::pathChipSet());
+        d_gamepath.mkdir(EasyRPGCore::pathFaceSet());
+        d_gamepath.mkdir(EasyRPGCore::pathFrame());
+        d_gamepath.mkdir(EasyRPGCore::pathGameOver());
+        d_gamepath.mkdir(EasyRPGCore::pathMonster());
+        d_gamepath.mkdir(EasyRPGCore::pathMovie());
+        d_gamepath.mkdir(EasyRPGCore::pathMusic());
+        d_gamepath.mkdir(EasyRPGCore::pathPicture());
+        d_gamepath.mkdir(EasyRPGCore::pathSound());
+        d_gamepath.mkdir(EasyRPGCore::pathSystem());
+        d_gamepath.mkdir(EasyRPGCore::pathSystem2());
+        d_gamepath.mkdir(EasyRPGCore::pathTitle());
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-        setWindowTitle("EasyRPG Editor - " + m_project->getGameTitle());
-        m_settings.setValue(CURRENT_PROJECT_KEY, m_project->getGameTitle());
+        setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
+        m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
         //TODO: write RPT template code
 
-        if (!m_project->Save())
+        if (!project()->Save())
             QMessageBox::warning(this,"Error","An error ocurred while saving",QMessageBox::Ok,QMessageBox::Cancel);
         update_actions();
     }
@@ -238,9 +234,7 @@ void MainWindow::on_action_Close_Project_triggered()
     //TODO: check if there are unsaved maps and ask for saving.
     const QString CURRENT_PROJECT_KEY("current_project");
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
-    if (m_project != 0)
-        delete m_project;
-    m_project = 0;
+    EasyRPGCore::setCurrentProject(0);
     update_actions();
     setWindowTitle("EasyRPG Editor");
 }

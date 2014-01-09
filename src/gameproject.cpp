@@ -2,6 +2,7 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
+#include "EasyRPGCore.h"
 
 GameProject::GameProject()
 {
@@ -10,8 +11,8 @@ GameProject::GameProject()
 bool GameProject::Save()
 {
     picojson::object j_project;
-    j_project["GameTitle"] = picojson::value(m_gametitle.toStdString());
-    j_project["TileSize"] = picojson::value((double)m_tilesize);
+    j_project["GameTitle"] = picojson::value(EasyRPGCore::currentGameTitle().toStdString());
+    j_project["TileSize"] = picojson::value((double)EasyRPGCore::tileSize());
 #define ARR(var,list,key) picojson::array var;for (int i = 0; i < list.size(); i++)var.push_back(picojson::value(list[i].toStdString().c_str()));j_project[key] = picojson::value(var);
     ARR(j_backdrop,m_backdrop,"Backdrop");
     ARR(j_battle,m_battle,"Battle");
@@ -36,7 +37,7 @@ bool GameProject::Save()
     QString f_text = QString::fromStdString(picojson::value(j_project).serialize());
     if (f_text.isEmpty())
         return false;
-    QFile m_file(m_path+"project.erp");
+    QFile m_file(projectPath()+"project.erp");
     if (!m_file.open(QFile::WriteOnly | QFile::Text))
         return false;
     QTextStream out(&m_file);
@@ -50,60 +51,9 @@ QVector<GameCharacter> GameProject::characters() {return m_characters;}
 
 GameCharacter *GameProject::character(int id) {return &m_characters[id];}
 
-QString GameProject::getRtpPath() {return r_path;}
-void GameProject::setRtpPath(QString n_path) {r_path = n_path;}
-
-QString GameProject::getProjectPath() {return m_path;}
-void GameProject::setProjectPath(QString n_path) {m_path = n_path;}
-
-QString GameProject::getGameTitle() {return m_gametitle;}
-void GameProject::setGameTitle(QString n_name) {m_gametitle = n_name;}
-
-int GameProject::getTileSize() {return m_tilesize;}
-void GameProject::setTileSize(int n_size) {m_tilesize = n_size;}
-
-QString GameProject::pathBackdrop(QString fileName) {return pathBackdrop()+fileName;}
-QString GameProject::pathBattle(QString fileName) {return pathBattle()+fileName;}
-QString GameProject::pathBattle2(QString fileName) {return pathBattle2()+fileName;}
-QString GameProject::pathBattleCharSet(QString fileName) {return pathBattleCharSet()+fileName;}
-QString GameProject::pathBattleWeapon(QString fileName) {return pathBattleWeapon()+fileName;}
-QString GameProject::pathCharSet(QString fileName) {return pathCharSet()+fileName;}
-QString GameProject::pathChipSet(QString fileName) {return pathChipSet()+fileName;}
-QString GameProject::pathFaceSet(QString fileName) {return pathFaceSet()+fileName;}
-QString GameProject::pathFrame(QString fileName) {return pathFrame()+fileName;}
-QString GameProject::pathGameOver(QString fileName) {return pathGameOver()+fileName;}
-QString GameProject::pathMonster(QString fileName) {return pathMonster()+fileName;}
-QString GameProject::pathMovie(QString fileName) {return pathMovie()+fileName;}
-QString GameProject::pathMusic(QString fileName) {return pathMusic()+fileName;}
-QString GameProject::pathBackground(QString fileName) {return pathBackground()+fileName;}
-QString GameProject::pathPicture(QString fileName) {return pathPicture()+fileName;}
-QString GameProject::pathSound(QString fileName) {return pathSound()+fileName;}
-QString GameProject::pathSystem(QString fileName) {return pathSystem()+fileName;}
-QString GameProject::pathSystem2(QString fileName) {return pathSystem2()+fileName;}
-QString GameProject::pathTitle(QString fileName) {return pathTitle()+fileName;}
-QString GameProject::pathTitle() {return m_path+"Title/";}
-QString GameProject::pathSystem2() {return m_path+"System2/";}
-QString GameProject::pathSystem() {return m_path+"System/";}
-QString GameProject::pathSound() {return m_path+"Sound/";}
-QString GameProject::pathPicture() {return m_path+"Picture/";}
-QString GameProject::pathBackground() {return m_path+"Background/";}
-QString GameProject::pathMusic() {return m_path+"Music/";}
-QString GameProject::pathMovie() {return m_path+"Movie/";}
-QString GameProject::pathMonster() {return m_path+"Monster/";}
-QString GameProject::pathGameOver() {return m_path+"GameOver/";}
-QString GameProject::pathFrame() {return m_path+"Frame/";}
-QString GameProject::pathFaceSet() {return m_path+"FaceSet/";}
-QString GameProject::pathChipSet() {return m_path+"ChipSet/";}
-QString GameProject::pathCharSet() {return m_path+"CharSet/";}
-QString GameProject::pathBattleWeapon() {return m_path+"BattleWeapon/";}
-QString GameProject::pathBattleCharSet() {return m_path+"BattleCharSet/";}
-QString GameProject::pathBattle2() {return m_path+"Battle2/";}
-QString GameProject::pathBattle() {return m_path+"Battle/";}
-QString GameProject::pathBackdrop() {return m_path+"Backdrop/";}
-
 bool GameProject::Load()
 {
-    QFile m_file(m_path+"project.erp");
+    QFile m_file(projectPath()+"project.erp");
     if (!m_file.open(QFile::ReadOnly | QFile::Text))
         return false;
     QTextStream in(&m_file);
@@ -114,8 +64,8 @@ bool GameProject::Load()
     QString err = QString::fromStdString(picojson::parse(j_project,json,json+strlen(json)));
     if (!err.isEmpty())
         return false;
-    m_gametitle = j_project.get("GameTitle").get<std::string>().c_str();
-    m_tilesize = (int)j_project.get("TileSize").get<double>();
+    EasyRPGCore::setCurrentGameTitle(j_project.get("GameTitle").get<std::string>().c_str());
+    EasyRPGCore::setTileSize((int)j_project.get("TileSize").get<double>());
 #define ARR(var,list,key)picojson::array var = j_project.get(key).get<picojson::array>(); for (picojson::array::iterator iter = var.begin(); iter != var.end(); ++iter) list.push_back((*iter).get<std::string>().c_str());
     ARR(j_backdrop,m_backdrop,"Backdrop");
     ARR(j_battle,m_battle,"Battle");
