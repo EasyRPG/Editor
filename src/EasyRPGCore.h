@@ -7,6 +7,22 @@
 #define project() EasyRPGCore::currentProject()
 #define projectPath() EasyRPGCore::currentProjectPath()
 
+/****************************
+ *     Binding Constants    *
+ * **************************/
+#define UP 1
+#define DOWN 2
+#define LEFT 4
+#define RIGHT 8
+#define UPLEFT 16
+#define UPRIGHT  32
+#define DOWNLEFT  64
+#define DOWNRIGHT  128
+#define SUPLEFT  21
+#define SUPRIGHT  41
+#define SDOWNLEFT  70
+#define SDOWNRIGHT  138
+
 #include <QPixmap>
 #include "gameproject.h"
 
@@ -108,8 +124,11 @@ public:
     static void setCurrentGameTitle(const QString &currentGameTitle);
 
 private:
+    static bool isWater(int tile_id);
+    static bool isABWater(int tile_id);
+    static bool isDWater(int tile_id);
+
     static GameProject* m_currentProject;
-    static QPixmap* m_currentChipset;
     static int m_tileSize;
     static QString m_currentGameTitle;
     static QString m_currentProjectPath;
@@ -117,6 +136,7 @@ private:
     static Layer m_currentLayer;
     static Tool m_currentTool;
     static Zoom m_currentZoom;
+    static QMap<int, QPixmap> m_currentChipset;
 };
 
 #endif // EASYRPGCORE_H
