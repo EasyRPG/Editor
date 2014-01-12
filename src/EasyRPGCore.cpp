@@ -80,24 +80,24 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
         if (isDWater(tile_id))
         {
             if (isABWater(tile_u) && isABWater (tile_l) && isABWater (tile_ul))
-                    ul = SUPLEFT;
+                ul = SUPLEFT;
             if (isABWater(tile_u) && isABWater (tile_r) && isABWater (tile_ur))
-                    ur = SUPRIGHT;
+                ur = SUPRIGHT;
             if (isABWater(tile_d) && isABWater (tile_l) && isABWater (tile_dl))
-                    dl = SDOWNLEFT;
+                dl = SDOWNLEFT;
             if (isABWater(tile_d) && isABWater (tile_r) && isABWater (tile_dr))
-                    dr = SDOWNRIGHT;
+                dr = SDOWNRIGHT;
         }
         else
         {
             if (isABWater (tile_u) && isABWater (tile_l))
-                    ul = SUPLEFT;
+                ul = SUPLEFT;
             if (isABWater (tile_u) && isABWater (tile_r))
-                    ur = SUPRIGHT;
+                ur = SUPRIGHT;
             if (isABWater (tile_d) && isABWater (tile_l))
-                    dl = SDOWNLEFT;
+                dl = SDOWNLEFT;
             if (isABWater (tile_d) && isABWater (tile_r))
-                    dr = SDOWNRIGHT;
+                dr = SDOWNRIGHT;
         }
         if ((u+l) == 0 && tile_ul == 4)
             ul = UPLEFT;
@@ -120,27 +120,27 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
         QPixmap p_tile(tileSize(), tileSize());
         QPainter p(&p_tile);
         if (isABWater (tile_id))
-            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 64*tileSize()/16,tileSize(),tileSize()));
+            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 4*tileSize(),tileSize(),tileSize()));
         else
-            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 112*tileSize()/16,tileSize(),tileSize()));
+            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 7*tileSize(),tileSize(),tileSize()));
         // Draw UpperLeft corner
         int corner = u+l+ul, dest_x = 0, dest_y = 0;
         if (corner > 0)
         {
             if (corner == 1)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 32*tileSize()/16,tileSize(),tileSize()));
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 32*tileSize()/16,tileSize()/2,tileSize()/2));
             if (corner == 4)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 16*tileSize()/16,tileSize(),tileSize()));
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 16*tileSize()/16,tileSize()/2,tileSize()/2));
             if (corner == 5)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 0*tileSize()/16,tileSize(),tileSize()));
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 0*tileSize()/16,tileSize()/2,tileSize()/2));
             if (corner == 16)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 48*tileSize()/16,tileSize(),tileSize()));
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 48*tileSize()/16,tileSize()/2,tileSize()/2));
             if (corner == 21)
             {
                 if (isABWater (tile_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 80*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 80*tileSize()/16,tileSize()/2,tileSize()/2));
                 else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 96*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 96*tileSize()/16,tileSize()/2,tileSize()/2));
             }
         }
         //Draw UpperRight corner
@@ -149,19 +149,19 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
         if (corner > 0)
         {
             if (corner == 1)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 32*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 4)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 16*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 5)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 0*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 16)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 48*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 21)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 32*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 2)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 16*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 3)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 0*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 32)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 48*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 41)
             {
                 if (isABWater (tile_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 80*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 80*tileSize()/16,tileSize()/2,tileSize()/2));
                 else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 96*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 96*tileSize()/16,tileSize()/2,tileSize()/2));
             }
         }
         //Draw LowerRight corner
@@ -169,41 +169,41 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
         dest_y = tileSize()/2;
         if (corner > 0)
         {
-            if (corner == 1)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 40*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 4)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 24*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 5)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 8*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 16)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 56*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 21)
+            if (corner == 2)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 40*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 8)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 24*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 10)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 8*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 128)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 56*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 138)
             {
                 if (isABWater (tile_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 88*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 88*tileSize()/16,tileSize()/2,tileSize()/2));
                 else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 104*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 104*tileSize()/16,tileSize()/2,tileSize()/2));
             }
         }
         //Draw LowerLeft corner
-        corner = d+r+dr;
+        corner = d+l+dl;
         dest_x = 0;
         if (corner > 0)
         {
-            if (corner == 1)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 40*tileSize()/16,tileSize(),tileSize()));
+            if (corner == 2)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 40*tileSize()/16,tileSize()/2,tileSize()/2));
             if (corner == 4)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 24*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 5)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 8*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 16)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 56*tileSize()/16,tileSize(),tileSize()));
-            if (corner == 21)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 24*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 6)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 8*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 64)
+                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 56*tileSize()/16,tileSize()/2,tileSize()/2));
+            if (corner == 70)
             {
                 if (isABWater (tile_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 88*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 88*tileSize()/16,tileSize()/2,tileSize()/2));
                 else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 104*tileSize()/16,tileSize(),tileSize()));
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 104*tileSize()/16,tileSize()/2,tileSize()/2));
             }
         }
         m_currentChipset[_code] = p_tile;
