@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     /**  Test  **/
-    EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis.png");
+    EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis2.png");
     /** /Test  **/
     const QString DEFAULT_DIR_KEY("default_dir");
     const QString CURRENT_PROJECT_KEY("current_project");
