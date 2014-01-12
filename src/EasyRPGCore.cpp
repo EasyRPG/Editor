@@ -150,9 +150,9 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
         {
             if (corner == 1)
                 p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 32*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 2)
+            if (corner == 8)
                 p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 16*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 3)
+            if (corner == 9)
                 p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 0*tileSize()/16,tileSize()/2,tileSize()/2));
             if (corner == 32)
                 p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 48*tileSize()/16,tileSize()/2,tileSize()/2));
