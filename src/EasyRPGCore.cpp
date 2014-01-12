@@ -4,6 +4,7 @@
 
 //define static members
 GameProject* EasyRPGCore::m_currentProject = 0;
+GameMap* EasyRPGCore::m_currentMap = 0;
 int EasyRPGCore::m_tileSize = 0;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
@@ -454,6 +455,13 @@ void EasyRPGCore::setCurrentGameTitle(const QString &currentGameTitle)
     m_currentGameTitle = currentGameTitle;
 }
 
+void EasyRPGCore::setCurrentMapSize(int w, int h)
+{
+    if (!m_currentMap)
+        return;
+    m_currentMap->setSize(w,h);
+}
+
 bool EasyRPGCore::isWater(int tile_id)
 {
     if (tile_id < 4)
@@ -477,6 +485,36 @@ bool EasyRPGCore::isDWater(int tile_id)
     else
         return false;
 }
+GameMap *EasyRPGCore::currentMap()
+{
+    return m_currentMap;
+}
+
+void EasyRPGCore::setCurrentMap(GameMap *currentMap)
+{
+    m_currentMap = currentMap;
+}
+
+int EasyRPGCore::currentMapHeight()
+{
+    return (m_currentMap) ? m_currentMap->height() : 0;
+}
+
+void EasyRPGCore::setCurrentMapHeight(int currentMapHeight)
+{
+    setCurrentMapSize(m_currentMap->width(), currentMapHeight);
+}
+
+int EasyRPGCore::currentMapWidth()
+{
+    return (m_currentMap) ? m_currentMap->width() : 0;
+}
+
+void EasyRPGCore::setCurrentMapWidth(int currentMapWidth)
+{
+    setCurrentMapSize(currentMapWidth, m_currentMap->height());
+}
+
 
 QString EasyRPGCore::pathTitle() {return m_currentProjectPath+"Title/";}
 QString EasyRPGCore::pathSystem2() {return m_currentProjectPath+"System2/";}

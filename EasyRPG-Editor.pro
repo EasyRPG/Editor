@@ -22,7 +22,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/QGraphicsImportItem.cpp \
     src/gamecharacter.cpp \
     src/dialogopenproject.cpp \
-    src/EasyRPGCore.cpp
+    src/EasyRPGCore.cpp \
+    src/gamemap.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -35,7 +36,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/QGraphicsImportItem.h \
     src/tools/picojson.h \
     src/dialogopenproject.h \
-    src/EasyRPGCore.h
+    src/EasyRPGCore.h \
+    src/gamemap.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

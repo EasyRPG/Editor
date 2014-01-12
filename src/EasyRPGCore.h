@@ -25,6 +25,7 @@
 
 #include <QPixmap>
 #include "gameproject.h"
+#include "gamemap.h"
 
 class EasyRPGCore
 {
@@ -123,12 +124,24 @@ public:
     static QString currentGameTitle();
     static void setCurrentGameTitle(const QString &currentGameTitle);
 
+    static int currentMapWidth();
+    static void setCurrentMapWidth(int currentMapWidth);
+
+    static int currentMapHeight();
+    static void setCurrentMapHeight(int currentMapHeight);
+
+    static void setCurrentMapSize(int w, int h);
+
+    static GameMap *currentMap();
+    static void setCurrentMap(GameMap *currentMap);
+
 private:
     static bool isWater(int tile_id);
     static bool isABWater(int tile_id);
     static bool isDWater(int tile_id);
 
     static GameProject* m_currentProject;
+    static GameMap* m_currentMap;
     static int m_tileSize;
     static QString m_currentGameTitle;
     static QString m_currentProjectPath;
