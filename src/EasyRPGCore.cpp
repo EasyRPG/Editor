@@ -6,7 +6,7 @@
 QListWidget* EasyRPGCore::m_debugChipset = 0;
 GameProject* EasyRPGCore::m_currentProject = 0;
 GameMap* EasyRPGCore::m_currentMap = 0;
-int EasyRPGCore::m_tileSize = 64;
+int EasyRPGCore::m_tileSize = 16;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
 EasyRPGCore::Layer EasyRPGCore::m_currentLayer = EasyRPGCore::LOWER;
@@ -228,8 +228,8 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
 
     // Each tileset column contains 4 blocks with a size of 3x4 tiles
     // Anyway we should skip water colums because they are already stored
-    int block_col = 1;
-    int block_row = 1;
+    int block_col = 0;
+    int block_row = 2;
 
     int tile_id = 7;
 
@@ -274,6 +274,10 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
                 dl = DOWNLEFT;
             if (d + r == 0 && *bdr)
                 dr = DOWNRIGHT;
+
+            int _code = tile_id * 300 + u+d+l+r+ul+ur+dl+dr;
+            if (!m_currentChipset[_code].isNull()) //item exist?
+                continue;
 
             /*
              * Get base
@@ -336,21 +340,21 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
              * Draw down_right corner
              */
             dest_x = tileSize()/2;
-            if (d + r + dr > 0){
-            if (d + r + dr == 2)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*1.5, tileSize()*3.5,tileSize()/2,tileSize()/2));
-            if (d + r + dr == 8)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*2.5,tileSize()/2,tileSize()/2));
-            if (d + r + dr == 10)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*3.5,tileSize()/2,tileSize()/2));
-            if (d + r + dr == 128)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()/2,tileSize()/2,tileSize()/2));
+            if (d + r + dr > 0)
+            {
+                if (d + r + dr == 2)
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*1.5, tileSize()*3.5,tileSize()/2,tileSize()/2));
+                if (d + r + dr == 8)
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*2.5,tileSize()/2,tileSize()/2));
+                if (d + r + dr == 10)
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*3.5,tileSize()/2,tileSize()/2));
+                if (d + r + dr == 128)
+                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()/2,tileSize()/2,tileSize()/2));
             }
 
             /*
              * Register tile
              */
-            int _code = (tile_id)*300+ul+u+ur+l+r+dl+d+dr;
             m_currentChipset[_code] = p_tile;
             m_debugChipset->addItem(QString::number(_code));
             m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[_code]));
