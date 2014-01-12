@@ -40,6 +40,8 @@ private slots:
 
     void on_action_Open_Project_triggered();
 
+    void on_actionChipset_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);

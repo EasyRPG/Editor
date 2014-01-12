@@ -107,12 +107,19 @@
     <addaction name="actionPalete"/>
     <addaction name="actionMap_Tree"/>
    </widget>
+   <widget class="QMenu" name="menuDebug">
+    <property name="title">
+     <string>Debug</string>
+    </property>
+    <addaction name="actionChipset"/>
+   </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
    <addaction name="menuView"/>
    <addaction name="menuTools"/>
    <addaction name="menuGame_2"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuDebug"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="movable">
@@ -709,6 +716,15 @@
    </property>
    <property name="toolTip">
     <string>Draw in the map with a fill tool</string>
+   </property>
+  </action>
+  <action name="actionChipset">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_palette.png</normaloff>:/icons/share/old_palette.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chipset</string>
    </property>
   </action>
  </widget>

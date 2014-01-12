@@ -3,9 +3,10 @@
 #include <QPainter>
 
 //define static members
+QListWidget* EasyRPGCore::m_debugChipset = 0;
 GameProject* EasyRPGCore::m_currentProject = 0;
 GameMap* EasyRPGCore::m_currentMap = 0;
-int EasyRPGCore::m_tileSize = 0;
+int EasyRPGCore::m_tileSize = 16;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
 EasyRPGCore::Layer EasyRPGCore::m_currentLayer = EasyRPGCore::LOWER;
@@ -37,6 +38,12 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
     }
     /** BindWaterTiles **/
     m_currentChipset = QMap<int,QPixmap>();
+    if (m_debugChipset)
+        delete m_debugChipset;
+    m_debugChipset = new QListWidget();
+    m_debugChipset->setIconSize(QSize(tileSize(),tileSize()));
+    m_debugChipset->setWindowTitle("Debug: ChipSet cache");
+    m_debugChipset->setWindowIcon(QIcon(QPixmap(":/icons/share/old_palette.png")));
     /**
      * TileIDs:
      * 1- WaterA
@@ -200,12 +207,20 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             }
         }
         m_currentChipset[_code] = p_tile;
+        m_debugChipset->addItem(QString::number(_code));
+        m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(p_tile));
     }
 
     /** Register AnimationTiles **/
     m_currentChipset[4*200] = o_chipset->copy(3*tileSize(),4*tileSize(),tileSize(),tileSize());
+    m_debugChipset->addItem(QString::number(4*200));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(o_chipset->copy(3*tileSize(),4*tileSize(),tileSize(),tileSize())));
     m_currentChipset[5*200] = o_chipset->copy(4*tileSize(),4*tileSize(),tileSize(),tileSize());
+    m_debugChipset->addItem(QString::number(5*200));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(o_chipset->copy(4*tileSize(),4*tileSize(),tileSize(),tileSize())));
     m_currentChipset[6*200] = o_chipset->copy(5*tileSize(),4*tileSize(),tileSize(),tileSize());
+    m_debugChipset->addItem(QString::number(6*200));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(o_chipset->copy(5*tileSize(),4*tileSize(),tileSize(),tileSize())));
 
     /** BindGroundTiles **/
     // Each tileset contains 5 columns with a size of 6x16 tiles
@@ -337,6 +352,8 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
              */
             int _code = (tile_id)*300+ul+u+ur+l+r+dl+d+dr;
             m_currentChipset[_code] = p_tile;
+            m_debugChipset->addItem(QString::number(_code));
+            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(p_tile));
         }
 
         tile_id++;
@@ -363,6 +380,8 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             int orig_x = tileset_col*6*tileSize()+col*tileSize();
             int orig_y = tile_row*tileSize();
             m_currentChipset[tile_id*300] = o_chipset->copy(orig_x,orig_y,tileSize(),tileSize());
+            m_debugChipset->addItem(QString::number(tile_id*300));
+            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(o_chipset->copy(orig_x,orig_y,tileSize(),tileSize())));
             tile_id++;
         }
 
@@ -372,6 +391,12 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             tile_row = 0;
             tileset_col++;
         }
+    }
+    int count = m_debugChipset->count();
+    for(int i = 0; i < count; i++)
+    {
+      QListWidgetItem *item = m_debugChipset->item(i);
+      item->setSizeHint(QSize(item->sizeHint().width(), tileSize() + 10));
     }
 }
 int EasyRPGCore::tileSize()
@@ -493,6 +518,11 @@ GameMap *EasyRPGCore::currentMap()
 void EasyRPGCore::setCurrentMap(GameMap *currentMap)
 {
     m_currentMap = currentMap;
+}
+
+QListWidget *EasyRPGCore::debugChipset()
+{
+    return m_debugChipset;
 }
 
 int EasyRPGCore::currentMapHeight()

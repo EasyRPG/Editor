@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    /**  Test  **/
+    EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis.png");
+    /** /Test  **/
     const QString DEFAULT_DIR_KEY("default_dir");
     const QString CURRENT_PROJECT_KEY("current_project");
     ui->setupUi(this);
@@ -246,4 +249,11 @@ void MainWindow::on_action_Open_Project_triggered()
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectPath());
     m_defDir = dlg.getDefDir();
+}
+
+void MainWindow::on_actionChipset_triggered()
+{
+    if (!EasyRPGCore::debugChipset())
+        return;
+    EasyRPGCore::debugChipset()->show();
 }

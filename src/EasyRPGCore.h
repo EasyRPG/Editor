@@ -24,6 +24,7 @@
 #define SDOWNRIGHT  138
 
 #include <QPixmap>
+#include <QListWidget>
 #include "gameproject.h"
 #include "gamemap.h"
 
@@ -135,10 +136,14 @@ public:
     static GameMap *currentMap();
     static void setCurrentMap(GameMap *currentMap);
 
+    static QListWidget* debugChipset();
+
 private:
     static bool isWater(int tile_id);
     static bool isABWater(int tile_id);
     static bool isDWater(int tile_id);
+
+    static QListWidget* m_debugChipset;
 
     static GameProject* m_currentProject;
     static GameMap* m_currentMap;
