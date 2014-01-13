@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia winextras
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets  multimedia winextras
 
 TARGET = EasyRPG-Editor
 TEMPLATE = app
@@ -23,7 +23,9 @@ SOURCES += src/mainwindow.cpp \
     src/gamecharacter.cpp \
     src/dialogopenproject.cpp \
     src/EasyRPGCore.cpp \
-    src/gamemap.cpp
+    src/gamemap.cpp \
+    src/musicplayer.cpp \
+    src/volumebutton.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -37,7 +39,9 @@ HEADERS  += src/mainwindow.h \
     src/tools/picojson.h \
     src/dialogopenproject.h \
     src/EasyRPGCore.h \
-    src/gamemap.h
+    src/gamemap.h \
+    src/musicplayer.h \
+    src/volumebutton.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

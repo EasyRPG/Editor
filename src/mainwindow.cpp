@@ -9,6 +9,41 @@
 #include <QDir>
 #include "EasyRPGCore.h"
 
+#include <QApplication>
+#include <QFileInfo>
+#include <QSettings>
+#include <QIcon>
+#include <QDir>
+
+#include "musicplayer.h"
+
+
+
+static void associateFileTypes(const QStringList &fileTypes)
+{
+    QString displayName = QGuiApplication::applicationDisplayName();
+    QString filePath = QCoreApplication::applicationFilePath();
+    QString fileName = QFileInfo(filePath).fileName();
+
+    QSettings settings("HKEY_CURRENT_USER\\Software\\Classes\\Applications\\" + fileName, QSettings::NativeFormat);
+    settings.setValue("FriendlyAppName", displayName);
+
+    settings.beginGroup("SupportedTypes");
+    foreach (const QString& fileType, fileTypes)
+        settings.setValue(fileType, QString());
+    settings.endGroup();
+
+    settings.beginGroup("shell");
+    settings.beginGroup("open");
+    settings.setValue("FriendlyAppName", displayName);
+    settings.beginGroup("Command");
+    settings.setValue(".", QChar('"') + QDir::toNativeSeparators(filePath) + QString("\" \"%1\""));
+}
+//! [0]
+
+
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -249,6 +284,18 @@ void MainWindow::on_action_Open_Project_triggered()
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectPath());
     m_defDir = dlg.getDefDir();
+}
+
+void MainWindow::on_actionJukebox_triggered()
+{
+
+        associateFileTypes(QStringList(".mp3,.midi"));
+        static MusicPlayer player;
+        player.playFile("C:\\Users\\Public\\Music\\Sample Music\\Kalimba.mp3");
+        player.resize(300, 60);
+        player.show();
+
+
 }
 
 void MainWindow::on_actionChipset_triggered()
