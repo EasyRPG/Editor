@@ -69,7 +69,7 @@ MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
 void MusicPlayer::openFile()
 {
     static QString path = QDir::homePath();
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), path, tr("MP3 files (*.wav);;All files (*.*)"));
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), path, tr("All files (*.*)"));
     if (!filePath.isEmpty()) {
         path = filePath;
         playFile(filePath);

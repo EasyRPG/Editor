@@ -18,7 +18,6 @@
 #include "musicplayer.h"
 
 
-
 static void associateFileTypes(const QStringList &fileTypes)
 {
     QString displayName = QGuiApplication::applicationDisplayName();
@@ -89,6 +88,7 @@ void MainWindow::LoadProject(QString p_path)
 
 void MainWindow::on_action_Quit_triggered()
 {
+    this->on_actionJukebox_triggered(1);
     qApp->quit();
 }
 
@@ -286,16 +286,24 @@ void MainWindow::on_action_Open_Project_triggered()
     m_defDir = dlg.getDefDir();
 }
 
-void MainWindow::on_actionJukebox_triggered()
+void MainWindow::on_actionJukebox_triggered(int type)
 {
-
-        associateFileTypes(QStringList(".mp3,.midi"));
-        static MusicPlayer player;
-        player.playFile("C:\\Users\\Public\\Music\\Sample Music\\Kalimba.mp3");
+      static MusicPlayer player;
+    if (type==1)
+    {
+        player.disconnect();
+       player.deleteLater();
+       player.close();
+    }else
+    {
+        associateFileTypes(QStringList(".wav,.mp3,.midi"));
+        if(!player.isHidden())
+        {
+            player.playFile("C:\\Users\\Public\\Music\\Sample Music\\Kalimba.mp3");
+        }
         player.resize(300, 60);
         player.show();
-
-
+    }
 }
 
 void MainWindow::on_actionChipset_triggered()
