@@ -212,15 +212,15 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
     }
 
     /** Register AnimationTiles **/
-    m_currentChipset[4*200] = o_chipset->copy(3*tileSize(),4*tileSize(),tileSize(),tileSize());
-    m_debugChipset->addItem(QString::number(4*200));
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[4*200]));
-    m_currentChipset[5*200] = o_chipset->copy(4*tileSize(),4*tileSize(),tileSize(),tileSize());
-    m_debugChipset->addItem(QString::number(5*200));
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[5*200]));
-    m_currentChipset[6*200] = o_chipset->copy(5*tileSize(),4*tileSize(),tileSize(),tileSize());
-    m_debugChipset->addItem(QString::number(6*200));
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[6*200]));
+    m_currentChipset[4*300] = o_chipset->copy(3*tileSize(),4*tileSize(),tileSize(),tileSize());
+    m_debugChipset->addItem(QString::number(4*300));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[4*300]));
+    m_currentChipset[5*300] = o_chipset->copy(4*tileSize(),4*tileSize(),tileSize(),tileSize());
+    m_debugChipset->addItem(QString::number(5*300));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[5*300]));
+    m_currentChipset[6*300] = o_chipset->copy(5*tileSize(),4*tileSize(),tileSize(),tileSize());
+    m_debugChipset->addItem(QString::number(6*300));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[6*300]));
 
     /** BindGroundTiles **/
     // Each tileset contains 5 columns with a size of 6x16 tiles
@@ -527,6 +527,19 @@ void EasyRPGCore::setCurrentMap(GameMap *currentMap)
 QListWidget *EasyRPGCore::debugChipset()
 {
     return m_debugChipset;
+}
+
+QPixmap EasyRPGCore::tile(int tile_id, int _code)
+{
+    if (tile_id < 1)
+        return QPixmap();
+    if (tile_id < 4)
+        return m_currentChipset.value(tile_id*300+_code);
+    if (tile_id < 7)
+        return m_currentChipset.value(tile_id*300);
+    if (tile_id < 18)
+        return m_currentChipset.value(tile_id*300+_code);
+    return m_currentChipset.value(tile_id*300);
 }
 
 int EasyRPGCore::currentMapHeight()

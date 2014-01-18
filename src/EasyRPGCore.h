@@ -7,6 +7,8 @@
 #define project() EasyRPGCore::currentProject()
 #define projectPath() EasyRPGCore::currentProjectPath()
 
+#define chipsetIsNull() EasyRPGCore::tile(1,0).isNull()
+
 /****************************
  *     Binding Constants    *
  * **************************/
@@ -137,6 +139,8 @@ public:
     static void setCurrentMap(GameMap *currentMap);
 
     static QListWidget* debugChipset();
+
+    static QPixmap tile(int tile_id, int _code = 0);
 
 private:
     static bool isWater(int tile_id);

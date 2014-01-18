@@ -170,7 +170,7 @@
    <property name="minimumSize">
     <size>
      <width>89</width>
-     <height>111</height>
+     <height>127</height>
     </size>
    </property>
    <property name="features">
@@ -188,7 +188,7 @@
       <number>0</number>
      </property>
      <property name="topMargin">
-      <number>0</number>
+      <number>34</number>
      </property>
      <property name="rightMargin">
       <number>0</number>
@@ -197,7 +197,7 @@
       <number>0</number>
      </property>
      <item row="0" column="0">
-      <widget class="QGraphicsView" name="graphicsView_2"/>
+      <widget class="QGraphicsView" name="graphicsPalete"/>
      </item>
     </layout>
    </widget>
