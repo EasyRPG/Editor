@@ -1,7 +1,7 @@
 #include "EasyRPGCore.h"
 #include <QApplication>
 #include <QPainter>
-#include <qdebug.h>
+
 //define static members
 QListWidget* EasyRPGCore::m_debugChipset = 0;
 GameProject* EasyRPGCore::m_currentProject = 0;
