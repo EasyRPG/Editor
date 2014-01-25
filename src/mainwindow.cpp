@@ -13,9 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
     const QString DEFAULT_DIR_KEY("default_dir");
     const QString CURRENT_PROJECT_KEY("current_project");
+    EasyRPGCore::Init();
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(0);
@@ -33,12 +33,13 @@ MainWindow::MainWindow(QWidget *parent) :
     if (l_project != QString() && info.exists())
         LoadProject(m_defDir+l_project+"/");
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
-    connect(this,SIGNAL(chipsetLoaded()),m_paleteScene,SLOT(onChipsetChange()));
     ui->graphicsPalete->setScene(m_paleteScene);
     /**  Test  **/
     EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis.png");
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();
+    QGraphicsScene *m_mapScene = new QGraphicsScene();
+    ui->graphicsView->setScene(m_mapScene);
     /** /Test  **/
     if (project())
         m_paleteScene->onLayerChange();

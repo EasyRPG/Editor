@@ -7,7 +7,7 @@
 #define project() EasyRPGCore::currentProject()
 #define projectPath() EasyRPGCore::currentProjectPath()
 
-#define chipsetIsNull() EasyRPGCore::tile(1,0).isNull()
+#define chipsetIsNull() EasyRPGCore::tile(0).isNull()
 
 /****************************
  *     Binding Constants    *
@@ -29,6 +29,8 @@
 #include <QListWidget>
 #include "gameproject.h"
 #include "gamemap.h"
+
+class GameMap;
 
 class EasyRPGCore
 {
@@ -61,6 +63,8 @@ public:
     };
 
     EasyRPGCore(){}
+
+    static void Init();
 
     static QString pathBackdrop();
     static QString pathBackdrop(QString fileName);
@@ -140,12 +144,19 @@ public:
 
     static QListWidget* debugChipset();
 
-    static QPixmap tile(int tile_id, int _code = 0);
+    static QPixmap tile(short tile_id);
+
+    static short translate(int terrain_id, int _code = 0, int _scode = 0);
+    static int translate(short tile_id);
 
 private:
-    static bool isWater(int tile_id);
-    static bool isABWater(int tile_id);
-    static bool isDWater(int tile_id);
+    static bool isWater(int terrain_id);
+    static bool isABWater(int terrain_id);
+    static bool isDWater(int terrain_id);
+    static bool isAnimation(int terrain_id);
+    static bool isDblock(int terrain_id);
+    static bool isEblock(int terrain_id);
+    static bool isFblock(int terrain_id);
 
     static QListWidget* m_debugChipset;
 
@@ -159,6 +170,7 @@ private:
     static Tool m_currentTool;
     static Zoom m_currentZoom;
     static QMap<int, QPixmap> m_currentChipset;
+    static QMap<int, short> m_dictionary;
 };
 
 #endif // EASYRPGCORE_H
