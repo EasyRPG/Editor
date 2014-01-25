@@ -25,10 +25,12 @@ void QGraphicsPaleteScene::onLayerChange()
     if (EasyRPGCore::currentLayer() == EasyRPGCore::LOWER)
     {
         m_tiles->setPixmap(m_lowerTiles);
+        this->setSceneRect(QRect(0,0,192,896));
     }
     else
     {
         m_tiles->setPixmap(m_upperTiles);
+        this->setSceneRect(QRect(0,0,192,800));
     }
 }
 
@@ -43,7 +45,7 @@ void QGraphicsPaleteScene::onChipsetChange()
     m_tiles->setVisible(true);
     m_selectionItem->setVisible(true);
     m_lowerTiles = QPixmap(192, 896);
-    m_upperTiles = QPixmap(192, 896);
+    m_upperTiles = QPixmap(192, 800);
     QPainter l(&m_lowerTiles);
     QPainter u(&m_upperTiles);
     l.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
@@ -53,7 +55,8 @@ void QGraphicsPaleteScene::onChipsetChange()
         int col =((terrain_id)%6)*32;
         int row = (terrain_id/6+1)*32;
         l.drawPixmap(col,row,32,32,EasyRPGCore::tile(EasyRPGCore::translate(terrain_id,15)));
-        u.drawPixmap(col,row,32,32,EasyRPGCore::tile(EasyRPGCore::translate(terrain_id)));
+        if (terrain_id < 144)
+            u.drawPixmap(col,row,32,32,EasyRPGCore::tile(EasyRPGCore::translate(terrain_id+162)));
     }
 }
 

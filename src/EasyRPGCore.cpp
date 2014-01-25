@@ -594,7 +594,7 @@ bool EasyRPGCore::isEblock(int terrain_id)
 
 bool EasyRPGCore::isFblock(int terrain_id)
 {
-    if (terrain_id >= 162 && terrain_id <= 323)
+    if (terrain_id >= 162 && terrain_id <= 305)
         return true;
     else
         return false;
@@ -649,7 +649,7 @@ int EasyRPGCore::translate(short tile_id)
         return (tile_id-4000)/50;
     else if (tile_id >= 5000 && tile_id < 5162)
         return tile_id-5000+18;
-    else if (tile_id >= 10000 && tile_id < 10162)
+    else if (tile_id >= 10000 && tile_id < 10144)
         return tile_id-10000+161;
     else
         return -1;
