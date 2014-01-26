@@ -6,7 +6,7 @@
 QListWidget* EasyRPGCore::m_debugChipset = 0;
 GameProject* EasyRPGCore::m_currentProject = 0;
 GameMap* EasyRPGCore::m_currentMap = 0;
-int EasyRPGCore::m_tileSize = 16;
+int EasyRPGCore::m_tileSize = 48;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
 EasyRPGCore::Layer EasyRPGCore::m_currentLayer = EasyRPGCore::LOWER;
@@ -81,12 +81,15 @@ void EasyRPGCore::setCurrentProject(GameProject *current_project)
 void EasyRPGCore::LoadChipset(QString n_chipset)
 {
     QPixmap *o_chipset = new QPixmap(n_chipset);
-    if (o_chipset->isNull() ||
-        o_chipset->size()!=QSize(480*tileSize()/16,256*tileSize()/16))
+    if (o_chipset->isNull())
     {
         delete o_chipset;
         return;
     }
+
+    int r_tileSize = o_chipset->width()/30;
+    int r_tileHalf = r_tileSize/2;
+
     /** BindWaterTiles **/
     m_currentChipset = QMap<int,QPixmap>();
     if (m_debugChipset)
@@ -166,112 +169,104 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             continue;
         // Water B uses second block of 3x4 tiles for borders
         // Water A and Deep Water uses first block
-        int border_xoffset = (terrain_id == 1) ? 3*tileSize() : 0;
+        int border_xoffset = (terrain_id == 1) ? 3*r_tileSize : 0;
         /*
          * Get base
          */
         QPixmap p_tile(tileSize(), tileSize());
         QPainter p(&p_tile);
         if (isABWater (terrain_id))
-            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 4*tileSize(),tileSize(),tileSize()));
+            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 4*r_tileSize,r_tileSize,r_tileSize));
         else
-            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 7*tileSize(),tileSize(),tileSize()));
+            p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 7*r_tileSize,r_tileSize,r_tileSize));
         // Draw UpperLeft corner
-        int corner = u+l+ul+sul, dest_x = 0, dest_y = 0;
-        if (corner > 0)
+        int dest_x = 0, dest_y = 0;
+#define blit(x,y) p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(x, y,r_tileHalf,r_tileHalf))
+        if (u+l == 5)
+            blit(border_xoffset, 0);
+        else if (u)
+            blit(border_xoffset, 2*r_tileSize);
+        else if (l)
+            blit(border_xoffset, r_tileSize);
+        else if (ul)
+            blit(border_xoffset, 3*r_tileSize);
+        else if (sul)
         {
-            if (corner == 1)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 32*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 4)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 16*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 5)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 0*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 16)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 48*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 21)
-            {
-                if (isABWater (terrain_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 80*tileSize()/16,tileSize()/2,tileSize()/2));
-                else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 96*tileSize()/16,tileSize()/2,tileSize()/2));
-            }
+            if (isABWater (terrain_id))
+                blit(0, 5*r_tileSize);
+            else
+                blit(0, 6*r_tileSize);
         }
         //Draw UpperRight corner
-        corner = u+r+ur+sur;
         dest_x = tileSize()/2;
-        if (corner > 0)
+        if (u+r == 9)
+            blit(border_xoffset+r_tileHalf, 0);
+        else if (u)
+            blit(border_xoffset+r_tileHalf, 2*r_tileSize);
+        else if (r)
+            blit(border_xoffset+r_tileHalf, r_tileSize);
+        else if (ur)
+            blit(border_xoffset+r_tileHalf, 3*r_tileSize);
+        else if (sur)
         {
-            if (corner == 1)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 32*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 8)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 16*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 9)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 0*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 32)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 48*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 41)
-            {
-                if (isABWater (terrain_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 80*tileSize()/16,tileSize()/2,tileSize()/2));
-                else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 96*tileSize()/16,tileSize()/2,tileSize()/2));
-            }
+            if (isABWater (terrain_id))
+                blit(r_tileHalf, 5*r_tileSize);
+            else
+                blit(r_tileHalf, 6*r_tileSize);
         }
         //Draw LowerRight corner
-        corner = d+r+dr+sdr;
         dest_y = tileSize()/2;
-        if (corner > 0)
+        if (d+r == 10)
+            blit(border_xoffset+r_tileHalf, 0.5*r_tileSize);
+        else if (d)
+            blit(border_xoffset+r_tileHalf, 2.5*r_tileSize);
+        else if (r)
+            blit(border_xoffset+r_tileHalf, 1.5*r_tileSize);
+        else if (dr)
+            blit(border_xoffset+r_tileHalf, 3.5*r_tileSize);
+        else if (sdr)
         {
-            if (corner == 2)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 40*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 8)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 24*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 10)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 8*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 128)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset+tileSize()/2, 56*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 138)
-            {
-                if (isABWater (terrain_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 88*tileSize()/16,tileSize()/2,tileSize()/2));
-                else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(tileSize()/2, 104*tileSize()/16,tileSize()/2,tileSize()/2));
-            }
+            if (isABWater (terrain_id))
+                blit(tileSize()/2, 5.5*r_tileSize);
+            else
+                blit(tileSize()/2, 6.5*r_tileSize);
         }
         //Draw LowerLeft corner
-        corner = d+l+dl+sdl;
         dest_x = 0;
-        if (corner > 0)
+        if (d+l == 6)
+            blit(border_xoffset, 0.5*r_tileSize);
+        else if (d)
+            blit(border_xoffset, 2.5*r_tileSize);
+        else if (l)
+            blit(border_xoffset, 1.5*r_tileSize);
+        else if (dl)
+            blit(border_xoffset, 3.5*r_tileSize);
+        else if (sdl)
         {
-            if (corner == 2)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 40*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 4)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 24*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 6)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 8*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 64)
-                p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(border_xoffset, 56*tileSize()/16,tileSize()/2,tileSize()/2));
-            if (corner == 70)
-            {
-                if (isABWater (terrain_id))
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 88*tileSize()/16,tileSize()/2,tileSize()/2));
-                else
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(0, 104*tileSize()/16,tileSize()/2,tileSize()/2));
-            }
+            if (isABWater (terrain_id))
+                blit(0, 5.5*r_tileSize);
+            else
+                blit(0, 6.5*r_tileSize);
         }
+#undef blit
         m_currentChipset[id] = p_tile;
         m_debugChipset->addItem(QString::number(id));
         m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[id]));
     }
 
     /** Register AnimationTiles **/
-    m_currentChipset[3000] = o_chipset->copy(3*tileSize(),4*tileSize(),tileSize(),tileSize());
+    QPixmap a_tile(tileSize(), tileSize());
+    QPainter a(&a_tile);
+    a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
+    m_currentChipset[3000] = a_tile;
     m_debugChipset->addItem("3000");
     m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[3000]));
-    m_currentChipset[3050] = o_chipset->copy(4*tileSize(),4*tileSize(),tileSize(),tileSize());
+    a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
+    m_currentChipset[3050] = a_tile;
     m_debugChipset->addItem("3050");
     m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[3050]));
-    m_currentChipset[3100] = o_chipset->copy(5*tileSize(),4*tileSize(),tileSize(),tileSize());
+    a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
+    m_currentChipset[3100] = a_tile;
     m_debugChipset->addItem("3100");
     m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[3100]));
 
