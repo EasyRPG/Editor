@@ -24,7 +24,6 @@ SOURCES += src/mainwindow.cpp \
     src/dialogopenproject.cpp \
     src/EasyRPGCore.cpp \
     src/gamemap.cpp \
-    src/gamemap.cpp \
     src/musicplayer.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp

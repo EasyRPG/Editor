@@ -41,7 +41,7 @@ private slots:
     void on_action_Close_Project_triggered();
 
     void on_action_Open_Project_triggered();
-    void on_actionJukebox_triggered(int type=0);
+    void on_actionJukebox_triggered(bool disconnect = false);
 
 
     void on_actionChipset_triggered();

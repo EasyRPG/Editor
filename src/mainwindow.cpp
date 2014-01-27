@@ -97,7 +97,7 @@ void MainWindow::LoadProject(QString p_path)
 
 void MainWindow::on_action_Quit_triggered()
 {
-    this->on_actionJukebox_triggered(1);
+    this->on_actionJukebox_triggered(true);
     qApp->quit();
 }
 
@@ -295,15 +295,16 @@ void MainWindow::on_action_Open_Project_triggered()
     m_defDir = dlg.getDefDir();
 }
 
-void MainWindow::on_actionJukebox_triggered(int type)
+void MainWindow::on_actionJukebox_triggered(bool disconnect)
 {
       static MusicPlayer player;
-    if (type==1)
+    if (disconnect)
     {
         player.disconnect();
        player.deleteLater();
        player.close();
-    }else
+    }
+    else
     {
         associateFileTypes(QStringList(".wav,.mp3,.midi"));
         if(!player.isHidden())
