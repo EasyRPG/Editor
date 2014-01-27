@@ -283,9 +283,9 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
 
     while (tileset_col < 2)
     {
-        int orig_x = (2 * tileset_col + block_col) *3*tileSize();
-        int orig_y = block_row *4*tileSize();
-        QPixmap p_block = o_chipset->copy(orig_x, orig_y, 3*tileSize(), 4*tileSize());
+        int orig_x = (2 * tileset_col + block_col) *3*r_tileSize;
+        int orig_y = block_row *4*r_tileSize;
+        QPixmap p_block = o_chipset->copy(orig_x, orig_y, 3*r_tileSize, 4*r_tileSize);
 
         /**
          * Generate binded cache and store them on hash table
@@ -332,74 +332,103 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
              */
             QPixmap p_tile(tileSize(), tileSize());
             QPainter p(&p_tile);
-            p.drawPixmap(0,0,tileSize(),tileSize(), p_block.copy(tileSize(), tileSize()*2,tileSize(),tileSize()));
 
             /*
              * Draw upper_left corner
              */
             int dest_x = 0;
             int dest_y = 0;
-            if ((u + l + ul) != 0)
+#define blit(x,y) p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(x, y,r_tileHalf,r_tileHalf))
+            if (u+l == 5)
+                blit(0,r_tileSize);
+            else if (u)
+                blit(r_tileSize, r_tileSize);
+            else if (l)
+                blit(0, r_tileSize*2);
+            else if (ul)
+                blit(r_tileSize*2, 0);
+            else //0
             {
-                if (u + l + ul == 1)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize(), tileSize(),tileSize()/2,tileSize()/2));
-                if (u + l + ul == 4)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(0, tileSize()*2,tileSize()/2,tileSize()/2));
-                if (u + l + ul == 5)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(0, tileSize(),tileSize()/2,tileSize()/2));
-                if (u + l + ul == 16)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2, 0,tileSize()/2,tileSize()/2));
+                if (d+r == 10)
+                    blit(r_tileSize*2,r_tileSize*3);
+                else if (r)
+                    blit(r_tileSize*2,r_tileSize*2);
+                else if (d)
+                    blit(r_tileSize*1,r_tileSize*3);
+                else
+                    blit(r_tileSize*1,r_tileSize*2);
             }
-
             /*
              * Draw upper_right corner
              */
             dest_x = tileSize()/2;
-            if (u + r + ur > 0)
+            if (u+r == 9)
+                blit(r_tileSize*2.5, r_tileSize);
+            else if (u)
+                blit(r_tileSize*1.5, r_tileSize);
+            else if (r)
+                blit(r_tileSize*2.5, r_tileSize*2);
+            else if (ur)
+                blit(r_tileSize*2.5, 0);
+            else //0
             {
-                if (u + r + ur == 1)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*1.5, tileSize(),tileSize()/2,tileSize()/2));
-                if (u + r + ur == 8)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*2,tileSize()/2,tileSize()/2));
-                if (u + r + ur == 9)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize(),tileSize()/2,tileSize()/2));
-                if (u + r + ur == 32)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, 0,tileSize()/2,tileSize()/2));
+                if (d+l == 6)
+                    blit(r_tileSize*0.5,r_tileSize*3);
+                else if (l)
+                    blit(r_tileSize*0.5,r_tileSize*2);
+                else if (d)
+                    blit(r_tileSize*1.5,r_tileSize*3);
+                else
+                    blit(r_tileSize*1.5,r_tileSize*2);
             }
-
             /*
              * Draw down_left corner
              */
             dest_x = 0;
             dest_y = tileSize()/2;
-            if (d + l + dl > 0)
+            if (d+l == 6)
+                blit(0, r_tileSize*3.5);
+            else if (d)
+                blit(r_tileSize, r_tileSize*3.5);
+            else if (l)
+                blit(0, r_tileSize*2.5);
+            else if (dl)
+                blit(r_tileSize*2, r_tileHalf);
+            else
             {
-                if (d + l + dl == 2)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize(), tileSize()*3.5,tileSize()/2,tileSize()/2));
-                if (d + l + dl == 4)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(0, tileSize()*2.5,tileSize()/2,tileSize()/2));
-                if (d + l + dl == 6)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(0, tileSize()*3.5,tileSize()/2,tileSize()/2));
-                if (d + l + dl == 64)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2, tileSize()/2,tileSize()/2,tileSize()/2));
+                if (u+r == 9)
+                    blit(r_tileSize*2,r_tileSize*1.5);
+                else if (r)
+                    blit(r_tileSize*2,r_tileSize*2.5);
+                else if (u)
+                    blit(r_tileSize,r_tileSize*1.5);
+                else
+                    blit(r_tileSize,r_tileSize*2.5);
             }
-
             /*
              * Draw down_right corner
              */
             dest_x = tileSize()/2;
-            if (d + r + dr > 0)
+            if (d+r == 10)
+                blit(r_tileSize*2.5, r_tileSize*3.5);
+            else if (d)
+                blit(r_tileSize*1.5, r_tileSize*3.5);
+            else if (r)
+                blit(r_tileSize*2.5, r_tileSize*2.5);
+            else if (dr)
+                blit(r_tileSize*2.5, r_tileHalf);
+            else //0
             {
-                if (d + r + dr == 2)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*1.5, tileSize()*3.5,tileSize()/2,tileSize()/2));
-                if (d + r + dr == 8)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*2.5,tileSize()/2,tileSize()/2));
-                if (d + r + dr == 10)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()*3.5,tileSize()/2,tileSize()/2));
-                if (d + r + dr == 128)
-                    p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(tileSize()*2.5, tileSize()/2,tileSize()/2,tileSize()/2));
+                if (u+l == 5)
+                    blit(r_tileHalf,r_tileSize*1.5);
+                else if (l)
+                    blit(r_tileHalf,r_tileSize*2.5);
+                else if (u)
+                    blit(r_tileSize*1.5,r_tileSize*1.5);
+                else
+                    blit(r_tileSize*1.5,r_tileSize*2.5);
             }
-
+#undef blit
             /*
              * Register tile
              */
@@ -429,9 +458,10 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
     {
         for (int col = 0; col < 6; col++)
         {
-            int orig_x = tileset_col*6*tileSize()+col*tileSize();
-            int orig_y = tile_row*tileSize();
-            m_currentChipset[translate(terrain_id)] = o_chipset->copy(orig_x,orig_y,tileSize(),tileSize());
+            int orig_x = tileset_col*6*r_tileSize+col*r_tileSize;
+            int orig_y = tile_row*r_tileSize;
+            a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(orig_x,orig_y,r_tileSize,r_tileSize));
+            m_currentChipset[translate(terrain_id)] = a_tile;
             m_debugChipset->addItem(QString::number(translate(terrain_id)));
             m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[translate(terrain_id)]));
             terrain_id++;
