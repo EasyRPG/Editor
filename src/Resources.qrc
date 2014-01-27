@@ -40,4 +40,7 @@
         <file>share/old_moveup.png</file>
         <file>share/old_edit.png</file>
     </qresource>
+    <qresource prefix="/embedded">
+        <file>share/eraser.png</file>
+    </qresource>
 </RCC>

@@ -43,6 +43,9 @@
 
 #include <QtWidgets>
 #include <QtWinExtras>
+#include <QWidget>
+#include <QMediaPlayer>
+
 
 MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
     taskbarButton(0), taskbarProgress(0), thumbnailToolBar(0),

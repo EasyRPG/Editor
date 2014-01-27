@@ -47,11 +47,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    /**  Test  **/
-    EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis.png");
-    /** /Test  **/
     const QString DEFAULT_DIR_KEY("default_dir");
     const QString CURRENT_PROJECT_KEY("current_project");
+    EasyRPGCore::Init();
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(0);
@@ -68,6 +66,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QFileInfo info(m_defDir+l_project+"/project.erp");
     if (l_project != QString() && info.exists())
         LoadProject(m_defDir+l_project+"/");
+    m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
+    ui->graphicsPalete->setScene(m_paleteScene);
+    /**  Test  **/
+    EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis.png");
+    m_paleteScene->onChipsetChange();
+    m_paleteScene->onLayerChange();
+    QGraphicsScene *m_mapScene = new QGraphicsScene();
+    ui->graphicsView->setScene(m_mapScene);
+    /** /Test  **/
+    if (project())
+        m_paleteScene->onLayerChange();
 }
 
 MainWindow::~MainWindow()
@@ -311,4 +320,31 @@ void MainWindow::on_actionChipset_triggered()
     if (!EasyRPGCore::debugChipset())
         return;
     EasyRPGCore::debugChipset()->show();
+}
+
+void MainWindow::on_action_Lower_Layer_triggered()
+{
+    ui->action_Lower_Layer->setChecked(true);
+    ui->action_Upper_Layer->setChecked(false);
+    ui->action_Events->setChecked(false);
+    EasyRPGCore::setCurrentLayer(EasyRPGCore::LOWER);
+    m_paleteScene->onLayerChange();
+}
+
+void MainWindow::on_action_Upper_Layer_triggered()
+{
+    ui->action_Lower_Layer->setChecked(false);
+    ui->action_Upper_Layer->setChecked(true);
+    ui->action_Events->setChecked(false);
+    EasyRPGCore::setCurrentLayer(EasyRPGCore::UPPER);
+    m_paleteScene->onLayerChange();
+}
+
+void MainWindow::on_action_Events_triggered()
+{
+    ui->action_Lower_Layer->setChecked(false);
+    ui->action_Upper_Layer->setChecked(false);
+    ui->action_Events->setChecked(true);
+    EasyRPGCore::setCurrentLayer(EasyRPGCore::EVENT);
+    m_paleteScene->onLayerChange();
 }

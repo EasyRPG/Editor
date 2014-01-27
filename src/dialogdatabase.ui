@@ -48,7 +48,7 @@
        <item>
         <widget class="QTabWidget" name="tabOld_Pages">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tabOld_Character">
           <attribute name="title">

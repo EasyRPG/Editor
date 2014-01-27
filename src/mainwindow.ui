@@ -169,8 +169,8 @@
   <widget class="QDockWidget" name="dockPalete">
    <property name="minimumSize">
     <size>
-     <width>60</width>
-     <height>60</height>
+     <width>89</width>
+     <height>127</height>
     </size>
    </property>
    <property name="features">
@@ -182,7 +182,25 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents"/>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>34</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QGraphicsView" name="graphicsPalete"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="dockMapTree">
    <property name="features">

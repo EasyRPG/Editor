@@ -6,6 +6,8 @@
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
 #include "gameproject.h"
+#include "tools/QGraphicsPaleteScene.h"
+#include "musicplayer.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +46,12 @@ private slots:
 
     void on_actionChipset_triggered();
 
+    void on_action_Lower_Layer_triggered();
+
+    void on_action_Upper_Layer_triggered();
+
+    void on_action_Events_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);
@@ -53,6 +61,7 @@ private:
     DialogDataBase *dlg_db;
     QSettings m_settings;
     QString m_defDir;
+    QGraphicsPaleteScene *m_paleteScene;
 };
 
 #endif // MAINWINDOW_H
