@@ -682,22 +682,22 @@ int EasyRPGCore::translate(short tile_id)
 
 int EasyRPGCore::currentMapHeight()
 {
-    return (m_currentMap) ? m_currentMap->height() : 0;
+    return (m_currentMap) ? m_currentMap->m_h : 0;
 }
 
 void EasyRPGCore::setCurrentMapHeight(int currentMapHeight)
 {
-    setCurrentMapSize(m_currentMap->width(), currentMapHeight);
+    setCurrentMapSize(m_currentMap->m_w, currentMapHeight);
 }
 
 int EasyRPGCore::currentMapWidth()
 {
-    return (m_currentMap) ? m_currentMap->width() : 0;
+    return (m_currentMap) ? m_currentMap->m_w : 0;
 }
 
 void EasyRPGCore::setCurrentMapWidth(int currentMapWidth)
 {
-    setCurrentMapSize(currentMapWidth, m_currentMap->height());
+    setCurrentMapSize(currentMapWidth, m_currentMap->m_h);
 }
 
 

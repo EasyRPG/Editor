@@ -9,15 +9,6 @@
 #include <QDir>
 #include "EasyRPGCore.h"
 
-#include <QApplication>
-#include <QFileInfo>
-#include <QSettings>
-#include <QIcon>
-#include <QDir>
-
-#include "musicplayer.h"
-
-
 static void associateFileTypes(const QStringList &fileTypes)
 {
     QString displayName = QGuiApplication::applicationDisplayName();
@@ -74,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_paleteScene->onLayerChange();
     QGraphicsScene *m_mapScene = new QGraphicsScene();
     ui->graphicsView->setScene(m_mapScene);
+    m_mapWidget = new QGraphicsMapWidget();
+    m_mapScene->addItem(m_mapWidget);
     /** /Test  **/
     if (project())
         m_paleteScene->onLayerChange();

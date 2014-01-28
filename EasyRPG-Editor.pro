@@ -26,7 +26,9 @@ SOURCES += src/mainwindow.cpp \
     src/gamemap.cpp \
     src/musicplayer.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
-    src/volumebutton.cpp
+    src/volumebutton.cpp \
+    src/tools/QGraphicsLayoutTileItem.cpp \
+    src/tools/QGraphicsMapWidget.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -43,7 +45,9 @@ HEADERS  += src/mainwindow.h \
     src/gamemap.h \
     src/musicplayer.h \
     src/tools/QGraphicsPaleteScene.h \
-    src/volumebutton.h
+    src/volumebutton.h \
+    src/tools/QGraphicsLayoutTileItem.h \
+    src/tools/QGraphicsMapWidget.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
