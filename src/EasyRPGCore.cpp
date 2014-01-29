@@ -5,7 +5,7 @@
 //define static members
 QListWidget* EasyRPGCore::m_debugChipset = 0;
 GameProject* EasyRPGCore::m_currentProject = 0;
-GameMap* EasyRPGCore::m_currentMap = 0;
+RPG::Map* EasyRPGCore::m_currentMap = 0;
 int EasyRPGCore::m_tileSize = 48;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
@@ -562,13 +562,6 @@ void EasyRPGCore::setCurrentGameTitle(const QString &currentGameTitle)
     m_currentGameTitle = currentGameTitle;
 }
 
-void EasyRPGCore::setCurrentMapSize(int w, int h)
-{
-    if (!m_currentMap)
-        return;
-    m_currentMap->setSize(w,h);
-}
-
 bool EasyRPGCore::isWater(int terrain_id)
 {
     if (terrain_id >= 0 && terrain_id <= 2)
@@ -625,12 +618,12 @@ bool EasyRPGCore::isFblock(int terrain_id)
         return false;
 }
 
-GameMap *EasyRPGCore::currentMap()
+RPG::Map *EasyRPGCore::currentMap()
 {
     return m_currentMap;
 }
 
-void EasyRPGCore::setCurrentMap(GameMap *currentMap)
+void EasyRPGCore::setCurrentMap(RPG::Map *currentMap)
 {
     m_currentMap = currentMap;
 }
@@ -648,7 +641,7 @@ QPixmap EasyRPGCore::tile(short tile_id)
 short EasyRPGCore::translate(int terrain_id, int _code, int _scode)
 {
     if (terrain_id < 0)
-        return 0xFFFF;
+        return 0x7FFF;
     if (isWater(terrain_id))
         return (terrain_id*1000+m_dictionary[_code]+m_dictionary[_scode]*50);
     if (isAnimation(terrain_id))
@@ -659,7 +652,7 @@ short EasyRPGCore::translate(int terrain_id, int _code, int _scode)
         return (5000+terrain_id-18);
     if (isFblock(terrain_id))
         return (10000+terrain_id-161);
-    return 0xFFFF;
+    return 0x7FFF;
 }
 
 int EasyRPGCore::translate(short tile_id)
@@ -682,24 +675,13 @@ int EasyRPGCore::translate(short tile_id)
 
 int EasyRPGCore::currentMapHeight()
 {
-    return (m_currentMap) ? m_currentMap->m_h : 0;
-}
-
-void EasyRPGCore::setCurrentMapHeight(int currentMapHeight)
-{
-    setCurrentMapSize(m_currentMap->m_w, currentMapHeight);
+    return (m_currentMap) ? m_currentMap->height : 0;
 }
 
 int EasyRPGCore::currentMapWidth()
 {
-    return (m_currentMap) ? m_currentMap->m_w : 0;
+    return (m_currentMap) ? m_currentMap->width : 0;
 }
-
-void EasyRPGCore::setCurrentMapWidth(int currentMapWidth)
-{
-    setCurrentMapSize(currentMapWidth, m_currentMap->m_h);
-}
-
 
 QString EasyRPGCore::pathTitle() {return m_currentProjectPath+"Title/";}
 QString EasyRPGCore::pathSystem2() {return m_currentProjectPath+"System2/";}

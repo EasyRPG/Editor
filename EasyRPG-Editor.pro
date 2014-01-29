@@ -23,7 +23,6 @@ SOURCES += src/mainwindow.cpp \
     src/gamecharacter.cpp \
     src/dialogopenproject.cpp \
     src/EasyRPGCore.cpp \
-    src/gamemap.cpp \
     src/musicplayer.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp \
@@ -186,7 +185,6 @@ HEADERS  += src/mainwindow.h \
     src/tools/picojson.h \
     src/dialogopenproject.h \
     src/EasyRPGCore.h \
-    src/gamemap.h \
     src/musicplayer.h \
     src/tools/QGraphicsPaleteScene.h \
     src/volumebutton.h \

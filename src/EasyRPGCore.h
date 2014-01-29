@@ -20,15 +20,11 @@
 #define UPRIGHT  32
 #define DOWNLEFT  64
 #define DOWNRIGHT  128
-#define SUPLEFT  21
-#define SUPRIGHT  41
-#define SDOWNLEFT  70
-#define SDOWNRIGHT  138
 
 #include <QPixmap>
 #include <QListWidget>
 #include "gameproject.h"
-#include "gamemap.h"
+#include "rpg_map.h"
 
 class GameMap;
 
@@ -132,15 +128,11 @@ public:
     static void setCurrentGameTitle(const QString &currentGameTitle);
 
     static int currentMapWidth();
-    static void setCurrentMapWidth(int currentMapWidth);
 
     static int currentMapHeight();
-    static void setCurrentMapHeight(int currentMapHeight);
 
-    static void setCurrentMapSize(int w, int h);
-
-    static GameMap *currentMap();
-    static void setCurrentMap(GameMap *currentMap);
+    static RPG::Map *currentMap();
+    static void setCurrentMap(RPG::Map *currentMap);
 
     static QListWidget* debugChipset();
 
@@ -161,7 +153,7 @@ private:
     static QListWidget* m_debugChipset;
 
     static GameProject* m_currentProject;
-    static GameMap* m_currentMap;
+    static RPG::Map* m_currentMap;
     static int m_tileSize;
     static QString m_currentGameTitle;
     static QString m_currentProjectPath;
