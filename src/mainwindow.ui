@@ -112,6 +112,7 @@
      <string>Debug</string>
     </property>
     <addaction name="actionChipset"/>
+    <addaction name="actionOpen_LMU"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -743,6 +744,15 @@
    </property>
    <property name="text">
     <string>Chipset</string>
+   </property>
+  </action>
+  <action name="actionOpen_LMU">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_map.png</normaloff>:/icons/share/old_map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open LMU</string>
    </property>
   </action>
  </widget>

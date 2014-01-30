@@ -131,8 +131,8 @@ public:
 
     static int currentMapHeight();
 
-    static RPG::Map *currentMap();
-    static void setCurrentMap(RPG::Map *currentMap);
+    static std::auto_ptr<RPG::Map> currentMap();
+    static void setCurrentMap(std::auto_ptr<RPG::Map> currentMap);
 
     static QListWidget* debugChipset();
 
@@ -153,7 +153,7 @@ private:
     static QListWidget* m_debugChipset;
 
     static GameProject* m_currentProject;
-    static RPG::Map* m_currentMap;
+    static std::auto_ptr<RPG::Map> m_currentMap;
     static int m_tileSize;
     static QString m_currentGameTitle;
     static QString m_currentProjectPath;

@@ -19,7 +19,7 @@ public slots:
 private:
 
     QGraphicsGridLayout *m_layout;
-    QVector<QGraphicsLayoutTileItem> m_tiles;
+    QVector<QGraphicsLayoutTileItem*> m_tiles;
 };
 
 #endif // QGRAPHICSMAPWIDGET_H

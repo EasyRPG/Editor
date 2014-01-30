@@ -5,9 +5,12 @@
 #include <QToolBar>
 #include <QApplication>
 #include <QFileInfo>
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
 #include "EasyRPGCore.h"
+#include "lmu_reader.h"
+#include "rpg_map.h"
 
 static void associateFileTypes(const QStringList &fileTypes)
 {
@@ -341,4 +344,15 @@ void MainWindow::on_action_Events_triggered()
     ui->action_Events->setChecked(true);
     EasyRPGCore::setCurrentLayer(EasyRPGCore::EVENT);
     m_paleteScene->onLayerChange();
+}
+
+void MainWindow::on_actionOpen_LMU_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    "Open RPG Maker map",
+                                                    QString(),
+                                                    "LMU file (*.lmu)");
+    std::auto_ptr<RPG::Map> map = LMU_Reader::Load(fileName.toStdString());
+    EasyRPGCore::setCurrentMap(map);
+    m_mapWidget->onMapChange();
 }

@@ -53,6 +53,8 @@ private slots:
 
     void on_action_Events_triggered();
 
+    void on_actionOpen_LMU_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);
