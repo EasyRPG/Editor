@@ -5,6 +5,8 @@ QGraphicsMapWidget::QGraphicsMapWidget(QGraphicsItem *parent) :
     QGraphicsWidget(parent)
 {
     m_layout = new QGraphicsGridLayout();
+    m_layout->setHorizontalSpacing(0.0);
+    m_layout->setVerticalSpacing(0.0);
     setLayout(m_layout);
     m_layout->setGeometry(geometry());
 }
@@ -25,8 +27,8 @@ void QGraphicsMapWidget::onMapChange()
         {
             QGraphicsLayoutTileItem *item = new QGraphicsLayoutTileItem(this);
             item->setPixmaps(EasyRPGCore::tile(map.get()->lower_layer[x+y*w]),
-                             EasyRPGCore::tile(map.get()->upper_layer[x+y*w]),
-                             QPixmap());
+                    EasyRPGCore::tile(map.get()->upper_layer[x+y*w]),
+                    QPixmap());
             item->setGeometry(QRectF(x*EasyRPGCore::tileSize(),
                                      y*EasyRPGCore::tileSize(),
                                      EasyRPGCore::tileSize(),
