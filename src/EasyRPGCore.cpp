@@ -340,23 +340,33 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             int dest_y = 0;
 #define blit(x,y) p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(x, y,r_tileHalf,r_tileHalf))
             if (u+l == 5)
-                blit(0,r_tileSize);
+                blit(0, r_tileSize);
             else if (u)
-                blit(r_tileSize, r_tileSize);
+            {
+                if (r)
+                    blit(r_tileSize*2, r_tileSize);
+                else
+                    blit(r_tileSize, r_tileSize);
+            }
             else if (l)
-                blit(0, r_tileSize*2);
+            {
+                if (d)
+                    blit(0, r_tileSize*3);
+                else
+                    blit(0, r_tileSize*2);
+            }
             else if (ul)
                 blit(r_tileSize*2, 0);
             else //0
             {
                 if (d+r == 10)
-                    blit(r_tileSize*2,r_tileSize*3);
+                    blit(r_tileSize*2, r_tileSize*3);
                 else if (r)
-                    blit(r_tileSize*2,r_tileSize*2);
+                    blit(r_tileSize*2, r_tileSize*2);
                 else if (d)
-                    blit(r_tileSize*1,r_tileSize*3);
+                    blit(r_tileSize*1, r_tileSize*3);
                 else
-                    blit(r_tileSize*1,r_tileSize*2);
+                    blit(r_tileSize*1, r_tileSize*2);
             }
             /*
              * Draw upper_right corner
@@ -365,21 +375,31 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             if (u+r == 9)
                 blit(r_tileSize*2.5, r_tileSize);
             else if (u)
-                blit(r_tileSize*1.5, r_tileSize);
+            {
+                if(l)
+                    blit(r_tileSize*0.5, r_tileSize);
+                else
+                    blit(r_tileSize*1.5, r_tileSize);
+            }
             else if (r)
-                blit(r_tileSize*2.5, r_tileSize*2);
+            {
+                if (d)
+                    blit(r_tileSize*2.5, r_tileSize*3);
+                else
+                    blit(r_tileSize*2.5, r_tileSize*2);
+            }
             else if (ur)
                 blit(r_tileSize*2.5, 0);
             else //0
             {
                 if (d+l == 6)
-                    blit(r_tileSize*0.5,r_tileSize*3);
+                    blit(r_tileSize*0.5, r_tileSize*3);
                 else if (l)
-                    blit(r_tileSize*0.5,r_tileSize*2);
+                    blit(r_tileSize*0.5, r_tileSize*2);
                 else if (d)
-                    blit(r_tileSize*1.5,r_tileSize*3);
+                    blit(r_tileSize*1.5, r_tileSize*3);
                 else
-                    blit(r_tileSize*1.5,r_tileSize*2);
+                    blit(r_tileSize*1.5, r_tileSize*2);
             }
             /*
              * Draw down_left corner
@@ -389,21 +409,31 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             if (d+l == 6)
                 blit(0, r_tileSize*3.5);
             else if (d)
-                blit(r_tileSize, r_tileSize*3.5);
+            {
+                if (r)
+                    blit(r_tileSize*2, r_tileSize*3.5);
+                else
+                    blit(r_tileSize, r_tileSize*3.5);
+            }
             else if (l)
-                blit(0, r_tileSize*2.5);
+            {
+                if (u)
+                    blit(0, r_tileSize*1.5);
+                else
+                    blit(0, r_tileSize*2.5);
+            }
             else if (dl)
                 blit(r_tileSize*2, r_tileHalf);
             else
             {
                 if (u+r == 9)
-                    blit(r_tileSize*2,r_tileSize*1.5);
+                    blit(r_tileSize*2, r_tileSize*1.5);
                 else if (r)
-                    blit(r_tileSize*2,r_tileSize*2.5);
+                    blit(r_tileSize*2, r_tileSize*2.5);
                 else if (u)
-                    blit(r_tileSize,r_tileSize*1.5);
+                    blit(r_tileSize, r_tileSize*1.5);
                 else
-                    blit(r_tileSize,r_tileSize*2.5);
+                    blit(r_tileSize, r_tileSize*2.5);
             }
             /*
              * Draw down_right corner
@@ -412,9 +442,19 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             if (d+r == 10)
                 blit(r_tileSize*2.5, r_tileSize*3.5);
             else if (d)
-                blit(r_tileSize*1.5, r_tileSize*3.5);
+            {
+                if (l)
+                    blit(r_tileSize*0.5, r_tileSize*3.5);
+                else
+                    blit(r_tileSize*1.5, r_tileSize*3.5);
+            }
             else if (r)
-                blit(r_tileSize*2.5, r_tileSize*2.5);
+            {
+                if (u)
+                    blit(r_tileSize*2.5, r_tileSize*1.5);
+                else
+                    blit(r_tileSize*2.5, r_tileSize*2.5);
+            }
             else if (dr)
                 blit(r_tileSize*2.5, r_tileHalf);
             else //0

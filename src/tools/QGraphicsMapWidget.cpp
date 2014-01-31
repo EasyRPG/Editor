@@ -27,8 +27,8 @@ void QGraphicsMapWidget::onMapChange()
         {
             QGraphicsLayoutTileItem *item = new QGraphicsLayoutTileItem(this);
             item->setPixmaps(EasyRPGCore::tile(map.get()->lower_layer[x+y*w]),
-                    EasyRPGCore::tile(map.get()->upper_layer[x+y*w]),
-                    QPixmap());
+                                               EasyRPGCore::tile(map.get()->upper_layer[x+y*w]),
+                                               QPixmap());
             item->setGeometry(QRectF(x*EasyRPGCore::tileSize(),
                                      y*EasyRPGCore::tileSize(),
                                      EasyRPGCore::tileSize(),
