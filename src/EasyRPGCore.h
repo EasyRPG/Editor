@@ -6,6 +6,7 @@
  * **************************/
 #define project() EasyRPGCore::currentProject()
 #define projectPath() EasyRPGCore::currentProjectPath()
+#define _map() EasyRPGCore::currentMap()
 
 #define chipsetIsNull() EasyRPGCore::tile(0).isNull()
 
@@ -131,8 +132,8 @@ public:
 
     static int currentMapHeight();
 
-    static std::auto_ptr<RPG::Map> currentMap();
-    static void setCurrentMap(std::auto_ptr<RPG::Map> currentMap);
+    static RPG::Map *currentMap();
+    static void setCurrentMap(RPG::Map *currentMap);
 
     static QListWidget* debugChipset();
 
@@ -153,7 +154,7 @@ private:
     static QListWidget* m_debugChipset;
 
     static GameProject* m_currentProject;
-    static std::auto_ptr<RPG::Map> m_currentMap;
+    static RPG::Map *m_currentMap;
     static int m_tileSize;
     static QString m_currentGameTitle;
     static QString m_currentProjectPath;

@@ -55,6 +55,12 @@ private slots:
 
     void on_actionOpen_LMU_triggered();
 
+    void on_actionZoomIn_triggered();
+
+    void on_actionZoomOut_triggered();
+
+    void on_actionScale_1_1_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);

@@ -5,7 +5,7 @@
 //define static members
 QListWidget* EasyRPGCore::m_debugChipset = 0;
 GameProject* EasyRPGCore::m_currentProject = 0;
-std::auto_ptr<RPG::Map> EasyRPGCore::m_currentMap = std::auto_ptr<RPG::Map>();
+RPG::Map* EasyRPGCore::m_currentMap = 0;
 int EasyRPGCore::m_tileSize = 48;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
@@ -658,14 +658,15 @@ bool EasyRPGCore::isFblock(int terrain_id)
         return false;
 }
 
-std::auto_ptr<RPG::Map> EasyRPGCore::currentMap()
+RPG::Map *EasyRPGCore::currentMap()
 {
     return m_currentMap;
 }
 
-void EasyRPGCore::setCurrentMap(std::auto_ptr<RPG::Map> currentMap)
+void EasyRPGCore::setCurrentMap(RPG::Map *currentMap)
 {
-    m_currentMap = currentMap;
+    m_currentMap = new RPG::Map();
+    *m_currentMap = *currentMap;
 }
 
 QListWidget *EasyRPGCore::debugChipset()
@@ -715,12 +716,12 @@ int EasyRPGCore::translate(short tile_id)
 
 int EasyRPGCore::currentMapHeight()
 {
-    return (m_currentMap.get()) ? m_currentMap.get()->height : 0;
+    return (m_currentMap) ? m_currentMap->height : 0;
 }
 
 int EasyRPGCore::currentMapWidth()
 {
-    return (m_currentMap.get()) ? m_currentMap.get()->width : 0;
+    return (m_currentMap) ? m_currentMap->width : 0;
 }
 
 QString EasyRPGCore::pathTitle() {return m_currentProjectPath+"Title/";}

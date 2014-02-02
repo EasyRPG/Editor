@@ -135,9 +135,8 @@ void MainWindow::update_actions()
         ui->actionResource_Manager->setEnabled(false);
         ui->actionRevert_all_Maps->setEnabled(false);
         ui->actionScale_1_1->setEnabled(false);
-        ui->actionScale_1_2->setEnabled(false);
-        ui->actionScale_1_4->setEnabled(false);
-        ui->actionScale_1_8->setEnabled(false);
+        ui->actionZoomIn->setEnabled(false);
+        ui->actionZoomOut->setEnabled(false);
         ui->actionSearch->setEnabled(false);
         ui->actionSelect->setEnabled(false);
         ui->actionUndo->setEnabled(false);
@@ -163,9 +162,8 @@ void MainWindow::update_actions()
         ui->actionResource_Manager->setEnabled(true);
         ui->actionRevert_all_Maps->setEnabled(true);
         ui->actionScale_1_1->setEnabled(true);
-        ui->actionScale_1_2->setEnabled(true);
-        ui->actionScale_1_4->setEnabled(true);
-        ui->actionScale_1_8->setEnabled(true);
+        ui->actionZoomIn->setEnabled(true);
+        ui->actionZoomOut->setEnabled(true);
         ui->actionSearch->setEnabled(true);
         ui->actionSelect->setEnabled(true);
         ui->actionUndo->setEnabled(true);
@@ -352,7 +350,23 @@ void MainWindow::on_actionOpen_LMU_triggered()
                                                     "Open RPG Maker map",
                                                     QString(),
                                                     "LMU file (*.lmu)");
-    std::auto_ptr<RPG::Map> map = LMU_Reader::Load(fileName.toStdString());
-    EasyRPGCore::setCurrentMap(map);
+    EasyRPGCore::setCurrentMap(LMU_Reader::Load(fileName.toStdString()).get());
     m_mapWidget->onMapChange();
+}
+
+void MainWindow::on_actionZoomIn_triggered()
+{
+    if (m_mapWidget->scale() != 2.0)
+        m_mapWidget->setScale(m_mapWidget->scale()+0.5);
+}
+
+void MainWindow::on_actionZoomOut_triggered()
+{
+    if (m_mapWidget->scale() != 0.5)
+        m_mapWidget->setScale(m_mapWidget->scale()-0.5);
+}
+
+void MainWindow::on_actionScale_1_1_triggered()
+{
+    m_mapWidget->setScale(1.0);
 }
