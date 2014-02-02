@@ -46,7 +46,7 @@ void DialogOpenProject::RefreshProjectList()
     {
         if (info.isDir())
         {
-            QFileInfo f_project(info.absoluteFilePath()+"/project.erp");
+            QFileInfo f_project(info.absoluteFilePath()+"/RPG_RT.ldb");
             if (f_project.exists())
             {
                 ui->tableProjects->insertRow(ui->tableProjects->rowCount());
