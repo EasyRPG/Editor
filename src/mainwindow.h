@@ -5,7 +5,6 @@
 #include <QSettings>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
-#include "gameproject.h"
 #include "tools/QGraphicsPaleteScene.h"
 #include "tools/QGraphicsMapWidget.h"
 #include "musicplayer.h"

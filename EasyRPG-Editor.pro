@@ -16,7 +16,6 @@ SOURCES += src/mainwindow.cpp \
     src/main.cpp \
     src/dialogresourcemanager.cpp \
     src/dialogdatabase.cpp \
-    src/gameproject.cpp \
     src/dialogimportimage.cpp \
     src/dialognewproject.cpp \
     src/tools/QGraphicsImportItem.cpp \
@@ -178,7 +177,6 @@ HEADERS  += src/mainwindow.h \
     src/dialogdatabase.h \
     src/gamecharacter.h \
     src/gamecharactermodel.h \
-    src/gameproject.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
     src/tools/QGraphicsImportItem.h \

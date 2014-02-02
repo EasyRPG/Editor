@@ -71,8 +71,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_mapWidget = new QGraphicsMapWidget();
     m_mapScene->addItem(m_mapWidget);
     /** /Test  **/
-    if (project())
-        m_paleteScene->onLayerChange();
+//    if (project())
+//        m_paleteScene->onLayerChange();
 }
 
 MainWindow::~MainWindow()
@@ -83,9 +83,9 @@ MainWindow::~MainWindow()
 void MainWindow::LoadProject(QString p_path)
 {
     const QString CURRENT_PROJECT_KEY("current_project");
-    EasyRPGCore::setCurrentProject(new GameProject());
+//    EasyRPGCore::setCurrentProject(new GameProject());
     EasyRPGCore::setCurrentProjectPath(p_path);
-    project()->Load();
+//    project()->Load();
     setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
     m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
     update_actions();
@@ -125,61 +125,61 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-    if (!project()){
-        ui->actionCircle->setEnabled(false);
-        ui->actionCreate_Game_Disk->setEnabled(false);
-        ui->actionData_Base->setEnabled(false);
-        ui->actionDraw->setEnabled(false);
-        ui->actionFill->setEnabled(false);
-        ui->actionRectangle->setEnabled(false);
-        ui->actionResource_Manager->setEnabled(false);
-        ui->actionRevert_all_Maps->setEnabled(false);
-        ui->actionScale_1_1->setEnabled(false);
-        ui->actionZoomIn->setEnabled(false);
-        ui->actionZoomOut->setEnabled(false);
-        ui->actionSearch->setEnabled(false);
-        ui->actionSelect->setEnabled(false);
-        ui->actionUndo->setEnabled(false);
-        ui->actionZoom->setEnabled(false);
-        ui->action_Close_Project->setEnabled(false);
-        ui->action_Events->setEnabled(false);
-        ui->action_Full_Screen->setEnabled(false);
-        ui->action_Lower_Layer->setEnabled(false);
-        ui->action_New_Project->setEnabled(true);
-        ui->action_Open_Project->setEnabled(true);
-        ui->action_Play_Test->setEnabled(false);
-        ui->action_Save_all_Maps->setEnabled(false);
-        ui->action_Script_Editor->setEnabled(false);
-        ui->action_Title_Background->setEnabled(false);
-        ui->action_Upper_Layer->setEnabled(false);
-    } else {
-        ui->actionCircle->setEnabled(true);
-        ui->actionCreate_Game_Disk->setEnabled(true);
-        ui->actionData_Base->setEnabled(true);
-        ui->actionDraw->setEnabled(true);
-        ui->actionFill->setEnabled(true);
-        ui->actionRectangle->setEnabled(true);
-        ui->actionResource_Manager->setEnabled(true);
-        ui->actionRevert_all_Maps->setEnabled(true);
-        ui->actionScale_1_1->setEnabled(true);
-        ui->actionZoomIn->setEnabled(true);
-        ui->actionZoomOut->setEnabled(true);
-        ui->actionSearch->setEnabled(true);
-        ui->actionSelect->setEnabled(true);
-        ui->actionUndo->setEnabled(true);
-        ui->actionZoom->setEnabled(true);
-        ui->action_Close_Project->setEnabled(true);
-        ui->action_Events->setEnabled(true);
-        ui->action_Full_Screen->setEnabled(true);
-        ui->action_Lower_Layer->setEnabled(true);
-        ui->action_New_Project->setEnabled(false);
-        ui->action_Open_Project->setEnabled(false);
-        ui->action_Play_Test->setEnabled(true);
-        ui->action_Save_all_Maps->setEnabled(true);
-        ui->action_Script_Editor->setEnabled(true);
-        ui->action_Title_Background->setEnabled(true);
-        ui->action_Upper_Layer->setEnabled(true);
-    }
+//    if (!project()){
+//        ui->actionCircle->setEnabled(false);
+//        ui->actionCreate_Game_Disk->setEnabled(false);
+//        ui->actionData_Base->setEnabled(false);
+//        ui->actionDraw->setEnabled(false);
+//        ui->actionFill->setEnabled(false);
+//        ui->actionRectangle->setEnabled(false);
+//        ui->actionResource_Manager->setEnabled(false);
+//        ui->actionRevert_all_Maps->setEnabled(false);
+//        ui->actionScale_1_1->setEnabled(false);
+//        ui->actionZoomIn->setEnabled(false);
+//        ui->actionZoomOut->setEnabled(false);
+//        ui->actionSearch->setEnabled(false);
+//        ui->actionSelect->setEnabled(false);
+//        ui->actionUndo->setEnabled(false);
+//        ui->actionZoom->setEnabled(false);
+//        ui->action_Close_Project->setEnabled(false);
+//        ui->action_Events->setEnabled(false);
+//        ui->action_Full_Screen->setEnabled(false);
+//        ui->action_Lower_Layer->setEnabled(false);
+//        ui->action_New_Project->setEnabled(true);
+//        ui->action_Open_Project->setEnabled(true);
+//        ui->action_Play_Test->setEnabled(false);
+//        ui->action_Save_all_Maps->setEnabled(false);
+//        ui->action_Script_Editor->setEnabled(false);
+//        ui->action_Title_Background->setEnabled(false);
+//        ui->action_Upper_Layer->setEnabled(false);
+//    } else {
+//        ui->actionCircle->setEnabled(true);
+//        ui->actionCreate_Game_Disk->setEnabled(true);
+//        ui->actionData_Base->setEnabled(true);
+//        ui->actionDraw->setEnabled(true);
+//        ui->actionFill->setEnabled(true);
+//        ui->actionRectangle->setEnabled(true);
+//        ui->actionResource_Manager->setEnabled(true);
+//        ui->actionRevert_all_Maps->setEnabled(true);
+//        ui->actionScale_1_1->setEnabled(true);
+//        ui->actionZoomIn->setEnabled(true);
+//        ui->actionZoomOut->setEnabled(true);
+//        ui->actionSearch->setEnabled(true);
+//        ui->actionSelect->setEnabled(true);
+//        ui->actionUndo->setEnabled(true);
+//        ui->actionZoom->setEnabled(true);
+//        ui->action_Close_Project->setEnabled(true);
+//        ui->action_Events->setEnabled(true);
+//        ui->action_Full_Screen->setEnabled(true);
+//        ui->action_Lower_Layer->setEnabled(true);
+//        ui->action_New_Project->setEnabled(false);
+//        ui->action_Open_Project->setEnabled(false);
+//        ui->action_Play_Test->setEnabled(true);
+//        ui->action_Save_all_Maps->setEnabled(true);
+//        ui->action_Script_Editor->setEnabled(true);
+//        ui->action_Title_Background->setEnabled(true);
+//        ui->action_Upper_Layer->setEnabled(true);
+//    }
 }
 
 void MainWindow::on_action_New_Project_triggered()
@@ -204,40 +204,7 @@ void MainWindow::on_action_New_Project_triggered()
                     return;
                 removeDir(dlg.getProjectPath(),dlg.getProjectPath());
             }
-        if (!project())
-            on_action_Close_Project_triggered();
-        EasyRPGCore::setCurrentProject(new GameProject());
-        if (!d_gamepath.exists())
-            d_gamepath.mkdir(".");
-        EasyRPGCore::setCurrentProjectPath(dlg.getProjectPath());
-        EasyRPGCore::setCurrentGameTitle(dlg.getGameTitle());
-        EasyRPGCore::setTileSize(dlg.getTileSize());
-        d_gamepath.mkdir(EasyRPGCore::pathBackdrop());
-        d_gamepath.mkdir(EasyRPGCore::pathBackground());
-        d_gamepath.mkdir(EasyRPGCore::pathBattle());
-        d_gamepath.mkdir(EasyRPGCore::pathBattle2());
-        d_gamepath.mkdir(EasyRPGCore::pathBattleCharSet());
-        d_gamepath.mkdir(EasyRPGCore::pathBattleWeapon());
-        d_gamepath.mkdir(EasyRPGCore::pathCharSet());
-        d_gamepath.mkdir(EasyRPGCore::pathChipSet());
-        d_gamepath.mkdir(EasyRPGCore::pathFaceSet());
-        d_gamepath.mkdir(EasyRPGCore::pathFrame());
-        d_gamepath.mkdir(EasyRPGCore::pathGameOver());
-        d_gamepath.mkdir(EasyRPGCore::pathMonster());
-        d_gamepath.mkdir(EasyRPGCore::pathMovie());
-        d_gamepath.mkdir(EasyRPGCore::pathMusic());
-        d_gamepath.mkdir(EasyRPGCore::pathPicture());
-        d_gamepath.mkdir(EasyRPGCore::pathSound());
-        d_gamepath.mkdir(EasyRPGCore::pathSystem());
-        d_gamepath.mkdir(EasyRPGCore::pathSystem2());
-        d_gamepath.mkdir(EasyRPGCore::pathTitle());
-        m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-        setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
-        m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
-        //TODO: write RPT template code
-
-        if (!project()->Save())
-            QMessageBox::warning(this,"Error","An error ocurred while saving",QMessageBox::Ok,QMessageBox::Cancel);
+        //TODO: set new Data
         update_actions();
     }
 }
@@ -275,7 +242,8 @@ void MainWindow::on_action_Close_Project_triggered()
     //TODO: check if there are unsaved maps and ask for saving.
     const QString CURRENT_PROJECT_KEY("current_project");
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
-    EasyRPGCore::setCurrentProject(0);
+    //EasyRPGCore::setCurrentProject(0);
+    //TODO: Close project
     update_actions();
     setWindowTitle("EasyRPG Editor");
 }
@@ -350,6 +318,8 @@ void MainWindow::on_actionOpen_LMU_triggered()
                                                     "Open RPG Maker map",
                                                     QString(),
                                                     "LMU file (*.lmu)");
+    if (fileName.isEmpty())
+        return;
     EasyRPGCore::setCurrentMap(LMU_Reader::Load(fileName.toStdString()).get());
     m_mapWidget->onMapChange();
 }
