@@ -82,6 +82,10 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete dlg_resource;
+    delete dlg_db;
+    delete m_paleteScene;
+    delete m_mapWidget;
 }
 
 void MainWindow::LoadProject(QString p_path)
@@ -121,6 +125,7 @@ void MainWindow::LoadProject(QString p_path)
         EasyRPGCore::setCurrentLayer(EasyRPGCore::LOWER);
         break;
     }
+    //TODO:: create a new variable on the ini for a suitable zoom mode
     float scale = (float)reader.GetInteger("RPG_RT","MapEditZoom", 0)*0.5+0.5;
     m_mapWidget->setScale(scale);
     setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
@@ -242,7 +247,39 @@ void MainWindow::on_action_New_Project_triggered()
                     return;
                 removeDir(dlg.getProjectPath(),dlg.getProjectPath());
             }
-        //TODO: set new Data
+            else
+                d_gamepath.mkdir(".");
+        EasyRPGCore::setCurrentProjectPath(dlg.getProjectPath());
+        EasyRPGCore::setCurrentGameTitle(dlg.getGameTitle());
+        EasyRPGCore::setTileSize(dlg.getTileSize());
+        m_defDir = dlg.getDefDir();
+        Data::Clear();
+        d_gamepath.mkdir(dlg.getProjectPath()+"Backdrop");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Panorama");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Battle");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Battle2");
+        d_gamepath.mkdir(dlg.getProjectPath()+"BattleCharSet");
+        d_gamepath.mkdir(dlg.getProjectPath()+"BattleWeapon");
+        d_gamepath.mkdir(dlg.getProjectPath()+"CharSet");
+        d_gamepath.mkdir(dlg.getProjectPath()+"ChipSet");
+        d_gamepath.mkdir(dlg.getProjectPath()+"FaceSet");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Frame");
+        d_gamepath.mkdir(dlg.getProjectPath()+"GameOver");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Monster");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Movie");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Music");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Picture");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Sound");
+        d_gamepath.mkdir(dlg.getProjectPath()+"System");
+        d_gamepath.mkdir(dlg.getProjectPath()+"System2");
+        d_gamepath.mkdir(dlg.getProjectPath()+"Title");
+        m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+        setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
+        m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
+        //TODO:: add a map;
+        LDB_Reader::Save(EasyRPGCore::currentProjectPath().toStdString()+"RPG_RT.ldb");
+        LMT_Reader::Save(EasyRPGCore::currentProjectPath().toStdString()+"RPG_RT.lmt");
+        //TODO:: create ini;
         update_actions();
     }
 }
