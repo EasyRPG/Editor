@@ -14,6 +14,7 @@
 #include "ldb_reader.h"
 #include "inireader.h"
 #include "rpg_map.h"
+#include "rpg_mapinfo.h"
 #include "data.h"
 
 static void associateFileTypes(const QStringList &fileTypes)
@@ -50,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     EasyRPGCore::Init();
     ui->setupUi(this);
     // Hide map ids
-    ui->treeMap->hideColumn(0);
+    ui->treeMap->hideColumn(1);
     // Created hardcoded toolbar for palette window.
     ui->toolBar->setParent(ui->dockWidgetContents);
     //Create dialogs
@@ -130,7 +131,44 @@ void MainWindow::LoadProject(QString p_path)
     m_mapWidget->setScale(scale);
     setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
     m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
-    update_actions();
+    ui->treeMap->clear();
+    QTreeWidgetItem *root = new QTreeWidgetItem();
+    root->setData(1, Qt::DisplayRole, 0);
+    root->setData(0,Qt::DisplayRole, EasyRPGCore::currentGameTitle());
+    root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
+    RPG::TreeMap maps = Data::treemap;
+    ui->treeMap->addTopLevelItem(root);
+    QMap<int,QTreeWidgetItem*> items;
+    items[0] = root;
+    //Add Items
+    for (unsigned int i = 1; i < maps.maps.size(); i++)
+    {
+        QTreeWidgetItem *item = new QTreeWidgetItem();
+        item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
+        item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
+        item->setIcon(0, QIcon(":/icons/share/old_map.png"));
+        items[maps.maps[i].ID] = item;
+    }
+    //Parent Items
+    for (unsigned int i = 0; i < maps.maps.size(); i++)
+    {
+        int id = maps.tree_order[i];
+        RPG::MapInfo info;
+        for (unsigned int j = 0; j < maps.maps.size(); j++)
+            if (id == maps.maps[j].ID)
+            {
+                info = maps.maps[j];
+                break;
+            }
+        items[info.parent_map]->addChild(items[info.ID]);
+        if (info.ID == maps.active_node)
+            ui->treeMap->setCurrentItem(items[info.ID]);
+    }
+    //Expand Items
+    for (unsigned int i = 0; i < maps.maps.size(); i++)
+    {
+        items[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
+    }
 }
 
 void MainWindow::on_action_Quit_triggered()
@@ -319,17 +357,21 @@ void MainWindow::on_action_Close_Project_triggered()
     Data::Clear();
     EasyRPGCore::setCurrentGameTitle("");
     EasyRPGCore::setCurrentProjectPath("");
+    ui->treeMap->clear();
     update_actions();
     setWindowTitle("EasyRPG Editor");
 }
 
 void MainWindow::on_action_Open_Project_triggered()
 {
+    const QString DEFAULT_DIR_KEY("default_dir");
     static DialogOpenProject dlg(this);
     dlg.setDefDir(m_defDir);
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectPath());
     m_defDir = dlg.getDefDir();
+    m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+    update_actions();
 }
 
 void MainWindow::on_actionJukebox_triggered(bool disconnect)

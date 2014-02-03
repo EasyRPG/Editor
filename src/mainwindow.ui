@@ -241,22 +241,14 @@
        </attribute>
        <column>
         <property name="text">
-         <string>Map ID</string>
+         <string>Map Name</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Map Name</string>
+         <string>Map ID</string>
         </property>
        </column>
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="text">
-         <string>Root</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>
