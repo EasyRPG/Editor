@@ -58,6 +58,7 @@ void QGraphicsPaleteScene::onChipsetChange()
         if (terrain_id < 144)
             u.drawPixmap(col,row,32,32,EasyRPGCore::tile(EasyRPGCore::translate(terrain_id+162)));
     }
+    l.drawPixmap(64,32,32,32,EasyRPGCore::tile(EasyRPGCore::translate(2,0,240)));
 }
 
 void QGraphicsPaleteScene::updateSelectionRect()

@@ -62,9 +62,8 @@
       <string>&amp;Zoom</string>
      </property>
      <addaction name="actionScale_1_1"/>
-     <addaction name="actionScale_1_2"/>
-     <addaction name="actionScale_1_4"/>
-     <addaction name="actionScale_1_8"/>
+     <addaction name="actionZoomIn"/>
+     <addaction name="actionZoomOut"/>
     </widget>
     <addaction name="action_Save_all_Maps"/>
     <addaction name="actionRevert_all_Maps"/>
@@ -148,10 +147,9 @@
    <addaction name="action_Upper_Layer"/>
    <addaction name="action_Events"/>
    <addaction name="separator"/>
+   <addaction name="actionZoomIn"/>
+   <addaction name="actionZoomOut"/>
    <addaction name="actionScale_1_1"/>
-   <addaction name="actionScale_1_2"/>
-   <addaction name="actionScale_1_4"/>
-   <addaction name="actionScale_1_8"/>
    <addaction name="separator"/>
    <addaction name="actionData_Base"/>
    <addaction name="action_Script_Editor"/>
@@ -170,8 +168,14 @@
   <widget class="QDockWidget" name="dockPalete">
    <property name="minimumSize">
     <size>
-     <width>89</width>
+     <width>227</width>
      <height>127</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>227</width>
+     <height>524287</height>
     </size>
    </property>
    <property name="features">
@@ -237,28 +241,32 @@
        </attribute>
        <column>
         <property name="text">
-         <string>Map ID</string>
+         <string>Map Name</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Map Name</string>
+         <string>Map ID</string>
         </property>
        </column>
-       <item>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="text">
-         <string>Root</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>
    </widget>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="minimumSize">
+    <size>
+     <width>227</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>227</width>
+     <height>16777215</height>
+    </size>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -410,63 +418,48 @@
    </property>
   </action>
   <action name="actionScale_1_1">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_11_scale.png</normaloff>:/icons/share/old_11_scale.png</iconset>
    </property>
    <property name="text">
-    <string>Scale 1/&amp;1</string>
+    <string>&amp;Zoom 100%</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom 100%</string>
    </property>
    <property name="statusTip">
     <string>Scale 200%</string>
    </property>
   </action>
-  <action name="actionScale_1_2">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
+  <action name="actionZoomIn">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_12_scale.png</normaloff>:/icons/share/old_12_scale.png</iconset>
+     <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
    </property>
    <property name="text">
-    <string>Scale 1/&amp;2</string>
+    <string>Zoom &amp;In</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom In</string>
    </property>
    <property name="statusTip">
     <string>Scale 100%</string>
    </property>
   </action>
-  <action name="actionScale_1_4">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
+  <action name="actionZoomOut">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_14_scale.png</normaloff>:/icons/share/old_14_scale.png</iconset>
+     <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
    </property>
    <property name="text">
-    <string>Scale 1/&amp;4</string>
+    <string>Zoom &amp;Out</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom Out</string>
    </property>
    <property name="statusTip">
     <string>Scale 50%</string>
-   </property>
-  </action>
-  <action name="actionScale_1_8">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_18_scale.png</normaloff>:/icons/share/old_18_scale.png</iconset>
-   </property>
-   <property name="text">
-    <string>Scale 1/&amp;8</string>
-   </property>
-   <property name="statusTip">
-    <string>Scale 25%</string>
    </property>
   </action>
   <action name="actionData_Base">

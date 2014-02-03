@@ -13,11 +13,12 @@ DialogResourceManager::DialogResourceManager(QWidget *parent) :
 {
     ui->setupUi(this);
     m_model = new QStringListModel(this);
-    if (!project())
-        m_model->setStringList(QStringList());
-    else{
-        m_model->setStringList(QStringList(project()->backdroplist()));
-    }
+//    if (!project())
+//        m_model->setStringList(QStringList());
+//    else{
+//        m_model->setStringList(QStringList(project()->backdroplist()));
+//    }
+    m_model->setStringList(QStringList());
     ui->listResources->setModel(m_model);
 }
 
@@ -28,67 +29,67 @@ DialogResourceManager::~DialogResourceManager()
 
 void DialogResourceManager::on_listResourceType_currentRowChanged(int currentRow)
 {
-    if (!project())
-        return;
+//    if (!project())
+//        return;
     switch (currentRow)
     {
-    case 0:
-        m_model->setStringList(project()->backdroplist());
-        break;
-    case 1:
-        m_model->setStringList(project()->battlelist());
-        break;
-    case 2:
-        m_model->setStringList(project()->battle2list());
-        break;
-    case 3:
-        m_model->setStringList(project()->battlecharsetlist());
-        break;
-    case 4:
-        m_model->setStringList(project()->battleweaponlist());
-        break;
-    case 5:
-        m_model->setStringList(project()->charsetlist());
-        break;
-    case 6:
-        m_model->setStringList(project()->chipsetlist());
-        break;
-    case 7:
-        m_model->setStringList(project()->facesetlist());
-        break;
-    case 8:
-        m_model->setStringList(project()->framelist());
-        break;
-    case 9:
-        m_model->setStringList(project()->gameoverlist());
-        break;
-    case 10:
-        m_model->setStringList(project()->monsterlist());
-        break;
-    case 11:
-        m_model->setStringList(project()->movielist());
-        break;
-    case 12:
-        m_model->setStringList(project()->musiclist());
-        break;
-    case 13:
-        m_model->setStringList(project()->backgroundlist());
-        break;
-    case 14:
-        m_model->setStringList(project()->picturelist());
-        break;
-    case 15:
-        m_model->setStringList(project()->soundlist());
-        break;
-    case 16:
-        m_model->setStringList(project()->systemlist());
-        break;
-    case 17:
-        m_model->setStringList(project()->system2list());
-        break;
-    case 18:
-        m_model->setStringList(project()->titlelist());
-        break;
+//    case 0:
+//        m_model->setStringList(project()->backdroplist());
+//        break;
+//    case 1:
+//        m_model->setStringList(project()->battlelist());
+//        break;
+//    case 2:
+//        m_model->setStringList(project()->battle2list());
+//        break;
+//    case 3:
+//        m_model->setStringList(project()->battlecharsetlist());
+//        break;
+//    case 4:
+//        m_model->setStringList(project()->battleweaponlist());
+//        break;
+//    case 5:
+//        m_model->setStringList(project()->charsetlist());
+//        break;
+//    case 6:
+//        m_model->setStringList(project()->chipsetlist());
+//        break;
+//    case 7:
+//        m_model->setStringList(project()->facesetlist());
+//        break;
+//    case 8:
+//        m_model->setStringList(project()->framelist());
+//        break;
+//    case 9:
+//        m_model->setStringList(project()->gameoverlist());
+//        break;
+//    case 10:
+//        m_model->setStringList(project()->monsterlist());
+//        break;
+//    case 11:
+//        m_model->setStringList(project()->movielist());
+//        break;
+//    case 12:
+//        m_model->setStringList(project()->musiclist());
+//        break;
+//    case 13:
+//        m_model->setStringList(project()->backgroundlist());
+//        break;
+//    case 14:
+//        m_model->setStringList(project()->picturelist());
+//        break;
+//    case 15:
+//        m_model->setStringList(project()->soundlist());
+//        break;
+//    case 16:
+//        m_model->setStringList(project()->systemlist());
+//        break;
+//    case 17:
+//        m_model->setStringList(project()->system2list());
+//        break;
+//    case 18:
+//        m_model->setStringList(project()->titlelist());
+//        break;
     default:
         m_model->setStringList(QStringList());
     }
@@ -129,7 +130,7 @@ void DialogResourceManager::on_pushImport_clicked()
             msg.exec();
             return;
         }
-        image.save(EasyRPGCore::pathBackdrop()+info.baseName()+".PNG");
+        //image.save(EasyRPGCore::pathBackdrop()+info.baseName()+".PNG");
         break;
     case 1:
         size = QImage(filename).size();
@@ -142,7 +143,7 @@ void DialogResourceManager::on_pushImport_clicked()
         dialog->exec();
         if (dialog->result() == QDialog::Accepted)
             image = dialog->image();
-        image.save(EasyRPGCore::pathBattle()+info.baseName()+".PNG");
+        //image.save(EasyRPGCore::pathBattle()+info.baseName()+".PNG");
         break;
     case 2:
         size = QImage(filename).size();
@@ -179,7 +180,7 @@ void DialogResourceManager::on_pushImport_clicked()
         dialog->exec();
         if (dialog->result() == QDialog::Accepted)
             image = dialog->image();
-        image.save(EasyRPGCore::pathCharSet()+info.baseName()+".PNG");
+        //image.save(EasyRPGCore::pathCharSet()+info.baseName()+".PNG");
         break;
     case 6:
         size = QImage(filename).size();

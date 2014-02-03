@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QStringListModel>
-#include "gameproject.h"
 
 namespace Ui {
 class DialogResourceManager;

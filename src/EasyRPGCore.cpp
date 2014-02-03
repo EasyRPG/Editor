@@ -4,8 +4,7 @@
 
 //define static members
 QListWidget* EasyRPGCore::m_debugChipset = 0;
-GameProject* EasyRPGCore::m_currentProject = 0;
-std::auto_ptr<RPG::Map> EasyRPGCore::m_currentMap = std::auto_ptr<RPG::Map>();
+RPG::Map* EasyRPGCore::m_currentMap = 0;
 int EasyRPGCore::m_tileSize = 48;
 QString EasyRPGCore::m_currentGameTitle = QString();
 QString EasyRPGCore::m_currentProjectPath = QString();
@@ -14,12 +13,6 @@ EasyRPGCore::Tool EasyRPGCore::m_currentTool = EasyRPGCore::PENCIL;
 EasyRPGCore::Zoom EasyRPGCore::m_currentZoom = EasyRPGCore::Z_11;
 QMap<int,QPixmap> EasyRPGCore::m_currentChipset = QMap<int,QPixmap>();
 QMap<int,short> EasyRPGCore::m_dictionary = QMap<int,short>();
-
-
-GameProject *EasyRPGCore::currentProject()
-{
-    return m_currentProject;
-}
 
 void EasyRPGCore::Init()
 {
@@ -69,13 +62,6 @@ void EasyRPGCore::Init()
     m_dictionary[LEFT+RIGHT+DOWN]                   = 44;
     m_dictionary[UP+RIGHT+DOWN]                     = 45;
     m_dictionary[UP+DOWN+LEFT+RIGHT]                = 46;
-}
-
-void EasyRPGCore::setCurrentProject(GameProject *current_project)
-{
-    if (m_currentProject)
-        delete m_currentProject;
-    m_currentProject = current_project;
 }
 
 void EasyRPGCore::LoadChipset(QString n_chipset)
@@ -340,23 +326,33 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             int dest_y = 0;
 #define blit(x,y) p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2, p_block.copy(x, y,r_tileHalf,r_tileHalf))
             if (u+l == 5)
-                blit(0,r_tileSize);
+                blit(0, r_tileSize);
             else if (u)
-                blit(r_tileSize, r_tileSize);
+            {
+                if (r)
+                    blit(r_tileSize*2, r_tileSize);
+                else
+                    blit(r_tileSize, r_tileSize);
+            }
             else if (l)
-                blit(0, r_tileSize*2);
+            {
+                if (d)
+                    blit(0, r_tileSize*3);
+                else
+                    blit(0, r_tileSize*2);
+            }
             else if (ul)
                 blit(r_tileSize*2, 0);
             else //0
             {
                 if (d+r == 10)
-                    blit(r_tileSize*2,r_tileSize*3);
+                    blit(r_tileSize*2, r_tileSize*3);
                 else if (r)
-                    blit(r_tileSize*2,r_tileSize*2);
+                    blit(r_tileSize*2, r_tileSize*2);
                 else if (d)
-                    blit(r_tileSize*1,r_tileSize*3);
+                    blit(r_tileSize*1, r_tileSize*3);
                 else
-                    blit(r_tileSize*1,r_tileSize*2);
+                    blit(r_tileSize*1, r_tileSize*2);
             }
             /*
              * Draw upper_right corner
@@ -365,21 +361,31 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             if (u+r == 9)
                 blit(r_tileSize*2.5, r_tileSize);
             else if (u)
-                blit(r_tileSize*1.5, r_tileSize);
+            {
+                if(l)
+                    blit(r_tileSize*0.5, r_tileSize);
+                else
+                    blit(r_tileSize*1.5, r_tileSize);
+            }
             else if (r)
-                blit(r_tileSize*2.5, r_tileSize*2);
+            {
+                if (d)
+                    blit(r_tileSize*2.5, r_tileSize*3);
+                else
+                    blit(r_tileSize*2.5, r_tileSize*2);
+            }
             else if (ur)
                 blit(r_tileSize*2.5, 0);
             else //0
             {
                 if (d+l == 6)
-                    blit(r_tileSize*0.5,r_tileSize*3);
+                    blit(r_tileSize*0.5, r_tileSize*3);
                 else if (l)
-                    blit(r_tileSize*0.5,r_tileSize*2);
+                    blit(r_tileSize*0.5, r_tileSize*2);
                 else if (d)
-                    blit(r_tileSize*1.5,r_tileSize*3);
+                    blit(r_tileSize*1.5, r_tileSize*3);
                 else
-                    blit(r_tileSize*1.5,r_tileSize*2);
+                    blit(r_tileSize*1.5, r_tileSize*2);
             }
             /*
              * Draw down_left corner
@@ -389,21 +395,31 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             if (d+l == 6)
                 blit(0, r_tileSize*3.5);
             else if (d)
-                blit(r_tileSize, r_tileSize*3.5);
+            {
+                if (r)
+                    blit(r_tileSize*2, r_tileSize*3.5);
+                else
+                    blit(r_tileSize, r_tileSize*3.5);
+            }
             else if (l)
-                blit(0, r_tileSize*2.5);
+            {
+                if (u)
+                    blit(0, r_tileSize*1.5);
+                else
+                    blit(0, r_tileSize*2.5);
+            }
             else if (dl)
                 blit(r_tileSize*2, r_tileHalf);
             else
             {
                 if (u+r == 9)
-                    blit(r_tileSize*2,r_tileSize*1.5);
+                    blit(r_tileSize*2, r_tileSize*1.5);
                 else if (r)
-                    blit(r_tileSize*2,r_tileSize*2.5);
+                    blit(r_tileSize*2, r_tileSize*2.5);
                 else if (u)
-                    blit(r_tileSize,r_tileSize*1.5);
+                    blit(r_tileSize, r_tileSize*1.5);
                 else
-                    blit(r_tileSize,r_tileSize*2.5);
+                    blit(r_tileSize, r_tileSize*2.5);
             }
             /*
              * Draw down_right corner
@@ -412,9 +428,19 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             if (d+r == 10)
                 blit(r_tileSize*2.5, r_tileSize*3.5);
             else if (d)
-                blit(r_tileSize*1.5, r_tileSize*3.5);
+            {
+                if (l)
+                    blit(r_tileSize*0.5, r_tileSize*3.5);
+                else
+                    blit(r_tileSize*1.5, r_tileSize*3.5);
+            }
             else if (r)
-                blit(r_tileSize*2.5, r_tileSize*2.5);
+            {
+                if (u)
+                    blit(r_tileSize*2.5, r_tileSize*1.5);
+                else
+                    blit(r_tileSize*2.5, r_tileSize*2.5);
+            }
             else if (dr)
                 blit(r_tileSize*2.5, r_tileHalf);
             else //0
@@ -527,26 +553,6 @@ void EasyRPGCore::setCurrentZoom(const Zoom &current_zoom)
     m_currentZoom = current_zoom;
 }
 
-QString EasyRPGCore::pathBackdrop(QString fileName) {return pathBackdrop()+fileName;}
-QString EasyRPGCore::pathBattle(QString fileName) {return pathBattle()+fileName;}
-QString EasyRPGCore::pathBattle2(QString fileName) {return pathBattle2()+fileName;}
-QString EasyRPGCore::pathBattleCharSet(QString fileName) {return pathBattleCharSet()+fileName;}
-QString EasyRPGCore::pathBattleWeapon(QString fileName) {return pathBattleWeapon()+fileName;}
-QString EasyRPGCore::pathCharSet(QString fileName) {return pathCharSet()+fileName;}
-QString EasyRPGCore::pathChipSet(QString fileName) {return pathChipSet()+fileName;}
-QString EasyRPGCore::pathFaceSet(QString fileName) {return pathFaceSet()+fileName;}
-QString EasyRPGCore::pathFrame(QString fileName) {return pathFrame()+fileName;}
-QString EasyRPGCore::pathGameOver(QString fileName) {return pathGameOver()+fileName;}
-QString EasyRPGCore::pathMonster(QString fileName) {return pathMonster()+fileName;}
-QString EasyRPGCore::pathMovie(QString fileName) {return pathMovie()+fileName;}
-QString EasyRPGCore::pathMusic(QString fileName) {return pathMusic()+fileName;}
-QString EasyRPGCore::pathBackground(QString fileName) {return pathBackground()+fileName;}
-QString EasyRPGCore::pathPicture(QString fileName) {return pathPicture()+fileName;}
-QString EasyRPGCore::pathSound(QString fileName) {return pathSound()+fileName;}
-QString EasyRPGCore::pathSystem(QString fileName) {return pathSystem()+fileName;}
-QString EasyRPGCore::pathSystem2(QString fileName) {return pathSystem2()+fileName;}
-QString EasyRPGCore::pathTitle(QString fileName) {return pathTitle()+fileName;}
-
 QString EasyRPGCore::RtpPath()
 {
     return (qApp->applicationDirPath() + "/RTP/");
@@ -618,14 +624,15 @@ bool EasyRPGCore::isFblock(int terrain_id)
         return false;
 }
 
-std::auto_ptr<RPG::Map> EasyRPGCore::currentMap()
+RPG::Map *EasyRPGCore::currentMap()
 {
     return m_currentMap;
 }
 
-void EasyRPGCore::setCurrentMap(std::auto_ptr<RPG::Map> currentMap)
+void EasyRPGCore::setCurrentMap(RPG::Map *currentMap)
 {
-    m_currentMap = currentMap;
+    m_currentMap = new RPG::Map();
+    *m_currentMap = *currentMap;
 }
 
 QListWidget *EasyRPGCore::debugChipset()
@@ -675,33 +682,10 @@ int EasyRPGCore::translate(short tile_id)
 
 int EasyRPGCore::currentMapHeight()
 {
-    return (m_currentMap.get()) ? m_currentMap.get()->height : 0;
+    return (m_currentMap) ? m_currentMap->height : 0;
 }
 
 int EasyRPGCore::currentMapWidth()
 {
-    return (m_currentMap.get()) ? m_currentMap.get()->width : 0;
+    return (m_currentMap) ? m_currentMap->width : 0;
 }
-
-QString EasyRPGCore::pathTitle() {return m_currentProjectPath+"Title/";}
-QString EasyRPGCore::pathSystem2() {return m_currentProjectPath+"System2/";}
-QString EasyRPGCore::pathSystem() {return m_currentProjectPath+"System/";}
-QString EasyRPGCore::pathSound() {return m_currentProjectPath+"Sound/";}
-QString EasyRPGCore::pathPicture() {return m_currentProjectPath+"Picture/";}
-QString EasyRPGCore::pathBackground() {return m_currentProjectPath+"Background/";}
-QString EasyRPGCore::pathMusic() {return m_currentProjectPath+"Music/";}
-QString EasyRPGCore::pathMovie() {return m_currentProjectPath+"Movie/";}
-QString EasyRPGCore::pathMonster() {return m_currentProjectPath+"Monster/";}
-QString EasyRPGCore::pathGameOver() {return m_currentProjectPath+"GameOver/";}
-QString EasyRPGCore::pathFrame() {return m_currentProjectPath+"Frame/";}
-QString EasyRPGCore::pathFaceSet() {return m_currentProjectPath+"FaceSet/";}
-QString EasyRPGCore::pathChipSet() {return m_currentProjectPath+"ChipSet/";}
-QString EasyRPGCore::pathCharSet() {return m_currentProjectPath+"CharSet/";}
-QString EasyRPGCore::pathBattleWeapon() {return m_currentProjectPath+"BattleWeapon/";}
-QString EasyRPGCore::pathBattleCharSet() {return m_currentProjectPath+"BattleCharSet/";}
-QString EasyRPGCore::pathBattle2() {return m_currentProjectPath+"Battle2/";}
-QString EasyRPGCore::pathBattle() {return m_currentProjectPath+"Battle/";}
-QString EasyRPGCore::pathBackdrop() {return m_currentProjectPath+"Backdrop/";}
-
-
-

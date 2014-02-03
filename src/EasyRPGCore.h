@@ -6,6 +6,7 @@
  * **************************/
 #define project() EasyRPGCore::currentProject()
 #define projectPath() EasyRPGCore::currentProjectPath()
+#define _map() EasyRPGCore::currentMap()
 
 #define chipsetIsNull() EasyRPGCore::tile(0).isNull()
 
@@ -23,7 +24,6 @@
 
 #include <QPixmap>
 #include <QListWidget>
-#include "gameproject.h"
 #include "rpg_map.h"
 
 class GameMap;
@@ -62,48 +62,6 @@ public:
 
     static void Init();
 
-    static QString pathBackdrop();
-    static QString pathBackdrop(QString fileName);
-    static QString pathBattle();
-    static QString pathBattle(QString fileName);
-    static QString pathBattle2();
-    static QString pathBattle2(QString fileName);
-    static QString pathBattleCharSet();
-    static QString pathBattleCharSet(QString fileName);
-    static QString pathBattleWeapon();
-    static QString pathBattleWeapon(QString fileName);
-    static QString pathCharSet();
-    static QString pathCharSet(QString fileName);
-    static QString pathChipSet();
-    static QString pathChipSet(QString fileName);
-    static QString pathFaceSet();
-    static QString pathFaceSet(QString fileName);
-    static QString pathFrame();
-    static QString pathFrame(QString fileName);
-    static QString pathGameOver();
-    static QString pathGameOver(QString fileName);
-    static QString pathMonster();
-    static QString pathMonster(QString fileName);
-    static QString pathMovie();
-    static QString pathMovie(QString fileName);
-    static QString pathMusic();
-    static QString pathMusic(QString fileName);
-    static QString pathBackground();
-    static QString pathBackground(QString fileName);
-    static QString pathPicture();
-    static QString pathPicture(QString fileName);
-    static QString pathSound();
-    static QString pathSound(QString fileName);
-    static QString pathSystem();
-    static QString pathSystem(QString fileName);
-    static QString pathSystem2();
-    static QString pathSystem2(QString fileName);
-    static QString pathTitle();
-    static QString pathTitle(QString fileName);
-
-    static GameProject *currentProject();
-    static void setCurrentProject(GameProject *currentProject);
-
     static void LoadChipset(QString n_chipset);
 
     static int tileSize();
@@ -131,8 +89,8 @@ public:
 
     static int currentMapHeight();
 
-    static std::auto_ptr<RPG::Map> currentMap();
-    static void setCurrentMap(std::auto_ptr<RPG::Map> currentMap);
+    static RPG::Map *currentMap();
+    static void setCurrentMap(RPG::Map *currentMap);
 
     static QListWidget* debugChipset();
 
@@ -152,8 +110,7 @@ private:
 
     static QListWidget* m_debugChipset;
 
-    static GameProject* m_currentProject;
-    static std::auto_ptr<RPG::Map> m_currentMap;
+    static RPG::Map *m_currentMap;
     static int m_tileSize;
     static QString m_currentGameTitle;
     static QString m_currentProjectPath;
