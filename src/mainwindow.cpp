@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     update_actions();
     m_defDir = m_settings.value(DEFAULT_DIR_KEY, qApp->applicationDirPath()).toString();
     QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
-    QFileInfo info(m_defDir+l_project+"/project.erp");
+    QFileInfo info(m_defDir+l_project+"/rpg_rt.ldb");
     if (l_project != QString() && info.exists())
         LoadProject(m_defDir+l_project+"/");
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
@@ -76,8 +76,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_mapWidget = new QGraphicsMapWidget();
     m_mapScene->addItem(m_mapWidget);
     /** /Test  **/
-//    if (project())
-//        m_paleteScene->onLayerChange();
 }
 
 MainWindow::~MainWindow()
@@ -365,7 +363,7 @@ void MainWindow::on_action_Close_Project_triggered()
 void MainWindow::on_action_Open_Project_triggered()
 {
     const QString DEFAULT_DIR_KEY("default_dir");
-    static DialogOpenProject dlg(this);
+    DialogOpenProject dlg(this);
     dlg.setDefDir(m_defDir);
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectPath());
