@@ -1,5 +1,5 @@
 #include "QGraphicsMapWidget.h"
-#include "../EasyRPGCore.h"
+#include "../core.h"
 #include <QGraphicsScene>
 
 QGraphicsMapWidget::QGraphicsMapWidget(QGraphicsItem *parent) :
@@ -26,16 +26,15 @@ void QGraphicsMapWidget::onMapChange()
         this->scene()->removeItem(m_tiles[i]->graphicsItem());
     }
     m_tiles.clear();
-    if (!_map())
+    if (!Core::map())
         return;
-    int w = _map()->width;
-    for (int y = 0; y < _map()->height; y++)
+    int w = Core::map()->width;
+    for (int y = 0; y < Core::map()->height; y++)
         for(int x = 0; x < w; x++)
         {
-            QGraphicsLayoutTileItem *item = new QGraphicsLayoutTileItem(this);
-            item->setPixmaps(EasyRPGCore::tile(_map()->lower_layer[x+y*w]),
-                             EasyRPGCore::tile(_map()->upper_layer[x+y*w]),
-                             QPixmap());
+            QGraphicsLayoutTileItem *item = new QGraphicsLayoutTileItem(this, x, y);
+            item->setTiles(Core::map()->lower_layer[x+y*Core::map()->width],
+                           Core::map()->upper_layer[x+y*Core::map()->width]);
             m_layout->addItem(item, y,x);
             m_tiles.push_back(item);
         }
@@ -45,22 +44,19 @@ void QGraphicsMapWidget::onMapChange()
 void QGraphicsMapWidget::setScale(float scale)
 {
     m_scale = scale;
-    if (!_map())
+    if (!Core::map() || Core::map()->ID == 0)
         return;
     for (int i = 0; i < m_tiles.count(); i++)
     {
-        QRectF geom(i%_map()->width*EasyRPGCore::tileSize()*m_scale,
-                    i/_map()->width*EasyRPGCore::tileSize()*m_scale,
-                    EasyRPGCore::tileSize()*m_scale,
-                    EasyRPGCore::tileSize()*m_scale);
+        QRectF geom(i%Core::map()->width*Core::tileSize()*m_scale,
+                    i/Core::map()->width*Core::tileSize()*m_scale,
+                    Core::tileSize()*m_scale,
+                    Core::tileSize()*m_scale);
         m_tiles[i]->setGeometry(geom);
     }
     this->setGeometry(0,
                       0,
-                      _map()->width*EasyRPGCore::tileSize()*m_scale,
-                      _map()->height*EasyRPGCore::tileSize()*m_scale);
-    this->scene()->setSceneRect(0,
-                                0,
-                                _map()->width*EasyRPGCore::tileSize()*m_scale,
-                                _map()->height*EasyRPGCore::tileSize()*m_scale);
+                      Core::map()->width*Core::tileSize()*m_scale,
+                      Core::map()->height*Core::tileSize()*m_scale);
+    this->scene()->setSceneRect(geometry());
 }

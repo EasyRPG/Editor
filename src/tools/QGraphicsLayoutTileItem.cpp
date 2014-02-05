@@ -1,9 +1,11 @@
 #include "QGraphicsLayoutTileItem.h"
-#include "../EasyRPGCore.h"
+#include "../core.h"
 #include <QPainter>
 
-QGraphicsLayoutTileItem::QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent) :
-    QGraphicsLayoutItem(parent)
+QGraphicsLayoutTileItem::QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent, int n_x, int n_y) :
+    QGraphicsLayoutItem(parent),
+    x(n_x),
+    y(n_y)
 {
 }
 
@@ -11,7 +13,7 @@ void QGraphicsLayoutTileItem::setGeometry(const QRectF &geom)
 {
     QGraphicsLayoutItem::setGeometry(geom);
     graphicsItem()->setPos(geom.topLeft());
-    graphicsItem()->setScale(geom.width()/m_lowerPix.width());
+    graphicsItem()->setScale(geom.width()/Core::tileSize());
 }
 
 QSizeF QGraphicsLayoutTileItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
@@ -20,45 +22,47 @@ QSizeF QGraphicsLayoutTileItem::sizeHint(Qt::SizeHint which, const QSizeF &const
     case Qt::MinimumSize:
     case Qt::PreferredSize:
     case Qt::MaximumSize:
-        return QSizeF(EasyRPGCore::tileSize(),EasyRPGCore::tileSize());
+        return QSizeF(Core::tileSize(),Core::tileSize());
     default:
         break;
     }
     return constraint;
 }
 
-void QGraphicsLayoutTileItem::setLowerPixmap(QPixmap pix)
+void QGraphicsLayoutTileItem::setLowerTile(short lower)
 {
-    m_lowerPix = pix;
+    m_lower = lower;
     createGraphicItem();
 }
 
-void QGraphicsLayoutTileItem::setUpperPixmap(QPixmap pix)
+void QGraphicsLayoutTileItem::setUpperTile(short upper)
 {
-    m_upperPix = pix;
+    m_upper = upper;
     createGraphicItem();
 }
 
-void QGraphicsLayoutTileItem::setEventPixmap(QPixmap pix)
+void QGraphicsLayoutTileItem::setTiles(short lower, short upper)
 {
-    m_eventPix = pix;
-    createGraphicItem();
-}
-
-void QGraphicsLayoutTileItem::setPixmaps(QPixmap lower, QPixmap upper, QPixmap event)
-{
-    m_lowerPix = lower;
-    m_upperPix = upper;
-    m_eventPix = event;
+    m_lower = lower;
+    m_upper = upper;
     createGraphicItem();
 }
 
 void QGraphicsLayoutTileItem::createGraphicItem()
 {
-    QPixmap pixmap = m_lowerPix;
+    QPixmap pixmap(Core::tileSize(),Core::tileSize());
     QPainter p(&pixmap);
-    p.drawPixmap(m_lowerPix.rect(), m_upperPix);
-    p.drawPixmap(m_lowerPix.rect(), m_eventPix);
+    p.drawPixmap(pixmap.rect(), Core::tile(m_lower));
+    p.drawPixmap(pixmap.rect(), Core::tile(m_upper));
+    for (unsigned int i = 0; i < Core::map()->events.size(); i++)
+    {
+        RPG::Event ev = Core::map()->events[i];
+        if (ev.x == x && ev.y == y)
+        {
+            p.drawPixmap(pixmap.rect(),Core::tile(0x7FFE));
+            break;
+        }
+    }
     QGraphicsPixmapItem* m_pix = new QGraphicsPixmapItem(pixmap);
     setGraphicsItem(m_pix);
 }

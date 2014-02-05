@@ -7,21 +7,22 @@
 class QGraphicsLayoutTileItem : public QGraphicsLayoutItem
 {
 public:
-    QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent);
+    QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent,int n_x, int n_y);
     // Inherited from QGraphicsLayoutItem
     void setGeometry(const QRectF &geom);
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const;
 
-    void setLowerPixmap(QPixmap pix);
-    void setUpperPixmap(QPixmap pix);
-    void setEventPixmap(QPixmap pix);
-    void setPixmaps(QPixmap lower, QPixmap upper, QPixmap event);
+    void setLowerTile(short lower);
+    void setUpperTile(short upper);
+    void setTiles(short lower, short upper);
 private:
+
     void createGraphicItem();
 
-    QPixmap m_lowerPix;
-    QPixmap m_upperPix;
-    QPixmap m_eventPix;
+    short m_lower;
+    short m_upper;
+    int x;
+    int y;
 };
 
 #endif // QGRAPHICSLAYOUTTILEITEM_H

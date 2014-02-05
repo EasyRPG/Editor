@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QTreeWidgetItem>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
 #include "tools/QGraphicsPaleteScene.h"
@@ -41,8 +42,8 @@ private slots:
     void on_action_Close_Project_triggered();
 
     void on_action_Open_Project_triggered();
-    void on_actionJukebox_triggered(bool disconnect = false);
 
+    void on_actionJukebox_triggered(bool disconnect = false);
 
     void on_actionChipset_triggered();
 
@@ -52,13 +53,13 @@ private slots:
 
     void on_action_Events_triggered();
 
-    void on_actionOpen_LMU_triggered();
-
     void on_actionZoomIn_triggered();
 
     void on_actionZoomOut_triggered();
 
     void on_actionScale_1_1_triggered();
+
+    void on_treeMap_itemSelectionChanged();
 
 private:
 

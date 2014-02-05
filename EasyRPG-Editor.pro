@@ -21,7 +21,6 @@ SOURCES += src/mainwindow.cpp \
     src/tools/QGraphicsImportItem.cpp \
     src/gamecharacter.cpp \
     src/dialogopenproject.cpp \
-    src/EasyRPGCore.cpp \
     src/musicplayer.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp \
@@ -170,7 +169,8 @@ SOURCES += src/mainwindow.cpp \
     src/ldb_animationframe.cpp \
     src/ldb_animationcelldata.cpp \
     src/ldb_animation.cpp \
-    src/ldb_actor.cpp
+    src/ldb_actor.cpp \
+    src/core.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -182,7 +182,6 @@ HEADERS  += src/mainwindow.h \
     src/tools/QGraphicsImportItem.h \
     src/tools/picojson.h \
     src/dialogopenproject.h \
-    src/EasyRPGCore.h \
     src/musicplayer.h \
     src/tools/QGraphicsPaleteScene.h \
     src/volumebutton.h \
@@ -274,7 +273,8 @@ HEADERS  += src/mainwindow.h \
     src/writer_xml.h \
     src/boost/preprocessor/cat.hpp \
     src/boost/preprocessor/stringize.hpp \
-    src/boost/preprocessor/config/config.hpp
+    src/boost/preprocessor/config/config.hpp \
+    src/core.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

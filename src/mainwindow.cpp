@@ -8,7 +8,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
-#include "EasyRPGCore.h"
+#include "core.h"
 #include "lmu_reader.h"
 #include "lmt_reader.h"
 #include "ldb_reader.h"
@@ -46,9 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    const QString DEFAULT_DIR_KEY("default_dir");
-    const QString CURRENT_PROJECT_KEY("current_project");
-    EasyRPGCore::Init();
+    Core::Init();
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(1);
@@ -67,15 +65,10 @@ MainWindow::MainWindow(QWidget *parent) :
         LoadProject(m_defDir+l_project+"/");
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
-    /**  Test  **/
-    EasyRPGCore::LoadChipset("C:/Program Files (x86)/ASCII/RPG2000/RTP/ChipSet/Basis.png");
-    m_paleteScene->onChipsetChange();
-    m_paleteScene->onLayerChange();
     QGraphicsScene *m_mapScene = new QGraphicsScene();
     ui->graphicsView->setScene(m_mapScene);
     m_mapWidget = new QGraphicsMapWidget();
     m_mapScene->addItem(m_mapWidget);
-    /** /Test  **/
 }
 
 MainWindow::~MainWindow()
@@ -89,15 +82,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadProject(QString p_path)
 {
-    const QString CURRENT_PROJECT_KEY("current_project");
-    EasyRPGCore::setCurrentProjectPath(p_path);
+    Core::setprojectPath(p_path);
     Data::Clear();
     if (!LDB_Reader::Load(QString(p_path+"rpg_rt.ldb").toStdString()))
     {
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load database file: "+p_path+"RPG_RT.ldb");
-        EasyRPGCore::setCurrentProjectPath("");
+        Core::setprojectPath("");
         return;
     }
     if (!LMT_Reader::Load(QString(p_path+"RPG_RT.lmt").toStdString()))
@@ -105,34 +97,34 @@ void MainWindow::LoadProject(QString p_path)
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load map tree file: "+p_path+"RPG_RT.lmt");
-        EasyRPGCore::setCurrentProjectPath("");
+        Core::setprojectPath("");
         return;
     }
-
+    Core::LoadMaps();
     INIReader reader(p_path.toStdString()+"RPG_RT.ini");
     QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
-    EasyRPGCore::setCurrentGameTitle(title);
+    Core::setGameTitle(title);
     switch (reader.GetInteger("RPG_RT","MapEditMode", 0))
     {
     case 1:
-        EasyRPGCore::setCurrentLayer(EasyRPGCore::UPPER);
+        Core::setLayer(Core::UPPER);
         break;
     case 2:
-        EasyRPGCore::setCurrentLayer(EasyRPGCore::EVENT);
+        Core::setLayer(Core::EVENT);
         break;
     default:
-        EasyRPGCore::setCurrentLayer(EasyRPGCore::LOWER);
+        Core::setLayer(Core::LOWER);
         break;
     }
     //TODO:: create a new variable on the ini for a suitable zoom mode
     float scale = (float)reader.GetInteger("RPG_RT","MapEditZoom", 0)*0.5+0.5;
     m_mapWidget->setScale(scale);
-    setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
-    m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
+    setWindowTitle("EasyRPG Editor - " + Core::gameTitle());
+    m_settings.setValue(CURRENT_PROJECT_KEY, Core::gameTitle());
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
-    root->setData(0,Qt::DisplayRole, EasyRPGCore::currentGameTitle());
+    root->setData(0,Qt::DisplayRole, Core::gameTitle());
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
@@ -204,7 +196,7 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-    if (EasyRPGCore::currentProjectPath().isEmpty()){
+    if (Core::projectPath().isEmpty()){
         ui->actionCircle->setEnabled(false);
         ui->actionCreate_Game_Disk->setEnabled(false);
         ui->actionData_Base->setEnabled(false);
@@ -263,8 +255,6 @@ void MainWindow::update_actions()
 
 void MainWindow::on_action_New_Project_triggered()
 {
-    const QString DEFAULT_DIR_KEY("default_dir");
-    const QString CURRENT_PROJECT_KEY("current_project");
     DialogNewProject dlg(this);
     dlg.setDefDir(m_defDir);
     dlg.exec();
@@ -285,9 +275,9 @@ void MainWindow::on_action_New_Project_triggered()
             }
             else
                 d_gamepath.mkdir(".");
-        EasyRPGCore::setCurrentProjectPath(dlg.getProjectPath());
-        EasyRPGCore::setCurrentGameTitle(dlg.getGameTitle());
-        EasyRPGCore::setTileSize(dlg.getTileSize());
+        Core::setprojectPath(dlg.getProjectPath());
+        Core::setGameTitle(dlg.getGameTitle());
+        Core::setTileSize(dlg.getTileSize());
         m_defDir = dlg.getDefDir();
         Data::Clear();
         d_gamepath.mkdir(dlg.getProjectPath()+"Backdrop");
@@ -310,11 +300,11 @@ void MainWindow::on_action_New_Project_triggered()
         d_gamepath.mkdir(dlg.getProjectPath()+"System2");
         d_gamepath.mkdir(dlg.getProjectPath()+"Title");
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-        setWindowTitle("EasyRPG Editor - " + EasyRPGCore::currentGameTitle());
-        m_settings.setValue(CURRENT_PROJECT_KEY, EasyRPGCore::currentGameTitle());
+        setWindowTitle("EasyRPG Editor - " + Core::gameTitle());
+        m_settings.setValue(CURRENT_PROJECT_KEY, Core::gameTitle());
         //TODO:: add a map;
-        LDB_Reader::Save(EasyRPGCore::currentProjectPath().toStdString()+"RPG_RT.ldb");
-        LMT_Reader::Save(EasyRPGCore::currentProjectPath().toStdString()+"RPG_RT.lmt");
+        LDB_Reader::Save(Core::projectPath().toStdString()+"RPG_RT.ldb");
+        LMT_Reader::Save(Core::projectPath().toStdString()+"RPG_RT.lmt");
         //TODO:: create ini;
         update_actions();
     }
@@ -350,11 +340,10 @@ bool MainWindow::removeDir(const QString & dirName, const QString &root)
 
 void MainWindow::on_action_Close_Project_triggered()
 {
-    const QString CURRENT_PROJECT_KEY("current_project");
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
     Data::Clear();
-    EasyRPGCore::setCurrentGameTitle("");
-    EasyRPGCore::setCurrentProjectPath("");
+    Core::setGameTitle("");
+    Core::setprojectPath("");
     ui->treeMap->clear();
     update_actions();
     setWindowTitle("EasyRPG Editor");
@@ -362,7 +351,6 @@ void MainWindow::on_action_Close_Project_triggered()
 
 void MainWindow::on_action_Open_Project_triggered()
 {
-    const QString DEFAULT_DIR_KEY("default_dir");
     DialogOpenProject dlg(this);
     dlg.setDefDir(m_defDir);
     if (dlg.exec() == QDialog::Accepted)
@@ -395,9 +383,9 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
 
 void MainWindow::on_actionChipset_triggered()
 {
-    if (!EasyRPGCore::debugChipset())
+    if (!Core::debugChipset())
         return;
-    EasyRPGCore::debugChipset()->show();
+    Core::debugChipset()->show();
 }
 
 void MainWindow::on_action_Lower_Layer_triggered()
@@ -405,7 +393,7 @@ void MainWindow::on_action_Lower_Layer_triggered()
     ui->action_Lower_Layer->setChecked(true);
     ui->action_Upper_Layer->setChecked(false);
     ui->action_Events->setChecked(false);
-    EasyRPGCore::setCurrentLayer(EasyRPGCore::LOWER);
+    Core::setLayer(Core::LOWER);
     m_paleteScene->onLayerChange();
 }
 
@@ -414,7 +402,7 @@ void MainWindow::on_action_Upper_Layer_triggered()
     ui->action_Lower_Layer->setChecked(false);
     ui->action_Upper_Layer->setChecked(true);
     ui->action_Events->setChecked(false);
-    EasyRPGCore::setCurrentLayer(EasyRPGCore::UPPER);
+    Core::setLayer(Core::UPPER);
     m_paleteScene->onLayerChange();
 }
 
@@ -423,20 +411,8 @@ void MainWindow::on_action_Events_triggered()
     ui->action_Lower_Layer->setChecked(false);
     ui->action_Upper_Layer->setChecked(false);
     ui->action_Events->setChecked(true);
-    EasyRPGCore::setCurrentLayer(EasyRPGCore::EVENT);
+    Core::setLayer(Core::EVENT);
     m_paleteScene->onLayerChange();
-}
-
-void MainWindow::on_actionOpen_LMU_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(this,
-                                                    "Open RPG Maker map",
-                                                    QString(),
-                                                    "LMU file (*.lmu)");
-    if (fileName.isEmpty())
-        return;
-    EasyRPGCore::setCurrentMap(LMU_Reader::Load(fileName.toStdString()).get());
-    m_mapWidget->onMapChange();
 }
 
 void MainWindow::on_actionZoomIn_triggered()
@@ -454,4 +430,12 @@ void MainWindow::on_actionZoomOut_triggered()
 void MainWindow::on_actionScale_1_1_triggered()
 {
     m_mapWidget->setScale(1.0);
+}
+
+void MainWindow::on_treeMap_itemSelectionChanged()
+{
+    Core::setMap(ui->treeMap->selectedItems()[0]->data(1,Qt::DisplayRole).toInt());
+    m_mapWidget->onMapChange();
+    m_paleteScene->onChipsetChange();
+    m_paleteScene->onLayerChange();
 }

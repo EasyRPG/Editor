@@ -39,6 +39,7 @@
         <file>share/old_movedown.png</file>
         <file>share/old_moveup.png</file>
         <file>share/old_edit.png</file>
+        <file>share/old_ev.png</file>
     </qresource>
     <qresource prefix="/embedded">
         <file>share/eraser.png</file>

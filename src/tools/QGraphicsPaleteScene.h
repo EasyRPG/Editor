@@ -5,7 +5,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
-#include "../EasyRPGCore.h"
+#include "../core.h"
 
 class QGraphicsPaleteScene : public QGraphicsScene
 {

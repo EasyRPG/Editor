@@ -1,20 +1,26 @@
-#include "EasyRPGCore.h"
+#include "core.h"
 #include <QApplication>
+#include <QBitmap>
 #include <QPainter>
+#include <sstream>
+#include <iomanip>
+#include "data.h"
+#include "lmu_reader.h"
 
 //define static members
-QListWidget* EasyRPGCore::m_debugChipset = 0;
-RPG::Map* EasyRPGCore::m_currentMap = 0;
-int EasyRPGCore::m_tileSize = 48;
-QString EasyRPGCore::m_currentGameTitle = QString();
-QString EasyRPGCore::m_currentProjectPath = QString();
-EasyRPGCore::Layer EasyRPGCore::m_currentLayer = EasyRPGCore::LOWER;
-EasyRPGCore::Tool EasyRPGCore::m_currentTool = EasyRPGCore::PENCIL;
-EasyRPGCore::Zoom EasyRPGCore::m_currentZoom = EasyRPGCore::Z_11;
-QMap<int,QPixmap> EasyRPGCore::m_currentChipset = QMap<int,QPixmap>();
-QMap<int,short> EasyRPGCore::m_dictionary = QMap<int,short>();
+QListWidget* Core::m_debugChipset = 0;
+RPG::Map* Core::m_map = 0;
+RPG::Chipset Core::m_chipset = RPG::Chipset();
+int Core::m_tileSize = 16;
+QString Core::m_gameTitle = QString();
+QString Core::m_projectPath = QString();
+Core::Layer Core::m_layer = Core::LOWER;
+Core::Tool Core::m_tool = Core::PENCIL;
+QMap<int,QPixmap> Core::m_tileCache = QMap<int,QPixmap>();
+QMap<int,short> Core::m_dictionary = QMap<int,short>();
+QMap<int,RPG::Map> Core::m_maps = QMap<int,RPG::Map>();
 
-void EasyRPGCore::Init()
+void Core::Init()
 {
     m_dictionary[UPLEFT]                            = 1;
     m_dictionary[UPRIGHT]                           = 2;
@@ -64,22 +70,59 @@ void EasyRPGCore::Init()
     m_dictionary[UP+DOWN+LEFT+RIGHT]                = 46;
 }
 
-void EasyRPGCore::LoadChipset(QString n_chipset)
+void Core::LoadMaps()
 {
+    m_maps.clear();
+    std::stringstream ss;
+    for (unsigned int i = 1; i < Data::treemap.tree_order.size(); i++)
+    {
+        ss.str("");
+        ss << "Map" << std::setfill('0') << std::setw(4) << Data::treemap.tree_order[i] << ".lmu";
+        RPG::Map map = *(LMU_Reader::Load(m_projectPath.toStdString()+ss.str()).get());
+        map.ID = Data::treemap.tree_order[i];
+        m_maps[Data::treemap.tree_order[i]] = map;
+    }
+}
+
+void Core::LoadChipset()
+{
+    if (m_chipset.ID == map()->chipset_id)
+        return;
+    m_chipset = RPG::Chipset();
+    for (unsigned int i = 0; i < Data::chipsets.size();i++)
+        if (Data::chipsets[i].ID == map()->chipset_id)
+        {
+            m_chipset = Data::chipsets[i];
+            break;
+        }
+    if (m_chipset.ID == 0)
+        return;
+    QString n_chipset = m_projectPath+"ChipSet/"+QString::fromStdString(m_chipset.chipset_name);
     QPixmap *o_chipset = new QPixmap(n_chipset);
     if (o_chipset->isNull())
     {
-        delete o_chipset;
-        return;
+        o_chipset = new QPixmap(480,256);
+        o_chipset->fill(Qt::black);
     }
+
+    /** TODO: find out the right way to set key color**/
+    QColor keycolor = QColor(o_chipset->toImage().pixel(290,130));
+    o_chipset->setMask(o_chipset->createMaskFromColor(keycolor));
+    /**                    /TODO                     **/
 
     int r_tileSize = o_chipset->width()/30;
     int r_tileHalf = r_tileSize/2;
 
     /** BindWaterTiles **/
-    m_currentChipset = QMap<int,QPixmap>();
+    m_tileCache = QMap<int,QPixmap>();
     if (m_debugChipset)
         delete m_debugChipset;
+    QPixmap ev(tileSize(),tileSize());
+    QPainter p_ev(&ev);
+    p_ev.drawPixmap(0, 0, tileSize(), tileSize(), QPixmap(":/icons/share/old_ev.png"));
+    p_ev.end();
+    ev.setMask(ev.createMaskFromColor(Qt::black));
+    m_tileCache[EV] = ev;
     m_debugChipset = new QListWidget();
     m_debugChipset->setIconSize(QSize(tileSize(),tileSize()));
     m_debugChipset->setWindowTitle("Debug: ChipSet cache");
@@ -151,7 +194,7 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             dr = DOWNRIGHT;
         _code += ul+ur+dl+dr;
         short id = translate(terrain_id,_code,_scode);
-        if (!m_currentChipset[id].isNull()) //item exist?
+        if (!m_tileCache[id].isNull()) //item exist?
             continue;
         // Water B uses second block of 3x4 tiles for borders
         // Water A and Deep Water uses first block
@@ -235,26 +278,26 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
                 blit(0, 6.5*r_tileSize);
         }
 #undef blit
-        m_currentChipset[id] = p_tile;
+        m_tileCache[id] = p_tile;
         m_debugChipset->addItem(QString::number(id));
-        m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[id]));
+        m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[id]));
     }
 
     /** Register AnimationTiles **/
     QPixmap a_tile(tileSize(), tileSize());
     QPainter a(&a_tile);
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-    m_currentChipset[3000] = a_tile;
+    m_tileCache[3000] = a_tile;
     m_debugChipset->addItem("3000");
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[3000]));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[3000]));
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-    m_currentChipset[3050] = a_tile;
+    m_tileCache[3050] = a_tile;
     m_debugChipset->addItem("3050");
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[3050]));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[3050]));
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-    m_currentChipset[3100] = a_tile;
+    m_tileCache[3100] = a_tile;
     m_debugChipset->addItem("3100");
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[3100]));
+    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[3100]));
 
     /** BindGroundTiles **/
     // Each tileset contains 5 columns with a size of 6x16 tiles
@@ -310,7 +353,7 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
                 dr = DOWNRIGHT;
 
             short id = translate (terrain_id, u+d+l+r+ul+ur+dl+dr);
-            if (!m_currentChipset[id].isNull()) //item exist?
+            if (!m_tileCache[id].isNull()) //item exist?
                 continue;
 
             /*
@@ -458,9 +501,9 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
             /*
              * Register tile
              */
-            m_currentChipset[id] = p_tile;
+            m_tileCache[id] = p_tile;
             m_debugChipset->addItem(QString::number((int)id));
-            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[id]));
+            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[id]));
         }
 
         terrain_id++;
@@ -484,12 +527,17 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
     {
         for (int col = 0; col < 6; col++)
         {
+            QPixmap ef_tile(tileSize(), tileSize());
+            ef_tile.fill(QColor(0,0,0,0));
+            QPainter ef(&ef_tile);
             int orig_x = tileset_col*6*r_tileSize+col*r_tileSize;
             int orig_y = tile_row*r_tileSize;
-            a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(orig_x,orig_y,r_tileSize,r_tileSize));
-            m_currentChipset[translate(terrain_id)] = a_tile;
+            ef.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(orig_x,orig_y,r_tileSize,r_tileSize));
+            ef.end();
+            ef_tile.setMask(a_tile.createMaskFromColor(keycolor));
+            m_tileCache[translate(terrain_id)] = ef_tile;
             m_debugChipset->addItem(QString::number(translate(terrain_id)));
-            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_currentChipset[translate(terrain_id)]));
+            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[translate(terrain_id)]));
             terrain_id++;
         }
 
@@ -506,69 +554,56 @@ void EasyRPGCore::LoadChipset(QString n_chipset)
       QListWidgetItem *item = m_debugChipset->item(i);
       item->setSizeHint(QSize(item->sizeHint().width(), tileSize() + 10));
     }
+    delete o_chipset;
 }
-int EasyRPGCore::tileSize()
+int Core::tileSize()
 {
     return m_tileSize;
 }
 
-void EasyRPGCore::setTileSize(int tile_size)
+void Core::setTileSize(int tile_size)
 {
     m_tileSize = tile_size;
 }
-QString EasyRPGCore::currentProjectPath()
+QString Core::projectPath()
 {
-    return m_currentProjectPath;
+    return m_projectPath;
 }
 
-void EasyRPGCore::setCurrentProjectPath(const QString &current_project_path)
+void Core::setprojectPath(const QString &current_project_path)
 {
-    m_currentProjectPath = current_project_path;
+    m_projectPath = current_project_path;
 }
-EasyRPGCore::Layer EasyRPGCore::currentLayer()
+Core::Layer Core::layer()
 {
-    return m_currentLayer;
-}
-
-void EasyRPGCore::setCurrentLayer(const Layer &current_layer)
-{
-    m_currentLayer = current_layer;
-}
-EasyRPGCore::Tool EasyRPGCore::currentTool()
-{
-    return m_currentTool;
+    return m_layer;
 }
 
-void EasyRPGCore::setCurrentTool(const Tool &current_tool)
+void Core::setLayer(const Layer &current_layer)
 {
-    m_currentTool = current_tool;
+    m_layer = current_layer;
 }
-EasyRPGCore::Zoom EasyRPGCore::currentZoom()
+Core::Tool Core::tool()
 {
-    return m_currentZoom;
-}
-
-void EasyRPGCore::setCurrentZoom(const Zoom &current_zoom)
-{
-    m_currentZoom = current_zoom;
+    return m_tool;
 }
 
-QString EasyRPGCore::RtpPath()
+void Core::setTool(const Tool &current_tool)
 {
-    return (qApp->applicationDirPath() + "/RTP/");
+    m_tool = current_tool;
 }
 
-QString EasyRPGCore::currentGameTitle()
+QString Core::gameTitle()
 {
-    return m_currentGameTitle;
+    return m_gameTitle;
 }
 
-void EasyRPGCore::setCurrentGameTitle(const QString &currentGameTitle)
+void Core::setGameTitle(const QString &currentGameTitle)
 {
-    m_currentGameTitle = currentGameTitle;
+    m_gameTitle = currentGameTitle;
 }
 
-bool EasyRPGCore::isWater(int terrain_id)
+bool Core::isWater(int terrain_id)
 {
     if (terrain_id >= 0 && terrain_id <= 2)
         return true;
@@ -576,7 +611,7 @@ bool EasyRPGCore::isWater(int terrain_id)
         return false;
 }
 
-bool EasyRPGCore::isABWater(int terrain_id)
+bool Core::isABWater(int terrain_id)
 {
     if (terrain_id == 0 || terrain_id == 1)
         return true;
@@ -584,7 +619,7 @@ bool EasyRPGCore::isABWater(int terrain_id)
         return false;
 }
 
-bool EasyRPGCore::isDWater(int terrain_id)
+bool Core::isDWater(int terrain_id)
 {
     if (terrain_id == 2)
         return true;
@@ -592,7 +627,7 @@ bool EasyRPGCore::isDWater(int terrain_id)
         return false;
 }
 
-bool EasyRPGCore::isAnimation(int terrain_id)
+bool Core::isAnimation(int terrain_id)
 {
     if (terrain_id >= 3 && terrain_id <= 5)
         return true;
@@ -600,7 +635,7 @@ bool EasyRPGCore::isAnimation(int terrain_id)
         return false;
 }
 
-bool EasyRPGCore::isDblock(int terrain_id)
+bool Core::isDblock(int terrain_id)
 {
     if (terrain_id >= 6 && terrain_id <= 17)
         return true;
@@ -608,7 +643,7 @@ bool EasyRPGCore::isDblock(int terrain_id)
         return false;
 }
 
-bool EasyRPGCore::isEblock(int terrain_id)
+bool Core::isEblock(int terrain_id)
 {
     if (terrain_id >= 18 && terrain_id <= 161)
         return true;
@@ -616,7 +651,7 @@ bool EasyRPGCore::isEblock(int terrain_id)
         return false;
 }
 
-bool EasyRPGCore::isFblock(int terrain_id)
+bool Core::isFblock(int terrain_id)
 {
     if (terrain_id >= 162 && terrain_id <= 305)
         return true;
@@ -624,28 +659,28 @@ bool EasyRPGCore::isFblock(int terrain_id)
         return false;
 }
 
-RPG::Map *EasyRPGCore::currentMap()
+RPG::Map *Core::map()
 {
-    return m_currentMap;
+    return m_map;
 }
 
-void EasyRPGCore::setCurrentMap(RPG::Map *currentMap)
+void Core::setMap(int id)
 {
-    m_currentMap = new RPG::Map();
-    *m_currentMap = *currentMap;
+    m_map = &m_maps[id];
+    LoadChipset();
 }
 
-QListWidget *EasyRPGCore::debugChipset()
+QListWidget *Core::debugChipset()
 {
     return m_debugChipset;
 }
 
-QPixmap EasyRPGCore::tile(short tile_id)
+QPixmap Core::tile(short tile_id)
 {
-    return m_currentChipset.value(tile_id);
+    return m_tileCache.value(tile_id);
 }
 
-short EasyRPGCore::translate(int terrain_id, int _code, int _scode)
+short Core::translate(int terrain_id, int _code, int _scode)
 {
     if (terrain_id < 0)
         return 0x7FFF;
@@ -658,11 +693,11 @@ short EasyRPGCore::translate(int terrain_id, int _code, int _scode)
     if (isEblock(terrain_id))
         return (5000+terrain_id-18);
     if (isFblock(terrain_id))
-        return (10000+terrain_id-161);
+        return (10000+terrain_id-162);
     return 0x7FFF;
 }
 
-int EasyRPGCore::translate(short tile_id)
+int Core::translate(short tile_id)
 {
     if (tile_id < 0)
         return -1;
@@ -678,14 +713,4 @@ int EasyRPGCore::translate(short tile_id)
         return tile_id-10000+161;
     else
         return -1;
-}
-
-int EasyRPGCore::currentMapHeight()
-{
-    return (m_currentMap) ? m_currentMap->height : 0;
-}
-
-int EasyRPGCore::currentMapWidth()
-{
-    return (m_currentMap) ? m_currentMap->width : 0;
 }
