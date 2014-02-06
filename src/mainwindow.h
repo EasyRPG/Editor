@@ -7,7 +7,7 @@
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
 #include "tools/QGraphicsPaleteScene.h"
-#include "tools/QGraphicsMapWidget.h"
+#include "tools/QGraphicsMapScene.h"
 #include "musicplayer.h"
 
 namespace Ui {
@@ -71,7 +71,7 @@ private:
     QSettings m_settings;
     QString m_defDir;
     QGraphicsPaleteScene *m_paleteScene;
-    QGraphicsMapWidget *m_mapWidget;
+    QGraphicsMapScene *m_mapScene;
 };
 
 #endif // MAINWINDOW_H

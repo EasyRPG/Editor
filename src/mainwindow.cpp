@@ -65,10 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
         LoadProject(m_defDir+l_project+"/");
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
-    QGraphicsScene *m_mapScene = new QGraphicsScene();
+    m_mapScene = new QGraphicsMapScene(this);
     ui->graphicsView->setScene(m_mapScene);
-    m_mapWidget = new QGraphicsMapWidget();
-    m_mapScene->addItem(m_mapWidget);
 }
 
 MainWindow::~MainWindow()
@@ -76,8 +74,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete dlg_resource;
     delete dlg_db;
-    delete m_paleteScene;
-    delete m_mapWidget;
 }
 
 void MainWindow::LoadProject(QString p_path)
@@ -118,7 +114,7 @@ void MainWindow::LoadProject(QString p_path)
     }
     //TODO:: create a new variable on the ini for a suitable zoom mode
     float scale = (float)reader.GetInteger("RPG_RT","MapEditZoom", 0)*0.5+0.5;
-    m_mapWidget->setScale(scale);
+    m_mapScene->setScale(scale);
     setWindowTitle("EasyRPG Editor - " + Core::gameTitle());
     m_settings.setValue(CURRENT_PROJECT_KEY, Core::gameTitle());
     ui->treeMap->clear();
@@ -417,25 +413,25 @@ void MainWindow::on_action_Events_triggered()
 
 void MainWindow::on_actionZoomIn_triggered()
 {
-    if (m_mapWidget->scale() != 2.0)
-        m_mapWidget->setScale(m_mapWidget->scale()+0.5);
+    if (m_mapScene->scale() != 2.0)
+        m_mapScene->setScale(m_mapScene->scale()+0.5);
 }
 
 void MainWindow::on_actionZoomOut_triggered()
 {
-    if (m_mapWidget->scale() != 0.5)
-        m_mapWidget->setScale(m_mapWidget->scale()-0.5);
+    if (m_mapScene->scale() != 0.5)
+        m_mapScene->setScale(m_mapScene->scale()-0.5);
 }
 
 void MainWindow::on_actionScale_1_1_triggered()
 {
-    m_mapWidget->setScale(1.0);
+    m_mapScene->setScale(1.0);
 }
 
 void MainWindow::on_treeMap_itemSelectionChanged()
 {
     Core::setMap(ui->treeMap->selectedItems()[0]->data(1,Qt::DisplayRole).toInt());
-    m_mapWidget->onMapChange();
+    m_mapScene->onMapChange();
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();
 }

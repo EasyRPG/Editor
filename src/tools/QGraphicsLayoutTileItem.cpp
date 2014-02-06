@@ -5,7 +5,7 @@
 QGraphicsLayoutTileItem::QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent) :
     QGraphicsLayoutItem(parent)
 {
-    m_ev = 0;
+    m_ev = -1;
 }
 
 QSizeF QGraphicsLayoutTileItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
@@ -31,9 +31,10 @@ void QGraphicsLayoutTileItem::setUpperTile(short upper)
     m_upper = upper;
 }
 
-void QGraphicsLayoutTileItem::setEvent(RPG::Event *n_ev)
+void QGraphicsLayoutTileItem::setEvent(int n_ev)
 {
     m_ev = n_ev;
+    m_lower = 5000;
 }
 
 void QGraphicsLayoutTileItem::redraw(QPixmap &dest, int x, int y)
@@ -49,7 +50,7 @@ void QGraphicsLayoutTileItem::redraw(QPixmap &dest, int x, int y)
                  Core::tileSize(),
                  Core::tileSize(),
                  Core::tile(m_upper));
-    if (m_ev)
+    if (m_ev != -1)
         p.drawPixmap(x*Core::tileSize(),
                      y*Core::tileSize(),
                      Core::tileSize(),

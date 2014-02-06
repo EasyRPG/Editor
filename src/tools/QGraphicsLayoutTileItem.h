@@ -12,7 +12,7 @@ public:
 
     void setLowerTile(short lower);
     void setUpperTile(short upper);
-    void setEvent(RPG::Event *n_ev);
+    void setEvent(int n_ev);
 
     void redraw(QPixmap &dest, int x, int y);
 
@@ -21,7 +21,7 @@ public:
 private:
     short m_lower;
     short m_upper;
-    RPG::Event *m_ev;
+    int m_ev;
 };
 
 #endif // QGRAPHICSLAYOUTTILEITEM_H

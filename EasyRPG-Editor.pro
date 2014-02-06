@@ -25,7 +25,6 @@ SOURCES += src/mainwindow.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp \
     src/tools/QGraphicsLayoutTileItem.cpp \
-    src/tools/QGraphicsMapWidget.cpp \
     src/data.cpp \
     src/ini.cpp \
     src/inireader.cpp \
@@ -170,7 +169,8 @@ SOURCES += src/mainwindow.cpp \
     src/ldb_animationcelldata.cpp \
     src/ldb_animation.cpp \
     src/ldb_actor.cpp \
-    src/core.cpp
+    src/core.cpp \
+    src/tools/QGraphicsMapScene.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -186,7 +186,6 @@ HEADERS  += src/mainwindow.h \
     src/tools/QGraphicsPaleteScene.h \
     src/volumebutton.h \
     src/tools/QGraphicsLayoutTileItem.h \
-    src/tools/QGraphicsMapWidget.h \
     src/command_codes.h \
     src/data.h \
     src/ini.h \
@@ -274,7 +273,8 @@ HEADERS  += src/mainwindow.h \
     src/boost/preprocessor/cat.hpp \
     src/boost/preprocessor/stringize.hpp \
     src/boost/preprocessor/config/config.hpp \
-    src/core.h
+    src/core.h \
+    src/tools/QGraphicsMapScene.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
