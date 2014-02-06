@@ -5,7 +5,6 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include "dialogimportimage.h"
-#include "EasyRPGCore.h"
 
 DialogResourceManager::DialogResourceManager(QWidget *parent) :
     QDialog(parent),

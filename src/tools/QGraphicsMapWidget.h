@@ -17,11 +17,13 @@ signals:
 public slots:
     void onMapChange();
     void setScale(float scale);
-private:
 
+private:
     QGraphicsGridLayout *m_layout;
-    QVector<QGraphicsLayoutTileItem*> m_tiles;
+    QGraphicsPixmapItem *m_pixmap;
     float m_scale;
+    int w;
+    int h;
 };
 
 #endif // QGRAPHICSMAPWIDGET_H

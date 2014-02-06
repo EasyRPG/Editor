@@ -3,26 +3,25 @@
 
 #include <QGraphicsLayoutItem>
 #include <QGraphicsPixmapItem>
+#include "../rpg_event.h"
 
 class QGraphicsLayoutTileItem : public QGraphicsLayoutItem
 {
 public:
-    QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent,int n_x, int n_y);
-    // Inherited from QGraphicsLayoutItem
-    void setGeometry(const QRectF &geom);
-    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const;
+    QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent);
 
     void setLowerTile(short lower);
     void setUpperTile(short upper);
-    void setTiles(short lower, short upper);
+    void setEvent(RPG::Event *n_ev);
+
+    void redraw(QPixmap &dest, int x, int y);
+
+    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
+
 private:
-
-    void createGraphicItem();
-
     short m_lower;
     short m_upper;
-    int x;
-    int y;
+    RPG::Event *m_ev;
 };
 
 #endif // QGRAPHICSLAYOUTTILEITEM_H

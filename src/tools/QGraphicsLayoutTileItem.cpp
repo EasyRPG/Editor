@@ -2,18 +2,10 @@
 #include "../core.h"
 #include <QPainter>
 
-QGraphicsLayoutTileItem::QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent, int n_x, int n_y) :
-    QGraphicsLayoutItem(parent),
-    x(n_x),
-    y(n_y)
+QGraphicsLayoutTileItem::QGraphicsLayoutTileItem(QGraphicsLayoutItem *parent) :
+    QGraphicsLayoutItem(parent)
 {
-}
-
-void QGraphicsLayoutTileItem::setGeometry(const QRectF &geom)
-{
-    QGraphicsLayoutItem::setGeometry(geom);
-    graphicsItem()->setPos(geom.topLeft());
-    graphicsItem()->setScale(geom.width()/Core::tileSize());
+    m_ev = 0;
 }
 
 QSizeF QGraphicsLayoutTileItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
@@ -32,37 +24,35 @@ QSizeF QGraphicsLayoutTileItem::sizeHint(Qt::SizeHint which, const QSizeF &const
 void QGraphicsLayoutTileItem::setLowerTile(short lower)
 {
     m_lower = lower;
-    createGraphicItem();
 }
 
 void QGraphicsLayoutTileItem::setUpperTile(short upper)
 {
     m_upper = upper;
-    createGraphicItem();
 }
 
-void QGraphicsLayoutTileItem::setTiles(short lower, short upper)
+void QGraphicsLayoutTileItem::setEvent(RPG::Event *n_ev)
 {
-    m_lower = lower;
-    m_upper = upper;
-    createGraphicItem();
+    m_ev = n_ev;
 }
 
-void QGraphicsLayoutTileItem::createGraphicItem()
+void QGraphicsLayoutTileItem::redraw(QPixmap &dest, int x, int y)
 {
-    QPixmap pixmap(Core::tileSize(),Core::tileSize());
-    QPainter p(&pixmap);
-    p.drawPixmap(pixmap.rect(), Core::tile(m_lower));
-    p.drawPixmap(pixmap.rect(), Core::tile(m_upper));
-    for (unsigned int i = 0; i < Core::map()->events.size(); i++)
-    {
-        RPG::Event ev = Core::map()->events[i];
-        if (ev.x == x && ev.y == y)
-        {
-            p.drawPixmap(pixmap.rect(),Core::tile(0x7FFE));
-            break;
-        }
-    }
-    QGraphicsPixmapItem* m_pix = new QGraphicsPixmapItem(pixmap);
-    setGraphicsItem(m_pix);
+    QPainter p(&dest);
+    p.drawPixmap(x*Core::tileSize(),
+                 y*Core::tileSize(),
+                 Core::tileSize(),
+                 Core::tileSize(),
+                 Core::tile(m_lower));
+    p.drawPixmap(x*Core::tileSize(),
+                 y*Core::tileSize(),
+                 Core::tileSize(),
+                 Core::tileSize(),
+                 Core::tile(m_upper));
+    if (m_ev)
+        p.drawPixmap(x*Core::tileSize(),
+                     y*Core::tileSize(),
+                     Core::tileSize(),
+                     Core::tileSize(),
+                     Core::tile(0x7FFE));
 }

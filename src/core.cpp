@@ -88,7 +88,6 @@ void Core::LoadChipset()
 {
     if (m_chipset.ID == map()->chipset_id)
         return;
-    m_chipset = RPG::Chipset();
     for (unsigned int i = 0; i < Data::chipsets.size();i++)
         if (Data::chipsets[i].ID == map()->chipset_id)
         {
@@ -96,7 +95,10 @@ void Core::LoadChipset()
             break;
         }
     if (m_chipset.ID == 0)
+    {
+        m_tileCache.clear();
         return;
+    }
     QString n_chipset = m_projectPath+"ChipSet/"+QString::fromStdString(m_chipset.chipset_name);
     QPixmap *o_chipset = new QPixmap(n_chipset);
     if (o_chipset->isNull())
@@ -114,7 +116,7 @@ void Core::LoadChipset()
     int r_tileHalf = r_tileSize/2;
 
     /** BindWaterTiles **/
-    m_tileCache = QMap<int,QPixmap>();
+    m_tileCache.clear();
     if (m_debugChipset)
         delete m_debugChipset;
     QPixmap ev(tileSize(),tileSize());
@@ -666,7 +668,10 @@ RPG::Map *Core::map()
 
 void Core::setMap(int id)
 {
-    m_map = &m_maps[id];
+    if (id == 0)
+        m_map = 0;
+    else
+        m_map = &m_maps[id];
     LoadChipset();
 }
 
