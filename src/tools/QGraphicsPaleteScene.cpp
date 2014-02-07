@@ -46,6 +46,8 @@ void QGraphicsPaleteScene::onChipsetChange()
     m_selectionItem->setVisible(true);
     m_lowerTiles = QPixmap(192, 896);
     m_upperTiles = QPixmap(192, 800);
+    m_lowerTiles.fill(mCore()->keycolor());
+    m_upperTiles.fill(mCore()->keycolor());
     QPainter p(&m_lowerTiles);
     p.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
     p.end();
