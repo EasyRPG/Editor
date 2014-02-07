@@ -45,8 +45,6 @@ private slots:
 
     void on_actionJukebox_triggered(bool disconnect = false);
 
-    void on_actionChipset_triggered();
-
     void on_action_Lower_Layer_triggered();
 
     void on_action_Upper_Layer_triggered();

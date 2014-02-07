@@ -7,21 +7,12 @@
 #include "data.h"
 #include "lmu_reader.h"
 
-//define static members
-QListWidget* Core::m_debugChipset = 0;
-RPG::Map* Core::m_map = 0;
-RPG::Chipset Core::m_chipset = RPG::Chipset();
-int Core::m_tileSize = 16;
-QString Core::m_gameTitle = QString();
-QString Core::m_projectPath = QString();
-Core::Layer Core::m_layer = Core::LOWER;
-Core::Tool Core::m_tool = Core::PENCIL;
-QMap<int,QPixmap> Core::m_tileCache = QMap<int,QPixmap>();
-QMap<int,short> Core::m_dictionary = QMap<int,short>();
-QMap<int,RPG::Map> Core::m_maps = QMap<int,RPG::Map>();
+//define static member
+Core *Core::core = new Core();
 
-void Core::Init()
+Core::Core()
 {
+    m_tileSize = 16;
     m_dictionary[UPLEFT]                            = 1;
     m_dictionary[UPRIGHT]                           = 2;
     m_dictionary[UPLEFT+UPRIGHT]                    = 3;
@@ -70,6 +61,11 @@ void Core::Init()
     m_dictionary[UP+DOWN+LEFT+RIGHT]                = 46;
 }
 
+Core *Core::getCore()
+{
+    return core;
+}
+
 void Core::LoadMaps()
 {
     m_maps.clear();
@@ -86,7 +82,7 @@ void Core::LoadMaps()
 
 void Core::LoadChipset()
 {
-    if (m_chipset.ID == map()->chipset_id)
+    if (!m_map || m_chipset.ID == map()->chipset_id)
         return;
     for (unsigned int i = 0; i < Data::chipsets.size();i++)
         if (Data::chipsets[i].ID == map()->chipset_id)
@@ -117,18 +113,12 @@ void Core::LoadChipset()
 
     /** BindWaterTiles **/
     m_tileCache.clear();
-    if (m_debugChipset)
-        delete m_debugChipset;
     QPixmap ev(tileSize(),tileSize());
     QPainter p_ev(&ev);
     p_ev.drawPixmap(0, 0, tileSize(), tileSize(), QPixmap(":/icons/share/old_ev.png"));
     p_ev.end();
     ev.setMask(ev.createMaskFromColor(Qt::black));
     m_tileCache[EV] = ev;
-    m_debugChipset = new QListWidget();
-    m_debugChipset->setIconSize(QSize(tileSize(),tileSize()));
-    m_debugChipset->setWindowTitle("Debug: ChipSet cache");
-    m_debugChipset->setWindowIcon(QIcon(QPixmap(":/icons/share/old_palette.png")));
     /**
      * TileIDs:
      * 0- WaterA
@@ -281,8 +271,6 @@ void Core::LoadChipset()
         }
 #undef blit
         m_tileCache[id] = p_tile;
-        m_debugChipset->addItem(QString::number(id));
-        m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[id]));
     }
 
     /** Register AnimationTiles **/
@@ -290,16 +278,10 @@ void Core::LoadChipset()
     QPainter a(&a_tile);
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
     m_tileCache[3000] = a_tile;
-    m_debugChipset->addItem("3000");
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[3000]));
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
     m_tileCache[3050] = a_tile;
-    m_debugChipset->addItem("3050");
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[3050]));
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
     m_tileCache[3100] = a_tile;
-    m_debugChipset->addItem("3100");
-    m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[3100]));
 
     /** BindGroundTiles **/
     // Each tileset contains 5 columns with a size of 6x16 tiles
@@ -504,8 +486,6 @@ void Core::LoadChipset()
              * Register tile
              */
             m_tileCache[id] = p_tile;
-            m_debugChipset->addItem(QString::number((int)id));
-            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[id]));
         }
 
         terrain_id++;
@@ -538,8 +518,6 @@ void Core::LoadChipset()
             ef.end();
             ef_tile.setMask(a_tile.createMaskFromColor(keycolor));
             m_tileCache[translate(terrain_id)] = ef_tile;
-            m_debugChipset->addItem(QString::number(translate(terrain_id)));
-            m_debugChipset->item(m_debugChipset->count()-1)->setIcon(QIcon(m_tileCache[translate(terrain_id)]));
             terrain_id++;
         }
 
@@ -549,12 +527,6 @@ void Core::LoadChipset()
             tile_row = 0;
             tileset_col++;
         }
-    }
-    int count = m_debugChipset->count();
-    for(int i = 0; i < count; i++)
-    {
-      QListWidgetItem *item = m_debugChipset->item(i);
-      item->setSizeHint(QSize(item->sizeHint().width(), tileSize() + 10));
     }
     delete o_chipset;
 }
@@ -673,11 +645,6 @@ void Core::setMap(int id)
     else
         m_map = &m_maps[id];
     LoadChipset();
-}
-
-QListWidget *Core::debugChipset()
-{
-    return m_debugChipset;
 }
 
 QPixmap Core::tile(short tile_id)

@@ -1,7 +1,8 @@
 #ifndef CORE_H
 #define CORE_H
 
-#define chipsetIsNull() Core::tile(0).isNull()
+#define chipsetIsNull() Core::getCore()->tile(0).isNull()
+#define mCore() Core::getCore()
 
 /****************************
  *     Binding Constants    *
@@ -46,59 +47,56 @@ public:
         FILL
     };
 
-    Core(){}
+    Core();
 
-    static void Init();
+    static Core* getCore();
 
-    static void LoadMaps();
-    static void LoadChipset();
+    void LoadMaps();
+    void LoadChipset();
 
-    static int tileSize();
-    static void setTileSize(int tileSize);
+    int tileSize();
+    void setTileSize(int tileSize);
 
-    static QString projectPath();
-    static void setprojectPath(const QString &projectPath);
+    QString projectPath();
+    void setprojectPath(const QString &projectPath);
 
-    static Layer layer();
-    static void setLayer(const Layer &layer);
+    Layer layer();
+    void setLayer(const Layer &layer);
 
-    static Tool tool();
-    static void setTool(const Tool &tool);
+    Tool tool();
+    void setTool(const Tool &tool);
 
-    static QString gameTitle();
-    static void setGameTitle(const QString &gameTitle);
+    QString gameTitle();
+    void setGameTitle(const QString &gameTitle);
 
-    static RPG::Map *map();
-    static void setMap(int id);
+    RPG::Map *map();
+    void setMap(int id);
 
-    static QListWidget* debugChipset();
+    QPixmap tile(short tile_id);
 
-    static QPixmap tile(short tile_id);
+    short translate(int terrain_id, int _code = 0, int _scode = 0);
+    int translate(short tile_id);
 
-    static short translate(int terrain_id, int _code = 0, int _scode = 0);
-    static int translate(short tile_id);
+    bool isWater(int terrain_id);
+    bool isABWater(int terrain_id);
+    bool isDWater(int terrain_id);
+    bool isAnimation(int terrain_id);
+    bool isDblock(int terrain_id);
+    bool isEblock(int terrain_id);
+    bool isFblock(int terrain_id);
 
-private:
-    static bool isWater(int terrain_id);
-    static bool isABWater(int terrain_id);
-    static bool isDWater(int terrain_id);
-    static bool isAnimation(int terrain_id);
-    static bool isDblock(int terrain_id);
-    static bool isEblock(int terrain_id);
-    static bool isFblock(int terrain_id);
-
-    static QListWidget* m_debugChipset;
-
-    static RPG::Map *m_map;
-    static RPG::Chipset m_chipset;
-    static int m_tileSize;
-    static QString m_gameTitle;
-    static QString m_projectPath;
-    static Layer m_layer;
-    static Tool m_tool;
-    static QMap<int, QPixmap> m_tileCache;
-    static QMap<int, short> m_dictionary;
-    static QMap<int, RPG::Map> m_maps;
+    private:
+    RPG::Map *m_map;
+    RPG::Chipset m_chipset;
+    int m_tileSize;
+    QString m_gameTitle;
+    QString m_projectPath;
+    Layer m_layer;
+    Tool m_tool;
+    QMap<int, QPixmap> m_tileCache;
+    QMap<int, short> m_dictionary;
+    QMap<int, RPG::Map> m_maps;
+    static Core *core;
 };
 
 #endif // CORE_H

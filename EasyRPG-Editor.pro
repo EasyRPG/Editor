@@ -24,7 +24,6 @@ SOURCES += src/mainwindow.cpp \
     src/musicplayer.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp \
-    src/tools/QGraphicsLayoutTileItem.cpp \
     src/data.cpp \
     src/ini.cpp \
     src/inireader.cpp \
@@ -185,7 +184,6 @@ HEADERS  += src/mainwindow.h \
     src/musicplayer.h \
     src/tools/QGraphicsPaleteScene.h \
     src/volumebutton.h \
-    src/tools/QGraphicsLayoutTileItem.h \
     src/command_codes.h \
     src/data.h \
     src/ini.h \

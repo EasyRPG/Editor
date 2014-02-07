@@ -46,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    Core::Init();
     ui->setupUi(this);
     // Hide map ids
     ui->treeMap->hideColumn(1);
@@ -78,14 +77,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadProject(QString p_path)
 {
-    Core::setprojectPath(p_path);
+     mCore()->setprojectPath(p_path);
     Data::Clear();
     if (!LDB_Reader::Load(QString(p_path+"rpg_rt.ldb").toStdString()))
     {
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load database file: "+p_path+"RPG_RT.ldb");
-        Core::setprojectPath("");
+         mCore()->setprojectPath("");
         return;
     }
     if (!LMT_Reader::Load(QString(p_path+"RPG_RT.lmt").toStdString()))
@@ -93,34 +92,34 @@ void MainWindow::LoadProject(QString p_path)
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load map tree file: "+p_path+"RPG_RT.lmt");
-        Core::setprojectPath("");
+         mCore()->setprojectPath("");
         return;
     }
-    Core::LoadMaps();
+     mCore()->LoadMaps();
     INIReader reader(p_path.toStdString()+"RPG_RT.ini");
     QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
-    Core::setGameTitle(title);
+     mCore()->setGameTitle(title);
     switch (reader.GetInteger("RPG_RT","MapEditMode", 0))
     {
     case 1:
-        Core::setLayer(Core::UPPER);
+         mCore()->setLayer(Core::UPPER);
         break;
     case 2:
-        Core::setLayer(Core::EVENT);
+         mCore()->setLayer(Core::EVENT);
         break;
     default:
-        Core::setLayer(Core::LOWER);
+         mCore()->setLayer(Core::LOWER);
         break;
     }
     //TODO:: create a new variable on the ini for a suitable zoom mode
     float scale = (float)reader.GetInteger("RPG_RT","MapEditZoom", 0)*0.5+0.5;
     m_mapScene->setScale(scale);
-    setWindowTitle("EasyRPG Editor - " + Core::gameTitle());
-    m_settings.setValue(CURRENT_PROJECT_KEY, Core::gameTitle());
+    setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
+    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
-    root->setData(0,Qt::DisplayRole, Core::gameTitle());
+    root->setData(0,Qt::DisplayRole,  mCore()->gameTitle());
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
@@ -192,7 +191,7 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-    if (Core::projectPath().isEmpty()){
+    if ( mCore()->projectPath().isEmpty()){
         ui->actionCircle->setEnabled(false);
         ui->actionCreate_Game_Disk->setEnabled(false);
         ui->actionData_Base->setEnabled(false);
@@ -271,9 +270,9 @@ void MainWindow::on_action_New_Project_triggered()
             }
             else
                 d_gamepath.mkdir(".");
-        Core::setprojectPath(dlg.getProjectPath());
-        Core::setGameTitle(dlg.getGameTitle());
-        Core::setTileSize(dlg.getTileSize());
+         mCore()->setprojectPath(dlg.getProjectPath());
+         mCore()->setGameTitle(dlg.getGameTitle());
+         mCore()->setTileSize(dlg.getTileSize());
         m_defDir = dlg.getDefDir();
         Data::Clear();
         d_gamepath.mkdir(dlg.getProjectPath()+"Backdrop");
@@ -296,11 +295,11 @@ void MainWindow::on_action_New_Project_triggered()
         d_gamepath.mkdir(dlg.getProjectPath()+"System2");
         d_gamepath.mkdir(dlg.getProjectPath()+"Title");
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-        setWindowTitle("EasyRPG Editor - " + Core::gameTitle());
-        m_settings.setValue(CURRENT_PROJECT_KEY, Core::gameTitle());
+        setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
+        m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
         //TODO:: add a map;
-        LDB_Reader::Save(Core::projectPath().toStdString()+"RPG_RT.ldb");
-        LMT_Reader::Save(Core::projectPath().toStdString()+"RPG_RT.lmt");
+        LDB_Reader::Save( mCore()->projectPath().toStdString()+"RPG_RT.ldb");
+        LMT_Reader::Save( mCore()->projectPath().toStdString()+"RPG_RT.lmt");
         //TODO:: create ini;
         update_actions();
     }
@@ -338,8 +337,8 @@ void MainWindow::on_action_Close_Project_triggered()
 {
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
     Data::Clear();
-    Core::setGameTitle("");
-    Core::setprojectPath("");
+     mCore()->setGameTitle("");
+     mCore()->setprojectPath("");
     ui->treeMap->clear();
     update_actions();
     setWindowTitle("EasyRPG Editor");
@@ -377,19 +376,12 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
     }
 }
 
-void MainWindow::on_actionChipset_triggered()
-{
-    if (!Core::debugChipset())
-        return;
-    Core::debugChipset()->show();
-}
-
 void MainWindow::on_action_Lower_Layer_triggered()
 {
     ui->action_Lower_Layer->setChecked(true);
     ui->action_Upper_Layer->setChecked(false);
     ui->action_Events->setChecked(false);
-    Core::setLayer(Core::LOWER);
+     mCore()->setLayer(Core::LOWER);
     m_paleteScene->onLayerChange();
 }
 
@@ -398,7 +390,7 @@ void MainWindow::on_action_Upper_Layer_triggered()
     ui->action_Lower_Layer->setChecked(false);
     ui->action_Upper_Layer->setChecked(true);
     ui->action_Events->setChecked(false);
-    Core::setLayer(Core::UPPER);
+     mCore()->setLayer(Core::UPPER);
     m_paleteScene->onLayerChange();
 }
 
@@ -407,7 +399,7 @@ void MainWindow::on_action_Events_triggered()
     ui->action_Lower_Layer->setChecked(false);
     ui->action_Upper_Layer->setChecked(false);
     ui->action_Events->setChecked(true);
-    Core::setLayer(Core::EVENT);
+     mCore()->setLayer(Core::EVENT);
     m_paleteScene->onLayerChange();
 }
 
@@ -430,7 +422,7 @@ void MainWindow::on_actionScale_1_1_triggered()
 
 void MainWindow::on_treeMap_itemSelectionChanged()
 {
-    Core::setMap(ui->treeMap->selectedItems()[0]->data(1,Qt::DisplayRole).toInt());
+     mCore()->setMap(ui->treeMap->selectedItems()[0]->data(1,Qt::DisplayRole).toInt());
     m_mapScene->onMapChange();
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();

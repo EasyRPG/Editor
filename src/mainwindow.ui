@@ -110,7 +110,6 @@
     <property name="title">
      <string>Debug</string>
     </property>
-    <addaction name="actionChipset"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -727,15 +726,6 @@
    </property>
    <property name="toolTip">
     <string>Draw in the map with a fill tool</string>
-   </property>
-  </action>
-  <action name="actionChipset">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_palette.png</normaloff>:/icons/share/old_palette.png</iconset>
-   </property>
-   <property name="text">
-    <string>Chipset</string>
    </property>
   </action>
  </widget>
