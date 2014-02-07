@@ -36,7 +36,7 @@ void QGraphicsPaleteScene::onLayerChange()
 
 void QGraphicsPaleteScene::onChipsetChange()
 {
-    if (!mCore()->map() || chipsetIsNull())
+    if (!mCore()->map() || mCore()->chipsetIsNull())
     {
         m_tiles->setVisible(false);
         m_selectionItem->setVisible(false);
@@ -46,19 +46,27 @@ void QGraphicsPaleteScene::onChipsetChange()
     m_selectionItem->setVisible(true);
     m_lowerTiles = QPixmap(192, 896);
     m_upperTiles = QPixmap(192, 800);
-    QPainter l(&m_lowerTiles);
-    QPainter u(&m_upperTiles);
-    l.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
-    u.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
+    QPainter p(&m_lowerTiles);
+    p.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
+    p.end();
+    p.begin(&m_upperTiles);
+    p.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
+    p.end();
+    mCore()->beginPainting(m_lowerTiles);
     for (int terrain_id = 0; terrain_id < 162; terrain_id++)
     {
-        int col =((terrain_id)%6)*32;
-        int row = (terrain_id/6+1)*32;
-        l.drawPixmap(col,row,32,32, mCore()->tile(mCore()->translate(terrain_id,15)));
-        if (terrain_id < 144)
-            u.drawPixmap(col,row,32,32, mCore()->tile(mCore()->translate(terrain_id+162)));
+        QRect rect(((terrain_id)%6)*32,(terrain_id/6+1)*32,32,32);
+        mCore()->renderTile(mCore()->translate(terrain_id,15), rect);
     }
-    l.drawPixmap(64,32,32,32, mCore()->tile(mCore()->translate(2,0,240)));
+    mCore()->renderTile(mCore()->translate(2,0,240), QRect(64,32,32,32));
+    mCore()->endPainting();
+    mCore()->beginPainting(m_upperTiles);
+    for (int terrain_id = 0; terrain_id < 144; terrain_id++)
+    {
+        QRect rect(((terrain_id)%6)*32,(terrain_id/6+1)*32,32,32);
+        mCore()->renderTile(mCore()->translate(terrain_id+162), rect);
+    }
+    mCore()->endPainting();
 }
 
 void QGraphicsPaleteScene::updateSelectionRect()

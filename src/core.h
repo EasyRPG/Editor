@@ -1,7 +1,6 @@
 #ifndef CORE_H
 #define CORE_H
 
-#define chipsetIsNull() Core::getCore()->tile(0).isNull()
 #define mCore() Core::getCore()
 
 /****************************
@@ -22,6 +21,7 @@
 #define DEFAULT_DIR_KEY "default_dir"
 
 #include <QPixmap>
+#include <QPainter>
 #include <QListWidget>
 #include "rpg_map.h"
 #include "rpg_chipset.h"
@@ -72,10 +72,16 @@ public:
     RPG::Map *map();
     void setMap(int id);
 
-    QPixmap tile(short tile_id);
+    void beginPainting(QPixmap &dest);
+    void renderTile(short tile_id, QRect dest_rect);
+    void endPainting();
+
+    QColor keycolor();
 
     short translate(int terrain_id, int _code = 0, int _scode = 0);
     int translate(short tile_id);
+
+    inline bool chipsetIsNull() {return m_tileCache[0].isNull();}
 
     bool isWater(int terrain_id);
     bool isABWater(int terrain_id);
@@ -89,8 +95,10 @@ public:
     RPG::Map *m_map;
     RPG::Chipset m_chipset;
     int m_tileSize;
+    QPainter m_painter;
     QString m_gameTitle;
     QString m_projectPath;
+    QColor m_keycolor;
     Layer m_layer;
     Tool m_tool;
     QMap<int, QPixmap> m_tileCache;

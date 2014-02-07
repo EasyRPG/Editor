@@ -104,8 +104,8 @@ void Core::LoadChipset()
     }
 
     /** TODO: find out the right way to set key color**/
-    QColor keycolor = QColor(o_chipset->toImage().pixel(290,130));
-    o_chipset->setMask(o_chipset->createMaskFromColor(keycolor));
+    m_keycolor = QColor(o_chipset->toImage().pixel(290,130));
+    o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
     /**                    /TODO                     **/
 
     int r_tileSize = o_chipset->width()/30;
@@ -516,7 +516,7 @@ void Core::LoadChipset()
             int orig_y = tile_row*r_tileSize;
             ef.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(orig_x,orig_y,r_tileSize,r_tileSize));
             ef.end();
-            ef_tile.setMask(a_tile.createMaskFromColor(keycolor));
+            ef_tile.setMask(a_tile.createMaskFromColor(m_keycolor));
             m_tileCache[translate(terrain_id)] = ef_tile;
             terrain_id++;
         }
@@ -647,9 +647,24 @@ void Core::setMap(int id)
     LoadChipset();
 }
 
-QPixmap Core::tile(short tile_id)
+void Core::beginPainting(QPixmap &dest)
 {
-    return m_tileCache.value(tile_id);
+    m_painter.begin(&dest);
+}
+
+void Core::renderTile(short tile_id, QRect dest_rect)
+{
+    m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
+}
+
+void Core::endPainting()
+{
+    m_painter.end();
+}
+
+QColor Core::keycolor()
+{
+    return m_keycolor;
 }
 
 short Core::translate(int terrain_id, int _code, int _scode)

@@ -29,7 +29,7 @@ private:
     float m_scale;
     int w;
     int h;
-    void redrawTile(QPixmap &dest, int x, int y);
+    void redrawTile(int x, int y);
 };
 
 #endif // QGRAPHICSMAPSCENE_H

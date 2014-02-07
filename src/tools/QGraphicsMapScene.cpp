@@ -40,25 +40,30 @@ void QGraphicsMapScene::onMapChange()
         m_background->setVisible(true);
     }
     else
-        m_background->setVisible(false);
+    {
+        QPixmap back(mCore()->map()->width, mCore()->map()->height);
+        back.fill(mCore()->keycolor());
+        m_background->setPixmap(back);
+        m_background->setVisible(true);
+    }
     QPixmap pix( mCore()->tileSize()*w,  mCore()->tileSize()*h);
     pix.fill(QColor(0,0,0,0));
     m_lower =  mCore()->map()->lower_layer;
     m_upper =  mCore()->map()->upper_layer;
+    mCore()->beginPainting(pix);
     for (unsigned int i = 0; i < m_lower.size(); i++)
         {
-            redrawTile(pix, _x(i), _y(i));
+            redrawTile(_x(i), _y(i));
         }
-
-    QPainter p(&pix);
     for (unsigned int i = 0; i <  mCore()->map()->events.size(); i++)
     {
-        p.drawPixmap( mCore()->map()->events[i].x* mCore()->tileSize(),
-                      mCore()->map()->events[i].y* mCore()->tileSize(),
-                      mCore()->tileSize(),
-                      mCore()->tileSize(),
-                      mCore()->tile(EV));
+        QRect rect(mCore()->map()->events[i].x* mCore()->tileSize(),
+                   mCore()->map()->events[i].y* mCore()->tileSize(),
+                   mCore()->tileSize(),
+                   mCore()->tileSize());
+        mCore()->renderTile(EV, rect);
     }
+    mCore()->endPainting();
     m_pixmap->setPixmap(pix);
     setScale(m_scale);
 }
@@ -90,17 +95,12 @@ int QGraphicsMapScene::_index(int x, int y)
     return (w*y+x);
 }
 
-void QGraphicsMapScene::redrawTile(QPixmap &dest, int x, int y)
+void QGraphicsMapScene::redrawTile(int x, int y)
 {
-    QPainter p(&dest);
-    p.drawPixmap(x* mCore()->tileSize(),
-                 y* mCore()->tileSize(),
-                  mCore()->tileSize(),
-                  mCore()->tileSize(),
-                  mCore()->tile(m_lower[_index(x,y)]));
-    p.drawPixmap(x* mCore()->tileSize(),
-                 y* mCore()->tileSize(),
-                  mCore()->tileSize(),
-                  mCore()->tileSize(),
-                  mCore()->tile(m_upper[_index(x,y)]));
+    QRect rect(x* mCore()->tileSize(),
+               y* mCore()->tileSize(),
+               mCore()->tileSize(),
+               mCore()->tileSize());
+    mCore()->renderTile(m_lower[_index(x,y)],rect);
+    mCore()->renderTile(m_upper[_index(x,y)],rect);
 }
