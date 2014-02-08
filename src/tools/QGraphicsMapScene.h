@@ -10,6 +10,7 @@ class QGraphicsMapScene : public QGraphicsScene
     Q_OBJECT
 public:
     explicit QGraphicsMapScene(int id, QObject *parent = 0);
+    ~QGraphicsMapScene();
 
     float scale() const;
     int id() const;

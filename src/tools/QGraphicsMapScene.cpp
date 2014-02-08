@@ -36,6 +36,13 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
     addItem(m_pixmap);
 }
 
+QGraphicsMapScene::~QGraphicsMapScene()
+{
+    delete m_pixmap;
+    delete m_background;
+//    QGraphicsScene::~QGraphicsScene();
+}
+
 float QGraphicsMapScene::scale() const
 {
     return m_scale;

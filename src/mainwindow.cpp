@@ -452,7 +452,8 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
     QGraphicsMapScene *scene = static_cast<QGraphicsMapScene*>(view->scene());
     mCore()->deleteMapTab(scene->id());
     ui->tabMap->removeTab(index);
-    view->~QGraphicsView();
+    delete scene;
+    delete view;
 }
 
 void MainWindow::on_tabMap_currentChanged(int index)
