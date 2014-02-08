@@ -36,7 +36,7 @@ void QGraphicsPaleteScene::onLayerChange()
 
 void QGraphicsPaleteScene::onChipsetChange()
 {
-    if (!mCore()->map() || mCore()->chipsetIsNull())
+    if (mCore()->chipsetIsNull())
     {
         m_tiles->setVisible(false);
         m_selectionItem->setVisible(false);

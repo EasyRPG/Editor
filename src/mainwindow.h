@@ -7,7 +7,6 @@
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
 #include "tools/QGraphicsPaleteScene.h"
-#include "tools/QGraphicsMapScene.h"
 #include "musicplayer.h"
 
 namespace Ui {
@@ -57,7 +56,11 @@ private slots:
 
     void on_actionScale_1_1_triggered();
 
-    void on_treeMap_itemSelectionChanged();
+    void on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_tabMap_tabCloseRequested(int index);
+
+    void on_tabMap_currentChanged(int index);
 
 private:
 
@@ -69,7 +72,6 @@ private:
     QSettings m_settings;
     QString m_defDir;
     QGraphicsPaleteScene *m_paleteScene;
-    QGraphicsMapScene *m_mapScene;
 };
 
 #endif // MAINWINDOW_H

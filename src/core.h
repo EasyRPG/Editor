@@ -51,8 +51,11 @@ public:
 
     static Core* getCore();
 
-    void LoadMaps();
-    void LoadChipset();
+    void LoadChipset(int n_chipsetid);
+
+    QWidget *getMapTab(int id);
+    QWidget *createMapTab(int id, QWidget*parent);
+    void deleteMapTab(int id);
 
     int tileSize();
     void setTileSize(int tileSize);
@@ -68,9 +71,6 @@ public:
 
     QString gameTitle();
     void setGameTitle(const QString &gameTitle);
-
-    RPG::Map *map();
-    void setMap(int id);
 
     void beginPainting(QPixmap &dest);
     void renderTile(short tile_id, QRect dest_rect);
@@ -104,6 +104,7 @@ public:
     QMap<int, QPixmap> m_tileCache;
     QMap<int, short> m_dictionary;
     QMap<int, RPG::Map> m_maps;
+    QMap<int, QWidget*> m_mapTabs;
     static Core *core;
 };
 

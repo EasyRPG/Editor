@@ -1,17 +1,39 @@
 #include "QGraphicsMapScene.h"
 #include <QPainter>
+#include <iomanip>
+#include <sstream>
 #include "../core.h"
+#include "../lmu_reader.h"
 
-QGraphicsMapScene::QGraphicsMapScene(QObject *parent) :
+QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
     QGraphicsScene(parent)
 {
+    std::stringstream ss;
+    ss << "Map" << std::setfill('0') << std::setw(4) << id << ".lmu";
+    m_map = LMU_Reader::Load(mCore()->projectPath().toStdString()+ss.str());
+    m_map.get()->ID = id;
+    mCore()->LoadChipset(m_map.get()->chipset_id);
+    m_lower =  m_map.get()->lower_layer;
+    m_upper =  m_map.get()->upper_layer;
     m_pixmap = new QGraphicsPixmapItem();
     m_background = new QGraphicsPixmapItem();
+    m_scale = 1.0;
+    if(m_map.get()->parallax_flag)
+    {
+        QPixmap back( mCore()->projectPath() +
+                     "Panorama/" +
+                     m_map.get()->parallax_name.c_str());
+        m_background->setPixmap(back);
+    }
+    else
+    {
+        QPixmap back(m_map.get()->width, m_map.get()->height);
+        back.fill(mCore()->keycolor());
+        m_background->setPixmap(back);
+    }
+    redrawMap();
     addItem(m_background);
     addItem(m_pixmap);
-    m_scale = 1.0;
-    w = 0;
-    h = 0;
 }
 
 float QGraphicsMapScene::scale() const
@@ -19,46 +41,30 @@ float QGraphicsMapScene::scale() const
     return m_scale;
 }
 
-void QGraphicsMapScene::onMapChange()
+int QGraphicsMapScene::id() const
 {
-    if (! mCore()->map() ||  mCore()->map()->ID == 0)
-    {
-        m_pixmap->setVisible(false);
-        w = 0;
-        h = 0;
-        return;
-    }
-    m_pixmap->setVisible(true);
-    w =  mCore()->map()->width;
-    h =  mCore()->map()->height;
-    if( mCore()->map()->parallax_name != "")
-    {
-        QPixmap back( mCore()->projectPath() +
-                     "Panorama/" +
-                     QString::fromStdString( mCore()->map()->parallax_name));
-        m_background->setPixmap(back);
-        m_background->setVisible(true);
-    }
-    else
-    {
-        QPixmap back(mCore()->map()->width, mCore()->map()->height);
-        back.fill(mCore()->keycolor());
-        m_background->setPixmap(back);
-        m_background->setVisible(true);
-    }
-    QPixmap pix( mCore()->tileSize()*w,  mCore()->tileSize()*h);
+    return m_map.get()->ID;
+}
+
+int QGraphicsMapScene::chipsetId() const
+{
+    return m_map.get()->chipset_id;
+}
+
+void QGraphicsMapScene::redrawMap()
+{
+    QPixmap pix(mCore()->tileSize()*m_map.get()->width,
+                mCore()->tileSize()*m_map.get()->height);
     pix.fill(QColor(0,0,0,0));
-    m_lower =  mCore()->map()->lower_layer;
-    m_upper =  mCore()->map()->upper_layer;
     mCore()->beginPainting(pix);
     for (unsigned int i = 0; i < m_lower.size(); i++)
         {
             redrawTile(_x(i), _y(i));
         }
-    for (unsigned int i = 0; i <  mCore()->map()->events.size(); i++)
+    for (unsigned int i = 0; i <  m_map.get()->events.size(); i++)
     {
-        QRect rect(mCore()->map()->events[i].x* mCore()->tileSize(),
-                   mCore()->map()->events[i].y* mCore()->tileSize(),
+        QRect rect(m_map.get()->events[i].x* mCore()->tileSize(),
+                   m_map.get()->events[i].y* mCore()->tileSize(),
                    mCore()->tileSize(),
                    mCore()->tileSize());
         mCore()->renderTile(EV, rect);
@@ -71,28 +77,27 @@ void QGraphicsMapScene::onMapChange()
 void QGraphicsMapScene::setScale(float scale)
 {
     m_scale = scale;
-    if (! mCore()->map())
-        return;
     m_pixmap->setScale(m_scale);
+    m_background->setScale(m_scale);
     this->setSceneRect(0,
                        0,
-                       w* mCore()->tileSize()*m_scale,
-                       h* mCore()->tileSize()*m_scale);
+                       m_map.get()->width* mCore()->tileSize()*m_scale,
+                       m_map.get()->height* mCore()->tileSize()*m_scale);
 }
 
 int QGraphicsMapScene::_x(int index)
 {
-    return (index%w);
+    return (index%m_map.get()->width);
 }
 
 int QGraphicsMapScene::_y(int index)
 {
-    return (index/w);
+    return (index/m_map.get()->width);
 }
 
 int QGraphicsMapScene::_index(int x, int y)
 {
-    return (w*y+x);
+    return (m_map.get()->width*y+x);
 }
 
 void QGraphicsMapScene::redrawTile(int x, int y)

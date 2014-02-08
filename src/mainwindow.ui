@@ -20,7 +20,17 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QTabWidget" name="tabMap">
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -234,6 +244,9 @@
      </property>
      <item>
       <widget class="QTreeWidget" name="treeMap">
+       <property name="expandsOnDoubleClick">
+        <bool>false</bool>
+       </property>
        <attribute name="headerVisible">
         <bool>false</bool>
        </attribute>

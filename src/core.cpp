@@ -1,11 +1,10 @@
 #include "core.h"
 #include <QApplication>
 #include <QBitmap>
+#include <QGraphicsView>
 #include <QPainter>
-#include <sstream>
-#include <iomanip>
 #include "data.h"
-#include "lmu_reader.h"
+#include "tools/QGraphicsMapScene.h"
 
 //define static member
 Core *Core::core = new Core();
@@ -66,26 +65,12 @@ Core *Core::getCore()
     return core;
 }
 
-void Core::LoadMaps()
+void Core::LoadChipset(int n_chipsetid)
 {
-    m_maps.clear();
-    std::stringstream ss;
-    for (unsigned int i = 1; i < Data::treemap.tree_order.size(); i++)
-    {
-        ss.str("");
-        ss << "Map" << std::setfill('0') << std::setw(4) << Data::treemap.tree_order[i] << ".lmu";
-        RPG::Map map = *(LMU_Reader::Load(m_projectPath.toStdString()+ss.str()).get());
-        map.ID = Data::treemap.tree_order[i];
-        m_maps[Data::treemap.tree_order[i]] = map;
-    }
-}
-
-void Core::LoadChipset()
-{
-    if (!m_map || m_chipset.ID == map()->chipset_id)
+    if (n_chipsetid == m_chipset.ID)
         return;
     for (unsigned int i = 0; i < Data::chipsets.size();i++)
-        if (Data::chipsets[i].ID == map()->chipset_id)
+        if (Data::chipsets[i].ID == n_chipsetid)
         {
             m_chipset = Data::chipsets[i];
             break;
@@ -530,6 +515,31 @@ void Core::LoadChipset()
     }
     delete o_chipset;
 }
+
+QWidget *Core::getMapTab(int id)
+{
+    return m_mapTabs[id];
+}
+
+QWidget *Core::createMapTab(int id, QWidget *parent)
+{
+    std::string mapName;
+    for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
+        if (Data::treemap.maps[i].ID == id)
+        {
+            mapName = Data::treemap.maps[i].name;
+            break;
+        }
+    QGraphicsMapScene *scene = new QGraphicsMapScene(id, parent);
+    m_mapTabs[id] = new QGraphicsView(scene, parent);
+    return m_mapTabs[id];
+}
+
+void Core::deleteMapTab(int id)
+{
+    m_mapTabs.remove(id);
+}
+
 int Core::tileSize()
 {
     return m_tileSize;
@@ -631,20 +641,6 @@ bool Core::isFblock(int terrain_id)
         return true;
     else
         return false;
-}
-
-RPG::Map *Core::map()
-{
-    return m_map;
-}
-
-void Core::setMap(int id)
-{
-    if (id == 0)
-        m_map = 0;
-    else
-        m_map = &m_maps[id];
-    LoadChipset();
 }
 
 void Core::beginPainting(QPixmap &dest)
