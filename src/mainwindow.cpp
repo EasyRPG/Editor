@@ -24,6 +24,29 @@
 Q_DECLARE_METATYPE(QList<int>)
 Q_DECLARE_METATYPE(QList<float>)
 
+static void recurseAddDir(QDir d, QStringList & list) {
+
+    QStringList qsl = d.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+
+    foreach (QString file, qsl) {
+
+        QFileInfo finfo(QString("%1/%2").arg(d.path()).arg(file));
+
+        if (finfo.isSymLink())
+            return;
+
+        if (finfo.isDir()) {
+
+            QString dirname = finfo.fileName();
+            QDir sd(finfo.filePath());
+
+            recurseAddDir(sd, list);
+
+        } else
+            list << QDir::toNativeSeparators(finfo.filePath());
+    }
+}
+
 static void associateFileTypes(const QStringList &fileTypes)
 {
     QString displayName = QGuiApplication::applicationDisplayName();
@@ -95,6 +118,7 @@ void MainWindow::LoadProject(QString foldername)
         Data::Clear();
         return;
     }
+    std::vector<RPG::Item> objetos = Data::items;
     if (!LMT_Reader::LoadXml(mCore()->filePath(ROOT, EASY_MT).toStdString()))
     {
         QMessageBox::critical(this,
@@ -105,9 +129,6 @@ void MainWindow::LoadProject(QString foldername)
         Data::Clear();
         return;
     }
-    QString title = QString::fromStdString(Data::treemap.maps[0].name);
-    mCore()->setGameTitle(title);
-    setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
     m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->projectFolder());
 
     ui->treeMap->clear();
@@ -152,6 +173,9 @@ void MainWindow::LoadProject(QString foldername)
         items[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
     }
     m_projSett = new QSettings(mCore()->filePath(ROOT, EASY_CFG), QSettings::IniFormat, this);
+    QString title = m_projSett->value(GAMETITLE, "Untitled").toString();
+    mCore()->setGameTitle(title);
+    setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
     mCore()->setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
     mCore()->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
     QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
@@ -163,8 +187,8 @@ void MainWindow::LoadProject(QString foldername)
         if (mapId == 0)
             continue;
         std::string mapName;
-        for (unsigned int j = 0; j < Data::treemap.maps.size();i++)
-            if (Data::treemap.maps[j].ID == mapId)
+        for (unsigned int j = 1; j < maps.maps.size();i++)
+            if (maps.maps[j].ID == mapId)
             {
                 mapName = Data::treemap.maps[j].name;
                 break;
@@ -228,7 +252,66 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->projectFolder());
     LDB_Reader::SaveXml(mCore()->filePath(ROOT, EASY_DB).toStdString());
     LMT_Reader::SaveXml(mCore()->filePath(ROOT, EASY_MT).toStdString());
+    QDir srcDir(p_path+BACKDROP);
+    QStringList entries;
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+PANORAMA);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+BATTLE);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+BATTLE2);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+BATTLECHARSET);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+BATTLEWEAPON);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+CHARSET);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+CHIPSET);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+FACESET);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+GAMEOVER);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+MONSTER);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+MOVIE);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+MUSIC);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+PICTURE);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+SOUND);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+SYSTEM);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+SYSTEM2);
+    recurseAddDir(srcDir, entries);
+    srcDir = QDir(p_path+TITLE);
+    recurseAddDir(srcDir, entries);
+    for (int i = 0; i < entries.count(); i++)
+    {
+        QFileInfo info(entries[i]);
+        QString dest_file = mCore()->filePath(info.dir().dirName()+"/"+info.fileName());
+        if (!QFile::copy(entries[i], dest_file))
+        {
+            QMessageBox box(this);
+            QString name = tr("Error");
+            QString text = tr("Could not copy file %1 to /n"
+                              "%2").arg(entries[i]).arg(dest_file);
 
+            box.setModal(true);
+            box.setWindowTitle(name);
+            box.setText(QString::fromLatin1("%1").arg(text));
+            box.setIcon(QMessageBox::Critical);
+            box.setStandardButtons(QMessageBox::Ok);
+
+            box.exec();
+
+            on_action_Close_Project_triggered();
+            return;
+        }
+    }
 
     QList<QVariant> m_mapList;
     QList<QVariant> m_scaleList;
@@ -298,6 +381,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     m_projSett = new QSettings(mCore()->filePath(ROOT, EASY_CFG),
                                QSettings::IniFormat,
                                this);
+    m_projSett->setValue(GAMETITLE, title);
     m_projSett->setValue(LAYER, mCore()->layer());
     m_projSett->setValue(MAPS, m_mapList);
     m_projSett->setValue(SCALES, m_scaleList);
@@ -501,7 +585,7 @@ void MainWindow::on_action_Open_Project_triggered()
     DialogOpenProject dlg(this);
     dlg.setDefDir(mCore()->defDir());
     if (dlg.exec() == QDialog::Accepted)
-        LoadProject(dlg.getProjectPath());
+        LoadProject(dlg.getProjectFolder());
     mCore()->setDefDir(dlg.getDefDir());
     m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
     update_actions();

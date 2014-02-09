@@ -18,7 +18,7 @@ public:
     void setDefDir(QString n_defDir);
     QString getDefDir();
 
-    QString getProjectPath();
+    QString getProjectFolder();
 
 private slots:
     void on_toolProjectPath_clicked();

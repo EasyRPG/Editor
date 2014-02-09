@@ -27,10 +27,11 @@
 /****************************
  *     PROJECT SETTINGS     *
  * **************************/
-#define LAYER "layer"
-#define MAPS "active_maps"
-#define SCALES "active_map_scales"
-#define TILESIZE "tile_size"
+#define LAYER "Layer"
+#define MAPS "ActiveMaps"
+#define SCALES "ActiveMapScales"
+#define TILESIZE "TileSize"
+#define GAMETITLE "GameTitle"
 
 /****************************
  *      FOLDER CONSTANTS    *
