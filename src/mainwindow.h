@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QTreeWidgetItem>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
 #include "tools/QGraphicsPaleteScene.h"
-#include "tools/QGraphicsMapWidget.h"
 #include "musicplayer.h"
 
 namespace Ui {
@@ -21,7 +21,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void LoadProject(QString p_path);
+    void LoadProject(QString foldername);
+    void ImportProject(QString p_path, QString d_folder);
     
 private slots:
     void on_action_Quit_triggered();
@@ -41,10 +42,8 @@ private slots:
     void on_action_Close_Project_triggered();
 
     void on_action_Open_Project_triggered();
+
     void on_actionJukebox_triggered(bool disconnect = false);
-
-
-    void on_actionChipset_triggered();
 
     void on_action_Lower_Layer_triggered();
 
@@ -52,13 +51,19 @@ private slots:
 
     void on_action_Events_triggered();
 
-    void on_actionOpen_LMU_triggered();
-
     void on_actionZoomIn_triggered();
 
     void on_actionZoomOut_triggered();
 
     void on_actionScale_1_1_triggered();
+
+    void on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_tabMap_tabCloseRequested(int index);
+
+    void on_tabMap_currentChanged(int index);
+
+    void on_actionImport_Project_triggered();
 
 private:
 
@@ -68,9 +73,9 @@ private:
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;
     QSettings m_settings;
-    QString m_defDir;
+    QSettings *m_projSett;
     QGraphicsPaleteScene *m_paleteScene;
-    QGraphicsMapWidget *m_mapWidget;
 };
+
 
 #endif // MAINWINDOW_H

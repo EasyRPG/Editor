@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>278</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>400</width>
-    <height>278</height>
+    <height>320</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>400</width>
-    <height>278</height>
+    <height>320</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -56,6 +56,18 @@
       </widget>
      </item>
      <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Game Folder</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLineEdit" name="lineGameFolder"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
         <string>Game Title</string>
@@ -75,6 +87,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QComboBox" name="comboTileSize">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
             <string>16</string>
@@ -98,11 +113,11 @@
      <item>
       <widget class="QGroupBox" name="groupBox_4">
        <property name="title">
-        <string>RTP template</string>
+        <string>DB template</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
-         <widget class="QComboBox" name="comboTileSize_2">
+         <widget class="QComboBox" name="comboDbTemplate">
           <item>
            <property name="text">
             <string>&lt;empty project&gt;</string>

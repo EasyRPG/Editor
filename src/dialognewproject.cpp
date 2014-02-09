@@ -3,15 +3,15 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
+#include <QPushButton>
 
 DialogNewProject::DialogNewProject(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogNewProject)
 {
-
-    m_defDir = QString();
     ui->setupUi(this);
     setModal(true);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 DialogNewProject::~DialogNewProject()
@@ -19,17 +19,19 @@ DialogNewProject::~DialogNewProject()
     delete ui;
 }
 
-QString DialogNewProject::getProjectPath()
+QString DialogNewProject::getProjectFolder() const
 {
-    return ui->lineProjectPath->text()+getGameTitle()+"/";
+    return ui->lineGameFolder->text();
 }
 
-QString DialogNewProject::getGameTitle()
+QString DialogNewProject::getGameTitle() const
 {
+    if (ui->lineGameTitle->text().isEmpty())
+        return (tr("Untitled"));
     return ui->lineGameTitle->text();
 }
 
-int DialogNewProject::getTileSize()
+int DialogNewProject::getTileSize() const
 {
     bool *ok = new bool;
     int val = ui->comboTileSize->currentText().toInt(ok);
@@ -38,14 +40,22 @@ int DialogNewProject::getTileSize()
     return val;
 }
 
-void DialogNewProject::setDefDir(QString n_defDir) {ui->lineProjectPath->setText(n_defDir);
-                                                    m_defDir = n_defDir;}
+void DialogNewProject::setDefDir(QString n_defDir)
+{
+    ui->lineProjectPath->setText(n_defDir);
+    m_defDir = n_defDir;
+}
 
-QString DialogNewProject::getDefDir() {return ui->lineProjectPath->text();}
+QString DialogNewProject::getDefDir()
+{
+    return ui->lineProjectPath->text();
+}
 
 void DialogNewProject::on_toolProjectPath_clicked()
 {
-    QString path = QFileDialog::getExistingDirectory(this, "Select destination forlder", m_defDir);
+    QString path = QFileDialog::getExistingDirectory(this,
+                                                     "Select destination forlder",
+                                                     m_defDir);
     if (path == QString())
         return;
     ui->lineProjectPath->setText(path+"/");
@@ -53,3 +63,8 @@ void DialogNewProject::on_toolProjectPath_clicked()
 }
 
 //TODO: generate RTP template code.
+
+void DialogNewProject::on_lineGameFolder_textChanged(const QString &arg1)
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!arg1.isEmpty());
+}

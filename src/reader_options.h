@@ -50,9 +50,9 @@
  * Enables support for XML file reading and writing.
  * This option adds libexpat as a dependency.
  */
-//#ifndef READER_SUPPORT_XML
-//#  define READER_SUPPORT_XML
-//#endif
+#ifndef READER_SUPPORT_XML
+#  define READER_SUPPORT_XML
+#endif
 
 /** Enables big endian byte order for Wii port. */
 #ifdef GEKKO

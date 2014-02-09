@@ -12,6 +12,13 @@ TARGET = EasyRPG-Editor
 TEMPLATE = app
 
 
+INCLUDEPATH += C:/Expat/Source/lib
+LIBPATH     += C:/Expat/Bin/
+
+LIBS        += -llibexpat
+
+DEFINES = READER_SUPPORT_XML
+
 SOURCES += src/mainwindow.cpp \
     src/main.cpp \
     src/dialogresourcemanager.cpp \
@@ -21,12 +28,9 @@ SOURCES += src/mainwindow.cpp \
     src/tools/QGraphicsImportItem.cpp \
     src/gamecharacter.cpp \
     src/dialogopenproject.cpp \
-    src/EasyRPGCore.cpp \
     src/musicplayer.cpp \
     src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp \
-    src/tools/QGraphicsLayoutTileItem.cpp \
-    src/tools/QGraphicsMapWidget.cpp \
     src/data.cpp \
     src/ini.cpp \
     src/inireader.cpp \
@@ -170,7 +174,10 @@ SOURCES += src/mainwindow.cpp \
     src/ldb_animationframe.cpp \
     src/ldb_animationcelldata.cpp \
     src/ldb_animation.cpp \
-    src/ldb_actor.cpp
+    src/ldb_actor.cpp \
+    src/core.cpp \
+    src/tools/QGraphicsMapScene.cpp \
+    src/dialogimportproject.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -182,12 +189,9 @@ HEADERS  += src/mainwindow.h \
     src/tools/QGraphicsImportItem.h \
     src/tools/picojson.h \
     src/dialogopenproject.h \
-    src/EasyRPGCore.h \
     src/musicplayer.h \
     src/tools/QGraphicsPaleteScene.h \
     src/volumebutton.h \
-    src/tools/QGraphicsLayoutTileItem.h \
-    src/tools/QGraphicsMapWidget.h \
     src/command_codes.h \
     src/data.h \
     src/ini.h \
@@ -274,14 +278,18 @@ HEADERS  += src/mainwindow.h \
     src/writer_xml.h \
     src/boost/preprocessor/cat.hpp \
     src/boost/preprocessor/stringize.hpp \
-    src/boost/preprocessor/config/config.hpp
+    src/boost/preprocessor/config/config.hpp \
+    src/core.h \
+    src/tools/QGraphicsMapScene.h \
+    src/dialogimportproject.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
     src/dialogdatabase.ui \
     src/dialogimportimage.ui \
     src/dialognewproject.ui \
-    src/dialogopenproject.ui
+    src/dialogopenproject.ui \
+    src/dialogimportproject.ui
 
 RESOURCES += \
     src/Resources.qrc
