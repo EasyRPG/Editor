@@ -289,12 +289,12 @@ RESOURCES += \
     src/Resources.qrc
 
 win32:CONFIG(release, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpat
-else:win32:CONFIG(debug, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpatd
+else:win32:CONFIG(debug, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpat
 
 INCLUDEPATH += C:/Expat/Source/lib
 DEPENDPATH += C:/Expat/Source/lib
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/liblibexpat.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/liblibexpatd.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/liblibexpat.a
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/libexpat.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/libexpatd.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/libexpat.lib
