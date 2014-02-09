@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets  multimedia winextras
 TARGET = EasyRPG-Editor
 TEMPLATE = app
 
-DEFINES = READER_SUPPORT_XML
+DEFINES += READER_SUPPORT_XML
 
 SOURCES += src/mainwindow.cpp \
     src/main.cpp \
@@ -287,3 +287,14 @@ FORMS    += src/mainwindow.ui \
 
 RESOURCES += \
     src/Resources.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../Expat/Bin/ -llibexpat
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../Expat/Bin/ -llibexpatd
+
+INCLUDEPATH += $$PWD/../../../../../Expat/Source/lib
+DEPENDPATH += $$PWD/../../../../../Expat/Source/lib
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../Expat/Bin/liblibexpat.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../Expat/Bin/liblibexpatd.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../Expat/Bin/libexpat.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../../Expat/Bin/libexpatd.lib
