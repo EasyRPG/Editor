@@ -80,8 +80,7 @@ void Core::LoadChipset(int n_chipsetid)
         m_tileCache.clear();
         return;
     }
-    QString n_chipset = m_projectPath+"ChipSet/"+QString::fromStdString(m_chipset.chipset_name);
-    QPixmap *o_chipset = new QPixmap(n_chipset);
+    QPixmap *o_chipset = new QPixmap(filePath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
     if (o_chipset->isNull())
     {
         o_chipset = new QPixmap(480,256);
@@ -549,15 +548,12 @@ void Core::setTileSize(int tile_size)
 {
     m_tileSize = tile_size;
 }
-QString Core::projectPath()
+
+QString Core::filePath(QString folder, QString filename)
 {
-    return m_projectPath;
+    return m_defDir+m_projectFolder+"/"+folder+filename;
 }
 
-void Core::setprojectPath(const QString &current_project_path)
-{
-    m_projectPath = current_project_path;
-}
 Core::Layer Core::layer()
 {
     return m_layer;
@@ -642,6 +638,26 @@ bool Core::isFblock(int terrain_id)
     else
         return false;
 }
+QString Core::defDir() const
+{
+    return m_defDir;
+}
+
+void Core::setDefDir(const QString &defDir)
+{
+    m_defDir = defDir;
+}
+QString Core::projectFolder() const
+{
+    return m_projectFolder;
+}
+
+void Core::setProjectFolder(const QString &projectFolder)
+{
+    m_projectFolder = projectFolder;
+}
+
+
 
 void Core::beginPainting(QPixmap &dest)
 {

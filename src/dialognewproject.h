@@ -14,17 +14,21 @@ class DialogNewProject : public QDialog
 public:
     explicit DialogNewProject(QWidget *parent = 0);
     ~DialogNewProject();
-    
-    QString getProjectPath();
-    QString getGameTitle();
-    int getTileSize();
+
+    QString getGameTitle() const;
+    QString getProjectFolder() const;
+    int getTileSize() const;
+
     //TODO: generate RTP template code.
 
     void setDefDir(QString n_defDir);
     QString getDefDir();
 
+
 private slots:
     void on_toolProjectPath_clicked();
+
+    void on_lineGameFolder_textChanged(const QString &arg1);
 
 private:
     Ui::DialogNewProject *ui;

@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets  multimedia winextras
 TARGET = EasyRPG-Editor
 TEMPLATE = app
 
+DEFINES = READER_SUPPORT_XML
 
 SOURCES += src/mainwindow.cpp \
     src/main.cpp \
@@ -169,7 +170,8 @@ SOURCES += src/mainwindow.cpp \
     src/ldb_animation.cpp \
     src/ldb_actor.cpp \
     src/core.cpp \
-    src/tools/QGraphicsMapScene.cpp
+    src/tools/QGraphicsMapScene.cpp \
+    src/dialogimportproject.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -272,14 +274,16 @@ HEADERS  += src/mainwindow.h \
     src/boost/preprocessor/stringize.hpp \
     src/boost/preprocessor/config/config.hpp \
     src/core.h \
-    src/tools/QGraphicsMapScene.h
+    src/tools/QGraphicsMapScene.h \
+    src/dialogimportproject.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
     src/dialogdatabase.ui \
     src/dialogimportimage.ui \
     src/dialognewproject.ui \
-    src/dialogopenproject.ui
+    src/dialogopenproject.ui \
+    src/dialogimportproject.ui
 
 RESOURCES += \
     src/Resources.qrc

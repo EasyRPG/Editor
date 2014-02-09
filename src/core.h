@@ -17,8 +17,57 @@
 /****************************/
 #define EV 0x7FFE
 
+/****************************
+ *      SETTINGS KEYS       *
+ * **************************/
 #define CURRENT_PROJECT_KEY "current_project"
 #define DEFAULT_DIR_KEY "default_dir"
+#define RTP_KEY "rtp_path"
+
+/****************************
+ *     PROJECT SETTINGS     *
+ * **************************/
+#define LAYER "layer"
+#define MAPS "active_maps"
+#define SCALES "active_map_scales"
+#define TILESIZE "tile_size"
+
+/****************************
+ *      FOLDER CONSTANTS    *
+ * **************************/
+#define ROOT ""
+#define BACKDROP "Backdrop/"
+#define BATTLE "Battle/"
+#define BATTLE2 "Battle2/"
+#define BATTLECHARSET "BattleCharSet/"
+#define BATTLEWEAPON "BattleWeapon/"
+#define CHARSET "CharSet/"
+#define CHIPSET "ChipSet/"
+#define FACESET "FaceSet/"
+#define FRAME "Frame/"
+#define GAMEOVER "GameOver/"
+#define MONSTER "Monster/"
+#define MOVIE "Movie/"
+#define MUSIC "Music/"
+#define PANORAMA "Panorama/"
+#define PICTURE "Picture/"
+#define SOUND "Sound/"
+#define SYSTEM "System/"
+#define SYSTEM2 "System2/"
+#define TITLE "Title/"
+
+/***************************
+ *        FILE NAMES       *
+ * *************************/
+#define RM_DB "RPG_RT.ldb"
+#define RM_MT "RPG_RT.lmt"
+#define RM_INI "RPG_RT.ini"
+//      RM_LMU "MapXXXX.lmu"
+/***************************/
+#define EASY_DB "EASY_RT.edb"
+#define EASY_MT "EASY_RT.emt"
+#define EASY_CFG "EASY_RT.cfg"
+//      EASY_EMU "MapXXXX.emu"
 
 #include <QPixmap>
 #include <QPainter>
@@ -60,8 +109,7 @@ public:
     int tileSize();
     void setTileSize(int tileSize);
 
-    QString projectPath();
-    void setprojectPath(const QString &projectPath);
+    QString filePath(QString folder, QString filename = QString());
 
     Layer layer();
     void setLayer(const Layer &layer);
@@ -91,13 +139,20 @@ public:
     bool isEblock(int terrain_id);
     bool isFblock(int terrain_id);
 
-    private:
+    QString defDir() const;
+    void setDefDir(const QString &defDir);
+
+    QString projectFolder() const;
+    void setProjectFolder(const QString &projectFolder);
+
+private:
     RPG::Map *m_map;
     RPG::Chipset m_chipset;
     int m_tileSize;
     QPainter m_painter;
     QString m_gameTitle;
-    QString m_projectPath;
+    QString m_defDir;
+    QString m_projectFolder;
     QColor m_keycolor;
     Layer m_layer;
     Tool m_tool;

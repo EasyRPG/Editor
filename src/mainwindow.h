@@ -21,7 +21,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void LoadProject(QString p_path);
+    void LoadProject(QString foldername);
+    void ImportProject(QString p_path, QString d_folder);
     
 private slots:
     void on_action_Quit_triggered();
@@ -62,6 +63,8 @@ private slots:
 
     void on_tabMap_currentChanged(int index);
 
+    void on_actionImport_Project_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);
@@ -70,8 +73,9 @@ private:
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;
     QSettings m_settings;
-    QString m_defDir;
+    QSettings *m_projSett;
     QGraphicsPaleteScene *m_paleteScene;
 };
+
 
 #endif // MAINWINDOW_H

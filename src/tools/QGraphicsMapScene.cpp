@@ -9,26 +9,24 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
     QGraphicsScene(parent)
 {
     std::stringstream ss;
-    ss << "Map" << std::setfill('0') << std::setw(4) << id << ".lmu";
-    m_map = LMU_Reader::Load(mCore()->projectPath().toStdString()+ss.str());
-    m_map.get()->ID = id;
-    mCore()->LoadChipset(m_map.get()->chipset_id);
-    m_lower =  m_map.get()->lower_layer;
-    m_upper =  m_map.get()->upper_layer;
+    ss << mCore()->filePath(ROOT).toStdString()
+       << "Map"
+       << std::setfill('0')
+       << std::setw(4)
+       << id
+       << ".emu";
+    RPG::Map *map = LMU_Reader::LoadXml(ss.str()).get();
+    m_map = *map;
+    m_map.ID = id;
+    mCore()->LoadChipset(m_map.chipset_id);
+    m_lower =  m_map.lower_layer;
+    m_upper =  m_map.upper_layer;
     m_pixmap = new QGraphicsPixmapItem();
     m_background = new QGraphicsPixmapItem();
     m_scale = 1.0;
-    if(m_map.get()->parallax_flag)
+    if(m_map.parallax_flag)
     {
-        QPixmap back( mCore()->projectPath() +
-                     "Panorama/" +
-                     m_map.get()->parallax_name.c_str());
-        m_background->setPixmap(back);
-    }
-    else
-    {
-        QPixmap back(m_map.get()->width, m_map.get()->height);
-        back.fill(mCore()->keycolor());
+        QPixmap back(mCore()->filePath(PANORAMA, m_map.parallax_name.c_str()));
         m_background->setPixmap(back);
     }
     redrawMap();
@@ -40,7 +38,6 @@ QGraphicsMapScene::~QGraphicsMapScene()
 {
     delete m_pixmap;
     delete m_background;
-//    QGraphicsScene::~QGraphicsScene();
 }
 
 float QGraphicsMapScene::scale() const
@@ -50,28 +47,28 @@ float QGraphicsMapScene::scale() const
 
 int QGraphicsMapScene::id() const
 {
-    return m_map.get()->ID;
+    return m_map.ID;
 }
 
 int QGraphicsMapScene::chipsetId() const
 {
-    return m_map.get()->chipset_id;
+    return m_map.chipset_id;
 }
 
 void QGraphicsMapScene::redrawMap()
 {
-    QPixmap pix(mCore()->tileSize()*m_map.get()->width,
-                mCore()->tileSize()*m_map.get()->height);
+    QPixmap pix(mCore()->tileSize()*m_map.width,
+                mCore()->tileSize()*m_map.height);
     pix.fill(QColor(0,0,0,0));
     mCore()->beginPainting(pix);
     for (unsigned int i = 0; i < m_lower.size(); i++)
         {
             redrawTile(_x(i), _y(i));
         }
-    for (unsigned int i = 0; i <  m_map.get()->events.size(); i++)
+    for (unsigned int i = 0; i <  m_map.events.size(); i++)
     {
-        QRect rect(m_map.get()->events[i].x* mCore()->tileSize(),
-                   m_map.get()->events[i].y* mCore()->tileSize(),
+        QRect rect(m_map.events[i].x* mCore()->tileSize(),
+                   m_map.events[i].y* mCore()->tileSize(),
                    mCore()->tileSize(),
                    mCore()->tileSize());
         mCore()->renderTile(EV, rect);
@@ -88,23 +85,23 @@ void QGraphicsMapScene::setScale(float scale)
     m_background->setScale(m_scale);
     this->setSceneRect(0,
                        0,
-                       m_map.get()->width* mCore()->tileSize()*m_scale,
-                       m_map.get()->height* mCore()->tileSize()*m_scale);
+                       m_map.width* mCore()->tileSize()*m_scale,
+                       m_map.height* mCore()->tileSize()*m_scale);
 }
 
 int QGraphicsMapScene::_x(int index)
 {
-    return (index%m_map.get()->width);
+    return (index%m_map.width);
 }
 
 int QGraphicsMapScene::_y(int index)
 {
-    return (index/m_map.get()->width);
+    return (index/m_map.width);
 }
 
 int QGraphicsMapScene::_index(int x, int y)
 {
-    return (m_map.get()->width*y+x);
+    return (m_map.width*y+x);
 }
 
 void QGraphicsMapScene::redrawTile(int x, int y)

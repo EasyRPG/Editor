@@ -29,7 +29,7 @@ private:
 
     QGraphicsPixmapItem *m_pixmap;
     QGraphicsPixmapItem *m_background;
-    std::auto_ptr<RPG::Map> m_map;
+    RPG::Map m_map;
     std::vector<short> m_lower;
     std::vector<short> m_upper;
     float m_scale;
