@@ -65,6 +65,8 @@ private slots:
 
     void on_actionImport_Project_triggered();
 
+    void on_actionRtp_Path_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);

@@ -14,7 +14,7 @@
    <string>EasyRPG Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Resources.qrc">
     <normaloff>:/icons/share/old_easyrpg.png</normaloff>:/icons/share/old_easyrpg.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -121,6 +121,7 @@
     <property name="title">
      <string>Debug</string>
     </property>
+    <addaction name="actionRtp_Path"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -303,7 +304,7 @@
   </widget>
   <action name="action_Open_Project">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_open.png</normaloff>:/icons/share/old_open.png</iconset>
    </property>
    <property name="text">
@@ -315,7 +316,7 @@
   </action>
   <action name="action_New_Project">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_new.png</normaloff>:/icons/share/old_new.png</iconset>
    </property>
    <property name="text">
@@ -327,7 +328,7 @@
   </action>
   <action name="action_Close_Project">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_close.png</normaloff>:/icons/share/old_close.png</iconset>
    </property>
    <property name="text">
@@ -339,7 +340,7 @@
   </action>
   <action name="actionCreate_Game_Disk">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_create_game_disk.png</normaloff>:/icons/share/old_create_game_disk.png</iconset>
    </property>
    <property name="text">
@@ -351,7 +352,7 @@
   </action>
   <action name="action_Quit">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_quit.png</normaloff>:/icons/share/old_quit.png</iconset>
    </property>
    <property name="text">
@@ -363,7 +364,7 @@
   </action>
   <action name="action_Save_all_Maps">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_save_all.png</normaloff>:/icons/share/old_save_all.png</iconset>
    </property>
    <property name="text">
@@ -375,7 +376,7 @@
   </action>
   <action name="actionRevert_all_Maps">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
    </property>
    <property name="text">
@@ -390,7 +391,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_lower_layer.png</normaloff>:/icons/share/old_lower_layer.png</iconset>
    </property>
    <property name="text">
@@ -405,7 +406,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_upper_layer.png</normaloff>:/icons/share/old_upper_layer.png</iconset>
    </property>
    <property name="text">
@@ -420,7 +421,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_event_layer.png</normaloff>:/icons/share/old_event_layer.png</iconset>
    </property>
    <property name="text">
@@ -432,7 +433,7 @@
   </action>
   <action name="actionScale_1_1">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_11_scale.png</normaloff>:/icons/share/old_11_scale.png</iconset>
    </property>
    <property name="text">
@@ -447,7 +448,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
    </property>
    <property name="text">
@@ -462,7 +463,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
    </property>
    <property name="text">
@@ -477,7 +478,7 @@
   </action>
   <action name="actionData_Base">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_database.png</normaloff>:/icons/share/old_database.png</iconset>
    </property>
    <property name="text">
@@ -489,7 +490,7 @@
   </action>
   <action name="actionResource_Manager">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_resources.png</normaloff>:/icons/share/old_resources.png</iconset>
    </property>
    <property name="text">
@@ -501,7 +502,7 @@
   </action>
   <action name="actionJukebox">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_music.png</normaloff>:/icons/share/old_music.png</iconset>
    </property>
    <property name="text">
@@ -513,7 +514,7 @@
   </action>
   <action name="actionSearch">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_search.png</normaloff>:/icons/share/old_search.png</iconset>
    </property>
    <property name="text">
@@ -525,7 +526,7 @@
   </action>
   <action name="action_Play_Test">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_playtest.png</normaloff>:/icons/share/old_playtest.png</iconset>
    </property>
    <property name="text">
@@ -540,7 +541,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_fullscreen.png</normaloff>:/icons/share/old_fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -555,7 +556,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_title.png</normaloff>:/icons/share/old_title.png</iconset>
    </property>
    <property name="text">
@@ -567,7 +568,7 @@
   </action>
   <action name="actionContents">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_help.png</normaloff>:/icons/share/old_help.png</iconset>
    </property>
    <property name="text">
@@ -595,7 +596,7 @@
   </action>
   <action name="action_Script_Editor">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_script_editor.png</normaloff>:/icons/share/old_script_editor.png</iconset>
    </property>
    <property name="text">
@@ -613,7 +614,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_palette.png</normaloff>:/icons/share/old_palette.png</iconset>
    </property>
    <property name="text">
@@ -631,7 +632,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_map.png</normaloff>:/icons/share/old_map.png</iconset>
    </property>
    <property name="text">
@@ -643,7 +644,7 @@
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
    </property>
    <property name="text">
@@ -658,7 +659,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_select.png</normaloff>:/icons/share/old_select.png</iconset>
    </property>
    <property name="text">
@@ -673,7 +674,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
    </property>
    <property name="text">
@@ -688,7 +689,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_pen.png</normaloff>:/icons/share/old_pen.png</iconset>
    </property>
    <property name="text">
@@ -703,7 +704,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_rectangle.png</normaloff>:/icons/share/old_rectangle.png</iconset>
    </property>
    <property name="text">
@@ -718,7 +719,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_circle.png</normaloff>:/icons/share/old_circle.png</iconset>
    </property>
    <property name="text">
@@ -733,7 +734,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_fill.png</normaloff>:/icons/share/old_fill.png</iconset>
    </property>
    <property name="text">
@@ -745,15 +746,29 @@
   </action>
   <action name="actionImport_Project">
    <property name="icon">
-    <iconset>
+    <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_import.png</normaloff>:/icons/share/old_import.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Import Project</string>
    </property>
   </action>
+  <action name="actionRtp_Path">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_open.png</normaloff>:/icons/share/old_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rtp Path</string>
+   </property>
+   <property name="toolTip">
+    <string>warning!: this feature will be disabled once OpenRTP is released</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="Resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

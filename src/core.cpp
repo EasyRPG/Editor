@@ -83,10 +83,13 @@ void Core::LoadChipset(int n_chipsetid)
     QPixmap *o_chipset = new QPixmap(filePath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
     if (o_chipset->isNull())
     {
+        o_chipset = new QPixmap(rtpPath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
+    }
+    if (o_chipset->isNull())
+    {
         o_chipset = new QPixmap(480,256);
         o_chipset->fill(Qt::black);
     }
-
     /** TODO: find out the right way to set key color**/
     m_keycolor = QColor(o_chipset->toImage().pixel(290,130));
     o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
@@ -554,6 +557,11 @@ QString Core::filePath(QString folder, QString filename)
     return m_defDir+m_projectFolder+"/"+folder+filename;
 }
 
+QString Core::rtpPath(const QString &folder, const QString &filename) const
+{
+    return m_rtpDir+folder+filename;
+}
+
 Core::Layer Core::layer()
 {
     return m_layer;
@@ -712,4 +720,10 @@ int Core::translate(short tile_id)
         return tile_id-10000+161;
     else
         return -1;
+}
+
+
+void Core::setRtpDir(const QString &n_path)
+{
+    m_rtpDir = n_path;
 }

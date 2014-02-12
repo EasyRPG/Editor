@@ -1,6 +1,7 @@
 #include "dialognewproject.h"
 #include "dialogopenproject.h"
 #include "dialogimportproject.h"
+#include "dialogrtppath.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
@@ -89,6 +90,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
     update_actions();
+    mCore()->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
+    if (mCore()->rtpPath(ROOT).isEmpty())
+        on_actionRtp_Path_triggered();
     mCore()->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
                                         qApp->applicationDirPath()).toString());
     QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
@@ -538,70 +542,14 @@ void MainWindow::on_action_New_Project_triggered()
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
         setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
-        /** Add a Map **/
-        //Map tree
-        RPG::MapInfo project = RPG::MapInfo();
-        project.name = mCore()->gameTitle().toStdString();
-        project.expanded_node = true;
-        RPG::MapInfo mapInfo = RPG::MapInfo();
-        mapInfo.ID = 1;
-        mapInfo.name = "Map0001";
-        mapInfo.indentation = 1;
-        mapInfo.music_type = 1;
-        mapInfo.background_type = 1;
-        mapInfo.teleport = 1;
-        mapInfo.escape = 1;
-        mapInfo.save = 1;
-        Data::treemap.maps.push_back(project);
-        Data::treemap.maps.push_back(mapInfo);
-        Data::treemap.active_node = 1;
-        Data::treemap.tree_order.push_back(0);
-        Data::treemap.tree_order.push_back(1);
-        //Map
-        RPG::Map map = RPG::Map();
-        map.ID = 1;
-        map.chipset_id = 1;
-        map.generator_height = 2;
-        for (int i = 0; i < 9; i++)
-        {
-            map.generator_x.push_back(0);
-            map.generator_y.push_back(0);
-            if (i < 6)
-            map.generator_tile_ids.push_back(49);
-        }
-        map.generator_tile_ids.push_back(10000);
-        map.generator_tile_ids.push_back(10001);
-        map.generator_tile_ids.push_back(10006);
-        map.generator_tile_ids.push_back(10007);
-        map.generator_tile_ids.push_back(10000);
-        map.generator_tile_ids.push_back(10001);
-        map.generator_tile_ids.push_back(10006);
-        map.generator_tile_ids.push_back(10007);
-        map.generator_tile_ids.push_back(10000);
-        map.generator_tile_ids.push_back(10001);
-        map.generator_tile_ids.push_back(10006);
-        map.generator_tile_ids.push_back(10007);
-        for (int i = 0; i < map.width*map.height; i++)
-        {
-            map.lower_layer.push_back(0);
-            map.upper_layer.push_back(10000);
-        }
+        QString t_folder = qApp->applicationDirPath()+"/templates/";
+        /** Map tree **/
+        LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
+        Data::treemap.maps[0].name = mCore()->gameTitle().toStdString();
+        /** Map **/
+        RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
         /** DataBase **/
-        Data::actors.push_back(RPG::Actor());
-        Data::animations.push_back(RPG::Animation());
-        Data::attributes.push_back(RPG::Attribute());
-        Data::battleranimations.push_back(RPG::BattlerAnimation());
-        Data::chipsets.push_back(RPG::Chipset());
-        Data::classes.push_back(RPG::Class());
-        Data::commonevents.push_back(RPG::CommonEvent());
-        Data::enemies.push_back(RPG::Enemy());
-        Data::items.push_back(RPG::Item());
-        Data::skills.push_back(RPG::Skill());
-        Data::states.push_back(RPG::State());
-        Data::switches.push_back(RPG::Switch());
-        Data::terrains.push_back(RPG::Terrain());
-        Data::troops.push_back(RPG::Troop());
-        Data::variables.push_back(RPG::Variable());
+        LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
         /** Save **/
         LMU_Reader::SaveXml(mCore()->filePath(ROOT,"Map0001.emu").toStdString(), map);
         LDB_Reader::SaveXml(mCore()->filePath(ROOT,EASY_DB).toStdString());
@@ -897,4 +845,9 @@ void MainWindow::on_actionImport_Project_triggered()
     }
     m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
     update_actions();
+}
+
+void MainWindow::on_actionRtp_Path_triggered()
+{
+    DialogRtpPath dlg(this);
 }

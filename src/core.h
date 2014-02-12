@@ -111,6 +111,7 @@ public:
     void setTileSize(int tileSize);
 
     QString filePath(QString folder, QString filename = QString());
+    QString rtpPath(const QString &folder, const QString &filename = QString()) const;
 
     Layer layer();
     void setLayer(const Layer &layer);
@@ -143,6 +144,8 @@ public:
     QString defDir() const;
     void setDefDir(const QString &defDir);
 
+    void setRtpDir(const QString &n_path);
+
     QString projectFolder() const;
     void setProjectFolder(const QString &projectFolder);
 
@@ -154,6 +157,7 @@ private:
     QString m_gameTitle;
     QString m_defDir;
     QString m_projectFolder;
+    QString m_rtpDir;
     QColor m_keycolor;
     Layer m_layer;
     Tool m_tool;

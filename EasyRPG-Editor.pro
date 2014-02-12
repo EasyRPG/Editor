@@ -171,7 +171,8 @@ SOURCES += src/mainwindow.cpp \
     src/ldb_actor.cpp \
     src/core.cpp \
     src/tools/QGraphicsMapScene.cpp \
-    src/dialogimportproject.cpp
+    src/dialogimportproject.cpp \
+    src/dialogrtppath.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -275,7 +276,8 @@ HEADERS  += src/mainwindow.h \
     src/boost/preprocessor/config/config.hpp \
     src/core.h \
     src/tools/QGraphicsMapScene.h \
-    src/dialogimportproject.h
+    src/dialogimportproject.h \
+    src/dialogrtppath.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -283,7 +285,8 @@ FORMS    += src/mainwindow.ui \
     src/dialogimportimage.ui \
     src/dialognewproject.ui \
     src/dialogopenproject.ui \
-    src/dialogimportproject.ui
+    src/dialogimportproject.ui \
+    src/dialogrtppath.ui
 
 RESOURCES += \
     src/Resources.qrc
