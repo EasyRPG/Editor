@@ -103,10 +103,6 @@ public:
 
     void LoadChipset(int n_chipsetid);
 
-    QWidget *getMapTab(int id);
-    QWidget *createMapTab(int id, QWidget*parent);
-    void deleteMapTab(int id);
-
     int tileSize();
     void setTileSize(int tileSize);
 

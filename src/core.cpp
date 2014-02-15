@@ -518,30 +518,6 @@ void Core::LoadChipset(int n_chipsetid)
     delete o_chipset;
 }
 
-QWidget *Core::getMapTab(int id)
-{
-    return m_mapTabs[id];
-}
-
-QWidget *Core::createMapTab(int id, QWidget *parent)
-{
-    std::string mapName;
-    for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
-        if (Data::treemap.maps[i].ID == id)
-        {
-            mapName = Data::treemap.maps[i].name;
-            break;
-        }
-    QGraphicsMapScene *scene = new QGraphicsMapScene(id, parent);
-    m_mapTabs[id] = new QGraphicsView(scene, parent);
-    return m_mapTabs[id];
-}
-
-void Core::deleteMapTab(int id)
-{
-    m_mapTabs.remove(id);
-}
-
 int Core::tileSize()
 {
     return m_tileSize;

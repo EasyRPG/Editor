@@ -20,7 +20,6 @@
 #include "rpg_map.h"
 #include "rpg_mapinfo.h"
 #include "data.h"
-#include "tools/QGraphicsMapScene.h"
 
 Q_DECLARE_METATYPE(QList<int>)
 Q_DECLARE_METATYPE(QList<float>)
@@ -114,6 +113,10 @@ MainWindow::~MainWindow()
 void MainWindow::LoadProject(QString foldername)
 {
     Data::Clear();
+    /** Solves bug in readers **/
+    Data::treemap.maps.clear();
+    Data::treemap.tree_order.clear();
+    /**  *******************  **/
     mCore()->setProjectFolder(foldername);
     if (!LDB_Reader::LoadXml(mCore()->filePath(ROOT, EASY_DB).toStdString()))
     {
@@ -191,25 +194,11 @@ void MainWindow::LoadProject(QString foldername)
         int mapId = m_mapList[i].toInt();
         if (mapId == 0)
             continue;
-        std::string mapName;
-        for (unsigned int j = 1; j < maps.maps.size();i++)
-            if (maps.maps[j].ID == mapId)
-            {
-                mapName = Data::treemap.maps[j].name;
-                break;
-            }
-        QWidget *mapWidget = mCore()->getMapTab(mapId);
-        if (!mapWidget)
-        {
-            mapWidget = mCore()->createMapTab(mapId, this);
-            ui->tabMap->addTab(mapWidget,
-                               QIcon(":/icons/share/old_map.png"),
-                               QString::fromLatin1(mapName.c_str()));
-        }
-        QGraphicsView *view = static_cast<QGraphicsView*>(mapWidget);
-        QGraphicsMapScene *scene = static_cast<QGraphicsMapScene*>(view->scene());
+
+        QGraphicsView *view = getView(mapId);
+        QGraphicsMapScene *scene = getScene(mapId);
         scene->setScale(i < m_scaleList.size() ? m_scaleList[i].toFloat() : 1.0);
-        ui->tabMap->setCurrentWidget(mapWidget);
+        ui->tabMap->setCurrentWidget(view);
     }
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();
@@ -606,18 +595,10 @@ void MainWindow::on_action_New_Project_triggered()
         {
             items[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
         }
-        QWidget *mapWidget = mCore()->getMapTab(1);
-        if (!mapWidget)
-        {
-            mapWidget = mCore()->createMapTab(1, this);
-            ui->tabMap->addTab(mapWidget,
-                               QIcon(":/icons/share/old_map.png"),
-                               QString::fromLatin1(Data::treemap.maps[1].name.c_str()));
-        }
-        QGraphicsView *view = static_cast<QGraphicsView*>(mapWidget);
-        QGraphicsMapScene *scene = static_cast<QGraphicsMapScene*>(view->scene());
+        QGraphicsView *view = getView(1);
+        QGraphicsMapScene *scene = getScene(1);
         scene->setScale(0 < scaleList.size() ? scaleList[0].toFloat() : 1.0);
-        ui->tabMap->setCurrentWidget(mapWidget);
+        ui->tabMap->setCurrentWidget(view);
         m_paleteScene->onChipsetChange();
         m_paleteScene->onLayerChange();
     }
@@ -651,6 +632,69 @@ bool MainWindow::removeDir(const QString & dirName, const QString &root)
     return result;
 }
 
+QGraphicsView *MainWindow::getView(int id)
+{
+    QGraphicsView* view = m_views[id];
+    if (!view)
+    {
+        //create
+        view = new QGraphicsView(this);
+        view->setScene(new QGraphicsMapScene(id, view));
+        m_views[id] = view;
+        std::string mapName;
+        for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
+            if (Data::treemap.maps[i].ID == id)
+            {
+                mapName = Data::treemap.maps[i].name;
+                break;
+            }
+        ui->tabMap->addTab(view,
+                           QIcon(":/icons/share/old_map.png"),
+                           QString::fromLatin1(mapName.c_str()));
+    }
+    return view;
+}
+
+QGraphicsMapScene *MainWindow::getScene(int id)
+{
+    QGraphicsView* view = m_views[id];
+    if (!view)
+        return 0;
+    return (static_cast<QGraphicsMapScene*>(view->scene()));
+}
+
+QGraphicsView *MainWindow::getTabView(int index)
+{
+    if (index == -1)
+        return 0;
+    return (static_cast<QGraphicsView*>(ui->tabMap->widget(index)));
+}
+
+QGraphicsMapScene *MainWindow::getTabScene(int index)
+{
+    if (!getTabView(index))
+        return 0;
+    QGraphicsView* view = getTabView(index);
+    return (static_cast<QGraphicsMapScene*>(view->scene()));
+}
+
+QGraphicsMapScene *MainWindow::currentScene()
+{
+    QGraphicsView* view = static_cast<QGraphicsView*>(ui->tabMap->currentWidget());
+    if (!view)
+        return 0;
+    return (static_cast<QGraphicsMapScene*>(view->scene()));
+}
+
+void MainWindow::removeView(int id)
+{
+    QGraphicsView* view = m_views[id];
+    QGraphicsMapScene* scene = static_cast<QGraphicsMapScene*>(view->scene());
+    m_views.remove(id);
+    delete scene;
+    delete view;
+}
+
 void MainWindow::on_action_Close_Project_triggered()
 {
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
@@ -658,6 +702,8 @@ void MainWindow::on_action_Close_Project_triggered()
     mCore()->setGameTitle("");
     mCore()->setProjectFolder("");
     ui->treeMap->clear();
+    while (ui->tabMap->currentIndex() != -1)
+        on_tabMap_tabCloseRequested(ui->tabMap->currentIndex());
     update_actions();
     setWindowTitle("EasyRPG Editor");
 }
@@ -748,34 +794,17 @@ void MainWindow::on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column)
     Q_UNUSED(column);
     if (item->data(1,Qt::DisplayRole).toInt() == 0)
         return;
-    std::string mapName;
-    for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
-        if (Data::treemap.maps[i].ID == item->data(1,Qt::DisplayRole).toInt())
-        {
-            mapName = Data::treemap.maps[i].name;
-            break;
-        }
-    QWidget *mapWidget = mCore()->getMapTab(item->data(1,Qt::DisplayRole).toInt());
-    if (!mapWidget)
-    {
-        mapWidget = mCore()->createMapTab(item->data(1,Qt::DisplayRole).toInt(),this);
-        ui->tabMap->addTab(mapWidget,
-                           QIcon(":/icons/share/old_map.png"),
-                           QString::fromLatin1(mapName.c_str()));
-    }
-    ui->tabMap->setCurrentWidget(mapWidget);
+    QGraphicsView *view = getView(item->data(1,Qt::DisplayRole).toInt());
+    ui->tabMap->setCurrentWidget(view);
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();
 }
 
 void MainWindow::on_tabMap_tabCloseRequested(int index)
 {
-    QGraphicsView* view = static_cast<QGraphicsView*>(ui->tabMap->widget(index));
-    QGraphicsMapScene *scene = static_cast<QGraphicsMapScene*>(view->scene());
-    mCore()->deleteMapTab(scene->id());
-    ui->tabMap->removeTab(index);
-    delete scene;
-    delete view;
+    if (!getTabScene(index))
+        return;
+    removeView(getTabScene(index)->id());
 }
 
 void MainWindow::on_tabMap_currentChanged(int index)
@@ -786,9 +815,7 @@ void MainWindow::on_tabMap_currentChanged(int index)
             m_paleteScene->items()[i]->setVisible(false);
         return;
     }
-    QGraphicsView* view = static_cast<QGraphicsView*>(ui->tabMap->widget(index));
-    QGraphicsMapScene *scene = static_cast<QGraphicsMapScene*>(view->scene());
-    mCore()->LoadChipset(scene->chipsetId());
+    mCore()->LoadChipset(getTabScene(index)->chipsetId());
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();
 }
