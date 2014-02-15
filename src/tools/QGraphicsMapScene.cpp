@@ -36,6 +36,24 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
     effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
     m_lowerpix->setGraphicsEffect(effect);
     m_upperpix->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+    for (int x = 0; x <= m_map.get()->width; x++)
+    {
+        QGraphicsLineItem* line = new QGraphicsLineItem(x*mCore()->tileSize(),
+                                                        0,
+                                                        x*mCore()->tileSize(),
+                                                        m_map.get()->height*mCore()->tileSize());
+        m_lines.append(line);
+        addItem(line);
+    }
+    for (int y = 0; y <= m_map.get()->height; y++)
+    {
+        QGraphicsLineItem* line = new QGraphicsLineItem(0,
+                                                        y*mCore()->tileSize(),
+                                                        m_map.get()->width*mCore()->tileSize(),
+                                                        y*mCore()->tileSize());
+        m_lines.append(line);
+        addItem(line);
+    }
     onLayerChange();
 }
 
@@ -98,6 +116,8 @@ void QGraphicsMapScene::setScale(float scale)
     m_scale = scale;
     m_lowerpix->setScale(m_scale);
     m_upperpix->setScale(m_scale);
+    for (int i = 0; i < m_lines.count(); i++)
+        m_lines[i]->setScale(m_scale);
     this->setSceneRect(0,
                        0,
                        m_map.get()->width* mCore()->tileSize()*m_scale,
@@ -121,6 +141,8 @@ void QGraphicsMapScene::onLayerChange()
         m_upperpix->graphicsEffect()->setEnabled(false);
         break;
     }
+    for (int i = 0; i < m_lines.count(); i++)
+        m_lines[i]->setVisible(mCore()->layer() == Core::EVENT);
 }
 
 int QGraphicsMapScene::_x(int index)

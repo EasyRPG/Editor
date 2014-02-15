@@ -2,6 +2,7 @@
 #define QGRAPHICSMAPSCENE_H
 
 #include <QGraphicsScene>
+#include <QGraphicsLineItem>
 #include <QGraphicsPixmapItem>
 #include "../rpg_map.h"
 #include "../core.h"
@@ -32,6 +33,7 @@ private:
     QGraphicsPixmapItem *m_lowerpix;
     QGraphicsPixmapItem *m_upperpix;
     QVector<QGraphicsPixmapItem*> m_eventpixs;
+    QVector<QGraphicsLineItem*> m_lines;
     std::auto_ptr<RPG::Map> m_map;
     std::vector<short> m_lower;
     std::vector<short> m_upper;
