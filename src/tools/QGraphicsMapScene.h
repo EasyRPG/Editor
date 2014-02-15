@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include "../rpg_map.h"
+#include "../core.h"
 
 class QGraphicsMapScene : public QGraphicsScene
 {
@@ -21,14 +22,16 @@ public slots:
     void redrawMap();
     void setScale(float scale);
 
+    void onLayerChange();
 private:
     int _x(int index);
     int _y(int index);
     int _index(int x, int y);
-    void redrawTile(int x, int y);
+    void redrawTile(Core::Layer layer, int x, int y);
 
-    QGraphicsPixmapItem *m_pixmap;
-    QGraphicsPixmapItem *m_background;
+    QGraphicsPixmapItem *m_lowerpix;
+    QGraphicsPixmapItem *m_upperpix;
+    QVector<QGraphicsPixmapItem*> m_eventpixs;
     std::auto_ptr<RPG::Map> m_map;
     std::vector<short> m_lower;
     std::vector<short> m_upper;

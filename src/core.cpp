@@ -1,6 +1,7 @@
 #include "core.h"
 #include <QApplication>
 #include <QBitmap>
+#include <QBrush>
 #include <QGraphicsView>
 #include <QPainter>
 #include "data.h"
@@ -518,6 +519,14 @@ void Core::LoadChipset(int n_chipsetid)
     delete o_chipset;
 }
 
+void Core::LoadBackground(QString name)
+{
+    if (name.isEmpty())
+        m_background = new QPixmap();
+    else
+        m_background = new QPixmap(filePath(PANORAMA, name));
+}
+
 int Core::tileSize()
 {
     return m_tileSize;
@@ -646,10 +655,13 @@ void Core::setProjectFolder(const QString &projectFolder)
 void Core::beginPainting(QPixmap &dest)
 {
     m_painter.begin(&dest);
+    m_painter.setBackground(QBrush(*m_background));
 }
 
-void Core::renderTile(short tile_id, QRect dest_rect)
+void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 {
+    if (tile_id < 10000)
+        m_painter.fillRect(dest_rect, QBrush(*m_background));
     m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
 }
 

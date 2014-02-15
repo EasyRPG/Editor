@@ -102,6 +102,7 @@ public:
     static Core* getCore();
 
     void LoadChipset(int n_chipsetid);
+    void LoadBackground(QString name);
 
     int tileSize();
     void setTileSize(int tileSize);
@@ -119,7 +120,7 @@ public:
     void setGameTitle(const QString &gameTitle);
 
     void beginPainting(QPixmap &dest);
-    void renderTile(short tile_id, QRect dest_rect);
+    void renderTile(const short &tile_id, const QRect &dest_rect);
     void endPainting();
 
     QColor keycolor();
@@ -157,6 +158,7 @@ private:
     QColor m_keycolor;
     Layer m_layer;
     Tool m_tool;
+    QPixmap *m_background;
     QMap<int, QPixmap> m_tileCache;
     QMap<int, short> m_dictionary;
     QMap<int, RPG::Map> m_maps;

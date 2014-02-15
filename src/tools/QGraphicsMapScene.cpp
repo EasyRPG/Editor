@@ -1,4 +1,6 @@
 #include "QGraphicsMapScene.h"
+#include <QGraphicsBlurEffect>
+#include <QGraphicsOpacityEffect>
 #include <QPainter>
 #include <iomanip>
 #include <sstream>
@@ -17,26 +19,32 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
        << ".emu";
     m_map = LMU_Reader::LoadXml(ss.str());
     m_map.get()->ID = id;
-    mCore()->LoadChipset(m_map.get()->chipset_id);
     m_lower =  m_map.get()->lower_layer;
     m_upper =  m_map.get()->upper_layer;
-    m_pixmap = new QGraphicsPixmapItem();
-    m_background = new QGraphicsPixmapItem();
+    m_lowerpix = new QGraphicsPixmapItem();
+    m_upperpix = new QGraphicsPixmapItem();
     m_scale = 1.0;
     if(m_map.get()->parallax_flag)
-    {
-        QPixmap back(mCore()->filePath(PANORAMA, m_map.get()->parallax_name.c_str()));
-        m_background->setPixmap(back);
-    }
+        mCore()->LoadBackground(m_map.get()->parallax_name.c_str());
+    else
+        mCore()->LoadBackground(QString());
     redrawMap();
-    addItem(m_background);
-    addItem(m_pixmap);
+    addItem(m_lowerpix);
+    addItem(m_upperpix);
+    QGraphicsBlurEffect * effect = new QGraphicsBlurEffect(this);
+    effect->setBlurRadius(2.0);
+    effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
+    m_lowerpix->setGraphicsEffect(effect);
+    m_upperpix->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+    onLayerChange();
 }
 
 QGraphicsMapScene::~QGraphicsMapScene()
 {
-    delete m_pixmap;
-    delete m_background;
+    delete m_lowerpix;
+    delete m_upperpix;
+    m_eventpixs.clear();
+
 }
 
 float QGraphicsMapScene::scale() const
@@ -62,7 +70,15 @@ void QGraphicsMapScene::redrawMap()
     mCore()->beginPainting(pix);
     for (unsigned int i = 0; i < m_lower.size(); i++)
         {
-            redrawTile(_x(i), _y(i));
+            redrawTile(Core::LOWER, _x(i), _y(i));
+        }
+    mCore()->endPainting();
+    m_lowerpix->setPixmap(pix);
+    pix.fill(QColor(0,0,0,0));
+    mCore()->beginPainting(pix);
+    for (unsigned int i = 0; i < m_upper.size(); i++)
+        {
+            redrawTile(Core::UPPER, _x(i), _y(i));
         }
     for (unsigned int i = 0; i <  m_map.get()->events.size(); i++)
     {
@@ -73,19 +89,38 @@ void QGraphicsMapScene::redrawMap()
         mCore()->renderTile(EV, rect);
     }
     mCore()->endPainting();
-    m_pixmap->setPixmap(pix);
+    m_upperpix->setPixmap(pix);
     setScale(m_scale);
 }
 
 void QGraphicsMapScene::setScale(float scale)
 {
     m_scale = scale;
-    m_pixmap->setScale(m_scale);
-    m_background->setScale(m_scale);
+    m_lowerpix->setScale(m_scale);
+    m_upperpix->setScale(m_scale);
     this->setSceneRect(0,
                        0,
                        m_map.get()->width* mCore()->tileSize()*m_scale,
                        m_map.get()->height* mCore()->tileSize()*m_scale);
+}
+
+void QGraphicsMapScene::onLayerChange()
+{
+    switch (mCore()->layer())
+    {
+    case (Core::LOWER):
+        m_lowerpix->graphicsEffect()->setEnabled(false);
+        m_upperpix->graphicsEffect()->setEnabled(true);
+        break;
+    case (Core::UPPER):
+        m_lowerpix->graphicsEffect()->setEnabled(true);
+        m_upperpix->graphicsEffect()->setEnabled(false);
+        break;
+    default:
+        m_lowerpix->graphicsEffect()->setEnabled(false);
+        m_upperpix->graphicsEffect()->setEnabled(false);
+        break;
+    }
 }
 
 int QGraphicsMapScene::_x(int index)
@@ -103,12 +138,21 @@ int QGraphicsMapScene::_index(int x, int y)
     return (m_map.get()->width*y+x);
 }
 
-void QGraphicsMapScene::redrawTile(int x, int y)
+void QGraphicsMapScene::redrawTile(Core::Layer layer, int x, int y)
 {
     QRect rect(x* mCore()->tileSize(),
                y* mCore()->tileSize(),
                mCore()->tileSize(),
                mCore()->tileSize());
-    mCore()->renderTile(m_lower[_index(x,y)],rect);
-    mCore()->renderTile(m_upper[_index(x,y)],rect);
+    switch (layer)
+    {
+    case (Core::LOWER):
+        mCore()->renderTile(m_lower[_index(x,y)],rect);
+        break;
+    case (Core::UPPER):
+        mCore()->renderTile(m_upper[_index(x,y)],rect);
+        break;
+    default:
+        break;
+    }
 }
