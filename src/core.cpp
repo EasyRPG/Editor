@@ -90,15 +90,15 @@ void Core::LoadChipset(int n_chipsetid)
         o_chipset = new QPixmap(480,256);
         o_chipset->fill(Qt::black);
     }
-    /** TODO: find out the right way to set key color**/
+    /* TODO: find out the right way to set key color */
     m_keycolor = QColor(o_chipset->toImage().pixel(290,130));
     o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
-    /**                    /TODO                     **/
+    /*                    /TODO                     */
 
     int r_tileSize = o_chipset->width()/30;
     int r_tileHalf = r_tileSize/2;
 
-    /** BindWaterTiles **/
+    /* BindWaterTiles */
     m_tileCache.clear();
     QPixmap ev(tileSize(),tileSize());
     QPainter p_ev(&ev);
@@ -106,13 +106,13 @@ void Core::LoadChipset(int n_chipsetid)
     p_ev.end();
     ev.setMask(ev.createMaskFromColor(Qt::black));
     m_tileCache[EV] = ev;
-    /**
+    /*
      * TileIDs:
      * 0- WaterA
      * 1- WaterB
      * 2- DeepWater
      * 3- Ground
-     **/
+     */
     //Go throught all posible combinations
     for (int terrain_id = 0; terrain_id < 4; terrain_id++)
     for (int tile_u = 0; tile_u < 4; tile_u++)
@@ -260,7 +260,7 @@ void Core::LoadChipset(int n_chipsetid)
         m_tileCache[id] = p_tile;
     }
 
-    /** Register AnimationTiles **/
+    /* Register AnimationTiles */
     QPixmap a_tile(tileSize(), tileSize());
     QPainter a(&a_tile);
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
@@ -270,7 +270,7 @@ void Core::LoadChipset(int n_chipsetid)
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
     m_tileCache[3100] = a_tile;
 
-    /** BindGroundTiles **/
+    /* BindGroundTiles */
     // Each tileset contains 5 columns with a size of 6x16 tiles
     int tileset_col = 0;
 
@@ -287,7 +287,7 @@ void Core::LoadChipset(int n_chipsetid)
         int orig_y = block_row *4*r_tileSize;
         QPixmap p_block = o_chipset->copy(orig_x, orig_y, 3*r_tileSize, 4*r_tileSize);
 
-        /**
+        /*
          * Generate binded cache and store them on hash table
          */
 
@@ -491,7 +491,7 @@ void Core::LoadChipset(int n_chipsetid)
         }
     }
     int tile_row = 0;
-    /** Register E and F blocks **/
+    /* Register E and F blocks */
     while (tileset_col < 5 )
     {
         for (int col = 0; col < 6; col++)

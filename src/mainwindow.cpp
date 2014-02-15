@@ -113,10 +113,10 @@ MainWindow::~MainWindow()
 void MainWindow::LoadProject(QString foldername)
 {
     Data::Clear();
-    /** Solves bug in readers **/
+    /* Solves bug in readers */
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
-    /**  *******************  **/
+    /*  *******************  */
     mCore()->setProjectFolder(foldername);
     if (!LDB_Reader::LoadXml(mCore()->filePath(ROOT, EASY_DB).toStdString()))
     {
@@ -532,14 +532,14 @@ void MainWindow::on_action_New_Project_triggered()
         setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
         QString t_folder = qApp->applicationDirPath()+"/templates/";
-        /** Map tree **/
+        /* Map tree */
         LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
         Data::treemap.maps[0].name = mCore()->gameTitle().toStdString();
-        /** Map **/
+        /* Map */
         RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
-        /** DataBase **/
+        /* DataBase */
         LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
-        /** Save **/
+        /* Save */
         LMU_Reader::SaveXml(mCore()->filePath(ROOT,"Map0001.emu").toStdString(), map);
         LDB_Reader::SaveXml(mCore()->filePath(ROOT,EASY_DB).toStdString());
         LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
