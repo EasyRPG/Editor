@@ -7,9 +7,10 @@
 #include "../core.h"
 #include "../lmu_reader.h"
 
-QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
+QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *parent) :
     QGraphicsScene(parent)
 {
+    m_view = view;
     std::stringstream ss;
     ss << mCore()->filePath(ROOT).toStdString()
        << "Map"
@@ -28,6 +29,7 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QObject *parent) :
         mCore()->LoadBackground(m_map.get()->parallax_name.c_str());
     else
         mCore()->LoadBackground(QString());
+    mCore()->LoadChipset(m_map.get()->chipset_id);
     redrawMap();
     addItem(m_lowerpix);
     addItem(m_upperpix);
@@ -87,17 +89,13 @@ void QGraphicsMapScene::redrawMap()
     pix.fill(QColor(0,0,0,0));
     mCore()->beginPainting(pix);
     for (unsigned int i = 0; i < m_lower.size(); i++)
-        {
             redrawTile(Core::LOWER, _x(i), _y(i));
-        }
     mCore()->endPainting();
     m_lowerpix->setPixmap(pix);
     pix.fill(QColor(0,0,0,0));
     mCore()->beginPainting(pix);
     for (unsigned int i = 0; i < m_upper.size(); i++)
-        {
             redrawTile(Core::UPPER, _x(i), _y(i));
-        }
     for (unsigned int i = 0; i <  m_map.get()->events.size(); i++)
     {
         QRect rect(m_map.get()->events[i].x* mCore()->tileSize(),

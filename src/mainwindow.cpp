@@ -667,7 +667,7 @@ QGraphicsView *MainWindow::getView(int id)
     {
         //create
         view = new QGraphicsView(this);
-        view->setScene(new QGraphicsMapScene(id, view));
+        view->setScene(new QGraphicsMapScene(id, view, view));
         m_views[id] = view;
         std::string mapName;
         for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
@@ -678,7 +678,7 @@ QGraphicsView *MainWindow::getView(int id)
             }
         ui->tabMap->addTab(view,
                            QIcon(":/icons/share/old_map.png"),
-                           QString::fromLatin1(mapName.c_str()));
+                           QString::fromStdString(mapName));
     }
     return view;
 }

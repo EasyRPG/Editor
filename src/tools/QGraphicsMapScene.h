@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsView>
 #include "../rpg_map.h"
 #include "../core.h"
 
@@ -11,7 +12,7 @@ class QGraphicsMapScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit QGraphicsMapScene(int id, QObject *parent = 0);
+    explicit QGraphicsMapScene(int id,QGraphicsView *view, QObject *parent = 0);
     ~QGraphicsMapScene();
 
     float scale() const;
@@ -38,6 +39,7 @@ private:
     std::vector<short> m_lower;
     std::vector<short> m_upper;
     float m_scale;
+    QGraphicsView* m_view;
 };
 
 #endif // QGRAPHICSMAPSCENE_H

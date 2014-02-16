@@ -265,11 +265,11 @@ void Core::LoadChipset(int n_chipsetid)
     QPixmap a_tile(tileSize(), tileSize());
     QPainter a(&a_tile);
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-    m_tileCache[3000] = a_tile;
+    m_tileCache[translate(3)] = a_tile;
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-    m_tileCache[3050] = a_tile;
+    m_tileCache[translate(4)] = a_tile;
     a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-    m_tileCache[3100] = a_tile;
+    m_tileCache[translate(5)] = a_tile;
 
     /* BindGroundTiles */
     // Each tileset contains 5 columns with a size of 6x16 tiles
@@ -682,7 +682,7 @@ short Core::translate(int terrain_id, int _code, int _scode)
     if (isWater(terrain_id))
         return (terrain_id*1000+m_dictionary[_code]+m_dictionary[_scode]*50);
     if (isAnimation(terrain_id))
-        return (3000+(terrain_id-3)*50);
+        return (3000+(terrain_id-3)*50+46);
     if (isDblock(terrain_id))
         return (4000+(terrain_id-6)*50+m_dictionary[_code]);
     if (isEblock(terrain_id))
