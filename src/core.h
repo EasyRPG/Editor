@@ -76,8 +76,10 @@
 #include "rpg_map.h"
 #include "rpg_chipset.h"
 
-class Core
+class Core : public QObject
 {
+    Q_OBJECT
+
 public:
 
     enum Layer
@@ -145,6 +147,13 @@ public:
 
     QString projectFolder() const;
     void setProjectFolder(const QString &projectFolder);
+
+signals:
+    void toolChanged();
+
+    void layerChanged();
+
+    void chipsetChanged();
 
 private:
     RPG::Map *m_map;

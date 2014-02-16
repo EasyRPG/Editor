@@ -89,6 +89,23 @@ MainWindow::MainWindow(QWidget *parent) :
     dlg_db->setModal(true);
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
+    connect(mCore(),
+            SIGNAL(toolChanged()),
+            this,
+            SLOT(updateToolActions()));
+
+    connect(mCore(),
+            SIGNAL(layerChanged()),
+            this,
+            SLOT(updateLayerActions()));
+    connect(mCore(),
+            SIGNAL(layerChanged()),
+            m_paleteScene,
+            SLOT(onLayerChange()));
+    connect(mCore(),
+            SIGNAL(chipsetChanged()),
+            m_paleteScene,
+            SLOT(onChipsetChange()));
     update_actions();
     mCore()->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
     if (mCore()->rtpPath(ROOT).isEmpty())
@@ -103,6 +120,7 @@ MainWindow::MainWindow(QWidget *parent) :
     else
         mCore()->setProjectFolder(QString());
     updateLayerActions();
+    updateToolActions();
 }
 
 MainWindow::~MainWindow()
@@ -210,8 +228,6 @@ void MainWindow::LoadProject(QString foldername)
         scene->setScale(i < m_scaleList.size() ? m_scaleList[i].toFloat() : 1.0);
         ui->tabMap->setCurrentWidget(view);
     }
-    m_paleteScene->onChipsetChange();
-    m_paleteScene->onLayerChange();
     update_actions();
 }
 
@@ -628,8 +644,6 @@ void MainWindow::on_action_New_Project_triggered()
         QGraphicsMapScene *scene = getScene(1);
         scene->setScale(0 < scaleList.size() ? scaleList[0].toFloat() : 1.0);
         ui->tabMap->setCurrentWidget(view);
-        m_paleteScene->onChipsetChange();
-        m_paleteScene->onLayerChange();
     }
 }
 
@@ -696,6 +710,14 @@ QGraphicsView *MainWindow::getView(int id)
                 SIGNAL(rangeChanged(int,int)),
                 getScene(id),
                 SLOT(redrawMap()));
+        connect(mCore(),
+                SIGNAL(toolChanged()),
+                getScene(id),
+                SLOT(onToolChanged()));
+        connect(mCore(),
+                SIGNAL(layerChanged()),
+                getScene(id),
+                SLOT(onLayerChanged()));
         getScene(id)->setScale(1.0);
     }
     return view;
@@ -746,9 +768,16 @@ void MainWindow::updateLayerActions()
     ui->action_Lower_Layer->setChecked(mCore()->layer() == Core::LOWER);
     ui->action_Upper_Layer->setChecked(mCore()->layer() == Core::UPPER);
     ui->action_Events->setChecked(mCore()->layer() == Core::EVENT);
-    m_paleteScene->onLayerChange();
-    if (currentScene())
-        currentScene()->onLayerChange();
+}
+
+void MainWindow::updateToolActions()
+{
+    ui->actionSelect->setChecked(mCore()->tool() == Core::SELECTION);
+    ui->actionZoom->setChecked(mCore()->tool() == Core::ZOOM);
+    ui->actionDraw->setChecked(mCore()->tool() == Core::PENCIL);
+    ui->actionRectangle->setChecked(mCore()->tool() == Core::RECTANGLE);
+    ui->actionCircle->setChecked(mCore()->tool() == Core::CIRCLE);
+    ui->actionFill->setChecked(mCore()->tool() == Core::FILL);
 }
 
 void MainWindow::on_action_Close_Project_triggered()
@@ -847,8 +876,6 @@ void MainWindow::on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column)
         return;
     QGraphicsView *view = getView(item->data(1,Qt::DisplayRole).toInt());
     ui->tabMap->setCurrentWidget(view);
-    m_paleteScene->onChipsetChange();
-    m_paleteScene->onLayerChange();
 }
 
 void MainWindow::on_tabMap_tabCloseRequested(int index)
@@ -865,13 +892,6 @@ void MainWindow::on_tabMap_currentChanged(int index)
         for (int i = 0; i < m_paleteScene->items().size(); i++)
             m_paleteScene->items()[i]->setVisible(false);
         return;
-    }
-    m_paleteScene->onChipsetChange();
-    m_paleteScene->onLayerChange();
-    if (currentScene())
-    {
-        currentScene()->onLayerChange();
-        currentScene()->redrawMap();
     }
 }
 
@@ -932,4 +952,34 @@ void MainWindow::on_actionImport_Project_triggered()
 void MainWindow::on_actionRtp_Path_triggered()
 {
     DialogRtpPath dlg(this);
+}
+
+void MainWindow::on_actionSelect_triggered()
+{
+    mCore()->setTool(Core::SELECTION);
+}
+
+void MainWindow::on_actionZoom_triggered()
+{
+    mCore()->setTool(Core::ZOOM);
+}
+
+void MainWindow::on_actionDraw_triggered()
+{
+    mCore()->setTool(Core::PENCIL);
+}
+
+void MainWindow::on_actionRectangle_triggered()
+{
+    mCore()->setTool(Core::RECTANGLE);
+}
+
+void MainWindow::on_actionCircle_triggered()
+{
+    mCore()->setTool(Core::CIRCLE);
+}
+
+void MainWindow::on_actionFill_triggered()
+{
+    mCore()->setTool(Core::FILL);
 }

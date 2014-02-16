@@ -69,6 +69,7 @@ void QGraphicsPaleteScene::onChipsetChange()
         mCore()->renderTile(mCore()->translate(terrain_id+162), rect);
     }
     mCore()->endPainting();
+    onLayerChange();
 }
 
 void QGraphicsPaleteScene::updateSelectionRect()

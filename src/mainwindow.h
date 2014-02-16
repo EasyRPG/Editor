@@ -68,8 +68,23 @@ private slots:
 
     void on_actionRtp_Path_triggered();
 
-private:
+    void on_actionSelect_triggered();
 
+    void on_actionZoom_triggered();
+
+    void on_actionDraw_triggered();
+
+    void on_actionRectangle_triggered();
+
+    void on_actionCircle_triggered();
+
+    void on_actionFill_triggered();
+
+    void updateLayerActions();
+
+    void updateToolActions();
+
+private:
     bool removeDir(const QString & dirName, const QString &root);
     QGraphicsView *getView(int id);
     QGraphicsMapScene *getScene(int id);
@@ -77,7 +92,6 @@ private:
     QGraphicsMapScene *getTabScene(int index);
     QGraphicsMapScene *currentScene();
     void removeView(int id);
-    void updateLayerActions();
 
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;

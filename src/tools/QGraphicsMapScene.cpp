@@ -54,6 +54,8 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
         m_lines.append(line);
         addItem(line);
     }
+    onLayerChanged();
+    onToolChanged();
 }
 
 QGraphicsMapScene::~QGraphicsMapScene()
@@ -158,7 +160,7 @@ void QGraphicsMapScene::setScale(float scale)
     redrawMap();
 }
 
-void QGraphicsMapScene::onLayerChange()
+void QGraphicsMapScene::onLayerChanged()
 {
     switch (mCore()->layer())
     {
@@ -177,6 +179,75 @@ void QGraphicsMapScene::onLayerChange()
     }
     for (int i = 0; i < m_lines.count(); i++)
         m_lines[i]->setVisible(mCore()->layer() == Core::EVENT);
+}
+
+void QGraphicsMapScene::onToolChanged()
+{
+    switch (mCore()->tool())
+    {
+    case (Core::SELECTION):
+        m_view->setCursor(QCursor(Qt::ArrowCursor));
+        break;
+    case (Core::ZOOM):
+        m_view->setCursor(QCursor(Qt::UpArrowCursor));
+        break;
+    case (Core::PENCIL):
+        m_view->setCursor(QCursor(Qt::CrossCursor));
+        break;
+    case (Core::RECTANGLE):
+        m_view->setCursor(QCursor(Qt::WaitCursor));
+        break;
+    case (Core::CIRCLE):
+        m_view->setCursor(QCursor(Qt::IBeamCursor));
+        break;
+    case (Core::FILL):
+        m_view->setCursor(QCursor(Qt::PointingHandCursor));
+        break;
+    }
+
+
+}
+
+void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_drawing && event->button() == Qt::RightButton)
+    {
+        stopDrawing();
+        return;
+    }
+    if (m_selecting && event->button() == Qt::LeftButton)
+    {
+        stopSelecting();
+        return;
+    }
+    if(event->button() == Qt::LeftButton) //Start drawing
+    {
+
+    }
+    if(event->button() == Qt::RightButton) //StartSelecting
+    {
+
+    }
+}
+
+void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+
+}
+
+void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+
+}
+
+void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event)
+    if (mCore()->layer() != Core::EVENT)
+        return;
+    //Open event edit dialog
 }
 
 int QGraphicsMapScene::_x(int index)
@@ -210,4 +281,27 @@ void QGraphicsMapScene::redrawTile(const Core::Layer &layer,
     default:
         break;
     }
+}
+
+void QGraphicsMapScene::stopDrawing()
+{
+    m_cancelled = true;
+    switch (mCore()->layer())
+    {
+    case (Core::LOWER):
+        m_lower = m_map.get()->lower_layer;
+        break;
+    case (Core::UPPER):
+        m_upper = m_map.get()->upper_layer;
+        break;
+    default:
+        break;
+    }
+    redrawMap();
+}
+
+void QGraphicsMapScene::stopSelecting()
+{
+    m_cancelled = true;
+    //cancel selection...
 }

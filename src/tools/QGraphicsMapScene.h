@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
+#include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include "../rpg_map.h"
@@ -22,9 +23,19 @@ signals:
 
 public slots:
     void redrawMap();
+
     void setScale(float scale);
 
-    void onLayerChange();
+    void onLayerChanged();
+
+    void onToolChanged();
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
 private:
     int _x(int index);
     int _y(int index);
@@ -33,6 +44,8 @@ private:
                     const int &x,
                     const int &y,
                     const QRect &dest_rec);
+    void stopDrawing();
+    void stopSelecting();
 
     QGraphicsPixmapItem *m_lowerpix;
     QGraphicsPixmapItem *m_upperpix;
@@ -43,6 +56,9 @@ private:
     std::vector<short> m_upper;
     float m_scale;
     QGraphicsView* m_view;
+    bool m_drawing;
+    bool m_cancelled;
+    bool m_selecting;
 };
 
 #endif // QGRAPHICSMAPSCENE_H

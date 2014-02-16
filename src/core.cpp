@@ -517,6 +517,7 @@ void Core::LoadChipset(int n_chipsetid)
         }
     }
     delete o_chipset;
+    emit chipsetChanged();
 }
 
 void Core::LoadBackground(QString name)
@@ -555,6 +556,7 @@ Core::Layer Core::layer()
 void Core::setLayer(const Layer &current_layer)
 {
     m_layer = current_layer;
+    emit layerChanged();
 }
 Core::Tool Core::tool()
 {
@@ -564,6 +566,7 @@ Core::Tool Core::tool()
 void Core::setTool(const Tool &current_tool)
 {
     m_tool = current_tool;
+    emit toolChanged();
 }
 
 QString Core::gameTitle()
