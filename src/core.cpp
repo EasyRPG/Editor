@@ -655,7 +655,8 @@ void Core::setProjectFolder(const QString &projectFolder)
 void Core::beginPainting(QPixmap &dest)
 {
     m_painter.begin(&dest);
-    m_painter.setBackground(QBrush(*m_background));
+    if (m_painter.isActive())
+        m_painter.setBackground(QBrush(*m_background));
 }
 
 void Core::renderTile(const short &tile_id, const QRect &dest_rect)

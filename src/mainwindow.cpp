@@ -9,6 +9,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QScrollBar>
 #include <QDir>
 #include <sstream>
 #include <iomanip>
@@ -679,6 +680,23 @@ QGraphicsView *MainWindow::getView(int id)
         ui->tabMap->addTab(view,
                            QIcon(":/icons/share/old_map.png"),
                            QString::fromStdString(mapName));
+        connect(view->verticalScrollBar(),
+                SIGNAL(valueChanged(int)),
+                getScene(id),
+                SLOT(redrawMap()));
+        connect(view->horizontalScrollBar(),
+                SIGNAL(valueChanged(int)),
+                getScene(id),
+                SLOT(redrawMap()));
+        connect(view->verticalScrollBar(),
+                SIGNAL(rangeChanged(int,int)),
+                getScene(id),
+                SLOT(redrawMap()));
+        connect(view->horizontalScrollBar(),
+                SIGNAL(rangeChanged(int,int)),
+                getScene(id),
+                SLOT(redrawMap()));
+        getScene(id)->setScale(1.0);
     }
     return view;
 }
@@ -848,11 +866,13 @@ void MainWindow::on_tabMap_currentChanged(int index)
             m_paleteScene->items()[i]->setVisible(false);
         return;
     }
-    mCore()->LoadChipset(getTabScene(index)->chipsetId());
     m_paleteScene->onChipsetChange();
     m_paleteScene->onLayerChange();
     if (currentScene())
+    {
         currentScene()->onLayerChange();
+        currentScene()->redrawMap();
+    }
 }
 
 void MainWindow::on_actionImport_Project_triggered()

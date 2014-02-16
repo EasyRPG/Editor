@@ -29,7 +29,10 @@ private:
     int _x(int index);
     int _y(int index);
     int _index(int x, int y);
-    void redrawTile(Core::Layer layer, int x, int y);
+    void redrawTile(const Core::Layer &layer,
+                    const int &x,
+                    const int &y,
+                    const QRect &dest_rec);
 
     QGraphicsPixmapItem *m_lowerpix;
     QGraphicsPixmapItem *m_upperpix;
