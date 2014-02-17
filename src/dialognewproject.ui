@@ -120,7 +120,7 @@
          <widget class="QComboBox" name="comboDbTemplate">
           <item>
            <property name="text">
-            <string>&lt;empty project&gt;</string>
+            <string>Default&lt;EN&gt;</string>
            </property>
           </item>
          </widget>

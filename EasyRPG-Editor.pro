@@ -11,13 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets  multimedia winextras
 TARGET = EasyRPG-Editor
 TEMPLATE = app
 
-
-INCLUDEPATH += C:/Expat/Source/lib
-LIBPATH     += C:/Expat/Bin/
-
-LIBS        += -llibexpat
-
-DEFINES = READER_SUPPORT_XML
+DEFINES += READER_SUPPORT_XML
 
 SOURCES += src/mainwindow.cpp \
     src/main.cpp \
@@ -177,7 +171,8 @@ SOURCES += src/mainwindow.cpp \
     src/ldb_actor.cpp \
     src/core.cpp \
     src/tools/QGraphicsMapScene.cpp \
-    src/dialogimportproject.cpp
+    src/dialogimportproject.cpp \
+    src/dialogrtppath.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -281,7 +276,8 @@ HEADERS  += src/mainwindow.h \
     src/boost/preprocessor/config/config.hpp \
     src/core.h \
     src/tools/QGraphicsMapScene.h \
-    src/dialogimportproject.h
+    src/dialogimportproject.h \
+    src/dialogrtppath.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -289,7 +285,19 @@ FORMS    += src/mainwindow.ui \
     src/dialogimportimage.ui \
     src/dialognewproject.ui \
     src/dialogopenproject.ui \
-    src/dialogimportproject.ui
+    src/dialogimportproject.ui \
+    src/dialogrtppath.ui
 
 RESOURCES += \
     src/Resources.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpat
+else:win32:CONFIG(debug, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpat
+
+INCLUDEPATH += C:/Expat/Source/lib
+DEPENDPATH += C:/Expat/Source/lib
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/liblibexpat.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/liblibexpat.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/libexpat.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += C:/Expat/Bin/libexpat.lib

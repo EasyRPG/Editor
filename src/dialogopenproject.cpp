@@ -4,7 +4,9 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
 #include <QStyle>
+#include "core.h"
 
 DialogOpenProject::DialogOpenProject(QWidget *parent) :
     QDialog(parent),
@@ -31,9 +33,9 @@ QString DialogOpenProject::getDefDir()
     return m_defDir;
 }
 
-QString DialogOpenProject::getProjectPath()
+QString DialogOpenProject::getProjectFolder()
 {
-    return (ui->lineProjectPath->text()+ui->tableProjects->currentItem()->text()+"/");
+    return (ui->tableProjects->item(ui->tableProjects->currentRow(),0)->text());
 }
 
 void DialogOpenProject::RefreshProjectList()
@@ -46,7 +48,7 @@ void DialogOpenProject::RefreshProjectList()
     {
         if (info.isDir())
         {
-            QFileInfo f_project(info.absoluteFilePath()+"/RPG_RT.ldb");
+            QFileInfo f_project(info.absoluteFilePath()+"/"+EASY_DB);
             if (f_project.exists())
             {
                 ui->tableProjects->insertRow(ui->tableProjects->rowCount());
@@ -54,6 +56,12 @@ void DialogOpenProject::RefreshProjectList()
                 item->setIcon(style()->standardIcon(QStyle::SP_DirIcon));
                 item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
                 ui->tableProjects->setItem(ui->tableProjects->rowCount()-1,0,item);
+                QSettings settings(m_defDir+info.baseName()+"/"+EASY_CFG,
+                                    QSettings::IniFormat,
+                                    this);
+                item = new QTableWidgetItem(settings.value(GAMETITLE, "Untitled").toString());
+                item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+                ui->tableProjects->setItem(ui->tableProjects->rowCount()-1,1,item);
             }
         }
     }

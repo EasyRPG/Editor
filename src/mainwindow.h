@@ -6,6 +6,7 @@
 #include <QTreeWidgetItem>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
+#include "tools/QGraphicsMapScene.h"
 #include "tools/QGraphicsPaleteScene.h"
 #include "musicplayer.h"
 
@@ -65,9 +66,18 @@ private slots:
 
     void on_actionImport_Project_triggered();
 
+    void on_actionRtp_Path_triggered();
+
 private:
 
     bool removeDir(const QString & dirName, const QString &root);
+    QGraphicsView *getView(int id);
+    QGraphicsMapScene *getScene(int id);
+    QGraphicsView *getTabView(int index);
+    QGraphicsMapScene *getTabScene(int index);
+    QGraphicsMapScene *currentScene();
+    void removeView(int id);
+    void updateLayerActions();
 
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;
@@ -75,6 +85,7 @@ private:
     QSettings m_settings;
     QSettings *m_projSett;
     QGraphicsPaleteScene *m_paleteScene;
+    QMap<int,QGraphicsView*> m_views;
 };
 
 
