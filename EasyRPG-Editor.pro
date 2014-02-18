@@ -291,6 +291,8 @@ FORMS    += src/mainwindow.ui \
 RESOURCES += \
     src/Resources.qrc
 
+RC_FILE = src/Resources.rc
+
 win32:CONFIG(release, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpat
 else:win32:CONFIG(debug, debug|release): LIBS += -LC:/Expat/Bin/ -llibexpat
 
