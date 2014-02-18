@@ -13,6 +13,15 @@ Core *Core::core = new Core();
 Core::Core()
 {
     m_tileSize = 16;
+    m_tool = PENCIL;
+    m_layer = LOWER;
+    m_lowerSel.push_back(0);
+    m_upperSel.push_back(10000);
+    m_lowerSelW = 1;
+    m_upperSelW = 1;
+    m_lowerSelH = 1;
+    m_upperSelH = 1;
+    m_eventSel = 10000;
     m_dictionary[UPLEFT]                            = 1;
     m_dictionary[UPRIGHT]                           = 2;
     m_dictionary[UPLEFT+UPRIGHT]                    = 3;
@@ -59,6 +68,7 @@ Core::Core()
     m_dictionary[LEFT+RIGHT+DOWN]                   = 44;
     m_dictionary[UP+RIGHT+DOWN]                     = 45;
     m_dictionary[UP+DOWN+LEFT+RIGHT]                = 46;
+    m_dictionary[SAMPLE]                            = 47;
 }
 
 Core *Core::getCore()
@@ -664,6 +674,7 @@ void Core::beginPainting(QPixmap &dest)
 
 void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 {
+
     if (tile_id < 10000)
         m_painter.fillRect(dest_rect, QBrush(*m_background));
     m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
@@ -703,9 +714,9 @@ int Core::translate(short tile_id)
     else if (tile_id < 3000)
         return tile_id/1000;
     else if (tile_id >= 3000 && tile_id <= 3150)
-        return (tile_id-3000)/50;
+        return (tile_id-3000)/50+3;
     else if (tile_id >=4000 && tile_id < 4600 )
-        return (tile_id-4000)/50;
+        return (tile_id-4000)/50+6;
     else if (tile_id >= 5000 && tile_id < 5162)
         return tile_id-5000+18;
     else if (tile_id >= 10000 && tile_id < 10144)
@@ -718,4 +729,56 @@ int Core::translate(short tile_id)
 void Core::setRtpDir(const QString &n_path)
 {
     m_rtpDir = n_path;
+}
+
+short Core::selection(int off_x, int off_y)
+{
+    short result = 0;
+    switch(m_layer)
+    {
+    case LOWER:
+        off_x %= m_lowerSelW;
+        off_y %= m_lowerSelH;
+        if (off_x < 0)
+            off_x += m_lowerSelW;
+        if (off_y < 0)
+            off_y += m_lowerSelH;
+        result = m_lowerSel[off_x+off_y*m_lowerSelW];
+        break;
+    case UPPER:
+        off_x %= m_upperSelW;
+        off_y %= m_upperSelH;
+        if (off_x < 0)
+            off_x += m_upperSelW;
+        if (off_y < 0)
+            off_y += m_upperSelH;
+        result = m_upperSel[off_x+off_y*m_upperSelW];
+        break;
+    case EVENT:
+        result = m_eventSel;
+        break;
+    }
+    return result;
+}
+
+void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
+{
+    if (!n_sel.size() == n_w * n_h)
+        return;
+    switch(m_layer)
+    {
+    case LOWER:
+        m_lowerSel = n_sel;
+        m_lowerSelW = n_w;
+        m_lowerSelH = n_h;
+        break;
+    case UPPER:
+        m_upperSel = n_sel;
+        m_upperSelW = n_w;
+        m_upperSelH = n_h;
+        break;
+    case EVENT:
+        m_eventSel = n_sel[0];
+        break;
+    }
 }

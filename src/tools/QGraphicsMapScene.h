@@ -46,6 +46,8 @@ private:
                     const QRect &dest_rec);
     void stopDrawing();
     void stopSelecting();
+    void updateArea(int x1, int y1, int x2, int y2);
+    short bind(int x, int y);
 
     QGraphicsPixmapItem *m_lowerpix;
     QGraphicsPixmapItem *m_upperpix;
@@ -55,6 +57,13 @@ private:
     std::vector<short> m_lower;
     std::vector<short> m_upper;
     float m_scale;
+    int s_tileSize;
+    int cur_x;
+    int cur_y;
+    int fst_x;
+    int fst_y;
+    int lst_x;
+    int lst_y;
     QGraphicsView* m_view;
     bool m_drawing;
     bool m_cancelled;

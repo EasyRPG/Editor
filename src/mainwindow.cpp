@@ -893,6 +893,7 @@ void MainWindow::on_tabMap_currentChanged(int index)
             m_paleteScene->items()[i]->setVisible(false);
         return;
     }
+    mCore()->LoadChipset(currentScene()->chipsetId());
 }
 
 void MainWindow::on_actionImport_Project_triggered()

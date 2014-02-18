@@ -14,8 +14,10 @@
 #define UPRIGHT  32
 #define DOWNLEFT  64
 #define DOWNRIGHT  128
+#define SAMPLE 256
 /****************************/
 #define EV 0x7FFE
+#define NTILE 0x7FFD
 
 /****************************
  *      SETTINGS KEYS       *
@@ -145,6 +147,10 @@ public:
 
     void setRtpDir(const QString &n_path);
 
+    short selection(int off_x, int off_y);
+    void setSelection(std::vector<short> n_sel, int n_w, int n_h);
+
+
     QString projectFolder() const;
     void setProjectFolder(const QString &projectFolder);
 
@@ -172,6 +178,13 @@ private:
     QMap<int, short> m_dictionary;
     QMap<int, RPG::Map> m_maps;
     QMap<int, QWidget*> m_mapTabs;
+    std::vector<short> m_lowerSel;
+    std::vector<short> m_upperSel;
+    short m_eventSel;
+    int m_lowerSelW;
+    int m_lowerSelH;
+    int m_upperSelW;
+    int m_upperSelH;
     static Core *core;
 };
 

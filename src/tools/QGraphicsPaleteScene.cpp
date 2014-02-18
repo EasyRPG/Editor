@@ -146,6 +146,27 @@ void QGraphicsPaleteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         return;
 
     //TODO: set selection
+    std::vector<short> sel;
+    int x = m_selectionItem->rect().left()/32.0;
+    int y = m_selectionItem->rect().top()/32.0;
+    int w =  m_selectionItem->rect().width()/32;
+    int h = m_selectionItem->rect().height()/32;
+    if (y == 0)
+    {
+        sel.push_back(NTILE);
+        mCore()->setSelection(sel, 1, 1);
+    }
+    else
+    {
+        y--;
+        for (int _y = y; _y < y+h; _y++)
+            for (int _x = x; _x < x+w; _x++)
+                if (mCore()->layer() == Core::LOWER)
+                    sel.push_back(mCore()->translate(_x+_y*6, SAMPLE));
+                else
+                    sel.push_back(mCore()->translate(_x+_y*6+162, SAMPLE));
+        mCore()->setSelection(sel, w, h);
+    }
     last_selection = m_selectionItem->boundingRect();
     QGraphicsScene::mouseReleaseEvent(event);
 }
