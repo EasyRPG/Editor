@@ -148,6 +148,8 @@ public:
     void setRtpDir(const QString &n_path);
 
     short selection(int off_x, int off_y);
+    int selWidth();
+    int selHeight();
     void setSelection(std::vector<short> n_sel, int n_w, int n_h);
 
 

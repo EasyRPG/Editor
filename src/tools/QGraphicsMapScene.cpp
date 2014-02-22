@@ -232,11 +232,7 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         {
         case (Core::PENCIL):
             m_drawing = true;
-            if (mCore()->layer() == Core::LOWER)
-                m_lower[_index(cur_x,cur_y)] = mCore()->selection(0,0);
-            else if (mCore()->layer() == Core::UPPER)
-                m_upper[_index(cur_x,cur_y)] = mCore()->selection(0,0);
-            updateArea(cur_x-1,cur_y-1,cur_x+1,cur_y+1);
+            drawPen();
         }
     }
     if(event->button() == Qt::RightButton) //StartSelecting
@@ -256,11 +252,7 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         switch (mCore()->tool())
         {
         case (Core::PENCIL):
-            if (mCore()->layer() == Core::LOWER)
-                m_lower[_index(cur_x,cur_y)] = mCore()->selection(cur_x-fst_x,cur_y-fst_y);
-            else if (mCore()->layer() == Core::UPPER)
-                m_upper[_index(cur_x,cur_y)] = mCore()->selection(cur_x-fst_x,cur_y-fst_y);
-            updateArea(cur_x-1,cur_y-1,cur_x+1,cur_y+1);
+            drawPen();
         }
     }
 }
@@ -379,6 +371,19 @@ void QGraphicsMapScene::updateArea(int x1, int y1, int x2, int y2)
 
         }
     redrawMap();
+}
+
+void QGraphicsMapScene::drawPen()
+{
+    for (int x = cur_x; x < cur_x + mCore()->selWidth(); x++)
+        for (int y = cur_y; y < cur_y + mCore()->selHeight(); y++)
+        {
+            if (mCore()->layer() == Core::LOWER)
+                m_lower[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+            else if (mCore()->layer() == Core::UPPER)
+                m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+        }
+    updateArea(cur_x-1,cur_y-1,cur_x+mCore()->selWidth()+1,cur_y+mCore()->selHeight()+1);
 }
 
 short QGraphicsMapScene::bind(int x, int y)

@@ -761,6 +761,26 @@ short Core::selection(int off_x, int off_y)
     return result;
 }
 
+int Core::selWidth()
+{
+    int w = 1;
+    if (m_layer == LOWER)
+        w = m_lowerSelW;
+    if (m_layer == UPPER)
+        w = m_upperSelW;
+    return w;
+}
+
+int Core::selHeight()
+{
+    int h = 1;
+    if (m_layer == LOWER)
+        h = m_lowerSelH;
+    if (m_layer == UPPER)
+        h = m_upperSelH;
+    return h;
+}
+
 void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
 {
     if (!n_sel.size() == n_w * n_h)
