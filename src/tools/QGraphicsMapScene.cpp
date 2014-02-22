@@ -89,67 +89,8 @@ void QGraphicsMapScene::redrawMap()
 {
     mCore()->LoadChipset(m_map.get()->chipset_id);
     s_tileSize = mCore()->tileSize()*m_scale;
-    QSize size = m_view->size();
-    if (size.width() > m_map.get()->width*s_tileSize)
-        size.setWidth(m_map.get()->width*s_tileSize);
-    else
-        size.setWidth(size.width()+s_tileSize);
-    if (size.height() > m_map.get()->height*s_tileSize)
-        size.setHeight(m_map.get()->height*s_tileSize);
-    else
-        size.setHeight(size.height()+s_tileSize);
-    int start_x = 0;
-    if (m_view->horizontalScrollBar()->isVisible())
-        start_x =m_view->horizontalScrollBar()->value()/s_tileSize;
-    int start_y = 0;
-    if (m_view->verticalScrollBar()->isVisible())
-        start_y = m_view->verticalScrollBar()->value()/s_tileSize;
-    int end_x = start_x+(size.width()-1)/s_tileSize;
-    int end_y = start_y+(size.height()-1)/s_tileSize;
-    QPixmap pix(size);
-    pix.fill(QColor(0,0,0,0));
-    mCore()->beginPainting(pix);
-    for (int x = start_x; x <= end_x; x++)
-        for (int y = start_y; y <= end_y; y++)
-        {
-            if (x >= m_map.get()->width || y >= m_map.get()->height)
-                continue;
-            QRect dest_rect((x-start_x)* s_tileSize,
-                       (y-start_y)* s_tileSize,
-                       s_tileSize,
-                       s_tileSize);
-
-            redrawTile(Core::LOWER, x, y, dest_rect);
-        }
-    mCore()->endPainting();
-    m_lowerpix->setPixmap(pix);
-    m_lowerpix->setPos(start_x*s_tileSize,
-                       start_y*s_tileSize);
-    pix.fill(QColor(0,0,0,0));
-    mCore()->beginPainting(pix);
-    for (int x = start_x; x <= end_x; x++)
-        for (int y = start_y; y <= end_y; y++)
-        {
-            if (x >= m_map.get()->width || y >= m_map.get()->height)
-                continue;
-            QRect dest_rect((x-start_x)* s_tileSize,
-                       (y-start_y)* s_tileSize,
-                       s_tileSize,
-                       s_tileSize);
-            redrawTile(Core::UPPER, x, y, dest_rect);
-        }
-    for (unsigned int i = 0; i <  m_map.get()->events.size(); i++)
-    {
-        QRect rect((m_map.get()->events[i].x-start_x)* s_tileSize,
-                   (m_map.get()->events[i].y-start_y)* s_tileSize,
-                   s_tileSize,
-                   s_tileSize);
-        mCore()->renderTile(EV, rect);
-    }
-    mCore()->endPainting();
-    m_upperpix->setPixmap(pix);
-    m_upperpix->setPos(start_x*s_tileSize,
-                       start_y*s_tileSize);
+    redrawLayer(Core::LOWER);
+    redrawLayer(Core::UPPER);
 }
 
 void QGraphicsMapScene::setScale(float scale)
@@ -208,8 +149,6 @@ void QGraphicsMapScene::onToolChanged()
         m_view->setCursor(QCursor(Qt::PointingHandCursor));
         break;
     }
-
-
 }
 
 void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -337,7 +276,7 @@ void QGraphicsMapScene::stopDrawing()
     default:
         break;
     }
-    redrawMap();
+    redrawLayer(mCore()->layer());
 }
 
 void QGraphicsMapScene::stopSelecting()
@@ -370,7 +309,58 @@ void QGraphicsMapScene::updateArea(int x1, int y1, int x2, int y2)
             }
 
         }
-    redrawMap();
+    redrawLayer(mCore()->layer());
+}
+
+void QGraphicsMapScene::redrawLayer(Core::Layer layer)
+{
+    QSize size = m_view->size();
+    if (size.width() > m_map.get()->width*s_tileSize)
+        size.setWidth(m_map.get()->width*s_tileSize);
+    else
+        size.setWidth(size.width()+s_tileSize);
+    if (size.height() > m_map.get()->height*s_tileSize)
+        size.setHeight(m_map.get()->height*s_tileSize);
+    else
+        size.setHeight(size.height()+s_tileSize);
+    int start_x = 0;
+    if (m_view->horizontalScrollBar()->isVisible())
+        start_x =m_view->horizontalScrollBar()->value()/s_tileSize;
+    int start_y = 0;
+    if (m_view->verticalScrollBar()->isVisible())
+        start_y = m_view->verticalScrollBar()->value()/s_tileSize;
+    int end_x = start_x+(size.width()-1)/s_tileSize;
+    int end_y = start_y+(size.height()-1)/s_tileSize;
+    QPixmap pix(size);
+    pix.fill(QColor(0,0,0,0));
+    mCore()->beginPainting(pix);
+    for (int x = start_x; x <= end_x; x++)
+        for (int y = start_y; y <= end_y; y++)
+        {
+            if (x >= m_map.get()->width || y >= m_map.get()->height)
+                continue;
+            QRect dest_rect((x-start_x)* s_tileSize,
+                       (y-start_y)* s_tileSize,
+                       s_tileSize,
+                       s_tileSize);
+            redrawTile(layer, x, y, dest_rect);
+        }
+    if (layer == Core::UPPER)
+    {
+        for (unsigned int i = 0; i <  m_map.get()->events.size(); i++)
+        {
+            QRect rect((m_map.get()->events[i].x-start_x)* s_tileSize,
+                       (m_map.get()->events[i].y-start_y)* s_tileSize,
+                       s_tileSize,
+                       s_tileSize);
+            mCore()->renderTile(EV, rect);
+        }
+    }
+    mCore()->endPainting();
+    if (layer == Core::LOWER)
+        m_lowerpix->setPixmap(pix);
+    else
+        m_upperpix->setPixmap(pix);
 }
 
 void QGraphicsMapScene::drawPen()

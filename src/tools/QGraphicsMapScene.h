@@ -47,6 +47,7 @@ private:
     void stopDrawing();
     void stopSelecting();
     void updateArea(int x1, int y1, int x2, int y2);
+    void redrawLayer(Core::Layer layer);
     void drawPen();
     short bind(int x, int y);
 
