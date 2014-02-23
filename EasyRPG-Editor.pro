@@ -60,6 +60,10 @@ RESOURCES += \
 
 RC_FILE = src/Resources.rc
 
+win32: LIBS += -LC:/Expat/Bin/ -llibexpat
+
+INCLUDEPATH += C:/Expat/Bin
+DEPENDPATH += C:/Expat/Bin
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/bin/release/ -lReaders
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/bin/debug/ -lReaders
