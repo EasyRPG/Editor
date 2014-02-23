@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <sstream>
 #include "../core.h"
-#include "../lmu_reader.h"
+#include <lmu_reader.h>
 
 QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *parent) :
     QGraphicsScene(parent)

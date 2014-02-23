@@ -6,7 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
-#include "../rpg_map.h"
+#include <rpg_map.h>
 #include "../core.h"
 
 class QGraphicsMapScene : public QGraphicsScene
