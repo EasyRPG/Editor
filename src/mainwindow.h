@@ -84,6 +84,8 @@ private slots:
 
     void updateToolActions();
 
+    void on_action_Play_Test_triggered();
+
 private:
     bool removeDir(const QString & dirName, const QString &root);
     QGraphicsView *getView(int id);

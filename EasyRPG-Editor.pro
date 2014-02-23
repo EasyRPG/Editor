@@ -26,7 +26,8 @@ SOURCES += src/mainwindow.cpp \
     src/core.cpp \
     src/tools/QGraphicsMapScene.cpp \
     src/dialogimportproject.cpp \
-    src/dialogrtppath.cpp
+    src/dialogrtppath.cpp \
+    src/dialogrungame.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -44,7 +45,8 @@ HEADERS  += src/mainwindow.h \
     src/core.h \
     src/tools/QGraphicsMapScene.h \
     src/dialogimportproject.h \
-    src/dialogrtppath.h
+    src/dialogrtppath.h \
+    src/dialogrungame.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

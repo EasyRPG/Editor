@@ -2,6 +2,7 @@
 #include "dialogopenproject.h"
 #include "dialogimportproject.h"
 #include "dialogrtppath.h"
+#include "dialogrungame.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
@@ -10,6 +11,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QStringList>
 #include <QDir>
 #include <sstream>
 #include <iomanip>
@@ -983,4 +985,17 @@ void MainWindow::on_actionCircle_triggered()
 void MainWindow::on_actionFill_triggered()
 {
     mCore()->setTool(Core::FILL);
+}
+
+void MainWindow::on_action_Play_Test_triggered()
+{
+    DialogRunGame dlg(this);
+    QStringList commands;
+    commands << "TestPlay";
+    if (!ui->action_Title_Background->isChecked())
+        commands << "HideTitle";
+    if (!ui->action_Full_Screen->isChecked())
+        commands << "Window";
+    dlg.setCommands(commands);
+    dlg.run();
 }
