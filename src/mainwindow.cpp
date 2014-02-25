@@ -686,7 +686,6 @@ QGraphicsView *MainWindow::getView(int id)
     {
         //create
         view = new QGraphicsView(this);
-        view->setScene(new QGraphicsMapScene(id, view, view));
         m_views[id] = view;
         std::string mapName;
         for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
@@ -698,30 +697,12 @@ QGraphicsView *MainWindow::getView(int id)
         ui->tabMap->addTab(view,
                            QIcon(":/icons/share/old_map.png"),
                            QString::fromStdString(mapName));
-        connect(view->verticalScrollBar(),
-                SIGNAL(valueChanged(int)),
-                getScene(id),
-                SLOT(redrawMap()));
-        connect(view->horizontalScrollBar(),
-                SIGNAL(valueChanged(int)),
-                getScene(id),
-                SLOT(redrawMap()));
-        connect(view->verticalScrollBar(),
-                SIGNAL(rangeChanged(int,int)),
-                getScene(id),
-                SLOT(redrawMap()));
-        connect(view->horizontalScrollBar(),
-                SIGNAL(rangeChanged(int,int)),
-                getScene(id),
-                SLOT(redrawMap()));
-        connect(mCore(),
-                SIGNAL(toolChanged()),
-                getScene(id),
-                SLOT(onToolChanged()));
-        connect(mCore(),
-                SIGNAL(layerChanged()),
-                getScene(id),
-                SLOT(onLayerChanged()));
+        view->setScene(new QGraphicsMapScene(id, view, view));
+
+        connect(getScene(id),
+                SIGNAL(actionRunHereTriggered(int,int,int)),
+                this,
+                SLOT(on_custom_position_Play_Test(int,int,int)));
         getScene(id)->setScale(1.0);
     }
     return view;
@@ -897,7 +878,8 @@ void MainWindow::on_tabMap_currentChanged(int index)
             m_paleteScene->items()[i]->setVisible(false);
         return;
     }
-    mCore()->LoadChipset(currentScene()->chipsetId());
+    if (currentScene())
+        mCore()->LoadChipset(currentScene()->chipsetId());
 }
 
 void MainWindow::on_actionImport_Project_triggered()
@@ -998,6 +980,30 @@ void MainWindow::on_action_Play_Test_triggered()
         commands << "HideTitle";
     if (!ui->action_Full_Screen->isChecked())
         commands << "Window";
+    dlg.setCommands(commands);
+    dlg.run();
+}
+
+void MainWindow::on_custom_position_Play_Test(int map_id, int x, int y)
+{
+    std::stringstream ss;
+    ss << std::setfill('0')
+       << std::setw(4)
+       << map_id;
+    DialogRunGame dlg(this);
+    QStringList commands;
+    commands << "--test-play";
+    if (!ui->action_Title_Background->isChecked())
+        commands << "--hide-title";
+    if (!ui->action_Full_Screen->isChecked())
+        commands << "--window";
+    commands << "--new-game";
+    commands << "--map-id";
+    commands << QString("%1").arg(QString::fromStdString(ss.str()));
+    commands << "--position";
+    commands << QString("%1").arg(x);
+    commands << QString("%1").arg(y);
+    //TODO: add auto toogle.
     dlg.setCommands(commands);
     dlg.run();
 }

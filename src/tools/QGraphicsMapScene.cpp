@@ -1,4 +1,5 @@
 #include "QGraphicsMapScene.h"
+#include <QAction>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsOpacityEffect>
 #include <QPainter>
@@ -6,13 +7,28 @@
 #include <iomanip>
 #include <sstream>
 #include "../core.h"
+#include "../dialogrungame.h"
+#include "../mainwindow.h"
+#include <data.h>
 #include <lmu_reader.h>
+#include <lmt_reader.h>
 
 QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *parent) :
     QGraphicsScene(parent)
 {
     m_view = view;
     m_view->setMouseTracking(true);
+    m_eventMenu = new QMenu(m_view);
+    QList<QAction*> actions;
+    actions << new QAction(QIcon(":/icons/share/old_playtest.png"),
+                           "Start Game Here",
+                           this);
+    actions << new QAction(QIcon(":/icons/share/old_edit.png"),
+                           "Set Start Position",
+                           this);
+    connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
+    connect(actions[1],SIGNAL(triggered()),this, SLOT(on_actionSetStartPosition()));
+    m_eventMenu->addActions(actions);
     std::stringstream ss;
     ss << mCore()->filePath(ROOT).toStdString()
        << "Map"
@@ -60,6 +76,30 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     }
     onLayerChanged();
     onToolChanged();
+    connect(view->verticalScrollBar(),
+            SIGNAL(valueChanged(int)),
+            this,
+            SLOT(redrawMap()));
+    connect(view->horizontalScrollBar(),
+            SIGNAL(valueChanged(int)),
+            this,
+            SLOT(redrawMap()));
+    connect(view->verticalScrollBar(),
+            SIGNAL(rangeChanged(int,int)),
+            this,
+            SLOT(redrawMap()));
+    connect(view->horizontalScrollBar(),
+            SIGNAL(rangeChanged(int,int)),
+            this,
+            SLOT(redrawMap()));
+    connect(mCore(),
+            SIGNAL(toolChanged()),
+            this,
+            SLOT(onToolChanged()));
+    connect(mCore(),
+            SIGNAL(layerChanged()),
+            this,
+            SLOT(onLayerChanged()));
 }
 
 QGraphicsMapScene::~QGraphicsMapScene()
@@ -151,12 +191,34 @@ void QGraphicsMapScene::onToolChanged()
     }
 }
 
+void QGraphicsMapScene::on_actionRunHere()
+{
+    emit actionRunHereTriggered(id(),lst_x,lst_y);
+}
+
+void QGraphicsMapScene::on_actionSetStartPosition()
+{
+    Data::treemap.start.party_map_id = this->id();
+    Data::treemap.start.party_x = lst_x;
+    Data::treemap.start.party_y = lst_y;
+    LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+}
+
 void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_drawing && event->button() == Qt::RightButton)
+    if (event->button() == Qt::RightButton)
     {
-        stopDrawing();
-        return;
+        if (m_drawing)
+        {
+            stopDrawing();
+            return;
+        }
+        if (sceneRect().contains(event->scenePos()) && mCore()->layer() == Core::EVENT)
+        {
+            lst_x = cur_x;
+            lst_y = cur_y;
+            m_eventMenu->popup(event->screenPos());
+        }
     }
     if (m_selecting && event->button() == Qt::LeftButton)
     {
@@ -358,9 +420,15 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
     }
     mCore()->endPainting();
     if (layer == Core::LOWER)
+    {
         m_lowerpix->setPixmap(pix);
+        m_lowerpix->setPos(start_x*s_tileSize,start_y*s_tileSize);
+    }
     else
+    {
         m_upperpix->setPixmap(pix);
+        m_upperpix->setPos(start_x*s_tileSize,start_y*s_tileSize);
+    }
 }
 
 void QGraphicsMapScene::drawPen()

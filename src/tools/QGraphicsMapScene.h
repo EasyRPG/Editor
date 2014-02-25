@@ -6,6 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
+#include <QMenu>
 #include <rpg_map.h>
 #include "../core.h"
 
@@ -20,6 +21,7 @@ public:
     int id() const;
     int chipsetId() const;
 signals:
+    void actionRunHereTriggered(int map_id, int x, int y);
 
 public slots:
     void redrawMap();
@@ -29,6 +31,11 @@ public slots:
     void onLayerChanged();
 
     void onToolChanged();
+
+private slots:
+    void on_actionRunHere();
+
+    void on_actionSetStartPosition();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -51,6 +58,8 @@ private:
     void drawPen();
     short bind(int x, int y);
 
+
+    QMenu *m_eventMenu;
     QGraphicsPixmapItem *m_lowerpix;
     QGraphicsPixmapItem *m_upperpix;
     QVector<QGraphicsPixmapItem*> m_eventpixs;

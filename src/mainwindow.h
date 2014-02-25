@@ -24,7 +24,7 @@ public:
 
     void LoadProject(QString foldername);
     void ImportProject(QString p_path, QString d_folder);
-    
+
 private slots:
     void on_action_Quit_triggered();
 
@@ -85,6 +85,8 @@ private slots:
     void updateToolActions();
 
     void on_action_Play_Test_triggered();
+
+    void on_custom_position_Play_Test(int map_id, int x, int y);
 
 private:
     bool removeDir(const QString & dirName, const QString &root);
