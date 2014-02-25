@@ -92,6 +92,8 @@ private slots:
 
     void on_mapUnchanged();
 
+    void on_actionUndo_triggered();
+
 private:
     bool removeDir(const QString & dirName, const QString &root);
     QGraphicsView *getView(int id);

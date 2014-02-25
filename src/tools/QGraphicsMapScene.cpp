@@ -9,6 +9,7 @@
 #include "../core.h"
 #include "../dialogrungame.h"
 #include "../mainwindow.h"
+#include "qundodraw.h"
 #include <data.h>
 #include <lmu_reader.h>
 #include <lmt_reader.h>
@@ -19,6 +20,7 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     m_init = false;
     m_view = view;
     m_view->setMouseTracking(true);
+    m_undoStack = new QUndoStack(this);
     n_mapInfo = 0;
     for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
         if (Data::treemap.maps[i].ID == id)
@@ -39,8 +41,9 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     m_eventMenu->addActions(actions);
     Load();
     m_lowerpix = new QGraphicsPixmapItem();
-    m_upperpix = new QGraphicsPixmapItem(m_lowerpix);
+    m_upperpix = new QGraphicsPixmapItem();
     addItem(m_lowerpix);
+    addItem(m_upperpix);
     m_drawing = false;
     m_cancelled = false;
     m_selecting = false;
@@ -56,8 +59,8 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
 QGraphicsMapScene::~QGraphicsMapScene()
 {
     delete m_lowerpix;
+    delete m_upperpix;
     m_eventpixs.clear();
-    
 }
 
 void QGraphicsMapScene::Init()
@@ -105,6 +108,7 @@ void QGraphicsMapScene::Init()
             this,
             SLOT(onLayerChanged()));
     m_init = true;
+    redrawMap();
 }
 
 float QGraphicsMapScene::scale() const
@@ -119,6 +123,11 @@ QString QGraphicsMapScene::mapName() const
     return QString::fromStdString(m_mapInfo->name);
 }
 
+bool QGraphicsMapScene::isModified() const
+{
+    return m_undoStack->isClean();
+}
+
 int QGraphicsMapScene::id() const
 {
     return m_mapInfo->ID;
@@ -127,6 +136,21 @@ int QGraphicsMapScene::id() const
 int QGraphicsMapScene::chipsetId() const
 {
     return m_map.get()->chipset_id;
+}
+
+void QGraphicsMapScene::setLayerData(Core::Layer layer, std::vector<short> data)
+{
+    if (layer == Core::LOWER)
+    {
+        m_lower = data;
+        m_map.get()->lower_layer = data;
+    }
+    else
+    {
+        m_upper = data;
+        m_map.get()->upper_layer = data;
+    }
+    redrawLayer(layer);
 }
 
 void QGraphicsMapScene::redrawMap()
@@ -274,6 +298,13 @@ void QGraphicsMapScene::Load()
     emit mapReverted();
 }
 
+void QGraphicsMapScene::undo()
+{
+    m_undoStack->undo();
+    if (m_undoStack->isClean())
+        emit mapReverted();
+}
+
 void QGraphicsMapScene::on_actionRunHere()
 {
     emit actionRunHereTriggered(id(),lst_x,lst_y);
@@ -388,12 +419,16 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_drawing = false;
         if (mCore()->layer() == Core::LOWER)
         {
-            // Add lower_layer to undo stack
+            m_undoStack->push(new QUndoDraw(Core::LOWER,
+                                            m_map.get()->lower_layer,
+                                            this));
             m_map.get()->lower_layer = m_lower;
         }
         else
         {
-            // Add upper_layer to undo stack
+            m_undoStack->push(new QUndoDraw(Core::UPPER,
+                                            m_map.get()->upper_layer,
+                                            this));
             m_map.get()->upper_layer = m_upper;
         }
         emit mapChanged();

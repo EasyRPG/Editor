@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
 #include <QMenu>
+#include <QUndoStack>
 #include <rpg_map.h>
 #include <rpg_mapinfo.h>
 #include "../core.h"
@@ -22,8 +23,10 @@ public:
     float scale() const;
     void setScale(float scale);
     QString mapName() const;
+    bool isModified() const;
     int id() const;
     int chipsetId() const;
+    void setLayerData(Core::Layer layer, std::vector<short> data);
 
 signals:
     void actionRunHereTriggered(int map_id, int x, int y);
@@ -44,6 +47,8 @@ public slots:
     void Save();
 
     void Load();
+
+    void undo();
 
 private slots:
     void on_actionRunHere();
@@ -81,6 +86,7 @@ private:
     QGraphicsPixmapItem *m_upperpix;
     QVector<QGraphicsPixmapItem*> m_eventpixs;
     QVector<QGraphicsLineItem*> m_lines;
+    QUndoStack *m_undoStack;
     std::auto_ptr<RPG::Map> m_map;
     RPG::MapInfo *m_mapInfo;
     RPG::MapInfo *n_mapInfo; //To store unsaved changes

@@ -505,7 +505,6 @@ void MainWindow::update_actions()
         ui->actionZoomOut->setEnabled(true);
         ui->actionSearch->setEnabled(true);
         ui->actionSelect->setEnabled(true);
-        ui->actionUndo->setEnabled(true);
         ui->actionZoom->setEnabled(true);
         ui->action_Close_Project->setEnabled(true);
         ui->action_Events->setEnabled(true);
@@ -891,7 +890,10 @@ void MainWindow::on_tabMap_currentChanged(int index)
         return;
     }
     if (currentScene())
+    {
         mCore()->LoadChipset(currentScene()->chipsetId());
+        ui->actionUndo->setEnabled(currentScene()->isModified());
+    }
 }
 
 void MainWindow::on_actionImport_Project_triggered()
@@ -1024,6 +1026,7 @@ void MainWindow::on_mapChanged()
 {
     ui->actionRevert_Map->setEnabled(true);
     ui->action_Save_Map->setEnabled(true);
+    ui->actionUndo->setEnabled(true);
     ui->tabMap->setTabText(ui->tabMap->currentIndex(), currentScene()->mapName()+" *");
 }
 
@@ -1031,5 +1034,11 @@ void MainWindow::on_mapUnchanged()
 {
     ui->actionRevert_Map->setEnabled(false);
     ui->action_Save_Map->setEnabled(false);
+    ui->actionUndo->setEnabled(false);
     ui->tabMap->setTabText(ui->tabMap->currentIndex(), currentScene()->mapName());
+}
+
+void MainWindow::on_actionUndo_triggered()
+{
+    currentScene()->undo();
 }
