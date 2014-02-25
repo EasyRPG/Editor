@@ -472,7 +472,7 @@ void MainWindow::update_actions()
         ui->actionImport_Project->setEnabled(true);
         ui->actionRectangle->setEnabled(false);
         ui->actionResource_Manager->setEnabled(false);
-        ui->actionRevert_all_Maps->setEnabled(false);
+        ui->actionRevert_Map->setEnabled(false);
         ui->actionScale_1_1->setEnabled(false);
         ui->actionZoomIn->setEnabled(false);
         ui->actionZoomOut->setEnabled(false);
@@ -487,7 +487,7 @@ void MainWindow::update_actions()
         ui->action_New_Project->setEnabled(true);
         ui->action_Open_Project->setEnabled(true);
         ui->action_Play_Test->setEnabled(false);
-        ui->action_Save_all_Maps->setEnabled(false);
+        ui->action_Save_Map->setEnabled(false);
         ui->action_Script_Editor->setEnabled(false);
         ui->action_Title_Background->setEnabled(false);
         ui->action_Upper_Layer->setEnabled(false);
@@ -500,7 +500,6 @@ void MainWindow::update_actions()
         ui->actionImport_Project->setEnabled(false);
         ui->actionRectangle->setEnabled(true);
         ui->actionResource_Manager->setEnabled(true);
-        ui->actionRevert_all_Maps->setEnabled(true);
         ui->actionScale_1_1->setEnabled(true);
         ui->actionZoomIn->setEnabled(true);
         ui->actionZoomOut->setEnabled(true);
@@ -514,8 +513,7 @@ void MainWindow::update_actions()
         ui->action_Lower_Layer->setEnabled(true);
         ui->action_New_Project->setEnabled(false);
         ui->action_Open_Project->setEnabled(false);
-        ui->action_Play_Test->setEnabled(true);
-        ui->action_Save_all_Maps->setEnabled(true);
+        ui->action_Play_Test->setEnabled(false);
         ui->action_Script_Editor->setEnabled(true);
         ui->action_Title_Background->setEnabled(true);
         ui->action_Upper_Layer->setEnabled(true);
@@ -698,12 +696,32 @@ QGraphicsView *MainWindow::getView(int id)
                            QIcon(":/icons/share/old_map.png"),
                            QString::fromStdString(mapName));
         view->setScene(new QGraphicsMapScene(id, view, view));
-
         connect(getScene(id),
                 SIGNAL(actionRunHereTriggered(int,int,int)),
                 this,
-                SLOT(on_custom_position_Play_Test(int,int,int)));
-        getScene(id)->setScale(1.0);
+                SLOT(runHere(int,int,int)));
+        connect(getScene(id),
+                SIGNAL(mapChanged()),
+                this,
+                SLOT(on_mapChanged()));
+        connect(getScene(id),
+                SIGNAL(mapReverted()),
+                this,
+                SLOT(on_mapUnchanged()));
+        connect(getScene(id),
+                SIGNAL(mapSaved()),
+                this,
+                SLOT(on_mapUnchanged()));
+        connect(ui->action_Save_Map,
+                SIGNAL(triggered()),
+                getScene(id),
+                SLOT(Save()));
+        connect(ui->actionRevert_Map,
+                SIGNAL(triggered()),
+                getScene(id),
+                SLOT(Load()));
+        getScene(id)->setScale(2.0);
+        getScene(id)->Init();
     }
     return view;
 }
@@ -833,25 +851,19 @@ void MainWindow::on_action_Events_triggered()
 
 void MainWindow::on_actionZoomIn_triggered()
 {
-    QGraphicsView* currentView = static_cast<QGraphicsView*>(ui->tabMap->currentWidget());
-    QGraphicsMapScene* scene = static_cast<QGraphicsMapScene*>(currentView->scene());
-    if (scene->scale() != 2.0)
-        scene->setScale(scene->scale()+0.5);
+    if (currentScene()->scale() != 2.0)
+        currentScene()->setScale(currentScene()->scale()*2);
 }
 
 void MainWindow::on_actionZoomOut_triggered()
 {
-    QGraphicsView* currentView = static_cast<QGraphicsView*>(ui->tabMap->currentWidget());
-    QGraphicsMapScene* scene = static_cast<QGraphicsMapScene*>(currentView->scene());
-    if (scene->scale() != 0.5)
-        scene->setScale(scene->scale()-0.5);
+    if (currentScene()->scale() != 0.25)
+        currentScene()->setScale(currentScene()->scale()/2);
 }
 
 void MainWindow::on_actionScale_1_1_triggered()
 {
-    QGraphicsView* currentView = static_cast<QGraphicsView*>(ui->tabMap->currentWidget());
-    QGraphicsMapScene* scene = static_cast<QGraphicsMapScene*>(currentView->scene());
-    scene->setScale(1.0);
+    currentScene()->setScale(1.0);
 }
 
 void MainWindow::on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -984,7 +996,7 @@ void MainWindow::on_action_Play_Test_triggered()
     dlg.run();
 }
 
-void MainWindow::on_custom_position_Play_Test(int map_id, int x, int y)
+void MainWindow::runHere(int map_id, int x, int y)
 {
     std::stringstream ss;
     ss << std::setfill('0')
@@ -1006,4 +1018,18 @@ void MainWindow::on_custom_position_Play_Test(int map_id, int x, int y)
     //TODO: add auto toogle.
     dlg.setCommands(commands);
     dlg.run();
+}
+
+void MainWindow::on_mapChanged()
+{
+    ui->actionRevert_Map->setEnabled(true);
+    ui->action_Save_Map->setEnabled(true);
+    ui->tabMap->setTabText(ui->tabMap->currentIndex(), currentScene()->mapName()+" *");
+}
+
+void MainWindow::on_mapUnchanged()
+{
+    ui->actionRevert_Map->setEnabled(false);
+    ui->action_Save_Map->setEnabled(false);
+    ui->tabMap->setTabText(ui->tabMap->currentIndex(), currentScene()->mapName());
 }

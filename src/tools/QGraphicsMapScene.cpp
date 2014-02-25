@@ -16,8 +16,16 @@
 QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *parent) :
     QGraphicsScene(parent)
 {
+    m_init = false;
     m_view = view;
     m_view->setMouseTracking(true);
+    n_mapInfo = 0;
+    for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
+        if (Data::treemap.maps[i].ID == id)
+        {
+            m_mapInfo = &(Data::treemap.maps[i]);
+            break;
+        }
     m_eventMenu = new QMenu(m_view);
     QList<QAction*> actions;
     actions << new QAction(QIcon(":/icons/share/old_playtest.png"),
@@ -29,25 +37,10 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
     connect(actions[1],SIGNAL(triggered()),this, SLOT(on_actionSetStartPosition()));
     m_eventMenu->addActions(actions);
-    std::stringstream ss;
-    ss << mCore()->filePath(ROOT).toStdString()
-       << "Map"
-       << std::setfill('0')
-       << std::setw(4)
-       << id
-       << ".emu";
-    m_map = LMU_Reader::LoadXml(ss.str());
-    m_map.get()->ID = id;
-    m_lower =  m_map.get()->lower_layer;
-    m_upper =  m_map.get()->upper_layer;
+    Load();
     m_lowerpix = new QGraphicsPixmapItem();
-    m_upperpix = new QGraphicsPixmapItem();
-    if(m_map.get()->parallax_flag)
-        mCore()->LoadBackground(m_map.get()->parallax_name.c_str());
-    else
-        mCore()->LoadBackground(QString());
+    m_upperpix = new QGraphicsPixmapItem(m_lowerpix);
     addItem(m_lowerpix);
-    addItem(m_upperpix);
     m_drawing = false;
     m_cancelled = false;
     m_selecting = false;
@@ -56,42 +49,53 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
     m_lowerpix->setGraphicsEffect(effect);
     m_upperpix->setGraphicsEffect(new QGraphicsOpacityEffect(this));
-    for (int x = 0; x <= m_map.get()->width; x++)
-    {
-        QGraphicsLineItem* line = new QGraphicsLineItem(x*mCore()->tileSize(),
-                                                        0,
-                                                        x*mCore()->tileSize(),
-                                                        m_map.get()->height*mCore()->tileSize());
-        m_lines.append(line);
-        addItem(line);
-    }
-    for (int y = 0; y <= m_map.get()->height; y++)
-    {
-        QGraphicsLineItem* line = new QGraphicsLineItem(0,
-                                                        y*mCore()->tileSize(),
-                                                        m_map.get()->width*mCore()->tileSize(),
-                                                        y*mCore()->tileSize());
-        m_lines.append(line);
-        addItem(line);
-    }
     onLayerChanged();
     onToolChanged();
-    connect(view->verticalScrollBar(),
+}
+
+QGraphicsMapScene::~QGraphicsMapScene()
+{
+    delete m_lowerpix;
+    m_eventpixs.clear();
+    
+}
+
+void QGraphicsMapScene::Init()
+{
+    m_view->verticalScrollBar()->setValue(m_mapInfo->scrollbar_y);
+    m_view->verticalScrollBar()->setValue(m_mapInfo->scrollbar_x);
+    connect(m_view->verticalScrollBar(),
             SIGNAL(valueChanged(int)),
             this,
             SLOT(redrawMap()));
-    connect(view->horizontalScrollBar(),
+    connect(m_view->horizontalScrollBar(),
             SIGNAL(valueChanged(int)),
             this,
             SLOT(redrawMap()));
-    connect(view->verticalScrollBar(),
+    connect(m_view->verticalScrollBar(),
             SIGNAL(rangeChanged(int,int)),
             this,
             SLOT(redrawMap()));
-    connect(view->horizontalScrollBar(),
+    connect(m_view->horizontalScrollBar(),
             SIGNAL(rangeChanged(int,int)),
             this,
             SLOT(redrawMap()));
+    connect(m_view->verticalScrollBar(),
+            SIGNAL(valueChanged(int)),
+            this,
+            SLOT(on_view_V_Scroll()));
+    connect(m_view->horizontalScrollBar(),
+            SIGNAL(valueChanged(int)),
+            this,
+            SLOT(on_view_H_Scroll()));
+    connect(m_view->verticalScrollBar(),
+            SIGNAL(rangeChanged(int,int)),
+            this,
+            SLOT(on_view_V_Scroll()));
+    connect(m_view->horizontalScrollBar(),
+            SIGNAL(rangeChanged(int,int)),
+            this,
+            SLOT(on_view_H_Scroll()));
     connect(mCore(),
             SIGNAL(toolChanged()),
             this,
@@ -100,14 +104,7 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
             SIGNAL(layerChanged()),
             this,
             SLOT(onLayerChanged()));
-}
-
-QGraphicsMapScene::~QGraphicsMapScene()
-{
-    delete m_lowerpix;
-    delete m_upperpix;
-    m_eventpixs.clear();
-
+    m_init = true;
 }
 
 float QGraphicsMapScene::scale() const
@@ -115,9 +112,16 @@ float QGraphicsMapScene::scale() const
     return m_scale;
 }
 
+QString QGraphicsMapScene::mapName() const
+{
+    if (n_mapInfo)
+        return QString::fromStdString(n_mapInfo->name);
+    return QString::fromStdString(m_mapInfo->name);
+}
+
 int QGraphicsMapScene::id() const
 {
-    return m_map.get()->ID;
+    return m_mapInfo->ID;
 }
 
 int QGraphicsMapScene::chipsetId() const
@@ -127,6 +131,8 @@ int QGraphicsMapScene::chipsetId() const
 
 void QGraphicsMapScene::redrawMap()
 {
+    if (!m_init)
+        return;
     mCore()->LoadChipset(m_map.get()->chipset_id);
     s_tileSize = mCore()->tileSize()*m_scale;
     redrawLayer(Core::LOWER);
@@ -191,6 +197,83 @@ void QGraphicsMapScene::onToolChanged()
     }
 }
 
+void QGraphicsMapScene::Save()
+{
+    if (n_mapInfo)
+    {
+        m_mapInfo->area_rect.b = n_mapInfo->area_rect.b;
+        m_mapInfo->area_rect.l = n_mapInfo->area_rect.l;
+        m_mapInfo->area_rect.r = n_mapInfo->area_rect.r;
+        m_mapInfo->area_rect.t = n_mapInfo->area_rect.t;
+        m_mapInfo->background_name = n_mapInfo->background_name;
+        m_mapInfo->background_type = n_mapInfo->background_type;
+        m_mapInfo->encounters = n_mapInfo->encounters;
+        m_mapInfo->encounter_steps = n_mapInfo->encounter_steps;
+        m_mapInfo->escape = n_mapInfo->escape;
+        m_mapInfo->music.balance = n_mapInfo->music.balance;
+        m_mapInfo->music.fadein = n_mapInfo->music.fadein;
+        m_mapInfo->music.name = n_mapInfo->music.name;
+        m_mapInfo->music.tempo = n_mapInfo->music.tempo;
+        m_mapInfo->music.volume = n_mapInfo->music.volume;
+        m_mapInfo->music_type = n_mapInfo->music_type;
+        m_mapInfo->name = n_mapInfo->name;
+        m_mapInfo->teleport = n_mapInfo->teleport;
+        LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+        delete n_mapInfo;
+    }
+    std::stringstream ss;
+    ss << mCore()->filePath(ROOT).toStdString()
+       << "Map"
+       << std::setfill('0')
+       << std::setw(4)
+       << id()
+       << ".emu";
+    LMU_Reader::SaveXml(ss.str(), *m_map.get());
+    emit mapSaved();
+}
+
+void QGraphicsMapScene::Load()
+{
+    delete n_mapInfo;
+    std::stringstream ss;
+    ss << mCore()->filePath(ROOT).toStdString()
+       << "Map"
+       << std::setfill('0')
+       << std::setw(4)
+       << m_mapInfo->ID
+       << ".emu";
+    m_map = LMU_Reader::LoadXml(ss.str());
+    m_lower =  m_map.get()->lower_layer;
+    m_upper =  m_map.get()->upper_layer;
+    if(m_map.get()->parallax_flag)
+        mCore()->LoadBackground(m_map.get()->parallax_name.c_str());
+    else
+        mCore()->LoadBackground(QString());
+    for (int i = 0; i < m_lines.count(); i++)
+        removeItem(m_lines[i]);
+    m_lines.clear();
+    for (int x = 0; x <= m_map.get()->width; x++)
+    {
+        QGraphicsLineItem* line = new QGraphicsLineItem(x*mCore()->tileSize(),
+                                                        0,
+                                                        x*mCore()->tileSize(),
+                                                        m_map.get()->height*mCore()->tileSize());
+        m_lines.append(line);
+        addItem(line);
+    }
+    for (int y = 0; y <= m_map.get()->height; y++)
+    {
+        QGraphicsLineItem* line = new QGraphicsLineItem(0,
+                                                        y*mCore()->tileSize(),
+                                                        m_map.get()->width*mCore()->tileSize(),
+                                                        y*mCore()->tileSize());
+        m_lines.append(line);
+        addItem(line);
+    }
+    redrawMap();
+    emit mapReverted();
+}
+
 void QGraphicsMapScene::on_actionRunHere()
 {
     emit actionRunHereTriggered(id(),lst_x,lst_y);
@@ -201,6 +284,40 @@ void QGraphicsMapScene::on_actionSetStartPosition()
     Data::treemap.start.party_map_id = this->id();
     Data::treemap.start.party_x = lst_x;
     Data::treemap.start.party_y = lst_y;
+    LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+}
+
+void QGraphicsMapScene::on_view_V_Scroll()
+{
+    if (m_view->verticalScrollBar()->isVisible())
+    {
+        m_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value();
+        if (n_mapInfo)
+            n_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value();
+    }
+    else
+    {
+        m_mapInfo->scrollbar_y = 0;
+        if (n_mapInfo)
+            n_mapInfo->scrollbar_y = 0;
+    }
+    LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+}
+
+void QGraphicsMapScene::on_view_H_Scroll()
+{
+    if (m_view->horizontalScrollBar()->isVisible())
+    {
+        m_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value();
+        if (n_mapInfo)
+            n_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value();
+    }
+    else
+    {
+        m_mapInfo->scrollbar_x = 0;
+        if (n_mapInfo)
+            n_mapInfo->scrollbar_x = 0;
+    }
     LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
 }
 
@@ -279,6 +396,7 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             // Add upper_layer to undo stack
             m_map.get()->upper_layer = m_upper;
         }
+        emit mapChanged();
     }
 }
 

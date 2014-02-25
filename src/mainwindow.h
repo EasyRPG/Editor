@@ -86,7 +86,11 @@ private slots:
 
     void on_action_Play_Test_triggered();
 
-    void on_custom_position_Play_Test(int map_id, int x, int y);
+    void runHere(int map_id, int x, int y);
+
+    void on_mapChanged();
+
+    void on_mapUnchanged();
 
 private:
     bool removeDir(const QString & dirName, const QString &root);

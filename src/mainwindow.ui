@@ -76,8 +76,8 @@
      <addaction name="actionZoomIn"/>
      <addaction name="actionZoomOut"/>
     </widget>
-    <addaction name="action_Save_all_Maps"/>
-    <addaction name="actionRevert_all_Maps"/>
+    <addaction name="action_Save_Map"/>
+    <addaction name="actionRevert_Map"/>
     <addaction name="separator"/>
     <addaction name="menuEdition_Mode"/>
     <addaction name="menuZoom"/>
@@ -151,8 +151,8 @@
    <addaction name="separator"/>
    <addaction name="actionCreate_Game_Disk"/>
    <addaction name="separator"/>
-   <addaction name="action_Save_all_Maps"/>
-   <addaction name="actionRevert_all_Maps"/>
+   <addaction name="action_Save_Map"/>
+   <addaction name="actionRevert_Map"/>
    <addaction name="separator"/>
    <addaction name="action_Lower_Layer"/>
    <addaction name="action_Upper_Layer"/>
@@ -362,25 +362,31 @@
     <string>Quit EasyRPG</string>
    </property>
   </action>
-  <action name="action_Save_all_Maps">
+  <action name="action_Save_Map">
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_save_all.png</normaloff>:/icons/share/old_save_all.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save all Maps</string>
+    <string>&amp;Save Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Save current Map</string>
    </property>
    <property name="statusTip">
     <string>Save all changes done in maps</string>
    </property>
   </action>
-  <action name="actionRevert_all_Maps">
+  <action name="actionRevert_Map">
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Revert all Maps</string>
+    <string>&amp;Revert Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Revert currentl Map</string>
    </property>
    <property name="statusTip">
     <string>Revert changes on all maps</string>
