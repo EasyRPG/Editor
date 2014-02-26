@@ -1,2 +1,2 @@
 Copy this whole folder into the executable's directory, otherwise new_game will crash
-On Windows, replace Player.exe executable with a real EasyRPG Player binary from https://easy-rpg.org/player-downloads.html
+On Windows, replace Player.exe executable with a real EasyRPG Player binary (continuous build) from https://easy-rpg.org/player-downloads.html
