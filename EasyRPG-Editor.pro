@@ -72,8 +72,8 @@ DEPENDPATH += C:/Expat/Bin
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/bin/release/ -lReaders
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/bin/debug/ -lReaders
 
-INCLUDEPATH += $$PWD/libs/Readers/src
-DEPENDPATH += $$PWD/libs/Readers/src
+INCLUDEPATH += $$PWD/libs/Readers/include
+DEPENDPATH += $$PWD/libs/Readers/include
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/release/libReaders.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/libReaders.a
