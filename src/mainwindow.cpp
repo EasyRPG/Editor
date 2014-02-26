@@ -577,7 +577,7 @@ void MainWindow::on_action_New_Project_triggered()
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
         QString t_folder = qApp->applicationDirPath()+"/templates/";
 
-        QFile::copy(t_folder+PLAYER64, mCore()->filePath(PLAYER64));
+        QFile::copy(t_folder+PLAYER, mCore()->filePath(PLAYER));
         /* Map tree */
         LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
         Data::treemap.maps[0].name = mCore()->gameTitle().toStdString();

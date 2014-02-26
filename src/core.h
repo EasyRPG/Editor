@@ -71,7 +71,7 @@
 #define EASY_MT "EASY_RT.emt"
 #define EASY_CFG "EASY_RT.cfg"
 //      EASY_EMU "MapXXXX.emu"
-#define PLAYER64 "Player64.exe"
+#define PLAYER "Player.exe"
 
 #include <QPixmap>
 #include <QPainter>
