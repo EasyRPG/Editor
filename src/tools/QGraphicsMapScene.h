@@ -8,6 +8,7 @@
 #include <QGraphicsView>
 #include <QMenu>
 #include <QUndoStack>
+#include <memory>
 #include <rpg_map.h>
 #include <rpg_mapinfo.h>
 #include "../core.h"
