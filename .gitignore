@@ -1,4 +1,12 @@
 /*.autosave
 /EasyRPG-Editor.pro.user
 bin
+*.o
+/Makefile
+/moc_*
+/qrc_*
+/ui_*
+/EasyRPG-Editor
 /libs/Readers/*.user
+/libs/Readers/*.user.*
+/templates/Player.exe

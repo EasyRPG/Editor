@@ -50,6 +50,7 @@ static void recurseAddDir(QDir d, QStringList & list) {
     }
 }
 
+#ifdef Q_OS_WIN
 static void associateFileTypes(const QStringList &fileTypes)
 {
     QString displayName = QGuiApplication::applicationDisplayName();
@@ -71,6 +72,7 @@ static void associateFileTypes(const QStringList &fileTypes)
     settings.setValue(".", QChar('"') + QDir::toNativeSeparators(filePath) + QString("\" \"%1\""));
 }
 //! [0]
+#endif
 
 
 
@@ -577,7 +579,7 @@ void MainWindow::on_action_New_Project_triggered()
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
         QString t_folder = qApp->applicationDirPath()+"/templates/";
 
-        QFile::copy(t_folder+PLAYER64, mCore()->filePath(PLAYER64));
+        QFile::copy(t_folder+PLAYER, mCore()->filePath(PLAYER));
         /* Map tree */
         LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
         Data::treemap.maps[0].name = mCore()->gameTitle().toStdString();
@@ -820,11 +822,13 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
     }
     else
     {
+#ifdef Q_OS_WIN
         associateFileTypes(QStringList(".wav,.mp3,.midi"));
         if(!player.isHidden())
         {
             player.playFile("C:\\Users\\Public\\Music\\Sample Music\\Kalimba.mp3");
         }
+#endif
         player.resize(300, 60);
         player.show();
     }

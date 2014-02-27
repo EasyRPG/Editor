@@ -1,1 +1,3 @@
-Copy this hole folder into the executable's directory, otherwise new_game will crash
+On Windows, copy this whole folder into the executable's directory, otherwise new_game will crash
+Also, replace Player.exe executable with the contained in this zip file:
+https://easy-rpg.org/jenkins/job/player-win32-editor-support/lastSuccessfulBuild/artifact/bin/easyrpg_windows.zip

@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia winextras
+QT       += core gui multimedia
+win32:QT += winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,7 +35,6 @@ HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
     src/dialogdatabase.h \
     src/gamecharacter.h \
-    src/gamecharactermodel.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
     src/tools/QGraphicsImportItem.h \
@@ -66,8 +66,8 @@ RC_FILE = src/Resources.rc
 
 win32: LIBS += -LC:/Expat/Bin/ -llibexpat
 
-INCLUDEPATH += C:/Expat/Bin
-DEPENDPATH += C:/Expat/Bin
+win32:INCLUDEPATH += C:/Expat/Bin
+win32:DEPENDPATH += C:/Expat/Bin
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/bin/release/ -lReaders
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/bin/debug/ -lReaders
@@ -79,3 +79,8 @@ win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/relea
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/libReaders.a
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/release/Readers.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/Readers.lib
+
+!win32:LIBS += -lexpat -lreaders
+#!win32:QMAKE_CXXFLAGS += -Wextra -ansi -pedantic
+!win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
+!win32:QMAKE_CXXFLAGS += -std=c++0x
