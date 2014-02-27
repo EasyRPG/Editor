@@ -2,4 +2,5 @@
 /EasyRPG-Editor.pro.user
 bin
 /libs/Readers/*.user
+/libs/Readers/*.user.*
 /templates/Player.exe
