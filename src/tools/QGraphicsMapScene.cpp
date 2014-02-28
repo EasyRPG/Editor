@@ -39,11 +39,11 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
     connect(actions[1],SIGNAL(triggered()),this, SLOT(on_actionSetStartPosition()));
     m_eventMenu->addActions(actions);
-    Load();
     m_lowerpix = new QGraphicsPixmapItem();
     m_upperpix = new QGraphicsPixmapItem();
     addItem(m_lowerpix);
     addItem(m_upperpix);
+    Load();
     m_drawing = false;
     m_cancelled = false;
     m_selecting = false;
@@ -65,8 +65,14 @@ QGraphicsMapScene::~QGraphicsMapScene()
 
 void QGraphicsMapScene::Init()
 {
-    m_view->verticalScrollBar()->setValue(m_mapInfo->scrollbar_y);
-    m_view->verticalScrollBar()->setValue(m_mapInfo->scrollbar_x);
+    connect(m_view->verticalScrollBar(),
+            SIGNAL(actionTriggered(int)),
+            this,
+            SLOT(on_user_interaction()));
+    connect(m_view->horizontalScrollBar(),
+            SIGNAL(actionTriggered(int)),
+            this,
+            SLOT(on_user_interaction()));
     connect(m_view->verticalScrollBar(),
             SIGNAL(valueChanged(int)),
             this,
@@ -89,14 +95,6 @@ void QGraphicsMapScene::Init()
             SLOT(on_view_V_Scroll()));
     connect(m_view->horizontalScrollBar(),
             SIGNAL(valueChanged(int)),
-            this,
-            SLOT(on_view_H_Scroll()));
-    connect(m_view->verticalScrollBar(),
-            SIGNAL(rangeChanged(int,int)),
-            this,
-            SLOT(on_view_V_Scroll()));
-    connect(m_view->horizontalScrollBar(),
-            SIGNAL(rangeChanged(int,int)),
             this,
             SLOT(on_view_H_Scroll()));
     connect(mCore(),
@@ -107,6 +105,8 @@ void QGraphicsMapScene::Init()
             SIGNAL(layerChanged()),
             this,
             SLOT(onLayerChanged()));
+    m_view->verticalScrollBar()->setValue(m_mapInfo->scrollbar_y*m_scale);
+    m_view->horizontalScrollBar()->setValue(m_mapInfo->scrollbar_x*m_scale);
     m_init = true;
     redrawMap();
 }
@@ -125,7 +125,7 @@ QString QGraphicsMapScene::mapName() const
 
 bool QGraphicsMapScene::isModified() const
 {
-    return m_undoStack->isClean();
+    return (m_undoStack->count() > 0);
 }
 
 int QGraphicsMapScene::id() const
@@ -223,6 +223,8 @@ void QGraphicsMapScene::onToolChanged()
 
 void QGraphicsMapScene::Save()
 {
+    if (!isModified())
+        return;
     if (n_mapInfo)
     {
         m_mapInfo->area_rect.b = n_mapInfo->area_rect.b;
@@ -318,37 +320,36 @@ void QGraphicsMapScene::on_actionSetStartPosition()
     LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
 }
 
+void QGraphicsMapScene::on_user_interaction()
+{
+    m_userInteraction = true;
+}
+
 void QGraphicsMapScene::on_view_V_Scroll()
 {
+    if (!m_userInteraction || !m_init)
+        return;
     if (m_view->verticalScrollBar()->isVisible())
     {
-        m_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value();
+        m_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
         if (n_mapInfo)
-            n_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value();
+            n_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
     }
-    else
-    {
-        m_mapInfo->scrollbar_y = 0;
-        if (n_mapInfo)
-            n_mapInfo->scrollbar_y = 0;
-    }
+    m_userInteraction = false;
     LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
 }
 
 void QGraphicsMapScene::on_view_H_Scroll()
 {
+    if (!m_userInteraction || !m_init)
+        return;
     if (m_view->horizontalScrollBar()->isVisible())
     {
-        m_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value();
+        m_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
         if (n_mapInfo)
-            n_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value();
+            n_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
     }
-    else
-    {
-        m_mapInfo->scrollbar_x = 0;
-        if (n_mapInfo)
-            n_mapInfo->scrollbar_x = 0;
-    }
+    m_userInteraction = false;
     LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
 }
 
@@ -373,7 +374,7 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         stopSelecting();
         return;
     }
-    if(event->button() == Qt::LeftButton) //Start drawing
+    if(event->button() == Qt::LeftButton && mCore()->layer() != Core::EVENT) //Start drawing
     {
         fst_x = cur_x;
         fst_y = cur_y;
@@ -411,7 +412,7 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event)
     if (m_cancelled)
     {
-        m_drawing = false;
+        m_cancelled = false;
         return;
     }
     if (m_drawing && !m_cancelled)
@@ -538,12 +539,8 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
         size.setHeight(m_map.get()->height*s_tileSize);
     else
         size.setHeight(size.height()+s_tileSize);
-    int start_x = 0;
-    if (m_view->horizontalScrollBar()->isVisible())
-        start_x =m_view->horizontalScrollBar()->value()/s_tileSize;
-    int start_y = 0;
-    if (m_view->verticalScrollBar()->isVisible())
-        start_y = m_view->verticalScrollBar()->value()/s_tileSize;
+    int start_x = m_view->horizontalScrollBar()->value()/s_tileSize;
+    int start_y = start_y = m_view->verticalScrollBar()->value()/s_tileSize;
     int end_x = start_x+(size.width()-1)/s_tileSize;
     int end_y = start_y+(size.height()-1)/s_tileSize;
     QPixmap pix(size);

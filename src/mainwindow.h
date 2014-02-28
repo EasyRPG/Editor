@@ -95,6 +95,8 @@ private slots:
     void on_actionUndo_triggered();
 
 private:
+    void closeEvent(QCloseEvent *event);
+    void saveAll();
     bool removeDir(const QString & dirName, const QString &root);
     QGraphicsView *getView(int id);
     QGraphicsMapScene *getScene(int id);

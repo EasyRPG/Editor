@@ -97,7 +97,6 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(toolChanged()),
             this,
             SLOT(updateToolActions()));
-
     connect(mCore(),
             SIGNAL(layerChanged()),
             this,
@@ -428,7 +427,8 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
 
 void MainWindow::on_action_Quit_triggered()
 {
-    this->on_actionJukebox_triggered(true);
+    saveAll();
+//    this->on_actionJukebox_triggered(true);
     Data::Clear();
     /* Solves bug in readers */
     Data::treemap.maps.clear();
@@ -686,6 +686,7 @@ QGraphicsView *MainWindow::getView(int id)
         //create
         view = new QGraphicsView(this);
         m_views[id] = view;
+        view->setTransformationAnchor(QGraphicsView::NoAnchor);
         std::string mapName;
         for (unsigned int i = 0; i < Data::treemap.maps.size();i++)
             if (Data::treemap.maps[i].ID == id)
@@ -795,8 +796,9 @@ void MainWindow::on_action_Close_Project_triggered()
     mCore()->setGameTitle("");
     mCore()->setProjectFolder("");
     ui->treeMap->clear();
+    saveAll();
     while (ui->tabMap->currentIndex() != -1)
-        on_tabMap_tabCloseRequested(ui->tabMap->currentIndex());
+        removeView(currentScene()->id());
     update_actions();
     setWindowTitle("EasyRPG Editor");
 }
@@ -876,12 +878,32 @@ void MainWindow::on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column)
         return;
     QGraphicsView *view = getView(item->data(1,Qt::DisplayRole).toInt());
     ui->tabMap->setCurrentWidget(view);
+    if (ui->tabMap->count() == 1)
+        m_paleteScene->onChipsetChange();
 }
 
 void MainWindow::on_tabMap_tabCloseRequested(int index)
 {
     if (!getTabScene(index))
         return;
+    if (getTabScene(index)->isModified())
+    {
+        int result = QMessageBox::question(this,
+                                           "Save map changes",
+                                           QString("%1 has unsaved changes.\n"
+                                           "Do you want to save them before clossing"
+                                           " it?").arg(getTabScene(index)->mapName()),
+                                           QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        switch (result)
+        {
+        case (QMessageBox::Yes):
+            getTabScene(index)->Save();
+        case (QMessageBox::No):
+            removeView(getTabScene(index)->id());
+        default:
+            return;
+        }
+    }
     removeView(getTabScene(index)->id());
 }
 
@@ -1045,4 +1067,39 @@ void MainWindow::on_mapUnchanged()
 void MainWindow::on_actionUndo_triggered()
 {
     currentScene()->undo();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    saveAll();
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::saveAll()
+{
+    bool need_save = false;
+    for (int i = 0; i < ui->tabMap->count(); i++)
+        if (getTabScene(i)->isModified())
+        {
+            need_save = true;
+            break;
+        }
+    if (need_save)
+    {
+        int result = QMessageBox::question(this,
+                                           "Save map changes",
+                                           "Some maps have unsaved changes.\n"
+                                           "Do you want to save them before clossing them?",
+                                           QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        switch (result)
+        {
+        case (QMessageBox::Yes):
+            for (int i = 0; i < ui->tabMap->count(); i++)
+                getTabScene(i)->Save();
+            break;
+ //     case (No): do nothing;
+        case (QMessageBox::Cancel):
+            return;
+        }
+    }
 }

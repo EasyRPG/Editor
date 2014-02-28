@@ -56,6 +56,8 @@ private slots:
 
     void on_actionSetStartPosition();
 
+    void on_user_interaction();
+
     void on_view_V_Scroll();
 
     void on_view_H_Scroll();
@@ -106,6 +108,7 @@ private:
     bool m_drawing;
     bool m_cancelled;
     bool m_selecting;
+    bool m_userInteraction;
 };
 
 #endif // QGRAPHICSMAPSCENE_H
