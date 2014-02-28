@@ -6,11 +6,11 @@
 
 QT       -= core gui
 
-TARGET = Readers
+TARGET = readers
 TEMPLATE = lib
 CONFIG += staticlib
 
-DEFINES += READER_SUPPORT_XML
+DEFINES += READER_SUPPORT_XML XML_STATIC
 
 SOURCES += \
     src/data.cpp \
@@ -250,12 +250,20 @@ HEADERS += \
 INCLUDEPATH += $$PWD\include
 INCLUDEPATH += $$(EASYDEV_MSVC)\include
 
+win32 {
+    contains(QMAKE_HOST.arch, x86_64) {
+	TARGET = readers64
+    }
+    debug {
+	DESTDIR = lib/debug
+    }
+    release {
+	DESTDIR = lib/release
+    }
+}
+
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
 
-win32: LIBS += -LC:/Expat/Bin/ -llibexpat
-
-INCLUDEPATH += C:/Expat/Bin
-DEPENDPATH += C:/Expat/Bin

@@ -7,6 +7,9 @@ bin
 /qrc_*
 /ui_*
 /EasyRPG-Editor
-/libs/Readers/*.user
-/libs/Readers/*.user.*
+/libs/Readers/*
 /templates/Player.exe
+/debug
+/release
+Makefile.Debug
+Makefile.Release

@@ -64,21 +64,38 @@ RESOURCES += \
 
 RC_FILE = src/Resources.rc
 
-win32: LIBS += -LC:/Expat/Bin/ -llibexpat
-
-win32:INCLUDEPATH += C:/Expat/Bin
-win32:DEPENDPATH += C:/Expat/Bin
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/bin/release/ -lReaders
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/bin/debug/ -lReaders
-
 INCLUDEPATH += $$PWD/libs/Readers/include
 DEPENDPATH += $$PWD/libs/Readers/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/release/libReaders.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/libReaders.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/release/Readers.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/Readers.lib
+DESTDIR = bin
+
+debug: TARGET = EasyRPG-EditorD
+
+win32 {
+    INCLUDEPATH += $$(EASYDEV_MSVC)/include
+    DEPENDPATH += $$(EASYDEV_MSVC)/include
+
+    debug {
+	LIBS += -L$$PWD/libs/Readers/lib/debug/
+	!contains(QMAKE_HOST.arch, x86_64) {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
+	    LIBS += -lReaders
+	} else {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
+	    LIBS += -lReaders64
+	}
+    }
+    release {
+	LIBS += -L$$PWD/libs/Readers/lib/release/
+	!contains(QMAKE_HOST.arch, x86_64) {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
+	    LIBS += -lReaders
+	} else {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
+	    LIBS += -lReaders64
+	}
+    }
+}
 
 !win32:LIBS += -lexpat -lreaders
 #!win32:QMAKE_CXXFLAGS += -Wextra -ansi -pedantic
