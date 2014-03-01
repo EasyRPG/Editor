@@ -47,6 +47,7 @@
         <file>share/cur_pen.png</file>
         <file>share/cur_rectangle.png</file>
         <file>share/cur_zoom.png</file>
+        <file>share/cur_cancel.png</file>
     </qresource>
     <qresource prefix="/embedded">
         <file>share/eraser.png</file>
