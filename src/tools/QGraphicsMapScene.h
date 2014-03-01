@@ -81,6 +81,8 @@ private:
     void updateArea(int x1, int y1, int x2, int y2);
     void redrawLayer(Core::Layer layer);
     void drawPen();
+    void drawRect();
+    void drawFill(int terrain_id, int x, int y);
     short bind(int x, int y);
 
 
