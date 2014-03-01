@@ -647,6 +647,8 @@ void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
 {
     if (x < 0 || x >= m_map.get()->width || y < 0 || y >= m_map.get()->height)
         return;
+    if (terrain_id == mCore->selection(x-fst_x,y-fst_y))
+        return;
     switch (mCore->layer())
     {
     case (Core::LOWER):
