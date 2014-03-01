@@ -388,6 +388,13 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             m_drawing = true;
             drawRect();
             break;
+        case (Core::FILL):
+            m_drawing = true;
+            if (mCore()->layer() == Core::LOWER)
+                drawFill(mCore()->translate(m_lower[_index(fst_x,fst_y)]),fst_x,fst_y);
+            else if (mCore()->layer() == Core::UPPER)
+                drawFill(mCore()->translate(m_upper[_index(fst_x,fst_y)]),fst_x,fst_y);
+            updateArea(0, 0, m_map.get()->width-1 ,m_map.get()->height-1);
         }
     }
     if(event->button() == Qt::RightButton) //StartSelecting
@@ -630,6 +637,29 @@ void QGraphicsMapScene::drawRect()
                 m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
         }
     updateArea(x1-2, y1-2, x2+2, y2+2);
+}
+
+void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
+{
+    if (x < 0 || x >= m_map.get()->width || y < 0 || y >= m_map.get()->height)
+        return;
+    switch (mCore()->layer())
+    {
+    case (Core::LOWER):
+        if (mCore()->translate(m_lower[_index(x,y)]) != terrain_id)
+            return;
+        m_lower[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+        break;
+    case (Core::UPPER):
+        if (mCore()->translate(m_upper[_index(x,y)]) != terrain_id)
+            return;
+        m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+        break;
+    }
+    drawFill(terrain_id, x, y-1);
+    drawFill(terrain_id, x-1, y);
+    drawFill(terrain_id, x+1, y);
+    drawFill(terrain_id, x, y+1);
 }
 
 short QGraphicsMapScene::bind(int x, int y)
