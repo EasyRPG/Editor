@@ -1,7 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
-#define mCore() Core::getCore()
+#define mCore Core::getCore()
 
 /****************************
  *     Binding Constants    *
@@ -98,7 +98,6 @@ public:
 
     enum Tool
     {
-        SELECTION,
         ZOOM,
         PENCIL,
         RECTANGLE,
