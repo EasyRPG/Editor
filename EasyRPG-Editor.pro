@@ -75,7 +75,7 @@ win32 {
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-    debug {
+CONFIG(debug, debug|release) {
 	LIBS += -L$$PWD/libs/Readers/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
@@ -85,7 +85,7 @@ win32 {
 	    LIBS += -lReaders64
 	}
     }
-    release {
+CONFIG(release, debug|release) {
 	LIBS += -L$$PWD/libs/Readers/lib/release/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
