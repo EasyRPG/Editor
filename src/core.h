@@ -98,7 +98,6 @@ public:
 
     enum Tool
     {
-        SELECTION,
         ZOOM,
         PENCIL,
         RECTANGLE,

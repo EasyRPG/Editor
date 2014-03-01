@@ -479,7 +479,6 @@ void MainWindow::update_actions()
         ui->actionZoomIn->setEnabled(false);
         ui->actionZoomOut->setEnabled(false);
         ui->actionSearch->setEnabled(false);
-        ui->actionSelect->setEnabled(false);
         ui->actionUndo->setEnabled(false);
         ui->actionZoom->setEnabled(false);
         ui->action_Close_Project->setEnabled(false);
@@ -506,7 +505,6 @@ void MainWindow::update_actions()
         ui->actionZoomIn->setEnabled(true);
         ui->actionZoomOut->setEnabled(true);
         ui->actionSearch->setEnabled(true);
-        ui->actionSelect->setEnabled(true);
         ui->actionZoom->setEnabled(true);
         ui->action_Close_Project->setEnabled(true);
         ui->action_Events->setEnabled(true);
@@ -777,7 +775,6 @@ void MainWindow::updateLayerActions()
 
 void MainWindow::updateToolActions()
 {
-    ui->actionSelect->setChecked(mCore()->tool() == Core::SELECTION);
     ui->actionZoom->setChecked(mCore()->tool() == Core::ZOOM);
     ui->actionDraw->setChecked(mCore()->tool() == Core::PENCIL);
     ui->actionRectangle->setChecked(mCore()->tool() == Core::RECTANGLE);
@@ -979,11 +976,6 @@ void MainWindow::on_actionImport_Project_triggered()
 void MainWindow::on_actionRtp_Path_triggered()
 {
     DialogRtpPath dlg(this);
-}
-
-void MainWindow::on_actionSelect_triggered()
-{
-    mCore()->setTool(Core::SELECTION);
 }
 
 void MainWindow::on_actionZoom_triggered()

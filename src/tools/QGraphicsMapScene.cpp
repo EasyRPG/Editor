@@ -200,9 +200,6 @@ void QGraphicsMapScene::onToolChanged()
 {
     switch (mCore()->tool())
     {
-    case (Core::SELECTION):
-        m_view->setCursor(QCursor(Qt::ArrowCursor));
-        break;
     case (Core::ZOOM):
         m_view->setCursor(QCursor(Qt::UpArrowCursor));
         break;

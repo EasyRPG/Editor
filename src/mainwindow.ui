@@ -179,13 +179,13 @@
   <widget class="QDockWidget" name="dockPalete">
    <property name="minimumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>127</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>524287</height>
     </size>
    </property>
@@ -271,13 +271,13 @@
   <widget class="QToolBar" name="toolBar">
    <property name="minimumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>0</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>16777215</height>
     </size>
    </property>
@@ -295,7 +295,6 @@
    </attribute>
    <addaction name="actionUndo"/>
    <addaction name="separator"/>
-   <addaction name="actionSelect"/>
    <addaction name="actionZoom"/>
    <addaction name="actionDraw"/>
    <addaction name="actionRectangle"/>
@@ -658,21 +657,6 @@
    </property>
    <property name="toolTip">
     <string>Undo last action</string>
-   </property>
-  </action>
-  <action name="actionSelect">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_select.png</normaloff>:/icons/share/old_select.png</iconset>
-   </property>
-   <property name="text">
-    <string>Select</string>
-   </property>
-   <property name="toolTip">
-    <string>Select and move part of the map</string>
    </property>
   </action>
   <action name="actionZoom">
