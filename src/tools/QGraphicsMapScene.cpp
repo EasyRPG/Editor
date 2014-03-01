@@ -97,11 +97,11 @@ void QGraphicsMapScene::Init()
             SIGNAL(valueChanged(int)),
             this,
             SLOT(on_view_H_Scroll()));
-    connect(mCore(),
+    connect(mCore,
             SIGNAL(toolChanged()),
             this,
             SLOT(onToolChanged()));
-    connect(mCore(),
+    connect(mCore,
             SIGNAL(layerChanged()),
             this,
             SLOT(onLayerChanged()));
@@ -157,8 +157,8 @@ void QGraphicsMapScene::redrawMap()
 {
     if (!m_init)
         return;
-    mCore()->LoadChipset(m_map.get()->chipset_id);
-    s_tileSize = mCore()->tileSize()*m_scale;
+    mCore->LoadChipset(m_map.get()->chipset_id);
+    s_tileSize = mCore->tileSize()*m_scale;
     redrawLayer(Core::LOWER);
     redrawLayer(Core::UPPER);
 }
@@ -170,14 +170,14 @@ void QGraphicsMapScene::setScale(float scale)
         m_lines[i]->setScale(m_scale);
     this->setSceneRect(0,
                        0,
-                       m_map.get()->width* mCore()->tileSize()*m_scale,
-                       m_map.get()->height* mCore()->tileSize()*m_scale);
+                       m_map.get()->width* mCore->tileSize()*m_scale,
+                       m_map.get()->height* mCore->tileSize()*m_scale);
     redrawMap();
 }
 
 void QGraphicsMapScene::onLayerChanged()
 {
-    switch (mCore()->layer())
+    switch (mCore->layer())
     {
     case (Core::LOWER):
         m_lowerpix->graphicsEffect()->setEnabled(false);
@@ -193,12 +193,12 @@ void QGraphicsMapScene::onLayerChanged()
         break;
     }
     for (int i = 0; i < m_lines.count(); i++)
-        m_lines[i]->setVisible(mCore()->layer() == Core::EVENT);
+        m_lines[i]->setVisible(mCore->layer() == Core::EVENT);
 }
 
 void QGraphicsMapScene::onToolChanged()
 {
-    switch (mCore()->tool())
+    switch (mCore->tool())
     {
     case (Core::ZOOM):
         m_view->setCursor(QCursor(Qt::UpArrowCursor));
@@ -241,11 +241,11 @@ void QGraphicsMapScene::Save()
         m_mapInfo->music_type = n_mapInfo->music_type;
         m_mapInfo->name = n_mapInfo->name;
         m_mapInfo->teleport = n_mapInfo->teleport;
-        LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+        LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
         delete n_mapInfo;
     }
     std::stringstream ss;
-    ss << mCore()->filePath(ROOT).toStdString()
+    ss << mCore->filePath(ROOT).toStdString()
        << "Map"
        << std::setfill('0')
        << std::setw(4)
@@ -259,7 +259,7 @@ void QGraphicsMapScene::Load()
 {
     delete n_mapInfo;
     std::stringstream ss;
-    ss << mCore()->filePath(ROOT).toStdString()
+    ss << mCore->filePath(ROOT).toStdString()
        << "Map"
        << std::setfill('0')
        << std::setw(4)
@@ -269,27 +269,27 @@ void QGraphicsMapScene::Load()
     m_lower =  m_map.get()->lower_layer;
     m_upper =  m_map.get()->upper_layer;
     if(m_map.get()->parallax_flag)
-        mCore()->LoadBackground(m_map.get()->parallax_name.c_str());
+        mCore->LoadBackground(m_map.get()->parallax_name.c_str());
     else
-        mCore()->LoadBackground(QString());
+        mCore->LoadBackground(QString());
     for (int i = 0; i < m_lines.count(); i++)
         removeItem(m_lines[i]);
     m_lines.clear();
     for (int x = 0; x <= m_map.get()->width; x++)
     {
-        QGraphicsLineItem* line = new QGraphicsLineItem(x*mCore()->tileSize(),
+        QGraphicsLineItem* line = new QGraphicsLineItem(x*mCore->tileSize(),
                                                         0,
-                                                        x*mCore()->tileSize(),
-                                                        m_map.get()->height*mCore()->tileSize());
+                                                        x*mCore->tileSize(),
+                                                        m_map.get()->height*mCore->tileSize());
         m_lines.append(line);
         addItem(line);
     }
     for (int y = 0; y <= m_map.get()->height; y++)
     {
         QGraphicsLineItem* line = new QGraphicsLineItem(0,
-                                                        y*mCore()->tileSize(),
-                                                        m_map.get()->width*mCore()->tileSize(),
-                                                        y*mCore()->tileSize());
+                                                        y*mCore->tileSize(),
+                                                        m_map.get()->width*mCore->tileSize(),
+                                                        y*mCore->tileSize());
         m_lines.append(line);
         addItem(line);
     }
@@ -314,7 +314,7 @@ void QGraphicsMapScene::on_actionSetStartPosition()
     Data::treemap.start.party_map_id = this->id();
     Data::treemap.start.party_x = lst_x;
     Data::treemap.start.party_y = lst_y;
-    LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+    LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
 }
 
 void QGraphicsMapScene::on_user_interaction()
@@ -333,7 +333,7 @@ void QGraphicsMapScene::on_view_V_Scroll()
             n_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
     }
     m_userInteraction = false;
-    LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+    LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
 }
 
 void QGraphicsMapScene::on_view_H_Scroll()
@@ -347,7 +347,7 @@ void QGraphicsMapScene::on_view_H_Scroll()
             n_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
     }
     m_userInteraction = false;
-    LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
+    LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
 }
 
 void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -359,13 +359,13 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             stopDrawing();
             return;
         }
-        if (sceneRect().contains(event->scenePos()) && mCore()->layer() == Core::EVENT)
+        if (sceneRect().contains(event->scenePos()) && mCore->layer() == Core::EVENT)
         {
             lst_x = cur_x;
             lst_y = cur_y;
             m_eventMenu->popup(event->screenPos());
         }
-        if (mCore()->tool() == Core::ZOOM && m_scale > 0.25)
+        if (mCore->tool() == Core::ZOOM && m_scale > 0.25)
             setScale(m_scale/2);
     }
     if (event->button() == Qt::LeftButton)
@@ -375,14 +375,14 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             stopSelecting();
             return;
         }
-        if (mCore()->tool() == Core::ZOOM && m_scale < 2.0)
+        if (mCore->tool() == Core::ZOOM && m_scale < 2.0)
             setScale(m_scale*2);
     }
-    if(event->button() == Qt::LeftButton && mCore()->layer() != Core::EVENT) //Start drawing
+    if(event->button() == Qt::LeftButton && mCore->layer() != Core::EVENT) //Start drawing
     {
         fst_x = cur_x;
         fst_y = cur_y;
-        switch(mCore()->tool())
+        switch(mCore->tool())
         {
         case (Core::PENCIL):
             m_drawing = true;
@@ -394,10 +394,10 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             break;
         case (Core::FILL):
             m_drawing = true;
-            if (mCore()->layer() == Core::LOWER)
-                drawFill(mCore()->translate(m_lower[_index(fst_x,fst_y)]),fst_x,fst_y);
-            else if (mCore()->layer() == Core::UPPER)
-                drawFill(mCore()->translate(m_upper[_index(fst_x,fst_y)]),fst_x,fst_y);
+            if (mCore->layer() == Core::LOWER)
+                drawFill(mCore->translate(m_lower[_index(fst_x,fst_y)]),fst_x,fst_y);
+            else if (mCore->layer() == Core::UPPER)
+                drawFill(mCore->translate(m_upper[_index(fst_x,fst_y)]),fst_x,fst_y);
             updateArea(0, 0, m_map.get()->width-1 ,m_map.get()->height-1);
         }
     }
@@ -417,7 +417,7 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     cur_y = event->scenePos().y()/s_tileSize;
     if (m_drawing)
     {
-        switch (mCore()->tool())
+        switch (mCore->tool())
         {
         case (Core::PENCIL):
             drawPen();
@@ -440,7 +440,7 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     if (m_drawing && !m_cancelled)
     {
         m_drawing = false;
-        if (mCore()->layer() == Core::LOWER)
+        if (mCore->layer() == Core::LOWER)
         {
             m_undoStack->push(new QUndoDraw(Core::LOWER,
                                             m_map.get()->lower_layer,
@@ -461,7 +461,7 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
-    if (mCore()->layer() != Core::EVENT)
+    if (mCore->layer() != Core::EVENT)
         return;
     //Open event edit dialog
 }
@@ -489,10 +489,10 @@ void QGraphicsMapScene::redrawTile(const Core::Layer &layer,
     switch (layer)
     {
     case (Core::LOWER):
-        mCore()->renderTile(m_lower[_index(x,y)],dest_rec);
+        mCore->renderTile(m_lower[_index(x,y)],dest_rec);
         break;
     case (Core::UPPER):
-        mCore()->renderTile(m_upper[_index(x,y)],dest_rec);
+        mCore->renderTile(m_upper[_index(x,y)],dest_rec);
         break;
     default:
         break;
@@ -503,7 +503,7 @@ void QGraphicsMapScene::stopDrawing()
 {
     m_cancelled = true;
     m_drawing = false;
-    switch (mCore()->layer())
+    switch (mCore->layer())
     {
     case (Core::LOWER):
         m_lower = m_map.get()->lower_layer;
@@ -514,7 +514,7 @@ void QGraphicsMapScene::stopDrawing()
     default:
         break;
     }
-    redrawLayer(mCore()->layer());
+    redrawLayer(mCore->layer());
 }
 
 void QGraphicsMapScene::stopSelecting()
@@ -539,15 +539,15 @@ void QGraphicsMapScene::updateArea(int x1, int y1, int x2, int y2)
     for (int x = x1; x <= x2; x++)
         for (int y = y1; y <= y2; y++)
         {
-            if (mCore()->layer() == Core::LOWER)
+            if (mCore->layer() == Core::LOWER)
             {
-                if (!mCore()->isEblock(mCore()->translate(m_lower[_index(x, y)])) &&
-                    !mCore()->isAnimation(mCore()->translate(m_lower[_index(x, y)])))
+                if (!mCore->isEblock(mCore->translate(m_lower[_index(x, y)])) &&
+                    !mCore->isAnimation(mCore->translate(m_lower[_index(x, y)])))
                     m_lower[_index(x,y)] = bind(x, y);
             }
 
         }
-    redrawLayer(mCore()->layer());
+    redrawLayer(mCore->layer());
 }
 
 void QGraphicsMapScene::redrawLayer(Core::Layer layer)
@@ -567,7 +567,7 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
     int end_y = start_y+(size.height()-1)/s_tileSize;
     QPixmap pix(size);
     pix.fill(QColor(0,0,0,0));
-    mCore()->beginPainting(pix);
+    mCore->beginPainting(pix);
     for (int x = start_x; x <= end_x; x++)
         for (int y = start_y; y <= end_y; y++)
         {
@@ -587,10 +587,10 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
                        (m_map.get()->events[i].y-start_y)* s_tileSize,
                        s_tileSize,
                        s_tileSize);
-            mCore()->renderTile(EV, rect);
+            mCore->renderTile(EV, rect);
         }
     }
-    mCore()->endPainting();
+    mCore->endPainting();
     if (layer == Core::LOWER)
     {
         m_lowerpix->setPixmap(pix);
@@ -605,20 +605,20 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
 
 void QGraphicsMapScene::drawPen()
 {
-    for (int x = cur_x; x < cur_x + mCore()->selWidth(); x++)
-        for (int y = cur_y; y < cur_y + mCore()->selHeight(); y++)
+    for (int x = cur_x; x < cur_x + mCore->selWidth(); x++)
+        for (int y = cur_y; y < cur_y + mCore->selHeight(); y++)
         {
-            if (mCore()->layer() == Core::LOWER)
-                m_lower[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
-            else if (mCore()->layer() == Core::UPPER)
-                m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+            if (mCore->layer() == Core::LOWER)
+                m_lower[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
+            else if (mCore->layer() == Core::UPPER)
+                m_upper[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
         }
-    updateArea(cur_x-1,cur_y-1,cur_x+mCore()->selWidth()+1,cur_y+mCore()->selHeight()+1);
+    updateArea(cur_x-1,cur_y-1,cur_x+mCore->selWidth()+1,cur_y+mCore->selHeight()+1);
 }
 
 void QGraphicsMapScene::drawRect()
 {
-    switch (mCore()->layer())
+    switch (mCore->layer())
     {
     case (Core::LOWER):
         m_lower = m_map.get()->lower_layer;
@@ -635,10 +635,10 @@ void QGraphicsMapScene::drawRect()
     for (int x = x1; x <= x2; x++)
         for (int y = y1; y <= y2; y++)
         {
-            if (mCore()->layer() == Core::LOWER)
-                m_lower[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
-            else if (mCore()->layer() == Core::UPPER)
-                m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+            if (mCore->layer() == Core::LOWER)
+                m_lower[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
+            else if (mCore->layer() == Core::UPPER)
+                m_upper[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
         }
     updateArea(x1-2, y1-2, x2+2, y2+2);
 }
@@ -647,17 +647,17 @@ void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
 {
     if (x < 0 || x >= m_map.get()->width || y < 0 || y >= m_map.get()->height)
         return;
-    switch (mCore()->layer())
+    switch (mCore->layer())
     {
     case (Core::LOWER):
-        if (mCore()->translate(m_lower[_index(x,y)]) != terrain_id)
+        if (mCore->translate(m_lower[_index(x,y)]) != terrain_id)
             return;
-        m_lower[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+        m_lower[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
         break;
     case (Core::UPPER):
-        if (mCore()->translate(m_upper[_index(x,y)]) != terrain_id)
+        if (mCore->translate(m_upper[_index(x,y)]) != terrain_id)
             return;
-        m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+        m_upper[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
         break;
     }
     drawFill(terrain_id, x, y-1);
@@ -668,18 +668,18 @@ void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
 
 short QGraphicsMapScene::bind(int x, int y)
 {
-#define tile_u mCore()->translate(m_lower[_index(x, y-1)])
-#define tile_d mCore()->translate(m_lower[_index(x, y+1)])
-#define tile_l mCore()->translate(m_lower[_index(x-1, y)])
-#define tile_r mCore()->translate(m_lower[_index(x+1, y)])
-#define tile_ul mCore()->translate(m_lower[_index(x-1, y-1)])
-#define tile_ur mCore()->translate(m_lower[_index(x+1, y-1)])
-#define tile_dl mCore()->translate(m_lower[_index(x-1, y+1)])
-#define tile_dr mCore()->translate(m_lower[_index(x+1, y+1)])
+#define tile_u mCore->translate(m_lower[_index(x, y-1)])
+#define tile_d mCore->translate(m_lower[_index(x, y+1)])
+#define tile_l mCore->translate(m_lower[_index(x-1, y)])
+#define tile_r mCore->translate(m_lower[_index(x+1, y)])
+#define tile_ul mCore->translate(m_lower[_index(x-1, y-1)])
+#define tile_ur mCore->translate(m_lower[_index(x+1, y-1)])
+#define tile_dl mCore->translate(m_lower[_index(x-1, y+1)])
+#define tile_dr mCore->translate(m_lower[_index(x+1, y+1)])
     int _code = 0, _scode = 0;
-    int terrain_id = mCore()->translate(m_lower[_index(x, y)]);
+    int terrain_id = mCore->translate(m_lower[_index(x, y)]);
     int u=0,d=0,l=0,r=0,ul=0,ur=0,dl=0,dr=0,sul=0,sur=0,sdl=0,sdr=0;
-    if (mCore()->isDblock(terrain_id))
+    if (mCore->isDblock(terrain_id))
     {
         if (y > 0 && terrain_id != tile_u)
             u = UP;
@@ -700,58 +700,58 @@ short QGraphicsMapScene::bind(int x, int y)
             dr = DOWNRIGHT;
         _code = u+d+l+r+ul+ur+dl+dr;
     }
-    else if (mCore()->isWater(terrain_id))
+    else if (mCore->isWater(terrain_id))
     {
-        if (y > 0 && (!mCore()->isWater(tile_u) &&
-                      !mCore()->isAnimation(tile_u)))
+        if (y > 0 && (!mCore->isWater(tile_u) &&
+                      !mCore->isAnimation(tile_u)))
             u = UP;
-        if (y < m_map.get()->height-1 && (!mCore()->isWater(tile_d) &&
-                                          !mCore()->isAnimation(tile_d)))
+        if (y < m_map.get()->height-1 && (!mCore->isWater(tile_d) &&
+                                          !mCore->isAnimation(tile_d)))
             d = DOWN;
-        if (x > 0 && (!mCore()->isWater(tile_l) &&
-                      !mCore()->isAnimation(tile_l)))
+        if (x > 0 && (!mCore->isWater(tile_l) &&
+                      !mCore->isAnimation(tile_l)))
             l = LEFT;
-        if (x < m_map.get()->width-1 && (!mCore()->isWater(tile_r) &&
-                                         !mCore()->isAnimation(tile_r)))
+        if (x < m_map.get()->width-1 && (!mCore->isWater(tile_r) &&
+                                         !mCore->isAnimation(tile_r)))
             r = RIGHT;
-        if ((u+l) == 0 && x > 0 && y > 0 && !mCore()->isWater(tile_ul))
+        if ((u+l) == 0 && x > 0 && y > 0 && !mCore->isWater(tile_ul))
             ul = UPLEFT;
-        if ((u+r) == 0 && x < m_map.get()->width-1 && y > 0 && !mCore()->isWater(tile_ur))
+        if ((u+r) == 0 && x < m_map.get()->width-1 && y > 0 && !mCore->isWater(tile_ur))
             ur = UPRIGHT;
-        if ((d+l) == 0 && x > 0 && y < m_map.get()->height-1 && !mCore()->isWater(tile_dl))
+        if ((d+l) == 0 && x > 0 && y < m_map.get()->height-1 && !mCore->isWater(tile_dl))
             dl = DOWNLEFT;
         if ((d+r) == 0 && x < m_map.get()->width-1 &&
-                y < m_map.get()->height-1 && !mCore()->isWater(tile_dr))
+                y < m_map.get()->height-1 && !mCore->isWater(tile_dr))
             dr = DOWNRIGHT;
         _code = u+d+l+r+ul+ur+dl+dr;
         // DeepWater Special Corners
-        if (mCore()->isDWater(terrain_id))
+        if (mCore->isDWater(terrain_id))
         {
-            if (x > 0 && y > 0 && mCore()->isABWater(tile_u) && mCore()->isABWater (tile_l) && mCore()->isABWater (tile_ul))
+            if (x > 0 && y > 0 && mCore->isABWater(tile_u) && mCore->isABWater (tile_l) && mCore->isABWater (tile_ul))
                 sul = UPLEFT;
-            if (x < m_map.get()->width-1 && y > 0 && mCore()->isABWater(tile_u) && mCore()->isABWater (tile_r) && mCore()->isABWater (tile_ur))
+            if (x < m_map.get()->width-1 && y > 0 && mCore->isABWater(tile_u) && mCore->isABWater (tile_r) && mCore->isABWater (tile_ur))
                 sur = UPRIGHT;
-            if (x > 0 && y < m_map.get()->height-1 && mCore()->isABWater(tile_d) && mCore()->isABWater (tile_l) && mCore()->isABWater (tile_dl))
+            if (x > 0 && y < m_map.get()->height-1 && mCore->isABWater(tile_d) && mCore->isABWater (tile_l) && mCore->isABWater (tile_dl))
                 sdl = DOWNLEFT;
             if (x < m_map.get()->width-1 && y < m_map.get()->height-1 &&
-                    mCore()->isABWater(tile_d) && mCore()->isABWater (tile_r) && mCore()->isABWater (tile_dr))
+                    mCore->isABWater(tile_d) && mCore->isABWater (tile_r) && mCore->isABWater (tile_dr))
                 sdr = DOWNRIGHT;
         }
         else
         {
-            if (x > 0 && y > 0 && mCore()->isDWater (tile_u) && mCore()->isDWater (tile_l) && mCore()->isWater(tile_ul))
+            if (x > 0 && y > 0 && mCore->isDWater (tile_u) && mCore->isDWater (tile_l) && mCore->isWater(tile_ul))
                 sul = UPLEFT;
-            if (x < m_map.get()->width-1 && y > 0 && mCore()->isDWater (tile_u) && mCore()->isDWater (tile_r) && mCore()->isWater(tile_ur))
+            if (x < m_map.get()->width-1 && y > 0 && mCore->isDWater (tile_u) && mCore->isDWater (tile_r) && mCore->isWater(tile_ur))
                 sur = UPRIGHT;
-            if (x > 0 && y < m_map.get()->height-1 && mCore()->isDWater (tile_d) && mCore()->isDWater (tile_l) && mCore()->isWater(tile_dl))
+            if (x > 0 && y < m_map.get()->height-1 && mCore->isDWater (tile_d) && mCore->isDWater (tile_l) && mCore->isWater(tile_dl))
                 sdl = DOWNLEFT;
             if (x < m_map.get()->width-1 && y < m_map.get()->height-1 &&
-                    mCore()->isDWater (tile_d) && mCore()->isDWater (tile_r) && mCore()->isWater(tile_dr))
+                    mCore->isDWater (tile_d) && mCore->isDWater (tile_r) && mCore->isWater(tile_dr))
                 sdr = DOWNRIGHT;
         }
         _scode = sul+sur+sdl+sdr;
     }
-    return mCore()->translate(terrain_id, _code, _scode);
+    return mCore->translate(terrain_id, _code, _scode);
 #undef tile_u
 #undef tile_d
 #undef tile_l

@@ -27,8 +27,8 @@ DialogRunGame::DialogRunGame(QWidget *parent) :
 
 void DialogRunGame::run()
 {
-    m_process->setWorkingDirectory(mCore()->filePath(ROOT));
-    m_process->start(mCore()->filePath(ROOT, PLAYER), m_commands);
+    m_process->setWorkingDirectory(mCore->filePath(ROOT));
+    m_process->start(mCore->filePath(ROOT, PLAYER), m_commands);
     connect(m_process, SIGNAL(finished(int)), this, SLOT(end()));
     exec();
 }

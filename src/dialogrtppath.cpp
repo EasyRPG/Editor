@@ -9,7 +9,7 @@ DialogRtpPath::DialogRtpPath(QWidget *parent) :
     ui(new Ui::DialogRtpPath)
 {
     ui->setupUi(this);
-    ui->lineRtpPath->setText(mCore()->rtpPath(ROOT));
+    ui->lineRtpPath->setText(mCore->rtpPath(ROOT));
     connect(this,SIGNAL(accepted()),this,SLOT(on_ok()));
     exec();
 }
@@ -31,7 +31,7 @@ void DialogRtpPath::on_toolRtpPath_clicked()
 
 void DialogRtpPath::on_ok()
 {
-    mCore()->setRtpDir(ui->lineRtpPath->text());
+    mCore->setRtpDir(ui->lineRtpPath->text());
     QSettings m_settings;
     m_settings.setValue(RTP_KEY, ui->lineRtpPath->text());
 }

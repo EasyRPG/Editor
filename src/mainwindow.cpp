@@ -93,35 +93,35 @@ MainWindow::MainWindow(QWidget *parent) :
     dlg_db->setModal(true);
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
-    connect(mCore(),
+    connect(mCore,
             SIGNAL(toolChanged()),
             this,
             SLOT(updateToolActions()));
-    connect(mCore(),
+    connect(mCore,
             SIGNAL(layerChanged()),
             this,
             SLOT(updateLayerActions()));
-    connect(mCore(),
+    connect(mCore,
             SIGNAL(layerChanged()),
             m_paleteScene,
             SLOT(onLayerChange()));
-    connect(mCore(),
+    connect(mCore,
             SIGNAL(chipsetChanged()),
             m_paleteScene,
             SLOT(onChipsetChange()));
     update_actions();
-    mCore()->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
-    if (mCore()->rtpPath(ROOT).isEmpty())
+    mCore->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
+    if (mCore->rtpPath(ROOT).isEmpty())
         on_actionRtp_Path_triggered();
-    mCore()->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
+    mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
                                         qApp->applicationDirPath()).toString());
     QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
-    mCore()->setProjectFolder(l_project);
-    QFileInfo info(mCore()->filePath(ROOT, EASY_DB));
+    mCore->setProjectFolder(l_project);
+    QFileInfo info(mCore->filePath(ROOT, EASY_DB));
     if (info.exists())
         LoadProject(l_project);
     else
-        mCore()->setProjectFolder(QString());
+        mCore->setProjectFolder(QString());
     updateLayerActions();
     updateToolActions();
 }
@@ -140,14 +140,14 @@ void MainWindow::LoadProject(QString foldername)
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
     /*  *******************  */
-    mCore()->setProjectFolder(foldername);
-    if (!LDB_Reader::LoadXml(mCore()->filePath(ROOT, EASY_DB).toStdString()))
+    mCore->setProjectFolder(foldername);
+    if (!LDB_Reader::LoadXml(mCore->filePath(ROOT, EASY_DB).toStdString()))
     {
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load database file: "+
-                              mCore()->filePath(ROOT, EASY_DB));
-        mCore()->setProjectFolder("");
+                              mCore->filePath(ROOT, EASY_DB));
+        mCore->setProjectFolder("");
         Data::Clear();
         /* Solves bug in readers */
         Data::treemap.maps.clear();
@@ -155,13 +155,13 @@ void MainWindow::LoadProject(QString foldername)
         /*  *******************  */
         return;
     }
-    if (!LMT_Reader::LoadXml(mCore()->filePath(ROOT, EASY_MT).toStdString()))
+    if (!LMT_Reader::LoadXml(mCore->filePath(ROOT, EASY_MT).toStdString()))
     {
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load map tree file: "+
-                              mCore()->filePath(ROOT, EASY_MT));
-        mCore()->setProjectFolder("");
+                              mCore->filePath(ROOT, EASY_MT));
+        mCore->setProjectFolder("");
         Data::Clear();
         /* Solves bug in readers */
         Data::treemap.maps.clear();
@@ -169,19 +169,19 @@ void MainWindow::LoadProject(QString foldername)
         /*  *******************  */
         return;
     }
-    m_projSett = new QSettings(mCore()->filePath(ROOT, EASY_CFG), QSettings::IniFormat, this);
+    m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG), QSettings::IniFormat, this);
     QString title = m_projSett->value(GAMETITLE, "Untitled").toString();
-    mCore()->setGameTitle(title);
-    setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
-    mCore()->setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
-    mCore()->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
+    mCore->setGameTitle(title);
+    setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
+    mCore->setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
+    mCore->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
     QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
     QList<QVariant> m_scaleList = m_projSett->value(SCALES, QList<QVariant>()).toList();
-    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->projectFolder());
+    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
-    root->setData(0,Qt::DisplayRole,  mCore()->gameTitle());
+    root->setData(0,Qt::DisplayRole,  mCore->gameTitle());
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
@@ -241,13 +241,13 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
     /*  *******************  */
-    mCore()->setProjectFolder(d_folder);
+    mCore->setProjectFolder(d_folder);
     if (!LDB_Reader::Load((p_path+RM_DB).toStdString(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())))
     {
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load database file: "+p_path+RM_DB);
-        mCore()->setProjectFolder("");
+        mCore->setProjectFolder("");
         Data::Clear();
         /* Solves bug in readers */
         Data::treemap.maps.clear();
@@ -260,7 +260,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         QMessageBox::critical(this,
                               "Error loading project",
                               "Could not load map tree file: "+p_path+RM_MT);
-        mCore()->setProjectFolder("");
+        mCore->setProjectFolder("");
         Data::Clear();
         /* Solves bug in readers */
         Data::treemap.maps.clear();
@@ -271,23 +271,23 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     INIReader reader(QString(p_path+RM_INI).toStdString());
     QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
     Data::treemap.maps[0].name = title.toStdString();
-    mCore()->setGameTitle(title);
+    mCore->setGameTitle(title);
     switch (reader.GetInteger("RPG_RT","MapEditMode", 0))
     {
     case 1:
-         mCore()->setLayer(Core::UPPER);
+         mCore->setLayer(Core::UPPER);
         break;
     case 2:
-         mCore()->setLayer(Core::EVENT);
+         mCore->setLayer(Core::EVENT);
         break;
     default:
-         mCore()->setLayer(Core::LOWER);
+         mCore->setLayer(Core::LOWER);
         break;
     }
-    setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
-    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->projectFolder());
-    LDB_Reader::SaveXml(mCore()->filePath(ROOT, EASY_DB).toStdString());
-    LMT_Reader::SaveXml(mCore()->filePath(ROOT, EASY_MT).toStdString());
+    setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
+    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
+    LDB_Reader::SaveXml(mCore->filePath(ROOT, EASY_DB).toStdString());
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
     QDir srcDir(p_path+BACKDROP);
     QStringList entries;
     recurseAddDir(srcDir, entries);
@@ -328,7 +328,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     for (int i = 0; i < entries.count(); i++)
     {
         QFileInfo info(entries[i]);
-        QString dest_file = mCore()->filePath(info.dir().dirName()+"/"+info.fileName());
+        QString dest_file = mCore->filePath(info.dir().dirName()+"/"+info.fileName());
         if (!QFile::copy(entries[i], dest_file))
         {
             QMessageBox box(this);
@@ -354,7 +354,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
-    root->setData(0,Qt::DisplayRole,  mCore()->gameTitle());
+    root->setData(0,Qt::DisplayRole,  mCore->gameTitle());
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
@@ -406,7 +406,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << ".lmu";
         RPG::Map map = *LMU_Reader::Load(ss.str(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())).get();
         ss.str("");
-        ss << mCore()->filePath(ROOT).toStdString()
+        ss << mCore->filePath(ROOT).toStdString()
            << "Map"
            << std::setfill('0')
            << std::setw(4)
@@ -414,11 +414,11 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << ".emu";
         LMU_Reader::SaveXml(ss.str(),map);
     }
-    m_projSett = new QSettings(mCore()->filePath(ROOT, EASY_CFG),
+    m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG),
                                QSettings::IniFormat,
                                this);
     m_projSett->setValue(GAMETITLE, title);
-    m_projSett->setValue(LAYER, mCore()->layer());
+    m_projSett->setValue(LAYER, mCore->layer());
     m_projSett->setValue(MAPS, m_mapList);
     m_projSett->setValue(SCALES, m_scaleList);
     m_projSett->setValue(TILESIZE, 16);
@@ -465,7 +465,7 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-    if (mCore()->projectFolder().isEmpty()){
+    if (mCore->projectFolder().isEmpty()){
         ui->actionCircle->setEnabled(false);
         ui->actionCreate_Game_Disk->setEnabled(false);
         ui->actionData_Base->setEnabled(false);
@@ -522,89 +522,89 @@ void MainWindow::update_actions()
 void MainWindow::on_action_New_Project_triggered()
 {
     DialogNewProject dlg(this);
-    dlg.setDefDir(mCore()->defDir());
+    dlg.setDefDir(mCore->defDir());
     dlg.exec();
     if (dlg.result() == QDialog::Accepted)
     {
         if (dlg.getProjectFolder() == QString())
             return;
-        QDir d_gamepath(mCore()->defDir()+dlg.getProjectFolder());
+        QDir d_gamepath(mCore->defDir()+dlg.getProjectFolder());
             if (d_gamepath.exists())
             {
                 int response = QMessageBox::warning(this,
                                 "Game folder exist",
                                 QString("The folder %1 where you want to place your new game already exist.\n"
                                         "Do you want to delete this folder and all it's content?"
-                                        ).arg(mCore()->defDir()+dlg.getProjectFolder()),
+                                        ).arg(mCore->defDir()+dlg.getProjectFolder()),
                                 QMessageBox::Ok,
                                 QMessageBox::Cancel);
                 if (response == QMessageBox::Cancel)
                     return;
-                removeDir(mCore()->defDir()+dlg.getProjectFolder(),
-                          mCore()->defDir()+dlg.getProjectFolder());
+                removeDir(mCore->defDir()+dlg.getProjectFolder(),
+                          mCore->defDir()+dlg.getProjectFolder());
             }
             else
                 d_gamepath.mkdir(".");
-         mCore()->setProjectFolder(dlg.getProjectFolder());
-         mCore()->setGameTitle(dlg.getGameTitle());
-         mCore()->setTileSize(dlg.getTileSize());
-         mCore()->setDefDir(dlg.getDefDir());
+         mCore->setProjectFolder(dlg.getProjectFolder());
+         mCore->setGameTitle(dlg.getGameTitle());
+         mCore->setTileSize(dlg.getTileSize());
+         mCore->setDefDir(dlg.getDefDir());
         Data::Clear();
         /* Solves bug in readers */
         Data::treemap.maps.clear();
         Data::treemap.tree_order.clear();
-        /*  *******************  */(mCore()->filePath(BACKDROP));
-        d_gamepath.mkdir(mCore()->filePath(PANORAMA));
-        d_gamepath.mkdir(mCore()->filePath(BATTLE));
-        d_gamepath.mkdir(mCore()->filePath(BATTLE2));
-        d_gamepath.mkdir(mCore()->filePath(BATTLECHARSET));
-        d_gamepath.mkdir(mCore()->filePath(BATTLEWEAPON));
-        d_gamepath.mkdir(mCore()->filePath(CHARSET));
-        d_gamepath.mkdir(mCore()->filePath(CHIPSET));
-        d_gamepath.mkdir(mCore()->filePath(FACESET));
-        d_gamepath.mkdir(mCore()->filePath(FRAME));
-        d_gamepath.mkdir(mCore()->filePath(GAMEOVER));
-        d_gamepath.mkdir(mCore()->filePath(MONSTER));
-        d_gamepath.mkdir(mCore()->filePath(MOVIE));
-        d_gamepath.mkdir(mCore()->filePath(MUSIC));
-        d_gamepath.mkdir(mCore()->filePath(PICTURE));
-        d_gamepath.mkdir(mCore()->filePath(SOUND));
-        d_gamepath.mkdir(mCore()->filePath(SYSTEM));
-        d_gamepath.mkdir(mCore()->filePath(SYSTEM2));
-        d_gamepath.mkdir(mCore()->filePath(TITLE));
+        /*  *******************  */(mCore->filePath(BACKDROP));
+        d_gamepath.mkdir(mCore->filePath(PANORAMA));
+        d_gamepath.mkdir(mCore->filePath(BATTLE));
+        d_gamepath.mkdir(mCore->filePath(BATTLE2));
+        d_gamepath.mkdir(mCore->filePath(BATTLECHARSET));
+        d_gamepath.mkdir(mCore->filePath(BATTLEWEAPON));
+        d_gamepath.mkdir(mCore->filePath(CHARSET));
+        d_gamepath.mkdir(mCore->filePath(CHIPSET));
+        d_gamepath.mkdir(mCore->filePath(FACESET));
+        d_gamepath.mkdir(mCore->filePath(FRAME));
+        d_gamepath.mkdir(mCore->filePath(GAMEOVER));
+        d_gamepath.mkdir(mCore->filePath(MONSTER));
+        d_gamepath.mkdir(mCore->filePath(MOVIE));
+        d_gamepath.mkdir(mCore->filePath(MUSIC));
+        d_gamepath.mkdir(mCore->filePath(PICTURE));
+        d_gamepath.mkdir(mCore->filePath(SOUND));
+        d_gamepath.mkdir(mCore->filePath(SYSTEM));
+        d_gamepath.mkdir(mCore->filePath(SYSTEM2));
+        d_gamepath.mkdir(mCore->filePath(TITLE));
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-        setWindowTitle("EasyRPG Editor - " +  mCore()->gameTitle());
-        m_settings.setValue(CURRENT_PROJECT_KEY,  mCore()->gameTitle());
+        setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
+        m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
         QString t_folder = qApp->applicationDirPath()+"/templates/";
 
-        QFile::copy(t_folder+PLAYER, mCore()->filePath(PLAYER));
+        QFile::copy(t_folder+PLAYER, mCore->filePath(PLAYER));
         /* Map tree */
         LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
-        Data::treemap.maps[0].name = mCore()->gameTitle().toStdString();
+        Data::treemap.maps[0].name = mCore->gameTitle().toStdString();
         /* Map */
         RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
         /* DataBase */
         LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
         /* Save */
-        LMU_Reader::SaveXml(mCore()->filePath(ROOT,"Map0001.emu").toStdString(), map);
-        LDB_Reader::SaveXml(mCore()->filePath(ROOT,EASY_DB).toStdString());
-        LMT_Reader::SaveXml(mCore()->filePath(ROOT,EASY_MT).toStdString());
-        m_projSett = new QSettings(mCore()->filePath(ROOT, EASY_CFG),
+        LMU_Reader::SaveXml(mCore->filePath(ROOT,"Map0001.emu").toStdString(), map);
+        LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
+        LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
+        m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG),
                                    QSettings::IniFormat,
                                    this);
         QList<QVariant> mapList;
         mapList.append(1);
         QList<QVariant> scaleList;
         scaleList.append(1.0);
-        m_projSett->setValue(GAMETITLE, mCore()->gameTitle());
-        m_projSett->setValue(LAYER, mCore()->layer());
+        m_projSett->setValue(GAMETITLE, mCore->gameTitle());
+        m_projSett->setValue(LAYER, mCore->layer());
         m_projSett->setValue(MAPS, mapList);
         m_projSett->setValue(SCALES, scaleList);
         m_projSett->setValue(TILESIZE, 16);
         update_actions();
         QTreeWidgetItem *root = new QTreeWidgetItem();
         root->setData(1, Qt::DisplayRole, 0);
-        root->setData(0,Qt::DisplayRole,  mCore()->gameTitle());
+        root->setData(0,Qt::DisplayRole,  mCore->gameTitle());
         root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
         RPG::TreeMap maps = Data::treemap;
         ui->treeMap->addTopLevelItem(root);
@@ -768,18 +768,18 @@ void MainWindow::removeView(int id)
 
 void MainWindow::updateLayerActions()
 {
-    ui->action_Lower_Layer->setChecked(mCore()->layer() == Core::LOWER);
-    ui->action_Upper_Layer->setChecked(mCore()->layer() == Core::UPPER);
-    ui->action_Events->setChecked(mCore()->layer() == Core::EVENT);
+    ui->action_Lower_Layer->setChecked(mCore->layer() == Core::LOWER);
+    ui->action_Upper_Layer->setChecked(mCore->layer() == Core::UPPER);
+    ui->action_Events->setChecked(mCore->layer() == Core::EVENT);
 }
 
 void MainWindow::updateToolActions()
 {
-    ui->actionZoom->setChecked(mCore()->tool() == Core::ZOOM);
-    ui->actionDraw->setChecked(mCore()->tool() == Core::PENCIL);
-    ui->actionRectangle->setChecked(mCore()->tool() == Core::RECTANGLE);
-    ui->actionCircle->setChecked(mCore()->tool() == Core::CIRCLE);
-    ui->actionFill->setChecked(mCore()->tool() == Core::FILL);
+    ui->actionZoom->setChecked(mCore->tool() == Core::ZOOM);
+    ui->actionDraw->setChecked(mCore->tool() == Core::PENCIL);
+    ui->actionRectangle->setChecked(mCore->tool() == Core::RECTANGLE);
+    ui->actionCircle->setChecked(mCore->tool() == Core::CIRCLE);
+    ui->actionFill->setChecked(mCore->tool() == Core::FILL);
 }
 
 void MainWindow::on_action_Close_Project_triggered()
@@ -790,8 +790,8 @@ void MainWindow::on_action_Close_Project_triggered()
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
     /*  *******************  */
-    mCore()->setGameTitle("");
-    mCore()->setProjectFolder("");
+    mCore->setGameTitle("");
+    mCore->setProjectFolder("");
     ui->treeMap->clear();
     saveAll();
     while (ui->tabMap->currentIndex() != -1)
@@ -803,10 +803,10 @@ void MainWindow::on_action_Close_Project_triggered()
 void MainWindow::on_action_Open_Project_triggered()
 {
     DialogOpenProject dlg(this);
-    dlg.setDefDir(mCore()->defDir());
+    dlg.setDefDir(mCore->defDir());
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectFolder());
-    mCore()->setDefDir(dlg.getDefDir());
+    mCore->setDefDir(dlg.getDefDir());
     m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
 }
 
@@ -835,19 +835,19 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
 
 void MainWindow::on_action_Lower_Layer_triggered()
 {
-    mCore()->setLayer(Core::LOWER);
+    mCore->setLayer(Core::LOWER);
     updateLayerActions();
 }
 
 void MainWindow::on_action_Upper_Layer_triggered()
 {
-    mCore()->setLayer(Core::UPPER);
+    mCore->setLayer(Core::UPPER);
     updateLayerActions();
 }
 
 void MainWindow::on_action_Events_triggered()
 {
-    mCore()->setLayer(Core::EVENT);
+    mCore->setLayer(Core::EVENT);
     updateLayerActions();
 }
 
@@ -914,7 +914,7 @@ void MainWindow::on_tabMap_currentChanged(int index)
     }
     if (currentScene())
     {
-        mCore()->LoadChipset(currentScene()->chipsetId());
+        mCore->LoadChipset(currentScene()->chipsetId());
         ui->actionUndo->setEnabled(currentScene()->isModified());
     }
 }
@@ -922,10 +922,10 @@ void MainWindow::on_tabMap_currentChanged(int index)
 void MainWindow::on_actionImport_Project_triggered()
 {
     DialogImportProject dlg(this);
-    dlg.setDefDir(mCore()->defDir());
+    dlg.setDefDir(mCore->defDir());
     dlg.exec();
     if (dlg.result() == QDialog::Accepted){
-        mCore()->setDefDir(dlg.getDefDir());
+        mCore->setDefDir(dlg.getDefDir());
         if (dlg.getProjectFolder() == QString())
             return;
         QDir d_gamepath(dlg.getDefDir()+dlg.getProjectFolder());
@@ -945,27 +945,27 @@ void MainWindow::on_actionImport_Project_triggered()
             }
             else
                 d_gamepath.mkdir(".");
-         mCore()->setTileSize(16);
-         mCore()->setProjectFolder(dlg.getProjectFolder());
-        d_gamepath.mkdir(mCore()->filePath(BACKDROP));
-        d_gamepath.mkdir(mCore()->filePath(PANORAMA));
-        d_gamepath.mkdir(mCore()->filePath(BATTLE));
-        d_gamepath.mkdir(mCore()->filePath(BATTLE2));
-        d_gamepath.mkdir(mCore()->filePath(BATTLECHARSET));
-        d_gamepath.mkdir(mCore()->filePath(BATTLEWEAPON));
-        d_gamepath.mkdir(mCore()->filePath(CHARSET));
-        d_gamepath.mkdir(mCore()->filePath(CHIPSET));
-        d_gamepath.mkdir(mCore()->filePath(FACESET));
-        d_gamepath.mkdir(mCore()->filePath(FRAME));
-        d_gamepath.mkdir(mCore()->filePath(GAMEOVER));
-        d_gamepath.mkdir(mCore()->filePath(MONSTER));
-        d_gamepath.mkdir(mCore()->filePath(MOVIE));
-        d_gamepath.mkdir(mCore()->filePath(MUSIC));
-        d_gamepath.mkdir(mCore()->filePath(PICTURE));
-        d_gamepath.mkdir(mCore()->filePath(SOUND));
-        d_gamepath.mkdir(mCore()->filePath(SYSTEM));
-        d_gamepath.mkdir(mCore()->filePath(SYSTEM2));
-        d_gamepath.mkdir(mCore()->filePath(TITLE));
+         mCore->setTileSize(16);
+         mCore->setProjectFolder(dlg.getProjectFolder());
+        d_gamepath.mkdir(mCore->filePath(BACKDROP));
+        d_gamepath.mkdir(mCore->filePath(PANORAMA));
+        d_gamepath.mkdir(mCore->filePath(BATTLE));
+        d_gamepath.mkdir(mCore->filePath(BATTLE2));
+        d_gamepath.mkdir(mCore->filePath(BATTLECHARSET));
+        d_gamepath.mkdir(mCore->filePath(BATTLEWEAPON));
+        d_gamepath.mkdir(mCore->filePath(CHARSET));
+        d_gamepath.mkdir(mCore->filePath(CHIPSET));
+        d_gamepath.mkdir(mCore->filePath(FACESET));
+        d_gamepath.mkdir(mCore->filePath(FRAME));
+        d_gamepath.mkdir(mCore->filePath(GAMEOVER));
+        d_gamepath.mkdir(mCore->filePath(MONSTER));
+        d_gamepath.mkdir(mCore->filePath(MOVIE));
+        d_gamepath.mkdir(mCore->filePath(MUSIC));
+        d_gamepath.mkdir(mCore->filePath(PICTURE));
+        d_gamepath.mkdir(mCore->filePath(SOUND));
+        d_gamepath.mkdir(mCore->filePath(SYSTEM));
+        d_gamepath.mkdir(mCore->filePath(SYSTEM2));
+        d_gamepath.mkdir(mCore->filePath(TITLE));
         m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
         ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
     }
@@ -980,27 +980,27 @@ void MainWindow::on_actionRtp_Path_triggered()
 
 void MainWindow::on_actionZoom_triggered()
 {
-    mCore()->setTool(Core::ZOOM);
+    mCore->setTool(Core::ZOOM);
 }
 
 void MainWindow::on_actionDraw_triggered()
 {
-    mCore()->setTool(Core::PENCIL);
+    mCore->setTool(Core::PENCIL);
 }
 
 void MainWindow::on_actionRectangle_triggered()
 {
-    mCore()->setTool(Core::RECTANGLE);
+    mCore->setTool(Core::RECTANGLE);
 }
 
 void MainWindow::on_actionCircle_triggered()
 {
-    mCore()->setTool(Core::CIRCLE);
+    mCore->setTool(Core::CIRCLE);
 }
 
 void MainWindow::on_actionFill_triggered()
 {
-    mCore()->setTool(Core::FILL);
+    mCore->setTool(Core::FILL);
 }
 
 void MainWindow::on_action_Play_Test_triggered()
