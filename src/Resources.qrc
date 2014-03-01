@@ -41,6 +41,13 @@
         <file>share/old_edit.png</file>
         <file>share/old_ev.png</file>
         <file>share/old_import.png</file>
+        <file>share/cur_circle.png</file>
+        <file>share/cur_fill.png</file>
+        <file>share/cur_normal.png</file>
+        <file>share/cur_pen.png</file>
+        <file>share/cur_rectangle.png</file>
+        <file>share/cur_zoom.png</file>
+        <file>share/cur_cancel.png</file>
     </qresource>
     <qresource prefix="/embedded">
         <file>share/eraser.png</file>

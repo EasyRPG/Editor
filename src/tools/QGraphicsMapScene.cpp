@@ -177,6 +177,10 @@ void QGraphicsMapScene::setScale(float scale)
 
 void QGraphicsMapScene::onLayerChanged()
 {
+    if (m_drawing)
+        stopDrawing();
+    if (m_selecting)
+        stopSelecting();
     switch (mCore->layer())
     {
     case (Core::LOWER):
@@ -198,22 +202,26 @@ void QGraphicsMapScene::onLayerChanged()
 
 void QGraphicsMapScene::onToolChanged()
 {
+    if (m_drawing)
+        stopDrawing();
+    if (m_selecting)
+        stopSelecting();
     switch (mCore->tool())
     {
     case (Core::ZOOM):
-        m_view->setCursor(QCursor(Qt::UpArrowCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_zoom.png"),1,1));
         break;
     case (Core::PENCIL):
-        m_view->setCursor(QCursor(Qt::CrossCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_pen.png"),1,1));
         break;
     case (Core::RECTANGLE):
-        m_view->setCursor(QCursor(Qt::WaitCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_rectangle.png"),1,1));
         break;
     case (Core::CIRCLE):
-        m_view->setCursor(QCursor(Qt::IBeamCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_circle.png"),1,1));
         break;
     case (Core::FILL):
-        m_view->setCursor(QCursor(Qt::PointingHandCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_fill.png"),1,1));
         break;
     }
 }
@@ -432,9 +440,10 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
-    if (m_cancelled)
+    if (m_cancelled && !event->buttons())
     {
         m_cancelled = false;
+        onToolChanged();
         return;
     }
     if (m_drawing && !m_cancelled)
@@ -503,24 +512,18 @@ void QGraphicsMapScene::stopDrawing()
 {
     m_cancelled = true;
     m_drawing = false;
-    switch (mCore->layer())
-    {
-    case (Core::LOWER):
-        m_lower = m_map.get()->lower_layer;
-        break;
-    case (Core::UPPER):
-        m_upper = m_map.get()->upper_layer;
-        break;
-    default:
-        break;
-    }
-    redrawLayer(mCore->layer());
+    m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_cancel.png"),1,1));
+    m_lower = m_map.get()->lower_layer;
+    m_upper = m_map.get()->upper_layer;
+    redrawLayer(Core::LOWER);
+    redrawLayer(Core::UPPER);
 }
 
 void QGraphicsMapScene::stopSelecting()
 {
     m_cancelled = true;
     m_selecting = false;
+    m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_cancel.png"),1,1));
     //cancel selection...
 }
 
@@ -646,6 +649,8 @@ void QGraphicsMapScene::drawRect()
 void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
 {
     if (x < 0 || x >= m_map.get()->width || y < 0 || y >= m_map.get()->height)
+        return;
+    if (terrain_id == mCore->selection(x-fst_x,y-fst_y))
         return;
     switch (mCore->layer())
     {
