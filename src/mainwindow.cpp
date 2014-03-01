@@ -136,10 +136,10 @@ MainWindow::~MainWindow()
 void MainWindow::LoadProject(QString foldername)
 {
     Data::Clear();
-    /* Solves bug in readers */
+    /* Solves bug in liblcf */
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
-    /*  *******************  */
+    /*  ******************  */
     mCore->setProjectFolder(foldername);
     if (!LDB_Reader::LoadXml(mCore->filePath(ROOT, EASY_DB).toStdString()))
     {
@@ -149,10 +149,10 @@ void MainWindow::LoadProject(QString foldername)
                               mCore->filePath(ROOT, EASY_DB));
         mCore->setProjectFolder("");
         Data::Clear();
-        /* Solves bug in readers */
+        /* Solves bug in liblcf */
         Data::treemap.maps.clear();
         Data::treemap.tree_order.clear();
-        /*  *******************  */
+        /*  ******************  */
         return;
     }
     if (!LMT_Reader::LoadXml(mCore->filePath(ROOT, EASY_MT).toStdString()))
@@ -163,10 +163,10 @@ void MainWindow::LoadProject(QString foldername)
                               mCore->filePath(ROOT, EASY_MT));
         mCore->setProjectFolder("");
         Data::Clear();
-        /* Solves bug in readers */
+        /* Solves bug in liblcf */
         Data::treemap.maps.clear();
         Data::treemap.tree_order.clear();
-        /*  *******************  */
+        /*  ******************  */
         return;
     }
     m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG), QSettings::IniFormat, this);
@@ -237,10 +237,10 @@ void MainWindow::LoadProject(QString foldername)
 void MainWindow::ImportProject(QString p_path, QString d_folder)
 {
     Data::Clear();
-    /* Solves bug in readers */
+    /* Solves bug in liblcf */
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
-    /*  *******************  */
+    /*  ******************  */
     mCore->setProjectFolder(d_folder);
     if (!LDB_Reader::Load((p_path+RM_DB).toStdString(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())))
     {
@@ -249,10 +249,10 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
                               "Could not load database file: "+p_path+RM_DB);
         mCore->setProjectFolder("");
         Data::Clear();
-        /* Solves bug in readers */
+        /* Solves bug in liblcf */
         Data::treemap.maps.clear();
         Data::treemap.tree_order.clear();
-        /*  *******************  */
+        /*  ******************  */
         return;
     }
     if (!LMT_Reader::Load(QString(p_path+RM_MT).toStdString(),ReaderUtil::GetEncoding((p_path+INI_NAME).toStdString())))
@@ -262,10 +262,10 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
                               "Could not load map tree file: "+p_path+RM_MT);
         mCore->setProjectFolder("");
         Data::Clear();
-        /* Solves bug in readers */
+        /* Solves bug in liblcf */
         Data::treemap.maps.clear();
         Data::treemap.tree_order.clear();
-        /*  *******************  */
+        /*  ******************  */
         return;
     }
     INIReader reader(QString(p_path+RM_INI).toStdString());
@@ -430,10 +430,10 @@ void MainWindow::on_action_Quit_triggered()
     saveAll();
 //    this->on_actionJukebox_triggered(true);
     Data::Clear();
-    /* Solves bug in readers */
+    /* Solves bug in liblcf */
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
-    /*  *******************  */
+    /*  ******************  */
     qApp->quit();
 }
 
@@ -550,10 +550,10 @@ void MainWindow::on_action_New_Project_triggered()
          mCore->setTileSize(dlg.getTileSize());
          mCore->setDefDir(dlg.getDefDir());
         Data::Clear();
-        /* Solves bug in readers */
+        /* Solves bug in liblcf */
         Data::treemap.maps.clear();
         Data::treemap.tree_order.clear();
-        /*  *******************  */(mCore->filePath(BACKDROP));
+        /*  ******************  */(mCore->filePath(BACKDROP));
         d_gamepath.mkdir(mCore->filePath(PANORAMA));
         d_gamepath.mkdir(mCore->filePath(BATTLE));
         d_gamepath.mkdir(mCore->filePath(BATTLE2));
@@ -786,10 +786,10 @@ void MainWindow::on_action_Close_Project_triggered()
 {
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
     Data::Clear();
-    /* Solves bug in readers */
+    /* Solves bug in liblcf */
     Data::treemap.maps.clear();
     Data::treemap.tree_order.clear();
-    /*  *******************  */
+    /*  ******************  */
     mCore->setGameTitle("");
     mCore->setProjectFolder("");
     ui->treeMap->clear();

@@ -6,11 +6,11 @@
 
 QT       -= core gui
 
-TARGET = readers
+TARGET = liblcf
 TEMPLATE = lib
 CONFIG += staticlib
 
-DEFINES += READER_SUPPORT_XML XML_STATIC
+DEFINES += LCF_SUPPORT_XML XML_STATIC
 
 SOURCES += \
     src/data.cpp \
@@ -251,7 +251,7 @@ INCLUDEPATH += $$PWD\include
 INCLUDEPATH += $$(EASYDEV_MSVC)\include
 
 win32 {
-    contains(QMAKE_HOST.arch, x86_64) TARGET = readers64
+    contains(QMAKE_HOST.arch, x86_64) TARGET = liblcf64
     CONFIG(debug, debug|release) DESTDIR = lib/debug
     CONFIG(release, debug|release) DESTDIR = lib/release
 }

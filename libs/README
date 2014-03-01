@@ -1,8 +1,8 @@
 HOW TO:
 
 WINDOWS:
-1- Download: https://github.com/EasyRPG/Readers/archive/master.zip
+1- Download: https://github.com/EasyRPG/liblcf/archive/master.zip
 2- Uncompress the file in this folder
 
 UNIX:
-Get the Readers library and follow the library README instructions
+Get liblcf and follow the liblcf README instructions

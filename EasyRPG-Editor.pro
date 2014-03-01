@@ -64,8 +64,8 @@ RESOURCES += \
 
 RC_FILE = src/Resources.rc
 
-INCLUDEPATH += $$PWD/libs/Readers/include
-DEPENDPATH += $$PWD/libs/Readers/include
+INCLUDEPATH += $$PWD/libs/liblcf/include
+DEPENDPATH += $$PWD/libs/liblcf/include
 
 DESTDIR = bin
 
@@ -76,28 +76,28 @@ win32 {
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
 CONFIG(debug, debug|release) {
-	LIBS += -L$$PWD/libs/Readers/lib/debug/
+	LIBS += -L$$PWD/libs/liblcf/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
-	    LIBS += -lReaders
+	    LIBS += -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
-	    LIBS += -lReaders64
+	    LIBS += -lliblcf64
 	}
     }
 CONFIG(release, debug|release) {
-	LIBS += -L$$PWD/libs/Readers/lib/release/
+	LIBS += -L$$PWD/libs/liblcf/lib/release/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
-	    LIBS += -lReaders
+	    LIBS += -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
-	    LIBS += -lReaders64
+	    LIBS += -lliblcf64
 	}
     }
 }
 
-!win32:LIBS += -lexpat -lreaders
+!win32:LIBS += -lexpat -llcf
 #!win32:QMAKE_CXXFLAGS += -Wextra -ansi -pedantic
 !win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
 !win32:QMAKE_CXXFLAGS += -std=c++0x
