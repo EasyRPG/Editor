@@ -383,6 +383,11 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         case (Core::PENCIL):
             m_drawing = true;
             drawPen();
+            break;
+        case (Core::RECTANGLE):
+            m_drawing = true;
+            drawRect();
+            break;
         }
     }
     if(event->button() == Qt::RightButton) //StartSelecting
@@ -393,6 +398,8 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (!sceneRect().contains(event->scenePos()))
+        return;
     if (cur_x == event->scenePos().x()/s_tileSize && cur_y == event->scenePos().y()/s_tileSize)
         return;
     cur_x = event->scenePos().x()/s_tileSize;
@@ -403,6 +410,10 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         {
         case (Core::PENCIL):
             drawPen();
+            break;
+        case (Core::RECTANGLE):
+            drawRect();
+            break;
         }
     }
 }
@@ -592,6 +603,33 @@ void QGraphicsMapScene::drawPen()
                 m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
         }
     updateArea(cur_x-1,cur_y-1,cur_x+mCore()->selWidth()+1,cur_y+mCore()->selHeight()+1);
+}
+
+void QGraphicsMapScene::drawRect()
+{
+    switch (mCore()->layer())
+    {
+    case (Core::LOWER):
+        m_lower = m_map.get()->lower_layer;
+        break;
+    case (Core::UPPER):
+        m_upper = m_map.get()->upper_layer;
+        break;
+    }
+
+    int x1 = fst_x > cur_x ? cur_x : fst_x;
+    int x2 = fst_x > cur_x ? fst_x : cur_x;
+    int y1 = fst_y > cur_y ? cur_y : fst_y;
+    int y2 = fst_y > cur_y ? fst_y : cur_y;
+    for (int x = x1; x <= x2; x++)
+        for (int y = y1; y <= y2; y++)
+        {
+            if (mCore()->layer() == Core::LOWER)
+                m_lower[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+            else if (mCore()->layer() == Core::UPPER)
+                m_upper[_index(x,y)] = mCore()->selection(x-fst_x,y-fst_y);
+        }
+    updateArea(x1-2, y1-2, x2+2, y2+2);
 }
 
 short QGraphicsMapScene::bind(int x, int y)
