@@ -22,7 +22,7 @@ QGraphicsPaleteScene::QGraphicsPaleteScene(QObject *parent) :
 
 void QGraphicsPaleteScene::onLayerChange()
 {
-    if (mCore()->layer() == Core::LOWER)
+    if (mCore->layer() == Core::LOWER)
     {
         m_tiles->setPixmap(m_lowerTiles);
         this->setSceneRect(QRect(0,0,192,896));
@@ -36,7 +36,7 @@ void QGraphicsPaleteScene::onLayerChange()
 
 void QGraphicsPaleteScene::onChipsetChange()
 {
-    if (mCore()->chipsetIsNull())
+    if (mCore->chipsetIsNull())
     {
         m_tiles->setVisible(false);
         m_selectionItem->setVisible(false);
@@ -46,29 +46,29 @@ void QGraphicsPaleteScene::onChipsetChange()
     m_selectionItem->setVisible(true);
     m_lowerTiles = QPixmap(192, 896);
     m_upperTiles = QPixmap(192, 800);
-    m_lowerTiles.fill(mCore()->keycolor());
-    m_upperTiles.fill(mCore()->keycolor());
+    m_lowerTiles.fill(mCore->keycolor());
+    m_upperTiles.fill(mCore->keycolor());
     QPainter p(&m_lowerTiles);
     p.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
     p.end();
     p.begin(&m_upperTiles);
     p.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
     p.end();
-    mCore()->beginPainting(m_lowerTiles);
+    mCore->beginPainting(m_lowerTiles);
     for (int terrain_id = 0; terrain_id < 162; terrain_id++)
     {
         QRect rect(((terrain_id)%6)*32,(terrain_id/6+1)*32,32,32);
-        mCore()->renderTile(mCore()->translate(terrain_id,15), rect);
+        mCore->renderTile(mCore->translate(terrain_id,15), rect);
     }
-    mCore()->renderTile(mCore()->translate(2,0,240), QRect(64,32,32,32));
-    mCore()->endPainting();
-    mCore()->beginPainting(m_upperTiles);
+    mCore->renderTile(mCore->translate(2,0,240), QRect(64,32,32,32));
+    mCore->endPainting();
+    mCore->beginPainting(m_upperTiles);
     for (int terrain_id = 0; terrain_id < 144; terrain_id++)
     {
         QRect rect(((terrain_id)%6)*32,(terrain_id/6+1)*32,32,32);
-        mCore()->renderTile(mCore()->translate(terrain_id+162), rect);
+        mCore->renderTile(mCore->translate(terrain_id+162), rect);
     }
-    mCore()->endPainting();
+    mCore->endPainting();
     onLayerChange();
 }
 
@@ -154,18 +154,18 @@ void QGraphicsPaleteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     if (y == 0)
     {
         sel.push_back(NTILE);
-        mCore()->setSelection(sel, 1, 1);
+        mCore->setSelection(sel, 1, 1);
     }
     else
     {
         y--;
         for (int _y = y; _y < y+h; _y++)
             for (int _x = x; _x < x+w; _x++)
-                if (mCore()->layer() == Core::LOWER)
-                    sel.push_back(mCore()->translate(_x+_y*6, SAMPLE));
+                if (mCore->layer() == Core::LOWER)
+                    sel.push_back(mCore->translate(_x+_y*6, SAMPLE));
                 else
-                    sel.push_back(mCore()->translate(_x+_y*6+162, SAMPLE));
-        mCore()->setSelection(sel, w, h);
+                    sel.push_back(mCore->translate(_x+_y*6+162, SAMPLE));
+        mCore->setSelection(sel, w, h);
     }
     last_selection = m_selectionItem->boundingRect();
     QGraphicsScene::mouseReleaseEvent(event);
