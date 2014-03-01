@@ -201,19 +201,19 @@ void QGraphicsMapScene::onToolChanged()
     switch (mCore->tool())
     {
     case (Core::ZOOM):
-        m_view->setCursor(QCursor(Qt::UpArrowCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_zoom.png"),1,1));
         break;
     case (Core::PENCIL):
-        m_view->setCursor(QCursor(Qt::CrossCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_pen.png"),1,1));
         break;
     case (Core::RECTANGLE):
-        m_view->setCursor(QCursor(Qt::WaitCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_rectangle.png"),1,1));
         break;
     case (Core::CIRCLE):
-        m_view->setCursor(QCursor(Qt::IBeamCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_circle.png"),1,1));
         break;
     case (Core::FILL):
-        m_view->setCursor(QCursor(Qt::PointingHandCursor));
+        m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_fill.png"),1,1));
         break;
     }
 }
