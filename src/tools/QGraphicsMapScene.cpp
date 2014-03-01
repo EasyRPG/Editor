@@ -368,11 +368,18 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             lst_y = cur_y;
             m_eventMenu->popup(event->screenPos());
         }
+        if (mCore()->tool() == Core::ZOOM && m_scale > 0.25)
+            setScale(m_scale/2);
     }
-    if (m_selecting && event->button() == Qt::LeftButton)
+    if (event->button() == Qt::LeftButton)
     {
-        stopSelecting();
-        return;
+        if (m_selecting)
+        {
+            stopSelecting();
+            return;
+        }
+        if (mCore()->tool() == Core::ZOOM && m_scale < 2.0)
+            setScale(m_scale*2);
     }
     if(event->button() == Qt::LeftButton && mCore()->layer() != Core::EVENT) //Start drawing
     {
