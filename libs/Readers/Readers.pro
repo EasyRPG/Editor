@@ -252,7 +252,7 @@ INCLUDEPATH += $$(EASYDEV_MSVC)\include
 
 win32 {
     contains(QMAKE_HOST.arch, x86_64) TARGET = readers64
-    CONFIG(debug, debug|release)   DESTDIR = lib/debug
+    CONFIG(debug, debug|release) DESTDIR = lib/debug
     CONFIG(release, debug|release) DESTDIR = lib/release
 }
 
