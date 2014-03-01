@@ -521,7 +521,7 @@ void QGraphicsMapScene::updateArea(int x1, int y1, int x2, int y2)
     if (y1 < 0)
         y1 = 0;
     if (x2 >= m_map.get()->width)
-        x1 = m_map.get()->width - 1;
+        x2 = m_map.get()->width - 1;
     if (y2 >= m_map.get()->height)
         y2 = m_map.get()->height - 1;
 
@@ -680,13 +680,14 @@ short QGraphicsMapScene::bind(int x, int y)
         if (x < m_map.get()->width-1 && (!mCore()->isWater(tile_r) &&
                                          !mCore()->isAnimation(tile_r)))
             r = RIGHT;
-        if ((u+l) == 0 && !mCore()->isWater(tile_ul))
+        if ((u+l) == 0 && x > 0 && y > 0 && !mCore()->isWater(tile_ul))
             ul = UPLEFT;
-        if ((u+r) == 0 && !mCore()->isWater(tile_ur))
+        if ((u+r) == 0 && x < m_map.get()->width-1 && y > 0 && !mCore()->isWater(tile_ur))
             ur = UPRIGHT;
-        if ((d+l) == 0 && !mCore()->isWater(tile_dl))
+        if ((d+l) == 0 && x > 0 && y < m_map.get()->height-1 && !mCore()->isWater(tile_dl))
             dl = DOWNLEFT;
-        if ((d+r) == 0 && !mCore()->isWater(tile_dr))
+        if ((d+r) == 0 && x < m_map.get()->width-1 &&
+                y < m_map.get()->height-1 && !mCore()->isWater(tile_dr))
             dr = DOWNRIGHT;
         _code = u+d+l+r+ul+ur+dl+dr;
         // DeepWater Special Corners
@@ -717,4 +718,12 @@ short QGraphicsMapScene::bind(int x, int y)
         _scode = sul+sur+sdl+sdr;
     }
     return mCore()->translate(terrain_id, _code, _scode);
+#undef tile_u
+#undef tile_d
+#undef tile_l
+#undef tile_r
+#undef tile_ul
+#undef tile_ur
+#undef tile_dl
+#undef tile_dr
 }
