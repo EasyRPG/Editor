@@ -14,17 +14,3 @@ bin
 Makefile.Debug
 Makefile.Release
 /libs/liblcf
-/libs/liblcf/*
-/libs/liblcf/*
-/libs/liblcf/*
-/libs/liblcf/*
-/libs/liblcf/*.yml
-/libs/liblcf/*
-/libs/liblcf/*.sh
-/libs/liblcf/*.ac
-/libs/liblcf/*
-/libs/liblcf/*.py
-/libs/liblcf/*.am
-/libs/liblcf/*
-/libs/liblcf/*
-/libs/liblcf/*
