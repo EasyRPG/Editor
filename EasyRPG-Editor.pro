@@ -69,13 +69,16 @@ DEPENDPATH += $$PWD/libs/liblcf/include
 
 DESTDIR = bin
 
-debug: TARGET = EasyRPG-EditorD
+CONFIG(debug, debug|release) TARGET = EasyRPG-EditorD
 
 win32 {
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-CONFIG(debug, debug|release) {
+#    LIBS += /NODEFAULTLIB:libcmt.lib
+#    LIBS += /NODEFAULTLIB:libcmtd.lib
+
+    CONFIG(debug, debug|release) {
 	LIBS += -L$$PWD/libs/liblcf/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
