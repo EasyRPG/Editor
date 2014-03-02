@@ -7,9 +7,10 @@ bin
 /qrc_*
 /ui_*
 /EasyRPG-Editor
-/libs/Readers/*
+/libs/liblcf/*
 /templates/Player.exe
 /debug
 /release
 Makefile.Debug
 Makefile.Release
+/libs/liblcf

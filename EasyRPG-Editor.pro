@@ -29,8 +29,7 @@ SOURCES += src/mainwindow.cpp \
     src/dialogimportproject.cpp \
     src/dialogrtppath.cpp \
     src/dialogrungame.cpp \
-    src/tools/qundodraw.cpp \
-    src/dialogEvent.cpp
+    src/tools/qundodraw.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -49,8 +48,7 @@ HEADERS  += src/mainwindow.h \
     src/dialogimportproject.h \
     src/dialogrtppath.h \
     src/dialogrungame.h \
-    src/tools/qundodraw.h \
-    src/dialogEvent.h
+    src/tools/qundodraw.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -59,8 +57,7 @@ FORMS    += src/mainwindow.ui \
     src/dialognewproject.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
-    src/dialogrtppath.ui \
-    src/dialogevent.ui
+    src/dialogrtppath.ui
 
 RESOURCES += \
     src/Resources.qrc
@@ -78,18 +75,28 @@ win32 {
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-    LIBS += /NODEFAULTLIB:libcmt.lib
-    LIBS += /NODEFAULTLIB:libcmtd.lib
+#    LIBS += /NODEFAULTLIB:libcmt.lib
+#    LIBS += /NODEFAULTLIB:libcmtd.lib
 
     CONFIG(debug, debug|release) {
 	LIBS += -L$$PWD/libs/liblcf/lib/debug/
+	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
 	    LIBS += -lliblcf
+	} else {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
+	    LIBS += -lliblcf64
+	}
     }
 CONFIG(release, debug|release) {
 	LIBS += -L$$PWD/libs/liblcf/lib/release/
+	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
 	    LIBS += -lliblcf
+	} else {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
+	    LIBS += -lliblcf64
+	}
     }
 }
 
