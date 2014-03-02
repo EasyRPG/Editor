@@ -36,8 +36,25 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     actions << new QAction(QIcon(":/icons/share/old_edit.png"),
                            "Set Start Position",
                            this);
+    actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
+                           "New Event",
+                           this);
+    actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
+                           "Copy Event",
+                           this);
+    actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
+                           "Cut Event",
+                           this);
+    actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
+                           "Paste Event",
+                           this);
+    actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
+                           "Delete Event",
+                           this);
     connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
     connect(actions[1],SIGNAL(triggered()),this, SLOT(on_actionSetStartPosition()));
+    connect(actions[2],SIGNAL(triggered()),this,SLOT(on_actionNewEvent()));
+
     m_eventMenu->addActions(actions);
     m_lowerpix = new QGraphicsPixmapItem();
     m_upperpix = new QGraphicsPixmapItem();
@@ -312,6 +329,10 @@ void QGraphicsMapScene::undo()
         emit mapReverted();
 }
 
+void QGraphicsMapScene::on_actionNewEvent()
+{
+     emit actionNewEvent(id(),lst_x,lst_y);
+}
 void QGraphicsMapScene::on_actionRunHere()
 {
     emit actionRunHereTriggered(id(),lst_x,lst_y);
