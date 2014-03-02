@@ -94,7 +94,7 @@ private slots:
 
 private:
     void closeEvent(QCloseEvent *event);
-    void saveAll();
+    bool saveAll();
     bool removeDir(const QString & dirName, const QString &root);
     QGraphicsView *getView(int id);
     QGraphicsMapScene *getScene(int id);
