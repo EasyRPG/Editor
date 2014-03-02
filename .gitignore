@@ -1,5 +1,6 @@
 /*.autosave
 /EasyRPG-Editor.pro.user
+/*.user.*
 bin
 *.o
 /Makefile
