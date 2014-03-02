@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>761</width>
+    <width>802</width>
     <height>352</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>802</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>EasyRPG Editor</string>
@@ -39,7 +45,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>761</width>
+     <width>802</width>
      <height>21</height>
     </rect>
    </property>
@@ -76,8 +82,8 @@
      <addaction name="actionZoomIn"/>
      <addaction name="actionZoomOut"/>
     </widget>
-    <addaction name="action_Save_all_Maps"/>
-    <addaction name="actionRevert_all_Maps"/>
+    <addaction name="action_Save_Map"/>
+    <addaction name="actionRevert_Map"/>
     <addaction name="separator"/>
     <addaction name="menuEdition_Mode"/>
     <addaction name="menuZoom"/>
@@ -151,8 +157,8 @@
    <addaction name="separator"/>
    <addaction name="actionCreate_Game_Disk"/>
    <addaction name="separator"/>
-   <addaction name="action_Save_all_Maps"/>
-   <addaction name="actionRevert_all_Maps"/>
+   <addaction name="action_Save_Map"/>
+   <addaction name="actionRevert_Map"/>
    <addaction name="separator"/>
    <addaction name="action_Lower_Layer"/>
    <addaction name="action_Upper_Layer"/>
@@ -162,30 +168,33 @@
    <addaction name="actionZoomOut"/>
    <addaction name="actionScale_1_1"/>
    <addaction name="separator"/>
+   <addaction name="actionPalete"/>
+   <addaction name="actionMap_Tree"/>
+   <addaction name="actionJukebox"/>
+   <addaction name="separator"/>
    <addaction name="actionData_Base"/>
    <addaction name="action_Script_Editor"/>
    <addaction name="actionResource_Manager"/>
-   <addaction name="actionJukebox"/>
    <addaction name="actionSearch"/>
    <addaction name="separator"/>
    <addaction name="action_Play_Test"/>
-   <addaction name="separator"/>
    <addaction name="action_Full_Screen"/>
    <addaction name="action_Title_Background"/>
    <addaction name="separator"/>
    <addaction name="actionContents"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockPalete">
    <property name="minimumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>127</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>524287</height>
     </size>
    </property>
@@ -271,13 +280,13 @@
   <widget class="QToolBar" name="toolBar">
    <property name="minimumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>0</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>227</width>
+     <width>196</width>
      <height>16777215</height>
     </size>
    </property>
@@ -295,7 +304,6 @@
    </attribute>
    <addaction name="actionUndo"/>
    <addaction name="separator"/>
-   <addaction name="actionSelect"/>
    <addaction name="actionZoom"/>
    <addaction name="actionDraw"/>
    <addaction name="actionRectangle"/>
@@ -313,6 +321,9 @@
    <property name="statusTip">
     <string>Open an existing Game Project</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="action_New_Project">
    <property name="icon">
@@ -325,6 +336,9 @@
    <property name="statusTip">
     <string>Create a new Game Project</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="action_Close_Project">
    <property name="icon">
@@ -336,6 +350,9 @@
    </property>
    <property name="statusTip">
     <string>Close current opened Game Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
    </property>
   </action>
   <action name="actionCreate_Game_Disk">
@@ -362,28 +379,40 @@
     <string>Quit EasyRPG</string>
    </property>
   </action>
-  <action name="action_Save_all_Maps">
+  <action name="action_Save_Map">
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_save_all.png</normaloff>:/icons/share/old_save_all.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save all Maps</string>
+    <string>&amp;Save Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Save current Map</string>
    </property>
    <property name="statusTip">
     <string>Save all changes done in maps</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
-  <action name="actionRevert_all_Maps">
+  <action name="actionRevert_Map">
    <property name="icon">
     <iconset resource="Resources.qrc">
      <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Revert all Maps</string>
+    <string>&amp;Revert Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Revert currentl Map</string>
    </property>
    <property name="statusTip">
     <string>Revert changes on all maps</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="action_Lower_Layer">
@@ -400,6 +429,9 @@
    <property name="statusTip">
     <string>Edit lower layer mode</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
   <action name="action_Upper_Layer">
    <property name="checkable">
@@ -415,6 +447,9 @@
    <property name="statusTip">
     <string>Edit upper layer mode</string>
    </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
   </action>
   <action name="action_Events">
    <property name="checkable">
@@ -429,6 +464,9 @@
    </property>
    <property name="statusTip">
     <string>Edit events mode</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
    </property>
   </action>
   <action name="actionScale_1_1">
@@ -460,6 +498,9 @@
    <property name="statusTip">
     <string>Scale 100%</string>
    </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
   </action>
   <action name="actionZoomOut">
    <property name="icon">
@@ -475,6 +516,9 @@
    <property name="statusTip">
     <string>Scale 50%</string>
    </property>
+   <property name="shortcut">
+    <string>-</string>
+   </property>
   </action>
   <action name="actionData_Base">
    <property name="icon">
@@ -486,6 +530,9 @@
    </property>
    <property name="statusTip">
     <string>Open Data Base editor</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
    </property>
   </action>
   <action name="actionResource_Manager">
@@ -534,6 +581,9 @@
    </property>
    <property name="statusTip">
     <string>Test your Game</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
    </property>
   </action>
   <action name="action_Full_Screen">
@@ -653,20 +703,8 @@
    <property name="toolTip">
     <string>Undo last action</string>
    </property>
-  </action>
-  <action name="actionSelect">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_select.png</normaloff>:/icons/share/old_select.png</iconset>
-   </property>
-   <property name="text">
-    <string>Select</string>
-   </property>
-   <property name="toolTip">
-    <string>Select and move part of the map</string>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="actionZoom">
@@ -683,6 +721,9 @@
    <property name="toolTip">
     <string>Zoom in and out</string>
    </property>
+   <property name="shortcut">
+    <string>1</string>
+   </property>
   </action>
   <action name="actionDraw">
    <property name="checkable">
@@ -697,6 +738,9 @@
    </property>
    <property name="toolTip">
     <string>Draw in the map with a pen</string>
+   </property>
+   <property name="shortcut">
+    <string>2</string>
    </property>
   </action>
   <action name="actionRectangle">
@@ -713,6 +757,9 @@
    <property name="toolTip">
     <string>Draw in the map with a rectangle tool</string>
    </property>
+   <property name="shortcut">
+    <string>3</string>
+   </property>
   </action>
   <action name="actionCircle">
    <property name="checkable">
@@ -728,6 +775,9 @@
    <property name="toolTip">
     <string>Draw in a map with a circle tool</string>
    </property>
+   <property name="shortcut">
+    <string>4</string>
+   </property>
   </action>
   <action name="actionFill">
    <property name="checkable">
@@ -742,6 +792,9 @@
    </property>
    <property name="toolTip">
     <string>Draw in the map with a fill tool</string>
+   </property>
+   <property name="shortcut">
+    <string>5</string>
    </property>
   </action>
   <action name="actionImport_Project">

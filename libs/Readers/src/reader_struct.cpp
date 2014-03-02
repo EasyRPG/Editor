@@ -61,7 +61,9 @@ void Struct<S>::ReadLcf(S& obj, LcfReader& stream) {
 
 		typename field_map_type::const_iterator it = field_map.find(chunk_info.ID);
 		if (it != field_map.end()) {
-			//printf("%s\n", it->second->name);
+#ifdef READER_DEBUG_TRACE
+			printf("0x%02x (size: %d, pos: 0x%x): %s\n", chunk_info.ID, chunk_info.length, stream.Tell(), it->second->name);
+#endif
 			it->second->ReadLcf(obj, stream, chunk_info.length);
 		}
 		else

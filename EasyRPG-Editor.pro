@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia winextras
+QT       += core gui multimedia
+win32:QT += winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,13 +28,14 @@ SOURCES += src/mainwindow.cpp \
     src/tools/QGraphicsMapScene.cpp \
     src/dialogimportproject.cpp \
     src/dialogrtppath.cpp \
-    src/dialogrungame.cpp
+    src/dialogrungame.cpp \
+    src/tools/qundodraw.cpp \
+    src/dialogEvent.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
     src/dialogdatabase.h \
     src/gamecharacter.h \
-    src/gamecharactermodel.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
     src/tools/QGraphicsImportItem.h \
@@ -46,7 +48,9 @@ HEADERS  += src/mainwindow.h \
     src/tools/QGraphicsMapScene.h \
     src/dialogimportproject.h \
     src/dialogrtppath.h \
-    src/dialogrungame.h
+    src/dialogrungame.h \
+    src/tools/qundodraw.h \
+    src/dialogEvent.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -55,25 +59,48 @@ FORMS    += src/mainwindow.ui \
     src/dialognewproject.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
-    src/dialogrtppath.ui
+    src/dialogrtppath.ui \
+    src/dialogevent.ui
 
 RESOURCES += \
     src/Resources.qrc
 
 RC_FILE = src/Resources.rc
 
-win32: LIBS += -LC:/Expat/Bin/ -llibexpat
+INCLUDEPATH += $$PWD/libs/Readers/include
+DEPENDPATH += $$PWD/libs/Readers/include
 
-INCLUDEPATH += C:/Expat/Bin
-DEPENDPATH += C:/Expat/Bin
+DESTDIR = bin
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/bin/release/ -lReaders
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/bin/debug/ -lReaders
+debug: TARGET = EasyRPG-EditorD
 
-INCLUDEPATH += $$PWD/libs/Readers/src
-DEPENDPATH += $$PWD/libs/Readers/src
+win32 {
+    INCLUDEPATH += $$(EASYDEV_MSVC)/include
+    DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/release/libReaders.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/libReaders.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/release/Readers.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/bin/debug/Readers.lib
+CONFIG(debug, debug|release) {
+	LIBS += -L$$PWD/libs/Readers/lib/debug/
+	!contains(QMAKE_HOST.arch, x86_64) {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
+	    LIBS += -lReaders
+	} else {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
+	    LIBS += -lReaders64
+	}
+    }
+CONFIG(release, debug|release) {
+	LIBS += -L$$PWD/libs/Readers/lib/release/
+	!contains(QMAKE_HOST.arch, x86_64) {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
+	    LIBS += -lReaders
+	} else {
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
+	    LIBS += -lReaders64
+	}
+    }
+}
+
+!win32:LIBS += -lexpat -lreaders
+#!win32:QMAKE_CXXFLAGS += -Wextra -ansi -pedantic
+!win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
+!win32:QMAKE_CXXFLAGS += -std=c++0x

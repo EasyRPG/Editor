@@ -41,7 +41,9 @@
 #include "volumebutton.h"
 
 #include <QtWidgets>
+#ifdef Q_OS_WIN
 #include <QtWinExtras>
+#endif
 
 VolumeButton::VolumeButton(QWidget *parent) :
     QToolButton(parent), menu(0), label(0), slider(0)
@@ -73,7 +75,9 @@ VolumeButton::VolumeButton(QWidget *parent) :
     menu->addAction(action);
     setMenu(menu);
 
+#ifdef Q_OS_WIN
     stylize();
+#endif
 }
 
 void VolumeButton::increaseVolume()
@@ -96,6 +100,7 @@ void VolumeButton::setVolume(int volume)
     slider->setValue(volume);
 }
 
+#ifdef Q_OS_WIN
 //! [0]
 void VolumeButton::stylize()
 {
@@ -110,3 +115,4 @@ void VolumeButton::stylize()
     }
 }
 //! [0]
+#endif

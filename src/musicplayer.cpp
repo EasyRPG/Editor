@@ -42,23 +42,36 @@
 #include "volumebutton.h"
 
 #include <QtWidgets>
+#ifdef Q_OS_WIN
 #include <QtWinExtras>
+#endif
 #include <QWidget>
 #include <QMediaPlayer>
 
 
 MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
-    taskbarButton(0), taskbarProgress(0), thumbnailToolBar(0),
-    playToolButton(0), forwardToolButton(0), backwardToolButton(0),
-    mediaPlayer(0), playButton(0), volumeButton(0),
-    positionSlider(0), positionLabel(0), infoLabel(0)
+#ifdef Q_OS_WIN
+    taskbarButton(0),
+    taskbarProgress(0),
+    thumbnailToolBar(0),
+    playToolButton(0),
+    forwardToolButton(0),
+    backwardToolButton(0),
+#endif
+    mediaPlayer(0),
+    playButton(0),
+    volumeButton(0),
+    positionSlider(0),
+    positionLabel(0),
+    infoLabel(0)
 {
     createWidgets();
     createShortcuts();
+#ifdef Q_OS_WIN
     createJumpList();
     createTaskbar();
     createThumbnailToolBar();
-
+#endif
     connect(&mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(updatePosition(qint64)));
     connect(&mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(updateDuration(qint64)));
     connect(&mediaPlayer, SIGNAL(metaDataAvailableChanged(bool)), this, SLOT(updateInfo()));
@@ -66,7 +79,9 @@ MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
     connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)),
             this, SLOT(updateState(QMediaPlayer::State)));
 
+#ifdef Q_OS_WIN
     stylize();
+#endif
 }
 
 void MusicPlayer::openFile()
@@ -111,8 +126,10 @@ void MusicPlayer::seekBackward()
 //! [0]
 bool MusicPlayer::event(QEvent *event)
 {
+#ifdef Q_OS_WIN
     if (event->type() == QWinEvent::CompositionChange || event->type() == QWinEvent::ColorizationChange)
         stylize();
+#endif
     return QWidget::event(event);
 }
 //! [0]
@@ -135,6 +152,7 @@ void MusicPlayer::mouseReleaseEvent(QMouseEvent *event)
     event->accept();
 }
 
+#ifdef Q_OS_WIN
 //! [1]
 void MusicPlayer::stylize()
 {
@@ -151,6 +169,7 @@ void MusicPlayer::stylize()
     volumeButton->stylize();
 }
 //! [1]
+#endif
 
 void MusicPlayer::updateState(QMediaPlayer::State state)
 {
@@ -204,6 +223,7 @@ void MusicPlayer::handleError()
     infoLabel->setText(tr("Error: %1").arg(mediaPlayer.errorString()));
 }
 
+#ifdef Q_OS_WIN
 //! [2]
 void MusicPlayer::updateTaskbar()
 {
@@ -242,6 +262,7 @@ void MusicPlayer::updateThumbnailToolBar()
     }
 }
 //! [3]
+#endif
 
 void MusicPlayer::createWidgets()
 {
@@ -308,6 +329,7 @@ void MusicPlayer::createShortcuts()
     connect(decreaseShortcut, SIGNAL(activated()), volumeButton, SLOT(descreaseVolume()));
 }
 
+#ifdef Q_OS_WIN
 //! [4]
 void MusicPlayer::createJumpList()
 {
@@ -363,3 +385,4 @@ void MusicPlayer::createThumbnailToolBar()
     connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(updateThumbnailToolBar()));
 }
 //! [6]
+#endif

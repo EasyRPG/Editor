@@ -24,7 +24,7 @@ public:
 
     void LoadProject(QString foldername);
     void ImportProject(QString p_path, QString d_folder);
-    
+
 private slots:
     void on_action_Quit_triggered();
 
@@ -68,8 +68,6 @@ private slots:
 
     void on_actionRtp_Path_triggered();
 
-    void on_actionSelect_triggered();
-
     void on_actionZoom_triggered();
 
     void on_actionDraw_triggered();
@@ -86,7 +84,19 @@ private slots:
 
     void on_action_Play_Test_triggered();
 
+    void runHere(int map_id, int x, int y);
+
+    void newEvent(int map_id, int x, int y);
+
+    void on_mapChanged();
+
+    void on_mapUnchanged();
+
+    void on_actionUndo_triggered();
+
 private:
+    void closeEvent(QCloseEvent *event);
+    void saveAll();
     bool removeDir(const QString & dirName, const QString &root);
     QGraphicsView *getView(int id);
     QGraphicsMapScene *getScene(int id);

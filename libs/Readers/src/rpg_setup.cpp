@@ -80,8 +80,8 @@ void RPG::SaveMapEvent::Setup(const RPG::Event& event) {
 }
 
 void RPG::SaveMapInfo::Setup() {
-	pan_x = 0;
-	pan_y = 0;
+	position_x = 0;
+	position_y = 0;
 	lower_tiles.resize(144);
 	upper_tiles.resize(144);
 	for (int i = 0; i < 144; i++) {
@@ -116,10 +116,6 @@ void RPG::SaveSystem::Setup() {
 	variables_size = Data::variables.size();
 	variables.clear();
 	variables.resize(variables_size);
-	message_transparent = -1;
-	message_position = -1;
-	message_placement = -1;
-	message_continue = -1;
 	face_name = "";
 	face_id = -1;
 	face_right = false;
@@ -167,9 +163,13 @@ void RPG::SaveSystem::Setup() {
 
 void RPG::Save::Setup() {
 	system.Setup();
+	screen = RPG::SaveScreen();
+	pictures.clear();
 	pictures.resize(50);
-	for (int i = 1; i <= (int) pictures.size(); i++)
+	for (int i = 1; i <= (int)pictures.size(); i++) {
 		pictures[i - 1].ID = i;
+	}
+	actors.clear();
 	actors.resize(Data::actors.size());
 	for (int i = 1; i <= (int) actors.size(); i++)
 		actors[i - 1].Setup(i);
