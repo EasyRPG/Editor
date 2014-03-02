@@ -75,8 +75,8 @@ win32 {
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-#    LIBS += /NODEFAULTLIB:libcmt.lib
-#    LIBS += /NODEFAULTLIB:libcmtd.lib
+    LIBS += /NODEFAULTLIB:libcmt.lib
+    LIBS += /NODEFAULTLIB:libcmtd.lib
 
     CONFIG(debug, debug|release) {
 	LIBS += -L$$PWD/libs/liblcf/lib/debug/
