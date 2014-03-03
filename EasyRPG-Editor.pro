@@ -30,7 +30,8 @@ SOURCES += src/mainwindow.cpp \
     src/dialogrtppath.cpp \
     src/dialogrungame.cpp \
     src/tools/qundodraw.cpp \
-    src/dialogEvent.cpp
+    src/dialogEvent.cpp \
+    src/dialogmapproperties.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -50,7 +51,8 @@ HEADERS  += src/mainwindow.h \
     src/dialogrtppath.h \
     src/dialogrungame.h \
     src/tools/qundodraw.h \
-    src/dialogEvent.h
+    src/dialogEvent.h \
+    src/dialogmapproperties.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -60,7 +62,8 @@ FORMS    += src/mainwindow.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
     src/dialogrtppath.ui \
-    src/dialogevent.ui
+    src/dialogevent.ui \
+    src/dialogmapproperties.ui
 
 RESOURCES += \
     src/Resources.qrc
