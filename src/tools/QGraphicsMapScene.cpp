@@ -12,6 +12,7 @@
 #include "../dialogrungame.h"
 #include "../mainwindow.h"
 #include "qundodraw.h"
+#include "qundoevent.h"
 #include <data.h>
 #include <lmu_reader.h>
 #include <lmt_reader.h>
@@ -172,6 +173,13 @@ void QGraphicsMapScene::setLayerData(Core::Layer layer, std::vector<short> data)
     redrawLayer(layer);
 }
 
+void QGraphicsMapScene::setEventData(int id, const RPG::Event &data)
+{
+    for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
+        if (m_map.get()->events[i].ID == id)
+            m_map.get()->events[i] = data;
+}
+
 void QGraphicsMapScene::redrawMap()
 {
     if (!m_init)
@@ -278,7 +286,8 @@ void QGraphicsMapScene::Save()
        << std::setw(4)
        << id()
        << ".emu";
-    LMU_Reader::SaveXml(ss.str(), *m_map.get());
+    LMU_Reader::SaveXml(ss.str(), *m_map.get());    
+    m_undoStack->clear();
     emit mapSaved();
 }
 
@@ -321,14 +330,18 @@ void QGraphicsMapScene::Load()
         addItem(line);
     }
     redrawMap();
+    m_undoStack->clear();
     emit mapReverted();
 }
 
 void QGraphicsMapScene::undo()
 {
     m_undoStack->undo();
-    if (m_undoStack->isClean())
+    if (m_undoStack->index() == 0)
+    {
+        m_undoStack->clear();
         emit mapReverted();
+    }
 }
 
 void QGraphicsMapScene::on_actionNewEvent()
@@ -498,10 +511,14 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
         if (_index(cur_x,cur_y) == _index(m_map.get()->events[i].x,m_map.get()->events[i].y))
         {
+            RPG::Event backup = m_map.get()->events[i];
             int result = DialogEvent::edit(m_view, &m_map.get()->events[i]);
             if (result != QDialogButtonBox::Cancel)
-                //TODO: add undo command to stack.
+            {
+                m_undoStack->push(new QUndoEvent(backup,
+                                                 this));
                 emit mapChanged();
+            }
         }
 }
 

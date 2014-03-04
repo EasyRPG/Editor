@@ -10,6 +10,7 @@ DialogEvent::DialogEvent(QWidget *parent) :
     ui(new Ui::DialogEvent)
 {
     ui->setupUi(this);
+    lst_result = QDialogButtonBox::Cancel;
     connect(ui->buttonBox->button(QDialogButtonBox::Ok),
             SIGNAL(clicked()),
             this,
