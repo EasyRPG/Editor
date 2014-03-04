@@ -1070,6 +1070,6 @@ bool MainWindow::saveAll()
 
 void MainWindow::on_actionMap_Properties_dialog_triggered()
 {
-    dialogmapproperties dlg(this);
+    DialogMapProperties dlg(this);
     dlg.exec();
 }
