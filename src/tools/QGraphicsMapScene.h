@@ -31,7 +31,7 @@ public:
 
 signals:
     void actionRunHereTriggered(int map_id, int x, int y);
-
+    void actionNewEvent(int map_id, int x, int y);
     void mapChanged();
 
     void mapSaved();
@@ -55,6 +55,8 @@ private slots:
     void on_actionRunHere();
 
     void on_actionSetStartPosition();
+
+    void on_actionNewEvent();
 
     void on_user_interaction();
 
