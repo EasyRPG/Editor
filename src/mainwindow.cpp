@@ -3,6 +3,7 @@
 #include "dialogimportproject.h"
 #include "dialogrtppath.h"
 #include "dialogEvent.h"
+#include "dialogmapproperties.h"
 #include "dialogrungame.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -1064,4 +1065,11 @@ bool MainWindow::saveAll()
         }
     }
     return true;
+}
+
+
+void MainWindow::on_actionMap_Properties_dialog_triggered()
+{
+    dialogmapproperties dlg(this);
+    dlg.exec();
 }
