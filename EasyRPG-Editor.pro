@@ -52,9 +52,9 @@ HEADERS  += src/mainwindow.h \
     src/dialogrtppath.h \
     src/dialogrungame.h \
     src/tools/qundodraw.h \
-    src/dialogEvent.h \
     src/tools/qeventwidget.h \
-    src/dialogmapproperties.h
+    src/dialogmapproperties.h \
+    src/dialogevent.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -64,9 +64,9 @@ FORMS    += src/mainwindow.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
     src/dialogrtppath.ui \
-    src/dialogevent.ui \
     src/tools/qeventwidget.ui\
-    src/dialogmapproperties.ui
+    src/dialogmapproperties.ui \
+    src/dialogevent.ui
 
 RESOURCES += \
     src/Resources.qrc

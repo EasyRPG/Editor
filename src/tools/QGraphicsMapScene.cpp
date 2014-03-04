@@ -1,5 +1,6 @@
 #include "QGraphicsMapScene.h"
 #include <QAction>
+#include <QDialogButtonBox>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsOpacityEffect>
 #include <QPainter>
@@ -497,7 +498,10 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
         if (_index(cur_x,cur_y) == _index(m_map.get()->events[i].x,m_map.get()->events[i].y))
         {
-            DialogEvent::edit(m_view, &m_map.get()->events[i]);
+            int result = DialogEvent::edit(m_view, &m_map.get()->events[i]);
+            if (result != QDialogButtonBox::Cancel)
+                //TODO: add undo command to stack.
+                emit mapChanged();
         }
 }
 
