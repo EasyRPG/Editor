@@ -7,6 +7,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
+#include <QCloseEvent>
 #include <QApplication>
 #include <QFileInfo>
 #include <QFileDialog>
@@ -1038,11 +1039,13 @@ void MainWindow::on_actionUndo_triggered()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    saveAll();
-    QMainWindow::closeEvent(event);
+    if (!saveAll())
+        event->ignore();
+    else
+        QMainWindow::closeEvent(event);
 }
 
-void MainWindow::saveAll()
+bool MainWindow::saveAll()
 {
     bool need_save = false;
     for (int i = 0; i < ui->tabMap->count(); i++)
@@ -1066,7 +1069,8 @@ void MainWindow::saveAll()
             break;
  //     case (No): do nothing;
         case (QMessageBox::Cancel):
-            return;
+            return false;
         }
     }
+    return true;
 }
