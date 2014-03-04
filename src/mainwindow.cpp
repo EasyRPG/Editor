@@ -486,7 +486,7 @@ void MainWindow::update_actions()
         ui->action_Lower_Layer->setEnabled(true);
         ui->action_New_Project->setEnabled(false);
         ui->action_Open_Project->setEnabled(false);
-        ui->action_Play_Test->setEnabled(false);
+        ui->action_Play_Test->setEnabled(true);
         ui->action_Script_Editor->setEnabled(true);
         ui->action_Title_Background->setEnabled(true);
         ui->action_Upper_Layer->setEnabled(true);
@@ -667,10 +667,6 @@ QGraphicsView *MainWindow::getView(int id)
                            QIcon(":/icons/share/old_map.png"),
                            QString::fromStdString(mapName));
         view->setScene(new QGraphicsMapScene(id, view, view));
-        connect(getScene(id),
-                SIGNAL(actionNewEvent(int,int,int)),
-                this,
-                SLOT(newEvent(int,int,int)));
         connect(getScene(id),
                 SIGNAL(actionRunHereTriggered(int,int,int)),
                 this,
@@ -985,11 +981,6 @@ void MainWindow::on_action_Play_Test_triggered()
         commands << "Window";
     dlg.setCommands(commands);
     dlg.run();
-}
-
-void MainWindow::newEvent(int map_id, int x, int y)
-{
-  DialogEvent dlg(this);
 }
 
 void MainWindow::runHere(int map_id, int x, int y)

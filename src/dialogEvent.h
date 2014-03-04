@@ -2,6 +2,7 @@
 #define DIALOGEVENT_H
 
 #include <QDialog>
+#include <rpg_event.h>
 
 namespace Ui {
 class DialogEvent;
@@ -15,11 +16,15 @@ public:
     explicit DialogEvent(QWidget *parent = 0);
     ~DialogEvent();
 
-private slots:
-    void on_toolRtpPath_clicked();
+    static void edit(QWidget *parent, RPG::Event *event);
 
-    void on_ok();
+    RPG::Event event() const;
+    void setEvent(const RPG::Event &event);
+
+private slots:
+
 private:
     Ui::DialogEvent *ui;
+    RPG::Event m_event;
 };
 #endif // DIALOGEVENT_H
