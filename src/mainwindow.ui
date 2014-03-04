@@ -128,6 +128,7 @@
      <string>Debug</string>
     </property>
     <addaction name="actionRtp_Path"/>
+    <addaction name="actionMap_Properties_dialog"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -816,6 +817,15 @@
    </property>
    <property name="toolTip">
     <string>warning!: this feature will be disabled once OpenRTP is released</string>
+   </property>
+  </action>
+  <action name="actionMap_Properties_dialog">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_map.png</normaloff>:/icons/share/old_map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Map Properties dialog</string>
    </property>
   </action>
  </widget>

@@ -92,6 +92,8 @@ private slots:
 
     void on_actionUndo_triggered();
 
+    void on_actionMap_Properties_dialog_triggered();
+
 private:
     void closeEvent(QCloseEvent *event);
     bool saveAll();
