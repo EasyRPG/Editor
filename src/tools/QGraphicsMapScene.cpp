@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <sstream>
 #include "../core.h"
+#include "../DialogEvent.h"
 #include "../dialogrungame.h"
 #include "../mainwindow.h"
 #include "qundodraw.h"
@@ -331,7 +332,7 @@ void QGraphicsMapScene::undo()
 
 void QGraphicsMapScene::on_actionNewEvent()
 {
-     emit actionNewEvent(id(),lst_x,lst_y);
+
 }
 void QGraphicsMapScene::on_actionRunHere()
 {
@@ -493,7 +494,11 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event)
     if (mCore->layer() != Core::EVENT)
         return;
-    //Open event edit dialog
+    for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
+        if (_index(cur_x,cur_y) == _index(m_map.get()->events[i].x,m_map.get()->events[i].y))
+        {
+            DialogEvent::edit(m_view, &m_map.get()->events[i]);
+        }
 }
 
 int QGraphicsMapScene::_x(int index)

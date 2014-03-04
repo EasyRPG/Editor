@@ -31,7 +31,7 @@ public:
 
 signals:
     void actionRunHereTriggered(int map_id, int x, int y);
-    void actionNewEvent(int map_id, int x, int y);
+
     void mapChanged();
 
     void mapSaved();
