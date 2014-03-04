@@ -4,19 +4,19 @@
 #include <QDialog>
 
 namespace Ui {
-class dialogmapproperties;
+class DialogMapProperties;
 }
 
-class dialogmapproperties : public QDialog
+class DialogMapProperties : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit dialogmapproperties(QWidget *parent = 0);
-    ~dialogmapproperties();
+    explicit DialogMapProperties(QWidget *parent = 0);
+    ~DialogMapProperties();
 
 private:
-    Ui::dialogmapproperties *ui;
+    Ui::DialogMapProperties *ui;
 };
 
 #endif // DIALOGMAPPROPERTIES_H

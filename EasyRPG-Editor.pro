@@ -30,7 +30,7 @@ SOURCES += src/mainwindow.cpp \
     src/dialogrtppath.cpp \
     src/dialogrungame.cpp \
     src/tools/qundodraw.cpp \
-    src/dialogEvent.cpp \
+    src/dialogevent.cpp \
     src/tools/qeventwidget.cpp\
     src/dialogmapproperties.cpp
 
