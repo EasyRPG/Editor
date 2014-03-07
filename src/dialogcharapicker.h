@@ -19,7 +19,19 @@ public:
     explicit DialogCharaPicker(QWidget *parent, bool tile_pick);
     ~DialogCharaPicker();
 
+    int frame();
+    void setFrame(int frame);
+
+    int facing();
+    void setFacing(int facing);
+
+    std::string name();
+    void setName(std::string name);
+
     void setAnimated(bool animated);
+
+    int index() const;
+    void setIndex(int index);
 
 private slots:
     void on_toolUp_clicked();
@@ -36,6 +48,8 @@ private slots:
 
     void on_radioRight_clicked();
 
+    void on_listRess_currentRowChanged(int currentRow);
+
 private:
     void updateFrame();
     void updateFacing();
@@ -45,6 +59,7 @@ private:
     QGraphicsRectItem *m_selRect;
     QGraphicsCharaItem *m_chara;
     QTimer *m_timer;
+    int m_index;
 };
 
 #endif // DIALOGCHARAPICKER_H
