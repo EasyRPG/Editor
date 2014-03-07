@@ -10,6 +10,7 @@ bin
 /EasyRPG-Editor
 /libs/liblcf/*
 /templates/Player.exe
+/templates/Player64.exe
 /debug
 /release
 Makefile.Debug
