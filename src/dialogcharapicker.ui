@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>392</width>
+    <width>412</width>
     <height>289</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>392</width>
+    <width>412</width>
     <height>289</height>
    </size>
   </property>
@@ -26,7 +26,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" rowspan="2">
+   <item row="0" column="0">
     <widget class="QListWidget" name="listRess">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -37,34 +37,12 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QGraphicsView" name="view">
-     <property name="minimumSize">
-      <size>
-       <width>198</width>
-       <height>134</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>198</width>
-       <height>134</height>
-      </size>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QStackedWidget" name="stacked">
+    <widget class="QStackedWidget" name="stackedMain">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="page">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+     <widget class="QWidget" name="pageChara">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -78,93 +56,200 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupFacing">
-         <property name="title">
-          <string>Facing</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="1">
-           <widget class="QToolButton" name="toolUp">
-            <property name="text">
-             <string>U</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QToolButton" name="toolLeft">
-            <property name="text">
-             <string>L</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QToolButton" name="toolRight">
-            <property name="text">
-             <string>R</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QToolButton" name="toolDown">
-            <property name="text">
-             <string>D</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QGraphicsView" name="viewChara">
+           <property name="minimumSize">
+            <size>
+             <width>198</width>
+             <height>134</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>198</width>
+             <height>134</height>
+            </size>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupFrame">
-         <property name="title">
-          <string>Frame</string>
+        <widget class="QStackedWidget" name="stackedStatic">
+         <property name="currentIndex">
+          <number>0</number>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QRadioButton" name="radioLeft">
-            <property name="text">
-             <string>Left</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioMiddle">
-            <property name="text">
-             <string>Middel</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioRight">
-            <property name="text">
-             <string>Right</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QWidget" name="pageStatic">
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="groupFacing">
+             <property name="title">
+              <string>Facing</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="1">
+               <widget class="QToolButton" name="toolUp">
+                <property name="text">
+                 <string>U</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QToolButton" name="toolLeft">
+                <property name="text">
+                 <string>L</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QToolButton" name="toolRight">
+                <property name="text">
+                 <string>R</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QToolButton" name="toolDown">
+                <property name="text">
+                 <string>D</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupFrame">
+             <property name="title">
+              <string>Frame</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QRadioButton" name="radioLeft">
+                <property name="text">
+                 <string>Left</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioMiddle">
+                <property name="text">
+                 <string>Middel</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioRight">
+                <property name="text">
+                 <string>Right</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="pageEmpty"/>
+        </widget>
+       </item>
+      </layout>
+      <zorder>viewChara</zorder>
+      <zorder>groupFacing</zorder>
+      <zorder>groupFrame</zorder>
+      <zorder>stackedStatic</zorder>
+      <zorder>horizontalSpacer</zorder>
+      <zorder>horizontalSpacer_2</zorder>
+     </widget>
+     <widget class="QWidget" name="pageTileset">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QGraphicsView" name="graphicsTile">
+         <property name="maximumSize">
+          <size>
+           <width>210</width>
+           <height>16777215</height>
+          </size>
+         </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2"/>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="1" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
