@@ -66,6 +66,8 @@ private slots:
 
     void on_comboMoveFrequency_currentIndexChanged(int index);
 
+    void on_pushSetSprite_clicked();
+
 private:
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
