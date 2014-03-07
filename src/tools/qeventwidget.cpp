@@ -1,6 +1,7 @@
 #include "qeventwidget.h"
 #include "ui_qeventwidget.h"
 #include <data.h>
+#include "../dialogcharapicker.h"
 
 QEventWidget::QEventWidget(QWidget *parent) :
     QWidget(parent),
@@ -235,4 +236,10 @@ void QEventWidget::on_comboMoveFrequency_currentIndexChanged(int index)
     if (!m_eventPage)
         return;
     m_eventPage->move_frequency = index+1;
+}
+
+void QEventWidget::on_pushSetSprite_clicked()
+{
+    DialogCharaPicker dlg(this, true);
+    dlg.exec();
 }

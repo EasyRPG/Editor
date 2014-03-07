@@ -31,9 +31,11 @@ SOURCES += src/mainwindow.cpp \
     src/dialogrungame.cpp \
     src/tools/qundodraw.cpp \
     src/dialogevent.cpp \
-    src/tools/qeventwidget.cpp\
     src/dialogmapproperties.cpp \
-    src/tools/qundoevent.cpp
+    src/tools/qundoevent.cpp \
+    src/dialogcharapicker.cpp \
+    src/tools/QGraphicsCharaItem.cpp \
+    src/tools/QEventWidget.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -53,10 +55,12 @@ HEADERS  += src/mainwindow.h \
     src/dialogrtppath.h \
     src/dialogrungame.h \
     src/tools/qundodraw.h \
-    src/tools/qeventwidget.h \
+    src/tools/QEventWidget.h \
     src/dialogmapproperties.h \
     src/dialogevent.h \
-    src/tools/qundoevent.h
+    src/tools/qundoevent.h \
+    src/dialogcharapicker.h \
+    src/tools/QGraphicsCharaItem.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -66,9 +70,10 @@ FORMS    += src/mainwindow.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
     src/dialogrtppath.ui \
-    src/tools/qeventwidget.ui\
+    src/tools/QEventWidget.ui\
     src/dialogmapproperties.ui \
-    src/dialogevent.ui
+    src/dialogevent.ui \
+    src/dialogcharapicker.ui
 
 RESOURCES += \
     src/Resources.qrc
