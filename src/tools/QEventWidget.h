@@ -3,6 +3,10 @@
 
 #include <QWidget>
 #include <rpg_eventpage.h>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsOpacityEffect>
+#include <QGraphicsScene>
+#include "QGraphicsCharaItem.h"
 
 namespace Ui {
 class QEventWidget;
@@ -69,8 +73,14 @@ private slots:
     void on_pushSetSprite_clicked();
 
 private:
+    void updateGraphic();
+
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
+    QGraphicsPixmapItem *m_tileItem;
+    QGraphicsCharaItem *m_charaItem;
+    QGraphicsScene *m_scene;
+    QGraphicsOpacityEffect *m_effect;
 };
 
 #endif // QEVENTWIDGET_H

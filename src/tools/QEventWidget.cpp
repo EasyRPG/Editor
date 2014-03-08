@@ -1,7 +1,9 @@
 #include "qeventwidget.h"
 #include "ui_qeventwidget.h"
+#include <QDialogButtonBox>
 #include <data.h>
 #include "../dialogcharapicker.h"
+#include "../core.h"
 
 QEventWidget::QEventWidget(QWidget *parent) :
     QWidget(parent),
@@ -13,10 +15,28 @@ QEventWidget::QEventWidget(QWidget *parent) :
         ui->comboItem->addItem(QString::fromStdString(Data::items[i].name));
     for (unsigned int i = 0; i < Data::actors.size(); i++)
         ui->comboHero->addItem(QString::fromStdString(Data::actors[i].name));
+    m_charaItem = new QGraphicsCharaItem();
+    m_tileItem = new QGraphicsPixmapItem();
+    m_scene = new QGraphicsScene(this);
+    m_effect = new QGraphicsOpacityEffect(this);
+    m_charaItem->setGraphicsEffect(m_effect);
+    m_tileItem->setGraphicsEffect(new QGraphicsOpacityEffect(m_effect));
+    connect(m_effect,
+            SIGNAL(enabledChanged(bool)),
+            m_tileItem->graphicsEffect(),
+            SLOT(setEnabled(bool)));
+    m_charaItem->setScale(2.0);
+    m_tileItem->setScale(2.0);
+    m_scene->addItem(m_charaItem);
+    m_scene->addItem(m_tileItem);
+    m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
+    ui->graphicsSprite->setScene(m_scene);
 }
 
 QEventWidget::~QEventWidget()
 {
+    delete m_tileItem;
+    delete m_charaItem;
     delete ui;
 }
 RPG::EventPage *QEventWidget::eventPage() const
@@ -50,6 +70,9 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
     ui->checkOverlap->setChecked(eventPage->overlap);
     ui->comboAnimationType->setCurrentIndex(eventPage->animation_type);
     ui->comboMoveFrequency->setCurrentIndex(eventPage->move_frequency-1);
+
+    m_effect->setEnabled(m_eventPage->translucent);
+    updateGraphic();
 }
 
 
@@ -193,7 +216,7 @@ void QEventWidget::on_checkTransparent_toggled(bool checked)
     if (!m_eventPage)
         return;
     m_eventPage->translucent = checked;
-    //TODO: enable graphic effect
+    m_effect->setEnabled(checked);
 }
 
 void QEventWidget::on_comboMoveSpeed_currentIndexChanged(int index)
@@ -241,5 +264,43 @@ void QEventWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 void QEventWidget::on_pushSetSprite_clicked()
 {
     DialogCharaPicker dlg(this, true);
+    dlg.setName(m_eventPage->character_name);
+    dlg.setFrame(m_eventPage->character_pattern);
+    dlg.setFacing(m_eventPage->character_direction);
+    dlg.setIndex(m_eventPage->character_index);
     dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_eventPage->character_name = dlg.name();
+        m_eventPage->character_pattern = dlg.frame();
+        m_eventPage->character_direction = dlg.facing();
+        m_eventPage->character_index = dlg.index();
+        updateGraphic();
+    }
+}
+
+void QEventWidget::updateGraphic()
+{
+    if (m_eventPage->character_name.empty())
+    {
+        QPixmap pix(16,16);
+        pix.fill(QColor(0,0,0,0));
+        mCore->beginPainting(pix);
+        mCore->renderTile(10000+m_eventPage->character_index,QRect(0,0,16,16));
+        mCore->endPainting();
+        m_tileItem->setPixmap(pix);
+        m_tileItem->setVisible(true);
+        m_charaItem->setVisible(false);
+        m_scene->setSceneRect(0,0,32,32);
+    }
+    else
+    {
+        m_charaItem->setBasePix(QString::fromStdString(m_eventPage->character_name));
+        m_charaItem->setIndex(m_eventPage->character_index);
+        m_charaItem->setFrame(m_eventPage->character_pattern);
+        m_charaItem->setFacing(m_eventPage->character_direction);
+        m_tileItem->setVisible(false);
+        m_charaItem->setVisible(true);
+        m_scene->setSceneRect(0,0,48,64);
+    }
 }

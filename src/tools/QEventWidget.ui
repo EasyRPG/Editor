@@ -338,11 +338,23 @@
       </property>
       <item>
        <widget class="QGraphicsView" name="graphicsSprite">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>66</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>48</width>
           <height>64</height>
          </size>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
        </widget>
       </item>

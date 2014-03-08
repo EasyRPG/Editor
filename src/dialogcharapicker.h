@@ -6,6 +6,7 @@
 #include <QGraphicsRectItem>
 #include <QTimer>
 #include "tools/QGraphicsCharaItem.h"
+#include "tools/QGraphicsPickerScene.h"
 
 namespace Ui {
 class DialogCharaPicker;
@@ -50,16 +51,19 @@ private slots:
 
     void on_listRess_currentRowChanged(int currentRow);
 
+    void ok();
+
 private:
     void updateFrame();
     void updateFacing();
 
     Ui::DialogCharaPicker *ui;
-    QGraphicsScene *m_scene;
-    QGraphicsRectItem *m_selRect;
+    QGraphicsPickerScene *m_charaScene;
+    QGraphicsPickerScene *m_tileScene;
     QGraphicsCharaItem *m_chara;
     QTimer *m_timer;
-    int m_index;
+    int m_tileIndex;
+    int m_charaIndex;
 };
 
 #endif // DIALOGCHARAPICKER_H

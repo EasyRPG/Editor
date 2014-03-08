@@ -1,6 +1,7 @@
 #include "dialogcharapicker.h"
 #include "ui_dialogcharapicker.h"
 #include <QDir>
+#include <QPushButton>
 #include "core.h"
 
 DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
@@ -13,6 +14,18 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
     if (tile_pick)
     {
         ui->listRess->addItem(tr("*Tileset"));
+        QGraphicsPixmapItem *tileItem = new QGraphicsPixmapItem();
+        QPixmap pix(96, 384);
+        pix.fill(QColor(0,0,0,0));
+        mCore->beginPainting(pix);
+        for (short i = 0; i < 144; i++)
+            mCore->renderTile(10000+i, QRect((i%6)*16,i/6*16,16,16));
+        mCore->endPainting();
+        tileItem->setPixmap(pix);
+        tileItem->setScale(2.0);
+        m_tileScene = new QGraphicsPickerScene(ui->graphicsTile, tileItem, 24, 6);
+        m_tileScene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
+        ui->graphicsTile->setScene(m_tileScene);
     }
 
     QDir dir(mCore->filePath(CHARSET));
@@ -29,20 +42,32 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
             ui->listRess->addItem(info.baseName());
     }
 
+    dir = QDir(mCore->rtpPath(CHARSET));
+    entry = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
 
+    foreach (QString file, entry)
+    {
 
-    m_scene = new QGraphicsScene(ui->viewChara);
-    ui->viewChara->setScene(m_scene);
+        QFileInfo info(QString("%1/%2").arg(dir.path()).arg(file));
+
+        if (info.isSymLink())
+            continue;
+        if (QString("png").contains(info.suffix(), Qt::CaseInsensitive))
+            ui->listRess->addItem(info.baseName());
+    }
+
     m_chara = new QGraphicsCharaItem();
-    m_chara->setBasePix("char1");
     m_chara->setScale(2.0);
-    m_scene->addItem(m_chara);
-    m_selRect = new QGraphicsRectItem(0,0,24,32);
-    m_selRect->setScale(2.0);
-    m_scene->addItem(m_selRect);
+    m_charaScene = new QGraphicsPickerScene(ui->viewChara, m_chara, 2, 4);
+    ui->viewChara->setScene(m_charaScene);
 
     m_timer = new QTimer(this);
-    connect(m_timer,SIGNAL(timeout()),m_scene,SLOT(advance()));
+    connect(m_timer,SIGNAL(timeout()),m_charaScene,SLOT(advance()));
+
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok),
+            SIGNAL(clicked()),
+            this,
+            SLOT(ok()));
 
     setAnimated(!tile_pick);
 
@@ -88,10 +113,15 @@ std::string DialogCharaPicker::name()
 
 void DialogCharaPicker::setName(std::string name)
 {
+    if (name.empty() && ui->listRess->count() > 0)
+    {
+        ui->listRess->setCurrentRow(0);
+        return;
+    }
     QList<QListWidgetItem*> items = ui->listRess->findItems(QString::fromStdString(name),
                                                             Qt::MatchFixedString);
     if (!items.empty())
-        items[0]->setSelected(true);
+        ui->listRess->setCurrentItem(items[0]);
 }
 
 void DialogCharaPicker::setAnimated(bool animated)
@@ -118,12 +148,17 @@ void DialogCharaPicker::updateFacing()
 }
 int DialogCharaPicker::index() const
 {
-    return m_index;
+    if (ui->listRess->currentItem()->text().contains("*"))
+        return m_tileScene->index();
+    return m_charaScene->index();
 }
 
 void DialogCharaPicker::setIndex(int index)
 {
-    m_index = index;
+    if (ui->listRess->currentItem()->text().contains("*"))
+        m_tileScene->setIndex(index);
+    else
+        m_charaScene->setIndex(index);
 }
 
 
@@ -180,4 +215,9 @@ void DialogCharaPicker::on_listRess_currentRowChanged(int currentRow)
         ui->stackedMain->setCurrentWidget(ui->pageChara);
         m_chara->setBasePix(ui->listRess->currentItem()->text());
     }
+}
+
+void DialogCharaPicker::ok()
+{
+    setResult(QDialogButtonBox::Ok);
 }
