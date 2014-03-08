@@ -1,4 +1,5 @@
 #include "QGraphicsPaleteScene.h"
+#include <QGraphicsDropShadowEffect>
 #include <QPainter>
 
 QGraphicsPaleteScene::QGraphicsPaleteScene(QObject *parent) :
@@ -17,7 +18,11 @@ QGraphicsPaleteScene::QGraphicsPaleteScene(QObject *parent) :
     selPen.setWidth(3);
     m_selectionItem->setPen(selPen);
     m_selectionItem->setVisible(false);
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);
+    effect->setOffset(4);
+    m_tiles->setGraphicsEffect(effect);
     m_tiles->stackBefore(m_selectionItem);
+    setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 }
 
 void QGraphicsPaleteScene::onLayerChange()
@@ -32,6 +37,7 @@ void QGraphicsPaleteScene::onLayerChange()
         m_tiles->setPixmap(m_upperTiles);
         this->setSceneRect(QRect(0,0,192,800));
     }
+    m_tiles->graphicsEffect()->setEnabled(mCore->layer() != Core::LOWER);
 }
 
 void QGraphicsPaleteScene::onChipsetChange()
@@ -46,8 +52,8 @@ void QGraphicsPaleteScene::onChipsetChange()
     m_selectionItem->setVisible(true);
     m_lowerTiles = QPixmap(192, 896);
     m_upperTiles = QPixmap(192, 800);
-    m_lowerTiles.fill(mCore->keycolor());
-    m_upperTiles.fill(mCore->keycolor());
+    m_lowerTiles.fill(QColor(0,0,0,0));
+    m_upperTiles.fill(QColor(0,0,0,0));
     QPainter p(&m_lowerTiles);
     p.drawPixmap(0,0,192,32,QPixmap(":/embedded/share/eraser.png"));
     p.end();
