@@ -3,6 +3,7 @@
 #include <QDialogButtonBox>
 #include <data.h>
 #include "../dialogcharapicker.h"
+#include "command_codes.h"
 #include "../core.h"
 
 QEventWidget::QEventWidget(QWidget *parent) :
@@ -31,6 +32,7 @@ QEventWidget::QEventWidget(QWidget *parent) :
     m_scene->addItem(m_tileItem);
     m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
     ui->graphicsSprite->setScene(m_scene);
+    ui->treeCommands->hideColumn(1);
 }
 
 QEventWidget::~QEventWidget()
@@ -70,9 +72,45 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
     ui->checkOverlap->setChecked(eventPage->overlap);
     ui->comboAnimationType->setCurrentIndex(eventPage->animation_type);
     ui->comboMoveFrequency->setCurrentIndex(eventPage->move_frequency-1);
-
     m_effect->setEnabled(m_eventPage->translucent);
     updateGraphic();
+
+    m_codeGen = 0;
+    QTreeWidgetItem *parent = 0;
+    for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
+    {
+        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << stringizeCommand(m_eventPage->event_commands[i]));
+        if (parent)
+        {
+            switch (m_eventPage->event_commands[i].code)
+            {
+            case (Cmd::ShowChoiceEnd):
+            case (Cmd::EndBranch):
+            case (Cmd::EndLoop):
+            case (Cmd::EndBranch_B):
+                parent = parent->parent();
+            }
+            if (!parent)
+                ui->treeCommands->addTopLevelItem(item);
+            else
+                parent->addChild(item);
+        }
+        else
+            ui->treeCommands->addTopLevelItem(item);
+        switch (m_eventPage->event_commands[i].code)
+        {
+        case (Cmd::ShowChoice):
+        case (Cmd::ConditionalBranch):
+        case (Cmd::Loop):
+        case (Cmd::ConditionalBranch_B):
+        case (Cmd::ShowChoiceOption):
+        case (Cmd::ElseBranch):
+        case (Cmd::ElseBranch_B):
+            parent = item;
+            break;
+        }
+    }
+    ui->treeCommands->expandAll();
 }
 
 
@@ -303,4 +341,391 @@ void QEventWidget::updateGraphic()
         m_charaItem->setVisible(true);
         m_scene->setSceneRect(0,0,48,64);
     }
+}
+
+QString QEventWidget::stringizeCommand(const RPG::EventCommand &com)
+{
+    QString str = "Unknown String";
+    switch (com.code)
+    {
+    case (Cmd::END):
+        str = "END";
+        break;
+
+    case (Cmd::CallCommonEvent):
+        str = "CallCommonEvent";
+        break;
+    case (Cmd::ForceFlee):
+        str = "ForceFlee";
+        break;
+    case (Cmd::EnableCombo):
+        str = "EnableCombo";
+        break;
+
+    case (Cmd::ChangeClass):
+        str = "ChangeClass";
+        break;
+    case (Cmd::ChangeBattleCommands):
+        str = "ChangeBattleCommands";
+        break;
+    case (Cmd::ShowMessage):
+        str = "ShowMessage";
+        break;
+    case (Cmd::MessageOptions):
+        str = "MessageOptions";
+        break;
+    case (Cmd::ChangeFaceGraphic):
+        str = "ChangeFaceGraphic";
+        break;
+    case (Cmd::ShowChoice):
+        str = "ShowChoice";
+        break;
+    case (Cmd::InputNumber):
+        str = "InputNumber";
+        break;
+    case (Cmd::ControlSwitches):
+        str = "ControlSwitches";
+        break;
+    case (Cmd::ControlVars):
+        str = "ControlVars";
+        break;
+    case (Cmd::TimerOperation):
+        str = "TimerOperation";
+        break;
+    case (Cmd::ChangeGold):
+        str = "ChangeGold";
+        break;
+    case (Cmd::ChangeItems):
+        str = "ChangeItems";
+        break;
+    case (Cmd::ChangePartyMembers):
+        str = "ChangePartyMembers";
+        break;
+    case (Cmd::ChangeExp):
+        str = "ChangeExp";
+        break;
+    case (Cmd::ChangeLevel):
+        str = "ChangeLevel";
+        break;
+    case (Cmd::ChangeParameters):
+        str = "ChangeParameters";
+        break;
+    case (Cmd::ChangeSkills):
+        str = "ChangeSkills";
+        break;
+    case (Cmd::ChangeEquipment):
+        str = "ChangeEquipment";
+        break;
+    case (Cmd::ChangeHP):
+        str = "ChangeHP";
+        break;
+    case (Cmd::ChangeSP):
+        str = "ChangeSP";
+        break;
+    case (Cmd::ChangeCondition):
+        str = "ChangeCondition";
+        break;
+    case (Cmd::FullHeal):
+        str = "FullHeal";
+        break;
+    case (Cmd::SimulatedAttack):
+        str = "SimulatedAttack";
+        break;
+    case (Cmd::ChangeHeroName):
+        str = "ChangeHeroName";
+        break;
+    case (Cmd::ChangeHeroTitle):
+        str = "ChangeHeroTitle";
+        break;
+    case (Cmd::ChangeSpriteAssociation):
+        str = "ChangeSpriteAssociation";
+        break;
+    case (Cmd::ChangeActorFace):
+        str = "ChangeActorFace";
+        break;
+    case (Cmd::ChangeVehicleGraphic):
+        str = "ChangeVehicleGraphic";
+        break;
+    case (Cmd::ChangeSystemBGM):
+        str = "ChangeSystemBGM";
+        break;
+    case (Cmd::ChangeSystemSFX):
+        str = "ChangeSystemSFX";
+        break;
+    case (Cmd::ChangeSystemGraphics):
+        str = "ChangeSystemGraphics";
+        break;
+    case (Cmd::ChangeScreenTransitions):
+        str = "ChangeScreenTransitions";
+        break;
+    case (Cmd::EnemyEncounter):
+        str = "EnemyEncounter";
+        break;
+    case (Cmd::OpenShop):
+        str = "OpenShop";
+        break;
+    case (Cmd::ShowInn):
+        str = "ShowInn";
+        break;
+    case (Cmd::EnterHeroName):
+        str = "EnterHeroName";
+        break;
+    case (Cmd::Teleport):
+        str = "Teleport";
+        break;
+    case (Cmd::MemorizeLocation):
+        str = "MemorizeLocation";
+        break;
+    case (Cmd::RecallToLocation):
+        str = "RecallToLocation";
+        break;
+    case (Cmd::EnterExitVehicle):
+        str = "EnterExitVehicle";
+        break;
+    case (Cmd::SetVehicleLocation):
+        str = "SetVehicleLocation";
+        break;
+    case (Cmd::ChangeEventLocation):
+        str = "ChangeEventLocation";
+        break;
+    case (Cmd::TradeEventLocations):
+        str = "TradeEventLocations";
+        break;
+    case (Cmd::StoreTerrainID):
+        str = "StoreTerrainID";
+        break;
+    case (Cmd::StoreEventID):
+        str = "StoreEventID";
+        break;
+    case (Cmd::EraseScreen):
+        str = "EraseScreen";
+        break;
+    case (Cmd::ShowScreen):
+        str = "ShowScreen";
+        break;
+    case (Cmd::TintScreen):
+        str = "TintScreen";
+        break;
+    case (Cmd::FlashScreen):
+        str = "FlashScreen";
+        break;
+    case (Cmd::ShakeScreen):
+        str = "ShakeScreen";
+        break;
+    case (Cmd::PanScreen):
+        str = "PanScreen";
+        break;
+    case (Cmd::WeatherEffects):
+        str = "WeatherEffects";
+        break;
+    case (Cmd::ShowPicture):
+        str = "ShowPicture";
+        break;
+    case (Cmd::MovePicture):
+        str = "MovePicture";
+        break;
+    case (Cmd::ErasePicture):
+        str = "ErasePicture";
+        break;
+    case (Cmd::ShowBattleAnimation):
+        str = "ShowBattleAnimation";
+        break;
+    case (Cmd::SpriteTransparency):
+        str = "SpriteTransparency";
+        break;
+    case (Cmd::FlashSprite):
+        str = "FlashSprite";
+        break;
+    case (Cmd::MoveEvent):
+        str = "MoveEvent";
+        break;
+    case (Cmd::ProceedWithMovement):
+        str = "ProceedWithMovement";
+        break;
+    case (Cmd::HaltAllMovement):
+        str = "HaltAllMovement";
+        break;
+    case (Cmd::Wait):
+        str = "Wait";
+        break;
+    case (Cmd::PlayBGM):
+        str = "PlayBGM";
+        break;
+    case (Cmd::FadeOutBGM):
+        str = "FadeOutBGM";
+        break;
+    case (Cmd::MemorizeBGM):
+        str = "MemorizeBGM";
+        break;
+    case (Cmd::PlayMemorizedBGM):
+        str = "PlayMemorizedBGM";
+        break;
+    case (Cmd::PlaySound):
+        str = "PlaySound";
+        break;
+    case (Cmd::PlayMovie):
+        str = "PlayMovie";
+        break;
+    case (Cmd::KeyInputProc):
+        str = "KeyInputProc";
+        break;
+    case (Cmd::ChangeMapTileset):
+        str = "ChangeMapTileset";
+        break;
+    case (Cmd::ChangePBG):
+        str = "ChangePBG";
+        break;
+    case (Cmd::ChangeEncounterRate):
+        str = "ChangeEncounterRate";
+        break;
+    case (Cmd::TileSubstitution):
+        str = "TileSubstitution";
+        break;
+    case (Cmd::TeleportTargets):
+        str = "TeleportTargets";
+        break;
+    case (Cmd::ChangeTeleportAccess):
+        str = "ChangeTeleportAccess";
+        break;
+    case (Cmd::EscapeTarget):
+        str = "EscapeTarget";
+        break;
+    case (Cmd::ChangeEscapeAccess):
+        str = "ChangeEscapeAccess";
+        break;
+    case (Cmd::OpenSaveMenu):
+        str = "OpenSaveMenu";
+        break;
+    case (Cmd::ChangeSaveAccess):
+        str = "ChangeSaveAccess";
+        break;
+    case (Cmd::OpenMainMenu):
+        str = "OpenMainMenu";
+        break;
+    case (Cmd::ChangeMainMenuAccess):
+        str = "ChangeMainMenuAccess";
+        break;
+    case (Cmd::ConditionalBranch):
+        str = "ConditionalBranch";
+        break;
+    case (Cmd::Label):
+        str = "Label";
+        break;
+    case (Cmd::JumpToLabel):
+        str = "JumpToLabel";
+        break;
+    case (Cmd::Loop):
+        str = "Loop";
+        break;
+    case (Cmd::BreakLoop):
+        str = "BreakLoop";
+        break;
+    case (Cmd::EndEventProcessing):
+        str = "EndEventProcessing";
+        break;
+    case (Cmd::EraseEvent):
+        str = "EraseEvent";
+        break;
+    case (Cmd::CallEvent):
+        str = "CallEvent";
+        break;
+    case (Cmd::Comment):
+        str = "Comment";
+        break;
+    case (Cmd::GameOver):
+        str = "GameOver";
+        break;
+    case (Cmd::ReturntoTitleScreen):
+        str = "ReturntoTitleScreen";
+        break;
+
+    case (Cmd::ChangeMonsterHP):
+        str = "ChangeMonsterHP";
+        break;
+    case (Cmd::ChangeMonsterMP):
+        str = "ChangeMonsterMP";
+        break;
+    case (Cmd::ChangeMonsterCondition):
+        str = "ChangeMonsterCondition";
+        break;
+    case (Cmd::ShowHiddenMonster):
+        str = "ShowHiddenMonster";
+        break;
+    case (Cmd::ChangeBattleBG):
+        str = "ChangeBattleBG";
+        break;
+    case (Cmd::ShowBattleAnimation_B):
+        str = "ShowBattleAnimation_B";
+        break;
+    case (Cmd::ConditionalBranch_B):
+        str = "ConditionalBranch_B";
+        break;
+    case (Cmd::TerminateBattle):
+        str = "TerminateBattle";
+        break;
+
+    case (Cmd::ShowMessage_2):
+        str = "ShowMessage_2";
+        break;
+    case (Cmd::ShowChoiceOption):
+        str = "ShowChoiceOption";
+        break;
+    case (Cmd::ShowChoiceEnd):
+        str = "ShowChoiceEnd";
+        break;
+    case (Cmd::VictoryHandler):
+        str = "VictoryHandler";
+        break;
+    case (Cmd::EscapeHandler):
+        str = "EscapeHandler";
+        break;
+    case (Cmd::DefeatHandler):
+        str = "DefeatHandler";
+        break;
+    case (Cmd::EndBattle):
+        str = "EndBattle";
+        break;
+    case (Cmd::Transaction):
+        str = "Transaction";
+        break;
+    case (Cmd::NoTransaction):
+        str = "NoTransaction";
+        break;
+    case (Cmd::EndShop):
+        str = "EndShop";
+        break;
+    case (Cmd::Stay):
+        str = "Stay";
+        break;
+    case (Cmd::NoStay):
+        str = "NoStay";
+        break;
+    case (Cmd::EndInn):
+        str = "EndInn";
+        break;
+    case (Cmd::ElseBranch):
+        str = "ElseBranch";
+        break;
+    case (Cmd::EndBranch):
+        str = "EndBranch";
+        break;
+    case (Cmd::EndLoop):
+        str = "EndLoop";
+        break;
+    case (Cmd::Comment_2):
+        str = "Comment_2";
+        break;
+
+    case (Cmd::ElseBranch_B):
+        str = "ElseBranch_B";
+        break;
+    case (Cmd::EndBranch_B):
+        str = "EndBranch_B";
+        break;
+
+    case (Cmd::DUMMY):
+        str = "DUMMY";
+        break;
+    }
+    return str;
 }
