@@ -156,6 +156,8 @@ public:
     int selHeight();
     void setSelection(std::vector<short> n_sel, int n_w, int n_h);
 
+    RPG::Event *currentMapEvent(int eventID);
+    void setCurrentMapEvents(QMap<int, RPG::Event *> *events);
 
     QString projectFolder() const;
     void setProjectFolder(const QString &projectFolder);
@@ -192,6 +194,7 @@ private:
     int m_upperSelW;
     int m_upperSelH;
     static Core *core;
+    QMap<int, RPG::Event*> *m_currentMapEvents;
 };
 
 #endif // CORE_H

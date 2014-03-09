@@ -512,7 +512,9 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                                       << tr("AirShip")
                                       << tr("ThisEvent")).at(com.parameters[5]-10001));
             else
-                str = str.arg(QString::fromStdString("EV[%1]").arg(com.parameters[5]));
+                str = str.arg(QString::fromStdString("EV[%1]")
+                              .arg(QString::fromStdString
+                                   (mCore->currentMapEvent(com.parameters[5])->name)));
                 //TODO CORRECT EVENT NAME
             str = str.arg((QStringList()
                                   << tr("MapID")

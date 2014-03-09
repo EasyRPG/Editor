@@ -22,6 +22,7 @@ Core::Core()
     m_lowerSelH = 1;
     m_upperSelH = 1;
     m_eventSel = 10000;
+    m_currentMapEvents = 0;
     m_dictionary[UPLEFT]                            = 1;
     m_dictionary[UPRIGHT]                           = 2;
     m_dictionary[UPLEFT+UPRIGHT]                    = 3;
@@ -801,4 +802,19 @@ void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
         m_eventSel = n_sel[0];
         break;
     }
+}
+
+RPG::Event *Core::currentMapEvent(int eventID)
+{
+    RPG::Event *event = 0;
+    if (m_currentMapEvents)
+        event = m_currentMapEvents->value(eventID);
+    if (!event)
+        event = new RPG::Event();
+    return event;
+}
+
+void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
+{
+    m_currentMapEvents = events;
 }
