@@ -6,6 +6,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsOpacityEffect>
 #include <QGraphicsScene>
+#include <rpg_eventcommand.h>
 #include "QGraphicsCharaItem.h"
 
 namespace Ui {
@@ -74,6 +75,7 @@ private slots:
 
 private:
     void updateGraphic();
+    QString stringizeCommand(const RPG::EventCommand &com);
 
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
@@ -81,6 +83,7 @@ private:
     QGraphicsCharaItem *m_charaItem;
     QGraphicsScene *m_scene;
     QGraphicsOpacityEffect *m_effect;
+    int m_codeGen;
 };
 
 #endif // QEVENTWIDGET_H
