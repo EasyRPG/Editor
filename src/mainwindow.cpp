@@ -374,14 +374,16 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     }
     //Import Maps
     std::stringstream ss;
-    for (unsigned int i = 1; i < maps.tree_order.size(); i++)
+    for (unsigned int i = 1; i < maps.maps.size(); i++)
     {
+        if (maps.maps[i].type == 2)
+            continue;
         ss.str("");
         ss << p_path.toStdString()
            << "Map"
            << std::setfill('0')
            << std::setw(4)
-           << maps.tree_order[i]
+           << maps.maps[i].ID
            << ".lmu";
         RPG::Map map = *LMU_Reader::Load(ss.str(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())).get();
         ss.str("");
@@ -389,7 +391,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << "Map"
            << std::setfill('0')
            << std::setw(4)
-           << maps.tree_order[i]
+           << maps.maps[i].ID
            << ".emu";
         LMU_Reader::SaveXml(ss.str(),map);
     }
