@@ -441,7 +441,101 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                 <<tr("On/OFF Toggle")).at(com.parameters[3]));
         break;
     case (Cmd::ControlVars):
-        str = "ControlVars";
+        str = "Variable Operation: V[%1] %2 %3";
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(com.parameters[1]);
+            break;
+        case 1:
+            str = str.arg(QString("%1-%2").arg(com.parameters[1]).arg(com.parameters[2]));
+            break;
+        case 2:
+            str = str.arg(QString("V[%1]").arg(com.parameters[1]));
+            break;
+        }
+        str = str.arg((QStringList()
+                       <<tr("=")
+                       <<tr("+=")
+                       <<tr("-=")
+                       <<tr("*=")
+                       <<tr("/=")
+                       <<tr("%=")).at(com.parameters[3]));
+        switch (com.parameters[4])
+        {
+        case 0:
+            str = str.arg(com.parameters[5]);
+            break;
+        case 1:
+            str = str.arg(QString("V[%1]").arg(com.parameters[5]));
+            break;
+        case 2:
+            str = str.arg(QString("V[V[%1]]").arg(com.parameters[5]));
+            break;
+        case 3:
+            str = str.arg(QString("Random[%1-%2]").arg(com.parameters[5]).arg(com.parameters[6]));
+            break;
+        case 4:
+            str = str.arg(QString("Item[%1].%2")
+                          .arg(QString::fromStdString(Data::items[com.parameters[5]-1].name))
+                          .arg((QStringList()
+                                << tr("count")
+                                << tr("equiped")).at(com.parameters[6])));
+            break;
+        case 5:
+            str = str.arg(QString("Hero[%1].%2")
+                          .arg(QString::fromStdString(Data::actors[com.parameters[5]-1].name))
+                          .arg((QStringList()
+                                << tr("Level")
+                                << tr("Experience")
+                                << tr("Hp")
+                                << tr("Mp")
+                                << tr("MaxHp")
+                                << tr("MaxMp")
+                                << tr("Attack")
+                                << tr("Defense")
+                                << tr("Intelligence")
+                                << tr("Agility")
+                                << tr("WeaponID")
+                                << tr("ShieldID")
+                                << tr("ArmorID")
+                                << tr("HelmetID")
+                                << tr("AccesoryID")).at(com.parameters[6])));
+            break;
+        case 6:
+            str = str.arg("Sprite[%1].%2");
+            if (com.parameters[5] > 10000)
+                str = str.arg((QStringList()
+                                      << tr("Hero")
+                                      << tr("Skiff")
+                                      << tr("Ship")
+                                      << tr("AirShip")
+                                      << tr("ThisEvent")).at(com.parameters[5]-10001));
+            else
+                str = str.arg(QString::fromStdString("EV[%1]").arg(com.parameters[5]));
+                //TODO CORRECT EVENT NAME
+            str = str.arg((QStringList()
+                                  << tr("MapID")
+                                  << tr("X")
+                                  << tr("Y")
+                                  << tr("Facing")
+                                  << tr("ScreenX")
+                                  << tr("ScreenY")).at(com.parameters[6]));
+            break;
+        case 7:
+            str = str.arg((QStringList()
+                           << tr("Money")
+                           << tr("Timer[1].SecondsLeft")
+                           << tr("Timer[2].SecondsLeft")
+                           << tr("PartySize")
+                           << tr("SaveCount")
+                           << tr("BattleCount")
+                           << tr("VictoryCount")
+                           << tr("DefeatCount")
+                           << tr("EscapeCount")
+                           << tr("MidiPosition (ticks)")).at(com.parameters[5]));
+            break;
+        }
         break;
     case (Cmd::TimerOperation):
         str = "TimerOperation";
