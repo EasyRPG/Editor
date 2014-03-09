@@ -688,6 +688,7 @@ QGraphicsView *MainWindow::getView(int id)
                 SLOT(on_mapUnchanged()));
         getScene(id)->setScale(2.0);
         getScene(id)->Init();
+        mCore->setCurrentMapEvents(getScene(id)->mapEvents());
     }
     return view;
 }
@@ -877,6 +878,7 @@ void MainWindow::on_tabMap_currentChanged(int index)
     if (currentScene())
     {
         mCore->LoadChipset(currentScene()->chipsetId());
+        mCore->setCurrentMapEvents(currentScene()->mapEvents());
         ui->actionUndo->setEnabled(currentScene()->isModified());
         ui->action_Save_Map->setEnabled(currentScene()->isModified());
         ui->actionRevert_Map->setEnabled(currentScene()->isModified());

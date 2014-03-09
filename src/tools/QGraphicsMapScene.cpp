@@ -180,6 +180,14 @@ void QGraphicsMapScene::setEventData(int id, const RPG::Event &data)
             m_map.get()->events[i] = data;
 }
 
+QMap<int, RPG::Event*> *QGraphicsMapScene::mapEvents()
+{
+    QMap<int, RPG::Event*> *events = new QMap<int, RPG::Event*>();
+    for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
+        events->insert(m_map.get()->events[i].ID, &m_map.get()->events[i]);
+    return events;
+}
+
 void QGraphicsMapScene::redrawMap()
 {
     if (!m_init)
