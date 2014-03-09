@@ -684,14 +684,6 @@ QGraphicsView *MainWindow::getView(int id)
                 SIGNAL(mapSaved()),
                 this,
                 SLOT(on_mapUnchanged()));
-        connect(ui->action_Save_Map,
-                SIGNAL(triggered()),
-                getScene(id),
-                SLOT(Save()));
-        connect(ui->actionRevert_Map,
-                SIGNAL(triggered()),
-                getScene(id),
-                SLOT(Load()));
         getScene(id)->setScale(2.0);
         getScene(id)->Init();
     }
@@ -884,6 +876,8 @@ void MainWindow::on_tabMap_currentChanged(int index)
     {
         mCore->LoadChipset(currentScene()->chipsetId());
         ui->actionUndo->setEnabled(currentScene()->isModified());
+        ui->action_Save_Map->setEnabled(currentScene()->isModified());
+        ui->actionRevert_Map->setEnabled(currentScene()->isModified());
     }
 }
 
@@ -1072,4 +1066,16 @@ void MainWindow::on_actionMap_Properties_dialog_triggered()
 {
     DialogMapProperties dlg(this);
     dlg.exec();
+}
+
+void MainWindow::on_action_Save_Map_triggered()
+{
+    if(currentScene())
+        currentScene()->Save();
+}
+
+void MainWindow::on_actionRevert_Map_triggered()
+{
+    if (currentScene())
+        currentScene()->Load();
 }

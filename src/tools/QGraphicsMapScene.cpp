@@ -318,6 +318,8 @@ void QGraphicsMapScene::Load()
                                                         x*mCore->tileSize(),
                                                         m_map.get()->height*mCore->tileSize());
         m_lines.append(line);
+        line->setScale(m_scale);
+        line->setVisible(mCore->layer() == Core::EVENT);
         addItem(line);
     }
     for (int y = 0; y <= m_map.get()->height; y++)
@@ -327,6 +329,8 @@ void QGraphicsMapScene::Load()
                                                         m_map.get()->width*mCore->tileSize(),
                                                         y*mCore->tileSize());
         m_lines.append(line);
+        line->setScale(m_scale);
+        line->setVisible(mCore->layer() == Core::EVENT);
         addItem(line);
     }
     redrawMap();
