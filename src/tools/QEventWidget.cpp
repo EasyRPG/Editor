@@ -79,7 +79,15 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
     QTreeWidgetItem *parent = 0;
     for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
     {
-        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << stringizeCommand(m_eventPage->event_commands[i]));
+        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << verbalize(m_eventPage->event_commands[i]));
+        if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceOption &&
+                m_eventPage->event_commands[i].parameters[0] != 0)
+            parent = parent->parent();
+        if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceEnd)
+        {
+            parent = parent->parent()->parent();
+            continue;
+        }
         if (parent)
         {
             switch (m_eventPage->event_commands[i].code)
@@ -343,13 +351,13 @@ void QEventWidget::updateGraphic()
     }
 }
 
-QString QEventWidget::stringizeCommand(const RPG::EventCommand &com)
+QString QEventWidget::verbalize(const RPG::EventCommand &com)
 {
     QString str = "Unknown String";
     switch (com.code)
     {
     case (Cmd::END):
-        str = "END";
+        str = "<>";
         break;
 
     case (Cmd::CallCommonEvent):
@@ -369,22 +377,68 @@ QString QEventWidget::stringizeCommand(const RPG::EventCommand &com)
         str = "ChangeBattleCommands";
         break;
     case (Cmd::ShowMessage):
-        str = "ShowMessage";
+        str = "Message: %1";
+        str = str.arg(QString::fromStdString(com.string));
         break;
     case (Cmd::MessageOptions):
-        str = "MessageOptions";
+        str = "MessageOptions: %1, %2, %3, %4";
+        str = str.arg((QStringList()
+                 <<tr("Normal")
+                 <<tr("Transparent")).at(com.parameters[0]));
+        str = str.arg((QStringList()
+                 <<tr("Top")
+                 <<tr("Middle")
+                 <<tr("Bottom")).at(com.parameters[1]));
+        str = str.arg((QStringList()
+                 <<tr("Fixed")
+                 <<tr("Auto")).at(com.parameters[2]));
+        str = str.arg((QStringList()
+                 <<tr("Halt Process")
+                 <<tr("Process Continue")).at(com.parameters[3]));
         break;
     case (Cmd::ChangeFaceGraphic):
-        str = "ChangeFaceGraphic";
+        str = "Change Face Graphics: ";
+        if (com.string.empty())
+            str += tr("Erase");
+        else
+        {
+            str += "%1, %2, %3";
+            str = str.arg(QString::fromStdString(com.string));
+            str = str.arg(QString::number(com.parameters[0]+1));
+            str = str.arg((QStringList()
+                     <<tr("Left")
+                     <<tr("Right")).at(com.parameters[1]));
+            if (com.parameters[2])
+                str += tr(", Mirror");
+        }
         break;
     case (Cmd::ShowChoice):
         str = "ShowChoice";
         break;
     case (Cmd::InputNumber):
-        str = "InputNumber";
+        str = "Input Number: %1 Digit(s), V[%2]";
+        str = str.arg(com.parameters[0]).arg(com.parameters[1]);
         break;
     case (Cmd::ControlSwitches):
-        str = "ControlSwitches";
+        str = "Switch Operation: [%1] %2";
+        switch (com.parameters[0])
+        {
+        case 0: //Single Switch
+            str = str.arg(QString::number(com.parameters[1]));
+            break;
+        case 1: //Switch Range
+            str = str.arg(QString("%1 - %2")
+                    .arg(com.parameters[1])
+                    .arg(com.parameters[2]));
+            break;
+        case 2: //Variable Reference
+            str = str.arg(QString("V[%1]").arg(com.parameters[1]));
+            break;
+        }
+        str = str.arg((QStringList()
+                <<tr("ON")
+                <<tr("OFF")
+                <<tr("On/OFF Toggle")).at(com.parameters[3]));
         break;
     case (Cmd::ControlVars):
         str = "ControlVars";
@@ -665,10 +719,12 @@ QString QEventWidget::stringizeCommand(const RPG::EventCommand &com)
         break;
 
     case (Cmd::ShowMessage_2):
-        str = "ShowMessage_2";
+        str = "          %1";
+        str = str.arg(QString::fromStdString(com.string));
         break;
     case (Cmd::ShowChoiceOption):
-        str = "ShowChoiceOption";
+        str = "Case <%1>:";
+        str = str.arg(QString::fromStdString(com.string));
         break;
     case (Cmd::ShowChoiceEnd):
         str = "ShowChoiceEnd";

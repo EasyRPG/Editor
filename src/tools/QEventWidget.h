@@ -75,7 +75,7 @@ private slots:
 
 private:
     void updateGraphic();
-    QString stringizeCommand(const RPG::EventCommand &com);
+    QString verbalize(const RPG::EventCommand &com);
 
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
