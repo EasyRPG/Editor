@@ -563,10 +563,35 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
 
         break;
     case (Cmd::ChangeGold):
-        str = "ChangeGold";
+        str = QString("%1 %2 %3").arg(QString::fromStdString(Data::terms.gold));
+        if (com.parameters[0])
+            str = str.arg("-=");
+        else
+            str = str.arg("+=");
+        if (com.parameters[1])
+            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+        else
+            str = str.arg(com.parameters[2]);
         break;
     case (Cmd::ChangeItems):
-        str = "ChangeItems";
+        str = "Item[%1] %2 %3";
+        if (com.parameters[1])
+            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+        else
+        {
+            if (com.parameters[2] > (int)Data::items.size())
+                str = str.arg("<?>");
+            else
+                str = str.arg(QString::fromStdString(Data::items[com.parameters[2]-1].name));
+        }
+        if (com.parameters[0])
+            str = str.arg("-=");
+        else
+            str = str.arg("+=");
+        if (com.parameters[3])
+            str = str.arg(QString("V[%1]").arg(com.parameters[4]));
+        else
+            str = str.arg(com.parameters[4]);
         break;
     case (Cmd::ChangePartyMembers):
         str = "ChangePartyMembers";
