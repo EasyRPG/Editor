@@ -441,7 +441,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                 <<tr("On/OFF Toggle")).at(com.parameters[3]));
         break;
     case (Cmd::ControlVars):
-        str = "Variable Operation: V[%1] %2 %3";
+        str = "V[%1] %2 %3";
         switch (com.parameters[0])
         {
         case 0:
@@ -540,7 +540,27 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::TimerOperation):
-        str = "TimerOperation";
+        str = "Timer%1%2";
+        str = str.arg(com.parameters[5]+1);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(".Time = %1");
+            if (!com.parameters[1])
+                str = str.arg(QString("%1Min(s) %2Sec(s)")
+                                        .arg(com.parameters[2]/60)
+                                        .arg(com.parameters[2]%2));
+            else
+                str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+            break;
+        case 1:
+            str = str.arg(tr(" Start"));
+            break;
+        case 2:
+            str = str.arg(tr(" Stop"));
+            break;
+        }
+
         break;
     case (Cmd::ChangeGold):
         str = "ChangeGold";
