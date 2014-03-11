@@ -441,7 +441,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                 <<tr("On/OFF Toggle")).at(com.parameters[3]));
         break;
     case (Cmd::ControlVars):
-        str = "Variable Operation: V[%1] %2 %3";
+        str = "V[%1] %2 %3";
         switch (com.parameters[0])
         {
         case 0:
@@ -540,22 +540,103 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::TimerOperation):
-        str = "TimerOperation";
+        str = "Timer%1%2";
+        str = str.arg(com.parameters[5]+1);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(".Time = %1");
+            if (!com.parameters[1])
+                str = str.arg(QString("%1Min(s) %2Sec(s)")
+                                        .arg(com.parameters[2]/60)
+                                        .arg(com.parameters[2]%2));
+            else
+                str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+            break;
+        case 1:
+            str = str.arg(tr(" Start"));
+            break;
+        case 2:
+            str = str.arg(tr(" Stop"));
+            break;
+        }
+
         break;
     case (Cmd::ChangeGold):
-        str = "ChangeGold";
+        str = QString("%1 %2 %3").arg(QString::fromStdString(Data::terms.gold));
+        if (com.parameters[0])
+            str = str.arg("-=");
+        else
+            str = str.arg("+=");
+        if (com.parameters[1])
+            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+        else
+            str = str.arg(com.parameters[2]);
         break;
     case (Cmd::ChangeItems):
-        str = "ChangeItems";
+        str = "Item[%1] %2 %3";
+        if (com.parameters[1])
+            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+        else
+        {
+            if (com.parameters[2] > (int)Data::items.size())
+                str = str.arg("<?>");
+            else
+                str = str.arg(QString::fromStdString(Data::items[com.parameters[2]-1].name));
+        }
+        if (com.parameters[0])
+            str = str.arg("-=");
+        else
+            str = str.arg("+=");
+        if (com.parameters[3])
+            str = str.arg(QString("V[%1]").arg(com.parameters[4]));
+        else
+            str = str.arg(com.parameters[4]);
         break;
     case (Cmd::ChangePartyMembers):
-        str = "ChangePartyMembers";
+        str = tr("Hero[%2] %1 the party");
+        str = str.arg(com.parameters[0] ? tr("leaves") : tr("joins"));
+        if (com.parameters[1])
+            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+        else
+        {
+            if (com.parameters[2] > (int)Data::actors.size())
+                str = str.arg("<?>");
+            else
+                str = str.arg(QString::fromStdString(Data::actors[com.parameters[2]-1].name));
+        }
         break;
     case (Cmd::ChangeExp):
         str = "ChangeExp";
         break;
     case (Cmd::ChangeLevel):
-        str = "ChangeLevel";
+        str = tr("%1.Level %2 %3");
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            if (com.parameters[1] > (int)Data::actors.size())
+                str = str.arg("<?>");
+            else
+                str = str.arg(QString::fromStdString(Data::actors[com.parameters[1]-1].name));
+            break;
+        case 3:
+            str = str.arg(tr("Hero[V[%1]]").arg(com.parameters[1]));
+            break;
+        }
+        if (com.parameters[2])
+            str = str.arg("-=");
+        else
+            str = str.arg("+=");
+        if (com.parameters[3])
+            str = str.arg(QString("V[%1]").arg(com.parameters[4]));
+        else
+            str = str.arg(com.parameters[4]);
+        if (com.parameters[5])
+            str += tr(" [Show LvlUp Message]");
         break;
     case (Cmd::ChangeParameters):
         str = "ChangeParameters";

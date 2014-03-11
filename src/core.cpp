@@ -810,7 +810,10 @@ RPG::Event *Core::currentMapEvent(int eventID)
     if (m_currentMapEvents)
         event = m_currentMapEvents->value(eventID);
     if (!event)
+    {
         event = new RPG::Event();
+        event->name = "<?>";
+    }
     return event;
 }
 
