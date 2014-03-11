@@ -594,7 +594,17 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
             str = str.arg(com.parameters[4]);
         break;
     case (Cmd::ChangePartyMembers):
-        str = "ChangePartyMembers";
+        str = tr("Hero[%2] %1 the party");
+        str = str.arg(com.parameters[0] ? tr("leaves") : tr("joins"));
+        if (com.parameters[1])
+            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+        else
+        {
+            if (com.parameters[2] > (int)Data::actors.size())
+                str = str.arg("<?>");
+            else
+                str = str.arg(QString::fromStdString(Data::actors[com.parameters[2]-1].name));
+        }
         break;
     case (Cmd::ChangeExp):
         str = "ChangeExp";
