@@ -610,7 +610,33 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         str = "ChangeExp";
         break;
     case (Cmd::ChangeLevel):
-        str = "ChangeLevel";
+        str = tr("%1.Level %2 %3");
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            if (com.parameters[1] > (int)Data::actors.size())
+                str = str.arg("<?>");
+            else
+                str = str.arg(QString::fromStdString(Data::actors[com.parameters[1]-1].name));
+            break;
+        case 3:
+            str = str.arg(tr("Hero[V[%1]]").arg(com.parameters[1]));
+            break;
+        }
+        if (com.parameters[2])
+            str = str.arg("-=");
+        else
+            str = str.arg("+=");
+        if (com.parameters[3])
+            str = str.arg(QString("V[%1]").arg(com.parameters[4]));
+        else
+            str = str.arg(com.parameters[4]);
+        if (com.parameters[5])
+            str += tr(" [Show LvlUp Message]");
         break;
     case (Cmd::ChangeParameters):
         str = "ChangeParameters";
