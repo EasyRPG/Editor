@@ -79,8 +79,14 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
     QTreeWidgetItem *parent = 0;
     for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
     {
+        QStringList p;
+        for (unsigned int j = 0; j < m_eventPage->event_commands[i].parameters.size(); j++)
+            p << QString::number(m_eventPage->event_commands[i].parameters[j]);
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()
-                                        << verbalize(m_eventPage->event_commands[i]));
+                                        << verbalize(m_eventPage->event_commands[i])
+                                        << "0" //TODO: generate internal id
+                                        << QString::fromStdString(m_eventPage->event_commands[i].string)
+                                        << p.join("|"));
         if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceOption &&
                 m_eventPage->event_commands[i].parameters[0] != 0)
             parent = parent->parent();
@@ -400,7 +406,6 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
     else\
         str = str.arg(QString::fromStdString(Data::actors[com.parameters[param]-1].name))
 #define item(param)\
-    str = str.arg("Item[%1].%2");\
     if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::items.size())\
         str = str.arg("<%1?>").arg(com.parameters[param]);\
     else\
@@ -563,11 +568,11 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
             switch (com.parameters[1])
             {
             case 0:
-                vars(2);
-                break;
-            case 1:
                 str = str.arg("%1Min(s) %2Sec(s)");
                 str = str.arg(com.parameters[2]/60).arg(com.parameters[2]%60);
+                break;
+            case 1:
+                vars(2);
                 break;
             errorHandler(1);
             }
