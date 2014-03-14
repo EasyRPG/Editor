@@ -303,6 +303,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout_11">
       <item>
        <widget class="QTreeWidget" name="treeCommands">
+        <property name="textElideMode">
+         <enum>Qt::ElideNone</enum>
+        </property>
         <column>
          <property name="text">
           <string>Command</string>
@@ -311,6 +314,16 @@
         <column>
          <property name="text">
           <string>Id</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>string</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>parameters</string>
          </property>
         </column>
        </widget>

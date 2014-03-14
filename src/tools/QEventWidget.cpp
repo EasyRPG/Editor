@@ -79,8 +79,14 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
     QTreeWidgetItem *parent = 0;
     for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
     {
+        QStringList p;
+        for (unsigned int j = 0; j < m_eventPage->event_commands[i].parameters.size(); j++)
+            p << QString::number(m_eventPage->event_commands[i].parameters[j]);
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()
-                                        << verbalize(m_eventPage->event_commands[i]));
+                                        << verbalize(m_eventPage->event_commands[i])
+                                        << "0" //TODO: generate internal id
+                                        << QString::fromStdString(m_eventPage->event_commands[i].string)
+                                        << p.join("|"));
         if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceOption &&
                 m_eventPage->event_commands[i].parameters[0] != 0)
             parent = parent->parent();
