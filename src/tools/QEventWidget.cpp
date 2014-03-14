@@ -79,7 +79,8 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
     QTreeWidgetItem *parent = 0;
     for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
     {
-        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList() << verbalize(m_eventPage->event_commands[i]));
+        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()
+                                        << verbalize(m_eventPage->event_commands[i]));
         if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceOption &&
                 m_eventPage->event_commands[i].parameters[0] != 0)
             parent = parent->parent();
@@ -353,6 +354,60 @@ void QEventWidget::updateGraphic()
 
 QString QEventWidget::verbalize(const RPG::EventCommand &com)
 {
+#define chkLenght(expected)\
+    if (com.parameters.size() != expected)\
+        return (str + QString("error: parameters size == %1 (expected %2)")\
+                .arg(com.parameters.size()).arg(expected))
+#define errorHandler(param)\
+    default:\
+    str = str.arg(QString("error: cmd.par[%1] == %2").arg(param).arg(com.parameters[param]))
+#define fromList(param, stringlist)\
+    if (com.parameters[param] < 0 || com.parameters[param] >= QString(stringlist).split("|").count())\
+        str = str.arg(QString("error: cmd.par[%1] == %2").arg(param).arg(com.parameters[param]));\
+    else\
+        str = str.arg(QString(stringlist).split("|")[com.parameters[param]])
+#define vars(param)\
+    aux = QString("V[%1:%2]").arg(com.parameters[param]);\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::variables.size())\
+        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        aux = aux.arg(QString::fromStdString(Data::variables[com.parameters[param]-1].name));\
+    str = str.arg(aux)
+#define indexedVar(param)\
+    aux = QString("V[V[%1:%2]]").arg(com.parameters[param]);\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::variables.size())\
+        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        aux = aux.arg(QString::fromStdString(Data::variables[com.parameters[param]-1].name));\
+    str = str.arg(aux)
+#define switches(param)\
+    aux = QString("S[%1:%2]").arg(com.parameters[param]);\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::switches.size())\
+        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        aux = aux.arg(QString::fromStdString(Data::switches[com.parameters[param]-1].name));\
+    str = str.arg(aux)
+#define indexedSwitch(param)\
+    aux = QString("S[V[%1:%2]]").arg(com.parameters[param]);\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::variables.size())\
+        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        aux = aux.arg(QString::fromStdString(Data::variables[com.parameters[param]-1].name));\
+    str = str.arg(aux)
+#define hero(param)\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::actors.size())\
+        str = str.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        str = str.arg(QString::fromStdString(Data::actors[com.parameters[param]-1].name))
+#define item(param)\
+    str = str.arg("Item[%1].%2");\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::items.size())\
+        str = str.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        str = str.arg(QString::fromStdString(Data::items[com.parameters[param]-1].name))\
+
+    QString aux;
+    aux = "";
     QString str = "Unknown String";
     switch (com.code)
     {
@@ -378,180 +433,144 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         break;
     case (Cmd::ShowMessage):
         str = "Message: %1";
+        chkLenght(0);
         str = str.arg(QString::fromStdString(com.string));
         break;
     case (Cmd::MessageOptions):
-        str = "MessageOptions: %1, %2, %3, %4";
-        str = str.arg((QStringList()
-                 <<tr("Normal")
-                 <<tr("Transparent")).at(com.parameters[0]));
-        str = str.arg((QStringList()
-                 <<tr("Top")
-                 <<tr("Middle")
-                 <<tr("Bottom")).at(com.parameters[1]));
-        str = str.arg((QStringList()
-                 <<tr("Fixed")
-                 <<tr("Auto")).at(com.parameters[2]));
-        str = str.arg((QStringList()
-                 <<tr("Halt Process")
-                 <<tr("Process Continue")).at(com.parameters[3]));
+        str = "MessageOptions [%1|%2|%3|%4]";
+        chkLenght(4);
+        fromList(0, "Normal|Transparent");
+        fromList(1, "Top|Middle|Bottom");
+        fromList(2, "Fixed|Auto");
+        fromList(3, "Halt Process|Process Continue");
         break;
     case (Cmd::ChangeFaceGraphic):
-        str = "Change Face Graphics: ";
+        str = "FaceGraphics: ";
+        chkLenght(3);
         if (com.string.empty())
             str += tr("Erase");
         else
         {
-            str += "%1, %2, %3";
+            str += "%1[%2] [%3%4]";
             str = str.arg(QString::fromStdString(com.string));
-            str = str.arg(QString::number(com.parameters[0]+1));
-            str = str.arg((QStringList()
-                     <<tr("Left")
-                     <<tr("Right")).at(com.parameters[1]));
-            if (com.parameters[2])
-                str += tr(", Mirror");
+            str = str.arg(QString::number(com.parameters[0]));
+            fromList(1,"Left|Right");
+            if (com.parameters[2] == 0)
+                str = str.arg("");
+            else if (com.parameters[2] == 1)
+                str = str.arg("|Mirror");
+            else
+                str = str.arg("error: cmd.par[2] == %1").arg(com.parameters[2]);
         }
         break;
     case (Cmd::ShowChoice):
         str = "ShowChoice";
         break;
     case (Cmd::InputNumber):
-        str = "Input Number: %1 Digit(s), V[%2]";
-        str = str.arg(com.parameters[0]).arg(com.parameters[1]);
+        str = "InputNumber: %1 Digit(s), %2";
+        chkLenght(2);
+        str = str.arg(com.parameters[0]);
+        vars(1);
         break;
     case (Cmd::ControlSwitches):
-        str = "Switch Operation: [%1] %2";
+        str = "%1 = %2";
+        chkLenght(4);
         switch (com.parameters[0])
         {
         case 0: //Single Switch
-            str = str.arg(QString::number(com.parameters[1]));
+            switches(1);
             break;
         case 1: //Switch Range
-            str = str.arg(QString("%1 - %2")
+            str = str.arg(QString("S[%1-%2]")
                     .arg(com.parameters[1])
                     .arg(com.parameters[2]));
             break;
         case 2: //Variable Reference
-            str = str.arg(QString("V[%1]").arg(com.parameters[1]));
+            indexedSwitch(1);
             break;
+        errorHandler(0);
         }
-        str = str.arg((QStringList()
-                <<tr("ON")
-                <<tr("OFF")
-                <<tr("On/OFF Toggle")).at(com.parameters[3]));
+        fromList(3, "ON|OFF|Toggle");
         break;
     case (Cmd::ControlVars):
-        str = "V[%1] %2 %3";
+        str = "%1 %2 %3";
+        chkLenght(7);
         switch (com.parameters[0])
         {
         case 0:
-            str = str.arg(com.parameters[1]);
+            vars(1);
             break;
         case 1:
-            str = str.arg(QString("%1-%2").arg(com.parameters[1]).arg(com.parameters[2]));
+            str = str.arg(QString("V[%1-%2]").arg(com.parameters[1]).arg(com.parameters[2]));
             break;
         case 2:
-            str = str.arg(QString("V[%1]").arg(com.parameters[1]));
+            indexedVar(1);
             break;
         }
-        str = str.arg((QStringList()
-                       <<tr("=")
-                       <<tr("+=")
-                       <<tr("-=")
-                       <<tr("*=")
-                       <<tr("/=")
-                       <<tr("%=")).at(com.parameters[3]));
+        fromList(3, "=|+=|-=|*=|/=|%=");
         switch (com.parameters[4])
         {
         case 0:
             str = str.arg(com.parameters[5]);
             break;
         case 1:
-            str = str.arg(QString("V[%1]").arg(com.parameters[5]));
+            vars(5);
             break;
         case 2:
-            str = str.arg(QString("V[V[%1]]").arg(com.parameters[5]));
+            indexedVar(5);
             break;
         case 3:
-            str = str.arg(QString("Random[%1-%2]").arg(com.parameters[5]).arg(com.parameters[6]));
+            str = str.arg(QString("Random[%1-%2]")
+                            .arg(com.parameters[5])
+                            .arg(com.parameters[6]));
             break;
         case 4:
-            str = str.arg(QString("Item[%1].%2")
-                          .arg(QString::fromStdString(Data::items[com.parameters[5]-1].name))
-                          .arg((QStringList()
-                                << tr("count")
-                                << tr("equiped")).at(com.parameters[6])));
+            item(5);
+            fromList(6, "InPosession|Equiped");
             break;
         case 5:
-            str = str.arg(QString("Hero[%1].%2")
-                          .arg(QString::fromStdString(Data::actors[com.parameters[5]-1].name))
-                          .arg((QStringList()
-                                << tr("Level")
-                                << tr("Experience")
-                                << tr("Hp")
-                                << tr("Mp")
-                                << tr("MaxHp")
-                                << tr("MaxMp")
-                                << tr("Attack")
-                                << tr("Defense")
-                                << tr("Intelligence")
-                                << tr("Agility")
-                                << tr("WeaponID")
-                                << tr("ShieldID")
-                                << tr("ArmorID")
-                                << tr("HelmetID")
-                                << tr("AccesoryID")).at(com.parameters[6])));
+            hero(5);
+            str += ".%1";
+            fromList(6, "Level|Experience|Hp|Mp|MaxHp|MaxMp|Attack|Defense|Intelligence"
+                        "|Agility|WeaponID|ShieldID|ArmorID|HelmetID|AccesoryID");
             break;
         case 6:
             str = str.arg("Sprite[%1].%2");
             if (com.parameters[5] > 10000)
-                str = str.arg((QStringList()
-                                      << tr("Hero")
-                                      << tr("Skiff")
-                                      << tr("Ship")
-                                      << tr("AirShip")
-                                      << tr("ThisEvent")).at(com.parameters[5]-10001));
+                str = str.arg(QString("Hero|Skiff|Ship|AirShip|ThisEvent")
+                              .split("|")[com.parameters[5]-10001]);
             else
                 str = str.arg(QString::fromStdString("EV[%1]")
                               .arg(QString::fromStdString
                                    (mCore->currentMapEvent(com.parameters[5])->name)));
-                //TODO CORRECT EVENT NAME
-            str = str.arg((QStringList()
-                                  << tr("MapID")
-                                  << tr("X")
-                                  << tr("Y")
-                                  << tr("Facing")
-                                  << tr("ScreenX")
-                                  << tr("ScreenY")).at(com.parameters[6]));
+            fromList(6, "MapID|X|Y|Facing|ScreenX|ScreenY");
             break;
         case 7:
-            str = str.arg((QStringList()
-                           << tr("Money")
-                           << tr("Timer[1].SecondsLeft")
-                           << tr("Timer[2].SecondsLeft")
-                           << tr("PartySize")
-                           << tr("SaveCount")
-                           << tr("BattleCount")
-                           << tr("VictoryCount")
-                           << tr("DefeatCount")
-                           << tr("EscapeCount")
-                           << tr("MidiPosition (ticks)")).at(com.parameters[5]));
+            fromList(5, "Money|Timer[1].SecondsLeft|Timer[2].SecondsLeft|PartySize|SaveCount"
+                        "|BattleCount|VictoryCount|DefeatCount|EscapeCount|MidiPosition (ticks)");
             break;
+        errorHandler(4);
         }
         break;
     case (Cmd::TimerOperation):
         str = "Timer%1%2";
+        chkLenght(6);
         str = str.arg(com.parameters[5]+1);
         switch (com.parameters[0])
         {
         case 0:
             str = str.arg(".Time = %1");
-            if (!com.parameters[1])
-                str = str.arg(QString("%1Min(s) %2Sec(s)")
-                                        .arg(com.parameters[2]/60)
-                                        .arg(com.parameters[2]%2));
-            else
-                str = str.arg(QString("V[%1]").arg(com.parameters[2]));
+            switch (com.parameters[1])
+            {
+            case 0:
+                vars(2);
+                break;
+            case 1:
+                str = str.arg("%1Min(s) %2Sec(s)");
+                str = str.arg(com.parameters[2]/60).arg(com.parameters[2]%60);
+                break;
+            errorHandler(1);
+            }
             break;
         case 1:
             str = str.arg(tr(" Start"));
@@ -559,84 +578,153 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         case 2:
             str = str.arg(tr(" Stop"));
             break;
+        switch (com.parameters[3])
+        {
+        case 0:
+            break;
+        case 1:
+            aux = "[ShowOnScreen]";
+            break;
+        errorHandler(3);
         }
-
+        switch (com.parameters[4])
+        {
+        case 0:
+            break;
+        case 1:
+            if (aux.isEmpty())
+                aux = "[RunInBattle]";
+            else
+                aux = "[ShowOnScreen|RunInBattle]";
+            break;
+        errorHandler(4);
+        }
+        str += aux;
+        errorHandler(0);
+        }
         break;
     case (Cmd::ChangeGold):
         str = QString("%1 %2 %3").arg(QString::fromStdString(Data::terms.gold));
-        if (com.parameters[0])
-            str = str.arg("-=");
-        else
+        chkLenght(3);
+        switch (com.parameters[0])
+        {
+        case 0:
             str = str.arg("+=");
-        if (com.parameters[1])
-            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
-        else
+            break;
+        case 1:
+            str = str.arg("-=");
+            break;
+        errorHandler(0);
+        }
+        switch (com.parameters[1])
+        {
+        case 0:
             str = str.arg(com.parameters[2]);
+            break;
+        case 1:
+            vars(2);
+            break;
+        errorHandler(1);
+        }
         break;
     case (Cmd::ChangeItems):
         str = "Item[%1] %2 %3";
-        if (com.parameters[1])
-            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
-        else
+        chkLenght(5);
+        switch (com.parameters[1])
         {
-            if (com.parameters[2] > (int)Data::items.size())
-                str = str.arg("<?>");
-            else
-                str = str.arg(QString::fromStdString(Data::items[com.parameters[2]-1].name));
+        case 0:
+            item(2);
+            break;
+        case 1:
+            vars(2);
+            break;
+        errorHandler(1);
         }
-        if (com.parameters[0])
-            str = str.arg("-=");
-        else
+        switch (com.parameters[0])
+        {
+        case 0:
             str = str.arg("+=");
-        if (com.parameters[3])
-            str = str.arg(QString("V[%1]").arg(com.parameters[4]));
-        else
+            break;
+        case 1:
+            str = str.arg("-=");
+            break;
+        errorHandler(0);
+        }
+        switch (com.parameters[3])
+        {
+        case 0:
             str = str.arg(com.parameters[4]);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
         break;
     case (Cmd::ChangePartyMembers):
         str = tr("Hero[%2] %1 the party");
-        str = str.arg(com.parameters[0] ? tr("leaves") : tr("joins"));
-        if (com.parameters[1])
-            str = str.arg(QString("V[%1]").arg(com.parameters[2]));
-        else
+        chkLenght(3);
+        fromList(0, "joins|leaves");
+        switch (com.parameters[1])
         {
-            if (com.parameters[2] > (int)Data::actors.size())
-                str = str.arg("<?>");
-            else
-                str = str.arg(QString::fromStdString(Data::actors[com.parameters[2]-1].name));
+        case 0:
+            hero(2);
+            break;
+        case 1:
+            vars(2);
+            break;
+        errorHandler(1);
         }
         break;
     case (Cmd::ChangeExp):
         str = "ChangeExp";
         break;
     case (Cmd::ChangeLevel):
-        str = tr("%1.Level %2 %3");
+        str = tr("%1.Level %2 %3%4");
+        chkLenght(6);
         switch (com.parameters[0])
         {
         case 0:
             str = str.arg(tr("EntireParty"));
             break;
         case 1:
-            str = str.arg(tr("Hero[%1]"));
-            if (com.parameters[1] > (int)Data::actors.size())
-                str = str.arg("<?>");
-            else
-                str = str.arg(QString::fromStdString(Data::actors[com.parameters[1]-1].name));
+            hero(1);
             break;
         case 3:
-            str = str.arg(tr("Hero[V[%1]]").arg(com.parameters[1]));
+            str = str.arg("Hero[%1]");
+            vars(1);
             break;
         }
-        if (com.parameters[2])
-            str = str.arg("-=");
-        else
+        switch (com.parameters[2])
+        {
+        case 0:
             str = str.arg("+=");
-        if (com.parameters[3])
-            str = str.arg(QString("V[%1]").arg(com.parameters[4]));
-        else
+            break;
+        case 1:
+            str = str.arg("-=");
+            break;
+        errorHandler(2);
+        }
+        switch (com.parameters[3])
+        {
+        case 0:
             str = str.arg(com.parameters[4]);
-        if (com.parameters[5])
-            str += tr(" [Show LvlUp Message]");
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
+        switch (com.parameters[5])
+        {
+        case 0:
+            str = str.arg("");
+            break;
+        case 1:
+            str = str.arg(" [ShowMessage]");
+            break;
+        errorHandler(5);
+        }
         break;
     case (Cmd::ChangeParameters):
         str = "ChangeParameters";
@@ -898,6 +986,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
     case (Cmd::ShowMessage_2):
         str = "          %1";
         str = str.arg(QString::fromStdString(com.string));
+        chkLenght(0);
         break;
     case (Cmd::ShowChoiceOption):
         str = "Case <%1>:";
@@ -961,4 +1050,13 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         break;
     }
     return str;
+#undef chkLenght
+#undef errorHandler
+#undef fromList
+#undef vars
+#undef indexedVar
+#undef switches
+#undef indexedSwitch
+#undef hero
+#undef item
 }
