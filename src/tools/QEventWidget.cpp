@@ -945,7 +945,23 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         condition(3);
         break;
     case (Cmd::FullHeal):
-        str = "FullHeal";
+        str = tr("%1 heals completely");
+        chkLenght(2);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
         break;
     case (Cmd::SimulatedAttack):
         str = "SimulatedAttack";
