@@ -530,12 +530,13 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                             .arg(com.parameters[6]));
             break;
         case 4:
+            str = str.arg("Item[%1].%2");
             item(5);
             fromList(6, "InPosession|Equiped");
             break;
         case 5:
+            str = str.arg("Hero[%1].%2");
             hero(5);
-            str += ".%1";
             fromList(6, "Level|Experience|Hp|Mp|MaxHp|MaxMp|Attack|Defense|Intelligence"
                         "|Agility|WeaponID|ShieldID|ArmorID|HelmetID|AccesoryID");
             break;
