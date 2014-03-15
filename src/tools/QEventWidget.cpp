@@ -409,7 +409,12 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
     if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::items.size())\
         str = str.arg("<%1?>").arg(com.parameters[param]);\
     else\
-        str = str.arg(QString::fromStdString(Data::items[com.parameters[param]-1].name))\
+        str = str.arg(QString::fromStdString(Data::items[com.parameters[param]-1].name))
+#define skill(param)\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::skills.size())\
+        str = str.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        str = str.arg(QString::fromStdString(Data::skills[com.parameters[param]-1].name))
 
     QString aux;
     aux = "";
@@ -734,6 +739,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         break;
     case (Cmd::ChangeParameters):
         str = "%1.%2 %3 %4";
+        chkLenght(6);
         switch (com.parameters[0])
         {
         case 0:
@@ -763,16 +769,43 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         switch (com.parameters[4])
         {
         case 0:
-            str = str.arg(com.parameters[4]);
+            str = str.arg(com.parameters[5]);
             break;
         case 1:
-            vars(4);
+            vars(5);
             break;
         errorHandler(4);
         }
         break;
     case (Cmd::ChangeSkills):
-        str = "ChangeSkills";
+        str = "%1 %2 Skill[%3]";
+        chkLenght(5);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, tr("learns|forgets"));
+        switch (com.parameters[3])
+        {
+        case 0:
+            skill(4);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
         break;
     case (Cmd::ChangeEquipment):
         str = "ChangeEquipment";
