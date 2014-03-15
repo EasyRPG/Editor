@@ -409,7 +409,17 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
     if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::items.size())\
         str = str.arg("<%1?>").arg(com.parameters[param]);\
     else\
-        str = str.arg(QString::fromStdString(Data::items[com.parameters[param]-1].name))\
+        str = str.arg(QString::fromStdString(Data::items[com.parameters[param]-1].name))
+#define skill(param)\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::skills.size())\
+        str = str.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        str = str.arg(QString::fromStdString(Data::skills[com.parameters[param]-1].name))
+#define condition(param)\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::states.size())\
+        str = str.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        str = str.arg(QString::fromStdString(Data::states[com.parameters[param]-1].name))
 
     QString aux;
     aux = "";
@@ -530,12 +540,13 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                             .arg(com.parameters[6]));
             break;
         case 4:
+            str = str.arg("Item[%1].%2");
             item(5);
             fromList(6, "InPosession|Equiped");
             break;
         case 5:
+            str = str.arg("Hero[%1].%2");
             hero(5);
-            str += ".%1";
             fromList(6, "Level|Experience|Hp|Mp|MaxHp|MaxMp|Attack|Defense|Intelligence"
                         "|Agility|WeaponID|ShieldID|ArmorID|HelmetID|AccesoryID");
             break;
@@ -732,25 +743,225 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::ChangeParameters):
-        str = "ChangeParameters";
+        str = "%1.%2 %3 %4";
+        chkLenght(6);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(3, tr("MaxHP|MaxMP|Attack|Defense|Intelligence|Agility"));
+        switch (com.parameters[2])
+        {
+        case 0:
+            str = str.arg("+=");
+            break;
+        case 1:
+            str = str.arg("-=");
+            break;
+        errorHandler(2);
+        }
+        switch (com.parameters[4])
+        {
+        case 0:
+            str = str.arg(com.parameters[5]);
+            break;
+        case 1:
+            vars(5);
+            break;
+        errorHandler(4);
+        }
         break;
     case (Cmd::ChangeSkills):
-        str = "ChangeSkills";
+        str = "%1 %2 Skill[%3]";
+        chkLenght(5);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, tr("learns|forgets"));
+        switch (com.parameters[3])
+        {
+        case 0:
+            skill(4);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
         break;
     case (Cmd::ChangeEquipment):
-        str = "ChangeEquipment";
+        str = "%1 %2 Item[%3]";
+        chkLenght(5);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, tr("equips|unequips"));
+        switch (com.parameters[2])
+        {
+        case 0:
+        {
+            switch (com.parameters[3])
+            {
+            case 0:
+                item(4);
+                break;
+            case 1:
+                vars(4);
+                break;
+                errorHandler(3);
+            }
+        }
+            break;
+        case 1:
+            fromList(3,"Weapon|Shield|Armor|Helmet|Accesory|All");
+            break;
+        errorHandler(2);
+        }
         break;
     case (Cmd::ChangeHP):
-        str = "ChangeHP";
+        str = "%1.HP %2 %3";
+        chkLenght(6);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, "+=|-=");
+        switch (com.parameters[3])
+        {
+        case 0:
+            str = str.arg(com.parameters[4]);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
+        switch (com.parameters[5])
+        {
+        case 0:
+            break;
+        case 1:
+            if (com.parameters[2] == 1)
+                str += tr(" [CanKillTarget]");
+            break;
+        errorHandler(5);
+        }
         break;
     case (Cmd::ChangeSP):
-        str = "ChangeSP";
+        str = "%1.MP %2 %3";
+        chkLenght(5);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, "+=|-=");
+        switch (com.parameters[3])
+        {
+        case 0:
+            str = str.arg(com.parameters[4]);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
         break;
     case (Cmd::ChangeCondition):
-        str = "ChangeCondition";
+        str = tr("%1.Conditions %2 Condition[%3]");
+        chkLenght(4);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, "+=|-=");
+        condition(3);
         break;
     case (Cmd::FullHeal):
-        str = "FullHeal";
+        str = tr("%1 heals completely");
+        chkLenght(2);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
         break;
     case (Cmd::SimulatedAttack):
         str = "SimulatedAttack";
