@@ -733,7 +733,43 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::ChangeParameters):
-        str = "ChangeParameters";
+        str = "%1.%2 %3 %4";
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(3, tr("MaxHP|MaxMP|Attack|Defense|Intelligence|Agility"));
+        switch (com.parameters[2])
+        {
+        case 0:
+            str = str.arg("+=");
+            break;
+        case 1:
+            str = str.arg("-=");
+            break;
+        errorHandler(2);
+        }
+        switch (com.parameters[4])
+        {
+        case 0:
+            str = str.arg(com.parameters[4]);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(4);
+        }
         break;
     case (Cmd::ChangeSkills):
         str = "ChangeSkills";
