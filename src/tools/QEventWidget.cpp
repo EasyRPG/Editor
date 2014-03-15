@@ -889,7 +889,34 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::ChangeSP):
-        str = "ChangeSP";
+        str = "%1.MP %2 %3";
+        chkLenght(5);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, "+=|-=");
+        switch (com.parameters[3])
+        {
+        case 0:
+            str = str.arg(com.parameters[4]);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
         break;
     case (Cmd::ChangeCondition):
         str = "ChangeCondition";
