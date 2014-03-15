@@ -415,6 +415,11 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         str = str.arg("<%1?>").arg(com.parameters[param]);\
     else\
         str = str.arg(QString::fromStdString(Data::skills[com.parameters[param]-1].name))
+#define condition(param)\
+    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::states.size())\
+        str = str.arg("<%1?>").arg(com.parameters[param]);\
+    else\
+        str = str.arg(QString::fromStdString(Data::states[com.parameters[param]-1].name))
 
     QString aux;
     aux = "";
@@ -919,7 +924,25 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::ChangeCondition):
-        str = "ChangeCondition";
+        str = tr("%1.Conditions %2 Condition[%3]");
+        chkLenght(4);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, "+=|-=");
+        condition(3);
         break;
     case (Cmd::FullHeal):
         str = "FullHeal";
