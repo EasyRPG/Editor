@@ -808,10 +808,85 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         break;
     case (Cmd::ChangeEquipment):
-        str = "ChangeEquipment";
+        str = "%1 %2 Item[%3]";
+        chkLenght(5);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, tr("equips|unequips"));
+        switch (com.parameters[2])
+        {
+        case 0:
+        {
+            switch (com.parameters[3])
+            {
+            case 0:
+                item(4);
+                break;
+            case 1:
+                vars(4);
+                break;
+                errorHandler(3);
+            }
+        }
+            break;
+        case 1:
+            fromList(3,"Weapon|Shield|Armor|Helmet|Accesory|All");
+            break;
+        errorHandler(2);
+        }
         break;
     case (Cmd::ChangeHP):
-        str = "ChangeHP";
+        str = "%1.HP %2 %3";
+        chkLenght(6);
+        switch (com.parameters[0])
+        {
+        case 0:
+            str = str.arg(tr("EntireParty"));
+            break;
+        case 1:
+            str = str.arg(tr("Hero[%1]"));
+            hero(1);
+            break;
+        case 2:
+            str = str.arg(tr("Hero[%1]"));
+            vars(1);
+            break;
+        errorHandler(0);
+        }
+        fromList(2, "+=|-=");
+        switch (com.parameters[3])
+        {
+        case 0:
+            str = str.arg(com.parameters[4]);
+            break;
+        case 1:
+            vars(4);
+            break;
+        errorHandler(3);
+        }
+        switch (com.parameters[5])
+        {
+        case 0:
+            break;
+        case 1:
+            if (com.parameters[2] == 1)
+                str += tr(" [CanKillTarget]");
+            break;
+        errorHandler(5);
+        }
         break;
     case (Cmd::ChangeSP):
         str = "ChangeSP";
