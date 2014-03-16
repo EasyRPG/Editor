@@ -229,7 +229,12 @@ QEventWidget::QEventWidget(QWidget *parent) :
         m_baseStrings[Cmd::ChangeHeroTitle] = "Hero[%h0].Title = %s";
         m_interpreters[Cmd::ChangeHeroTitle].push_back(Id);
 
-        m_baseStrings[Cmd::ChangeSpriteAssociation] = "ChangeSpriteAssociation";
+        m_baseStrings[Cmd::ChangeSpriteAssociation] = "Hero[%h0].Sprite = %s[%n1]"
+                                                      "@|Transparent";
+        m_interpreters[Cmd::ChangeSpriteAssociation].push_back(Id);
+        m_interpreters[Cmd::ChangeSpriteAssociation].push_back(Id);
+        m_interpreters[Cmd::ChangeSpriteAssociation].push_back(Option);
+
         m_baseStrings[Cmd::ChangeActorFace] = "ChangeActorFace";
         m_baseStrings[Cmd::ChangeVehicleGraphic] = "ChangeVehicleGraphic";
         m_baseStrings[Cmd::ChangeSystemBGM] = "ChangeSystemBGM";
