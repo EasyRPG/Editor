@@ -3,8 +3,12 @@
 #include <QDialogButtonBox>
 #include <data.h>
 #include "../dialogcharapicker.h"
-#include "command_codes.h"
 #include "../core.h"
+
+QMap<int, QString> QEventWidget::m_baseStrings = QMap<int, QString>();
+QMap<int, std::vector<QEventWidget::ParameterType>> QEventWidget::m_interpreters =
+        QMap<int, std::vector<QEventWidget::ParameterType>>();
+bool QEventWidget::m_init = false;
 
 QEventWidget::QEventWidget(QWidget *parent) :
     QWidget(parent),
@@ -33,6 +37,286 @@ QEventWidget::QEventWidget(QWidget *parent) :
     m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
     ui->graphicsSprite->setScene(m_scene);
     ui->treeCommands->hideColumn(1);
+
+    if (!m_init)
+    {
+        m_baseStrings[Cmd::END] = "<>";
+
+        m_baseStrings[Cmd::CallCommonEvent] = "CallCommonEvent";
+        m_baseStrings[Cmd::ForceFlee] = "ForceFlee";
+        m_baseStrings[Cmd::EnableCombo] = "EnableCombo";
+        m_baseStrings[Cmd::ChangeClass] = "ChangeClass";
+        m_baseStrings[Cmd::ChangeBattleCommands] = "ChangeBattleCommands";
+
+        m_baseStrings[Cmd::ShowMessage] = "Message: %s";
+
+        m_baseStrings[Cmd::MessageOptions] = "MessageOptions [%1|%2|%3|%4]"
+                                             "@Normal|Transparent"
+                                             "@Top|Middle|Bottom"
+                                             "@Fixed|Auto"
+                                             "@Halt Process|Process Continue";
+        m_interpreters[Cmd::MessageOptions].push_back(Enum);
+        m_interpreters[Cmd::MessageOptions].push_back(Enum);
+        m_interpreters[Cmd::MessageOptions].push_back(Enum);
+        m_interpreters[Cmd::MessageOptions].push_back(Enum);
+
+        m_baseStrings[Cmd::ChangeFaceGraphic] = "FaceGraphics: %s[%n0]@Left|Right@|Mirror";
+        m_interpreters[Cmd::ChangeFaceGraphic].push_back(Id);
+        m_interpreters[Cmd::ChangeFaceGraphic].push_back(Option);
+        m_interpreters[Cmd::ChangeFaceGraphic].push_back(Option);
+
+        m_baseStrings[Cmd::ShowChoice] = "ShowChoice";
+
+        m_baseStrings[Cmd::InputNumber] = "InputNumber: %n0 Digit(s), V[%v1]";
+        m_interpreters[Cmd::InputNumber].push_back(Id);
+        m_interpreters[Cmd::InputNumber].push_back(Id);
+
+        m_baseStrings[Cmd::ControlSwitches] = "%1 = %2"
+                                              "@S[%b1]|S[%n1-%n2]|S[V[%v1]]"
+                                              "@ON|OFF|Toggle";
+        m_interpreters[Cmd::ControlSwitches].push_back(Enum);
+        m_interpreters[Cmd::ControlSwitches].push_back(Id);
+        m_interpreters[Cmd::ControlSwitches].push_back(Id);
+        m_interpreters[Cmd::ControlSwitches].push_back(Enum);
+
+        m_baseStrings[Cmd::ControlVars] = "%1 %3 %4"
+                                          "@V[%v1]|V[%n1-%n2]|V[V[%v1]]"
+                                          "@=|+=|-=|*=|/=|%="
+                                          "@%n5|V[%v5]|V[V[%v5]]|Ramdom[%n5-%n6]|Item[%i5].%ic6|Hero[%h5].%hs6"
+                                          "|Sprite[%sl5].%sp6|%o5";
+        m_interpreters[Cmd::ControlVars].push_back(Enum);
+        m_interpreters[Cmd::ControlVars].push_back(Id);
+        m_interpreters[Cmd::ControlVars].push_back(Id);
+        m_interpreters[Cmd::ControlVars].push_back(Enum);
+        m_interpreters[Cmd::ControlVars].push_back(Enum);
+        m_interpreters[Cmd::ControlVars].push_back(Id);
+        m_interpreters[Cmd::ControlVars].push_back(Id);
+
+        m_baseStrings[Cmd::TimerOperation] = "Timer[%3]%2"
+                                             "@.Time = %1| starts| stops"
+                                             "@%n2Sec(s)|V[%v2]"
+                                             "@|ShowOnScreen"
+                                             "@|RunInBattle"
+                                             "@1|2";
+        m_interpreters[Cmd::TimerOperation].push_back(Enum);
+        m_interpreters[Cmd::TimerOperation].push_back(Enum);
+        m_interpreters[Cmd::TimerOperation].push_back(Id);
+        m_interpreters[Cmd::TimerOperation].push_back(Option);
+        m_interpreters[Cmd::TimerOperation].push_back(Option);
+        m_interpreters[Cmd::TimerOperation].push_back(Enum);
+
+        m_baseStrings[Cmd::ChangeGold] = "%g %1 %2"
+                                         "@+=|-="
+                                         "@%n2|V[%v2]";
+        m_interpreters[Cmd::ChangeGold].push_back(Enum);
+        m_interpreters[Cmd::ChangeGold].push_back(Enum);
+        m_interpreters[Cmd::ChangeGold].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeItems] = "Item[%2] %1 %3"
+                                          "@+=|-="
+                                          "@%i2|V[%v2]"
+                                          "@%n4|V[%v4]";
+        m_interpreters[Cmd::ChangeItems].push_back(Enum);
+        m_interpreters[Cmd::ChangeItems].push_back(Enum);
+        m_interpreters[Cmd::ChangeItems].push_back(Id);
+        m_interpreters[Cmd::ChangeItems].push_back(Enum);
+        m_interpreters[Cmd::ChangeItems].push_back(Id);
+
+        m_baseStrings[Cmd::ChangePartyMembers] = "Hero[%2] %1 the party"
+                                                 "@joins|leaves"
+                                                 "@%h2|V[%v2]";
+        m_interpreters[Cmd::ChangePartyMembers].push_back(Enum);
+        m_interpreters[Cmd::ChangePartyMembers].push_back(Enum);
+        m_interpreters[Cmd::ChangePartyMembers].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeExp] = "ChangeExp";
+//        m_interpreters[Cmd::ChangeExp] = {?};
+
+        m_baseStrings[Cmd::ChangeLevel] = "%1.Level %2 %3"
+                                          "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                          "@+=|-="
+                                          "@%n4|V[%v4]"
+                                          "@|ShowMessage";
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Id);
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Id);
+        m_interpreters[Cmd::ChangeExp].push_back(Option);
+
+        m_baseStrings[Cmd::ChangeParameters] = "%1.%3 %2 %4"
+                                               "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                               "@+=|-="
+                                               "@MaxHP|MaxMP|Attack|Defense|Intelligence|Agility"
+                                               "@%n5|V[v%5]";
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Id);
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Enum);
+        m_interpreters[Cmd::ChangeExp].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeSkills] = "%1 %2 Skill[%3]"
+                                           "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                           "@learns|forgets"
+                                           "@%sk4|v[%v4]";
+        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
+        m_interpreters[Cmd::ChangeSkills].push_back(Id);
+        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
+        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
+        m_interpreters[Cmd::ChangeSkills].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeEquipment] = "%1 %2"
+                                              "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                              "@equips Item[%3]|unequips %3"
+                                              "@%i4|v[%v4]#Weapon|Shield|Armor|Helmet|Accesory|All";
+        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
+        m_interpreters[Cmd::ChangeSkills].push_back(Id);
+        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
+        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
+        m_interpreters[Cmd::ChangeSkills].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeHP] = "%1.HP %2 %3"
+                                       "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                       "@+=|-="
+                                       "@%n4|V[%v4]"
+                                       "@|CanKillTarget";
+        m_interpreters[Cmd::ChangeHP].push_back(Enum);
+        m_interpreters[Cmd::ChangeHP].push_back(Id);
+        m_interpreters[Cmd::ChangeHP].push_back(Enum);
+        m_interpreters[Cmd::ChangeHP].push_back(Enum);
+        m_interpreters[Cmd::ChangeHP].push_back(Id);
+        m_interpreters[Cmd::ChangeHP].push_back(Option);
+
+        m_baseStrings[Cmd::ChangeSP] = "%1.MP %2 %3"
+                                       "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                       "@+=|-="
+                                       "@%n4|V[%v4]";
+        m_interpreters[Cmd::ChangeSP].push_back(Enum);
+        m_interpreters[Cmd::ChangeSP].push_back(Id);
+        m_interpreters[Cmd::ChangeSP].push_back(Enum);
+        m_interpreters[Cmd::ChangeSP].push_back(Enum);
+        m_interpreters[Cmd::ChangeSP].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeCondition] = "%1.Conditions %2 Condition[%c]"
+                                              "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                              "@+=|-=";
+        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
+        m_interpreters[Cmd::ChangeCondition].push_back(Id);
+        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
+        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
+
+        m_baseStrings[Cmd::FullHeal] = "%1 heals completely"
+                                       "@EntireParty|Hero[%h1]|Hero[V[%v1]]";
+        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
+        m_interpreters[Cmd::ChangeCondition].push_back(Id);
+
+        m_baseStrings[Cmd::SimulatedAttack] = "SimulatedAttack";
+        m_baseStrings[Cmd::ChangeHeroName] = "ChangeHeroName";
+        m_baseStrings[Cmd::ChangeHeroTitle] = "ChangeHeroTitle";
+        m_baseStrings[Cmd::ChangeSpriteAssociation] = "ChangeSpriteAssociation";
+        m_baseStrings[Cmd::ChangeActorFace] = "ChangeActorFace";
+        m_baseStrings[Cmd::ChangeVehicleGraphic] = "ChangeVehicleGraphic";
+        m_baseStrings[Cmd::ChangeSystemBGM] = "ChangeSystemBGM";
+        m_baseStrings[Cmd::ChangeSystemSFX] = "ChangeSystemSFX";
+        m_baseStrings[Cmd::ChangeSystemGraphics] = "ChangeSystemGraphics";
+        m_baseStrings[Cmd::ChangeScreenTransitions] = "ChangeScreenTransitions";
+        m_baseStrings[Cmd::EnemyEncounter] = "EnemyEncounter";
+        m_baseStrings[Cmd::OpenShop] = "OpenShop";
+        m_baseStrings[Cmd::ShowInn] = "ShowInn";
+        m_baseStrings[Cmd::EnterHeroName] = "EnterHeroName";
+        m_baseStrings[Cmd::Teleport] = "Teleport";
+        m_baseStrings[Cmd::MemorizeLocation] = "MemorizeLocation";
+        m_baseStrings[Cmd::RecallToLocation] = "RecallToLocation";
+        m_baseStrings[Cmd::EnterExitVehicle] = "EnterExitVehicle";
+        m_baseStrings[Cmd::SetVehicleLocation] = "SetVehicleLocation";
+        m_baseStrings[Cmd::ChangeEventLocation] = "ChangeEventLocation";
+        m_baseStrings[Cmd::TradeEventLocations] = "TradeEventLocations";
+        m_baseStrings[Cmd::StoreTerrainID] = "StoreTerrainID";
+        m_baseStrings[Cmd::StoreEventID] = "StoreEventID";
+        m_baseStrings[Cmd::EraseScreen] = "EraseScreen";
+        m_baseStrings[Cmd::ShowScreen] = "ShowScreen";
+        m_baseStrings[Cmd::TintScreen] = "TintScreen";
+        m_baseStrings[Cmd::FlashScreen] = "FlashScreen";
+        m_baseStrings[Cmd::ShakeScreen] = "ShakeScreen";
+        m_baseStrings[Cmd::PanScreen] = "PanScreen";
+        m_baseStrings[Cmd::WeatherEffects] = "WeatherEffects";
+        m_baseStrings[Cmd::ShowPicture] = "ShowPicture";
+        m_baseStrings[Cmd::MovePicture] = "MovePicture";
+        m_baseStrings[Cmd::ErasePicture] = "ErasePicture";
+        m_baseStrings[Cmd::ShowBattleAnimation] = "ShowBattleAnimation";
+        m_baseStrings[Cmd::SpriteTransparency] = "SpriteTransparency";
+        m_baseStrings[Cmd::FlashSprite] = "FlashSprite";
+        m_baseStrings[Cmd::MoveEvent] = "MoveEvent";
+        m_baseStrings[Cmd::ProceedWithMovement] = "ProceedWithMovement";
+        m_baseStrings[Cmd::HaltAllMovement] = "HaltAllMovement";
+        m_baseStrings[Cmd::Wait] = "Wait";
+        m_baseStrings[Cmd::PlayBGM] = "PlayBGM";
+        m_baseStrings[Cmd::FadeOutBGM] = "FadeOutBGM";
+        m_baseStrings[Cmd::MemorizeBGM] = "MemorizeBGM";
+        m_baseStrings[Cmd::PlayMemorizedBGM] = "PlayMemorizedBGM";
+        m_baseStrings[Cmd::PlaySound] = "PlaySound";
+        m_baseStrings[Cmd::PlayMovie] = "PlayMovie";
+        m_baseStrings[Cmd::KeyInputProc] = "KeyInputProc";
+        m_baseStrings[Cmd::ChangeMapTileset] = "ChangeMapTileset";
+        m_baseStrings[Cmd::ChangePBG] = "ChangePBG";
+        m_baseStrings[Cmd::ChangeEncounterRate] = "ChangeEncounterRate";
+        m_baseStrings[Cmd::TileSubstitution] = "TileSubstitution";
+        m_baseStrings[Cmd::TeleportTargets] = "TeleportTargets";
+        m_baseStrings[Cmd::ChangeTeleportAccess] = "ChangeTeleportAccess";
+        m_baseStrings[Cmd::EscapeTarget] = "EscapeTarget";
+        m_baseStrings[Cmd::ChangeEscapeAccess] = "ChangeEscapeAccess";
+        m_baseStrings[Cmd::OpenSaveMenu] = "OpenSaveMenu";
+        m_baseStrings[Cmd::ChangeSaveAccess] = "ChangeSaveAccess";
+        m_baseStrings[Cmd::OpenMainMenu] = "OpenMainMenu";
+        m_baseStrings[Cmd::ChangeMainMenuAccess] = "ChangeMainMenuAccess";
+        m_baseStrings[Cmd::ConditionalBranch] = "ConditionalBranch";
+        m_baseStrings[Cmd::Label] = "Label";
+        m_baseStrings[Cmd::JumpToLabel] = "JumpToLabel";
+        m_baseStrings[Cmd::Loop] = "Loop";
+        m_baseStrings[Cmd::BreakLoop] = "BreakLoop";
+        m_baseStrings[Cmd::EndEventProcessing] = "EndEventProcessing";
+        m_baseStrings[Cmd::EraseEvent] = "EraseEvent";
+        m_baseStrings[Cmd::CallEvent] = "CallEvent";
+        m_baseStrings[Cmd::Comment] = "Comment";
+        m_baseStrings[Cmd::GameOver] = "GameOver";
+        m_baseStrings[Cmd::ReturntoTitleScreen] = "ReturntoTitleScreen";
+
+        m_baseStrings[Cmd::ChangeMonsterHP] = "ChangeMonsterHP";
+        m_baseStrings[Cmd::ChangeMonsterMP] = "ChangeMonsterMP";
+        m_baseStrings[Cmd::ChangeMonsterCondition] = "ChangeMonsterCondition";
+        m_baseStrings[Cmd::ShowHiddenMonster] = "ShowHiddenMonster";
+        m_baseStrings[Cmd::ChangeBattleBG] = "ChangeBattleBG";
+        m_baseStrings[Cmd::ShowBattleAnimation_B] = "ShowBattleAnimation_B";
+        m_baseStrings[Cmd::ConditionalBranch_B] = "ConditionalBranch_B";
+        m_baseStrings[Cmd::TerminateBattle] = "TerminateBattle";
+
+        m_baseStrings[Cmd::ShowMessage_2] = "          %s";
+
+        m_baseStrings[Cmd::ShowChoiceOption] = "Case <%s>:";
+
+        m_baseStrings[Cmd::ShowChoiceEnd] = "ShowChoiceEnd";
+        m_baseStrings[Cmd::VictoryHandler] = "VictoryHandler";
+        m_baseStrings[Cmd::EscapeHandler] = "EscapeHandler";
+        m_baseStrings[Cmd::DefeatHandler] = "DefeatHandler";
+        m_baseStrings[Cmd::EndBattle] = "EndBattle";
+        m_baseStrings[Cmd::Transaction] = "Transaction";
+        m_baseStrings[Cmd::NoTransaction] = "NoTransaction";
+        m_baseStrings[Cmd::EndShop] = "EndShop";
+        m_baseStrings[Cmd::Stay] = "Stay";
+        m_baseStrings[Cmd::NoStay] = "NoStay";
+        m_baseStrings[Cmd::EndInn] = "EndInn";
+        m_baseStrings[Cmd::ElseBranch] = "ElseBranch";
+        m_baseStrings[Cmd::EndBranch] = "EndBranch";
+        m_baseStrings[Cmd::EndLoop] = "EndLoop";
+        m_baseStrings[Cmd::Comment_2] = "Comment_2";
+
+        m_baseStrings[Cmd::ElseBranch_B] = "ElseBranch_B";
+        m_baseStrings[Cmd::EndBranch_B] = "EndBranch_B";
+
+        m_baseStrings[Cmd::DUMMY] = "DUMMY";
+        m_init = true;
+    }
 }
 
 QEventWidget::~QEventWidget()
@@ -360,919 +644,134 @@ void QEventWidget::updateGraphic()
 
 QString QEventWidget::verbalize(const RPG::EventCommand &com)
 {
-#define chkLenght(expected)\
-    if (com.parameters.size() != expected)\
-        return (str + QString("error: parameters size == %1 (expected %2)")\
-                .arg(com.parameters.size()).arg(expected))
-#define errorHandler(param)\
-    default:\
-    str = str.arg(QString("error: cmd.par[%1] == %2").arg(param).arg(com.parameters[param]))
-#define fromList(param, stringlist)\
-    if (com.parameters[param] < 0 || com.parameters[param] >= QString(stringlist).split("|").count())\
-        str = str.arg(QString("error: cmd.par[%1] == %2").arg(param).arg(com.parameters[param]));\
-    else\
-        str = str.arg(QString(stringlist).split("|")[com.parameters[param]])
-#define vars(param)\
-    aux = QString("V[%1:%2]").arg(com.parameters[param]);\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::variables.size())\
-        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        aux = aux.arg(QString::fromStdString(Data::variables[com.parameters[param]-1].name));\
-    str = str.arg(aux)
-#define indexedVar(param)\
-    aux = QString("V[V[%1:%2]]").arg(com.parameters[param]);\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::variables.size())\
-        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        aux = aux.arg(QString::fromStdString(Data::variables[com.parameters[param]-1].name));\
-    str = str.arg(aux)
-#define switches(param)\
-    aux = QString("S[%1:%2]").arg(com.parameters[param]);\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::switches.size())\
-        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        aux = aux.arg(QString::fromStdString(Data::switches[com.parameters[param]-1].name));\
-    str = str.arg(aux)
-#define indexedSwitch(param)\
-    aux = QString("S[V[%1:%2]]").arg(com.parameters[param]);\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::variables.size())\
-        aux = aux.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        aux = aux.arg(QString::fromStdString(Data::variables[com.parameters[param]-1].name));\
-    str = str.arg(aux)
-#define hero(param)\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::actors.size())\
-        str = str.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        str = str.arg(QString::fromStdString(Data::actors[com.parameters[param]-1].name))
-#define item(param)\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::items.size())\
-        str = str.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        str = str.arg(QString::fromStdString(Data::items[com.parameters[param]-1].name))
-#define skill(param)\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::skills.size())\
-        str = str.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        str = str.arg(QString::fromStdString(Data::skills[com.parameters[param]-1].name))
-#define condition(param)\
-    if (com.parameters[param] < 1 || com.parameters[param] > (int)Data::states.size())\
-        str = str.arg("<%1?>").arg(com.parameters[param]);\
-    else\
-        str = str.arg(QString::fromStdString(Data::states[com.parameters[param]-1].name))
+    static QStringList heroStats = QString("Level|Experience|Hp|Mp|MaxHp|MaxMp|Attack|Defense|Intelligence"
+                                                "|Agility|WeaponID|ShieldID|ArmorID|HelmetID|AccesoryID").split("|");
+    static QStringList itemCount = QString("InPosession|Equiped").split("|");
+    static QStringList spriteList = QString("Hero|Skiff|Ship|AirShip|ThisEvent").split("|");
+    static QStringList spriteParameters = QString("MapID|X|Y|Facing|ScreenX|ScreenY").split("|");
+    static QStringList others = QString("Money|Timer[1].SecondsLeft|Timer[2].SecondsLeft|PartySize|SaveCount"
+                                        "|BattleCount|VictoryCount|DefeatCount|EscapeCount|MidiPosition (ticks)").split("|");
 
+
+    if (com.code == Cmd::ChangeFaceGraphic && com.string.empty())
+        return tr("FaceGraphics: Erase");
+    QStringList strings = m_baseStrings[com.code].split("@");
+    QStringList options;
+
+    QString str = strings[0];    if (com.parameters.size() != m_interpreters[com.code].size())
+        return str + QString(" [Invalid parameter count %1 (expected %2)]")
+                .arg(com.parameters.size()).arg(m_interpreters[com.code].size());
     QString aux;
-    aux = "";
-    QString str = "Unknown String";
-    switch (com.code)
+    QString i_str;
+    int enum_id = 1;
+    for (unsigned int i = 0; i < m_interpreters[com.code].size(); i++)
     {
-    case (Cmd::END):
-        str = "<>";
-        break;
-
-    case (Cmd::CallCommonEvent):
-        str = "CallCommonEvent";
-        break;
-    case (Cmd::ForceFlee):
-        str = "ForceFlee";
-        break;
-    case (Cmd::EnableCombo):
-        str = "EnableCombo";
-        break;
-
-    case (Cmd::ChangeClass):
-        str = "ChangeClass";
-        break;
-    case (Cmd::ChangeBattleCommands):
-        str = "ChangeBattleCommands";
-        break;
-    case (Cmd::ShowMessage):
-        str = "Message: %1";
-        chkLenght(0);
-        str = str.arg(QString::fromStdString(com.string));
-        break;
-    case (Cmd::MessageOptions):
-        str = "MessageOptions [%1|%2|%3|%4]";
-        chkLenght(4);
-        fromList(0, "Normal|Transparent");
-        fromList(1, "Top|Middle|Bottom");
-        fromList(2, "Fixed|Auto");
-        fromList(3, "Halt Process|Process Continue");
-        break;
-    case (Cmd::ChangeFaceGraphic):
-        str = "FaceGraphics: ";
-        chkLenght(3);
-        if (com.string.empty())
-            str += tr("Erase");
-        else
+        switch (m_interpreters[com.code][i])
         {
-            str += "%1[%2] [%3%4]";
-            str = str.arg(QString::fromStdString(com.string));
-            str = str.arg(QString::number(com.parameters[0]));
-            fromList(1,"Left|Right");
-            if (com.parameters[2] == 0)
-                str = str.arg("");
-            else if (com.parameters[2] == 1)
-                str = str.arg("|Mirror");
+        case Enum:
+            if (com.parameters[i] < 0 || com.parameters[i] >= strings[enum_id].split("|").count())
+                str = str.arg(QString("error: cmd.par[%1] == %2").arg(i).arg(com.parameters[i]));
             else
-                str = str.arg("error: cmd.par[2] == %1").arg(com.parameters[2]);
-        }
-        break;
-    case (Cmd::ShowChoice):
-        str = "ShowChoice";
-        break;
-    case (Cmd::InputNumber):
-        str = "InputNumber: %1 Digit(s), %2";
-        chkLenght(2);
-        str = str.arg(com.parameters[0]);
-        vars(1);
-        break;
-    case (Cmd::ControlSwitches):
-        str = "%1 = %2";
-        chkLenght(4);
-        switch (com.parameters[0])
-        {
-        case 0: //Single Switch
-            switches(1);
-            break;
-        case 1: //Switch Range
-            str = str.arg(QString("S[%1-%2]")
-                    .arg(com.parameters[1])
-                    .arg(com.parameters[2]));
-            break;
-        case 2: //Variable Reference
-            indexedSwitch(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(3, "ON|OFF|Toggle");
-        break;
-    case (Cmd::ControlVars):
-        str = "%1 %2 %3";
-        chkLenght(7);
-        switch (com.parameters[0])
-        {
-        case 0:
-            vars(1);
-            break;
-        case 1:
-            str = str.arg(QString("V[%1-%2]").arg(com.parameters[1]).arg(com.parameters[2]));
-            break;
-        case 2:
-            indexedVar(1);
-            break;
-        }
-        fromList(3, "=|+=|-=|*=|/=|%=");
-        switch (com.parameters[4])
-        {
-        case 0:
-            str = str.arg(com.parameters[5]);
-            break;
-        case 1:
-            vars(5);
-            break;
-        case 2:
-            indexedVar(5);
-            break;
-        case 3:
-            str = str.arg(QString("Random[%1-%2]")
-                            .arg(com.parameters[5])
-                            .arg(com.parameters[6]));
-            break;
-        case 4:
-            str = str.arg("Item[%1].%2");
-            item(5);
-            fromList(6, "InPosession|Equiped");
-            break;
-        case 5:
-            str = str.arg("Hero[%1].%2");
-            hero(5);
-            fromList(6, "Level|Experience|Hp|Mp|MaxHp|MaxMp|Attack|Defense|Intelligence"
-                        "|Agility|WeaponID|ShieldID|ArmorID|HelmetID|AccesoryID");
-            break;
-        case 6:
-            str = str.arg("Sprite[%1].%2");
-            if (com.parameters[5] > 10000)
-                str = str.arg(QString("Hero|Skiff|Ship|AirShip|ThisEvent")
-                              .split("|")[com.parameters[5]-10001]);
-            else
-                str = str.arg(QString::fromStdString("EV[%1]")
-                              .arg(QString::fromStdString
-                                   (mCore->currentMapEvent(com.parameters[5])->name)));
-            fromList(6, "MapID|X|Y|Facing|ScreenX|ScreenY");
-            break;
-        case 7:
-            fromList(5, "Money|Timer[1].SecondsLeft|Timer[2].SecondsLeft|PartySize|SaveCount"
-                        "|BattleCount|VictoryCount|DefeatCount|EscapeCount|MidiPosition (ticks)");
-            break;
-        errorHandler(4);
-        }
-        break;
-    case (Cmd::TimerOperation):
-        str = "Timer%1%2";
-        chkLenght(6);
-        str = str.arg(com.parameters[5]+1);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(".Time = %1");
-            switch (com.parameters[1])
             {
-            case 0:
-                str = str.arg("%1Min(s) %2Sec(s)");
-                str = str.arg(com.parameters[2]/60).arg(com.parameters[2]%60);
-                break;
-            case 1:
-                vars(2);
-                break;
-            errorHandler(1);
+                aux = strings[enum_id];
+                if (aux.contains("#"))
+                    str = str.arg(aux.split("#")[com.parameters[i-1]].split("|")[com.parameters[i]]);
+                else
+                    str = str.arg(aux.split("|")[com.parameters[i]]);
             }
+            enum_id++;
             break;
-        case 1:
-            str = str.arg(tr(" Start"));
+        case Option:
+            if (!strings[enum_id].split("|")[com.parameters[i]].isEmpty())
+                options << strings[enum_id].split("|")[com.parameters[i]];
+            enum_id++;
             break;
-        case 2:
-            str = str.arg(tr(" Stop"));
-            break;
-        switch (com.parameters[3])
-        {
-        case 0:
-            break;
-        case 1:
-            aux = "[ShowOnScreen]";
-            break;
-        errorHandler(3);
-        }
-        switch (com.parameters[4])
-        {
-        case 0:
-            break;
-        case 1:
-            if (aux.isEmpty())
-                aux = "[RunInBattle]";
-            else
-                aux = "[ShowOnScreen|RunInBattle]";
-            break;
-        errorHandler(4);
-        }
-        str += aux;
-        errorHandler(0);
-        }
-        break;
-    case (Cmd::ChangeGold):
-        str = QString("%1 %2 %3").arg(QString::fromStdString(Data::terms.gold));
-        chkLenght(3);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg("+=");
-            break;
-        case 1:
-            str = str.arg("-=");
-            break;
-        errorHandler(0);
-        }
-        switch (com.parameters[1])
-        {
-        case 0:
-            str = str.arg(com.parameters[2]);
-            break;
-        case 1:
-            vars(2);
-            break;
-        errorHandler(1);
-        }
-        break;
-    case (Cmd::ChangeItems):
-        str = "Item[%1] %2 %3";
-        chkLenght(5);
-        switch (com.parameters[1])
-        {
-        case 0:
-            item(2);
-            break;
-        case 1:
-            vars(2);
-            break;
-        errorHandler(1);
-        }
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg("+=");
-            break;
-        case 1:
-            str = str.arg("-=");
-            break;
-        errorHandler(0);
-        }
-        switch (com.parameters[3])
-        {
-        case 0:
-            str = str.arg(com.parameters[4]);
-            break;
-        case 1:
-            vars(4);
-            break;
-        errorHandler(3);
-        }
-        break;
-    case (Cmd::ChangePartyMembers):
-        str = tr("Hero[%2] %1 the party");
-        chkLenght(3);
-        fromList(0, "joins|leaves");
-        switch (com.parameters[1])
-        {
-        case 0:
-            hero(2);
-            break;
-        case 1:
-            vars(2);
-            break;
-        errorHandler(1);
-        }
-        break;
-    case (Cmd::ChangeExp):
-        str = "ChangeExp";
-        break;
-    case (Cmd::ChangeLevel):
-        str = tr("%1.Level %2 %3%4");
-        chkLenght(6);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            hero(1);
-            break;
-        case 3:
-            str = str.arg("Hero[%1]");
-            vars(1);
+        case Id:
+            i_str = QString::number(i);
+            if (str.contains("%n"+i_str))
+                str.replace("%n"+i_str, QString::number(com.parameters[i]));
+            if (str.contains("%v"+i_str))
+                str.replace("%v"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(varName(com.parameters[i])));
+            if (str.contains("%b"+i_str))
+                str.replace("%b"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(switchName(com.parameters[i])));
+            if (str.contains("%i"+i_str))
+                str.replace("%i"+i_str, itemName(com.parameters[i]));
+            if (str.contains("%h"+i_str))
+                str.replace("%h"+i_str, heroName(com.parameters[i]));
+            if (str.contains("%hs"+i_str))
+                str.replace("%hs"+i_str, heroStats[com.parameters[i]]);
+            if (str.contains("%ic"+i_str))
+                str.replace("%ic"+i_str, itemCount[com.parameters[i]]);
+            if (str.contains("%sk"+i_str))
+                str.replace("%sk"+i_str, skillName(com.parameters[i]));
+            if (str.contains("%sl"+i_str) && com.parameters[i] > 10000)
+                str.replace("%sl"+i_str, spriteList[com.parameters[i]-10001]);
+            else if (str.contains("%sl%1"+i_str) && com.parameters[i] < 10001)
+                str.replace("%sl"+i_str, eventName(com.parameters[i]));
+            if (str.contains("%sp"+i_str))
+                str.replace("%sp"+i_str, spriteParameters[com.parameters[i]]);
+            if (str.contains("%o"+i_str))
+                str.replace("%o"+i_str, others[com.parameters[i]]);
+            if (str.contains("%c"+i_str))
+                str.replace("%c"+i_str, conditionName(com.parameters[i]));
             break;
         }
-        switch (com.parameters[2])
-        {
-        case 0:
-            str = str.arg("+=");
-            break;
-        case 1:
-            str = str.arg("-=");
-            break;
-        errorHandler(2);
-        }
-        switch (com.parameters[3])
-        {
-        case 0:
-            str = str.arg(com.parameters[4]);
-            break;
-        case 1:
-            vars(4);
-            break;
-        errorHandler(3);
-        }
-        switch (com.parameters[5])
-        {
-        case 0:
-            str = str.arg("");
-            break;
-        case 1:
-            str = str.arg(" [ShowMessage]");
-            break;
-        errorHandler(5);
-        }
-        break;
-    case (Cmd::ChangeParameters):
-        str = "%1.%2 %3 %4";
-        chkLenght(6);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(3, tr("MaxHP|MaxMP|Attack|Defense|Intelligence|Agility"));
-        switch (com.parameters[2])
-        {
-        case 0:
-            str = str.arg("+=");
-            break;
-        case 1:
-            str = str.arg("-=");
-            break;
-        errorHandler(2);
-        }
-        switch (com.parameters[4])
-        {
-        case 0:
-            str = str.arg(com.parameters[5]);
-            break;
-        case 1:
-            vars(5);
-            break;
-        errorHandler(4);
-        }
-        break;
-    case (Cmd::ChangeSkills):
-        str = "%1 %2 Skill[%3]";
-        chkLenght(5);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(2, tr("learns|forgets"));
-        switch (com.parameters[3])
-        {
-        case 0:
-            skill(4);
-            break;
-        case 1:
-            vars(4);
-            break;
-        errorHandler(3);
-        }
-        break;
-    case (Cmd::ChangeEquipment):
-        str = "%1 %2 Item[%3]";
-        chkLenght(5);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(2, tr("equips|unequips"));
-        switch (com.parameters[2])
-        {
-        case 0:
-        {
-            switch (com.parameters[3])
-            {
-            case 0:
-                item(4);
-                break;
-            case 1:
-                vars(4);
-                break;
-                errorHandler(3);
-            }
-        }
-            break;
-        case 1:
-            fromList(3,"Weapon|Shield|Armor|Helmet|Accesory|All");
-            break;
-        errorHandler(2);
-        }
-        break;
-    case (Cmd::ChangeHP):
-        str = "%1.HP %2 %3";
-        chkLenght(6);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(2, "+=|-=");
-        switch (com.parameters[3])
-        {
-        case 0:
-            str = str.arg(com.parameters[4]);
-            break;
-        case 1:
-            vars(4);
-            break;
-        errorHandler(3);
-        }
-        switch (com.parameters[5])
-        {
-        case 0:
-            break;
-        case 1:
-            if (com.parameters[2] == 1)
-                str += tr(" [CanKillTarget]");
-            break;
-        errorHandler(5);
-        }
-        break;
-    case (Cmd::ChangeSP):
-        str = "%1.MP %2 %3";
-        chkLenght(5);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(2, "+=|-=");
-        switch (com.parameters[3])
-        {
-        case 0:
-            str = str.arg(com.parameters[4]);
-            break;
-        case 1:
-            vars(4);
-            break;
-        errorHandler(3);
-        }
-        break;
-    case (Cmd::ChangeCondition):
-        str = tr("%1.Conditions %2 Condition[%3]");
-        chkLenght(4);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        fromList(2, "+=|-=");
-        condition(3);
-        break;
-    case (Cmd::FullHeal):
-        str = tr("%1 heals completely");
-        chkLenght(2);
-        switch (com.parameters[0])
-        {
-        case 0:
-            str = str.arg(tr("EntireParty"));
-            break;
-        case 1:
-            str = str.arg(tr("Hero[%1]"));
-            hero(1);
-            break;
-        case 2:
-            str = str.arg(tr("Hero[%1]"));
-            vars(1);
-            break;
-        errorHandler(0);
-        }
-        break;
-    case (Cmd::SimulatedAttack):
-        str = "SimulatedAttack";
-        break;
-    case (Cmd::ChangeHeroName):
-        str = "ChangeHeroName";
-        break;
-    case (Cmd::ChangeHeroTitle):
-        str = "ChangeHeroTitle";
-        break;
-    case (Cmd::ChangeSpriteAssociation):
-        str = "ChangeSpriteAssociation";
-        break;
-    case (Cmd::ChangeActorFace):
-        str = "ChangeActorFace";
-        break;
-    case (Cmd::ChangeVehicleGraphic):
-        str = "ChangeVehicleGraphic";
-        break;
-    case (Cmd::ChangeSystemBGM):
-        str = "ChangeSystemBGM";
-        break;
-    case (Cmd::ChangeSystemSFX):
-        str = "ChangeSystemSFX";
-        break;
-    case (Cmd::ChangeSystemGraphics):
-        str = "ChangeSystemGraphics";
-        break;
-    case (Cmd::ChangeScreenTransitions):
-        str = "ChangeScreenTransitions";
-        break;
-    case (Cmd::EnemyEncounter):
-        str = "EnemyEncounter";
-        break;
-    case (Cmd::OpenShop):
-        str = "OpenShop";
-        break;
-    case (Cmd::ShowInn):
-        str = "ShowInn";
-        break;
-    case (Cmd::EnterHeroName):
-        str = "EnterHeroName";
-        break;
-    case (Cmd::Teleport):
-        str = "Teleport";
-        break;
-    case (Cmd::MemorizeLocation):
-        str = "MemorizeLocation";
-        break;
-    case (Cmd::RecallToLocation):
-        str = "RecallToLocation";
-        break;
-    case (Cmd::EnterExitVehicle):
-        str = "EnterExitVehicle";
-        break;
-    case (Cmd::SetVehicleLocation):
-        str = "SetVehicleLocation";
-        break;
-    case (Cmd::ChangeEventLocation):
-        str = "ChangeEventLocation";
-        break;
-    case (Cmd::TradeEventLocations):
-        str = "TradeEventLocations";
-        break;
-    case (Cmd::StoreTerrainID):
-        str = "StoreTerrainID";
-        break;
-    case (Cmd::StoreEventID):
-        str = "StoreEventID";
-        break;
-    case (Cmd::EraseScreen):
-        str = "EraseScreen";
-        break;
-    case (Cmd::ShowScreen):
-        str = "ShowScreen";
-        break;
-    case (Cmd::TintScreen):
-        str = "TintScreen";
-        break;
-    case (Cmd::FlashScreen):
-        str = "FlashScreen";
-        break;
-    case (Cmd::ShakeScreen):
-        str = "ShakeScreen";
-        break;
-    case (Cmd::PanScreen):
-        str = "PanScreen";
-        break;
-    case (Cmd::WeatherEffects):
-        str = "WeatherEffects";
-        break;
-    case (Cmd::ShowPicture):
-        str = "ShowPicture";
-        break;
-    case (Cmd::MovePicture):
-        str = "MovePicture";
-        break;
-    case (Cmd::ErasePicture):
-        str = "ErasePicture";
-        break;
-    case (Cmd::ShowBattleAnimation):
-        str = "ShowBattleAnimation";
-        break;
-    case (Cmd::SpriteTransparency):
-        str = "SpriteTransparency";
-        break;
-    case (Cmd::FlashSprite):
-        str = "FlashSprite";
-        break;
-    case (Cmd::MoveEvent):
-        str = "MoveEvent";
-        break;
-    case (Cmd::ProceedWithMovement):
-        str = "ProceedWithMovement";
-        break;
-    case (Cmd::HaltAllMovement):
-        str = "HaltAllMovement";
-        break;
-    case (Cmd::Wait):
-        str = "Wait";
-        break;
-    case (Cmd::PlayBGM):
-        str = "PlayBGM";
-        break;
-    case (Cmd::FadeOutBGM):
-        str = "FadeOutBGM";
-        break;
-    case (Cmd::MemorizeBGM):
-        str = "MemorizeBGM";
-        break;
-    case (Cmd::PlayMemorizedBGM):
-        str = "PlayMemorizedBGM";
-        break;
-    case (Cmd::PlaySound):
-        str = "PlaySound";
-        break;
-    case (Cmd::PlayMovie):
-        str = "PlayMovie";
-        break;
-    case (Cmd::KeyInputProc):
-        str = "KeyInputProc";
-        break;
-    case (Cmd::ChangeMapTileset):
-        str = "ChangeMapTileset";
-        break;
-    case (Cmd::ChangePBG):
-        str = "ChangePBG";
-        break;
-    case (Cmd::ChangeEncounterRate):
-        str = "ChangeEncounterRate";
-        break;
-    case (Cmd::TileSubstitution):
-        str = "TileSubstitution";
-        break;
-    case (Cmd::TeleportTargets):
-        str = "TeleportTargets";
-        break;
-    case (Cmd::ChangeTeleportAccess):
-        str = "ChangeTeleportAccess";
-        break;
-    case (Cmd::EscapeTarget):
-        str = "EscapeTarget";
-        break;
-    case (Cmd::ChangeEscapeAccess):
-        str = "ChangeEscapeAccess";
-        break;
-    case (Cmd::OpenSaveMenu):
-        str = "OpenSaveMenu";
-        break;
-    case (Cmd::ChangeSaveAccess):
-        str = "ChangeSaveAccess";
-        break;
-    case (Cmd::OpenMainMenu):
-        str = "OpenMainMenu";
-        break;
-    case (Cmd::ChangeMainMenuAccess):
-        str = "ChangeMainMenuAccess";
-        break;
-    case (Cmd::ConditionalBranch):
-        str = "ConditionalBranch";
-        break;
-    case (Cmd::Label):
-        str = "Label";
-        break;
-    case (Cmd::JumpToLabel):
-        str = "JumpToLabel";
-        break;
-    case (Cmd::Loop):
-        str = "Loop";
-        break;
-    case (Cmd::BreakLoop):
-        str = "BreakLoop";
-        break;
-    case (Cmd::EndEventProcessing):
-        str = "EndEventProcessing";
-        break;
-    case (Cmd::EraseEvent):
-        str = "EraseEvent";
-        break;
-    case (Cmd::CallEvent):
-        str = "CallEvent";
-        break;
-    case (Cmd::Comment):
-        str = "Comment";
-        break;
-    case (Cmd::GameOver):
-        str = "GameOver";
-        break;
-    case (Cmd::ReturntoTitleScreen):
-        str = "ReturntoTitleScreen";
-        break;
-
-    case (Cmd::ChangeMonsterHP):
-        str = "ChangeMonsterHP";
-        break;
-    case (Cmd::ChangeMonsterMP):
-        str = "ChangeMonsterMP";
-        break;
-    case (Cmd::ChangeMonsterCondition):
-        str = "ChangeMonsterCondition";
-        break;
-    case (Cmd::ShowHiddenMonster):
-        str = "ShowHiddenMonster";
-        break;
-    case (Cmd::ChangeBattleBG):
-        str = "ChangeBattleBG";
-        break;
-    case (Cmd::ShowBattleAnimation_B):
-        str = "ShowBattleAnimation_B";
-        break;
-    case (Cmd::ConditionalBranch_B):
-        str = "ConditionalBranch_B";
-        break;
-    case (Cmd::TerminateBattle):
-        str = "TerminateBattle";
-        break;
-
-    case (Cmd::ShowMessage_2):
-        str = "          %1";
-        str = str.arg(QString::fromStdString(com.string));
-        chkLenght(0);
-        break;
-    case (Cmd::ShowChoiceOption):
-        str = "Case <%1>:";
-        str = str.arg(QString::fromStdString(com.string));
-        break;
-    case (Cmd::ShowChoiceEnd):
-        str = "ShowChoiceEnd";
-        break;
-    case (Cmd::VictoryHandler):
-        str = "VictoryHandler";
-        break;
-    case (Cmd::EscapeHandler):
-        str = "EscapeHandler";
-        break;
-    case (Cmd::DefeatHandler):
-        str = "DefeatHandler";
-        break;
-    case (Cmd::EndBattle):
-        str = "EndBattle";
-        break;
-    case (Cmd::Transaction):
-        str = "Transaction";
-        break;
-    case (Cmd::NoTransaction):
-        str = "NoTransaction";
-        break;
-    case (Cmd::EndShop):
-        str = "EndShop";
-        break;
-    case (Cmd::Stay):
-        str = "Stay";
-        break;
-    case (Cmd::NoStay):
-        str = "NoStay";
-        break;
-    case (Cmd::EndInn):
-        str = "EndInn";
-        break;
-    case (Cmd::ElseBranch):
-        str = "ElseBranch";
-        break;
-    case (Cmd::EndBranch):
-        str = "EndBranch";
-        break;
-    case (Cmd::EndLoop):
-        str = "EndLoop";
-        break;
-    case (Cmd::Comment_2):
-        str = "Comment_2";
-        break;
-
-    case (Cmd::ElseBranch_B):
-        str = "ElseBranch_B";
-        break;
-    case (Cmd::EndBranch_B):
-        str = "EndBranch_B";
-        break;
-
-    case (Cmd::DUMMY):
-        str = "DUMMY";
-        break;
     }
+    str.replace("%g", QString::fromStdString(Data::terms.gold));
+    if (options.count() > 0)
+    {
+        str += QString(" [%1]").arg(options.join("|"));
+    }
+    str.replace("%s", QString::fromStdString(com.string));
+
     return str;
-#undef chkLenght
-#undef errorHandler
-#undef fromList
-#undef vars
-#undef indexedVar
-#undef switches
-#undef indexedSwitch
-#undef hero
-#undef item
+}
+
+QString QEventWidget::varName(int id)
+{
+    if (id < 1 || id > (int)Data::variables.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::variables[id-1].name);
+}
+
+QString QEventWidget::switchName(int id)
+{
+    if (id < 1 || id > (int)Data::switches.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::switches[id-1].name);
+}
+
+QString QEventWidget::itemName(int id)
+{
+    if (id < 1 || id > (int)Data::items.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::items[id-1].name);
+}
+
+QString QEventWidget::heroName(int id)
+{
+    if (id < 1 || id > (int)Data::actors.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::actors[id-1].name);
+}
+
+QString QEventWidget::skillName(int id)
+{
+    if (id < 1 || id > (int)Data::skills.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::skills[id-1].name);
+}
+
+QString QEventWidget::conditionName(int id)
+{
+    if (id < 1 || id > (int)Data::states.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::states[id-1].name);
+}
+
+QString QEventWidget::eventName(int id)
+{
+    if (!mCore->currentMapEvent(id))
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(mCore->currentMapEvent(id)->name);
 }

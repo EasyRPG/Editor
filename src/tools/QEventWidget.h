@@ -7,6 +7,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QGraphicsScene>
 #include <rpg_eventcommand.h>
+#include <command_codes.h>
 #include "QGraphicsCharaItem.h"
 
 namespace Ui {
@@ -74,8 +75,23 @@ private slots:
     void on_pushSetSprite_clicked();
 
 private:
+
+    enum ParameterType
+    {
+        Enum,
+        Option,
+        Id
+    };
+
     void updateGraphic();
     QString verbalize(const RPG::EventCommand &com);
+    QString varName(int id);
+    QString switchName(int id);
+    QString itemName(int id);
+    QString heroName(int id);
+    QString skillName(int id);
+    QString conditionName(int id);
+    QString eventName(int id);
 
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
@@ -84,6 +100,10 @@ private:
     QGraphicsScene *m_scene;
     QGraphicsOpacityEffect *m_effect;
     int m_codeGen;
+
+    static QMap<int, QString> m_baseStrings;
+    static QMap<int, std::vector<ParameterType>> m_interpreters;
+    static bool m_init;
 };
 
 #endif // QEVENTWIDGET_H
