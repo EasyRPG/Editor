@@ -170,11 +170,11 @@ QEventWidget::QEventWidget(QWidget *parent) :
                                               "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
                                               "@equips Item[%3]|unequips %3"
                                               "@%i4|v[%v4]#Weapon|Shield|Armor|Helmet|Accesory|All";
-        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
-        m_interpreters[Cmd::ChangeSkills].push_back(Id);
-        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
-        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
-        m_interpreters[Cmd::ChangeSkills].push_back(Id);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Enum);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Id);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Enum);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Enum);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Id);
 
         m_baseStrings[Cmd::ChangeHP] = "%1.HP %2 %3"
                                        "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
@@ -198,20 +198,31 @@ QEventWidget::QEventWidget(QWidget *parent) :
         m_interpreters[Cmd::ChangeSP].push_back(Enum);
         m_interpreters[Cmd::ChangeSP].push_back(Id);
 
-        m_baseStrings[Cmd::ChangeCondition] = "%1.Conditions %2 Condition[%c]"
+        m_baseStrings[Cmd::ChangeCondition] = "%1.Conditions %2 Condition[%c3]"
                                               "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
                                               "@+=|-=";
         m_interpreters[Cmd::ChangeCondition].push_back(Enum);
         m_interpreters[Cmd::ChangeCondition].push_back(Id);
         m_interpreters[Cmd::ChangeCondition].push_back(Enum);
-        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
+        m_interpreters[Cmd::ChangeCondition].push_back(Id);
 
         m_baseStrings[Cmd::FullHeal] = "%1 heals completely"
                                        "@EntireParty|Hero[%h1]|Hero[V[%v1]]";
-        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
-        m_interpreters[Cmd::ChangeCondition].push_back(Id);
+        m_interpreters[Cmd::FullHeal].push_back(Enum);
+        m_interpreters[Cmd::FullHeal].push_back(Id);
 
-        m_baseStrings[Cmd::SimulatedAttack] = "SimulatedAttack";
+        m_baseStrings[Cmd::SimulatedAttack] = "%1 is takes damage by %n2%6"
+                                              "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                              "@| [V[%n7] = Damage]";
+        m_interpreters[Cmd::SimulatedAttack].push_back(Enum);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Id);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Id);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Ignore);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Ignore);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Ignore);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Enum);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Id);
+
         m_baseStrings[Cmd::ChangeHeroName] = "ChangeHeroName";
         m_baseStrings[Cmd::ChangeHeroTitle] = "ChangeHeroTitle";
         m_baseStrings[Cmd::ChangeSpriteAssociation] = "ChangeSpriteAssociation";

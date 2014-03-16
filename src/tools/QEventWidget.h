@@ -80,7 +80,8 @@ private:
     {
         Enum,
         Option,
-        Id
+        Id,
+        Ignore
     };
 
     void updateGraphic();
