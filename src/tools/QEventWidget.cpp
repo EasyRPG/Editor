@@ -223,7 +223,9 @@ QEventWidget::QEventWidget(QWidget *parent) :
         m_interpreters[Cmd::SimulatedAttack].push_back(Enum);
         m_interpreters[Cmd::SimulatedAttack].push_back(Id);
 
-        m_baseStrings[Cmd::ChangeHeroName] = "ChangeHeroName";
+        m_baseStrings[Cmd::ChangeHeroName] = "Hero[%h0].Name = %s";
+         m_interpreters[Cmd::ChangeHeroName].push_back(Id);
+
         m_baseStrings[Cmd::ChangeHeroTitle] = "ChangeHeroTitle";
         m_baseStrings[Cmd::ChangeSpriteAssociation] = "ChangeSpriteAssociation";
         m_baseStrings[Cmd::ChangeActorFace] = "ChangeActorFace";
