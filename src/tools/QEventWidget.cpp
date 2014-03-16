@@ -239,11 +239,44 @@ QEventWidget::QEventWidget(QWidget *parent) :
         m_interpreters[Cmd::ChangeActorFace].push_back(Id);
         m_interpreters[Cmd::ChangeActorFace].push_back(Id);
 
-        m_baseStrings[Cmd::ChangeVehicleGraphic] = "ChangeVehicleGraphic";
-        m_baseStrings[Cmd::ChangeSystemBGM] = "ChangeSystemBGM";
-        m_baseStrings[Cmd::ChangeSystemSFX] = "ChangeSystemSFX";
-        m_baseStrings[Cmd::ChangeSystemGraphics] = "ChangeSystemGraphics";
-        m_baseStrings[Cmd::ChangeScreenTransitions] = "ChangeScreenTransitions";
+        m_baseStrings[Cmd::ChangeVehicleGraphic] = "Vehicle[%1].Sprite = %s[%n1]"
+                                                   "@Skiff|Ship|Airship";
+        m_interpreters[Cmd::ChangeVehicleGraphic].push_back(Enum);
+        m_interpreters[Cmd::ChangeVehicleGraphic].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeSystemBGM] = "System.BGM[%1] = %s"
+                                              "@Battle|Victory|Inn|Skiff|Ship|Airship|GameOver";
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Enum);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+
+        m_baseStrings[Cmd::ChangeSystemSFX] = "System.SFX[%1] = %s"
+                                              "@Cursor|Decision|Cancel|Buzzer|StartBattle|Escape|EnemyAttack"
+                                              "|EnemyDamage|AllyDamage|Evasion|EnemyDefeated|UseItem";
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Enum);
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Ignore);
+
+        m_baseStrings[Cmd::ChangeSystemGraphics] = "System.Graphics = %s"
+                                                   "@StretchToFit|TiledDisplay"
+                                                   "@FontA|FontB";
+        m_interpreters[Cmd::ChangeSystemGraphics].push_back(Option);
+        m_interpreters[Cmd::ChangeSystemGraphics].push_back(Option);
+
+        m_baseStrings[Cmd::ChangeScreenTransitions] = "System.Transition[%1 = %2"
+                                                      "@Teleport].Erase|Teleport].Show|BattleStarts].Erase"
+                                                      "|BattleStart].Show|BattleEnd].Erase|BattleEnd].Show"
+                                                      "@FadeIn|ReconstituteBlocks|UnwipeDownward|UnwipeUpward"
+                                                      "|VenetianBlinds|VerticalBlinds|HorizontalBlinds|RecedingSquare"
+                                                      "|ExpandingSquare|ScreenMovesDown|ScreenMovesUp|ScreenMovesRight"
+                                                      "|ScreenMovesLeft|VerticalUnify|HorizontalUnify|UnifyQuadrants"
+                                                      "|ZoomOut|Mosaic|WaverScreen|Instantaneous";
+        m_interpreters[Cmd::ChangeScreenTransitions].push_back(Enum);
+        m_interpreters[Cmd::ChangeScreenTransitions].push_back(Enum);
+
         m_baseStrings[Cmd::EnemyEncounter] = "EnemyEncounter";
         m_baseStrings[Cmd::OpenShop] = "OpenShop";
         m_baseStrings[Cmd::ShowInn] = "ShowInn";
