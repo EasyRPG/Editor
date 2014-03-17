@@ -170,11 +170,11 @@ QEventWidget::QEventWidget(QWidget *parent) :
                                               "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
                                               "@equips Item[%3]|unequips %3"
                                               "@%i4|v[%v4]#Weapon|Shield|Armor|Helmet|Accesory|All";
-        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
-        m_interpreters[Cmd::ChangeSkills].push_back(Id);
-        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
-        m_interpreters[Cmd::ChangeSkills].push_back(Enum);
-        m_interpreters[Cmd::ChangeSkills].push_back(Id);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Enum);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Id);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Enum);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Enum);
+        m_interpreters[Cmd::ChangeEquipment].push_back(Id);
 
         m_baseStrings[Cmd::ChangeHP] = "%1.HP %2 %3"
                                        "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
@@ -198,29 +198,85 @@ QEventWidget::QEventWidget(QWidget *parent) :
         m_interpreters[Cmd::ChangeSP].push_back(Enum);
         m_interpreters[Cmd::ChangeSP].push_back(Id);
 
-        m_baseStrings[Cmd::ChangeCondition] = "%1.Conditions %2 Condition[%c]"
+        m_baseStrings[Cmd::ChangeCondition] = "%1.Conditions %2 Condition[%c3]"
                                               "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
                                               "@+=|-=";
         m_interpreters[Cmd::ChangeCondition].push_back(Enum);
         m_interpreters[Cmd::ChangeCondition].push_back(Id);
         m_interpreters[Cmd::ChangeCondition].push_back(Enum);
-        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
+        m_interpreters[Cmd::ChangeCondition].push_back(Id);
 
         m_baseStrings[Cmd::FullHeal] = "%1 heals completely"
                                        "@EntireParty|Hero[%h1]|Hero[V[%v1]]";
-        m_interpreters[Cmd::ChangeCondition].push_back(Enum);
-        m_interpreters[Cmd::ChangeCondition].push_back(Id);
+        m_interpreters[Cmd::FullHeal].push_back(Enum);
+        m_interpreters[Cmd::FullHeal].push_back(Id);
 
-        m_baseStrings[Cmd::SimulatedAttack] = "SimulatedAttack";
-        m_baseStrings[Cmd::ChangeHeroName] = "ChangeHeroName";
-        m_baseStrings[Cmd::ChangeHeroTitle] = "ChangeHeroTitle";
-        m_baseStrings[Cmd::ChangeSpriteAssociation] = "ChangeSpriteAssociation";
-        m_baseStrings[Cmd::ChangeActorFace] = "ChangeActorFace";
-        m_baseStrings[Cmd::ChangeVehicleGraphic] = "ChangeVehicleGraphic";
-        m_baseStrings[Cmd::ChangeSystemBGM] = "ChangeSystemBGM";
-        m_baseStrings[Cmd::ChangeSystemSFX] = "ChangeSystemSFX";
-        m_baseStrings[Cmd::ChangeSystemGraphics] = "ChangeSystemGraphics";
-        m_baseStrings[Cmd::ChangeScreenTransitions] = "ChangeScreenTransitions";
+        m_baseStrings[Cmd::SimulatedAttack] = "%1 is takes damage by %n2%6"
+                                              "@EntireParty|Hero[%h1]|Hero[V[%v1]]"
+                                              "@| [V[%n7] = Damage]";
+        m_interpreters[Cmd::SimulatedAttack].push_back(Enum);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Id);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Id);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Ignore);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Ignore);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Ignore);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Enum);
+        m_interpreters[Cmd::SimulatedAttack].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeHeroName] = "Hero[%h0].Name = %s";
+         m_interpreters[Cmd::ChangeHeroName].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeHeroTitle] = "Hero[%h0].Title = %s";
+        m_interpreters[Cmd::ChangeHeroTitle].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeSpriteAssociation] = "Hero[%h0].Sprite = %s[%n1]"
+                                                      "@|Transparent";
+        m_interpreters[Cmd::ChangeSpriteAssociation].push_back(Id);
+        m_interpreters[Cmd::ChangeSpriteAssociation].push_back(Id);
+        m_interpreters[Cmd::ChangeSpriteAssociation].push_back(Option);
+
+        m_baseStrings[Cmd::ChangeActorFace] = "Hero[%h0].Face = %s[%n1]";
+        m_interpreters[Cmd::ChangeActorFace].push_back(Id);
+        m_interpreters[Cmd::ChangeActorFace].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeVehicleGraphic] = "Vehicle[%1].Sprite = %s[%n1]"
+                                                   "@Skiff|Ship|Airship";
+        m_interpreters[Cmd::ChangeVehicleGraphic].push_back(Enum);
+        m_interpreters[Cmd::ChangeVehicleGraphic].push_back(Id);
+
+        m_baseStrings[Cmd::ChangeSystemBGM] = "System.BGM[%1] = %s"
+                                              "@Battle|Victory|Inn|Skiff|Ship|Airship|GameOver";
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Enum);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemBGM].push_back(Ignore);
+
+        m_baseStrings[Cmd::ChangeSystemSFX] = "System.SFX[%1] = %s"
+                                              "@Cursor|Decision|Cancel|Buzzer|StartBattle|Escape|EnemyAttack"
+                                              "|EnemyDamage|AllyDamage|Evasion|EnemyDefeated|UseItem";
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Enum);
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Ignore);
+        m_interpreters[Cmd::ChangeSystemSFX].push_back(Ignore);
+
+        m_baseStrings[Cmd::ChangeSystemGraphics] = "System.Graphics = %s"
+                                                   "@StretchToFit|TiledDisplay"
+                                                   "@FontA|FontB";
+        m_interpreters[Cmd::ChangeSystemGraphics].push_back(Option);
+        m_interpreters[Cmd::ChangeSystemGraphics].push_back(Option);
+
+        m_baseStrings[Cmd::ChangeScreenTransitions] = "System.Transition[%1 = %2"
+                                                      "@Teleport].Erase|Teleport].Show|BattleStarts].Erase"
+                                                      "|BattleStart].Show|BattleEnd].Erase|BattleEnd].Show"
+                                                      "@FadeIn|ReconstituteBlocks|UnwipeDownward|UnwipeUpward"
+                                                      "|VenetianBlinds|VerticalBlinds|HorizontalBlinds|RecedingSquare"
+                                                      "|ExpandingSquare|ScreenMovesDown|ScreenMovesUp|ScreenMovesRight"
+                                                      "|ScreenMovesLeft|VerticalUnify|HorizontalUnify|UnifyQuadrants"
+                                                      "|ZoomOut|Mosaic|WaverScreen|Instantaneous";
+        m_interpreters[Cmd::ChangeScreenTransitions].push_back(Enum);
+        m_interpreters[Cmd::ChangeScreenTransitions].push_back(Enum);
+
         m_baseStrings[Cmd::EnemyEncounter] = "EnemyEncounter";
         m_baseStrings[Cmd::OpenShop] = "OpenShop";
         m_baseStrings[Cmd::ShowInn] = "ShowInn";
