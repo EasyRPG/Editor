@@ -52,5 +52,6 @@
     <qresource prefix="/embedded">
         <file>share/eraser.png</file>
         <file>share/old_grid.png</file>
+        <file>share/logo.svg</file>
     </qresource>
 </RCC>

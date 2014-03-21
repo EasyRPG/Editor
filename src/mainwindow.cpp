@@ -118,13 +118,6 @@ MainWindow::MainWindow(QWidget *parent) :
         on_actionRtp_Path_triggered();
     mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
                                         qApp->applicationDirPath()).toString());
-    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
-    mCore->setProjectFolder(l_project);
-    QFileInfo info(mCore->filePath(ROOT, EASY_DB));
-    if (info.exists())
-        LoadProject(l_project);
-    else
-        mCore->setProjectFolder(QString());
     updateLayerActions();
     updateToolActions();
 }
@@ -134,6 +127,19 @@ MainWindow::~MainWindow()
     delete ui;
     delete dlg_resource;
     delete dlg_db;
+}
+
+void MainWindow::LoadLastProject()
+{
+    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
+    mCore->setProjectFolder(l_project);
+    QFileInfo info(mCore->filePath(ROOT, EASY_DB));
+    if (info.exists())
+        LoadProject(l_project);
+    else
+        mCore->setProjectFolder(QString());
+    updateLayerActions();
+    updateToolActions();
 }
 
 void MainWindow::LoadProject(QString foldername)
