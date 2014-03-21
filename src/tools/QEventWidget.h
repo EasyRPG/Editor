@@ -9,6 +9,9 @@
 #include <rpg_eventcommand.h>
 #include <command_codes.h>
 #include "QGraphicsCharaItem.h"
+#include "../dialogsplash.h"
+#include <QProgressBar>
+#include <QLabel>
 
 namespace Ui {
 class QEventWidget;
@@ -24,6 +27,8 @@ public:
 
     RPG::EventPage *eventPage() const;
     void setEventPage(RPG::EventPage *eventPage);
+
+    static void Init(DialogSplash *s, QProgressBar *progressBar, QLabel *label);
 
 private slots:
     void on_comboMoveType_currentIndexChanged(int index);
@@ -76,14 +81,6 @@ private slots:
 
 private:
 
-    enum ParameterType
-    {
-        Enum,
-        Option,
-        Id,
-        Ignore
-    };
-
     void updateGraphic();
     QString verbalize(const RPG::EventCommand &com);
     QString varName(int id);
@@ -102,9 +99,7 @@ private:
     QGraphicsOpacityEffect *m_effect;
     int m_codeGen;
 
-    static QMap<int, QString> m_baseStrings;
-    static QMap<int, std::vector<ParameterType>> m_interpreters;
-    static bool m_init;
+    static QMap<int, QList<QStringList>> m_strCache;
 };
 
 #endif // QEVENTWIDGET_H

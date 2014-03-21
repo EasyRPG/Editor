@@ -22,6 +22,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void LoadLastProject();
     void LoadProject(QString foldername);
     void ImportProject(QString p_path, QString d_folder);
 
