@@ -454,6 +454,11 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
             str.replace("%gr"+i_str, terrainName(com.parameters[i]));
             continue;
         }
+        if (str.contains("%m"+i_str))
+        {
+            str.replace("%m"+i_str, mapName(com.parameters[i]));
+            continue;
+        }
         if (str.contains("%sl"+i_str) && com.parameters[i] > 10000)
         {
             str.replace("%sl"+i_str, spriteList[com.parameters[i]-10001]);
@@ -551,5 +556,17 @@ QString QEventWidget::terrainName(int id)
     if (id < 1 || id > (int)Data::terrains.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::terrains[id-1].name);
+}
+
+QString QEventWidget::mapName(int id)
+{
+    if (id < 1 || id > (int)Data::treemap.maps.size())
+        return QString("<%1?>").arg(id);
+    for (unsigned int i = 0; i < Data::treemap.maps.size(); i++)
+        if (Data::treemap.maps[i].ID == id)
+        {
+            return QString::fromStdString(Data::treemap.maps[i].name);
+        }
+    return QString("<NotFound:%1?>").arg(id);
 }
 

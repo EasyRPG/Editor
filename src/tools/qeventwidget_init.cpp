@@ -176,7 +176,9 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                         "@Hiragana|Katakana"
                         "@|ShowNameInEntry");
 
-    reg(Teleport, "Teleport");
+    reg(Teleport, "Teleport %m0(%n1, %n2)%op3"
+                  "@RetainFace|FaceUp|FaceRight|FaceDown|FaceLeft");
+
     reg(MemorizeLocation, "MemorizeLocation");
     reg(RecallToLocation, "RecallToLocation");
     reg(EnterExitVehicle, "EnterExitVehicle");
