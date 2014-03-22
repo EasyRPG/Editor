@@ -12,10 +12,10 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
         list << main[i].split("|");\
     m_strCache[Cmd::command] = list;\
     progressBar->setValue(count);\
-    label->setText(QString("Loading string templates (%1 of 124)").arg(count));\
+    label->setText(QString("Loading string templates (%1 of 123)").arg(count));\
     count++
 
-    progressBar->setMaximum(124);
+    progressBar->setMaximum(123);
     static bool init = false;
     if (init)
     {
@@ -159,7 +159,12 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                                   "|ScreenMovesLeft|VerticalUnify|HorizontalUnify|UnifyQuadrants"
                                   "|ZoomOut|Mosaic|WaverScreen|Instantaneous");
 
-    reg(EnemyEncounter, "EnemyEncounter");
+    reg(EnemyEncounter, "BattleStarts! Troop[%e0] Background[%e2]%op5%op6"
+        "@%tr1|V[%v1]"
+        "@FromMap|%s|FromTerrain[%gr8]"
+        "@|FirstStrike"
+        "@|Initiative|BackAttack|Surround|Pincers");
+
     reg(OpenShop, "OpenShop");
     reg(ShowInn, "ShowInn");
     reg(EnterHeroName, "EnterHeroName");
@@ -252,12 +257,14 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
     reg(ElseBranch_B, "ElseBranch_B");
     reg(EndBranch_B, "EndBranch_B");
 
-    reg(DUMMY, "DUMMY");
+//    reg(DUMMY, "DUMMY");
+
+    label->setText("Done!");
 
     static QTimer t;
     connect(&t,SIGNAL(timeout()),s,SLOT(close()));
     connect(&t,SIGNAL(timeout()),&t,SLOT(stop()));
-    t.start(5000);
+    t.start(7000);
     init = true;
 
 #undef reg

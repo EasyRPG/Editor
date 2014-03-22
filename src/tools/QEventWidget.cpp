@@ -83,7 +83,7 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
             p << QString::number(m_eventPage->event_commands[i].parameters[j]);
         QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()
                                         << verbalize(m_eventPage->event_commands[i])
-                                        << "0" //TODO: generate internal id
+                                        << QString::number(m_codeGen)
                                         << QString::fromStdString(m_eventPage->event_commands[i].string)
                                         << p.join("|"));
         if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceOption &&
@@ -123,6 +123,7 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
             parent = item;
             break;
         }
+        m_codeGen++;
     }
     ui->treeCommands->expandAll();
 }
@@ -443,6 +444,16 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
             str.replace("%sk"+i_str, skillName(com.parameters[i]));
             continue;
         }
+        if (str.contains("%tr"+i_str))
+        {
+            str.replace("%tr"+i_str, troopName(com.parameters[i]));
+            continue;
+        }
+        if (str.contains("%gr"+i_str))
+        {
+            str.replace("%gr"+i_str, terrainName(com.parameters[i]));
+            continue;
+        }
         if (str.contains("%sl"+i_str) && com.parameters[i] > 10000)
         {
             str.replace("%sl"+i_str, spriteList[com.parameters[i]-10001]);
@@ -527,3 +538,18 @@ QString QEventWidget::eventName(int id)
         return QString("<%1?>").arg(id);
     return QString::fromStdString(mCore->currentMapEvent(id)->name);
 }
+
+QString QEventWidget::troopName(int id)
+{
+    if (id < 1 || id > (int)Data::troops.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::troops[id-1].name);
+}
+
+QString QEventWidget::terrainName(int id)
+{
+    if (id < 1 || id > (int)Data::terrains.size())
+        return QString("<%1?>").arg(id);
+    return QString::fromStdString(Data::terrains[id-1].name);
+}
+
