@@ -160,12 +160,15 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                                   "|ZoomOut|Mosaic|WaverScreen|Instantaneous");
 
     reg(EnemyEncounter, "BattleStarts! Troop[%e0] Background[%e2]%op5%op6"
-        "@%tr1|V[%v1]"
-        "@FromMap|%s|FromTerrain[%gr8]"
-        "@|FirstStrike"
-        "@|Initiative|BackAttack|Surround|Pincers");
+                        "@%tr1|V[%v1]"
+                        "@FromMap|%s|FromTerrain[%gr8]"
+                        "@|FirstStrike"
+                        "@|Initiative|BackAttack|Surround|Pincers");
 
-    reg(OpenShop, "OpenShop");
+    reg(OpenShop,   "OpenShop Greeting[%e1]%op0"
+                    "@|BuyOnly|SellOnly"
+                    "@A|B|C");
+
     reg(ShowInn, "ShowInn");
     reg(EnterHeroName, "EnterHeroName");
     reg(Teleport, "Teleport");
