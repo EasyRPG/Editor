@@ -170,9 +170,12 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                     "@A|B|C");
 
     reg(ShowInn, "ShowInn Greetings[%e0] Price[%n1]"
-        "@A|B");
+                 "@A|B");
 
-    reg(EnterHeroName, "EnterHeroName");
+    reg(EnterHeroName,  "EnterHeroName[%h0]%op1%op2"
+                        "@Hiragana|Katakana"
+                        "@|ShowNameInEntry");
+
     reg(Teleport, "Teleport");
     reg(MemorizeLocation, "MemorizeLocation");
     reg(RecallToLocation, "RecallToLocation");
