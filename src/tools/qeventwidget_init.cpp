@@ -165,11 +165,13 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                         "@|FirstStrike"
                         "@|Initiative|BackAttack|Surround|Pincers");
 
-    reg(OpenShop,   "OpenShop Greeting[%e1]%op0"
+    reg(OpenShop,   "OpenShop Greetings[%e1]%op0"
                     "@|BuyOnly|SellOnly"
                     "@A|B|C");
 
-    reg(ShowInn, "ShowInn");
+    reg(ShowInn, "ShowInn Greetings[%e0] Price[%n1]"
+        "@A|B");
+
     reg(EnterHeroName, "EnterHeroName");
     reg(Teleport, "Teleport");
     reg(MemorizeLocation, "MemorizeLocation");
