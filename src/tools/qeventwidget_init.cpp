@@ -179,8 +179,10 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
     reg(Teleport, "Teleport %m0(%n1, %n2)%op3"
                   "@RetainFace|FaceUp|FaceRight|FaceDown|FaceLeft");
 
-    reg(MemorizeLocation, "MemorizeLocation");
-    reg(RecallToLocation, "RecallToLocation");
+    reg(MemorizeLocation, "MemorizeLocation V[%v0](V[%v1], V[%v2]) = Map(X, Y)");
+
+    reg(RecallToLocation, "RecallTo V[%v0](V[%v1], V[%v2])");
+
     reg(EnterExitVehicle, "EnterExitVehicle");
     reg(SetVehicleLocation, "SetVehicleLocation");
     reg(ChangeEventLocation, "ChangeEventLocation");

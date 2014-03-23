@@ -411,12 +411,20 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         }
         if (str.contains("%v"+i_str))
         {
-            str.replace("%v"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(varName(com.parameters[i])));
+            aux = varName(com.parameters[i]);
+            if (aux.isEmpty())
+                str.replace("%v"+i_str, QString::number(com.parameters[i]));
+            else
+                str.replace("%v"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(aux));
             continue;
         }
         if (str.contains("%b"+i_str))
         {
-            str.replace("%b"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(switchName(com.parameters[i])));
+            aux = switchName(com.parameters[i]);
+            if (aux.isEmpty())
+                str.replace("%b"+i_str, QString::number(com.parameters[i]));
+            else
+                str.replace("%b"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(aux));
             continue;
         }
         if (str.contains("%i"+i_str))
