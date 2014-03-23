@@ -362,6 +362,12 @@ void QEventWidget::updateGraphic()
 
 QString QEventWidget::verbalize(const RPG::EventCommand &com)
 {
+#define restart \
+if(i == com.parameters.size() - 1 && str.contains("%restart"))\
+{\
+    i = -1;\
+    str.remove("%restart");\
+}
     static QStringList heroStats = QString("Level|Experience|Hp|Mp|MaxHp|MaxMp|Attack|Defense|Intelligence"
                                                 "|Agility|WeaponID|ShieldID|ArmorID|HelmetID|AccesoryID").split("|");
     static QStringList itemCount = QString("InPosession|Equiped").split("|");
@@ -394,6 +400,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                 str.replace("%e"+i_str, aux);
             }
             enum_id++;
+            restart
             continue;
         }
         if (str.contains("%op"+i_str))
@@ -404,11 +411,13 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
             else if (!m_strCache[com.code][enum_id][com.parameters[i]].isEmpty())
                 options << m_strCache[com.code][enum_id][com.parameters[i]];
             enum_id++;
+            restart
             continue;
         }
         if (str.contains("%n"+i_str))
         {
             str.replace("%n"+i_str, QString::number(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%v"+i_str))
@@ -418,6 +427,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                 str.replace("%v"+i_str, QString::number(com.parameters[i]));
             else
                 str.replace("%v"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(aux));
+            restart
             continue;
         }
         if (str.contains("%b"+i_str))
@@ -427,71 +437,91 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
                 str.replace("%b"+i_str, QString::number(com.parameters[i]));
             else
                 str.replace("%b"+i_str, QString("%1:%2").arg(com.parameters[i]).arg(aux));
+            restart
             continue;
         }
         if (str.contains("%i"+i_str))
         {
             str.replace("%i"+i_str, itemName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%h"+i_str))
         {
             str.replace("%h"+i_str, heroName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%hs"+i_str))
         {
             str.replace("%hs"+i_str, heroStats[com.parameters[i]]);
+            restart
             continue;
         }
         if (str.contains("%ic"+i_str))
         {
             str.replace("%ic"+i_str, itemCount[com.parameters[i]]);
+            restart
             continue;
         }
         if (str.contains("%sk"+i_str))
         {
             str.replace("%sk"+i_str, skillName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%tr"+i_str))
         {
             str.replace("%tr"+i_str, troopName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%gr"+i_str))
         {
             str.replace("%gr"+i_str, terrainName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%m"+i_str))
         {
             str.replace("%m"+i_str, mapName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%sl"+i_str) && com.parameters[i] > 10000)
         {
             str.replace("%sl"+i_str, spriteList[com.parameters[i]-10001]);
+            restart
             continue;
         }
         else if (str.contains("%sl"+i_str) && com.parameters[i] < 10001)
         {
             str.replace("%sl"+i_str, eventName(com.parameters[i]));
+            restart
             continue;
         }
         if (str.contains("%sp"+i_str))
         {
             str.replace("%sp"+i_str, spriteParameters[com.parameters[i]]);
+            restart
             continue;
         }
         if (str.contains("%o"+i_str))
         {
             str.replace("%o"+i_str, others[com.parameters[i]]);
+            restart
             continue;
         }
         if (str.contains("%c"+i_str))
         {
             str.replace("%c"+i_str, conditionName(com.parameters[i]));
+            restart
+            continue;
+        }
+        if (str.contains("%ts"+i_str))
+        {
+            str.replace("%ts"+i_str, QString::number((double)com.parameters[i] / 10.0,1,1));
+            restart
             continue;
         }
     }
@@ -503,6 +533,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
     str.replace("%s", QString::fromStdString(com.string));
 
     return str;
+#undef restart
 }
 
 QString QEventWidget::varName(int id)

@@ -212,8 +212,14 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                     "|ScreenMovesLeft|ScreenMovesRight|VerticalDivision|HorizontalDivision"
                     "|Quadrasection|ZoomIn|Mosaic|WaverScreen|Instantaneous|UseDefault");
 
-    reg(TintScreen, "TintScreen");
-    reg(FlashScreen, "FlashScreen");
+    reg(TintScreen, "Screen.Tint = RGBS(%n0,%n1,%n2,%n3) Time=%ts4%op5"
+                    "@|Wait");
+
+    reg(FlashScreen, "%e6%restart"
+                     "@Flash Screen Once RGBV(%n0, %n1, %n2, %n3) Time=%ts4%op5"
+                     "|Start Flashing Screen|Stop Flashing Screen"
+                     "@|Wait");
+
     reg(ShakeScreen, "ShakeScreen");
     reg(PanScreen, "PanScreen");
     reg(WeatherEffects, "WeatherEffects");
@@ -297,7 +303,7 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
     static QTimer t;
     connect(&t,SIGNAL(timeout()),s,SLOT(close()));
     connect(&t,SIGNAL(timeout()),&t,SLOT(stop()));
-    t.start(7000);
+    t.start(3000);
     init = true;
 
 #undef reg
