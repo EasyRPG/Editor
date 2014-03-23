@@ -12,10 +12,10 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
         list << main[i].split("|");\
     m_strCache[Cmd::command] = list;\
     progressBar->setValue(count);\
-    label->setText(QString("Loading string templates (%1 of 124)").arg(count));\
+    label->setText(QString("Loading string templates (%1 of 123)").arg(count));\
     count++
 
-    progressBar->setMaximum(124);
+    progressBar->setMaximum(123);
     static bool init = false;
     if (init)
     {
@@ -159,23 +159,67 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
                                   "|ScreenMovesLeft|VerticalUnify|HorizontalUnify|UnifyQuadrants"
                                   "|ZoomOut|Mosaic|WaverScreen|Instantaneous");
 
-    reg(EnemyEncounter, "EnemyEncounter");
-    reg(OpenShop, "OpenShop");
-    reg(ShowInn, "ShowInn");
-    reg(EnterHeroName, "EnterHeroName");
-    reg(Teleport, "Teleport");
-    reg(MemorizeLocation, "MemorizeLocation");
-    reg(RecallToLocation, "RecallToLocation");
-    reg(EnterExitVehicle, "EnterExitVehicle");
-    reg(SetVehicleLocation, "SetVehicleLocation");
-    reg(ChangeEventLocation, "ChangeEventLocation");
-    reg(TradeEventLocations, "TradeEventLocations");
-    reg(StoreTerrainID, "StoreTerrainID");
-    reg(StoreEventID, "StoreEventID");
-    reg(EraseScreen, "EraseScreen");
-    reg(ShowScreen, "ShowScreen");
-    reg(TintScreen, "TintScreen");
-    reg(FlashScreen, "FlashScreen");
+    reg(EnemyEncounter, "BattleStarts! Troop[%e0] Background[%e2]%op5%op6"
+                        "@%tr1|V[%v1]"
+                        "@FromMap|%s|FromTerrain[%gr8]"
+                        "@|FirstStrike"
+                        "@|Initiative|BackAttack|Surround|Pincers");
+
+    reg(OpenShop,   "OpenShop Greetings[%e1]%op0"
+                    "@|BuyOnly|SellOnly"
+                    "@A|B|C");
+
+    reg(ShowInn, "ShowInn Greetings[%e0] Price[%n1]"
+                 "@A|B");
+
+    reg(EnterHeroName,  "EnterHeroName[%h0]%op1%op2"
+                        "@Hiragana|Katakana"
+                        "@|ShowNameInEntry");
+
+    reg(Teleport, "Teleport %m0(%n1, %n2)%op3"
+                  "@RetainFace|FaceUp|FaceRight|FaceDown|FaceLeft");
+
+    reg(MemorizeLocation, "MemorizeLocation V[%v0](V[%v1], V[%v2]) = Map(X, Y)");
+
+    reg(RecallToLocation, "RecallTo Map[V[%v0]](V[%v1], V[%v2])");
+
+    reg(EnterExitVehicle, "Enter Vehicle");
+
+    reg(SetVehicleLocation, "%e0.Location = %e1"
+                            "@Skiff|Ship|Airship"
+                            "@Map[%m2](%n3, %n4)|Map[V[%v2](V[%v3], V[%v4])");
+
+    reg(ChangeEventLocation, "Event[%sl0].Location = %e1"
+                             "@(%n2, %n3)|(V[%v2], V[%v3])");
+
+    reg(TradeEventLocations, "Swap (Event[%sl0].Location, Event[%sl1].Location)");
+
+    reg(StoreTerrainID, "V[%v3] = Tile(%e0).TerrainID"
+                        "@%n1, %n2|V[%v1], V[%v2]");
+
+    reg(StoreEventID,   "V[%v3] = Tile(%e0).EventID"
+                        "@%n1, %n2|V[%v1], V[%v2]");
+
+    reg(EraseScreen, "EraseScreen%op0"
+                     "@FadeOut|RemoveBlocks|WipeDownward|WipeUpward|VenetianBlinds|VerticalBlinds"
+                     "|HorizontalBlinds|RecedingSquare|ExpandingSquare|ScreenMovesUp|ScreenMovesDown"
+                     "|ScreenMovesLeft|ScreenMovesRight|VerticalDivision|HorizontalDivision"
+                     "|Quadrasection|ZoomIn|Mosaic|WaverScreen|Instantaneous|UseDefault");
+
+    reg(ShowScreen, "ShowScreen%op0"
+                    "@FadeOut|RemoveBlocks|UnwipeDownward|UnwipeUpward|VenetianBlinds|VerticalBlinds"
+                    "|HorizontalBlinds|RecedingSquare|ExpandingSquare|ScreenMovesUp|ScreenMovesDown"
+                    "|ScreenMovesLeft|ScreenMovesRight|VerticalDivision|HorizontalDivision"
+                    "|Quadrasection|ZoomIn|Mosaic|WaverScreen|Instantaneous|UseDefault");
+
+    reg(TintScreen, "Screen.Tint = RGBS(%n0,%n1,%n2,%n3) Time=%ts4%op5"
+                    "@|Wait");
+
+    reg(FlashScreen, "%e6%restart"
+                     "@Flash Screen Once RGBV(%n0, %n1, %n2, %n3) Time=%ts4%op5"
+                     "|Start Flashing Screen|Stop Flashing Screen"
+                     "@|Wait");
+
     reg(ShakeScreen, "ShakeScreen");
     reg(PanScreen, "PanScreen");
     reg(WeatherEffects, "WeatherEffects");
@@ -252,12 +296,14 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
     reg(ElseBranch_B, "ElseBranch_B");
     reg(EndBranch_B, "EndBranch_B");
 
-    reg(DUMMY, "DUMMY");
+//    reg(DUMMY, "DUMMY");
+
+    label->setText("Done!");
 
     static QTimer t;
     connect(&t,SIGNAL(timeout()),s,SLOT(close()));
     connect(&t,SIGNAL(timeout()),&t,SLOT(stop()));
-    t.start(5000);
+    t.start(3000);
     init = true;
 
 #undef reg

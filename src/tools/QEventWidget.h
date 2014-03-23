@@ -90,6 +90,9 @@ private:
     QString skillName(int id);
     QString conditionName(int id);
     QString eventName(int id);
+    QString troopName(int id);
+    QString terrainName(int id);
+    QString mapName(int id);
 
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
