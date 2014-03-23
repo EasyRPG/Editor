@@ -181,12 +181,19 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
 
     reg(MemorizeLocation, "MemorizeLocation V[%v0](V[%v1], V[%v2]) = Map(X, Y)");
 
-    reg(RecallToLocation, "RecallTo V[%v0](V[%v1], V[%v2])");
+    reg(RecallToLocation, "RecallTo Map[V[%v0]](V[%v1], V[%v2])");
 
-    reg(EnterExitVehicle, "EnterExitVehicle");
-    reg(SetVehicleLocation, "SetVehicleLocation");
-    reg(ChangeEventLocation, "ChangeEventLocation");
-    reg(TradeEventLocations, "TradeEventLocations");
+    reg(EnterExitVehicle, "Enter Vehicle");
+
+    reg(SetVehicleLocation, "%e0.Location = %e1"
+        "@Skiff|Ship|Airship"
+        "@Map[%m2](%n3, %n4)|Map[V[%v2](V[%v3], V[%v4])");
+
+    reg(ChangeEventLocation, "Event[%sl0].Location = %e1"
+        "@(%n2, %n3)|(V[%v2], V[%v3])");
+
+    reg(TradeEventLocations, "Swap (Event[%sl0].Location, Event[%sl1].Location)");
+
     reg(StoreTerrainID, "StoreTerrainID");
     reg(StoreEventID, "StoreEventID");
     reg(EraseScreen, "EraseScreen");

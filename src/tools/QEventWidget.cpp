@@ -472,7 +472,7 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
             str.replace("%sl"+i_str, spriteList[com.parameters[i]-10001]);
             continue;
         }
-        else if (str.contains("%sl%1"+i_str) && com.parameters[i] < 10001)
+        else if (str.contains("%sl"+i_str) && com.parameters[i] < 10001)
         {
             str.replace("%sl"+i_str, eventName(com.parameters[i]));
             continue;
