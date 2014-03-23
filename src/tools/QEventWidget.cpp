@@ -399,7 +399,9 @@ QString QEventWidget::verbalize(const RPG::EventCommand &com)
         if (str.contains("%op"+i_str))
         {
             str.remove("%op"+i_str);
-            if (!m_strCache[com.code][enum_id][com.parameters[i]].isEmpty())
+            if (com.parameters[i] == -1)
+                options << m_strCache[com.code][enum_id][m_strCache[com.code][enum_id].count()-1];
+            else if (!m_strCache[com.code][enum_id][com.parameters[i]].isEmpty())
                 options << m_strCache[com.code][enum_id][com.parameters[i]];
             enum_id++;
             continue;

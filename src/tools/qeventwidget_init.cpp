@@ -200,8 +200,18 @@ void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *labe
     reg(StoreEventID,   "V[%v3] = Tile(%e0).EventID"
                         "@%n1, %n2|V[%v1], V[%v2]");
 
-    reg(EraseScreen, "EraseScreen");
-    reg(ShowScreen, "ShowScreen");
+    reg(EraseScreen, "EraseScreen%op0"
+                     "@FadeOut|RemoveBlocks|WipeDownward|WipeUpward|VenetianBlinds|VerticalBlinds"
+                     "|HorizontalBlinds|RecedingSquare|ExpandingSquare|ScreenMovesUp|ScreenMovesDown"
+                     "|ScreenMovesLeft|ScreenMovesRight|VerticalDivision|HorizontalDivision"
+                     "|Quadrasection|ZoomIn|Mosaic|WaverScreen|Instantaneous|UseDefault");
+
+    reg(ShowScreen, "ShowScreen%op0"
+                    "@FadeOut|RemoveBlocks|UnwipeDownward|UnwipeUpward|VenetianBlinds|VerticalBlinds"
+                    "|HorizontalBlinds|RecedingSquare|ExpandingSquare|ScreenMovesUp|ScreenMovesDown"
+                    "|ScreenMovesLeft|ScreenMovesRight|VerticalDivision|HorizontalDivision"
+                    "|Quadrasection|ZoomIn|Mosaic|WaverScreen|Instantaneous|UseDefault");
+
     reg(TintScreen, "TintScreen");
     reg(FlashScreen, "FlashScreen");
     reg(ShakeScreen, "ShakeScreen");
