@@ -86,8 +86,10 @@ RESOURCES += \
 
 RC_FILE = src/Resources.rc
 
-INCLUDEPATH += $$PWD/libs/liblcf/include
-DEPENDPATH += $$PWD/libs/liblcf/include
+INCLUDEPATH += $$PWD/libs/liblcf/src
+INCLUDEPATH += $$PWD/libs/liblcf/src/generated
+DEPENDPATH += $$PWD/libs/liblcf/src
+DEPENDPATH += $$PWD/libs/liblcf/src/generated
 
 DESTDIR = bin
 
