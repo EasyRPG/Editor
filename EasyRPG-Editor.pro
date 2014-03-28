@@ -47,7 +47,6 @@ HEADERS  += src/mainwindow.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
     src/tools/QGraphicsImportItem.h \
-    src/tools/picojson.h \
     src/dialogopenproject.h \
     src/musicplayer.h \
     src/tools/QGraphicsPaleteScene.h \
