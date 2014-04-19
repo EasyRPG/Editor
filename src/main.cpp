@@ -1,6 +1,6 @@
 #include "dialogsplash.h"
 #include "mainwindow.h"
-#include "tools/qeventwidget.h"
+#include "tools/qeventpagewidget.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     DialogSplash s(&w);
     w.show();
     s.show();
-    QEventWidget::Init(&s, s.getProgressBar(), s.getLabel());
+    QEventPageWidget::Init(&s, s.getProgressBar(), s.getLabel());
     w.LoadLastProject();
     return a.exec();
 }

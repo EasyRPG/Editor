@@ -1,9 +1,9 @@
-#include "qeventwidget.h"
+#include "qeventpagewidget.h"
 #include <QTimer>
 
-QMap<int, QList<QStringList>> QEventWidget::m_strCache = QMap<int, QList<QStringList>>();
+QMap<int, QList<QStringList>> QEventPageWidget::m_strCache = QMap<int, QList<QStringList>>();
 
-void QEventWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *label)
+void QEventPageWidget::Init(DialogSplash *s, QProgressBar *progressBar, QLabel *label)
 {
 #define reg(command, templ)\
     main = tr(templ).split("@");\
