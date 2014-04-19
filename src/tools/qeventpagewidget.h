@@ -1,5 +1,5 @@
-#ifndef QEVENTWIDGET_H
-#define QEVENTWIDGET_H
+#ifndef QEVENTPAGEWIDGET_H
+#define QEVENTPAGEWIDGET_H
 
 #include <QWidget>
 #include <rpg_eventpage.h>
@@ -17,13 +17,13 @@ namespace Ui {
 class QEventWidget;
 }
 
-class QEventWidget : public QWidget
+class QEventPageWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit QEventWidget(QWidget *parent = 0);
-    ~QEventWidget();
+    explicit QEventPageWidget(QWidget *parent = 0);
+    ~QEventPageWidget();
 
     RPG::EventPage *eventPage() const;
     void setEventPage(RPG::EventPage *eventPage);
@@ -105,4 +105,4 @@ private:
     static QMap<int, QList<QStringList>> m_strCache;
 };
 
-#endif // QEVENTWIDGET_H
+#endif // QEVENTPAGEWIDGET_H

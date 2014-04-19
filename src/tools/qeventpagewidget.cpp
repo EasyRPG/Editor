@@ -1,11 +1,11 @@
-#include "qeventwidget.h"
-#include "ui_qeventwidget.h"
+#include "qeventpagewidget.h"
+#include "ui_qeventpagewidget.h"
 #include <QDialogButtonBox>
 #include <data.h>
 #include "../dialogcharapicker.h"
 #include "../core.h"
 
-QEventWidget::QEventWidget(QWidget *parent) :
+QEventPageWidget::QEventPageWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QEventWidget),
     m_eventPage(0)
@@ -34,18 +34,18 @@ QEventWidget::QEventWidget(QWidget *parent) :
     ui->treeCommands->hideColumn(1);
 }
 
-QEventWidget::~QEventWidget()
+QEventPageWidget::~QEventPageWidget()
 {
     delete m_tileItem;
     delete m_charaItem;
     delete ui;
 }
-RPG::EventPage *QEventWidget::eventPage() const
+RPG::EventPage *QEventPageWidget::eventPage() const
 {
     return m_eventPage;
 }
 
-void QEventWidget::setEventPage(RPG::EventPage *eventPage)
+void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
 {
     m_eventPage = eventPage;
     ui->checkSwitchA->setChecked(eventPage->condition.flags.switch_a);
@@ -129,7 +129,7 @@ void QEventWidget::setEventPage(RPG::EventPage *eventPage)
 }
 
 
-void QEventWidget::on_comboMoveType_currentIndexChanged(int index)
+void QEventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
@@ -138,7 +138,7 @@ void QEventWidget::on_comboMoveType_currentIndexChanged(int index)
     m_eventPage->move_type = index;
 }
 
-void QEventWidget::on_checkSwitchA_toggled(bool checked)
+void QEventPageWidget::on_checkSwitchA_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
@@ -152,7 +152,7 @@ void QEventWidget::on_checkSwitchA_toggled(bool checked)
     m_eventPage->condition.flags.switch_a = checked;
 }
 
-void QEventWidget::on_checkSwitchB_toggled(bool checked)
+void QEventPageWidget::on_checkSwitchB_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
@@ -166,7 +166,7 @@ void QEventWidget::on_checkSwitchB_toggled(bool checked)
     m_eventPage->condition.flags.switch_b = checked;
 }
 
-void QEventWidget::on_checkVar_toggled(bool checked)
+void QEventPageWidget::on_checkVar_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
@@ -180,91 +180,91 @@ void QEventWidget::on_checkVar_toggled(bool checked)
     m_eventPage->condition.flags.variable = checked;
 }
 
-void QEventWidget::on_checkItem_toggled(bool checked)
+void QEventPageWidget::on_checkItem_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.flags.item = checked;
 }
 
-void QEventWidget::on_comboVarOperation_currentIndexChanged(int index)
+void QEventPageWidget::on_comboVarOperation_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.compare_operator = index;
 }
 
-void QEventWidget::on_spinVarValue_valueChanged(int arg1)
+void QEventPageWidget::on_spinVarValue_valueChanged(int arg1)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.variable_value = arg1;
 }
 
-void QEventWidget::on_comboItem_currentIndexChanged(int index)
+void QEventPageWidget::on_comboItem_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.item_id = index+1;
 }
 
-void QEventWidget::on_comboHero_currentIndexChanged(int index)
+void QEventPageWidget::on_comboHero_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.actor_id = index+1;
 }
 
-void QEventWidget::on_checkHero_toggled(bool checked)
+void QEventPageWidget::on_checkHero_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.flags.item = checked;
 }
 
-void QEventWidget::on_checkTimerA_toggled(bool checked)
+void QEventPageWidget::on_checkTimerA_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.flags.timer = checked;
 }
 
-void QEventWidget::on_spinTimerAMin_valueChanged(int arg1)
+void QEventPageWidget::on_spinTimerAMin_valueChanged(int arg1)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.timer_sec = arg1*60 + ui->spinTimerASec->value();
 }
 
-void QEventWidget::on_spinTimerASec_valueChanged(int arg1)
+void QEventPageWidget::on_spinTimerASec_valueChanged(int arg1)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.timer_sec = ui->spinTimerAMin->value()*60 + arg1;
 }
 
-void QEventWidget::on_checkTimerB_toggled(bool checked)
+void QEventPageWidget::on_checkTimerB_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.flags.timer2 = checked;
 }
 
-void QEventWidget::on_spinTimerBMin_valueChanged(int arg1)
+void QEventPageWidget::on_spinTimerBMin_valueChanged(int arg1)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.timer2_sec = arg1*60 + ui->spinTimerBSec->value();
 }
 
-void QEventWidget::on_spinTimerBSec_valueChanged(int arg1)
+void QEventPageWidget::on_spinTimerBSec_valueChanged(int arg1)
 {
     if (!m_eventPage)
         return;
     m_eventPage->condition.timer2_sec = ui->spinTimerBMin->value()*60 + arg1;
 }
 
-void QEventWidget::on_checkTransparent_toggled(bool checked)
+void QEventPageWidget::on_checkTransparent_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
@@ -272,49 +272,49 @@ void QEventWidget::on_checkTransparent_toggled(bool checked)
     m_effect->setEnabled(checked);
 }
 
-void QEventWidget::on_comboMoveSpeed_currentIndexChanged(int index)
+void QEventPageWidget::on_comboMoveSpeed_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->move_speed = index+1;
 }
 
-void QEventWidget::on_comboCondition_currentIndexChanged(int index)
+void QEventPageWidget::on_comboCondition_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->trigger = index;
 }
 
-void QEventWidget::on_comboLayer_currentIndexChanged(int index)
+void QEventPageWidget::on_comboLayer_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->layer = index;
 }
 
-void QEventWidget::on_checkOverlap_toggled(bool checked)
+void QEventPageWidget::on_checkOverlap_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
     m_eventPage->overlap = checked;
 }
 
-void QEventWidget::on_comboAnimationType_currentIndexChanged(int index)
+void QEventPageWidget::on_comboAnimationType_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->animation_type = index;
 }
 
-void QEventWidget::on_comboMoveFrequency_currentIndexChanged(int index)
+void QEventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 {
     if (!m_eventPage)
         return;
     m_eventPage->move_frequency = index+1;
 }
 
-void QEventWidget::on_pushSetSprite_clicked()
+void QEventPageWidget::on_pushSetSprite_clicked()
 {
     DialogCharaPicker dlg(this, true);
     dlg.setName(m_eventPage->character_name);
@@ -334,7 +334,7 @@ void QEventWidget::on_pushSetSprite_clicked()
 
 
 
-void QEventWidget::updateGraphic()
+void QEventPageWidget::updateGraphic()
 {
     if (m_eventPage->character_name.empty())
     {
@@ -360,7 +360,7 @@ void QEventWidget::updateGraphic()
     }
 }
 
-QString QEventWidget::verbalize(const RPG::EventCommand &com)
+QString QEventPageWidget::verbalize(const RPG::EventCommand &com)
 {
 #define restart \
 if(i == com.parameters.size() - 1 && str.contains("%restart"))\
@@ -536,70 +536,70 @@ if(i == com.parameters.size() - 1 && str.contains("%restart"))\
 #undef restart
 }
 
-QString QEventWidget::varName(int id)
+QString QEventPageWidget::varName(int id)
 {
     if (id < 1 || id > (int)Data::variables.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::variables[id-1].name);
 }
 
-QString QEventWidget::switchName(int id)
+QString QEventPageWidget::switchName(int id)
 {
     if (id < 1 || id > (int)Data::switches.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::switches[id-1].name);
 }
 
-QString QEventWidget::itemName(int id)
+QString QEventPageWidget::itemName(int id)
 {
     if (id < 1 || id > (int)Data::items.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::items[id-1].name);
 }
 
-QString QEventWidget::heroName(int id)
+QString QEventPageWidget::heroName(int id)
 {
     if (id < 1 || id > (int)Data::actors.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::actors[id-1].name);
 }
 
-QString QEventWidget::skillName(int id)
+QString QEventPageWidget::skillName(int id)
 {
     if (id < 1 || id > (int)Data::skills.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::skills[id-1].name);
 }
 
-QString QEventWidget::conditionName(int id)
+QString QEventPageWidget::conditionName(int id)
 {
     if (id < 1 || id > (int)Data::states.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::states[id-1].name);
 }
 
-QString QEventWidget::eventName(int id)
+QString QEventPageWidget::eventName(int id)
 {
     if (!mCore->currentMapEvent(id))
         return QString("<%1?>").arg(id);
     return QString::fromStdString(mCore->currentMapEvent(id)->name);
 }
 
-QString QEventWidget::troopName(int id)
+QString QEventPageWidget::troopName(int id)
 {
     if (id < 1 || id > (int)Data::troops.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::troops[id-1].name);
 }
 
-QString QEventWidget::terrainName(int id)
+QString QEventPageWidget::terrainName(int id)
 {
     if (id < 1 || id > (int)Data::terrains.size())
         return QString("<%1?>").arg(id);
     return QString::fromStdString(Data::terrains[id-1].name);
 }
 
-QString QEventWidget::mapName(int id)
+QString QEventPageWidget::mapName(int id)
 {
     if (id < 1 || id > (int)Data::treemap.maps.size())
         return QString("<%1?>").arg(id);

@@ -2,7 +2,7 @@
 #include "ui_dialogevent.h"
 #include <QFileDialog>
 #include <QSettings>
-#include "tools/qeventwidget.h"
+#include "tools/qeventpagewidget.h"
 #include "core.h"
 
 DialogEvent::DialogEvent(QWidget *parent) :
@@ -121,7 +121,7 @@ void DialogEvent::setEvent(RPG::Event *event)
     ui->tabEventPages->clear();
     for (unsigned int i = 0; i < m_event.pages.size(); i++)
     {
-        QEventWidget *tab = new QEventWidget(this);
+        QEventPageWidget *tab = new QEventPageWidget(this);
         tab->setEventPage(&(m_event.pages[i]));
         ui->tabEventPages->addTab(tab,QString::number(i+1));
     }
