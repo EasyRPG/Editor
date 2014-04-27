@@ -92,8 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create dialogs
     dlg_resource = new DialogResourceManager(this);
     dlg_resource->setModal(true);
-    dlg_db = new DialogDataBase(this);
-    dlg_db->setModal(true);
+    dlg_db = 0;
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
     connect(mCore,
@@ -443,7 +442,11 @@ void MainWindow::on_actionResource_Manager_triggered()
 
 void MainWindow::on_actionData_Base_triggered()
 {
-    dlg_db->show();
+    if (dlg_db)
+        delete dlg_db;
+    dlg_db = new DialogDataBase(this);
+    dlg_db->setModal(true);
+    dlg_db->exec();
 }
 
 void MainWindow::update_actions()
