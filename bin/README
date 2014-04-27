@@ -1,0 +1,15 @@
+This application needs the following shared libraries
+to work in windows platform:
+
+icudt51.dll
+icuin51.dll
+icuuc51.dll
+libEGL.dll
+libGLESv2.dll
+Qt5Core.dll
+Qt5Gui.dll
+Qt5Multimedia.dll
+Qt5Network.dll
+Qt5Widgets.dll
+Qt5WinExtras.dll
+platforms/qwindows.dll

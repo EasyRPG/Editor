@@ -38,7 +38,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qgraphicsimportitem.cpp \
     src/tools/qgraphicsmapscene.cpp \
     src/tools/qgraphicspaletescene.cpp \
-    src/tools/qgraphicspickerscene.cpp
+    src/tools/qgraphicspickerscene.cpp \
+    src/tools/qdbpageactors.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -64,7 +65,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qgraphicsimportitem.h \
     src/tools/qgraphicsmapscene.h \
     src/tools/qgraphicspaletescene.h \
-    src/tools/qgraphicspickerscene.h
+    src/tools/qgraphicspickerscene.h \
+    src/tools/qdbpageactors.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -78,7 +80,8 @@ FORMS    += src/mainwindow.ui \
     src/dialogevent.ui \
     src/dialogcharapicker.ui \
     src/dialogsplash.ui \
-    src/tools/qeventpagewidget.ui
+    src/tools/qeventpagewidget.ui \
+    src/tools/qdbpageactors.ui
 
 RESOURCES += \
     src/Resources.qrc

@@ -53,5 +53,10 @@
         <file>share/eraser.png</file>
         <file>share/old_grid.png</file>
         <file>share/logo.svg</file>
+        <file>share/old_rank0.png</file>
+        <file>share/old_rank1.png</file>
+        <file>share/old_rank2.png</file>
+        <file>share/old_rank3.png</file>
+        <file>share/old_rank4.png</file>
     </qresource>
 </RCC>
