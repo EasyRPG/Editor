@@ -1,7 +1,6 @@
 /*.autosave
 /EasyRPG-Editor.pro.user
 /*.user.*
-bin
 *.o
 /Makefile
 /moc_*
@@ -9,11 +8,17 @@ bin
 /ui_*
 /EasyRPG-Editor
 /libs/liblcf/*
-/templates/Player.exe
-/templates/Player64.exe
 /debug
 /release
 Makefile.Debug
 Makefile.Release
 /libs/liblcf
 /.project
+/bin/templates/Player.exe
+/bin/*.dll
+/bin/*.exe
+/bin/*.manifest
+/bin/*.rc
+/bin/*.ilk
+/bin/*.pdb
+/bin/platforms
