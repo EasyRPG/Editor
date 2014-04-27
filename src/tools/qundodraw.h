@@ -3,7 +3,7 @@
 
 #include <QUndoCommand>
 #include "../core.h"
-#include "QGraphicsMapScene.h"
+#include "qgraphicsmapscene.h"
 
 class QUndoDraw : public QUndoCommand
 {

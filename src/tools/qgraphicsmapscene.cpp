@@ -1,4 +1,4 @@
-#include "QGraphicsMapScene.h"
+#include "qgraphicsmapscene.h"
 #include <QAction>
 #include <QDialogButtonBox>
 #include <QGraphicsBlurEffect>
