@@ -1075,19 +1075,6 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="3" colspan="2">
-          <widget class="QLabel" name="label_47">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>1</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Charset</string>
-           </property>
-          </widget>
-         </item>
          <item row="8" column="1" rowspan="2">
           <widget class="QGraphicsView" name="graphicsBattleset">
            <property name="minimumSize">
@@ -1110,6 +1097,29 @@
            </property>
           </widget>
          </item>
+         <item row="3" column="3" colspan="2">
+          <widget class="QLabel" name="label_47">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Charset</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="2" colspan="3">
+          <widget class="QLabel" name="label_48">
+           <property name="text">
+            <string>Battleset</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="4">
           <widget class="QLabel" name="label_46">
            <property name="text">
@@ -1120,10 +1130,39 @@
            </property>
           </widget>
          </item>
+         <item row="9" column="2" colspan="3">
+          <widget class="QComboBox" name="comboBattleset">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <item>
+            <property name="text">
+             <string>&lt;none&gt;</string>
+            </property>
+           </item>
+          </widget>
+         </item>
          <item row="2" column="0" colspan="5">
           <widget class="Line" name="line_3">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1" colspan="4">
+          <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="3" colspan="2">
+          <widget class="QPushButton" name="pushSetCharset">
+           <property name="text">
+            <string>Set</string>
            </property>
           </widget>
          </item>
@@ -1147,45 +1186,16 @@
            <property name="frameShadow">
             <enum>QFrame::Sunken</enum>
            </property>
-          </widget>
-         </item>
-         <item row="6" column="1" colspan="4">
-          <widget class="Line" name="line_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="2" colspan="3">
-          <widget class="QLabel" name="label_48">
-           <property name="text">
-            <string>Battleset</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="2" colspan="3">
-          <widget class="QComboBox" name="comboBattleset">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <item>
-            <property name="text">
-             <string>&lt;none&gt;</string>
+           <widget class="QGraphicsView" name="graphicsFaceset">
+            <property name="geometry">
+             <rect>
+              <x>-20</x>
+              <y>-30</y>
+              <width>111</width>
+              <height>121</height>
+             </rect>
             </property>
-           </item>
-          </widget>
-         </item>
-         <item row="5" column="3" colspan="2">
-          <widget class="QPushButton" name="pushSetCharset">
-           <property name="text">
-            <string>Set</string>
-           </property>
+           </widget>
           </widget>
          </item>
         </layout>

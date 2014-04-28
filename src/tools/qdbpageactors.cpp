@@ -19,9 +19,21 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     m_charaItem->setWalk(true);
     m_charaItem->setScale(2.0);
     m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+
+    m_faceItem = new QGraphicsFaceItem();
+    m_faceItem->setScale(1.5);
+    m_faceItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+
     ui->graphicsCharset->setScene(new QGraphicsScene(this));
     ui->graphicsCharset->scene()->addItem(m_charaItem);
     ui->graphicsCharset->scene()->setSceneRect(0,0,48,64);
+
+    ui->graphicsFaceset->setScene(new QGraphicsScene(this));
+    ui->graphicsFaceset->scene()->addItem(m_faceItem);
+    ui->graphicsFaceset->scene()->setSceneRect(0,0,48,48);
+
+
+
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
     connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
@@ -88,6 +100,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         ui->comboUnarmedAnimation->setCurrentIndex(0);
         ui->tableSkills->setRowCount(0);
         m_charaItem->setVisible(false);
+        m_faceItem->setVisible(false);
         for (int i = 0; i < ui->listAttributeRanks->count(); i++)
             ui->listAttributeRanks->item(i)->setIcon(QIcon());
         for (int i = 0; i < ui->listStatusRanks->count(); i++)
@@ -218,6 +231,12 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     m_charaItem->setBasePix(actor->character_name.c_str());
     m_charaItem->setIndex(actor->character_index);
     m_charaItem->graphicsEffect()->setEnabled(actor->transparent);
+
+    m_faceItem->setVisible(true);
+    m_faceItem->setBasePix(actor->face_name.c_str());
+    m_faceItem->setIndex(actor->face_index);
+    m_faceItem->graphicsEffect()->setEnabled(actor->transparent);
+
 
     /* Enable widgets */
     ui->lineName->setEnabled(true);
