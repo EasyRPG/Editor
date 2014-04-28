@@ -92,8 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create dialogs
     dlg_resource = new DialogResourceManager(this);
     dlg_resource->setModal(true);
-    dlg_db = new DialogDataBase(this);
-    dlg_db->setModal(true);
+    dlg_db = 0;
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
     connect(mCore,
@@ -118,13 +117,6 @@ MainWindow::MainWindow(QWidget *parent) :
         on_actionRtp_Path_triggered();
     mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
                                         qApp->applicationDirPath()).toString());
-    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
-    mCore->setProjectFolder(l_project);
-    QFileInfo info(mCore->filePath(ROOT, EASY_DB));
-    if (info.exists())
-        LoadProject(l_project);
-    else
-        mCore->setProjectFolder(QString());
     updateLayerActions();
     updateToolActions();
 }
@@ -134,6 +126,19 @@ MainWindow::~MainWindow()
     delete ui;
     delete dlg_resource;
     delete dlg_db;
+}
+
+void MainWindow::LoadLastProject()
+{
+    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
+    mCore->setProjectFolder(l_project);
+    QFileInfo info(mCore->filePath(ROOT, EASY_DB));
+    if (info.exists())
+        LoadProject(l_project);
+    else
+        mCore->setProjectFolder(QString());
+    updateLayerActions();
+    updateToolActions();
 }
 
 void MainWindow::LoadProject(QString foldername)
@@ -374,14 +379,16 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     }
     //Import Maps
     std::stringstream ss;
-    for (unsigned int i = 1; i < maps.tree_order.size(); i++)
+    for (unsigned int i = 1; i < maps.maps.size(); i++)
     {
+        if (maps.maps[i].type == 2)
+            continue;
         ss.str("");
         ss << p_path.toStdString()
            << "Map"
            << std::setfill('0')
            << std::setw(4)
-           << maps.tree_order[i]
+           << maps.maps[i].ID
            << ".lmu";
         RPG::Map map = *LMU_Reader::Load(ss.str(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())).get();
         ss.str("");
@@ -389,7 +396,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << "Map"
            << std::setfill('0')
            << std::setw(4)
-           << maps.tree_order[i]
+           << maps.maps[i].ID
            << ".emu";
         LMU_Reader::SaveXml(ss.str(),map);
     }
@@ -435,7 +442,11 @@ void MainWindow::on_actionResource_Manager_triggered()
 
 void MainWindow::on_actionData_Base_triggered()
 {
-    dlg_db->show();
+    if (dlg_db)
+        delete dlg_db;
+    dlg_db = new DialogDataBase(this);
+    dlg_db->setModal(true);
+    dlg_db->exec();
 }
 
 void MainWindow::update_actions()
@@ -684,16 +695,9 @@ QGraphicsView *MainWindow::getView(int id)
                 SIGNAL(mapSaved()),
                 this,
                 SLOT(on_mapUnchanged()));
-        connect(ui->action_Save_Map,
-                SIGNAL(triggered()),
-                getScene(id),
-                SLOT(Save()));
-        connect(ui->actionRevert_Map,
-                SIGNAL(triggered()),
-                getScene(id),
-                SLOT(Load()));
         getScene(id)->setScale(2.0);
         getScene(id)->Init();
+        mCore->setCurrentMapEvents(getScene(id)->mapEvents());
     }
     return view;
 }
@@ -883,7 +887,10 @@ void MainWindow::on_tabMap_currentChanged(int index)
     if (currentScene())
     {
         mCore->LoadChipset(currentScene()->chipsetId());
+        mCore->setCurrentMapEvents(currentScene()->mapEvents());
         ui->actionUndo->setEnabled(currentScene()->isModified());
+        ui->action_Save_Map->setEnabled(currentScene()->isModified());
+        ui->actionRevert_Map->setEnabled(currentScene()->isModified());
     }
 }
 
@@ -1070,6 +1077,18 @@ bool MainWindow::saveAll()
 
 void MainWindow::on_actionMap_Properties_dialog_triggered()
 {
-    dialogmapproperties dlg(this);
+    DialogMapProperties dlg(this);
     dlg.exec();
+}
+
+void MainWindow::on_action_Save_Map_triggered()
+{
+    if(currentScene())
+        currentScene()->Save();
+}
+
+void MainWindow::on_actionRevert_Map_triggered()
+{
+    if (currentScene())
+        currentScene()->Load();
 }

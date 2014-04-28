@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dialogmapproperties</class>
- <widget class="QDialog" name="dialogmapproperties">
+ <class>DialogMapProperties</class>
+ <widget class="QDialog" name="DialogMapProperties">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Map properties</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -925,7 +925,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>dialogmapproperties</receiver>
+   <receiver>DialogMapProperties</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -941,7 +941,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>dialogmapproperties</receiver>
+   <receiver>DialogMapProperties</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

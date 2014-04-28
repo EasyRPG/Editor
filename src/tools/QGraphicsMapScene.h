@@ -6,6 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
+#include <QMap>
 #include <QMenu>
 #include <QUndoStack>
 #include <memory>
@@ -28,6 +29,8 @@ public:
     int id() const;
     int chipsetId() const;
     void setLayerData(Core::Layer layer, std::vector<short> data);
+    void setEventData(int id, const RPG::Event &data);
+    QMap<int, RPG::Event *> *mapEvents();
 
 signals:
     void actionRunHereTriggered(int map_id, int x, int y);

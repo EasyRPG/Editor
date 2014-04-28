@@ -18,21 +18,28 @@ SOURCES += src/mainwindow.cpp \
     src/dialogdatabase.cpp \
     src/dialogimportimage.cpp \
     src/dialognewproject.cpp \
-    src/tools/QGraphicsImportItem.cpp \
     src/gamecharacter.cpp \
     src/dialogopenproject.cpp \
     src/musicplayer.cpp \
-    src/tools/QGraphicsPaleteScene.cpp \
     src/volumebutton.cpp \
     src/core.cpp \
-    src/tools/QGraphicsMapScene.cpp \
     src/dialogimportproject.cpp \
     src/dialogrtppath.cpp \
     src/dialogrungame.cpp \
     src/tools/qundodraw.cpp \
-    src/dialogEvent.cpp \
-    src/tools/qeventwidget.cpp\
-    src/dialogmapproperties.cpp
+    src/dialogevent.cpp \
+    src/dialogmapproperties.cpp \
+    src/tools/qundoevent.cpp \
+    src/dialogcharapicker.cpp \
+    src/dialogsplash.cpp \
+    src/tools/qeventpagewidget.cpp \
+    src/tools/qeventpagewidget_init.cpp \
+    src/tools/qgraphicscharaitem.cpp \
+    src/tools/qgraphicsimportitem.cpp \
+    src/tools/qgraphicsmapscene.cpp \
+    src/tools/qgraphicspaletescene.cpp \
+    src/tools/qgraphicspickerscene.cpp \
+    src/tools/qdbpageactors.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -40,21 +47,26 @@ HEADERS  += src/mainwindow.h \
     src/gamecharacter.h \
     src/dialogimportimage.h \
     src/dialognewproject.h \
-    src/tools/QGraphicsImportItem.h \
-    src/tools/picojson.h \
     src/dialogopenproject.h \
     src/musicplayer.h \
-    src/tools/QGraphicsPaleteScene.h \
     src/volumebutton.h \
     src/core.h \
-    src/tools/QGraphicsMapScene.h \
     src/dialogimportproject.h \
     src/dialogrtppath.h \
     src/dialogrungame.h \
     src/tools/qundodraw.h \
-    src/dialogEvent.h \
-    src/tools/qeventwidget.h \
-    src/dialogmapproperties.h
+    src/dialogmapproperties.h \
+    src/dialogevent.h \
+    src/tools/qundoevent.h \
+    src/dialogcharapicker.h \
+    src/dialogsplash.h \
+    src/tools/qeventpagewidget.h \
+    src/tools/qgraphicscharaitem.h \
+    src/tools/qgraphicsimportitem.h \
+    src/tools/qgraphicsmapscene.h \
+    src/tools/qgraphicspaletescene.h \
+    src/tools/qgraphicspickerscene.h \
+    src/tools/qdbpageactors.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -64,17 +76,22 @@ FORMS    += src/mainwindow.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
     src/dialogrtppath.ui \
+    src/dialogmapproperties.ui \
     src/dialogevent.ui \
-    src/tools/qeventwidget.ui\
-    src/dialogmapproperties.ui
+    src/dialogcharapicker.ui \
+    src/dialogsplash.ui \
+    src/tools/qeventpagewidget.ui \
+    src/tools/qdbpageactors.ui
 
 RESOURCES += \
     src/Resources.qrc
 
 RC_FILE = src/Resources.rc
 
-INCLUDEPATH += $$PWD/libs/liblcf/include
-DEPENDPATH += $$PWD/libs/liblcf/include
+INCLUDEPATH += $$PWD/libs/liblcf/src
+INCLUDEPATH += $$PWD/libs/liblcf/src/generated
+DEPENDPATH += $$PWD/libs/liblcf/src
+DEPENDPATH += $$PWD/libs/liblcf/src/generated
 
 DESTDIR = bin
 

@@ -1,14 +1,14 @@
 #include "dialogmapproperties.h"
 #include "ui_dialogmapproperties.h"
 
-dialogmapproperties::dialogmapproperties(QWidget *parent) :
+DialogMapProperties::DialogMapProperties(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::dialogmapproperties)
+    ui(new Ui::DialogMapProperties)
 {
     ui->setupUi(this);
 }
 
-dialogmapproperties::~dialogmapproperties()
+DialogMapProperties::~DialogMapProperties()
 {
     delete ui;
 }

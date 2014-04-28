@@ -1,5 +1,6 @@
-#include "QGraphicsMapScene.h"
+#include "qgraphicsmapscene.h"
 #include <QAction>
+#include <QDialogButtonBox>
 #include <QGraphicsBlurEffect>
 #include <QGraphicsOpacityEffect>
 #include <QPainter>
@@ -11,6 +12,7 @@
 #include "../dialogrungame.h"
 #include "../mainwindow.h"
 #include "qundodraw.h"
+#include "qundoevent.h"
 #include <data.h>
 #include <lmu_reader.h>
 #include <lmt_reader.h>
@@ -171,6 +173,21 @@ void QGraphicsMapScene::setLayerData(Core::Layer layer, std::vector<short> data)
     redrawLayer(layer);
 }
 
+void QGraphicsMapScene::setEventData(int id, const RPG::Event &data)
+{
+    for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
+        if (m_map.get()->events[i].ID == id)
+            m_map.get()->events[i] = data;
+}
+
+QMap<int, RPG::Event*> *QGraphicsMapScene::mapEvents()
+{
+    QMap<int, RPG::Event*> *events = new QMap<int, RPG::Event*>();
+    for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
+        events->insert(m_map.get()->events[i].ID, &m_map.get()->events[i]);
+    return events;
+}
+
 void QGraphicsMapScene::redrawMap()
 {
     if (!m_init)
@@ -277,7 +294,8 @@ void QGraphicsMapScene::Save()
        << std::setw(4)
        << id()
        << ".emu";
-    LMU_Reader::SaveXml(ss.str(), *m_map.get());
+    LMU_Reader::SaveXml(ss.str(), *m_map.get());    
+    m_undoStack->clear();
     emit mapSaved();
 }
 
@@ -308,6 +326,8 @@ void QGraphicsMapScene::Load()
                                                         x*mCore->tileSize(),
                                                         m_map.get()->height*mCore->tileSize());
         m_lines.append(line);
+        line->setScale(m_scale);
+        line->setVisible(mCore->layer() == Core::EVENT);
         addItem(line);
     }
     for (int y = 0; y <= m_map.get()->height; y++)
@@ -317,17 +337,23 @@ void QGraphicsMapScene::Load()
                                                         m_map.get()->width*mCore->tileSize(),
                                                         y*mCore->tileSize());
         m_lines.append(line);
+        line->setScale(m_scale);
+        line->setVisible(mCore->layer() == Core::EVENT);
         addItem(line);
     }
     redrawMap();
+    m_undoStack->clear();
     emit mapReverted();
 }
 
 void QGraphicsMapScene::undo()
 {
     m_undoStack->undo();
-    if (m_undoStack->isClean())
+    if (m_undoStack->index() == 0)
+    {
+        m_undoStack->clear();
         emit mapReverted();
+    }
 }
 
 void QGraphicsMapScene::on_actionNewEvent()
@@ -497,7 +523,14 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
         if (_index(cur_x,cur_y) == _index(m_map.get()->events[i].x,m_map.get()->events[i].y))
         {
-            DialogEvent::edit(m_view, &m_map.get()->events[i]);
+            RPG::Event backup = m_map.get()->events[i];
+            int result = DialogEvent::edit(m_view, &m_map.get()->events[i]);
+            if (result != QDialogButtonBox::Cancel)
+            {
+                m_undoStack->push(new QUndoEvent(backup,
+                                                 this));
+                emit mapChanged();
+            }
         }
 }
 

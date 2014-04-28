@@ -16,15 +16,24 @@ public:
     explicit DialogEvent(QWidget *parent = 0);
     ~DialogEvent();
 
-    static void edit(QWidget *parent, RPG::Event *event);
+    static int edit(QWidget *parent, RPG::Event *event);
+
+    static bool equalEvents(const RPG::Event &e1,
+                            const RPG::Event &e2);
 
     RPG::Event event() const;
-    void setEvent(const RPG::Event &event);
+    void setEvent(RPG::Event *event);
 
 private slots:
+    void apply();
+
+    void ok();
 
 private:
     Ui::DialogEvent *ui;
     RPG::Event m_event;
+    RPG::Event r_event;
+    RPG::Event a_event;
+    int lst_result;
 };
 #endif // DIALOGEVENT_H

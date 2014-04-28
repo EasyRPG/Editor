@@ -2,16 +2,24 @@
 #include "ui_dialogdatabase.h"
 #include <QPushButton>
 #include <QInputDialog>
-#include <sstream>
-#include <iomanip>
 
 DialogDataBase::DialogDataBase(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDataBase)
 {
     ui->setupUi(this);
-    current_character = 0;
-    UpdateCharacterWidgets();
+    m_data = Data::data;
+    m_currentActor = 0;
+    on_currentActorChanged(0);
+    Old_PageActors = new QDbPageActors(m_data, this);
+    ui->tabOld_Pages->insertTab(0, Old_PageActors, tr("Characters"));
+    ui->tabOld_Pages->setCurrentWidget(Old_PageActors);
+    ui->stackedStyle->setCurrentWidget(ui->pageOld);
+    /* Fill Characters list */
+    for (unsigned int i = 0; i < Data::actors.size(); i++)
+        ui->listNew_Character->addItem(QString("%1:%2")
+                                   .arg(QString::number(i+1), 4, QLatin1Char('0'))
+                                   .arg(Data::actors[i].name.c_str()));
 }
 
 DialogDataBase::~DialogDataBase()
@@ -19,79 +27,48 @@ DialogDataBase::~DialogDataBase()
     delete ui;
 }
 
-void DialogDataBase::UpdateCharacterWidgets()
+void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
 {
-    if (current_character == 0){
-        /* ClearWidgets */
+    m_currentActor = actor;
+    if (actor == 0){
+        /* Clear Table */
         for (int i = 0; i < ui->tableNew_CharacterProperties->rowCount(); i++)
             ui->tableNew_CharacterProperties->item(i,1)->setText("");
-        ui->lineOld_CharacterName->clear();
-        ui->lineOld_CharacterTitle->clear();
-        ui->spinOld_CharacterCritChance->setValue(30);
-        ui->spinOld_CharacterMaxLv->setValue(99);
-        ui->spinOld_CharacterMinLv->setValue(1);
-        ui->checkOld_CharacterAI->setChecked(false);
-        ui->checkOld_CharacterDualWeapon->setChecked(false);
-        ui->checkOld_CharacterFixedEquip->setChecked(false);
-        ui->checkOld_CharacterStrongDefense->setChecked(false);
-        ui->checkOld_CharacterTranslucent->setChecked(false);
-        ui->groupOld_CharacterCritChance->setChecked(false);
-        ui->comboOld_CharacterBattleset->setCurrentIndex(0);
-        ui->comboOld_CharacterInitialArmor->setCurrentIndex(0);
-        ui->comboOld_CharacterInitialHelmet->setCurrentIndex(0);
-        ui->comboOld_CharacterInitialMisc->setCurrentIndex(0);
-        ui->comboOld_CharacterInitialWeapon->setCurrentIndex(0);
-        ui->comboOld_CharacterInitialShield->setCurrentIndex(0);
-        ui->comboOld_CharacterProfession->setCurrentIndex(0);
-        ui->comboOld_CharacterUnarmedAnimation->setCurrentIndex(0);
-        ui->tableOld_CharacterSkills->setRowCount(0);
-        ui->listOld_CharacterAttributeRanks->clear();
-        ui->listOld_CharacterStatusRanks->clear();
-        /* Disable Widgets */
+        /* Disable Table */
         ui->tableNew_CharacterProperties->setEnabled(false);
-        ui->lineOld_CharacterName->setEnabled(false);
-        ui->lineOld_CharacterTitle->setEnabled(false);
-        ui->spinOld_CharacterMaxLv->setEnabled(false);
-        ui->spinOld_CharacterMinLv->setEnabled(false);
-        ui->checkOld_CharacterAI->setEnabled(false);
-        ui->checkOld_CharacterDualWeapon->setEnabled(false);
-        ui->checkOld_CharacterFixedEquip->setEnabled(false);
-        ui->checkOld_CharacterStrongDefense->setEnabled(false);
-        ui->checkOld_CharacterTranslucent->setEnabled(false);
-        ui->groupOld_CharacterCritChance->setEnabled(false);
-        ui->comboOld_CharacterBattleset->setEnabled(false);
-        ui->comboOld_CharacterInitialArmor->setEnabled(false);
-        ui->comboOld_CharacterInitialHelmet->setEnabled(false);
-        ui->comboOld_CharacterInitialMisc->setEnabled(false);
-        ui->comboOld_CharacterInitialWeapon->setEnabled(false);
-        ui->comboOld_CharacterInitialShield->setEnabled(false);
-        ui->comboOld_CharacterProfession->setEnabled(false);
-        ui->comboOld_CharacterUnarmedAnimation->setEnabled(false);
-        ui->tableOld_CharacterSkills->setEnabled(false);
-        ui->listOld_CharacterAttributeRanks->setEnabled(false);
-        ui->listOld_CharacterStatusRanks->setEnabled(false);
-        ui->pushOld_CharacterApplyProfession->setEnabled(false);
-        ui->pushOld_CharacterExpCurveEdit->setEnabled(false);
-        ui->pushOld_CharacterSetCharset->setEnabled(false);
-        ui->pushOld_CharacterSetFace->setEnabled(false);
-        ui->pushOld_CharacterEditCustom->setEnabled(false);
         return;
     }
 
-    ui->tableNew_CharacterProperties->item(0,1)->setText(current_character->name());
-    ui->tableNew_CharacterProperties->item(1,1)->setText(current_character->title());
-    ui->tableNew_CharacterProperties->item(2,1)->setText(QString::number(current_character->minlvl()));
-    ui->tableNew_CharacterProperties->item(3,1)->setText(QString::number(current_character->maxlvl()));
-    ui->tableNew_CharacterProperties->item(4,1)->setText(current_character->docritical() ? "YES" : "NO");
-    ui->tableNew_CharacterProperties->item(5,1)->setText(tr("1 of ") + QString::number(current_character->critical())+ tr(" turns"));
-    ui->tableNew_CharacterProperties->item(6,1)->setText(current_character->dualweapons() ? "YES" :"NO");
-    ui->tableNew_CharacterProperties->item(7,1)->setText(current_character->fixedequip() ? "YES" :"NO");
-    ui->tableNew_CharacterProperties->item(8,1)->setText(current_character->ai() ? "YES" :"NO");
-    ui->tableNew_CharacterProperties->item(9,1)->setText(current_character->strongdefense() ? "YES" :"NO");
-    ui->tableNew_CharacterProperties->item(10,1)->setText("PROFESSION NAME" /*profesions[current_character->profession()].name()*/);
-    ui->tableNew_CharacterProperties->item(11,1)->setText("FaceName [Index]" /*facesets[current_character->face().faceset].name() + QString::number(current_character->face().faceindex)*/);
-    ui->tableNew_CharacterProperties->item(12,1)->setText("CharaName [Index] [TRANSLUCENT: NO]");
-    ui->tableNew_CharacterProperties->item(13,1)->setText("BattlerName");
+    /* Fill Table */
+    QString yes = tr("YES");
+    QString no = tr("NO");
+    ui->tableNew_CharacterProperties->item(0,1)->setText(actor->name.c_str());
+    ui->tableNew_CharacterProperties->item(1,1)->setText(actor->title.c_str());
+    ui->tableNew_CharacterProperties->item(2,1)->setText(QString::number(actor->initial_level));
+    ui->tableNew_CharacterProperties->item(3,1)->setText(QString::number(actor->final_level));
+    ui->tableNew_CharacterProperties->item(4,1)->setText(actor->critical_hit ? yes : no);
+    ui->tableNew_CharacterProperties->item(5,1)->setText(tr("1 of %1 turns").arg(actor->critical_hit_chance));
+    ui->tableNew_CharacterProperties->item(6,1)->setText(actor->two_swords_style ? yes :no);
+    ui->tableNew_CharacterProperties->item(7,1)->setText(actor->fix_equipment ? yes :no);
+    ui->tableNew_CharacterProperties->item(8,1)->setText(actor->auto_battle ? yes :no);
+    ui->tableNew_CharacterProperties->item(9,1)->setText(actor->super_guard ? yes :no);
+    ui->tableNew_CharacterProperties->item(10,1)->setText(actor->class_id < 1 ? tr("<none>") :
+                                                          actor->class_id >= (int)m_data.classes.size() ?
+                                                          tr("<%1?>").arg(actor->class_id) :
+                                                          m_data.classes[actor->class_id-1].name.c_str());
+    ui->tableNew_CharacterProperties->item(11,1)->setText(QString("%1[%2]")
+                                                          .arg(actor->face_name.c_str())
+                                                          .arg(actor->face_index));
+    ui->tableNew_CharacterProperties->item(12,1)->setText(QString("%1[%2]%3")
+                                                          .arg(actor->character_name.c_str())
+                                                          .arg(actor->character_index)
+                                                          .arg(actor->transparent ? " [Transparent]" : ""));
+    ui->tableNew_CharacterProperties->item(13,1)->setText(actor->battler_animation < 1 ? tr("<none>") :
+                                                          actor->battler_animation >= (int)m_data.battleranimations.size() ?
+                                                          tr("<%1?>").arg(actor->battler_animation) :
+                                                          m_data.battleranimations[actor->battler_animation-1].name.c_str());
+
+    /* TODO: fill the following information */
     ui->tableNew_CharacterProperties->item(14,1)->setText("Click to Edit");
     ui->tableNew_CharacterProperties->item(15,1)->setText("Click to Edit");
     ui->tableNew_CharacterProperties->item(16,1)->setText("Click to Edit");
@@ -108,73 +85,10 @@ void DialogDataBase::UpdateCharacterWidgets()
     ui->tableNew_CharacterProperties->item(27,1)->setText("Click to Edit");
     ui->tableNew_CharacterProperties->item(28,1)->setText("Click to Edit");
     ui->tableNew_CharacterProperties->item(29,1)->setText("Click to Edit");
-    /* TODO: fill custom properties table values */
-    ui->lineOld_CharacterName->setText(current_character->name());
-    ui->lineOld_CharacterTitle->setText(current_character->title());
-    ui->spinOld_CharacterCritChance->setValue(current_character->critical());
-    ui->spinOld_CharacterMaxLv->setValue(current_character->maxlvl());
-    ui->spinOld_CharacterMinLv->setValue(current_character->minlvl());
-    ui->checkOld_CharacterAI->setChecked(current_character->ai());
-    ui->checkOld_CharacterDualWeapon->setChecked(current_character->dualweapons());
-    ui->checkOld_CharacterFixedEquip->setChecked(current_character->fixedequip());
-    ui->checkOld_CharacterStrongDefense->setChecked(current_character->strongdefense());
-    ui->checkOld_CharacterTranslucent->setChecked(current_character->charatranslucent());
-    ui->groupOld_CharacterCritChance->setChecked(current_character->docritical());
-    ui->comboOld_CharacterBattleset->setCurrentIndex(current_character->battleset() + 1);
-    ui->comboOld_CharacterInitialArmor->setCurrentIndex(current_character->initialarmor() + 1);
-    ui->comboOld_CharacterInitialHelmet->setCurrentIndex(current_character->initialhelmet() + 1);
-    ui->comboOld_CharacterInitialMisc->setCurrentIndex(current_character->initialother() + 1);
-    ui->comboOld_CharacterInitialWeapon->setCurrentIndex(current_character->initialweapon() + 1);
-    ui->comboOld_CharacterInitialShield->setCurrentIndex(current_character->initialshield() + 1);
-    ui->comboOld_CharacterProfession->setCurrentIndex(current_character->profession() + 1);
-    ui->comboOld_CharacterUnarmedAnimation->setCurrentIndex(current_character->unarmedanimation() + 1);
-    ui->tableOld_CharacterSkills->setRowCount(0);
-    for (int i = 0; i < current_character->skilllist().count(); i++){
-        ui->tableOld_CharacterSkills->insertRow(i);
-        ui->tableOld_CharacterSkills->item(i, 0)->setText(QString::number(current_character->skills()->value(i)));
-        ui->tableOld_CharacterSkills->item(i, 1)->setText("SKILL NAME" /*QString::number(current_character->skills()[i]->skill_id)*/);
-    }
-    ui->tableOld_CharacterSkills->insertRow(current_character->skilllist().count());
-    ui->listOld_CharacterAttributeRanks->clear(); /*TODO: update this*/
-    ui->listOld_CharacterStatusRanks->clear();
-    /* Enable widgets */
+
+    /* Enable Table */
     ui->tableNew_CharacterProperties->setEnabled(true);
-    ui->lineOld_CharacterName->setEnabled(true);
-    ui->lineOld_CharacterTitle->setEnabled(true);
-    ui->spinOld_CharacterMaxLv->setEnabled(true);
-    ui->spinOld_CharacterMinLv->setEnabled(true);
-    ui->checkOld_CharacterAI->setEnabled(true);
-    ui->checkOld_CharacterDualWeapon->setEnabled(true);
-    ui->checkOld_CharacterFixedEquip->setEnabled(true);
-    ui->checkOld_CharacterStrongDefense->setEnabled(true);
-    ui->checkOld_CharacterTranslucent->setEnabled(true);
-    ui->groupOld_CharacterCritChance->setEnabled(true);
-    ui->comboOld_CharacterBattleset->setEnabled(true);
-    ui->comboOld_CharacterInitialArmor->setEnabled(true);
-    ui->comboOld_CharacterInitialHelmet->setEnabled(true);
-    ui->comboOld_CharacterInitialMisc->setEnabled(true);
-    ui->comboOld_CharacterInitialWeapon->setEnabled(true);
-    ui->comboOld_CharacterInitialShield->setEnabled(true);
-    ui->comboOld_CharacterProfession->setEnabled(true);
-    ui->comboOld_CharacterUnarmedAnimation->setEnabled(true);
-    ui->tableOld_CharacterSkills->setEnabled(true);
-    ui->listOld_CharacterAttributeRanks->setEnabled(true);
-    ui->listOld_CharacterStatusRanks->setEnabled(true);
-    ui->pushOld_CharacterApplyProfession->setEnabled(true);
-    ui->pushOld_CharacterExpCurveEdit->setEnabled(true);
-    ui->pushOld_CharacterSetCharset->setEnabled(true);
-    ui->pushOld_CharacterSetFace->setEnabled(true);
-    ui->pushOld_CharacterEditCustom->setEnabled(true);
 }
-void DialogDataBase::on_toolSwitchStyle_clicked(bool checked)
-{
-    if (checked)
-        ui->stackedStyle->setCurrentIndex(1);
-    else
-        ui->stackedStyle->setCurrentIndex(0);
-}
-
-
 
 void DialogDataBase::on_tabOld_Pages_currentChanged(int index)
 {
@@ -182,258 +96,31 @@ void DialogDataBase::on_tabOld_Pages_currentChanged(int index)
     emit ui->listNew_Pages->currentRowChanged(index);
 }
 
-void DialogDataBase::on_pushOld_CharacterMax_clicked()
+void DialogDataBase::on_toolSwitchStyle_clicked(bool checked)
 {
-    bool b_ok;
-    int n_num = QInputDialog::getInt(this,"Change Maximum Number", "Maximum Number", ui->listOld_Character->count(), 1, 5000,1, &b_ok);
-    if (b_ok){
-        if (n_num < ui->listOld_Character->count())
-            for (int i = ui->listOld_Character->count() - 1; i >= n_num; i--){
-                QListWidgetItem *itm = ui->listOld_Character->takeItem(i);
-                delete itm;
-                itm = ui->listNew_Character->takeItem(i);
-                delete itm;
-                characters.remove(i);
-            }
-        else{
-            std::stringstream ss;
-            for (int i = ui->listOld_Character->count(); i < n_num; i++){
-                ss.str("");
-                ss << std::setfill('0') << std::setw(4) << i + 1 << ": ";
-                ui->listOld_Character->insertItem(i, QString::fromStdString(ss.str()));
-                ui->listNew_Character->insertItem(i, QString::fromStdString(ss.str()));
-                characters.append(GameCharacter());
-            }
-        }
-    }
+    ui->stackedStyle->setCurrentIndex((int)checked);
 }
 
 void DialogDataBase::on_pushNew_CharacterMax_clicked()
 {
-    emit ui->pushOld_CharacterMax->clicked();
+    /* TODO: resize characters */
 }
 
 void DialogDataBase::on_lineNew_CharacterFilter_textChanged(const QString &arg1)
 {
-    ui->lineOld_CharacterFilter->setText(arg1);
-    emit ui->lineOld_CharacterFilter->textChanged(arg1);
+    for (int i = 0; i < ui->listNew_Character->count(); i++)
+        ui->listNew_Character->item(i)->setHidden(ui->listNew_Character->item(i)->text().contains(arg1,Qt::CaseInsensitive));
 }
 
-void DialogDataBase::on_lineOld_CharacterFilter_textChanged(const QString &arg1)
+void DialogDataBase::on_listNew_Character_currentRowChanged(int currentRow)
 {
-    ui->lineNew_CharacterFilter->setText(arg1);
-
-    for (int i = 0; i < ui->listNew_Character->count(); i++){
-        if (ui->listNew_Character->item(i)->text().contains(arg1)){
-            ui->listNew_Character->item(i)->setHidden(false);
-            ui->listOld_Character->item(i)->setHidden(false);
-        }
-        else {
-            ui->listNew_Character->item(i)->setHidden(true);
-            ui->listOld_Character->item(i)->setHidden(true);
-        }
-
+    if (currentRow < 0 || currentRow >= (int)m_data.actors.size())
+    {
+        on_currentActorChanged(0);
+        emit currentActorChanged(0);
+        return; //invalid
     }
-}
 
-void DialogDataBase::on_lineOld_CharacterName_textChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    int id  = ui->listOld_Character->currentRow();
-    current_character->name(arg1);
-    ui->tableNew_CharacterProperties->item(0, 1)->setText(arg1);
-    std::stringstream ss;
-    ss << std::setfill('0') << std::setw(4) << id+1 << ": " << characters[id].name().toStdString();
-    ui->listNew_Character->item(id)->setText(QString::fromStdString(ss.str()));
-    ui->listOld_Character->item(id)->setText(QString::fromStdString(ss.str()));
-}
-
-void DialogDataBase::on_listOld_Character_currentRowChanged(int currentRow)
-{
-    ui->listNew_Character->setCurrentRow(currentRow);
-    current_character = &characters[currentRow];
-    UpdateCharacterWidgets();
-}
-
-void DialogDataBase::on_lineOld_CharacterTitle_textChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    current_character->title(arg1);
-    ui->tableNew_CharacterProperties->item(1,1)->setText(arg1);
-}
-
-void DialogDataBase::on_checkOld_CharacterAI_toggled(bool checked)
-{
-    if (current_character == 0)
-        return;
-    current_character->ai(checked);
-    ui->tableNew_CharacterProperties->item(8,1)->setText(checked ? "YES" : "NO");
-}
-
-void DialogDataBase::on_checkOld_CharacterDualWeapon_toggled(bool checked)
-{
-    if (current_character == 0)
-        return;
-    current_character->dualweapons(checked);
-    ui->tableNew_CharacterProperties->item(6,1)->setText(checked ? "YES" : "NO");
-}
-
-void DialogDataBase::on_checkOld_CharacterFixedEquip_toggled(bool checked)
-{
-    if (current_character == 0)
-        return;
-    current_character->fixedequip(checked);
-    ui->tableNew_CharacterProperties->item(7,1)->setText(checked ? "YES" : "NO");
-}
-
-void DialogDataBase::on_checkOld_CharacterStrongDefense_toggled(bool checked)
-{
-    if (current_character == 0)
-        return;
-    current_character->strongdefense(checked);
-    ui->tableNew_CharacterProperties->item(9,1)->setText(checked ? "YES" : "NO");
-}
-
-void DialogDataBase::on_groupOld_CharacterCritChance_toggled(bool arg1)
-{
-    if (current_character == 0)
-        return;
-    current_character->docritical(arg1);
-    ui->tableNew_CharacterProperties->item(4,1)->setText(arg1 ? "YES" : "NO");
-}
-
-void DialogDataBase::on_spinOld_CharacterCritChance_valueChanged(int arg1)
-{
-    if (current_character == 0)
-        return;
-    current_character->critical(arg1);
-    ui->tableNew_CharacterProperties->item(5,1)->setText(tr("1 of ") + QString::number(arg1)+ tr(" turns"));
-}
-
-
-void DialogDataBase::on_comboOld_CharacterProfession_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->profession(index);
-
-}
-
-void DialogDataBase::on_comboOld_CharacterProfession_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(10,1)->setText(arg1);
-}
-
-void DialogDataBase::on_spinOld_CharacterMinLv_valueChanged(int arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(2,1)->setText(QString::number(arg1));
-    current_character->minlvl(arg1);
-}
-
-void DialogDataBase::on_spinOld_CharacterMaxLv_valueChanged(int arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(3,1)->setText(QString::number(arg1));
-    current_character->maxlvl(arg1);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialWeapon_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->initialweapon(index);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialWeapon_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(21,1)->setText(arg1);
-}
-
-
-
-void DialogDataBase::on_comboOld_CharacterInitialShield_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->initialshield(index);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialShield_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(22,1)->setText(arg1);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialArmor_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->initialarmor(index);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialArmor_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(23,1)->setText(arg1);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialHelmet_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->initialhelmet(index);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialHelmet_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(24,1)->setText(arg1);
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialMisc_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->initialother(index);
-
-}
-
-void DialogDataBase::on_comboOld_CharacterInitialMisc_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(25,1)->setText(arg1);
-}
-
-void DialogDataBase::on_comboOld_CharacterUnarmedAnimation_currentIndexChanged(int index)
-{
-    if (current_character == 0)
-        return;
-    index--;
-    current_character->unarmedanimation(index);
-}
-
-void DialogDataBase::on_comboOld_CharacterUnarmedAnimation_currentIndexChanged(const QString &arg1)
-{
-    if (current_character == 0)
-        return;
-    ui->tableNew_CharacterProperties->item(26,1)->setText(arg1);
+    on_currentActorChanged(&m_data.actors[currentRow]);
+    emit currentActorChanged(&m_data.actors[currentRow]);
 }
