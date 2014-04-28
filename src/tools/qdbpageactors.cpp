@@ -195,7 +195,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         // TODO: move getSkillName to Core
         QString name = QString("<%1?>").arg(actor->skills[i].skill_id);
         if (i < m_data.skills.size())
-            name = m_data.skills[i].name.c_str();
+            name = m_data.skills[actor->skills[i].skill_id-1].name.c_str();
         // TODO/
         ui->tableSkills->item(i, 1)->setText(name);
     }
