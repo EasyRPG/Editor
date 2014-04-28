@@ -1,5 +1,7 @@
 #include "qdbpageactors.h"
 #include "ui_qdbpageactors.h"
+#include <QTimer>
+#include <QGraphicsOpacityEffect>
 
 QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
@@ -10,6 +12,20 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
 
     m_currentActor = 0;
 
+    ui->graphicsBattleset->setScene(new QGraphicsScene(this));
+    /* TODO: add Battler item */
+    m_charaItem = new QGraphicsCharaItem();
+    m_charaItem->setSpin(true);
+    m_charaItem->setWalk(true);
+    m_charaItem->setScale(2.0);
+    m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+    ui->graphicsCharset->setScene(new QGraphicsScene(this));
+    ui->graphicsCharset->scene()->addItem(m_charaItem);
+    ui->graphicsCharset->scene()->setSceneRect(0,0,48,64);
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
+    connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
+    timer->start(200);
     for (unsigned int i = 0; i < m_data.actors.size(); i++)
         ui->listCharacters->addItem(QString("%1: %2")
                                .arg(QString::number(i+1), 4, QLatin1Char('0'))
@@ -71,6 +87,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         ui->comboProfession->setCurrentIndex(0);
         ui->comboUnarmedAnimation->setCurrentIndex(0);
         ui->tableSkills->setRowCount(0);
+        m_charaItem->setVisible(false);
         for (int i = 0; i < ui->listAttributeRanks->count(); i++)
             ui->listAttributeRanks->item(i)->setIcon(QIcon());
         for (int i = 0; i < ui->listStatusRanks->count(); i++)
@@ -197,6 +214,10 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         else
             ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg((int)actor->state_ranks[i])));
     }
+    m_charaItem->setVisible(true);
+    m_charaItem->setBasePix(actor->character_name.c_str());
+    m_charaItem->setIndex(actor->character_index);
+    m_charaItem->graphicsEffect()->setEnabled(actor->transparent);
 
     /* Enable widgets */
     ui->lineName->setEnabled(true);

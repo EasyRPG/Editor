@@ -2,8 +2,6 @@
 #include "ui_dialogdatabase.h"
 #include <QPushButton>
 #include <QInputDialog>
-#include <sstream>
-#include <iomanip>
 
 DialogDataBase::DialogDataBase(QWidget *parent) :
     QDialog(parent),
