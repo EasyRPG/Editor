@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <data.h>
 #include <rpg_actor.h>
+#include "qgraphicscharaitem.h"
 
 namespace Ui {
 class QDbPageActors;
@@ -31,6 +32,7 @@ private:
 
     void UpdateModels();
 
+    QGraphicsCharaItem *m_charaItem;
     RPG::Actor *m_currentActor;
     RPG::Database &m_data;
 };

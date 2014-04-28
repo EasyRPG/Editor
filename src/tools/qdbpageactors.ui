@@ -1050,13 +1050,13 @@
           <widget class="QGraphicsView" name="graphicsCharset">
            <property name="minimumSize">
             <size>
-             <width>56</width>
+             <width>48</width>
              <height>64</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>56</width>
+             <width>48</width>
              <height>64</height>
             </size>
            </property>
