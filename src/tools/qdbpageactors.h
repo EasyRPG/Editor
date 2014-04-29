@@ -5,6 +5,7 @@
 #include <data.h>
 #include <rpg_actor.h>
 #include "qgraphicscharaitem.h"
+#include "qgraphicsfaceitem.h"
 
 namespace Ui {
 class QDbPageActors;
@@ -24,6 +25,8 @@ public slots:
 private slots:
     void on_listCharacters_currentRowChanged(int currentRow);
 
+    void on_checkTranslucent_toggled(bool checked);
+
 signals:
     void currentActorChanged(RPG::Actor *actor);
 
@@ -33,6 +36,8 @@ private:
     void UpdateModels();
 
     QGraphicsCharaItem *m_charaItem;
+    QGraphicsFaceItem *m_faceItem;
+
     RPG::Actor *m_currentActor;
     RPG::Database &m_data;
 };
