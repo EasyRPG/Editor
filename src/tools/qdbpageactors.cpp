@@ -22,7 +22,6 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
 
     m_faceItem = new QGraphicsFaceItem();
     m_faceItem->setScale(1.5);
-    m_faceItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
 
     ui->graphicsCharset->setScene(new QGraphicsScene(this));
     ui->graphicsCharset->scene()->addItem(m_charaItem);
@@ -72,6 +71,8 @@ void QDbPageActors::UpdateModels()
         ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
     for (unsigned int i = 0; i < m_data.states.size(); i++)
         ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
+
+    on_currentActorChanged(m_currentActor);
 }
 
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
@@ -235,8 +236,6 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     m_faceItem->setVisible(true);
     m_faceItem->setBasePix(actor->face_name.c_str());
     m_faceItem->setIndex(actor->face_index);
-    m_faceItem->graphicsEffect()->setEnabled(actor->transparent);
-
 
     /* Enable widgets */
     ui->lineName->setEnabled(true);
@@ -278,4 +277,13 @@ void QDbPageActors::on_listCharacters_currentRowChanged(int currentRow)
 
     on_currentActorChanged(&m_data.actors[currentRow]);
     emit currentActorChanged(&m_data.actors[currentRow]);
+}
+
+void QDbPageActors::on_checkTranslucent_toggled(bool checked)
+{
+    if (!m_currentActor)
+        return;
+
+    m_currentActor->transparent = checked;
+    m_charaItem->graphicsEffect()->setEnabled(checked);
 }

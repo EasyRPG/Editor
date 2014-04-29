@@ -25,6 +25,8 @@ public slots:
 private slots:
     void on_listCharacters_currentRowChanged(int currentRow);
 
+    void on_checkTranslucent_toggled(bool checked);
+
 signals:
     void currentActorChanged(RPG::Actor *actor);
 
