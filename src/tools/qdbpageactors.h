@@ -26,7 +26,22 @@ public slots:
 private slots:
     void on_listCharacters_currentRowChanged(int currentRow);
     void on_lineName_textChanged(const QString &arg1);
+    void on_lineTitle_textChanged(const QString &arg1);
     void on_checkTranslucent_toggled(bool checked);
+    void on_spinMinLv_valueChanged(const QString &arg1);
+    void on_spinMaxLv_valueChanged(const QString &arg1);
+    void on_checkDualWeapon_stateChanged(int state);
+    void on_checkAI_stateChanged(int state);
+    void on_checkFixedEquip_stateChanged(int state);
+    void on_checkStrongDefense_stateChanged(int state);
+    void on_groupCritChance_toggled(bool on);
+    void on_spinCritChance_valueChanged(const QString &arg1);
+    void on_comboInitialWeapon_currentIndexChanged(int index);
+    void on_comboInitialShield_currentIndexChanged(int index);
+    void on_comboInitialArmor_currentIndexChanged(int index);
+    void on_comboInitialHelmet_currentIndexChanged(int index);
+    void on_comboInitialMisc_currentIndexChanged(int index);
+
 
 signals:
     void currentActorChanged(RPG::Actor *actor);
