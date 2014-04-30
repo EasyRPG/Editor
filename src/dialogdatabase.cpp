@@ -103,22 +103,20 @@ void DialogDataBase::on_toolSwitchStyle_clicked(bool checked)
     ui->stackedStyle->setCurrentIndex((int)checked);
 }
 
-void DialogDataBase::on_buttonBox_clicked( QAbstractButton *button)
+void DialogDataBase::on_buttonBox_clicked(QAbstractButton *button)
 {
-    switch(ui->buttonBox->standardButton(button)) {
-          // Standard buttons:
-          case QDialogButtonBox::Apply:
-                Data::data = m_data;
-                LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
+    switch(ui->buttonBox->standardButton(button))
+    {
+        // Standard buttons:
+        case QDialogButtonBox::Apply:
+        case QDialogButtonBox::Ok:
+            Data::data = m_data;
+            LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
         break;
-          case QDialogButtonBox::Ok:
-                Data::data = m_data;
-                LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
-        break;
-          default:
-              // shouldn't happen
-              break;
-          }
+        default:
+            // shouldn't happen
+            break;
+    }
 }
 void DialogDataBase::on_pushNew_CharacterMax_clicked()
 {
