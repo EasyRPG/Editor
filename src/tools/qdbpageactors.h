@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <data.h>
 #include <rpg_actor.h>
+#include <QDialogButtonBox>
 #include "qgraphicscharaitem.h"
 #include "qgraphicsfaceitem.h"
 
@@ -24,7 +25,7 @@ public slots:
 
 private slots:
     void on_listCharacters_currentRowChanged(int currentRow);
-
+    void on_lineName_textChanged(const QString &arg1);
     void on_checkTranslucent_toggled(bool checked);
 
 signals:

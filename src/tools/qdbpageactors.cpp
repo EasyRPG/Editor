@@ -75,6 +75,18 @@ void QDbPageActors::UpdateModels()
     on_currentActorChanged(m_currentActor);
 }
 
+
+void QDbPageActors::on_lineName_textChanged(const QString &arg1)
+{
+    if (!m_currentActor || m_currentActor->name == arg1.toStdString())
+    {
+        return;
+    }
+    m_currentActor->name = arg1.toStdString();
+    ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
+}
+
+
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
     m_currentActor = actor;
