@@ -25,7 +25,7 @@ public slots:
 
 private slots:
     void on_listCharacters_currentRowChanged(int currentRow);
-
+    void on_lineName_textChanged(const QString &arg1);
     void on_checkTranslucent_toggled(bool checked);
 
 signals:

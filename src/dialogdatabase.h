@@ -22,7 +22,6 @@ public:
 
 signals:
     void currentActorChanged(RPG::Actor *actor);
-
 public slots:
     void on_currentActorChanged(RPG::Actor *actor);
     void on_buttonBox_clicked(QAbstractButton *button);
