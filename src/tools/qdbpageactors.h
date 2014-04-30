@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <data.h>
 #include <rpg_actor.h>
+#include <QDialogButtonBox>
 #include "qgraphicscharaitem.h"
 #include "qgraphicsfaceitem.h"
 

@@ -77,6 +77,17 @@ void QDbPageActors::UpdateModels()
 
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
+    if ((actor != 0)&&(m_currentActor!=0)){
+
+     if(m_currentActor->name.compare(ui->lineName->text().toStdString()))
+        m_currentActor->name= ui->lineName->text().toStdString();
+        ui->listCharacters->clear();
+        for (unsigned int i = 0; i < m_data.actors.size(); i++)
+            ui->listCharacters->addItem(QString("%1: %2")
+                                   .arg(QString::number(i+1), 4, QLatin1Char('0'))
+                                   .arg(m_data.actors[i].name.c_str()));
+
+    }
     m_currentActor = actor;
     if (actor == 0){
         /* Clear widgets */

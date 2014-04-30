@@ -4,7 +4,9 @@
 #include <QDialog>
 #include <data.h>
 #include <rpg_actor.h>
+#include <QDialogButtonBox>
 #include "tools/qdbpageactors.h"
+#include "core.h"
 
 namespace Ui {
 class DialogDataBase;
@@ -23,6 +25,7 @@ signals:
 
 public slots:
     void on_currentActorChanged(RPG::Actor *actor);
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private slots:
 
