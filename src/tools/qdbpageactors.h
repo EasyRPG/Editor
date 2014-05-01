@@ -7,6 +7,8 @@
 #include <QDialogButtonBox>
 #include "qgraphicscharaitem.h"
 #include "qgraphicsfaceitem.h"
+#include "../dialogcharapicker.h"
+
 
 namespace Ui {
 class QDbPageActors;
@@ -41,7 +43,9 @@ private slots:
     void on_comboInitialArmor_currentIndexChanged(int index);
     void on_comboInitialHelmet_currentIndexChanged(int index);
     void on_comboInitialMisc_currentIndexChanged(int index);
-
+    void on_comboUnarmedAnimation_currentIndexChanged(int index);
+    void on_comboProfession_currentIndexChanged(int index);
+    void on_pushSetCharset_clicked();
 
 signals:
     void currentActorChanged(RPG::Actor *actor);

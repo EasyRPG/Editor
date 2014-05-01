@@ -205,6 +205,44 @@ void QDbPageActors::on_comboInitialMisc_currentIndexChanged(int index)
     }
    m_currentActor->initial_equipment.accessory_id =ui->comboInitialMisc->itemData(index).toInt();
 }
+
+void QDbPageActors::on_comboUnarmedAnimation_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->unarmed_animation== m_data.animations[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->unarmed_animation =index;
+}
+
+void QDbPageActors::on_comboProfession_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->class_id== m_data.classes[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->class_id =index;
+}
+
+void QDbPageActors::on_pushSetCharset_clicked()
+{
+    DialogCharaPicker dlg(this, true);
+    dlg.setName(m_currentActor->character_name);
+    dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_currentActor->character_name = dlg.name();
+        m_currentActor->character_index = dlg.index();
+
+        m_charaItem->setVisible(true);
+        m_charaItem->setBasePix(m_currentActor->character_name.c_str());
+        m_charaItem->setIndex(m_currentActor->character_index);
+        m_charaItem->graphicsEffect()->setEnabled(m_currentActor->transparent);
+
+    }
+}
+
+
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
     m_currentActor = actor;
@@ -296,7 +334,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
                 !m_data.items[i].actor_set[actor->ID-1])
             if (actor->class_id <= 0 ||
                     (actor->class_id >= (int) m_data.items[i].class_set.size() &&
-                     !m_data.items[i].class_set[actor->class_id-1]))
+                     ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[actor->class_id-1]))))
                 continue;
 
         switch (m_data.items[i].type)
