@@ -55,7 +55,7 @@ void QGraphicsFaceItem::updatePix()
     {
         QPixmap n_pix = QPixmap(QSize(192,192));
         QPainter p(&n_pix);
-        for (int index = 0; index < 8; index++)
+        for (int index = 0; index < 16; index++)
         {
             int src_x = (index%4)* 48;
             int src_y = (index/4)* 48;

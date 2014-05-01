@@ -95,6 +95,179 @@ void QDbPageActors::on_lineName_textChanged(const QString &arg1)
     ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
 }
 
+void QDbPageActors::on_lineTitle_textChanged(const QString &arg1)
+{
+    if (!m_currentActor || m_currentActor->title == arg1.toStdString())
+    {
+        return;
+    }
+    m_currentActor->title = arg1.toStdString();
+}
+
+void QDbPageActors::on_spinMinLv_valueChanged(const QString &arg1)
+{
+    if (!m_currentActor || m_currentActor->initial_level == arg1.toInt())
+    {
+        return;
+    }
+    m_currentActor->initial_level = arg1.toInt();
+}
+
+void QDbPageActors::on_spinMaxLv_valueChanged(const QString &arg1)
+{
+    if (!m_currentActor || m_currentActor->final_level == arg1.toInt())
+    {
+        return;
+    }
+    m_currentActor->final_level = arg1.toInt();
+}
+
+void QDbPageActors::on_checkDualWeapon_stateChanged(int state)
+{
+    if (!m_currentActor || m_currentActor->two_swords_style == (bool)state)
+    {
+        return;
+    }
+    m_currentActor->two_swords_style = (bool)state;
+}
+
+void QDbPageActors::on_checkAI_stateChanged(int state)
+{
+    if (!m_currentActor || m_currentActor->auto_battle == (bool)state)
+    {
+        return;
+    }
+    m_currentActor->auto_battle = (bool)state;
+}
+
+void QDbPageActors::on_checkFixedEquip_stateChanged(int state)
+{
+    if (!m_currentActor || m_currentActor->fix_equipment == (bool)state)
+    {
+        return;
+    }
+    m_currentActor->fix_equipment = (bool)state;
+}
+
+void QDbPageActors::on_checkStrongDefense_stateChanged(int state)
+{
+    if (!m_currentActor || m_currentActor->super_guard == (bool)state)
+    {
+        return;
+    }
+    m_currentActor->super_guard = (bool)state;
+}
+void QDbPageActors::on_groupCritChance_toggled(bool on)
+{
+    if (!m_currentActor || m_currentActor->critical_hit == (bool)on)
+    {
+        return;
+    }
+    m_currentActor->critical_hit = (bool)on;
+}
+void QDbPageActors::on_spinCritChance_valueChanged(const QString &arg1)
+{
+    if (!m_currentActor || m_currentActor->critical_hit_chance == arg1.toInt())
+    {
+        return;
+    }
+    m_currentActor->critical_hit_chance = arg1.toInt();
+}
+void QDbPageActors::on_comboInitialWeapon_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->initial_equipment.weapon_id== m_data.items[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->initial_equipment.weapon_id =ui->comboInitialWeapon->itemData(index).toInt();
+}
+
+void QDbPageActors::on_comboInitialShield_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->initial_equipment.shield_id== m_data.items[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->initial_equipment.shield_id =ui->comboInitialShield->itemData(index).toInt();
+}
+void QDbPageActors::on_comboInitialArmor_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->initial_equipment.armor_id== m_data.items[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->initial_equipment.armor_id =ui->comboInitialArmor->itemData(index).toInt();
+}
+void QDbPageActors::on_comboInitialHelmet_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->initial_equipment.helmet_id== m_data.items[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->initial_equipment.helmet_id =ui->comboInitialHelmet->itemData(index).toInt();
+}
+void QDbPageActors::on_comboInitialMisc_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->initial_equipment.accessory_id== m_data.items[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->initial_equipment.accessory_id =ui->comboInitialMisc->itemData(index).toInt();
+}
+
+void QDbPageActors::on_comboUnarmedAnimation_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->unarmed_animation== m_data.animations[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->unarmed_animation =index;
+}
+
+void QDbPageActors::on_comboProfession_currentIndexChanged(int index)
+{
+    if((index<=0) ||(!m_currentActor || m_currentActor->class_id== m_data.classes[index].ID ))
+    {
+           return;
+    }
+   m_currentActor->class_id =index;
+}
+
+void QDbPageActors::on_pushSetCharset_clicked()
+{
+    DialogCharaPicker dlg(this, true);
+    dlg.setName(m_currentActor->character_name);
+    dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_currentActor->character_name = dlg.name();
+        m_currentActor->character_index = dlg.index();
+
+        m_charaItem->setVisible(true);
+        m_charaItem->setBasePix(m_currentActor->character_name.c_str());
+        m_charaItem->setIndex(m_currentActor->character_index);
+        m_charaItem->graphicsEffect()->setEnabled(m_currentActor->transparent);
+
+    }
+}
+
+void QDbPageActors::on_pushSetFace_clicked()
+{
+    dialogfacepicker dlg(this, true);
+    dlg.setName(m_currentActor->face_name);
+    dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_currentActor->face_name = dlg.name();
+        m_currentActor->face_index = dlg.index();
+
+        m_faceItem->setVisible(true);
+        m_faceItem->setBasePix(m_currentActor->face_name.c_str());
+        m_faceItem->setIndex(m_currentActor->face_index);
+
+    }
+}
+
 
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
@@ -187,7 +360,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
                 !m_data.items[i].actor_set[actor->ID-1])
             if (actor->class_id <= 0 ||
                     (actor->class_id >= (int) m_data.items[i].class_set.size() &&
-                     !m_data.items[i].class_set[actor->class_id-1]))
+                     ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[actor->class_id-1]))))
                 continue;
 
         switch (m_data.items[i].type)
