@@ -57,6 +57,7 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
     }
 
     m_chara = new QGraphicsCharaItem();
+    m_chara->setWalk(!tile_pick);
     m_chara->setScale(2.0);
     m_charaScene = new QGraphicsPickerScene(ui->viewChara, m_chara, 2, 4);
     ui->viewChara->setScene(m_charaScene);
