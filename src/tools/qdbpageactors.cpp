@@ -223,8 +223,11 @@ void QDbPageActors::on_comboUnarmedAnimation_currentIndexChanged(int index)
 
 void QDbPageActors::on_pushSetCharset_clicked()
 {
-    DialogCharaPicker dlg(this, true);
+    if (!m_currentActor)
+        return;
+    DialogCharaPicker dlg(this, false);
     dlg.setName(m_currentActor->character_name);
+    dlg.setIndex(m_currentActor->character_index);
     dlg.exec();
     if (dlg.result() == QDialogButtonBox::Ok)
     {
@@ -234,8 +237,6 @@ void QDbPageActors::on_pushSetCharset_clicked()
         m_charaItem->setVisible(true);
         m_charaItem->setBasePix(m_currentActor->character_name.c_str());
         m_charaItem->setIndex(m_currentActor->character_index);
-        m_charaItem->graphicsEffect()->setEnabled(m_currentActor->transparent);
-
     }
 }
 
