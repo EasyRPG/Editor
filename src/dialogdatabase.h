@@ -6,6 +6,7 @@
 #include <rpg_actor.h>
 #include <QDialogButtonBox>
 #include "tools/qdbpageactors.h"
+#include "tools/qdbpageclasses.h"
 #include "core.h"
 
 namespace Ui {
@@ -42,6 +43,7 @@ private:
     Ui::DialogDataBase *ui;
 
     QDbPageActors *Old_PageActors;
+    QDbPageClasses *Old_PageClasses;
 
     RPG::Database m_data;
     RPG::Actor *m_currentActor;

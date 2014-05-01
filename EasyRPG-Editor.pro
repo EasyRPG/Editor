@@ -43,7 +43,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qgraphicsfaceitem.cpp \
     src/dialogfacepicker.cpp \
     src/tools/qgraphicsfaceitem.cpp \
-    src/tools/qgraphicsbattleanimationitem.cpp
+    src/tools/qgraphicsbattleanimationitem.cpp \
+    src/tools/qdbpageclasses.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -74,7 +75,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qgraphicsfaceitem.h \
     src/dialogfacepicker.h \
     src/tools/qgraphicsfaceitem.h \
-    src/tools/qgraphicsbattleanimationitem.h
+    src/tools/qgraphicsbattleanimationitem.h \
+    src/tools/qdbpageclasses.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -89,7 +91,8 @@ FORMS    += src/mainwindow.ui \
     src/dialogcharapicker.ui \
     src/dialogsplash.ui \
     src/tools/qeventpagewidget.ui \
-    src/tools/qdbpageactors.ui
+    src/tools/qdbpageactors.ui \
+    src/tools/qdbpageclasses.ui
 
 RESOURCES += \
     src/Resources.qrc

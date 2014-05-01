@@ -14,7 +14,9 @@ DialogDataBase::DialogDataBase(QWidget *parent) :
     m_currentActor = 0;
     on_currentActorChanged(0);
     Old_PageActors = new QDbPageActors(m_data, this);
+    Old_PageClasses = new QDbPageClasses(m_data, this);
     ui->tabOld_Pages->insertTab(0, Old_PageActors, tr("Characters"));
+    ui->tabOld_Pages->insertTab(1, Old_PageClasses, tr("Professions"));
     ui->tabOld_Pages->setCurrentWidget(Old_PageActors);
     ui->stackedStyle->setCurrentWidget(ui->pageOld);
     /* Fill Characters list */
