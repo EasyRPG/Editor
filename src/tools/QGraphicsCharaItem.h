@@ -49,6 +49,7 @@ protected:
 
 private:
     QPixmap m_pix;
+    int frame_count;
     int m_index;
     int m_facing;
     int m_frame;

@@ -42,6 +42,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpageactors.cpp \
     src/tools/qgraphicsfaceitem.cpp \
     src/dialogfacepicker.cpp \
+    src/tools/qgraphicsfaceitem.cpp \
+    src/tools/qgraphicsbattleanimationitem.cpp \
     src/tools/qdbpageclasses.cpp \
     src/tools/qdbpageskills.cpp \
     src/tools/qdbpageitems.cpp \
@@ -87,6 +89,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpageactors.h \
     src/tools/qgraphicsfaceitem.h \
     src/dialogfacepicker.h \
+    src/tools/qgraphicsfaceitem.h \
+    src/tools/qgraphicsbattleanimationitem.h \
     src/tools/qdbpageclasses.h \
     src/tools/qdbpageskills.h \
     src/tools/qdbpageitems.h \
