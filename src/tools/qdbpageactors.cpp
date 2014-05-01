@@ -242,6 +242,23 @@ void QDbPageActors::on_pushSetCharset_clicked()
     }
 }
 
+void QDbPageActors::on_pushSetFace_clicked()
+{
+    dialogfacepicker dlg(this, true);
+    dlg.setName(m_currentActor->face_name);
+    dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_currentActor->face_name = dlg.name();
+        m_currentActor->face_index = dlg.index();
+
+        m_faceItem->setVisible(true);
+        m_faceItem->setBasePix(m_currentActor->face_name.c_str());
+        m_faceItem->setIndex(m_currentActor->face_index);
+
+    }
+}
+
 
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {

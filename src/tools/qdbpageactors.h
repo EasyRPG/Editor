@@ -8,7 +8,7 @@
 #include "qgraphicscharaitem.h"
 #include "qgraphicsfaceitem.h"
 #include "../dialogcharapicker.h"
-
+#include "../dialogfacepicker.h"
 
 namespace Ui {
 class QDbPageActors;
@@ -46,6 +46,7 @@ private slots:
     void on_comboUnarmedAnimation_currentIndexChanged(int index);
     void on_comboProfession_currentIndexChanged(int index);
     void on_pushSetCharset_clicked();
+    void on_pushSetFace_clicked();
 
 signals:
     void currentActorChanged(RPG::Actor *actor);
