@@ -9,6 +9,7 @@ QGraphicsCharaItem::QGraphicsCharaItem(const QPixmap pix) :
     m_frame = Frame_middle;
     m_walk = false;
     m_spin = false;
+    frame_count = 0;
 }
 
 void QGraphicsCharaItem::setBasePix(const QString &n_pixName)
@@ -78,7 +79,6 @@ void QGraphicsCharaItem::updatePix()
 
 void QGraphicsCharaItem::advance(int phase)
 {
-    static int frame_count = 0;
     static int patterns[4] = {Frame_middle, Frame_right, Frame_middle,Frame_left};
     if (!phase)
     {
