@@ -13,7 +13,6 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     m_currentActor = 0;
 
     ui->graphicsBattleset->setScene(new QGraphicsScene(this));
-    /* TODO: add Battler item */
     m_charaItem = new QGraphicsCharaItem();
     m_charaItem->setSpin(true);
     m_charaItem->setWalk(true);
@@ -21,7 +20,9 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
 
     m_faceItem = new QGraphicsFaceItem();
-    m_faceItem->setScale(1.5);
+    m_faceItem->setScale(2.0);
+
+    m_battlerItem = new QGraphicsBattleAnimationItem();
 
     ui->graphicsCharset->setScene(new QGraphicsScene(this));
     ui->graphicsCharset->scene()->addItem(m_charaItem);
@@ -29,7 +30,11 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
 
     ui->graphicsFaceset->setScene(new QGraphicsScene(this));
     ui->graphicsFaceset->scene()->addItem(m_faceItem);
-    ui->graphicsFaceset->scene()->setSceneRect(0,0,48,48);
+    ui->graphicsFaceset->scene()->setSceneRect(0,0,96,96);
+
+    ui->graphicsBattleset->setScene(new QGraphicsScene(this));
+    ui->graphicsBattleset->scene()->addItem(m_battlerItem);
+    ui->graphicsBattleset->scene()->setSceneRect(0,0,48,48);
 
 
 
@@ -37,11 +42,9 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
     connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
     timer->start(200);
-    for (unsigned int i = 0; i < m_data.actors.size(); i++)
-        ui->listCharacters->addItem(QString("%1: %2")
-                               .arg(QString::number(i+1), 4, QLatin1Char('0'))
-                               .arg(m_data.actors[i].name.c_str()));
     UpdateModels();
+    if (ui->listCharacters->count())
+        ui->listCharacters->setCurrentRow(0);
 }
 
 QDbPageActors::~QDbPageActors()
@@ -52,6 +55,7 @@ QDbPageActors::~QDbPageActors()
 void QDbPageActors::UpdateModels()
 {
     /* Clear */
+    ui->listCharacters->clear();
     ui->comboBattleset->clear();
     ui->comboProfession->clear();
     ui->comboUnarmedAnimation->clear();
@@ -71,6 +75,10 @@ void QDbPageActors::UpdateModels()
         ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
     for (unsigned int i = 0; i < m_data.states.size(); i++)
         ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
+    for (unsigned int i = 0; i < m_data.actors.size(); i++)
+        ui->listCharacters->addItem(QString("%1: %2")
+                               .arg(QString::number(i+1), 4, QLatin1Char('0'))
+                               .arg(m_data.actors[i].name.c_str()));
 
     on_currentActorChanged(m_currentActor);
 }
@@ -79,17 +87,178 @@ void QDbPageActors::UpdateModels()
 void QDbPageActors::on_lineName_textChanged(const QString &arg1)
 {
     if (!m_currentActor || m_currentActor->name == arg1.toStdString())
-    {
         return;
-    }
     m_currentActor->name = arg1.toStdString();
     ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
 }
 
+void QDbPageActors::on_lineTitle_textChanged(const QString &arg1)
+{
+    if (!m_currentActor || m_currentActor->title == arg1.toStdString())
+        return;
+    m_currentActor->title = arg1.toStdString();
+}
+
+void QDbPageActors::on_spinMinLv_valueChanged(int arg1)
+{
+    if (!m_currentActor || m_currentActor->initial_level == arg1)
+        return;
+    m_currentActor->initial_level = arg1;
+}
+
+void QDbPageActors::on_spinMaxLv_valueChanged(int arg1)
+{
+    if (!m_currentActor || m_currentActor->final_level == arg1)
+        return;
+    m_currentActor->final_level = arg1;
+}
+
+void QDbPageActors::on_groupCritChance_toggled(bool checked)
+{
+    if (!m_currentActor || m_currentActor->critical_hit == checked)
+        return;
+    m_currentActor->critical_hit = checked;
+}
+
+void QDbPageActors::on_comboBattleset_currentIndexChanged(int index)
+{
+    if (!m_currentActor)
+        return;
+
+    m_currentActor->battler_animation = index;
+
+    if (index <= 0 || index >= (int)m_data.battleranimations.size())
+        m_battlerItem->setBasePix(QGraphicsBattleAnimationItem::Battler,"");
+    else
+        m_battlerItem->setDemoAnimation(m_data.battleranimations[index-1]);
+}
+
+void QDbPageActors::on_checkDualWeapon_toggled(bool checked)
+{
+    if (!m_currentActor || m_currentActor->two_swords_style == checked)
+        return;
+    m_currentActor->two_swords_style = checked;
+}
+
+void QDbPageActors::on_checkAI_toggled(bool checked)
+{
+    if (!m_currentActor || m_currentActor->auto_battle == checked)
+        return;
+    m_currentActor->auto_battle = checked;
+}
+
+void QDbPageActors::on_checkFixedEquip_toggled(bool checked)
+{
+    if (!m_currentActor || m_currentActor->fix_equipment == checked)
+        return;
+    m_currentActor->fix_equipment = checked;
+}
+
+void QDbPageActors::on_checkStrongDefense_toggled(bool checked)
+{
+    if (!m_currentActor || m_currentActor->super_guard == checked)
+    {
+        return;
+    }
+    m_currentActor->super_guard = checked;
+}
+
+void QDbPageActors::on_spinCritChance_valueChanged(int arg1)
+{
+    if (!m_currentActor || m_currentActor->critical_hit_chance == 1)
+        return;
+    m_currentActor->critical_hit_chance = arg1;
+}
+
+void QDbPageActors::on_comboInitialWeapon_currentIndexChanged(int index)
+{
+    if(index < 0) return;
+    if(!m_currentActor) return;
+    if(m_currentActor->initial_equipment.weapon_id == ui->comboInitialWeapon->itemData(index))
+        return;
+    m_currentActor->initial_equipment.weapon_id = ui->comboInitialWeapon->itemData(index).toInt();
+}
+
+void QDbPageActors::on_comboInitialShield_currentIndexChanged(int index)
+{
+    if(index < 0) return;
+    if(!m_currentActor) return;
+    if(m_currentActor->initial_equipment.shield_id == ui->comboInitialShield->itemData(index).toInt())
+        return;
+    m_currentActor->initial_equipment.shield_id = ui->comboInitialShield->itemData(index).toInt();
+}
+void QDbPageActors::on_comboInitialArmor_currentIndexChanged(int index)
+{
+    if(index < 0) return;
+    if(!m_currentActor) return;
+    if(m_currentActor->initial_equipment.armor_id == ui->comboInitialArmor->itemData(index).toInt())
+        return;
+    m_currentActor->initial_equipment.armor_id = ui->comboInitialArmor->itemData(index).toInt();
+}
+void QDbPageActors::on_comboInitialHelmet_currentIndexChanged(int index)
+{
+    if(index < 0) return;
+    if(!m_currentActor) return;
+    if(m_currentActor->initial_equipment.helmet_id == ui->comboInitialHelmet->itemData(index).toInt())
+        return;
+    m_currentActor->initial_equipment.helmet_id = ui->comboInitialHelmet->itemData(index).toInt();
+}
+void QDbPageActors::on_comboInitialMisc_currentIndexChanged(int index)
+{
+    if(index < 0) return;
+    if(!m_currentActor) return;
+    if(m_currentActor->initial_equipment.accessory_id == ui->comboInitialMisc->itemData(index).toInt())
+        return;
+    m_currentActor->initial_equipment.accessory_id = ui->comboInitialMisc->itemData(index).toInt();
+}
+
+void QDbPageActors::on_comboUnarmedAnimation_currentIndexChanged(int index)
+{
+    if(index < 0) return;
+    if(!m_currentActor) return;
+    if(m_currentActor->unarmed_animation == index)
+        return;
+    m_currentActor->unarmed_animation = index;
+}
+
+void QDbPageActors::on_pushSetCharset_clicked()
+{
+    DialogCharaPicker dlg(this, true);
+    dlg.setName(m_currentActor->character_name);
+    dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_currentActor->character_name = dlg.name();
+        m_currentActor->character_index = dlg.index();
+
+        m_charaItem->setVisible(true);
+        m_charaItem->setBasePix(m_currentActor->character_name.c_str());
+        m_charaItem->setIndex(m_currentActor->character_index);
+        m_charaItem->graphicsEffect()->setEnabled(m_currentActor->transparent);
+
+    }
+}
+
+void QDbPageActors::on_pushSetFace_clicked()
+{
+    dialogfacepicker dlg(this, true);
+    dlg.setName(m_currentActor->face_name);
+    dlg.exec();
+    if (dlg.result() == QDialogButtonBox::Ok)
+    {
+        m_currentActor->face_name = dlg.name();
+        m_currentActor->face_index = dlg.index();
+
+        m_faceItem->setVisible(true);
+        m_faceItem->setBasePix(m_currentActor->face_name.c_str());
+        m_faceItem->setIndex(m_currentActor->face_index);
+
+    }
+}
 
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
-    m_currentActor = actor;
+    m_currentActor = 0;
     if (actor == 0){
         /* Clear widgets */
         ui->lineName->clear();
@@ -178,7 +347,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
                 !m_data.items[i].actor_set[actor->ID-1])
             if (actor->class_id <= 0 ||
                     (actor->class_id >= (int) m_data.items[i].class_set.size() &&
-                     !m_data.items[i].class_set[actor->class_id-1]))
+                     ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[actor->class_id-1]))))
                 continue;
 
         switch (m_data.items[i].type)
@@ -249,6 +418,12 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     m_faceItem->setBasePix(actor->face_name.c_str());
     m_faceItem->setIndex(actor->face_index);
 
+    if (actor->battler_animation <= 0 ||
+            actor->battler_animation >= (int)m_data.battleranimations.size())
+        m_battlerItem->setBasePix(QGraphicsBattleAnimationItem::Battler,"");
+    else
+        m_battlerItem->setDemoAnimation(m_data.battleranimations[actor->battler_animation-1]);
+
     /* Enable widgets */
     ui->lineName->setEnabled(true);
     ui->lineTitle->setEnabled(true);
@@ -276,6 +451,8 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     ui->pushSetCharset->setEnabled(true);
     ui->pushSetFace->setEnabled(true);
     ui->pushEditCustom->setEnabled(true);
+
+    m_currentActor = actor;
 }
 
 void QDbPageActors::on_listCharacters_currentRowChanged(int currentRow)
@@ -298,4 +475,35 @@ void QDbPageActors::on_checkTranslucent_toggled(bool checked)
 
     m_currentActor->transparent = checked;
     m_charaItem->graphicsEffect()->setEnabled(checked);
+}
+
+void QDbPageActors::on_pushApplyProfession_clicked()
+{
+    if (!m_currentActor)
+        return;
+
+    const RPG::Class &n_class = m_data.classes[ui->comboProfession->currentIndex()];
+    /* Disconnect widgets */
+    RPG::Actor *actor = m_currentActor;
+    m_currentActor = 0;
+    /* /Disconnect widgets */
+    actor->class_id = ui->comboProfession->currentIndex();
+    actor->attribute_ranks = n_class.attribute_ranks;
+    actor->auto_battle = n_class.auto_battle;
+    actor->battle_commands = n_class.battle_commands;
+    actor->exp_base = n_class.exp_base;
+    actor->exp_correction = n_class.exp_correction;
+    actor->exp_inflation = n_class.exp_inflation;
+    actor->fix_equipment = n_class.fix_equipment;
+    actor->parameters = n_class.parameters;
+    actor->skills = n_class.skills;
+    actor->state_ranks = n_class.state_ranks;
+    actor->super_guard = n_class.super_guard;
+    actor->two_swords_style = n_class.two_swords_style;
+    /* TODO: Fix naming typo after fixing liblcf */
+    actor->battler_animation = n_class.unarmed_animation;
+    /* /TODO */
+
+    /* ConnectWidgets */
+    on_currentActorChanged(actor);
 }
