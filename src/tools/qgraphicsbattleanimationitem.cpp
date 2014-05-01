@@ -6,6 +6,7 @@ QGraphicsBattleAnimationItem::QGraphicsBattleAnimationItem(const QPixmap pix) :
     m_demo = false;
     m_index = -1;
     m_frame = 1;
+    connect(this, SIGNAL(demoAdvance()), this, SLOT(on_demoAdvance()));
 }
 
 void QGraphicsBattleAnimationItem::setDemoAnimation(const RPG::BattlerAnimation &demoAnimation)
@@ -16,7 +17,6 @@ void QGraphicsBattleAnimationItem::setDemoAnimation(const RPG::BattlerAnimation 
     m_demoIndex = -1;
     m_demoAnimation = demoAnimation;
     on_demoAdvance();
-    connect(this, SIGNAL(demoAdvance()), this, SLOT(on_demoAdvance()));
 }
 
 void QGraphicsBattleAnimationItem::setBasePix(Type type, const QString &pixName)
@@ -80,6 +80,8 @@ void QGraphicsBattleAnimationItem::updatePix()
 
 void QGraphicsBattleAnimationItem::on_demoAdvance()
 {
+    if (!m_demo)
+        return;
     m_demoIndex++;
     if (m_demoIndex > 11)
         m_demoIndex = 0;
