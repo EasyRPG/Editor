@@ -7,6 +7,7 @@
 #include <QDialogButtonBox>
 #include "qgraphicscharaitem.h"
 #include "qgraphicsfaceitem.h"
+#include "qgraphicsbattleanimationitem.h"
 
 namespace Ui {
 class QDbPageActors;
@@ -28,6 +29,8 @@ private slots:
     void on_lineName_textChanged(const QString &arg1);
     void on_checkTranslucent_toggled(bool checked);
 
+    void on_comboBattleset_currentIndexChanged(int index);
+
 signals:
     void currentActorChanged(RPG::Actor *actor);
 
@@ -38,6 +41,7 @@ private:
 
     QGraphicsCharaItem *m_charaItem;
     QGraphicsFaceItem *m_faceItem;
+    QGraphicsBattleAnimationItem *m_battlerItem;
 
     RPG::Actor *m_currentActor;
     RPG::Database &m_data;

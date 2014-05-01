@@ -21,7 +21,9 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
 
     m_faceItem = new QGraphicsFaceItem();
-    m_faceItem->setScale(1.5);
+    m_faceItem->setScale(2.0);
+
+    m_battlerItem = new QGraphicsBattleAnimationItem();
 
     ui->graphicsCharset->setScene(new QGraphicsScene(this));
     ui->graphicsCharset->scene()->addItem(m_charaItem);
@@ -29,7 +31,11 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
 
     ui->graphicsFaceset->setScene(new QGraphicsScene(this));
     ui->graphicsFaceset->scene()->addItem(m_faceItem);
-    ui->graphicsFaceset->scene()->setSceneRect(0,0,48,48);
+    ui->graphicsFaceset->scene()->setSceneRect(0,0,96,96);
+
+    ui->graphicsBattleset->setScene(new QGraphicsScene(this));
+    ui->graphicsBattleset->scene()->addItem(m_battlerItem);
+    ui->graphicsBattleset->scene()->setSceneRect(0,0,48,48);
 
 
 
@@ -37,11 +43,9 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
     connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
     timer->start(200);
-    for (unsigned int i = 0; i < m_data.actors.size(); i++)
-        ui->listCharacters->addItem(QString("%1: %2")
-                               .arg(QString::number(i+1), 4, QLatin1Char('0'))
-                               .arg(m_data.actors[i].name.c_str()));
     UpdateModels();
+    if (ui->listCharacters->count())
+        ui->listCharacters->setCurrentRow(0);
 }
 
 QDbPageActors::~QDbPageActors()
@@ -52,6 +56,7 @@ QDbPageActors::~QDbPageActors()
 void QDbPageActors::UpdateModels()
 {
     /* Clear */
+    ui->listCharacters->clear();
     ui->comboBattleset->clear();
     ui->comboProfession->clear();
     ui->comboUnarmedAnimation->clear();
@@ -71,6 +76,10 @@ void QDbPageActors::UpdateModels()
         ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
     for (unsigned int i = 0; i < m_data.states.size(); i++)
         ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
+    for (unsigned int i = 0; i < m_data.actors.size(); i++)
+        ui->listCharacters->addItem(QString("%1: %2")
+                               .arg(QString::number(i+1), 4, QLatin1Char('0'))
+                               .arg(m_data.actors[i].name.c_str()));
 
     on_currentActorChanged(m_currentActor);
 }
@@ -249,6 +258,12 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     m_faceItem->setBasePix(actor->face_name.c_str());
     m_faceItem->setIndex(actor->face_index);
 
+    if (m_currentActor->battler_animation <= 0 ||
+            m_currentActor->battler_animation >= (int)m_data.battleranimations.size())
+        m_battlerItem->setBasePix(QGraphicsBattleAnimationItem::Battler,"");
+    else
+        m_battlerItem->setDemoAnimation(m_data.battleranimations[m_currentActor->battler_animation-1]);
+
     /* Enable widgets */
     ui->lineName->setEnabled(true);
     ui->lineTitle->setEnabled(true);
@@ -298,4 +313,17 @@ void QDbPageActors::on_checkTranslucent_toggled(bool checked)
 
     m_currentActor->transparent = checked;
     m_charaItem->graphicsEffect()->setEnabled(checked);
+}
+
+void QDbPageActors::on_comboBattleset_currentIndexChanged(int index)
+{
+    if (!m_currentActor)
+        return;
+
+    m_currentActor->battler_animation = index;
+
+    if (index <= 0 || index >= (int)m_data.battleranimations.size())
+        m_battlerItem->setBasePix(QGraphicsBattleAnimationItem::Battler,"");
+    else
+        m_battlerItem->setDemoAnimation(m_data.battleranimations[index-1]);
 }
