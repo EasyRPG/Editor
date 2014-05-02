@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>qdbpageherostatus</class>
- <widget class="QWidget" name="qdbpageherostatus">
+ <class>QDbPageHeroStatus</class>
+ <widget class="QWidget" name="QDbPageHeroStatus">
   <property name="geometry">
    <rect>
     <x>0</x>
