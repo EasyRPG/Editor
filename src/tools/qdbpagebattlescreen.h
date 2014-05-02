@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class qdbpagebattlescreen;
+class QDbPageBattleScreen;
 }
 
-class qdbpagebattlescreen : public QWidget
+class QDbPageBattleScreen : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit qdbpagebattlescreen(RPG::Database &database, QWidget *parent = 0);
-    ~qdbpagebattlescreen();
+    explicit QDbPageBattleScreen(RPG::Database &database, QWidget *parent = 0);
+    ~QDbPageBattleScreen();
 
 private:
-    Ui::qdbpagebattlescreen *ui;
+    Ui::QDbPageBattleScreen *ui;
     RPG::Database &m_data;
 };
 

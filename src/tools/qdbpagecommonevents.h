@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class qdbpagecommonevents;
+class QDbPageCommonEvents;
 }
 
-class qdbpagecommonevents : public QWidget
+class QDbPageCommonEvents : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit qdbpagecommonevents(RPG::Database &database, QWidget *parent = 0);
-    ~qdbpagecommonevents();
+    explicit QDbPageCommonEvents(RPG::Database &database, QWidget *parent = 0);
+    ~QDbPageCommonEvents();
 
 private:
-    Ui::qdbpagecommonevents *ui;
+    Ui::QDbPageCommonEvents *ui;
     RPG::Database &m_data;
 };
 

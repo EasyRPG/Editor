@@ -1,15 +1,15 @@
 #include "qdbpageenemies.h"
 #include "ui_qdbpageenemies.h"
 
-qdbpageenemies::qdbpageenemies(RPG::Database &database, QWidget *parent) :
+QDbPageEnemies::QDbPageEnemies(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
     m_data(database),
-    ui(new Ui::qdbpageenemies)
+    ui(new Ui::QDbPageEnemies)
 {
     ui->setupUi(this);
 }
 
-qdbpageenemies::~qdbpageenemies()
+QDbPageEnemies::~QDbPageEnemies()
 {
     delete ui;
 }

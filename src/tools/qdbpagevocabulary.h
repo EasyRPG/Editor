@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class qdbpagevocabulary;
+class QDbPageVocabulary;
 }
 
-class qdbpagevocabulary : public QWidget
+class QDbPageVocabulary : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit qdbpagevocabulary(RPG::Database &database, QWidget *parent = 0);
-    ~qdbpagevocabulary();
+    explicit QDbPageVocabulary(RPG::Database &database, QWidget *parent = 0);
+    ~QDbPageVocabulary();
 
 private:
-    Ui::qdbpagevocabulary *ui;
+    Ui::QDbPageVocabulary *ui;
     RPG::Database &m_data;
 };
 

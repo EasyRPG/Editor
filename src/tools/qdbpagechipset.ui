@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>qdbpagechipset</class>
- <widget class="QWidget" name="qdbpagechipset">
+ <class>QDbPageChipset</class>
+ <widget class="QWidget" name="QDbPageChipset">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>qdbpagesystem2</class>
- <widget class="QWidget" name="qdbpagesystem2">
+ <class>QDbPageSystem2</class>
+ <widget class="QWidget" name="QDbPageSystem2">
   <property name="geometry">
    <rect>
     <x>0</x>

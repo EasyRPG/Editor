@@ -42,14 +42,12 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpageactors.cpp \
     src/tools/qgraphicsfaceitem.cpp \
     src/dialogfacepicker.cpp \
-    src/tools/qgraphicsfaceitem.cpp \
     src/tools/qgraphicsbattleanimationitem.cpp \
     src/tools/qdbpageclasses.cpp \
     src/tools/qdbpageskills.cpp \
     src/tools/qdbpageitems.cpp \
     src/tools/qdbpageenemies.cpp \
     src/tools/qdbpageenemygroups.cpp \
-    src/tools/qdbpageattibutes.cpp \
     src/tools/qdbpageherostatus.cpp \
     src/tools/qdbpagebattleanimations.cpp \
     src/tools/qdbpagebattleanimations2.cpp \
@@ -59,7 +57,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpagevocabulary.cpp \
     src/tools/qdbpagesystem.cpp \
     src/tools/qdbpagesystem2.cpp \
-    src/tools/qdbpagecommonevents.cpp
+    src/tools/qdbpagecommonevents.cpp \
+    src/tools/qdbpageattributes.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -89,14 +88,12 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpageactors.h \
     src/tools/qgraphicsfaceitem.h \
     src/dialogfacepicker.h \
-    src/tools/qgraphicsfaceitem.h \
     src/tools/qgraphicsbattleanimationitem.h \
     src/tools/qdbpageclasses.h \
     src/tools/qdbpageskills.h \
     src/tools/qdbpageitems.h \
     src/tools/qdbpageenemies.h \
     src/tools/qdbpageenemygroups.h \
-    src/tools/qdbpageattibutes.h \
     src/tools/qdbpageherostatus.h \
     src/tools/qdbpagebattleanimations.h \
     src/tools/qdbpagebattleanimations2.h \
@@ -108,7 +105,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpagesystem2.h \
     src/tools/qdbpagecommonevents.h \
     src/tools/qgraphicsbattleanimationitem.h \
-    src/tools/qdbpageclasses.h
+    src/tools/qdbpageclasses.h \
+    src/tools/qdbpageattributes.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -129,7 +127,6 @@ FORMS    += src/mainwindow.ui \
     src/tools/qdbpageitems.ui \
     src/tools/qdbpageenemies.ui \
     src/tools/qdbpageenemygroups.ui \
-    src/tools/qdbpageattibutes.ui \
     src/tools/qdbpageherostatus.ui \
     src/tools/qdbpagebattleanimations.ui \
     src/tools/qdbpagebattleanimations2.ui \
@@ -139,7 +136,8 @@ FORMS    += src/mainwindow.ui \
     src/tools/qdbpagevocabulary.ui \
     src/tools/qdbpagesystem.ui \
     src/tools/qdbpagesystem2.ui \
-    src/tools/qdbpagecommonevents.ui
+    src/tools/qdbpagecommonevents.ui \
+    src/tools/qdbpageattributes.ui
 
 RESOURCES += \
     src/Resources.qrc

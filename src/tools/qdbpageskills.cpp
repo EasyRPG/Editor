@@ -1,15 +1,15 @@
 #include "qdbpageskills.h"
 #include "ui_qdbpageskills.h"
 
-qdbpageskills::qdbpageskills(RPG::Database &database, QWidget *parent) :
+QDbPageSkills::QDbPageSkills(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
     m_data(database),
-    ui(new Ui::qdbpageskills)
+    ui(new Ui::QDbPageSkills)
 {
     ui->setupUi(this);
 }
 
-qdbpageskills::~qdbpageskills()
+QDbPageSkills::~QDbPageSkills()
 {
     delete ui;
 }
