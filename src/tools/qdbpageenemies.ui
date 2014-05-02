@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>qdbpageenemies</class>
- <widget class="QWidget" name="qdbpageenemies">
+ <class>QDbPageEnemies</class>
+ <widget class="QWidget" name="QDbPageEnemies">
   <property name="geometry">
    <rect>
     <x>0</x>
