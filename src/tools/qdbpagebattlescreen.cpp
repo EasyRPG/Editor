@@ -1,15 +1,15 @@
 #include "qdbpagebattlescreen.h"
 #include "ui_qdbpagebattlescreen.h"
 
-qdbpagebattlescreen::qdbpagebattlescreen(RPG::Database &database, QWidget *parent) :
+QDbPageBattleScreen::QDbPageBattleScreen(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
     m_data(database),
-    ui(new Ui::qdbpagebattlescreen)
+    ui(new Ui::QDbPageBattleScreen)
 {
     ui->setupUi(this);
 }
 
-qdbpagebattlescreen::~qdbpagebattlescreen()
+QDbPageBattleScreen::~QDbPageBattleScreen()
 {
     delete ui;
 }

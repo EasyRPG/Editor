@@ -11,7 +11,7 @@
 #include "tools/qdbpageitems.h"
 #include "tools/qdbpageenemies.h"
 #include "tools/qdbpageenemygroups.h"
-#include "tools/qdbpageattibutes.h"
+#include "tools/qdbpageattributes.h"
 #include "tools/qdbpageherostatus.h"
 #include "tools/qdbpagebattleanimations.h"
 #include "tools/qdbpagebattleanimations2.h"
@@ -60,21 +60,21 @@ private:
     QDbPageActors *Old_PageActors;
     QDbPageClasses *Old_PageClasses;
 
-    qdbpageskills *Old_PageSkills;
-    qdbpageitems *Old_PageItems;
-    qdbpageenemies *Old_PageEnemies;
-    qdbpageenemygroups *Old_PageEnemyGroup;
-    qdbpageattibutes *Old_PageAttributes;
-    qdbpageherostatus *Old_PageHeroStatus;
-    qdbpagebattleanimations *Old_PageBattleAnimation;
-    qdbpagebattleanimations2 *Old_PageBattleAnimation2;
-    qdbpagebattlescreen *Old_PageBatleScreen;
-    qdbpageterrain *Old_PageTerrain;
-    qdbpagechipset *Old_PageChipset;
-    qdbpagevocabulary *Old_PageVocabulary;
-    qdbpagesystem *Old_PageSystem;
-    qdbpagesystem2 *Old_PageSystem2;
-    qdbpagecommonevents *Old_PageCommonevents;
+    QDbPageSkills *Old_PageSkills;
+    QDbPageItems *Old_PageItems;
+    QDbPageEnemies *Old_PageEnemies;
+    QDbPageEnemyGroups *Old_PageEnemyGroup;
+    QDbPageAttributes *Old_PageAttributes;
+    QDbPageHeroStatus *Old_PageHeroStatus;
+    QDbPageBattleAnimations *Old_PageBattleAnimation;
+    QDbPageBattleAnimations2 *Old_PageBattleAnimation2;
+    QDbPageBattleScreen *Old_PageBatleScreen;
+    QDbPageTerrain *Old_PageTerrain;
+    QDbPageChipset *Old_PageChipset;
+    QDbPageVocabulary *Old_PageVocabulary;
+    QDbPageSystem *Old_PageSystem;
+    QDbPageSystem2 *Old_PageSystem2;
+    QDbPageCommonEvents *Old_PageCommonevents;
     RPG::Database m_data;
     RPG::Actor *m_currentActor;
 };

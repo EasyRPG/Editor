@@ -1,15 +1,15 @@
 #include "qdbpageterrain.h"
 #include "ui_qdbpageterrain.h"
 
-qdbpageterrain::qdbpageterrain(RPG::Database &database, QWidget *parent) :
+QDbPageTerrain::QDbPageTerrain(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
     m_data(database),
-    ui(new Ui::qdbpageterrain)
+    ui(new Ui::QDbPageTerrain)
 {
     ui->setupUi(this);
 }
 
-qdbpageterrain::~qdbpageterrain()
+QDbPageTerrain::~QDbPageTerrain()
 {
     delete ui;
 }

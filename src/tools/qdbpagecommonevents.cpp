@@ -1,15 +1,15 @@
 #include "qdbpagecommonevents.h"
 #include "ui_qdbpagecommonevents.h"
 
-qdbpagecommonevents::qdbpagecommonevents(RPG::Database &database, QWidget *parent) :
+QDbPageCommonEvents::QDbPageCommonEvents(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
     m_data(database),
-    ui(new Ui::qdbpagecommonevents)
+    ui(new Ui::QDbPageCommonEvents)
 {
     ui->setupUi(this);
 }
 
-qdbpagecommonevents::~qdbpagecommonevents()
+QDbPageCommonEvents::~QDbPageCommonEvents()
 {
     delete ui;
 }

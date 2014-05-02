@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class qdbpagechipset;
+class QDbPageChipset;
 }
 
-class qdbpagechipset : public QWidget
+class QDbPageChipset : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit qdbpagechipset(RPG::Database &database, QWidget *parent = 0);
-    ~qdbpagechipset();
+    explicit QDbPageChipset(RPG::Database &database, QWidget *parent = 0);
+    ~QDbPageChipset();
 
 private:
-    Ui::qdbpagechipset *ui;
+    Ui::QDbPageChipset *ui;
     RPG::Database &m_data;
 };
 
