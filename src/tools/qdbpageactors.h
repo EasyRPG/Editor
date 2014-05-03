@@ -10,6 +10,7 @@
 #include "../dialogcharapicker.h"
 #include "../dialogfacepicker.h"
 #include "qgraphicsbattleanimationitem.h"
+#include "qgraphicscurveitem.h"
 
 namespace Ui {
 class QDbPageActors;
@@ -53,6 +54,9 @@ private slots:
 signals:
     void currentActorChanged(RPG::Actor *actor);
 
+protected:
+    void resizeEvent(QResizeEvent * event);
+
 private:
     Ui::QDbPageActors *ui;
 
@@ -61,6 +65,13 @@ private:
     QGraphicsCharaItem *m_charaItem;
     QGraphicsFaceItem *m_faceItem;
     QGraphicsBattleAnimationItem *m_battlerItem;
+    QGraphicsCurveItem *m_hpItem;
+    QGraphicsCurveItem *m_mpItem;
+    QGraphicsCurveItem *m_attItem;
+    QGraphicsCurveItem *m_defItem;
+    QGraphicsCurveItem *m_intItem;
+    QGraphicsCurveItem *m_agyItem;
+    std::vector<short> m_dummyCurve;
 
     RPG::Actor *m_currentActor;
     RPG::Database &m_data;

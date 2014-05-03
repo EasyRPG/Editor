@@ -58,7 +58,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpagesystem.cpp \
     src/tools/qdbpagesystem2.cpp \
     src/tools/qdbpagecommonevents.cpp \
-    src/tools/qdbpageattributes.cpp
+    src/tools/qdbpageattributes.cpp \
+    src/tools/qgraphicscurveitem.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -106,7 +107,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpagecommonevents.h \
     src/tools/qgraphicsbattleanimationitem.h \
     src/tools/qdbpageclasses.h \
-    src/tools/qdbpageattributes.h
+    src/tools/qdbpageattributes.h \
+    src/tools/qgraphicscurveitem.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
