@@ -24,6 +24,16 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
 
     m_battlerItem = new QGraphicsBattleAnimationItem();
 
+    for (int i = 0; i < 99; i++)
+        m_dummyCurve.push_back(0);
+    m_hpItem = new QGraphicsCurveItem(Qt::red, m_dummyCurve);
+    m_hpItem->setMaxValue(9999.0);
+    m_mpItem = new QGraphicsCurveItem(Qt::magenta, m_dummyCurve);
+    m_attItem = new QGraphicsCurveItem(Qt::yellow, m_dummyCurve);
+    m_defItem = new QGraphicsCurveItem(Qt::green, m_dummyCurve);
+    m_intItem = new QGraphicsCurveItem(Qt::darkBlue, m_dummyCurve);
+    m_agyItem = new QGraphicsCurveItem(Qt::blue, m_dummyCurve);
+
     ui->graphicsCharset->setScene(new QGraphicsScene(this));
     ui->graphicsCharset->scene()->addItem(m_charaItem);
     ui->graphicsCharset->scene()->setSceneRect(0,0,48,64);
@@ -36,7 +46,29 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     ui->graphicsBattleset->scene()->addItem(m_battlerItem);
     ui->graphicsBattleset->scene()->setSceneRect(0,0,48,48);
 
+    ui->graphicsHp->setScene(new QGraphicsScene(this));
+    ui->graphicsHp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsHp->size()));
+    ui->graphicsHp->scene()->addItem(m_hpItem);
 
+    ui->graphicsMp->setScene(new QGraphicsScene(this));
+    ui->graphicsMp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsMp->size()));
+    ui->graphicsMp->scene()->addItem(m_mpItem);
+
+    ui->graphicsAtt->setScene(new QGraphicsScene(this));
+    ui->graphicsAtt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAtt->size()));
+    ui->graphicsAtt->scene()->addItem(m_attItem);
+
+    ui->graphicsDef->setScene(new QGraphicsScene(this));
+    ui->graphicsDef->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsDef->size()));
+    ui->graphicsDef->scene()->addItem(m_defItem);
+
+    ui->graphicsInt->setScene(new QGraphicsScene(this));
+    ui->graphicsInt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsInt->size()));
+    ui->graphicsInt->scene()->addItem(m_intItem);
+
+    ui->graphicsAgy->setScene(new QGraphicsScene(this));
+    ui->graphicsAgy->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAgy->size()));
+    ui->graphicsAgy->scene()->addItem(m_agyItem);
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
@@ -426,6 +458,13 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     else
         m_battlerItem->setDemoAnimation(m_data.battleranimations[actor->battler_animation-1]);
 
+    m_hpItem->setData(actor->parameters.maxhp);
+    m_mpItem->setData(actor->parameters.maxsp);
+    m_attItem->setData(actor->parameters.attack);
+    m_defItem->setData(actor->parameters.defense);
+    m_intItem->setData(actor->parameters.spirit);
+    m_agyItem->setData(actor->parameters.agility);
+
     /* Enable widgets */
     ui->lineName->setEnabled(true);
     ui->lineTitle->setEnabled(true);
@@ -508,4 +547,15 @@ void QDbPageActors::on_pushApplyProfession_clicked()
 
     /* ConnectWidgets */
     on_currentActorChanged(actor);
+}
+
+void QDbPageActors::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event)
+    ui->graphicsHp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsHp->size()));
+    ui->graphicsMp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsMp->size()));
+    ui->graphicsAtt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAtt->size()));
+    ui->graphicsDef->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsDef->size()));
+    ui->graphicsInt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsInt->size()));
+    ui->graphicsAgy->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAgy->size()));
 }

@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -219,7 +219,17 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>441</width>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_42">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>20</y>
+         <width>201</width>
          <height>22</height>
         </rect>
        </property>
@@ -237,12 +247,12 @@
       <property name="title">
        <string>Item Discovery</string>
       </property>
-      <widget class="QLineEdit" name="lineEdit_42">
+      <widget class="QLineEdit" name="lineEdit">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>160</x>
          <y>20</y>
-         <width>441</width>
+         <width>291</width>
          <height>22</height>
         </rect>
        </property>
