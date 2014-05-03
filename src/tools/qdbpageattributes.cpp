@@ -1,5 +1,5 @@
 #include "qdbpageattributes.h"
-#include "ui_qdbpageattibutes.h"
+#include "ui_qdbpageattributes.h"
 
 QDbPageAttributes::QDbPageAttributes(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
