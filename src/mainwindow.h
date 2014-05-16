@@ -93,11 +93,19 @@ private slots:
 
     void on_actionUndo_triggered();
 
-    void on_actionMap_Properties_dialog_triggered();
-
     void on_action_Save_Map_triggered();
 
     void on_actionRevert_Map_triggered();
+
+    void on_treeMap_itemSelectionChanged();
+
+    void on_actionCopy_Map_triggered();
+
+    void on_actionPaste_Map_triggered();
+
+    void on_actionDelete_Map_triggered();
+
+    void on_actionMap_Properties_triggered();
 
 private:
     void closeEvent(QCloseEvent *event);
@@ -117,6 +125,8 @@ private:
     QSettings *m_projSett;
     QGraphicsPaleteScene *m_paleteScene;
     QMap<int,QGraphicsView*> m_views;
+    QMap<int,QTreeWidgetItem*> m_treeItems;
+    QString m_copiedMap;
 };
 
 

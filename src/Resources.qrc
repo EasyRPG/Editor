@@ -48,6 +48,10 @@
         <file>share/cur_rectangle.png</file>
         <file>share/cur_zoom.png</file>
         <file>share/cur_cancel.png</file>
+        <file>share/old_copy_map.png</file>
+        <file>share/old_delete_map.png</file>
+        <file>share/old_new_map.png</file>
+        <file>share/old_paste_map.png</file>
     </qresource>
     <qresource prefix="/embedded">
         <file>share/eraser.png</file>

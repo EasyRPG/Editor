@@ -10,6 +10,7 @@
 #include "../core.h"
 #include "../DialogEvent.h"
 #include "../dialogrungame.h"
+#include "../dialogmapproperties.h"
 #include "../mainwindow.h"
 #include "qundodraw.h"
 #include "qundoevent.h"
@@ -24,11 +25,11 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     m_view = view;
     m_view->setMouseTracking(true);
     m_undoStack = new QUndoStack(this);
-    n_mapInfo = 0;
     for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
         if (Data::treemap.maps[i].ID == id)
         {
             m_mapInfo = &(Data::treemap.maps[i]);
+            n_mapInfo = Data::treemap.maps[i];
             break;
         }
     m_eventMenu = new QMenu(m_view);
@@ -138,9 +139,7 @@ float QGraphicsMapScene::scale() const
 
 QString QGraphicsMapScene::mapName() const
 {
-    if (n_mapInfo)
-        return QString::fromStdString(n_mapInfo->name);
-    return QString::fromStdString(m_mapInfo->name);
+    return QString::fromStdString(n_mapInfo.name);
 }
 
 bool QGraphicsMapScene::isModified() const
@@ -186,6 +185,12 @@ QMap<int, RPG::Event*> *QGraphicsMapScene::mapEvents()
     for (unsigned int i = 0; i < m_map.get()->events.size(); i++)
         events->insert(m_map.get()->events[i].ID, &m_map.get()->events[i]);
     return events;
+}
+
+void QGraphicsMapScene::editMapProperties()
+{
+    DialogMapProperties dlg(n_mapInfo, *m_map, m_view);
+    dlg.exec();
 }
 
 void QGraphicsMapScene::redrawMap()
@@ -265,51 +270,22 @@ void QGraphicsMapScene::Save()
 {
     if (!isModified())
         return;
-    if (n_mapInfo)
-    {
-        m_mapInfo->area_rect.b = n_mapInfo->area_rect.b;
-        m_mapInfo->area_rect.l = n_mapInfo->area_rect.l;
-        m_mapInfo->area_rect.r = n_mapInfo->area_rect.r;
-        m_mapInfo->area_rect.t = n_mapInfo->area_rect.t;
-        m_mapInfo->background_name = n_mapInfo->background_name;
-        m_mapInfo->background_type = n_mapInfo->background_type;
-        m_mapInfo->encounters = n_mapInfo->encounters;
-        m_mapInfo->encounter_steps = n_mapInfo->encounter_steps;
-        m_mapInfo->escape = n_mapInfo->escape;
-        m_mapInfo->music.balance = n_mapInfo->music.balance;
-        m_mapInfo->music.fadein = n_mapInfo->music.fadein;
-        m_mapInfo->music.name = n_mapInfo->music.name;
-        m_mapInfo->music.tempo = n_mapInfo->music.tempo;
-        m_mapInfo->music.volume = n_mapInfo->music.volume;
-        m_mapInfo->music_type = n_mapInfo->music_type;
-        m_mapInfo->name = n_mapInfo->name;
-        m_mapInfo->teleport = n_mapInfo->teleport;
-        LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
-        delete n_mapInfo;
-    }
-    std::stringstream ss;
-    ss << mCore->filePath(ROOT).toStdString()
-       << "Map"
-       << std::setfill('0')
-       << std::setw(4)
-       << id()
-       << ".emu";
-    LMU_Reader::SaveXml(ss.str(), *m_map.get());    
+
+    *m_mapInfo = n_mapInfo;
+    LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
+    QString file = QString("Map%1.emu")
+            .arg(QString::number(m_mapInfo->ID), 4, QLatin1Char('0'));
+    LMU_Reader::SaveXml(mCore->filePath(ROOT, file).toStdString(), *m_map);
     m_undoStack->clear();
     emit mapSaved();
 }
 
 void QGraphicsMapScene::Load()
 {
-    delete n_mapInfo;
-    std::stringstream ss;
-    ss << mCore->filePath(ROOT).toStdString()
-       << "Map"
-       << std::setfill('0')
-       << std::setw(4)
-       << m_mapInfo->ID
-       << ".emu";
-    m_map = LMU_Reader::LoadXml(ss.str());
+    n_mapInfo = *m_mapInfo; //Revert info changes
+    QString file = QString("Map%1.emu")
+            .arg(QString::number(m_mapInfo->ID), 4, QLatin1Char('0'));
+    m_map = LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString());
     m_lower =  m_map.get()->lower_layer;
     m_upper =  m_map.get()->upper_layer;
     if(m_map.get()->parallax_flag)
@@ -385,8 +361,7 @@ void QGraphicsMapScene::on_view_V_Scroll()
     if (m_view->verticalScrollBar()->isVisible())
     {
         m_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
-        if (n_mapInfo)
-            n_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
+        n_mapInfo.scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
     }
     m_userInteraction = false;
     LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
@@ -399,8 +374,7 @@ void QGraphicsMapScene::on_view_H_Scroll()
     if (m_view->horizontalScrollBar()->isVisible())
     {
         m_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
-        if (n_mapInfo)
-            n_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
+        n_mapInfo.scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
     }
     m_userInteraction = false;
     LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
