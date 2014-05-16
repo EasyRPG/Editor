@@ -3,8 +3,10 @@
 
 #include <QDialog>
 #include <QGraphicsPixmapItem>
+#include <QTableWidgetItem>
 #include <rpg_mapinfo.h>
 #include <rpg_map.h>
+#include "tools/qencounterdelegate.h"
 
 namespace Ui {
 class DialogMapProperties;
@@ -33,6 +35,8 @@ private slots:
 
     void on_groupObstacleC_toggled(bool arg1);
 
+    void on_tableEncounters_itemChanged(QTableWidgetItem *item);
+
 private:
     Ui::DialogMapProperties *ui;
 
@@ -47,7 +51,7 @@ private:
     QGraphicsPixmapItem *m_ObstacleBItem;
     QGraphicsPixmapItem *m_ObstacleCItem;
 
-    std::vector<int> troops;
+    QEncounterDelegate *m_encounterDelegate;
 
     RPG::MapInfo &m_info;
     RPG::Map &m_map;

@@ -69,12 +69,17 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
     ui->radioDungeonOpenRoom->setChecked(map.generator_mode == 3);
     ui->radioDungeonPassage1_1->setChecked(map.generator_tiles == 0);
     ui->radioDungeonPassage2_2->setChecked(map.generator_tiles == 1);
-    for (int i = 0; i < (int)info.encounters.size(); i++)
+    for (int i = (int)info.encounters.size() - 1; i >= 0; i--)
     {
-        ui->listEncounters->addItem(QString::fromStdString(Data::troops[info.encounters[i].troop_id-1].name));
-        troops.push_back(info.encounters[i].troop_id);
+        QTableWidgetItem * item = new QTableWidgetItem();
+        item->setData(Qt::DisplayRole, QString::fromStdString(Data::troops[info.encounters[i].troop_id-1].name));
+        item->setData(Qt::UserRole, info.encounters[i].troop_id);
+        ui->tableEncounters->insertRow(0);
+        ui->tableEncounters->setItem(0,0,item);
     }
-    ui->listEncounters->addItem("");
+    m_encounterDelegate = new QEncounterDelegate(this);
+    ui->tableEncounters->setItemDelegate(m_encounterDelegate);
+
     ui->graphicsPanorama->setScene(new QGraphicsScene(this));
     ui->graphicsCeiling->setScene(new QGraphicsScene(this));
     ui->graphicsFloorA->setScene(new QGraphicsScene(this));
@@ -250,4 +255,17 @@ void DialogMapProperties::on_groupObstacleB_toggled(bool arg1)
 void DialogMapProperties::on_groupObstacleC_toggled(bool arg1)
 {
     m_ObstacleCItem->setVisible(arg1);
+}
+
+void DialogMapProperties::on_tableEncounters_itemChanged(QTableWidgetItem *item)
+{
+    if (item->row() == ui->tableEncounters->rowCount()-1)
+    {
+        QTableWidgetItem *n_item = new QTableWidgetItem();
+        n_item->setData(Qt::DisplayRole, item->data(Qt::DisplayRole));
+        n_item->setData(Qt::UserRole, item->data(Qt::UserRole));
+        ui->tableEncounters->insertRow(ui->tableEncounters->rowCount()-1);
+        ui->tableEncounters->setItem(ui->tableEncounters->rowCount()-2, 0, n_item);
+        item->setData(Qt::DisplayRole, "<Add Encounter>");
+    }
 }
