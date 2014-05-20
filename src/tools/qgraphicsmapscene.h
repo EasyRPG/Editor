@@ -33,7 +33,6 @@ public:
     QMap<int, RPG::Event *> *mapEvents();
 
 signals:
-    void actionRunHereTriggered(int map_id, int x, int y);
 
     void mapChanged();
 

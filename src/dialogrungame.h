@@ -2,27 +2,36 @@
 #define DIALOGRUNGAME_H
 
 #include <QDialog>
-#include <QProcess>
+#include <QTableWidgetItem>
+#include <rpg_testbattler.h>
+
+namespace Ui {
+class DialogRunGame;
+}
 
 class DialogRunGame : public QDialog
 {
     Q_OBJECT
+
 public:
+
     explicit DialogRunGame(QWidget *parent = 0);
+    ~DialogRunGame();
 
-    QStringList commands() const;
-    void setCommands(const QStringList &commands);
+    void runHere(int map_id, int x, int y);
 
-    void run();
-
-signals:
+    void runBattle(int troop_id);
 
 private slots:
-    void end();
+    void on_comboMode_currentIndexChanged(int index);
+
+    void on_tableInitialParty_itemChanged(QTableWidgetItem *item);
 
 private:
-    QStringList m_commands;
-    QProcess *m_process;
+    void UpdateModels();
+
+    Ui::DialogRunGame *ui;
+    std::vector<RPG::TestBattler> battletest_data;
 };
 
 #endif // DIALOGRUNGAME_H

@@ -59,7 +59,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpagesystem2.cpp \
     src/tools/qdbpagecommonevents.cpp \
     src/tools/qdbpageattributes.cpp \
-    src/tools/qgraphicscurveitem.cpp
+    src/tools/qgraphicscurveitem.cpp \
+    src/tools/qactordelegate.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -108,7 +109,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qgraphicsbattleanimationitem.h \
     src/tools/qdbpageclasses.h \
     src/tools/qdbpageattributes.h \
-    src/tools/qgraphicscurveitem.h
+    src/tools/qgraphicscurveitem.h \
+    src/tools/qactordelegate.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -118,6 +120,7 @@ FORMS    += src/mainwindow.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
     src/dialogrtppath.ui \
+    src/dialogrungame.ui \
     src/dialogmapproperties.ui \
     src/dialogevent.ui \
     src/dialogcharapicker.ui \
