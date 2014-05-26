@@ -101,9 +101,10 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
     ui->graphicsObstacleB->scene()->addItem(m_ObstacleBItem);
     ui->graphicsObstacleC->scene()->addItem(m_ObstacleCItem);
     ui->graphicsUpperWall->scene()->addItem(m_upperWallItem);
-
-
     QPixmap pix(32, 32);
+    if(map.generator_tile_ids.size()>0)
+    {
+
     pix.fill();
     mCore->beginPainting(pix);
     mCore->renderTile(map.generator_tile_ids[0], QRect(0,0,32,32));
@@ -167,7 +168,7 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
     mCore->renderTile(map.generator_tile_ids[17], QRect(32,32,32,32));
     mCore->endPainting();
     m_ObstacleCItem->setPixmap(pix);
-
+    }
     if (map.parallax_flag)
     {
         pix = QPixmap(mCore->filePath(PANORAMA,QString::fromStdString(map.parallax_name)));
