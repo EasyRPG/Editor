@@ -595,7 +595,6 @@ void MainWindow::on_action_New_Project_triggered()
         m_projSett->setValue(MAPS, mapList);
         m_projSett->setValue(SCALES, scaleList);
         m_projSett->setValue(TILESIZE, 16);
-        update_actions();
         QTreeWidgetItem *root = new QTreeWidgetItem();
         root->setData(1, Qt::DisplayRole, 0);
         root->setData(0,Qt::DisplayRole,  mCore->gameTitle());
@@ -639,6 +638,8 @@ void MainWindow::on_action_New_Project_triggered()
         QGraphicsMapScene *scene = getScene(1);
         scene->setScale(0 < scaleList.size() ? scaleList[0].toFloat() : 1.0);
         ui->tabMap->setCurrentWidget(view);
+        update_actions();
+
     }
 }
 
