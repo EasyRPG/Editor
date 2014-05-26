@@ -1122,6 +1122,99 @@ void MainWindow::on_actionCopy_Map_triggered()
     return;
 }
 
+
+void MainWindow::on_actionNew_Map_triggered()
+{
+    QString t_folder = qApp->applicationDirPath()+"/templates/";
+
+    RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
+    LMU_Reader::SaveXml(mCore->filePath(ROOT,"Map0001.emu").toStdString(), map);
+
+    m_copiedMap = mCore->filePath(ROOT)+"Map0001.emu";
+    m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
+                                  4, QLatin1Char('0'));
+
+    QFileInfo f(m_copiedMap);
+
+    if (!f.exists())
+    {
+        QMessageBox::critical(this,
+                              "File not found",
+                              "The file " + m_copiedMap + " can't be found.");
+        return;
+    }
+
+
+    std::auto_ptr<RPG::Map> m = LMU_Reader::LoadXml(m_copiedMap.toStdString());
+    RPG::MapInfo info;
+    for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
+    {
+        if (Data::treemap.maps[i].ID == m->ID)
+        {
+            info = Data::treemap.maps[i];
+            break;
+        }
+    }
+    info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
+    if (info.parent_map == 0)
+    {
+        if (info.music_type == RPG::MapInfo::MusicType_parent)
+            info.music_type = RPG::MapInfo::MusicType_event;
+        if (info.background_type == RPG::MapInfo::BGMType_parent)
+            info.background_type = RPG::MapInfo::BGMType_terrain;
+        if (info.teleport == RPG::MapInfo::TriState_parent)
+            info.teleport = RPG::MapInfo::TriState_allow;
+        if (info.escape == RPG::MapInfo::TriState_parent)
+            info.escape = RPG::MapInfo::TriState_allow;
+        if (info.save == RPG::MapInfo::TriState_parent)
+            info.save = RPG::MapInfo::TriState_allow;
+    }
+    for (int i = 1;;i++)
+    {
+        bool found = false;
+        for (int j = 0; j < (int) Data::treemap.maps.size(); j++)
+        {
+            if (i == j)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            m->ID = i;
+            info.ID = i;
+            info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
+            break;
+        }
+    }
+    Data::treemap.maps.push_back(info);
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setData(1,Qt::DisplayRole,m->ID);
+    item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
+    item->setIcon(0, QIcon(":/icons/share/old_map.png"));
+    m_treeItems[m->ID] = item;
+    m_treeItems[info.parent_map]->addChild(item);
+    QTreeWidgetItem *root = m_treeItems[0];
+    QTreeWidgetItemIterator it(root);
+    std::vector<int> tree_order;
+    while (*it)
+    {
+        tree_order.push_back((*it)->data(1, Qt::DisplayRole).toInt());
+        it++;
+    }
+    Data::treemap.tree_order = tree_order;
+    ui->treeMap->currentItem()->setExpanded(true);
+    ui->treeMap->currentItem()->setSelected(false);
+    item->setSelected(true);
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
+    QString path = mCore->filePath(ROOT, "Map%1.emu");
+    path = path.arg(QString::number(m->ID), 4, QLatin1Char('0'));
+    LMU_Reader::SaveXml(path.toStdString(), *m);
+    on_treeMap_itemDoubleClicked(item, 0);
+}
+
+
 void MainWindow::on_actionPaste_Map_triggered()
 {
     QFileInfo f(m_copiedMap);

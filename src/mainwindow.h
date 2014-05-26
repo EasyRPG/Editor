@@ -99,6 +99,8 @@ private slots:
 
     void on_treeMap_itemSelectionChanged();
 
+    void on_actionNew_Map_triggered();
+
     void on_actionCopy_Map_triggered();
 
     void on_actionPaste_Map_triggered();
