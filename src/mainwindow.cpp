@@ -993,10 +993,6 @@ void MainWindow::on_action_Play_Test_triggered()
 
 void MainWindow::runHere(int map_id, int x, int y)
 {
-    std::stringstream ss;
-    ss << std::setfill('0')
-       << std::setw(4)
-       << map_id;
     DialogRunGame dlg(this);
     QStringList commands;
     commands << "--test-play";
@@ -1005,9 +1001,9 @@ void MainWindow::runHere(int map_id, int x, int y)
     if (!ui->action_Full_Screen->isChecked())
         commands << "--window";
     commands << "--new-game";
-    commands << "--map-id";
-    commands << QString("%1").arg(QString::fromStdString(ss.str()));
-    commands << "--position";
+    commands << "--start-map-id";
+    commands << QString("%1").arg(map_id);
+    commands << "--start-position";
     commands << QString("%1").arg(x);
     commands << QString("%1").arg(y);
     //TODO: add auto toogle.
