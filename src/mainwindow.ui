@@ -7,14 +7,8 @@
     <x>0</x>
     <y>0</y>
     <width>802</width>
-    <height>352</height>
+    <height>580</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>802</width>
-    <height>0</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>EasyRPG Editor</string>
@@ -128,7 +122,6 @@
      <string>Debug</string>
     </property>
     <addaction name="actionRtp_Path"/>
-    <addaction name="actionMap_Properties_dialog"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -160,6 +153,7 @@
    <addaction name="separator"/>
    <addaction name="action_Save_Map"/>
    <addaction name="actionRevert_Map"/>
+   <addaction name="actionMap_Properties"/>
    <addaction name="separator"/>
    <addaction name="action_Lower_Layer"/>
    <addaction name="action_Upper_Layer"/>
@@ -187,18 +181,6 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockPalete">
-   <property name="minimumSize">
-    <size>
-     <width>196</width>
-     <height>127</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>196</width>
-     <height>524287</height>
-    </size>
-   </property>
    <property name="features">
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
@@ -209,12 +191,15 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QGridLayout" name="gridLayout">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="leftMargin">
       <number>0</number>
      </property>
      <property name="topMargin">
-      <number>34</number>
+      <number>0</number>
      </property>
      <property name="rightMargin">
       <number>0</number>
@@ -222,7 +207,28 @@
      <property name="bottomMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
+     <item>
+      <widget class="QWidget" name="widgetBar" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+     </item>
+     <item>
       <widget class="QGraphicsView" name="graphicsPalete"/>
      </item>
     </layout>
@@ -242,7 +248,10 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="leftMargin">
       <number>0</number>
      </property>
@@ -255,6 +264,27 @@
      <property name="bottomMargin">
       <number>0</number>
      </property>
+     <item>
+      <widget class="QWidget" name="widgetBar2" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+     </item>
      <item>
       <widget class="QTreeWidget" name="treeMap">
        <property name="expandsOnDoubleClick">
@@ -310,6 +340,26 @@
    <addaction name="actionRectangle"/>
    <addaction name="actionCircle"/>
    <addaction name="actionFill"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew_Map"/>
+   <addaction name="separator"/>
+   <addaction name="actionCopy_Map"/>
+   <addaction name="actionPaste_Map"/>
+   <addaction name="separator"/>
+   <addaction name="actionDelete_Map"/>
   </widget>
   <action name="action_Open_Project">
    <property name="icon">
@@ -819,13 +869,64 @@
     <string>warning!: this feature will be disabled once OpenRTP is released</string>
    </property>
   </action>
-  <action name="actionMap_Properties_dialog">
+  <action name="actionMap_Properties">
    <property name="icon">
     <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_map.png</normaloff>:/icons/share/old_map.png</iconset>
+     <normaloff>:/icons/share/old_edit.png</normaloff>:/icons/share/old_edit.png</iconset>
    </property>
    <property name="text">
-    <string>Map Properties dialog</string>
+    <string>Map Properties</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit map properties</string>
+   </property>
+  </action>
+  <action name="actionNew_Map">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_new_map.png</normaloff>:/icons/share/old_new_map.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new map and add it as children of the current map.</string>
+   </property>
+  </action>
+  <action name="actionCopy_Map">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_copy_map.png</normaloff>:/icons/share/old_copy_map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy selected map.</string>
+   </property>
+  </action>
+  <action name="actionPaste_Map">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_paste_map.png</normaloff>:/icons/share/old_paste_map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Paste current copied map as children of the selected map.</string>
+   </property>
+  </action>
+  <action name="actionDelete_Map">
+   <property name="icon">
+    <iconset resource="Resources.qrc">
+     <normaloff>:/icons/share/old_delete_map.png</normaloff>:/icons/share/old_delete_map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Map</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete selected map.</string>
    </property>
   </action>
  </widget>
