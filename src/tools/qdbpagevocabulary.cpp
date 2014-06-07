@@ -3,8 +3,8 @@
 
 QDbPageVocabulary::QDbPageVocabulary(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageVocabulary)
+    ui(new Ui::QDbPageVocabulary),
+    m_data(database)
 {
     ui->setupUi(this);
     terms=&m_data.terms;

@@ -3,8 +3,8 @@
 
 QDbPageChipset::QDbPageChipset(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageChipset)
+    ui(new Ui::QDbPageChipset),
+    m_data(database)
 {
     ui->setupUi(this);
 }

@@ -1,0 +1,85 @@
+Editor-Qt
+=========
+
+Editor-Qt is a game editor to create EasyRPG games. It can import
+RPG Maker 2000 and 2003 games using liblcf to read RPG Maker game data.
+
+Editor-Qt is part of the EasyRPG Project. More information is
+available at the project website:
+
+  https://easy-rpg.org/
+
+
+Documentation
+-------------
+
+Documentation is available at the documentation wiki:
+
+  https://easy-rpg.org/wiki/
+
+
+Requirements
+------------
+
+liblcf for RPG Maker data reading. https://github.com/EasyRPG/liblcf
+Qt (>= 5.2)
+Qt multimedia
+
+
+Daily builds
+------------
+
+Up to date binaries for assorted platforms are available at:
+
+  https://easy-rpg.org/jenkins/view/Editor-Qt/
+
+
+Source code
+-----------
+
+Editor-Qt development is hosted by GitHub.
+Project files are available in Git repositories.
+
+  https://github.com/EasyRPG/Editor-Qt
+
+
+Building
+--------
+
+Building requirements:
+
+Use Qt Creator build it from command line using qmake.
+
+To generate the Makefile with qmake, run:
+
+  qmake
+(or qmake-qt5 on some systems)
+
+Compile with:
+
+  make
+
+
+Running Editor-Qt
+----------------------
+
+Run the generated executable in the "bin" folder.
+
+
+Bug reporting
+-------------
+
+Available options:
+
+* File an issue at https://github.com/EasyRPG/Editor-Qt/issues
+
+* Open a thread at https://easy-rpg.org/forums/
+
+* Chat with us via IRC: #easyrpg at irc.freenode.net
+
+
+License
+-------
+
+Editor-Qt is free software. See the file COPYING for copying
+conditions.

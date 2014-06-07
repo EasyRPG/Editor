@@ -3,8 +3,8 @@
 
 QDbPageAttributes::QDbPageAttributes(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageAttributes)
+    ui(new Ui::QDbPageAttributes),
+    m_data(database)
 {
     ui->setupUi(this);
 }

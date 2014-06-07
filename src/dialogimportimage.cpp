@@ -7,9 +7,9 @@
 
 DialogImportImage::DialogImportImage(QString n_filepath, QWidget *parent) :
     QDialog(parent),
-    m_filepath(n_filepath),
+    ui(new Ui::DialogImportImage),
     m_scale(1.0),
-    ui(new Ui::DialogImportImage)
+    m_filepath(n_filepath)
 {
     ui->setupUi(this);
 

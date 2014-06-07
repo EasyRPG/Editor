@@ -3,8 +3,8 @@
 
 QDbPageCommonEvents::QDbPageCommonEvents(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageCommonEvents)
+    ui(new Ui::QDbPageCommonEvents),
+    m_data(database)
 {
     ui->setupUi(this);
 }
