@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <sstream>
 #include "../core.h"
-#include "../DialogEvent.h"
+#include "../dialogEvent.h"
 #include "../dialogrungame.h"
 #include "../dialogmapproperties.h"
 #include "../mainwindow.h"

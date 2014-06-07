@@ -1,5 +1,5 @@
 #include "qdbpageclasses.h"
-#include "ui_QDbPageClasses.h"
+#include "ui_qdbpageclasses.h"
 #include <QTimer>
 
 QDbPageClasses::QDbPageClasses(RPG::Database &database, QWidget *parent) :

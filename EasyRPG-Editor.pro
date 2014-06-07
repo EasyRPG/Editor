@@ -106,8 +106,6 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpagesystem.h \
     src/tools/qdbpagesystem2.h \
     src/tools/qdbpagecommonevents.h \
-    src/tools/qgraphicsbattleanimationitem.h \
-    src/tools/qdbpageclasses.h \
     src/tools/qdbpageattributes.h \
     src/tools/qgraphicscurveitem.h \
     src/tools/qencounterdelegate.h
@@ -186,7 +184,8 @@ CONFIG(release, debug|release) {
     }
 }
 
-!win32:LIBS += -lexpat -llcf
-#!win32:QMAKE_CXXFLAGS += -Wextra -ansi -pedantic
+!win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic
 !win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
 !win32:QMAKE_CXXFLAGS += -std=c++0x
+!win32:CONFIG += link_pkgconfig silent
+!win32:PKGCONFIG += expat liblcf

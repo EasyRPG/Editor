@@ -5,7 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QTimer>
-#include "tools/QGraphicsCharaItem.h"
+#include "tools/qgraphicscharaitem.h"
 #include "tools/QGraphicsPickerScene.h"
 
 namespace Ui {

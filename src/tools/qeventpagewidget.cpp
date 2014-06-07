@@ -1,5 +1,5 @@
 #include "qeventpagewidget.h"
-#include "ui_qeventpagewidget.h"
+#include "ui_qeventpageWidget.h"
 #include <QDialogButtonBox>
 #include <data.h>
 #include "../dialogcharapicker.h"

@@ -6,7 +6,7 @@
 #include <QTreeWidgetItem>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
-#include "tools/QGraphicsMapScene.h"
+#include "tools/qgraphicsmapscene.h"
 #include "tools/QGraphicsPaleteScene.h"
 #include "musicplayer.h"
 
