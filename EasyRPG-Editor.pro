@@ -184,8 +184,10 @@ CONFIG(release, debug|release) {
     }
 }
 
+CONFIG += silent
+
 !win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic
 !win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
 !win32:QMAKE_CXXFLAGS += -std=c++0x
-!win32:CONFIG += link_pkgconfig silent
+!win32:CONFIG += link_pkgconfig
 !win32:PKGCONFIG += expat liblcf

@@ -429,6 +429,8 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             else if (mCore->layer() == Core::UPPER)
                 drawFill(mCore->translate(m_upper[_index(fst_x,fst_y)]),fst_x,fst_y);
             updateArea(0, 0, m_map.get()->width-1 ,m_map.get()->height-1);
+        default:
+            break;
         }
     }
     if(event->button() == Qt::RightButton) //StartSelecting
@@ -454,6 +456,8 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             break;
         case (Core::RECTANGLE):
             drawRect();
+            break;
+        default:
             break;
         }
     }
@@ -598,7 +602,7 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
     else
         size.setHeight(size.height()+s_tileSize);
     int start_x = m_view->horizontalScrollBar()->value()/s_tileSize;
-    int start_y = start_y = m_view->verticalScrollBar()->value()/s_tileSize;
+    int start_y = m_view->verticalScrollBar()->value()/s_tileSize;
     int end_x = start_x+(size.width()-1)/s_tileSize;
     int end_y = start_y+(size.height()-1)/s_tileSize;
     QPixmap pix(size);
@@ -662,6 +666,8 @@ void QGraphicsMapScene::drawRect()
     case (Core::UPPER):
         m_upper = m_map.get()->upper_layer;
         break;
+    default:
+        break;
     }
 
     int x1 = fst_x > cur_x ? cur_x : fst_x;
@@ -696,6 +702,8 @@ void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
         if (mCore->translate(m_upper[_index(x,y)]) != terrain_id)
             return;
         m_upper[_index(x,y)] = mCore->selection(x-fst_x,y-fst_y);
+        break;
+    default:
         break;
     }
     drawFill(terrain_id, x, y-1);

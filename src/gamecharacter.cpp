@@ -14,21 +14,21 @@ GameCharacter::GameCharacter() :
     m_ai(false),
     m_strongdefense(false),
     m_profession(-1),
+    m_facename("<none>"),
+    m_faceindex(0),
+    m_charaname("<none>"),
+    m_charaindex(0),
+    m_charatranslucent(false),
     m_battleset(-1),
+    m_expinitial(300),
+    m_expincrement(300),
+    m_expcorrection(0),
     m_initialweapon(-1),
     m_initialshield(-1),
     m_initialarmor(-1),
     m_initialhelmet(-1),
     m_initialother(-1),
-    m_unarmedanimation(-1),
-    m_faceindex(0),
-    m_facename("<none>"),
-    m_charaindex(0),
-    m_charaname("<none>"),
-    m_charatranslucent(false),
-    m_expinitial(300),
-    m_expincrement(300),
-    m_expcorrection(0)
+    m_unarmedanimation(-1)
   {
       for (int i = 0; i < 100; i++) {
           m_hpcurve.append(1);
@@ -52,21 +52,21 @@ GameCharacter::GameCharacter(const GameCharacter &other) :
     m_ai(other.m_ai),
     m_strongdefense(other.m_strongdefense),
     m_profession(other.m_profession),
+    m_facename(other.m_facename),
+    m_faceindex(other.m_faceindex),
+    m_charaname(other.m_charaname),
+    m_charaindex(other.m_charaindex),
+    m_charatranslucent(other.m_charatranslucent),
     m_battleset(other.m_battleset),
+    m_expinitial(other.m_expinitial),
+    m_expincrement(other.m_expincrement),
+    m_expcorrection(other.m_expcorrection),
     m_initialweapon(other.m_initialweapon),
     m_initialshield(other.m_initialshield),
     m_initialarmor(other.m_initialarmor),
     m_initialhelmet(other.m_initialhelmet),
     m_initialother(other.m_initialother),
-    m_unarmedanimation(other.m_unarmedanimation),
-    m_faceindex(other.m_faceindex),
-    m_facename(other.m_facename),
-    m_charaindex(other.m_charaindex),
-    m_charaname(other.m_charaname),
-    m_charatranslucent(other.m_charatranslucent),
-    m_expinitial(other.m_expinitial),
-    m_expincrement(other.m_expincrement),
-    m_expcorrection(other.m_expcorrection)
+    m_unarmedanimation(other.m_unarmedanimation)
   {
       for (int i = 0; i < 100; i++) {
           m_hpcurve.append(other.m_hpcurve[i]);

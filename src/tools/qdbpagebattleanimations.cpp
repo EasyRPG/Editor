@@ -3,8 +3,8 @@
 
 QDbPageBattleAnimations::QDbPageBattleAnimations(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageBattleAnimations)
+    ui(new Ui::QDbPageBattleAnimations),
+    m_data(database)
 {
     ui->setupUi(this);
 }
