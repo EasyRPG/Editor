@@ -1,4 +1,4 @@
-#include "QGraphicsCharaItem.h"
+#include "qgraphicscharaitem.h"
 #include "../core.h"
 
 QGraphicsCharaItem::QGraphicsCharaItem(const QPixmap pix) :
