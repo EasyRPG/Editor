@@ -166,20 +166,20 @@ win32 {
 	LIBS += -L$$PWD/libs/liblcf/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
-	    LIBS += -lliblcf
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
-	    LIBS += -lliblcf64
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf64
 	}
     }
 CONFIG(release, debug|release) {
 	LIBS += -L$$PWD/libs/liblcf/lib/release/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
-	    LIBS += -lliblcf
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
-	    LIBS += -lliblcf64
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf64
 	}
     }
 }
