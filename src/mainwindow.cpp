@@ -235,7 +235,11 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
 {
     Data::Clear();
     mCore->setProjectFolder(d_folder);
-    if (!LDB_Reader::Load((p_path+RM_DB).toStdString(),ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString())))
+    std::string encoding = ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString());
+    if (encoding.empty()) {
+        encoding = ReaderUtil::DetectEncoding(QString(p_path+RM_DB).toStdString());
+    }
+    if (!LDB_Reader::Load((p_path+RM_DB).toStdString(), encoding))
     {
         QMessageBox::critical(this,
                               "Error loading project",
@@ -244,7 +248,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         Data::Clear();
         return;
     }
-    if (!LMT_Reader::Load(QString(p_path+RM_MT).toStdString(),ReaderUtil::GetEncoding((p_path+RM_INI).toStdString())))
+    if (!LMT_Reader::Load((p_path+RM_MT).toStdString(), encoding))
     {
         QMessageBox::critical(this,
                               "Error loading project",
@@ -253,7 +257,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         Data::Clear();
         return;
     }
-    INIReader reader(QString(p_path+RM_INI).toStdString());
+    INIReader reader((p_path+RM_INI).toStdString());
     QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
     Data::treemap.maps[0].name = title.toStdString();
     mCore->setGameTitle(title);
@@ -391,7 +395,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << std::setw(4)
            << maps.maps[i].ID
            << ".lmu";
-        RPG::Map map = *LMU_Reader::Load(ss.str(),ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString())).get();
+        RPG::Map map = *LMU_Reader::Load(ss.str(), encoding).get();
         ss.str("");
         ss << mCore->filePath(ROOT).toStdString()
            << "Map"
