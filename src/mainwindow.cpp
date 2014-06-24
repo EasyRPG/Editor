@@ -235,7 +235,11 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
 {
     Data::Clear();
     mCore->setProjectFolder(d_folder);
-    if (!LDB_Reader::Load((p_path+RM_DB).toStdString(),ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString())))
+    std::string encoding = ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString());
+    if (encoding.empty()) {
+        encoding = ReaderUtil::DetectEncoding(QString(p_path+RM_DB).toStdString());
+    }
+    if (!LDB_Reader::Load((p_path+RM_DB).toStdString(), encoding))
     {
         QMessageBox::critical(this,
                               "Error loading project",
@@ -244,7 +248,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         Data::Clear();
         return;
     }
-    if (!LMT_Reader::Load(QString(p_path+RM_MT).toStdString(),ReaderUtil::GetEncoding((p_path+RM_INI).toStdString())))
+    if (!LMT_Reader::Load((p_path+RM_MT).toStdString(), encoding))
     {
         QMessageBox::critical(this,
                               "Error loading project",
@@ -253,7 +257,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         Data::Clear();
         return;
     }
-    INIReader reader(QString(p_path+RM_INI).toStdString());
+    INIReader reader((p_path+RM_INI).toStdString());
     QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
     Data::treemap.maps[0].name = title.toStdString();
     mCore->setGameTitle(title);
@@ -391,7 +395,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << std::setw(4)
            << maps.maps[i].ID
            << ".lmu";
-        RPG::Map map = *LMU_Reader::Load(ss.str(),ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString())).get();
+        RPG::Map map = *LMU_Reader::Load(ss.str(), encoding).get();
         ss.str("");
         ss << mCore->filePath(ROOT).toStdString()
            << "Map"
@@ -541,31 +545,31 @@ void MainWindow::on_action_New_Project_triggered()
                       mCore->defDir()+dlg.getProjectFolder());
         }
         else
-            d_gamepath.mkdir(".");
+            d_gamepath.mkpath(".");
         mCore->setProjectFolder(dlg.getProjectFolder());
         mCore->setGameTitle(dlg.getGameTitle());
         mCore->setTileSize(dlg.getTileSize());
         mCore->setDefDir(dlg.getDefDir());
         Data::Clear();
-        d_gamepath.mkdir(mCore->filePath(BACKDROP));
-        d_gamepath.mkdir(mCore->filePath(PANORAMA));
-        d_gamepath.mkdir(mCore->filePath(BATTLE));
-        d_gamepath.mkdir(mCore->filePath(BATTLE2));
-        d_gamepath.mkdir(mCore->filePath(BATTLECHARSET));
-        d_gamepath.mkdir(mCore->filePath(BATTLEWEAPON));
-        d_gamepath.mkdir(mCore->filePath(CHARSET));
-        d_gamepath.mkdir(mCore->filePath(CHIPSET));
-        d_gamepath.mkdir(mCore->filePath(FACESET));
-        d_gamepath.mkdir(mCore->filePath(FRAME));
-        d_gamepath.mkdir(mCore->filePath(GAMEOVER));
-        d_gamepath.mkdir(mCore->filePath(MONSTER));
-        d_gamepath.mkdir(mCore->filePath(MOVIE));
-        d_gamepath.mkdir(mCore->filePath(MUSIC));
-        d_gamepath.mkdir(mCore->filePath(PICTURE));
-        d_gamepath.mkdir(mCore->filePath(SOUND));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM2));
-        d_gamepath.mkdir(mCore->filePath(TITLE));
+        d_gamepath.mkpath(mCore->filePath(BACKDROP));
+        d_gamepath.mkpath(mCore->filePath(PANORAMA));
+        d_gamepath.mkpath(mCore->filePath(BATTLE));
+        d_gamepath.mkpath(mCore->filePath(BATTLE2));
+        d_gamepath.mkpath(mCore->filePath(BATTLECHARSET));
+        d_gamepath.mkpath(mCore->filePath(BATTLEWEAPON));
+        d_gamepath.mkpath(mCore->filePath(CHARSET));
+        d_gamepath.mkpath(mCore->filePath(CHIPSET));
+        d_gamepath.mkpath(mCore->filePath(FACESET));
+        d_gamepath.mkpath(mCore->filePath(FRAME));
+        d_gamepath.mkpath(mCore->filePath(GAMEOVER));
+        d_gamepath.mkpath(mCore->filePath(MONSTER));
+        d_gamepath.mkpath(mCore->filePath(MOVIE));
+        d_gamepath.mkpath(mCore->filePath(MUSIC));
+        d_gamepath.mkpath(mCore->filePath(PICTURE));
+        d_gamepath.mkpath(mCore->filePath(SOUND));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM2));
+        d_gamepath.mkpath(mCore->filePath(TITLE));
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
         setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
@@ -931,28 +935,28 @@ void MainWindow::on_actionImport_Project_triggered()
                           dlg.getDefDir()+dlg.getProjectFolder());
             }
             else
-                d_gamepath.mkdir(".");
+                d_gamepath.mkpath(".");
          mCore->setTileSize(16);
          mCore->setProjectFolder(dlg.getProjectFolder());
-        d_gamepath.mkdir(mCore->filePath(BACKDROP));
-        d_gamepath.mkdir(mCore->filePath(PANORAMA));
-        d_gamepath.mkdir(mCore->filePath(BATTLE));
-        d_gamepath.mkdir(mCore->filePath(BATTLE2));
-        d_gamepath.mkdir(mCore->filePath(BATTLECHARSET));
-        d_gamepath.mkdir(mCore->filePath(BATTLEWEAPON));
-        d_gamepath.mkdir(mCore->filePath(CHARSET));
-        d_gamepath.mkdir(mCore->filePath(CHIPSET));
-        d_gamepath.mkdir(mCore->filePath(FACESET));
-        d_gamepath.mkdir(mCore->filePath(FRAME));
-        d_gamepath.mkdir(mCore->filePath(GAMEOVER));
-        d_gamepath.mkdir(mCore->filePath(MONSTER));
-        d_gamepath.mkdir(mCore->filePath(MOVIE));
-        d_gamepath.mkdir(mCore->filePath(MUSIC));
-        d_gamepath.mkdir(mCore->filePath(PICTURE));
-        d_gamepath.mkdir(mCore->filePath(SOUND));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM2));
-        d_gamepath.mkdir(mCore->filePath(TITLE));
+        d_gamepath.mkpath(mCore->filePath(BACKDROP));
+        d_gamepath.mkpath(mCore->filePath(PANORAMA));
+        d_gamepath.mkpath(mCore->filePath(BATTLE));
+        d_gamepath.mkpath(mCore->filePath(BATTLE2));
+        d_gamepath.mkpath(mCore->filePath(BATTLECHARSET));
+        d_gamepath.mkpath(mCore->filePath(BATTLEWEAPON));
+        d_gamepath.mkpath(mCore->filePath(CHARSET));
+        d_gamepath.mkpath(mCore->filePath(CHIPSET));
+        d_gamepath.mkpath(mCore->filePath(FACESET));
+        d_gamepath.mkpath(mCore->filePath(FRAME));
+        d_gamepath.mkpath(mCore->filePath(GAMEOVER));
+        d_gamepath.mkpath(mCore->filePath(MONSTER));
+        d_gamepath.mkpath(mCore->filePath(MOVIE));
+        d_gamepath.mkpath(mCore->filePath(MUSIC));
+        d_gamepath.mkpath(mCore->filePath(PICTURE));
+        d_gamepath.mkpath(mCore->filePath(SOUND));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM2));
+        d_gamepath.mkpath(mCore->filePath(TITLE));
         m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
         ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
     }
