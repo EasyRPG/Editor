@@ -12,9 +12,11 @@
 /release
 Makefile.Debug
 Makefile.Release
+.qmake.stash
 /libs/liblcf
 /.project
 /bin/templates/Player.exe
+/bin/*.app
 /bin/*.dll
 /bin/*.exe
 /bin/*.manifest
