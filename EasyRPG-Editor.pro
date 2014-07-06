@@ -159,20 +159,21 @@ win32 {
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-    LIBS += /NODEFAULTLIB:libcmt.lib
-    LIBS += /NODEFAULTLIB:libcmtd.lib
+    LIBS += Advapi32.lib
 
     CONFIG(debug, debug|release) {
+	LIBS += /NODEFAULTLIB:libcmtd.lib
 	LIBS += -L$$PWD/libs/liblcf/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
-	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf
+	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
-	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf64
+	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf64
 	}
     }
-CONFIG(release, debug|release) {
+    CONFIG(release, debug|release) {
+	LIBS += /NODEFAULTLIB:libcmt.lib
 	LIBS += -L$$PWD/libs/liblcf/lib/release/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
@@ -183,8 +184,6 @@ CONFIG(release, debug|release) {
 	}
     }
 }
-
-CONFIG += silent
 
 !win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic
 !win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3

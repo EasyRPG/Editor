@@ -23,5 +23,8 @@ Makefile.Release
 /bin/*.rc
 /bin/*.ilk
 /bin/*.pdb
+/bin/*.lib
+/bin/*.exp
+/bin/*.res
 /bin/platforms
 /bin/EasyRPG-Editor
