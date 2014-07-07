@@ -194,7 +194,7 @@ void MainWindow::LoadProject(QString foldername)
         m_treeItems[maps.maps[i].ID] = item;
     }
     //Parent Items
-    for (unsigned int i = 0; i < maps.maps.size(); i++)
+    for (unsigned int i = 0; i < (maps.maps.size()-1); i++)
     {
         int id = maps.tree_order[i];
         RPG::MapInfo info;
