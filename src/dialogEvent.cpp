@@ -71,7 +71,7 @@ bool DialogEvent::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
         chk(pages[i].move_frequency);
         chk(pages[i].trigger);
         chk(pages[i].layer);
-        chk(pages[i].overlap);
+        chk(pages[i].overlap_forbidden);
         chk(pages[i].animation_type);
         chk(pages[i].move_speed);
         chk(pages[i].move_route.repeat);

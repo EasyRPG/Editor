@@ -68,7 +68,7 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
     ui->comboMoveSpeed->setCurrentIndex(eventPage->move_speed-1);
     ui->comboCondition->setCurrentIndex(eventPage->trigger);
     ui->comboLayer->setCurrentIndex(eventPage->layer);
-    ui->checkOverlap->setChecked(eventPage->overlap);
+    ui->checkOverlapForbidden->setChecked(eventPage->overlap_forbidden);
     ui->comboAnimationType->setCurrentIndex(eventPage->animation_type);
     ui->comboMoveFrequency->setCurrentIndex(eventPage->move_frequency-1);
     m_effect->setEnabled(m_eventPage->translucent);
@@ -293,11 +293,11 @@ void QEventPageWidget::on_comboLayer_currentIndexChanged(int index)
     m_eventPage->layer = index;
 }
 
-void QEventPageWidget::on_checkOverlap_toggled(bool checked)
+void QEventPageWidget::on_checkOverlapForbidden_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
-    m_eventPage->overlap = checked;
+    m_eventPage->overlap_forbidden = checked;
 }
 
 void QEventPageWidget::on_comboAnimationType_currentIndexChanged(int index)
