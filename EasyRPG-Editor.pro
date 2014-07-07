@@ -9,7 +9,7 @@ win32:QT += winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = EasyRPG-Editor
+win32:TARGET = EasyRPG-Editor
 TEMPLATE = app
 
 SOURCES += src/mainwindow.cpp \
@@ -146,16 +146,16 @@ RESOURCES += \
 
 RC_FILE = src/Resources.rc
 
-INCLUDEPATH += $$PWD/libs/liblcf/src
-INCLUDEPATH += $$PWD/libs/liblcf/src/generated
-DEPENDPATH += $$PWD/libs/liblcf/src
-DEPENDPATH += $$PWD/libs/liblcf/src/generated
 
 DESTDIR = bin
 
 CONFIG(debug, debug|release) TARGET = EasyRPG-EditorD
 
 win32 {
+    INCLUDEPATH += $$PWD/libs/liblcf/src
+    DEPENDPATH += $$PWD/libs/liblcf/src
+    INCLUDEPATH += $$PWD/libs/liblcf/src/generated
+    DEPENDPATH += $$PWD/libs/liblcf/src/generated
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
@@ -185,8 +185,8 @@ win32 {
     }
 }
 
-!win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic
+!win32:TARGET = easyrpg-editor
+!win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic -std=c++0x
 !win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
-!win32:QMAKE_CXXFLAGS += -std=c++0x
-!win32:CONFIG += link_pkgconfig
-!win32:PKGCONFIG += expat liblcf
+!win32:CONFIG += link_pkgconfig silent
+!win32:PKGCONFIG += liblcf

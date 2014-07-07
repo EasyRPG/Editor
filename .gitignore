@@ -6,7 +6,8 @@
 /moc_*
 /qrc_*
 /ui_*
-/EasyRPG-Editor
+EasyRPG-Editor
+easyrpg-editor
 /libs/liblcf/*
 /debug
 /release
@@ -27,4 +28,3 @@ Makefile.Release
 /bin/*.exp
 /bin/*.res
 /bin/platforms
-/bin/EasyRPG-Editor
