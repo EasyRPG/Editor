@@ -486,7 +486,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkOverlap">
+       <widget class="QCheckBox" name="checkOverlapForbidden">
         <property name="text">
          <string>Forbid overlap</string>
         </property>

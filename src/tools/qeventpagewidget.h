@@ -71,7 +71,7 @@ private slots:
 
     void on_comboLayer_currentIndexChanged(int index);
 
-    void on_checkOverlap_toggled(bool checked);
+    void on_checkOverlapForbidden_toggled(bool checked);
 
     void on_comboAnimationType_currentIndexChanged(int index);
 
