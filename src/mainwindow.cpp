@@ -87,7 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Hide map ids
     ui->treeMap->hideColumn(1);
     // Created hardcoded toolbar for palette window.
-    ui->toolBar->setParent(ui->dockWidgetContents);
+    ui->widgetBar->layout()->addWidget(ui->toolBar);
+    ui->widgetBar2->layout()->addWidget(ui->toolBar2);
     //Create dialogs
     dlg_resource = new DialogResourceManager(this);
     dlg_resource->setModal(true);
@@ -180,8 +181,8 @@ void MainWindow::LoadProject(QString foldername)
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
-    QMap<int,QTreeWidgetItem*> items;
-    items[0] = root;
+    m_treeItems.clear();
+    m_treeItems[0] = root;
     //Add Items
     for (unsigned int i = 1; i < maps.maps.size(); i++)
     {
@@ -189,10 +190,10 @@ void MainWindow::LoadProject(QString foldername)
         item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
         item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
         item->setIcon(0, QIcon(":/icons/share/old_map.png"));
-        items[maps.maps[i].ID] = item;
+        m_treeItems[maps.maps[i].ID] = item;
     }
     //Parent Items
-    for (unsigned int i = 0; i < maps.maps.size(); i++)
+    for (unsigned int i = 0; i < (maps.maps.size()-1); i++)
     {
         int id = maps.tree_order[i];
         RPG::MapInfo info;
@@ -202,17 +203,17 @@ void MainWindow::LoadProject(QString foldername)
                 info = maps.maps[j];
                 break;
             }
-        items[info.parent_map]->addChild(items[info.ID]);
+        m_treeItems[info.parent_map]->addChild(m_treeItems[info.ID]);
         if (info.ID == maps.active_node)
         {
-            ui->treeMap->setCurrentItem(items[info.ID]);
-            this->on_treeMap_itemDoubleClicked(items[info.ID], 0);
+            ui->treeMap->setCurrentItem(m_treeItems[info.ID]);
+            this->on_treeMap_itemDoubleClicked(m_treeItems[info.ID], 0);
         }
     }
     //Expand Items
     for (unsigned int i = 0; i < maps.maps.size(); i++)
     {
-        items[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
+        m_treeItems[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
     }
 
     for(int i = 0; i < m_mapList.count(); i++)
@@ -233,7 +234,11 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
 {
     Data::Clear();
     mCore->setProjectFolder(d_folder);
-    if (!LDB_Reader::Load((p_path+RM_DB).toStdString(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())))
+    std::string encoding = ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString());
+    if (encoding.empty()) {
+        encoding = ReaderUtil::DetectEncoding(QString(p_path+RM_DB).toStdString());
+    }
+    if (!LDB_Reader::Load((p_path+RM_DB).toStdString(), encoding))
     {
         QMessageBox::critical(this,
                               "Error loading project",
@@ -242,7 +247,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         Data::Clear();
         return;
     }
-    if (!LMT_Reader::Load(QString(p_path+RM_MT).toStdString(),ReaderUtil::GetEncoding((p_path+INI_NAME).toStdString())))
+    if (!LMT_Reader::Load((p_path+RM_MT).toStdString(), encoding))
     {
         QMessageBox::critical(this,
                               "Error loading project",
@@ -251,7 +256,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         Data::Clear();
         return;
     }
-    INIReader reader(QString(p_path+RM_INI).toStdString());
+    INIReader reader((p_path+RM_INI).toStdString());
     QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
     Data::treemap.maps[0].name = title.toStdString();
     mCore->setGameTitle(title);
@@ -341,8 +346,8 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
-    QMap<int,QTreeWidgetItem*> items;
-    items[0] = root;
+    m_treeItems.clear();
+    m_treeItems[0] = root;
     //Add Items
     for (unsigned int i = 1; i < maps.maps.size(); i++)
     {
@@ -350,7 +355,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
         item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
         item->setIcon(0, QIcon(":/icons/share/old_map.png"));
-        items[maps.maps[i].ID] = item;
+        m_treeItems[maps.maps[i].ID] = item;
     }
     //Parent Items
     for (unsigned int i = 0; i < maps.maps.size(); i++)
@@ -363,10 +368,10 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
                 info = maps.maps[j];
                 break;
             }
-        items[info.parent_map]->addChild(items[info.ID]);
+        m_treeItems[info.parent_map]->addChild(m_treeItems[info.ID]);
         if (info.ID == maps.active_node)
         {
-            ui->treeMap->setCurrentItem(items[info.ID]);
+            ui->treeMap->setCurrentItem(m_treeItems[info.ID]);
             m_mapList.push_back(info.ID);
             m_scaleList.push_back(1.0);
         }
@@ -374,7 +379,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     //Expand Items
     for (unsigned int i = 0; i < maps.maps.size(); i++)
     {
-        items[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
+        m_treeItems[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
     }
     //Import Maps
     std::stringstream ss;
@@ -389,7 +394,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << std::setw(4)
            << maps.maps[i].ID
            << ".lmu";
-        RPG::Map map = *LMU_Reader::Load(ss.str(),ReaderUtil::GetEncoding(QString(p_path+INI_NAME).toStdString())).get();
+        RPG::Map map = *LMU_Reader::Load(ss.str(), encoding).get();
         ss.str("");
         ss << mCore->filePath(ROOT).toStdString()
            << "Map"
@@ -407,7 +412,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     m_projSett->setValue(MAPS, m_mapList);
     m_projSett->setValue(SCALES, m_scaleList);
     m_projSett->setValue(TILESIZE, 16);
-    this->on_treeMap_itemDoubleClicked(items[m_mapList[0].toInt()], 0);
+    this->on_treeMap_itemDoubleClicked(m_treeItems[m_mapList[0].toInt()], 0);
 }
 
 void MainWindow::on_action_Quit_triggered()
@@ -477,6 +482,11 @@ void MainWindow::update_actions()
         ui->action_Script_Editor->setEnabled(false);
         ui->action_Title_Background->setEnabled(false);
         ui->action_Upper_Layer->setEnabled(false);
+        ui->actionNew_Map->setEnabled(false);
+        ui->actionMap_Properties->setEnabled(false);
+        ui->actionCopy_Map->setEnabled(false);
+        ui->actionPaste_Map->setEnabled(false);
+        ui->actionDelete_Map->setEnabled(false);
     } else {
         ui->actionCircle->setEnabled(true);
         ui->actionCreate_Game_Disk->setEnabled(true);
@@ -501,6 +511,11 @@ void MainWindow::update_actions()
         ui->action_Script_Editor->setEnabled(true);
         ui->action_Title_Background->setEnabled(true);
         ui->action_Upper_Layer->setEnabled(true);
+        ui->actionNew_Map->setEnabled(true);
+        ui->actionMap_Properties->setEnabled(ui->tabMap->count());
+        ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+        ui->actionPaste_Map->setEnabled(!m_copiedMap.isEmpty());
+        ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
     }
 }
 
@@ -529,31 +544,31 @@ void MainWindow::on_action_New_Project_triggered()
                       mCore->defDir()+dlg.getProjectFolder());
         }
         else
-            d_gamepath.mkdir(".");
+            d_gamepath.mkpath(".");
         mCore->setProjectFolder(dlg.getProjectFolder());
         mCore->setGameTitle(dlg.getGameTitle());
         mCore->setTileSize(dlg.getTileSize());
         mCore->setDefDir(dlg.getDefDir());
         Data::Clear();
-        d_gamepath.mkdir(mCore->filePath(BACKDROP));
-        d_gamepath.mkdir(mCore->filePath(PANORAMA));
-        d_gamepath.mkdir(mCore->filePath(BATTLE));
-        d_gamepath.mkdir(mCore->filePath(BATTLE2));
-        d_gamepath.mkdir(mCore->filePath(BATTLECHARSET));
-        d_gamepath.mkdir(mCore->filePath(BATTLEWEAPON));
-        d_gamepath.mkdir(mCore->filePath(CHARSET));
-        d_gamepath.mkdir(mCore->filePath(CHIPSET));
-        d_gamepath.mkdir(mCore->filePath(FACESET));
-        d_gamepath.mkdir(mCore->filePath(FRAME));
-        d_gamepath.mkdir(mCore->filePath(GAMEOVER));
-        d_gamepath.mkdir(mCore->filePath(MONSTER));
-        d_gamepath.mkdir(mCore->filePath(MOVIE));
-        d_gamepath.mkdir(mCore->filePath(MUSIC));
-        d_gamepath.mkdir(mCore->filePath(PICTURE));
-        d_gamepath.mkdir(mCore->filePath(SOUND));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM2));
-        d_gamepath.mkdir(mCore->filePath(TITLE));
+        d_gamepath.mkpath(mCore->filePath(BACKDROP));
+        d_gamepath.mkpath(mCore->filePath(PANORAMA));
+        d_gamepath.mkpath(mCore->filePath(BATTLE));
+        d_gamepath.mkpath(mCore->filePath(BATTLE2));
+        d_gamepath.mkpath(mCore->filePath(BATTLECHARSET));
+        d_gamepath.mkpath(mCore->filePath(BATTLEWEAPON));
+        d_gamepath.mkpath(mCore->filePath(CHARSET));
+        d_gamepath.mkpath(mCore->filePath(CHIPSET));
+        d_gamepath.mkpath(mCore->filePath(FACESET));
+        d_gamepath.mkpath(mCore->filePath(FRAME));
+        d_gamepath.mkpath(mCore->filePath(GAMEOVER));
+        d_gamepath.mkpath(mCore->filePath(MONSTER));
+        d_gamepath.mkpath(mCore->filePath(MOVIE));
+        d_gamepath.mkpath(mCore->filePath(MUSIC));
+        d_gamepath.mkpath(mCore->filePath(PICTURE));
+        d_gamepath.mkpath(mCore->filePath(SOUND));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM2));
+        d_gamepath.mkpath(mCore->filePath(TITLE));
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
         setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
@@ -583,15 +598,14 @@ void MainWindow::on_action_New_Project_triggered()
         m_projSett->setValue(MAPS, mapList);
         m_projSett->setValue(SCALES, scaleList);
         m_projSett->setValue(TILESIZE, 16);
-        update_actions();
         QTreeWidgetItem *root = new QTreeWidgetItem();
         root->setData(1, Qt::DisplayRole, 0);
         root->setData(0,Qt::DisplayRole,  mCore->gameTitle());
         root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
         RPG::TreeMap maps = Data::treemap;
         ui->treeMap->addTopLevelItem(root);
-        QMap<int,QTreeWidgetItem*> items;
-        items[0] = root;
+        m_treeItems.clear();
+        m_treeItems[0] = root;
         //Add Items
         for (unsigned int i = 1; i < maps.maps.size(); i++)
         {
@@ -599,7 +613,7 @@ void MainWindow::on_action_New_Project_triggered()
             item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
             item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
             item->setIcon(0, QIcon(":/icons/share/old_map.png"));
-            items[maps.maps[i].ID] = item;
+            m_treeItems[maps.maps[i].ID] = item;
         }
         //Parent Items
         for (unsigned int i = 0; i < maps.maps.size(); i++)
@@ -612,21 +626,23 @@ void MainWindow::on_action_New_Project_triggered()
                     info = maps.maps[j];
                     break;
                 }
-            items[info.parent_map]->addChild(items[info.ID]);
+            m_treeItems[info.parent_map]->addChild(m_treeItems[info.ID]);
             if (info.ID == maps.active_node)
             {
-                ui->treeMap->setCurrentItem(items[info.ID]);
+                ui->treeMap->setCurrentItem(m_treeItems[info.ID]);
             }
         }
         //Expand Items
         for (unsigned int i = 0; i < maps.maps.size(); i++)
         {
-            items[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
+            m_treeItems[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
         }
         QGraphicsView *view = getView(1);
         QGraphicsMapScene *scene = getScene(1);
         scene->setScale(0 < scaleList.size() ? scaleList[0].toFloat() : 1.0);
         ui->tabMap->setCurrentWidget(view);
+        update_actions();
+
     }
 }
 
@@ -914,28 +930,28 @@ void MainWindow::on_actionImport_Project_triggered()
                           dlg.getDefDir()+dlg.getProjectFolder());
             }
             else
-                d_gamepath.mkdir(".");
+                d_gamepath.mkpath(".");
          mCore->setTileSize(16);
          mCore->setProjectFolder(dlg.getProjectFolder());
-        d_gamepath.mkdir(mCore->filePath(BACKDROP));
-        d_gamepath.mkdir(mCore->filePath(PANORAMA));
-        d_gamepath.mkdir(mCore->filePath(BATTLE));
-        d_gamepath.mkdir(mCore->filePath(BATTLE2));
-        d_gamepath.mkdir(mCore->filePath(BATTLECHARSET));
-        d_gamepath.mkdir(mCore->filePath(BATTLEWEAPON));
-        d_gamepath.mkdir(mCore->filePath(CHARSET));
-        d_gamepath.mkdir(mCore->filePath(CHIPSET));
-        d_gamepath.mkdir(mCore->filePath(FACESET));
-        d_gamepath.mkdir(mCore->filePath(FRAME));
-        d_gamepath.mkdir(mCore->filePath(GAMEOVER));
-        d_gamepath.mkdir(mCore->filePath(MONSTER));
-        d_gamepath.mkdir(mCore->filePath(MOVIE));
-        d_gamepath.mkdir(mCore->filePath(MUSIC));
-        d_gamepath.mkdir(mCore->filePath(PICTURE));
-        d_gamepath.mkdir(mCore->filePath(SOUND));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM));
-        d_gamepath.mkdir(mCore->filePath(SYSTEM2));
-        d_gamepath.mkdir(mCore->filePath(TITLE));
+        d_gamepath.mkpath(mCore->filePath(BACKDROP));
+        d_gamepath.mkpath(mCore->filePath(PANORAMA));
+        d_gamepath.mkpath(mCore->filePath(BATTLE));
+        d_gamepath.mkpath(mCore->filePath(BATTLE2));
+        d_gamepath.mkpath(mCore->filePath(BATTLECHARSET));
+        d_gamepath.mkpath(mCore->filePath(BATTLEWEAPON));
+        d_gamepath.mkpath(mCore->filePath(CHARSET));
+        d_gamepath.mkpath(mCore->filePath(CHIPSET));
+        d_gamepath.mkpath(mCore->filePath(FACESET));
+        d_gamepath.mkpath(mCore->filePath(FRAME));
+        d_gamepath.mkpath(mCore->filePath(GAMEOVER));
+        d_gamepath.mkpath(mCore->filePath(MONSTER));
+        d_gamepath.mkpath(mCore->filePath(MOVIE));
+        d_gamepath.mkpath(mCore->filePath(MUSIC));
+        d_gamepath.mkpath(mCore->filePath(PICTURE));
+        d_gamepath.mkpath(mCore->filePath(SOUND));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM));
+        d_gamepath.mkpath(mCore->filePath(SYSTEM2));
+        d_gamepath.mkpath(mCore->filePath(TITLE));
         m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
         ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
     }
@@ -1037,13 +1053,6 @@ bool MainWindow::saveAll()
     return true;
 }
 
-
-void MainWindow::on_actionMap_Properties_dialog_triggered()
-{
-    DialogMapProperties dlg(this);
-    dlg.exec();
-}
-
 void MainWindow::on_action_Save_Map_triggered()
 {
     if(currentScene())
@@ -1054,4 +1063,254 @@ void MainWindow::on_actionRevert_Map_triggered()
 {
     if (currentScene())
         currentScene()->Load();
+}
+
+
+void MainWindow::on_treeMap_itemSelectionChanged()
+{
+    if (!ui->treeMap->currentItem())
+    {
+        ui->actionCopy_Map->setEnabled(false);
+        ui->actionDelete_Map->setEnabled(false);
+        return;
+    }
+    ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+    ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+    Data::treemap.active_node = ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0;
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
+}
+
+void MainWindow::on_actionCopy_Map_triggered()
+{
+    m_copiedMap = mCore->filePath(ROOT)+"Map%1.emu";
+    m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
+                                  4, QLatin1Char('0'));
+    ui->actionPaste_Map->setEnabled(true);
+    return;
+}
+
+
+void MainWindow::on_actionNew_Map_triggered()
+{
+    QString t_folder = qApp->applicationDirPath()+"/templates/";
+
+    RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
+    LMU_Reader::SaveXml(mCore->filePath(ROOT,"Map0001.emu").toStdString(), map);
+
+    m_copiedMap = mCore->filePath(ROOT)+"Map0001.emu";
+    m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
+                                  4, QLatin1Char('0'));
+
+    QFileInfo f(m_copiedMap);
+
+    if (!f.exists())
+    {
+        QMessageBox::critical(this,
+                              "File not found",
+                              "The file " + m_copiedMap + " can't be found.");
+        return;
+    }
+
+
+    std::auto_ptr<RPG::Map> m = LMU_Reader::LoadXml(m_copiedMap.toStdString());
+    RPG::MapInfo info;
+    for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
+    {
+        if (Data::treemap.maps[i].ID == m->ID)
+        {
+            info = Data::treemap.maps[i];
+            break;
+        }
+    }
+    info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
+    if (info.parent_map == 0)
+    {
+        if (info.music_type == RPG::MapInfo::MusicType_parent)
+            info.music_type = RPG::MapInfo::MusicType_event;
+        if (info.background_type == RPG::MapInfo::BGMType_parent)
+            info.background_type = RPG::MapInfo::BGMType_terrain;
+        if (info.teleport == RPG::MapInfo::TriState_parent)
+            info.teleport = RPG::MapInfo::TriState_allow;
+        if (info.escape == RPG::MapInfo::TriState_parent)
+            info.escape = RPG::MapInfo::TriState_allow;
+        if (info.save == RPG::MapInfo::TriState_parent)
+            info.save = RPG::MapInfo::TriState_allow;
+    }
+    for (int i = 1;;i++)
+    {
+        bool found = false;
+        for (int j = 0; j < (int) Data::treemap.maps.size(); j++)
+        {
+            if (i == j)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            m->ID = i;
+            info.ID = i;
+            info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
+            break;
+        }
+    }
+    Data::treemap.maps.push_back(info);
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setData(1,Qt::DisplayRole,m->ID);
+    item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
+    item->setIcon(0, QIcon(":/icons/share/old_map.png"));
+    m_treeItems[m->ID] = item;
+    m_treeItems[info.parent_map]->addChild(item);
+    QTreeWidgetItem *root = m_treeItems[0];
+    QTreeWidgetItemIterator it(root);
+    std::vector<int> tree_order;
+    while (*it)
+    {
+        tree_order.push_back((*it)->data(1, Qt::DisplayRole).toInt());
+        it++;
+    }
+    Data::treemap.tree_order = tree_order;
+    ui->treeMap->currentItem()->setExpanded(true);
+    ui->treeMap->currentItem()->setSelected(false);
+    item->setSelected(true);
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
+    QString path = mCore->filePath(ROOT, "Map%1.emu");
+    path = path.arg(QString::number(m->ID), 4, QLatin1Char('0'));
+    LMU_Reader::SaveXml(path.toStdString(), *m);
+    on_treeMap_itemDoubleClicked(item, 0);
+}
+
+
+void MainWindow::on_actionPaste_Map_triggered()
+{
+    QFileInfo f(m_copiedMap);
+
+    if (!f.exists())
+    {
+        QMessageBox::critical(this,
+                              "File not found",
+                              "The file " + m_copiedMap + " can't be found.");
+        return;
+    }
+
+
+    std::auto_ptr<RPG::Map> m = LMU_Reader::LoadXml(m_copiedMap.toStdString());
+    RPG::MapInfo info;
+    for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
+    {
+        if (Data::treemap.maps[i].ID == m->ID)
+        {
+            info = Data::treemap.maps[i];
+            break;
+        }
+    }
+    info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
+    if (info.parent_map == 0)
+    {
+        if (info.music_type == RPG::MapInfo::MusicType_parent)
+            info.music_type = RPG::MapInfo::MusicType_event;
+        if (info.background_type == RPG::MapInfo::BGMType_parent)
+            info.background_type = RPG::MapInfo::BGMType_terrain;
+        if (info.teleport == RPG::MapInfo::TriState_parent)
+            info.teleport = RPG::MapInfo::TriState_allow;
+        if (info.escape == RPG::MapInfo::TriState_parent)
+            info.escape = RPG::MapInfo::TriState_allow;
+        if (info.save == RPG::MapInfo::TriState_parent)
+            info.save = RPG::MapInfo::TriState_allow;
+    }
+    for (int i = 1;;i++)
+    {
+        bool found = false;
+        for (int j = 0; j < (int) Data::treemap.maps.size(); j++)
+        {
+            if (i == j)
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            m->ID = i;
+            info.ID = i;
+            info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
+            break;
+        }
+    }
+    Data::treemap.maps.push_back(info);
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setData(1,Qt::DisplayRole,m->ID);
+    item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
+    item->setIcon(0, QIcon(":/icons/share/old_map.png"));
+    m_treeItems[m->ID] = item;
+    m_treeItems[info.parent_map]->addChild(item);
+    QTreeWidgetItem *root = m_treeItems[0];
+    QTreeWidgetItemIterator it(root);
+    std::vector<int> tree_order;
+    while (*it)
+    {
+        tree_order.push_back((*it)->data(1, Qt::DisplayRole).toInt());
+        it++;
+    }
+    Data::treemap.tree_order = tree_order;
+    ui->treeMap->currentItem()->setExpanded(true);
+    ui->treeMap->currentItem()->setSelected(false);
+    item->setSelected(true);
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
+    QString path = mCore->filePath(ROOT, "Map%1.emu");
+    path = path.arg(QString::number(m->ID), 4, QLatin1Char('0'));
+    LMU_Reader::SaveXml(path.toStdString(), *m);
+    on_treeMap_itemDoubleClicked(item, 0);
+}
+
+void MainWindow::on_actionDelete_Map_triggered()
+{
+
+    int ID = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
+    QString mapPath = mCore->filePath(ROOT)+"Map%1.emu";
+    mapPath = mapPath.arg(QString::number(ID), 4, QLatin1Char('0'));
+
+    if (QFileInfo(mapPath).exists())
+        QFile::remove(mapPath);
+    else
+        qWarning() << QString("file not found: %1").arg(mapPath);
+
+    for (unsigned int i = 0; i < Data::treemap.maps.size(); i++)
+    {
+        if (Data::treemap.maps[i].ID == ID)
+        {
+            Data::treemap.maps.erase(Data::treemap.maps.begin()+i);
+            break;
+        }
+    }
+
+    for (unsigned int i = 0; i < Data::treemap.tree_order.size(); i++)
+    {
+        if (Data::treemap.tree_order[i] == ID)
+        {
+            Data::treemap.tree_order.erase(Data::treemap.tree_order.begin()+i);
+            break;
+        }
+    }
+
+    QGraphicsView* view = m_views[ID];
+    if (view)
+    {
+        ui->tabMap->removeTab(ui->tabMap->indexOf(view));
+        m_views.remove(ID);
+    }
+
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
+
+    m_treeItems[ID]->parent()->removeChild(m_treeItems[ID]);
+    m_treeItems.remove(ID);
+}
+
+void MainWindow::on_actionMap_Properties_triggered()
+{
+    if (!currentScene())
+        return;
+
+    currentScene()->editMapProperties();
 }

@@ -3,8 +3,8 @@
 
 QDbPageHeroStatus::QDbPageHeroStatus(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageHeroStatus)
+    ui(new Ui::QDbPageHeroStatus),
+    m_data(database)
 {
     ui->setupUi(this);
 }

@@ -3,8 +3,8 @@
 
 QDbPageEnemies::QDbPageEnemies(RPG::Database &database, QWidget *parent) :
     QWidget(parent),
-    m_data(database),
-    ui(new Ui::QDbPageEnemies)
+    ui(new Ui::QDbPageEnemies),
+    m_data(database)
 {
     ui->setupUi(this);
 }

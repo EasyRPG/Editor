@@ -9,7 +9,7 @@ win32:QT += winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = EasyRPG-Editor
+win32:TARGET = EasyRPG-Editor
 TEMPLATE = app
 
 SOURCES += src/mainwindow.cpp \
@@ -60,7 +60,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpagecommonevents.cpp \
     src/tools/qdbpageattributes.cpp \
     src/tools/qgraphicscurveitem.cpp \
-    src/tools/qactordelegate.cpp
+    src/tools/qactordelegate.cpp \
+    src/tools/qencounterdelegate.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -106,11 +107,10 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpagesystem.h \
     src/tools/qdbpagesystem2.h \
     src/tools/qdbpagecommonevents.h \
-    src/tools/qgraphicsbattleanimationitem.h \
-    src/tools/qdbpageclasses.h \
     src/tools/qdbpageattributes.h \
     src/tools/qgraphicscurveitem.h \
-    src/tools/qactordelegate.h
+    src/tools/qactordelegate.h \
+    src/tools/qencounterdelegate.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -149,45 +149,47 @@ RESOURCES += \
 
 RC_FILE = src/Resources.rc
 
-INCLUDEPATH += $$PWD/libs/liblcf/src
-INCLUDEPATH += $$PWD/libs/liblcf/src/generated
-DEPENDPATH += $$PWD/libs/liblcf/src
-DEPENDPATH += $$PWD/libs/liblcf/src/generated
 
 DESTDIR = bin
 
 CONFIG(debug, debug|release) TARGET = EasyRPG-EditorD
 
 win32 {
+    INCLUDEPATH += $$PWD/libs/liblcf/src
+    DEPENDPATH += $$PWD/libs/liblcf/src
+    INCLUDEPATH += $$PWD/libs/liblcf/src/generated
+    DEPENDPATH += $$PWD/libs/liblcf/src/generated
     INCLUDEPATH += $$(EASYDEV_MSVC)/include
     DEPENDPATH += $$(EASYDEV_MSVC)/include
 
-    LIBS += /NODEFAULTLIB:libcmt.lib
-    LIBS += /NODEFAULTLIB:libcmtd.lib
+    LIBS += Advapi32.lib
 
     CONFIG(debug, debug|release) {
+	LIBS += /NODEFAULTLIB:libcmtd.lib
 	LIBS += -L$$PWD/libs/liblcf/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
-	    LIBS += -lliblcf
+	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
-	    LIBS += -lliblcf64
+	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf64
 	}
     }
-CONFIG(release, debug|release) {
+    CONFIG(release, debug|release) {
+	LIBS += /NODEFAULTLIB:libcmt.lib
 	LIBS += -L$$PWD/libs/liblcf/lib/release/
 	!contains(QMAKE_HOST.arch, x86_64) {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
-	    LIBS += -lliblcf
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf
 	} else {
 	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
-	    LIBS += -lliblcf64
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf64
 	}
     }
 }
 
-!win32:LIBS += -lexpat -llcf
-#!win32:QMAKE_CXXFLAGS += -Wextra -ansi -pedantic
+!win32:TARGET = easyrpg-editor
+!win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic -std=c++0x
 !win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
-!win32:QMAKE_CXXFLAGS += -std=c++0x
+!win32:CONFIG += link_pkgconfig silent
+!win32:PKGCONFIG += liblcf

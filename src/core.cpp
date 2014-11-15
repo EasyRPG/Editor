@@ -5,7 +5,7 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include "data.h"
-#include "tools/QGraphicsMapScene.h"
+#include "tools/qgraphicsmapscene.h"
 
 //define static member
 Core *Core::core = new Core();

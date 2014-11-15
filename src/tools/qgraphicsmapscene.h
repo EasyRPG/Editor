@@ -31,6 +31,7 @@ public:
     void setLayerData(Core::Layer layer, std::vector<short> data);
     void setEventData(int id, const RPG::Event &data);
     QMap<int, RPG::Event *> *mapEvents();
+    void editMapProperties();
 
 signals:
 
@@ -98,7 +99,7 @@ private:
     QUndoStack *m_undoStack;
     std::auto_ptr<RPG::Map> m_map;
     RPG::MapInfo *m_mapInfo;
-    RPG::MapInfo *n_mapInfo; //To store unsaved changes
+    RPG::MapInfo n_mapInfo; //To store unsaved changes
     std::vector<short> m_lower;
     std::vector<short> m_upper;
     float m_scale;
