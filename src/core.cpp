@@ -70,6 +70,8 @@ Core::Core()
     m_dictionary[UP+RIGHT+DOWN]                     = 45;
     m_dictionary[UP+DOWN+LEFT+RIGHT]                = 46;
     m_dictionary[SAMPLE]                            = 47;
+
+    m_runGameDialog = 0;
 }
 
 Core *Core::getCore()
@@ -664,7 +666,27 @@ void Core::setProjectFolder(const QString &projectFolder)
     m_projectFolder = projectFolder;
 }
 
+void Core::runGame()
+{
+    if (!m_runGameDialog)
+        m_runGameDialog = new DialogRunGame();
+    m_runGameDialog->exec();
+}
 
+void Core::runGameHere(int map_id, int x, int y)
+{
+    if (!m_runGameDialog)
+        m_runGameDialog = new DialogRunGame();
+    m_runGameDialog->runHere(map_id, x, y);
+}
+
+void Core::runBattleTest(int troop_id)
+{
+    if (!m_runGameDialog)
+        m_runGameDialog = new DialogRunGame();
+    //Set parametters
+    m_runGameDialog->runBattle(troop_id);
+}
 
 void Core::beginPainting(QPixmap &dest)
 {

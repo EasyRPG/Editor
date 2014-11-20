@@ -34,7 +34,6 @@ public:
     void editMapProperties();
 
 signals:
-    void actionRunHereTriggered(int map_id, int x, int y);
 
     void mapChanged();
 

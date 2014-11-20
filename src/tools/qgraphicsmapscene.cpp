@@ -336,9 +336,10 @@ void QGraphicsMapScene::on_actionNewEvent()
 {
 
 }
+
 void QGraphicsMapScene::on_actionRunHere()
 {
-    emit actionRunHereTriggered(id(),lst_x,lst_y);
+    mCore->runGameHere(id(), lst_x, lst_y);
 }
 
 void QGraphicsMapScene::on_actionSetStartPosition()

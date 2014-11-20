@@ -4,7 +4,6 @@
 #include "dialogrtppath.h"
 #include "dialogEvent.h"
 #include "dialogmapproperties.h"
-#include "dialogrungame.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
@@ -696,10 +695,6 @@ QGraphicsView *MainWindow::getView(int id)
                            QString::fromStdString(mapName));
         view->setScene(new QGraphicsMapScene(id, view, view));
         connect(getScene(id),
-                SIGNAL(actionRunHereTriggered(int,int,int)),
-                this,
-                SLOT(runHere(int,int,int)));
-        connect(getScene(id),
                 SIGNAL(mapChanged()),
                 this,
                 SLOT(on_mapChanged()));
@@ -996,35 +991,7 @@ void MainWindow::on_actionFill_triggered()
 
 void MainWindow::on_action_Play_Test_triggered()
 {
-    DialogRunGame dlg(this);
-    QStringList commands;
-    commands << "TestPlay";
-    if (!ui->action_Title_Background->isChecked())
-        commands << "HideTitle";
-    if (!ui->action_Full_Screen->isChecked())
-        commands << "Window";
-    dlg.setCommands(commands);
-    dlg.run();
-}
-
-void MainWindow::runHere(int map_id, int x, int y)
-{
-    DialogRunGame dlg(this);
-    QStringList commands;
-    commands << "--test-play";
-    if (!ui->action_Title_Background->isChecked())
-        commands << "--hide-title";
-    if (!ui->action_Full_Screen->isChecked())
-        commands << "--window";
-    commands << "--new-game";
-    commands << "--start-map-id";
-    commands << QString("%1").arg(map_id);
-    commands << "--start-position";
-    commands << QString("%1").arg(x);
-    commands << QString("%1").arg(y);
-    //TODO: add auto toogle.
-    dlg.setCommands(commands);
-    dlg.run();
+    mCore->runGame();
 }
 
 void MainWindow::on_mapChanged()

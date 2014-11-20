@@ -85,8 +85,6 @@ private slots:
 
     void on_action_Play_Test_triggered();
 
-    void runHere(int map_id, int x, int y);
-
     void on_mapChanged();
 
     void on_mapUnchanged();
