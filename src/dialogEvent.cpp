@@ -1,7 +1,6 @@
 #include "dialogEvent.h"
 #include "ui_dialogevent.h"
 #include <QFileDialog>
-#include <QSettings>
 #include "tools/qeventpagewidget.h"
 #include "core.h"
 

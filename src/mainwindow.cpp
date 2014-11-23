@@ -18,6 +18,7 @@
 #include <sstream>
 #include <iomanip>
 #include "core.h"
+#include "editorsettings.h"
 #include "lmu_reader.h"
 #include "lmt_reader.h"
 #include "ldb_reader.h"
@@ -112,10 +113,10 @@ MainWindow::MainWindow(QWidget *parent) :
             m_paleteScene,
             SLOT(onChipsetChange()));
     update_actions();
-    mCore->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
+    mCore->setRtpDir(EditorSettings::Instance()->value(RTP_KEY, QString()).toString());
     if (mCore->rtpPath(ROOT).isEmpty())
         on_actionRtp_Path_triggered();
-    mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
+    mCore->setDefDir(EditorSettings::Instance()->value(DEFAULT_DIR_KEY,
                                         qApp->applicationDirPath()).toString());
     updateLayerActions();
     updateToolActions();
@@ -130,7 +131,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadLastProject()
 {
-    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
+    QString l_project = EditorSettings::Instance()->value(CURRENT_PROJECT_KEY, QString()).toString();
     mCore->setProjectFolder(l_project);
     QFileInfo info(mCore->filePath(ROOT, EASY_DB));
     if (info.exists())
@@ -173,7 +174,8 @@ void MainWindow::LoadProject(QString foldername)
     mCore->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
     QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
     QList<QVariant> m_scaleList = m_projSett->value(SCALES, QList<QVariant>()).toList();
-    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
+    EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
+    EditorSettings::Instance()->sync();
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
@@ -273,7 +275,8 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         break;
     }
     setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
-    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
+    EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
+    EditorSettings::Instance()->sync();
     LDB_Reader::SaveXml(mCore->filePath(ROOT, EASY_DB).toStdString());
     LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
     QDir srcDir(p_path+BACKDROP);
@@ -569,9 +572,10 @@ void MainWindow::on_action_New_Project_triggered()
         d_gamepath.mkpath(mCore->filePath(SYSTEM));
         d_gamepath.mkpath(mCore->filePath(SYSTEM2));
         d_gamepath.mkpath(mCore->filePath(TITLE));
-        m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+        EditorSettings::Instance()->setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
         setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
-        m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
+        EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
+        EditorSettings::Instance()->sync();
         QString t_folder = qApp->applicationDirPath()+"/templates/";
 
         QFile::copy(t_folder+PLAYER, mCore->filePath(PLAYER));
@@ -771,7 +775,8 @@ void MainWindow::updateToolActions()
 
 void MainWindow::on_action_Close_Project_triggered()
 {
-    m_settings.setValue(CURRENT_PROJECT_KEY, QString());
+    EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY, QString());
+    EditorSettings::Instance()->sync();
     Data::Clear();
     mCore->setGameTitle("");
     mCore->setProjectFolder("");
@@ -790,7 +795,8 @@ void MainWindow::on_action_Open_Project_triggered()
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectFolder());
     mCore->setDefDir(dlg.getDefDir());
-    m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+    EditorSettings::Instance()->setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+    EditorSettings::Instance()->sync();
 }
 
 void MainWindow::on_actionJukebox_triggered(bool disconnect)
@@ -952,10 +958,12 @@ void MainWindow::on_actionImport_Project_triggered()
         d_gamepath.mkpath(mCore->filePath(SYSTEM));
         d_gamepath.mkpath(mCore->filePath(SYSTEM2));
         d_gamepath.mkpath(mCore->filePath(TITLE));
-        m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
+        EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
+        EditorSettings::Instance()->sync();
         ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
     }
-    m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+    EditorSettings::Instance()->setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+    EditorSettings::Instance()->sync();
     update_actions();
 }
 

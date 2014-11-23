@@ -61,7 +61,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qdbpageattributes.cpp \
     src/tools/qgraphicscurveitem.cpp \
     src/tools/qactordelegate.cpp \
-    src/tools/qencounterdelegate.cpp
+    src/tools/qencounterdelegate.cpp \
+    src/editorsettings.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -110,7 +111,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qdbpageattributes.h \
     src/tools/qgraphicscurveitem.h \
     src/tools/qactordelegate.h \
-    src/tools/qencounterdelegate.h
+    src/tools/qencounterdelegate.h \
+    src/editorsettings.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
