@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "tools/qeventpagewidget.h"
 #include <QApplication>
+#include <QTimer>
 
 int main(int argc, char *argv[])
 {
@@ -11,9 +12,11 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("easy-rpg.org");
     MainWindow w;
     DialogSplash s(&w);
-    w.show();
     s.show();
-    QEventPageWidget::Init(&s, s.getProgressBar(), s.getLabel());
+    QTimer::singleShot(3000, &s, SLOT(hide()));
+    QTimer::singleShot(3000, &w, SLOT(show()));
+
     w.LoadLastProject();
+
     return a.exec();
 }

@@ -17,9 +17,6 @@ public:
     explicit DialogSplash(QWidget *parent = 0);
     ~DialogSplash();
 
-    QProgressBar *getProgressBar();
-    QLabel *getLabel();
-
 private:
     Ui::DialogSplash *ui;
 };

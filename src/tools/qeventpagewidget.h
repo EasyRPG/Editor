@@ -28,8 +28,6 @@ public:
     RPG::EventPage *eventPage() const;
     void setEventPage(RPG::EventPage *eventPage);
 
-    static void Init(DialogSplash *s, QProgressBar *progressBar, QLabel *label);
-
 private slots:
     void on_comboMoveType_currentIndexChanged(int index);
 
@@ -82,17 +80,6 @@ private slots:
 private:
 
     void updateGraphic();
-    QString verbalize(const RPG::EventCommand &com);
-    QString varName(int id);
-    QString switchName(int id);
-    QString itemName(int id);
-    QString heroName(int id);
-    QString skillName(int id);
-    QString conditionName(int id);
-    QString eventName(int id);
-    QString troopName(int id);
-    QString terrainName(int id);
-    QString mapName(int id);
 
     Ui::QEventWidget *ui;
     RPG::EventPage *m_eventPage;
@@ -101,8 +88,6 @@ private:
     QGraphicsScene *m_scene;
     QGraphicsOpacityEffect *m_effect;
     int m_codeGen;
-
-    static QMap<int, QList<QStringList>> m_strCache;
 };
 
 #endif // QEVENTPAGEWIDGET_H

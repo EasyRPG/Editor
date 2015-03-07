@@ -23,12 +23,3 @@ DialogSplash::~DialogSplash()
     delete ui;
 }
 
-QProgressBar *DialogSplash::getProgressBar()
-{
-    return ui->progressBar;
-}
-
-QLabel *DialogSplash::getLabel()
-{
-    return ui->label;
-}
