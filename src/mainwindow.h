@@ -121,6 +121,7 @@ private:
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;
+    QSettings m_settings;
     QSettings *m_projSett;
     QGraphicsPaleteScene *m_paleteScene;
     QMap<int,QGraphicsView*> m_views;
