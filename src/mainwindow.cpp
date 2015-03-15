@@ -516,9 +516,9 @@ void MainWindow::update_actions()
         ui->action_Upper_Layer->setEnabled(true);
         ui->actionNew_Map->setEnabled(true);
         ui->actionMap_Properties->setEnabled(ui->tabMap->count());
-        ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+        ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
         ui->actionPaste_Map->setEnabled(!m_copiedMap.isEmpty());
-        ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+        ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
     }
 }
 
