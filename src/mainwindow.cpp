@@ -18,7 +18,6 @@
 #include <sstream>
 #include <iomanip>
 #include "core.h"
-#include "editorsettings.h"
 #include "lmu_reader.h"
 #include "lmt_reader.h"
 #include "ldb_reader.h"
@@ -113,10 +112,10 @@ MainWindow::MainWindow(QWidget *parent) :
             m_paleteScene,
             SLOT(onChipsetChange()));
     update_actions();
-    mCore->setRtpDir(EditorSettings::Instance()->value(RTP_KEY, QString()).toString());
+    mCore->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
     if (mCore->rtpPath(ROOT).isEmpty())
         on_actionRtp_Path_triggered();
-    mCore->setDefDir(EditorSettings::Instance()->value(DEFAULT_DIR_KEY,
+    mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
                                         qApp->applicationDirPath()).toString());
     updateLayerActions();
     updateToolActions();
@@ -131,7 +130,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::LoadLastProject()
 {
-    QString l_project = EditorSettings::Instance()->value(CURRENT_PROJECT_KEY, QString()).toString();
+    QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
     mCore->setProjectFolder(l_project);
     QFileInfo info(mCore->filePath(ROOT, EASY_DB));
     if (info.exists())
@@ -174,8 +173,7 @@ void MainWindow::LoadProject(QString foldername)
     mCore->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
     QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
     QList<QVariant> m_scaleList = m_projSett->value(SCALES, QList<QVariant>()).toList();
-    EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
-    EditorSettings::Instance()->sync();
+    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
@@ -195,7 +193,7 @@ void MainWindow::LoadProject(QString foldername)
         m_treeItems[maps.maps[i].ID] = item;
     }
     //Parent Items
-    for (unsigned int i = 0; i < (maps.maps.size()-1); i++)
+    for (unsigned int i = 1; i < (maps.tree_order.size()); i++)
     {
         int id = maps.tree_order[i];
         RPG::MapInfo info;
@@ -275,8 +273,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         break;
     }
     setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
-    EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
-    EditorSettings::Instance()->sync();
+    m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
     LDB_Reader::SaveXml(mCore->filePath(ROOT, EASY_DB).toStdString());
     LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
     QDir srcDir(p_path+BACKDROP);
@@ -516,9 +513,9 @@ void MainWindow::update_actions()
         ui->action_Upper_Layer->setEnabled(true);
         ui->actionNew_Map->setEnabled(true);
         ui->actionMap_Properties->setEnabled(ui->tabMap->count());
-        ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+        ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
         ui->actionPaste_Map->setEnabled(!m_copiedMap.isEmpty());
-        ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+        ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
     }
 }
 
@@ -572,10 +569,9 @@ void MainWindow::on_action_New_Project_triggered()
         d_gamepath.mkpath(mCore->filePath(SYSTEM));
         d_gamepath.mkpath(mCore->filePath(SYSTEM2));
         d_gamepath.mkpath(mCore->filePath(TITLE));
-        EditorSettings::Instance()->setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
+        m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
         setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
-        EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
-        EditorSettings::Instance()->sync();
+        m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
         QString t_folder = qApp->applicationDirPath()+"/templates/";
 
         QFile::copy(t_folder+PLAYER, mCore->filePath(PLAYER));
@@ -775,8 +771,7 @@ void MainWindow::updateToolActions()
 
 void MainWindow::on_action_Close_Project_triggered()
 {
-    EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY, QString());
-    EditorSettings::Instance()->sync();
+    m_settings.setValue(CURRENT_PROJECT_KEY, QString());
     Data::Clear();
     mCore->setGameTitle("");
     mCore->setProjectFolder("");
@@ -795,8 +790,7 @@ void MainWindow::on_action_Open_Project_triggered()
     if (dlg.exec() == QDialog::Accepted)
         LoadProject(dlg.getProjectFolder());
     mCore->setDefDir(dlg.getDefDir());
-    EditorSettings::Instance()->setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-    EditorSettings::Instance()->sync();
+    m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
 }
 
 void MainWindow::on_actionJukebox_triggered(bool disconnect)
@@ -958,12 +952,10 @@ void MainWindow::on_actionImport_Project_triggered()
         d_gamepath.mkpath(mCore->filePath(SYSTEM));
         d_gamepath.mkpath(mCore->filePath(SYSTEM2));
         d_gamepath.mkpath(mCore->filePath(TITLE));
-        EditorSettings::Instance()->setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
-        EditorSettings::Instance()->sync();
+        m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
         ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
     }
-    EditorSettings::Instance()->setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-    EditorSettings::Instance()->sync();
+    m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
     update_actions();
 }
 

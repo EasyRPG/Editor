@@ -23,6 +23,8 @@ DialogOpenProject::~DialogOpenProject()
 
 void DialogOpenProject::setDefDir(QString n_defDir)
 {
+    if (!n_defDir.endsWith('/'))
+        n_defDir.append("/");
     m_defDir = n_defDir;
     ui->lineProjectPath->setText(n_defDir);
     RefreshProjectList();

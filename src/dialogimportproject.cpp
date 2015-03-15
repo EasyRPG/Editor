@@ -31,6 +31,8 @@ QString DialogImportProject::getSourceFolder() const
 
 void DialogImportProject::setDefDir(QString n_defDir)
 {
+    if (!n_defDir.endsWith('/'))
+        n_defDir.append("/");
     ui->lineProjectPath->setText(n_defDir);
     m_defDir = n_defDir;
 }

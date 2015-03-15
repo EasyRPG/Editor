@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia
+QT       += core gui multimedia concurrent
 win32:QT += winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -33,7 +33,6 @@ SOURCES += src/mainwindow.cpp \
     src/dialogcharapicker.cpp \
     src/dialogsplash.cpp \
     src/tools/qeventpagewidget.cpp \
-    src/tools/qeventpagewidget_init.cpp \
     src/tools/qgraphicscharaitem.cpp \
     src/tools/qgraphicsimportitem.cpp \
     src/tools/qgraphicsmapscene.cpp \
@@ -62,7 +61,7 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qgraphicscurveitem.cpp \
     src/tools/qactordelegate.cpp \
     src/tools/qencounterdelegate.cpp \
-    src/editorsettings.cpp
+    src/stringizer.cpp \
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -112,7 +111,7 @@ HEADERS  += src/mainwindow.h \
     src/tools/qgraphicscurveitem.h \
     src/tools/qactordelegate.h \
     src/tools/qencounterdelegate.h \
-    src/editorsettings.h
+    src/stringizer.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

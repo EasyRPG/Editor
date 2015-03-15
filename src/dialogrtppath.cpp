@@ -1,8 +1,8 @@
 #include "dialogrtppath.h"
 #include "ui_dialogrtppath.h"
 #include <QFileDialog>
+#include <QSettings>
 #include "core.h"
-#include "editorsettings.h"
 
 DialogRtpPath::DialogRtpPath(QWidget *parent) :
     QDialog(parent),
@@ -32,5 +32,6 @@ void DialogRtpPath::on_toolRtpPath_clicked()
 void DialogRtpPath::on_ok()
 {
     mCore->setRtpDir(ui->lineRtpPath->text());
-    EditorSettings::Instance()->setValue(RTP_KEY, ui->lineRtpPath->text());
+    QSettings m_settings;
+    m_settings.setValue(RTP_KEY, ui->lineRtpPath->text());
 }
