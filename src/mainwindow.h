@@ -26,6 +26,9 @@ public:
     void LoadProject(QString foldername);
     void ImportProject(QString p_path, QString d_folder);
 
+public slots:
+    void on_gameTitleChanged(const QString &gameTitle);
+
 private slots:
     void on_action_Quit_triggered();
 
@@ -107,6 +110,7 @@ private slots:
 
     void on_actionMap_Properties_triggered();
 
+
 private:
     void closeEvent(QCloseEvent *event);
     bool saveAll();
@@ -122,7 +126,6 @@ private:
     DialogResourceManager *dlg_resource;
     DialogDataBase *dlg_db;
     QSettings m_settings;
-    QSettings *m_projSett;
     QGraphicsPaleteScene *m_paleteScene;
     QMap<int,QGraphicsView*> m_views;
     QMap<int,QTreeWidgetItem*> m_treeItems;

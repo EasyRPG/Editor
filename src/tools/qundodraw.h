@@ -8,7 +8,7 @@
 class QUndoDraw : public QUndoCommand
 {
 public:
-    explicit QUndoDraw(Core::Layer layer,
+    explicit QUndoDraw(Layer layer,
                        std::vector<short> data,
                        QGraphicsMapScene *scene,
                        QUndoCommand *parent = 0);
@@ -19,7 +19,7 @@ signals:
 public slots:
 
 private:
-    Core::Layer m_layer;
+    Layer m_layer;
     std::vector<short> m_data;
     QGraphicsMapScene* m_scene;
 };

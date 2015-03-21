@@ -62,6 +62,9 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qactordelegate.cpp \
     src/tools/qencounterdelegate.cpp \
     src/stringizer.cpp \
+    src/core/project.cpp \
+    src/core/exception.cpp \
+    src/core/projectsettings.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -111,7 +114,11 @@ HEADERS  += src/mainwindow.h \
     src/tools/qgraphicscurveitem.h \
     src/tools/qactordelegate.h \
     src/tools/qencounterdelegate.h \
-    src/stringizer.h
+    src/stringizer.h \
+    src/core/project.h \
+    src/core/exception.h \
+    src/core/projectsettings.h \
+    src/core/enums.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -148,8 +155,9 @@ FORMS    += src/mainwindow.ui \
 RESOURCES += \
     src/Resources.qrc
 
-RC_FILE = src/Resources.rc
+QMAKE_CXXFLAGS += -std=c++11
 
+RC_FILE = src/Resources.rc
 
 DESTDIR = bin
 

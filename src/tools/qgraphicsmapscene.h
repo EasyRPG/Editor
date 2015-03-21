@@ -13,6 +13,7 @@
 #include <rpg_map.h>
 #include <rpg_mapinfo.h>
 #include "../core.h"
+#include "../core/enums.h"
 
 class QGraphicsMapScene : public QGraphicsScene
 {
@@ -28,7 +29,7 @@ public:
     bool isModified() const;
     int id() const;
     int chipsetId() const;
-    void setLayerData(Core::Layer layer, std::vector<short> data);
+    void setLayerData(Layer layer, std::vector<short> data);
     void setEventData(int id, const RPG::Event &data);
     QMap<int, RPG::Event *> *mapEvents();
     void editMapProperties();
@@ -77,14 +78,14 @@ private:
     int _x(int index);
     int _y(int index);
     int _index(int x, int y);
-    void redrawTile(const Core::Layer &layer,
+    void redrawTile(const Layer &layer,
                     const int &x,
                     const int &y,
                     const QRect &dest_rec);
     void stopDrawing();
     void stopSelecting();
     void updateArea(int x1, int y1, int x2, int y2);
-    void redrawLayer(Core::Layer layer);
+    void redrawLayer(Layer layer);
     void drawPen();
     void drawRect();
     void drawFill(int terrain_id, int x, int y);
