@@ -25,20 +25,16 @@ void Project::Load(QString projectPath)
     Data::Clear();
     if (!LDB_Reader::LoadXml(filePath(ROOT, EASY_DB).toStdString()))
     {
-        Exception e;
-        e.title = "Error loading project";
-        e.description = "Could not load database file: " + filePath(ROOT, EASY_DB);
-        e.code = Exception::FILE_NOT_FOUND;
-        Data::Clear();
-        throw (e);
+        qDebug() << "Error loading project";
+        qDebug() << "Could not load database file: " + filePath(ROOT, EASY_DB);
+        return;
     }
     if (!LMT_Reader::LoadXml(mCore->filePath(ROOT, EASY_MT).toStdString()))
     {
-        Exception e;
-        e.title = "Error loading project";
-        e.description = "Could not load map tree file: " + filePath(ROOT, EASY_MT);
+        qDebug() << "Error loading project";
+        qDebug() << "Could not load map tree file: " + filePath(ROOT, EASY_MT);
         Data::Clear();
-        throw(e);
+        return;
     }
 
     data = Data::data;

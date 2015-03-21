@@ -63,8 +63,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qencounterdelegate.cpp \
     src/stringizer.cpp \
     src/core/project.cpp \
-    src/core/exception.cpp \
-    src/core/projectsettings.cpp
+    src/core/projectsettings.cpp \
+    src/core/mapeditioncontext.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -116,9 +116,9 @@ HEADERS  += src/mainwindow.h \
     src/tools/qencounterdelegate.h \
     src/stringizer.h \
     src/core/project.h \
-    src/core/exception.h \
     src/core/projectsettings.h \
-    src/core/enums.h
+    src/core/enums.h \
+    src/core/mapeditioncontext.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \

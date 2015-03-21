@@ -1,16 +1,14 @@
 #include "projectsettings.h"
 
+#include <QDebug>
+
 ProjectSettings::ProjectSettings(QObject *parent, const QString &filePath) :
     QObject(parent)
 {
     QFileInfo info(filePath);
     if (info.isDir())
     {
-        Exception e;
-        e.title = "Error reading project settings";
-        e.description = "Invalid file path: " + filePath;
-        e.code = Exception::INVALID_FILE_PATH;
-        throw (e);
+        qDebug() << "filepath to project settings is invalid";
     }
     //When file doesn't exist Qt automatically creates it.
     settings = new QSettings(filePath, QSettings::IniFormat, this);

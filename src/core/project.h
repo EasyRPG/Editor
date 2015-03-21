@@ -45,7 +45,6 @@
 #include <lmt_reader.h>
 #include <string>
 #include "enums.h"
-#include "exception.h"
 #include "projectsettings.h"
 #include "../mainwindow.h"
 
@@ -57,7 +56,7 @@ class Project : public QObject
 public:
     explicit Project(QObject *parent = 0);
 
-    void Load(QString projectPath) throw(...);
+    void Load(QString projectPath);
 
     QString getGameTitle();
     void setGameTitle(const QString &n_gameTitle);

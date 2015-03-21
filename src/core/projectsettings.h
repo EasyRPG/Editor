@@ -14,13 +14,12 @@
 #include <QFileInfo>
 #include <QSettings>
 #include "enums.h"
-#include "exception.h"
 
 class ProjectSettings : public QObject
 {
     Q_OBJECT
 public:
-    ProjectSettings(QObject *parent, const QString &filePath) throw (...);
+    ProjectSettings(QObject *parent, const QString &filePath);
 
     QString getGameTitle();
     void setGameTitle(const QString &n_title);
