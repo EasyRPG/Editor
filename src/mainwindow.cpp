@@ -1092,75 +1092,48 @@ void MainWindow::on_actionCopy_Map_triggered()
 
 void MainWindow::on_actionNew_Map_triggered()
 {
-    QString t_folder = qApp->applicationDirPath()+"/templates/";
-
-    RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
-    LMU_Reader::SaveXml(mCore->filePath(ROOT,"Map0001.emu").toStdString(), map);
-
-    m_copiedMap = mCore->filePath(ROOT)+"Map0001.emu";
-    m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
-                                  4, QLatin1Char('0'));
-
-    QFileInfo f(m_copiedMap);
+    QString template_file = qApp->applicationDirPath()+"/templates/Map0001.emu";
+    QFileInfo f(template_file);
 
     if (!f.exists())
     {
         QMessageBox::critical(this,
                               "File not found",
-                              "The file " + m_copiedMap + " can't be found.");
+                              "The file " + template_file + " can't be found.");
         return;
     }
 
-
-    std::auto_ptr<RPG::Map> m = LMU_Reader::LoadXml(m_copiedMap.toStdString());
+    std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(template_file.toStdString());
     RPG::MapInfo info;
-    for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
+
+    // Find first free map id
+    for (int i = 1;;++i)
     {
-        if (Data::treemap.maps[i].ID == m->ID)
+        if (!m_treeItems.contains(i))
         {
-            info = Data::treemap.maps[i];
-            break;
-        }
-    }
-    info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
-    if (info.parent_map == 0)
-    {
-        if (info.music_type == RPG::MapInfo::MusicType_parent)
-            info.music_type = RPG::MapInfo::MusicType_event;
-        if (info.background_type == RPG::MapInfo::BGMType_parent)
-            info.background_type = RPG::MapInfo::BGMType_terrain;
-        if (info.teleport == RPG::MapInfo::TriState_parent)
-            info.teleport = RPG::MapInfo::TriState_allow;
-        if (info.escape == RPG::MapInfo::TriState_parent)
-            info.escape = RPG::MapInfo::TriState_allow;
-        if (info.save == RPG::MapInfo::TriState_parent)
-            info.save = RPG::MapInfo::TriState_allow;
-    }
-    for (int i = 1;;i++)
-    {
-        bool found = false;
-        for (int j = 0; j < (int) Data::treemap.maps.size(); j++)
-        {
-            if (i == j)
-            {
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            m->ID = i;
+            map->ID = i;
             info.ID = i;
             info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
             break;
         }
     }
+
+    info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
+    if (info.parent_map == 0)
+    {
+        info.music_type = RPG::MapInfo::MusicType_event;
+        info.background_type = RPG::MapInfo::BGMType_terrain;
+        info.teleport = RPG::MapInfo::TriState_allow;
+        info.escape = RPG::MapInfo::TriState_allow;
+        info.save = RPG::MapInfo::TriState_allow;
+    }
+
     Data::treemap.maps.push_back(info);
     QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setData(1,Qt::DisplayRole,m->ID);
+    item->setData(1,Qt::DisplayRole,map->ID);
     item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
     item->setIcon(0, QIcon(":/icons/share/old_map.png"));
-    m_treeItems[m->ID] = item;
+    m_treeItems[map->ID] = item;
     m_treeItems[info.parent_map]->addChild(item);
     QTreeWidgetItem *root = m_treeItems[0];
     QTreeWidgetItemIterator it(root);
@@ -1176,8 +1149,8 @@ void MainWindow::on_actionNew_Map_triggered()
     item->setSelected(true);
     LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
     QString path = mCore->filePath(ROOT, "Map%1.emu");
-    path = path.arg(QString::number(m->ID), 4, QLatin1Char('0'));
-    LMU_Reader::SaveXml(path.toStdString(), *m);
+    path = path.arg(QString::number(map->ID), 4, QLatin1Char('0'));
+    LMU_Reader::SaveXml(path.toStdString(), *map);
     on_treeMap_itemDoubleClicked(item, 0);
 }
 
