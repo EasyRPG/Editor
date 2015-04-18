@@ -1233,10 +1233,19 @@ void MainWindow::on_actionPaste_Map_triggered()
 
 void MainWindow::on_actionDelete_Map_triggered()
 {
+    removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
 
-    int ID = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
-    QString mapPath = mCore->filePath(ROOT)+"Map%1.emu";
-    mapPath = mapPath.arg(QString::number(ID), 4, QLatin1Char('0'));
+    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
+}
+
+void MainWindow::removeMap(const int id)
+{
+    // First remove children maps
+    for (int i = 0; i < m_treeItems[id]->childCount(); i++)
+        removeMap(m_treeItems[id]->child(i)->data(1, Qt::DisplayRole).toInt());
+
+    QString mapPath = mCore->filePath(ROOT, "Map%1.emu");
+    mapPath = mapPath.arg(QString::number(id), 4, QLatin1Char('0'));
 
     if (QFileInfo(mapPath).exists())
         QFile::remove(mapPath);
@@ -1245,7 +1254,7 @@ void MainWindow::on_actionDelete_Map_triggered()
 
     for (unsigned int i = 0; i < Data::treemap.maps.size(); i++)
     {
-        if (Data::treemap.maps[i].ID == ID)
+        if (Data::treemap.maps[i].ID == id)
         {
             Data::treemap.maps.erase(Data::treemap.maps.begin()+i);
             break;
@@ -1254,24 +1263,22 @@ void MainWindow::on_actionDelete_Map_triggered()
 
     for (unsigned int i = 0; i < Data::treemap.tree_order.size(); i++)
     {
-        if (Data::treemap.tree_order[i] == ID)
+        if (Data::treemap.tree_order[i] == id)
         {
             Data::treemap.tree_order.erase(Data::treemap.tree_order.begin()+i);
             break;
         }
     }
 
-    QGraphicsView* view = m_views[ID];
+    QGraphicsView* view = m_views[id];
     if (view)
     {
         ui->tabMap->removeTab(ui->tabMap->indexOf(view));
-        m_views.remove(ID);
+        m_views.remove(id);
     }
 
-    LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
-
-    m_treeItems[ID]->parent()->removeChild(m_treeItems[ID]);
-    m_treeItems.remove(ID);
+    m_treeItems[id]->parent()->removeChild(m_treeItems[id]);
+    m_treeItems.remove(id);
 }
 
 void MainWindow::on_actionMap_Properties_triggered()
