@@ -98,7 +98,6 @@ private:
     QVector<QGraphicsLineItem*> m_lines;
     QUndoStack *m_undoStack;
     std::auto_ptr<RPG::Map> m_map;
-    RPG::MapInfo *m_mapInfo;
     RPG::MapInfo n_mapInfo; //To store unsaved changes
     std::vector<short> m_lower;
     std::vector<short> m_upper;
