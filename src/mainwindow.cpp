@@ -257,7 +257,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         return;
     }
     INIReader reader((p_path+RM_INI).toStdString());
-    QString title (reader.Get("RPG_RT","GameTitle", "Untitled").c_str());
+    QString title (ReaderUtil::Recode(reader.Get("RPG_RT","GameTitle", "Untitled"), encoding).c_str());
     Data::treemap.maps[0].name = title.toStdString();
     mCore->setGameTitle(title);
     switch (reader.GetInteger("RPG_RT","MapEditMode", 0))
@@ -316,12 +316,12 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     for (int i = 0; i < entries.count(); i++)
     {
         QFileInfo info(entries[i]);
-        QString dest_file = mCore->filePath(info.dir().dirName()+"/"+info.fileName());
+        QString dest_file = mCore->filePath(info.dir().dirName()+"/",info.fileName());
         if (!QFile::copy(entries[i], dest_file))
         {
             QMessageBox box(this);
             QString name = tr("Error");
-            QString text = tr("Could not copy file %1 to /n"
+            QString text = tr("Could not copy file %1 to \n"
                               "%2").arg(entries[i]).arg(dest_file);
 
             box.setModal(true);
