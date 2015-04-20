@@ -654,7 +654,7 @@ QString Core::defDir() const
 
 void Core::setDefDir(const QString &defDir)
 {
-    m_defDir = defDir;
+    m_defDir = defDir + (defDir.endsWith('/') ? "" : "/");
 }
 QString Core::projectFolder() const
 {
