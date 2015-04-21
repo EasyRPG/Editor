@@ -117,6 +117,7 @@ private:
     QGraphicsMapScene *getTabScene(int index);
     QGraphicsMapScene *currentScene();
     void removeView(int id);
+    void removeMap(const int id);
 
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;

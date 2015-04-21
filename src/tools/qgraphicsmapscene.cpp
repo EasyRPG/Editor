@@ -28,7 +28,6 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
         if (Data::treemap.maps[i].ID == id)
         {
-            m_mapInfo = &(Data::treemap.maps[i]);
             n_mapInfo = Data::treemap.maps[i];
             break;
         }
@@ -126,8 +125,8 @@ void QGraphicsMapScene::Init()
             SIGNAL(layerChanged()),
             this,
             SLOT(onLayerChanged()));
-    m_view->verticalScrollBar()->setValue(m_mapInfo->scrollbar_y*m_scale);
-    m_view->horizontalScrollBar()->setValue(m_mapInfo->scrollbar_x*m_scale);
+    m_view->verticalScrollBar()->setValue(n_mapInfo.scrollbar_y*m_scale);
+    m_view->horizontalScrollBar()->setValue(n_mapInfo.scrollbar_x*m_scale);
     m_init = true;
     redrawMap();
 }
@@ -149,7 +148,7 @@ bool QGraphicsMapScene::isModified() const
 
 int QGraphicsMapScene::id() const
 {
-    return m_mapInfo->ID;
+    return n_mapInfo.ID;
 }
 
 int QGraphicsMapScene::chipsetId() const
@@ -271,10 +270,15 @@ void QGraphicsMapScene::Save()
     if (!isModified())
         return;
 
-    *m_mapInfo = n_mapInfo;
+    for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
+        if (Data::treemap.maps[i].ID == n_mapInfo.ID)
+        {
+            Data::treemap.maps[i] = n_mapInfo; //Apply info changes
+            break;
+        }
     LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
     QString file = QString("Map%1.emu")
-            .arg(QString::number(m_mapInfo->ID), 4, QLatin1Char('0'));
+            .arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
     LMU_Reader::SaveXml(mCore->filePath(ROOT, file).toStdString(), *m_map);
     m_undoStack->clear();
     emit mapSaved();
@@ -282,9 +286,14 @@ void QGraphicsMapScene::Save()
 
 void QGraphicsMapScene::Load()
 {
-    n_mapInfo = *m_mapInfo; //Revert info changes
+    for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
+        if (Data::treemap.maps[i].ID == n_mapInfo.ID)
+        {
+            n_mapInfo = Data::treemap.maps[i]; //Revert info changes
+            break;
+        }
     QString file = QString("Map%1.emu")
-            .arg(QString::number(m_mapInfo->ID), 4, QLatin1Char('0'));
+            .arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
     m_map = LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString());
     m_lower =  m_map.get()->lower_layer;
     m_upper =  m_map.get()->upper_layer;
@@ -361,7 +370,6 @@ void QGraphicsMapScene::on_view_V_Scroll()
         return;
     if (m_view->verticalScrollBar()->isVisible())
     {
-        m_mapInfo->scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
         n_mapInfo.scrollbar_y = m_view->verticalScrollBar()->value()/m_scale;
     }
     m_userInteraction = false;
@@ -374,7 +382,6 @@ void QGraphicsMapScene::on_view_H_Scroll()
         return;
     if (m_view->horizontalScrollBar()->isVisible())
     {
-        m_mapInfo->scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
         n_mapInfo.scrollbar_x = m_view->horizontalScrollBar()->value()/m_scale;
     }
     m_userInteraction = false;
