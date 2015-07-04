@@ -470,7 +470,7 @@
        <widget class="QComboBox" name="comboLayer">
         <item>
          <property name="text">
-          <string>Bellow Hero</string>
+          <string>Below Hero</string>
          </property>
         </item>
         <item>
