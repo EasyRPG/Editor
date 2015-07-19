@@ -1,6 +1,6 @@
 #include "qundodraw.h"
 
-QUndoDraw::QUndoDraw(Core::Layer layer,
+QUndoDraw::QUndoDraw(Layer layer,
                      std::vector<short> data,
                      QGraphicsMapScene *scene,
                      QUndoCommand *parent) :

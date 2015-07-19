@@ -27,7 +27,7 @@ QGraphicsPaleteScene::QGraphicsPaleteScene(QObject *parent) :
 
 void QGraphicsPaleteScene::onLayerChange()
 {
-    if (mCore->layer() == Core::LOWER)
+    if (mCore->layer() == LOWER)
     {
         m_tiles->setPixmap(m_lowerTiles);
         this->setSceneRect(QRect(0,0,192,896));
@@ -37,7 +37,7 @@ void QGraphicsPaleteScene::onLayerChange()
         m_tiles->setPixmap(m_upperTiles);
         this->setSceneRect(QRect(0,0,192,800));
     }
-    m_tiles->graphicsEffect()->setEnabled(mCore->layer() != Core::LOWER);
+    m_tiles->graphicsEffect()->setEnabled(mCore->layer() != LOWER);
 }
 
 void QGraphicsPaleteScene::onChipsetChange()
@@ -167,7 +167,7 @@ void QGraphicsPaleteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         y--;
         for (int _y = y; _y < y+h; _y++)
             for (int _x = x; _x < x+w; _x++)
-                if (mCore->layer() == Core::LOWER)
+                if (mCore->layer() == LOWER)
                     sel.push_back(mCore->translate(_x+_y*6, SAMPLE));
                 else
                     sel.push_back(mCore->translate(_x+_y*6+162, SAMPLE));

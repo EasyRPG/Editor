@@ -561,7 +561,7 @@ QString Core::rtpPath(const QString &folder, const QString &filename) const
     return m_rtpDir+folder+filename;
 }
 
-Core::Layer Core::layer()
+Layer Core::layer()
 {
     return m_layer;
 }
@@ -571,7 +571,7 @@ void Core::setLayer(const Layer &current_layer)
     m_layer = current_layer;
     emit layerChanged();
 }
-Core::Tool Core::tool()
+Tool Core::tool()
 {
     return m_tool;
 }
@@ -580,16 +580,6 @@ void Core::setTool(const Tool &current_tool)
 {
     m_tool = current_tool;
     emit toolChanged();
-}
-
-QString Core::gameTitle()
-{
-    return m_gameTitle;
-}
-
-void Core::setGameTitle(const QString &currentGameTitle)
-{
-    m_gameTitle = currentGameTitle;
 }
 
 bool Core::isWater(int terrain_id)

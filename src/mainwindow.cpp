@@ -5,6 +5,7 @@
 #include "dialogEvent.h"
 #include "dialogmapproperties.h"
 #include "mainwindow.h"
+#include "core/project.h"
 #include "ui_mainwindow.h"
 #include <QToolBar>
 #include <QCloseEvent>
@@ -143,33 +144,9 @@ void MainWindow::LoadLastProject()
 
 void MainWindow::LoadProject(QString foldername)
 {
-    Data::Clear();
-    mCore->setProjectFolder(foldername);
-    if (!LDB_Reader::LoadXml(mCore->filePath(ROOT, EASY_DB).toStdString()))
-    {
-        QMessageBox::critical(this,
-                              "Error loading project",
-                              "Could not load database file: "+
-                              mCore->filePath(ROOT, EASY_DB));
-        mCore->setProjectFolder("");
-        Data::Clear();
-        return;
-    }
-    if (!LMT_Reader::LoadXml(mCore->filePath(ROOT, EASY_MT).toStdString()))
-    {
-        QMessageBox::critical(this,
-                              "Error loading project",
-                              "Could not load map tree file: "+
-                              mCore->filePath(ROOT, EASY_MT));
-        mCore->setProjectFolder("");
-        Data::Clear();
-        return;
-    }
-    m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG), QSettings::IniFormat, this);
-    QString title = m_projSett->value(GAMETITLE, "Untitled").toString();
-    mCore->setGameTitle(title);
-    setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
-    mCore->setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
+    Project *project = new Project(this);
+    project->Load(mCore->defDir()+foldername);
+    /*
     mCore->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
     QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
     QList<QVariant> m_scaleList = m_projSett->value(SCALES, QList<QVariant>()).toList();
@@ -177,7 +154,7 @@ void MainWindow::LoadProject(QString foldername)
     ui->treeMap->clear();
     QTreeWidgetItem *root = new QTreeWidgetItem();
     root->setData(1, Qt::DisplayRole, 0);
-    root->setData(0,Qt::DisplayRole,  mCore->gameTitle());
+    root->setData(0,Qt::DisplayRole,  project->getGameTitle());
     root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
     RPG::TreeMap maps = Data::treemap;
     ui->treeMap->addTopLevelItem(root);
@@ -227,11 +204,13 @@ void MainWindow::LoadProject(QString foldername)
         scene->setScale(i < m_scaleList.size() ? m_scaleList[i].toFloat() : 1.0);
         ui->tabMap->setCurrentWidget(view);
     }
+    */
     update_actions();
 }
 
 void MainWindow::ImportProject(QString p_path, QString d_folder)
 {
+    /*
     Data::Clear();
     mCore->setProjectFolder(d_folder);
     std::string encoding = ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString());
@@ -263,13 +242,13 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     switch (reader.GetInteger("RPG_RT","MapEditMode", 0))
     {
     case 1:
-         mCore->setLayer(Core::UPPER);
+         mCore->setLayer(UPPER);
         break;
     case 2:
-         mCore->setLayer(Core::EVENT);
+         mCore->setLayer(EVENT);
         break;
     default:
-         mCore->setLayer(Core::LOWER);
+         mCore->setLayer(LOWER);
         break;
     }
     setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
@@ -413,6 +392,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     m_projSett->setValue(SCALES, m_scaleList);
     m_projSett->setValue(TILESIZE, 16);
     this->on_treeMap_itemDoubleClicked(m_treeItems[m_mapList[0].toInt()], 0);
+    */
 }
 
 void MainWindow::on_action_Quit_triggered()
@@ -521,6 +501,7 @@ void MainWindow::update_actions()
 
 void MainWindow::on_action_New_Project_triggered()
 {
+    /*
     DialogNewProject dlg(this);
     dlg.setDefDir(mCore->defDir());
     dlg.exec();
@@ -575,14 +556,14 @@ void MainWindow::on_action_New_Project_triggered()
         QString t_folder = qApp->applicationDirPath()+"/templates/";
 
         QFile::copy(t_folder+PLAYER, mCore->filePath(PLAYER));
-        /* Map tree */
+        /* Map tree *
         LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
         Data::treemap.maps[0].name = mCore->gameTitle().toStdString();
-        /* Map */
+        /* Map *
         RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
-        /* DataBase */
+        /* DataBase *
         LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
-        /* Save */
+        /* Save *
         LMU_Reader::SaveXml(mCore->filePath(ROOT,"Map0001.emu").toStdString(), map);
         LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
         LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
@@ -644,6 +625,7 @@ void MainWindow::on_action_New_Project_triggered()
         update_actions();
 
     }
+    */
 }
 
 bool MainWindow::removeDir(const QString & dirName, const QString &root)
@@ -755,25 +737,25 @@ void MainWindow::removeView(int id)
 
 void MainWindow::updateLayerActions()
 {
-    ui->action_Lower_Layer->setChecked(mCore->layer() == Core::LOWER);
-    ui->action_Upper_Layer->setChecked(mCore->layer() == Core::UPPER);
-    ui->action_Events->setChecked(mCore->layer() == Core::EVENT);
+    ui->action_Lower_Layer->setChecked(mCore->layer() == LOWER);
+    ui->action_Upper_Layer->setChecked(mCore->layer() == UPPER);
+    ui->action_Events->setChecked(mCore->layer() == EVENT);
 }
 
 void MainWindow::updateToolActions()
 {
-    ui->actionZoom->setChecked(mCore->tool() == Core::ZOOM);
-    ui->actionDraw->setChecked(mCore->tool() == Core::PENCIL);
-    ui->actionRectangle->setChecked(mCore->tool() == Core::RECTANGLE);
-    ui->actionCircle->setChecked(mCore->tool() == Core::CIRCLE);
-    ui->actionFill->setChecked(mCore->tool() == Core::FILL);
+    ui->actionZoom->setChecked(mCore->tool() == ZOOM);
+    ui->actionDraw->setChecked(mCore->tool() == PENCIL);
+    ui->actionRectangle->setChecked(mCore->tool() == RECTANGLE);
+    ui->actionCircle->setChecked(mCore->tool() == CIRCLE);
+    ui->actionFill->setChecked(mCore->tool() == FILL);
 }
 
 void MainWindow::on_action_Close_Project_triggered()
 {
     m_settings.setValue(CURRENT_PROJECT_KEY, QString());
     Data::Clear();
-    mCore->setGameTitle("");
+    //mCore->setGameTitle("");
     mCore->setProjectFolder("");
     ui->treeMap->clear();
     saveAll();
@@ -818,19 +800,19 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
 
 void MainWindow::on_action_Lower_Layer_triggered()
 {
-    mCore->setLayer(Core::LOWER);
+    mCore->setLayer(LOWER);
     updateLayerActions();
 }
 
 void MainWindow::on_action_Upper_Layer_triggered()
 {
-    mCore->setLayer(Core::UPPER);
+    mCore->setLayer(UPPER);
     updateLayerActions();
 }
 
 void MainWindow::on_action_Events_triggered()
 {
-    mCore->setLayer(Core::EVENT);
+    mCore->setLayer(EVENT);
     updateLayerActions();
 }
 
@@ -966,27 +948,27 @@ void MainWindow::on_actionRtp_Path_triggered()
 
 void MainWindow::on_actionZoom_triggered()
 {
-    mCore->setTool(Core::ZOOM);
+    mCore->setTool(ZOOM);
 }
 
 void MainWindow::on_actionDraw_triggered()
 {
-    mCore->setTool(Core::PENCIL);
+    mCore->setTool(PENCIL);
 }
 
 void MainWindow::on_actionRectangle_triggered()
 {
-    mCore->setTool(Core::RECTANGLE);
+    mCore->setTool(RECTANGLE);
 }
 
 void MainWindow::on_actionCircle_triggered()
 {
-    mCore->setTool(Core::CIRCLE);
+    mCore->setTool(CIRCLE);
 }
 
 void MainWindow::on_actionFill_triggered()
 {
-    mCore->setTool(Core::FILL);
+    mCore->setTool(FILL);
 }
 
 void MainWindow::on_action_Play_Test_triggered()
@@ -1287,4 +1269,12 @@ void MainWindow::on_actionMap_Properties_triggered()
         return;
 
     currentScene()->editMapProperties();
+}
+
+void MainWindow::on_gameTitleChanged(const QString &gameTitle)
+{
+    if (gameTitle.isEmpty())
+        setWindowTitle("EasyRPG Editor");
+    else
+        setWindowTitle("EasyRPG Editor - " + gameTitle);
 }

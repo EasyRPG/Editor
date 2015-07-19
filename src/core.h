@@ -83,28 +83,13 @@
 #include "rpg_map.h"
 #include "rpg_chipset.h"
 #include "dialogrungame.h"
+#include "core/enums.h"
 
 class Core : public QObject
 {
     Q_OBJECT
 
 public:
-
-    enum Layer
-    {
-        LOWER,
-        UPPER,
-        EVENT
-    };
-
-    enum Tool
-    {
-        ZOOM,
-        PENCIL,
-        RECTANGLE,
-        CIRCLE,
-        FILL
-    };
 
     Core();
 
@@ -124,9 +109,6 @@ public:
 
     Tool tool();
     void setTool(const Tool &tool);
-
-    QString gameTitle();
-    void setGameTitle(const QString &gameTitle);
 
     void beginPainting(QPixmap &dest);
     void renderTile(const short &tile_id, const QRect &dest_rect);
