@@ -706,9 +706,9 @@ QGraphicsView *MainWindow::getView(int id)
                 SIGNAL(mapSaved()),
                 this,
                 SLOT(on_mapUnchanged()));
+        mCore->setCurrentMapEvents(getScene(id)->mapEvents());
         getScene(id)->setScale(2.0);
         getScene(id)->Init();
-        mCore->setCurrentMapEvents(getScene(id)->mapEvents());
     }
     return view;
 }

@@ -4,6 +4,7 @@
 #include <QBrush>
 #include <QGraphicsView>
 #include <QPainter>
+#include <QDebug>
 #include "data.h"
 #include "tools/qgraphicsmapscene.h"
 
@@ -101,6 +102,7 @@ void Core::LoadChipset(int n_chipsetid)
     }
     if (o_chipset->isNull())
     {
+        qWarning()<<"Chipset"<<QString::fromStdString(m_chipset.chipset_name)<<"not found.";
         o_chipset = new QPixmap(480,256);
         o_chipset->fill(Qt::black);
     }
@@ -114,12 +116,7 @@ void Core::LoadChipset(int n_chipsetid)
 
     /* BindWaterTiles */
     m_tileCache.clear();
-    QPixmap ev(tileSize(),tileSize());
-    QPainter p_ev(&ev);
-    p_ev.drawPixmap(0, 0, tileSize(), tileSize(), QPixmap(":/icons/share/old_ev.png"));
-    p_ev.end();
-    ev.setMask(ev.createMaskFromColor(Qt::black));
-    m_tileCache[EV] = ev;
+
     /*
      * TileIDs:
      * 0- WaterA
@@ -693,14 +690,31 @@ void Core::beginPainting(QPixmap &dest)
     m_painter.begin(&dest);
     if (m_painter.isActive())
         m_painter.setBackground(QBrush(*m_background));
+    m_painter.setPen(Qt::yellow);
 }
 
 void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 {
-
     if (tile_id < 10000)
         m_painter.fillRect(dest_rect, QBrush(*m_background));
     m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
+}
+
+void Core::renderEvent(const RPG::Event& event, const QRect &dest_rect)
+{
+    if (event.pages.empty())
+        return;
+
+    const int fact = dest_rect.width();
+    QRect final_rect = dest_rect.adjusted(fact/6,fact/6,-fact/6,-fact/6);
+    m_painter.drawRect(final_rect.adjusted(-1,-1,0,0));
+    if (event.pages[0].character_name.empty())
+        renderTile(event.pages[0].character_index+10000, final_rect);
+    else {
+        if (!m_eventCache.contains(event.ID))
+            return;
+        m_painter.drawPixmap(final_rect, m_eventCache.value(event.ID), QRect(0,6,24,24));
+    }
 }
 
 void Core::endPainting()
@@ -806,7 +820,7 @@ int Core::selHeight()
 
 void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
 {
-    if (!n_sel.size() == n_w * n_h)
+    if ((int) n_sel.size() != n_w * n_h)
         return;
     switch(m_layer)
     {
@@ -842,4 +856,32 @@ RPG::Event *Core::currentMapEvent(int eventID)
 void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 {
     m_currentMapEvents = events;
+
+    m_eventCache.clear();
+    for (QMap<int, RPG::Event*>::iterator it = events->begin(); it != events->end(); ++it)
+    {
+        RPG::Event* ev = it.value();
+        if (ev->pages.empty())
+            continue;
+
+        RPG::EventPage& evp = ev->pages[0];
+        if (evp.character_name.empty())
+            continue;
+
+        QString char_name = QString::fromStdString(evp.character_name);
+
+        QPixmap charset = QPixmap(filePath(CHARSET,char_name));
+        if (charset.isNull())
+            charset = QPixmap(rtpPath(CHARSET,char_name));
+        if (charset.isNull())
+        {
+            qWarning()<<"CharSet"<<char_name<<"not found.";
+            return;
+        }
+
+        int char_index = evp.character_index;
+        int src_x = (char_index%4)*72 + evp.character_pattern * 24;
+        int src_y = (char_index/4)*128 + evp.character_direction * 32;
+        m_eventCache[it.key()] = charset.copy(src_x, src_y, 24, 32);
+    }
 }
