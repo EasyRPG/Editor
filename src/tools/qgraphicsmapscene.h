@@ -61,6 +61,8 @@ private slots:
 
     void on_actionNewEvent();
 
+    void on_actionDeleteEvent();
+
     void on_user_interaction();
 
     void on_view_V_Scroll();

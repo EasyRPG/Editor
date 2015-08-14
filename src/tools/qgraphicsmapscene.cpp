@@ -5,6 +5,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QPainter>
 #include <QScrollBar>
+#include "rpg_event.h"
 #include <iomanip>
 #include <sstream>
 #include "../core.h"
@@ -55,8 +56,9 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
                            "Delete Event",
                            this);
     connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
-    connect(actions[1],SIGNAL(triggered()),this, SLOT(on_actionSetStartPosition()));
+    connect(actions[1],SIGNAL(triggered()),this,SLOT(on_actionSetStartPosition()));
     connect(actions[2],SIGNAL(triggered()),this,SLOT(on_actionNewEvent()));
+    connect(actions[6],SIGNAL(triggered()),this,SLOT(on_actionDeleteEvent()));
 
     m_eventMenu->addActions(actions);
     m_lowerpix = new QGraphicsPixmapItem();
@@ -198,6 +200,7 @@ void QGraphicsMapScene::redrawMap()
     if (!m_init)
         return;
     mCore->LoadChipset(m_map->chipset_id);
+    mCore->setCurrentMapEvents(mapEvents());
     s_tileSize = mCore->tileSize()*m_scale;
     redrawLayer(Core::LOWER);
     redrawLayer(Core::UPPER);
@@ -344,7 +347,51 @@ void QGraphicsMapScene::undo()
 
 void QGraphicsMapScene::on_actionNewEvent()
 {
+    // Find first free id
+    std::vector<RPG::Event>::iterator ev;
+    int id = 1;
+    for (;;++id)
+    {
+        bool valid = true;
+        for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
+            if (ev->ID == id)
+            {
+                valid = false;
+                break;
+            }
+        if (valid)
+            break;
+    }
 
+    RPG::Event event;
+    event.ID = id;
+    event.name = QString("EV%1").arg(QString::number(id), 4, QLatin1Char('0')).toStdString();
+    event.x = cur_x;
+    event.y = cur_y;
+    event.pages.push_back(RPG::EventPage());
+
+    int result = DialogEvent::edit(m_view, &event);
+    if (result != QDialogButtonBox::Cancel)
+    {
+        m_map->events.push_back(event);
+        redrawMap();
+        emit mapChanged();
+    }
+}
+
+void QGraphicsMapScene::on_actionDeleteEvent()
+{
+    std::vector<RPG::Event>::iterator ev;
+    for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
+        if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
+            break;
+
+    if (ev != m_map->events.end())
+    {
+        m_map->events.erase(ev);
+        redrawMap();
+        emit mapChanged();
+    }
 }
 
 void QGraphicsMapScene::on_actionRunHere()
@@ -507,18 +554,21 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event)
     if (mCore->layer() != Core::EVENT)
         return;
-    for (unsigned int i = 0; i < m_map->events.size(); i++)
-        if (_index(cur_x,cur_y) == _index(m_map->events[i].x,m_map->events[i].y))
+    std::vector<RPG::Event>::iterator ev;
+    for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
+        if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
         {
-            RPG::Event backup = m_map->events[i];
-            int result = DialogEvent::edit(m_view, &m_map->events[i]);
+            RPG::Event backup = *ev;
+            int result = DialogEvent::edit(m_view, &(*ev));
             if (result != QDialogButtonBox::Cancel)
             {
-                m_undoStack->push(new QUndoEvent(backup,
-                                                 this));
+                m_undoStack->push(new QUndoEvent(backup, this));
                 emit mapChanged();
             }
+            redrawMap();
+            return;
         }
+    on_actionNewEvent();
 }
 
 int QGraphicsMapScene::_x(int index)
