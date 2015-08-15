@@ -95,21 +95,21 @@ void Core::LoadChipset(int n_chipsetid)
         m_tileCache.clear();
         return;
     }
-    QPixmap *o_chipset = new QPixmap(filePath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
+
+    const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
+    QScopedPointer<QPixmap> o_chipset (new QPixmap(filePath(CHIPSET, chipset_name)));
+    if (o_chipset->isNull())
+        o_chipset.reset(new QPixmap(rtpPath(CHIPSET, chipset_name)));
     if (o_chipset->isNull())
     {
-        o_chipset = new QPixmap(rtpPath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
+        qWarning()<<"Chipset"<<chipset_name<<"not found.";
+        o_chipset.reset(createDummyPixmap(480,256));
     }
-    if (o_chipset->isNull())
+    else // Skip color mask when using the dummy pixmap
     {
-        qWarning()<<"Chipset"<<QString::fromStdString(m_chipset.chipset_name)<<"not found.";
-        o_chipset = new QPixmap(480,256);
-        o_chipset->fill(Qt::black);
+        m_keycolor = QColor(o_chipset->toImage().color(0));
+        o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
     }
-    /* TODO: find out the right way to set key color */
-    m_keycolor = QColor(o_chipset->toImage().pixel(290,130));
-    o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
-    /*                    /TODO                     */
 
     int r_tileSize = o_chipset->width()/30;
     int r_tileHalf = r_tileSize/2;
@@ -526,7 +526,7 @@ void Core::LoadChipset(int n_chipsetid)
             tileset_col++;
         }
     }
-    delete o_chipset;
+
     emit chipsetChanged();
 }
 
@@ -870,18 +870,27 @@ void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 
         QString char_name = QString::fromStdString(evp.character_name);
 
-        QPixmap charset = QPixmap(filePath(CHARSET,char_name));
-        if (charset.isNull())
-            charset = QPixmap(rtpPath(CHARSET,char_name));
-        if (charset.isNull())
+        QScopedPointer<QPixmap> charset (new QPixmap(filePath(CHARSET,char_name)));
+        if (charset->isNull())
+            charset.reset(new QPixmap(rtpPath(CHARSET,char_name)));
+        if (charset->isNull())
         {
             qWarning()<<"CharSet"<<char_name<<"not found.";
-            return;
+            charset.reset(createDummyPixmap(288,256));
         }
 
         int char_index = evp.character_index;
         int src_x = (char_index%4)*72 + evp.character_pattern * 24;
         int src_y = (char_index/4)*128 + evp.character_direction * 32;
-        m_eventCache[it.key()] = charset.copy(src_x, src_y, 24, 32);
+        m_eventCache[it.key()] = charset->copy(src_x, src_y, 24, 32);
     }
+}
+
+QPixmap* Core::createDummyPixmap(int width, int height)
+{
+    QPixmap* dummy (new QPixmap(480,256));
+    QPainter p(dummy);
+    p.drawTiledPixmap(0, 0, width, height, QPixmap(":/embedded/share/old_grid.png"));
+    p.end();
+    return dummy;
 }

@@ -175,6 +175,8 @@ signals:
     void chipsetChanged();
 
 private:
+    QPixmap* createDummyPixmap(int width, int height);
+
     RPG::Map *m_map;
     RPG::Chipset m_chipset;
     int m_tileSize;
