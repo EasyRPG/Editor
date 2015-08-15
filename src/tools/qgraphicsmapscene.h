@@ -96,8 +96,8 @@ private:
     QMenu *m_eventMenu;
     QGraphicsPixmapItem *m_lowerpix;
     QGraphicsPixmapItem *m_upperpix;
-    QVector<QGraphicsPixmapItem*> m_eventpixs;
-    QVector<QGraphicsLineItem*> m_lines;
+    QGraphicsItemGroup* m_lines;
+    QGraphicsRectItem* m_selectionTile;
     QUndoStack *m_undoStack;
     std::auto_ptr<RPG::Map> m_map;
     RPG::MapInfo n_mapInfo; //To store unsaved changes

@@ -26,6 +26,8 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     m_view = view;
     m_view->setMouseTracking(true);
     m_undoStack = new QUndoStack(this);
+    m_selectionTile = new QGraphicsRectItem(QRectF(QRect(0,32,32,32)));
+    m_selecting = false;
     for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
         if (Data::treemap.maps[i].ID == id)
         {
@@ -66,6 +68,11 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
     addItem(m_lowerpix);
     addItem(m_upperpix);
     Load();
+    QPen selPen(Qt::yellow);
+    selPen.setWidth(2);
+    m_selectionTile->setPen(selPen);
+    m_selectionTile->setVisible(false);
+    this->addItem(m_selectionTile);
     m_drawing = false;
     m_cancelled = false;
     m_selecting = false;
@@ -80,10 +87,12 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
 
 QGraphicsMapScene::~QGraphicsMapScene()
 {
+    delete m_eventMenu;
     delete m_lowerpix;
     delete m_upperpix;
-    qDeleteAll(m_eventpixs);
-    m_eventpixs.clear();
+    delete m_lines;
+    delete m_selectionTile;
+    delete m_undoStack;
 }
 
 void QGraphicsMapScene::Init()
@@ -209,8 +218,8 @@ void QGraphicsMapScene::redrawMap()
 void QGraphicsMapScene::setScale(float scale)
 {
     m_scale = scale;
-    for (int i = 0; i < m_lines.count(); i++)
-        m_lines[i]->setScale(m_scale);
+    m_lines->setScale(m_scale);
+    m_selectionTile->setScale(m_scale);
     this->setSceneRect(0,
                        0,
                        m_map->width* mCore->tileSize()*m_scale,
@@ -226,21 +235,24 @@ void QGraphicsMapScene::onLayerChanged()
         stopSelecting();
     switch (mCore->layer())
     {
-    case (Core::LOWER):
+    case Core::LOWER:
         m_lowerpix->graphicsEffect()->setEnabled(false);
         m_upperpix->graphicsEffect()->setEnabled(true);
+        m_lines->setVisible(false);
         break;
-    case (Core::UPPER):
+    case Core::UPPER:
         m_lowerpix->graphicsEffect()->setEnabled(true);
         m_upperpix->graphicsEffect()->setEnabled(false);
+        m_lines->setVisible(false);
         break;
-    default:
+    case Core::EVENT:
         m_lowerpix->graphicsEffect()->setEnabled(false);
         m_upperpix->graphicsEffect()->setEnabled(false);
+        m_lines->setVisible(true);
         break;
+    default:
+        Q_ASSERT(false);
     }
-    for (int i = 0; i < m_lines.count(); i++)
-        m_lines[i]->setVisible(mCore->layer() == Core::EVENT);
 }
 
 void QGraphicsMapScene::onToolChanged()
@@ -305,31 +317,18 @@ void QGraphicsMapScene::Load()
         mCore->LoadBackground(m_map->parallax_name.c_str());
     else
         mCore->LoadBackground(QString());
-    for (int i = 0; i < m_lines.count(); i++)
-        removeItem(m_lines[i]);
-    m_lines.clear();
+    QList<QGraphicsItem*> lines;
     for (int x = 0; x <= m_map->width; x++)
-    {
-        QGraphicsLineItem* line = new QGraphicsLineItem(x*mCore->tileSize(),
-                                                        0,
-                                                        x*mCore->tileSize(),
-                                                        m_map->height*mCore->tileSize());
-        m_lines.append(line);
-        line->setScale(m_scale);
-        line->setVisible(mCore->layer() == Core::EVENT);
-        addItem(line);
-    }
+        lines.append(new QGraphicsLineItem(x*mCore->tileSize(),
+                                           0,
+                                           x*mCore->tileSize(),
+                                           m_map->height*mCore->tileSize()));
     for (int y = 0; y <= m_map->height; y++)
-    {
-        QGraphicsLineItem* line = new QGraphicsLineItem(0,
-                                                        y*mCore->tileSize(),
-                                                        m_map->width*mCore->tileSize(),
-                                                        y*mCore->tileSize());
-        m_lines.append(line);
-        line->setScale(m_scale);
-        line->setVisible(mCore->layer() == Core::EVENT);
-        addItem(line);
-    }
+        lines.append(new QGraphicsLineItem(0,
+                                           y*mCore->tileSize(),
+                                           m_map->width*mCore->tileSize(),
+                                           y*mCore->tileSize()));
+    m_lines = createItemGroup(lines);
     redrawMap();
     m_undoStack->clear();
     emit mapReverted();
@@ -456,42 +455,40 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     if (event->button() == Qt::LeftButton)
     {
-        if (m_selecting)
-        {
-            stopSelecting();
-            return;
-        }
-        if (mCore->tool() == Core::ZOOM && m_scale < 2.0)
+        if (mCore->tool() == Core::ZOOM && m_scale < 2.0) // Zoom
             setScale(m_scale*2);
-    }
-    if(event->button() == Qt::LeftButton && mCore->layer() != Core::EVENT) //Start drawing
-    {
-        fst_x = cur_x;
-        fst_y = cur_y;
-        switch(mCore->tool())
+        else if (mCore->layer() == Core::EVENT) // Select tile
         {
-        case (Core::PENCIL):
-            m_drawing = true;
-            drawPen();
-            break;
-        case (Core::RECTANGLE):
-            m_drawing = true;
-            drawRect();
-            break;
-        case (Core::FILL):
-            m_drawing = true;
-            if (mCore->layer() == Core::LOWER)
-                drawFill(mCore->translate(m_lower[_index(fst_x,fst_y)]),fst_x,fst_y);
-            else if (mCore->layer() == Core::UPPER)
-                drawFill(mCore->translate(m_upper[_index(fst_x,fst_y)]),fst_x,fst_y);
-            updateArea(0, 0, m_map->width-1 ,m_map->height-1);
-        default:
-            break;
+            m_selecting = true;
+            m_selectionTile->setVisible(true);
+            m_selectionTile->setRect(QRectF(QRect(cur_x*mCore->tileSize(),cur_y*mCore->tileSize(),
+                                                  mCore->tileSize(),mCore->tileSize())));
         }
-    }
-    if(event->button() == Qt::RightButton) //StartSelecting
-    {
-
+        else // Start drawing
+        {
+            fst_x = cur_x;
+            fst_y = cur_y;
+            switch(mCore->tool())
+            {
+            case Core::PENCIL:
+                m_drawing = true;
+                drawPen();
+                break;
+            case Core::RECTANGLE:
+                m_drawing = true;
+                drawRect();
+                break;
+            case Core::FILL:
+                m_drawing = true;
+                if (mCore->layer() == Core::LOWER)
+                    drawFill(mCore->translate(m_lower[_index(fst_x,fst_y)]),fst_x,fst_y);
+                else if (mCore->layer() == Core::UPPER)
+                    drawFill(mCore->translate(m_upper[_index(fst_x,fst_y)]),fst_x,fst_y);
+                updateArea(0, 0, m_map->width-1 ,m_map->height-1);
+            default:
+                break;
+            }
+        }
     }
 }
 
@@ -521,11 +518,9 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(event)
     if (m_cancelled && !event->buttons())
     {
         m_cancelled = false;
-        onToolChanged();
         return;
     }
     if (m_drawing && !m_cancelled)
@@ -620,6 +615,7 @@ void QGraphicsMapScene::stopSelecting()
     m_cancelled = true;
     m_selecting = false;
     m_lowerpix->setCursor(QCursor(QPixmap(":/icons/share/cur_cancel.png"),1,1));
+    m_selectionTile->setVisible(false);
     //cancel selection...
 }
 
