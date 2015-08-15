@@ -107,7 +107,11 @@ void Core::LoadChipset(int n_chipsetid)
     }
     else // Skip color mask when using the dummy pixmap
     {
-        m_keycolor = QColor(o_chipset->toImage().color(0));
+        if (o_chipset->toImage().colorCount() > 0)
+            m_keycolor = QColor(o_chipset->toImage().color(0));
+        else
+            // Qt might remove the color table. Use the color of the first upper tile instead
+            m_keycolor = QColor(o_chipset->toImage().pixel(288,128));
         o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
     }
 
@@ -591,58 +595,37 @@ void Core::setGameTitle(const QString &currentGameTitle)
 
 bool Core::isWater(int terrain_id)
 {
-    if (terrain_id >= 0 && terrain_id <= 2)
-        return true;
-    else
-        return false;
+    return terrain_id >= 0 && terrain_id <= 2;
 }
 
 bool Core::isABWater(int terrain_id)
 {
-    if (terrain_id == 0 || terrain_id == 1)
-        return true;
-    else
-        return false;
+    return terrain_id == 0 || terrain_id == 1;
 }
 
 bool Core::isDWater(int terrain_id)
 {
-    if (terrain_id == 2)
-        return true;
-    else
-        return false;
+    return terrain_id == 2;
 }
 
 bool Core::isAnimation(int terrain_id)
 {
-    if (terrain_id >= 3 && terrain_id <= 5)
-        return true;
-    else
-        return false;
+    return terrain_id >= 3 && terrain_id <= 5;
 }
 
 bool Core::isDblock(int terrain_id)
 {
-    if (terrain_id >= 6 && terrain_id <= 17)
-        return true;
-    else
-        return false;
+    return terrain_id >= 6 && terrain_id <= 17;
 }
 
 bool Core::isEblock(int terrain_id)
 {
-    if (terrain_id >= 18 && terrain_id <= 161)
-        return true;
-    else
-        return false;
+    return terrain_id >= 18 && terrain_id <= 161;
 }
 
 bool Core::isFblock(int terrain_id)
 {
-    if (terrain_id >= 162 && terrain_id <= 305)
-        return true;
-    else
-        return false;
+    return terrain_id >= 162 && terrain_id <= 305;
 }
 QString Core::defDir() const
 {
