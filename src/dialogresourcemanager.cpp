@@ -146,7 +146,7 @@ void DialogResourceManager::on_pushImport_clicked()
         break;
     case 2:
         size = QImage(filename).size();
-        if ((size.width() >= 128 || size.width() <= 640 || size.height() >= 128 || size.height() <=640) && (size.width()%128 == 0 && size.height()%128 == 0)) {
+        if (size.width() < 128 || size.width() > 640 || size.height() < 128 || size.height() > 640 || size.width()%128 != 0 || size.height()%128 != 0) {
             QMessageBox msg(QMessageBox::Critical, "Error", tr("Battle2 images's size should be beatwhen 128x128 and 640x640 and be a multiple of 128"), QMessageBox::Ok);
             msg.exec();
             return;

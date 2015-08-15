@@ -307,7 +307,7 @@ void Core::LoadChipset(int n_chipsetid)
         std::vector<bool> is_binded;
         is_binded.push_back(true);
         is_binded.push_back(false);
-#define forx(_type,_iter,_coll) for (_type::iterator _iter = _coll.begin(); _iter != _coll.end(); _iter++)
+#define forx(_type,_iter,_coll) for (_type::iterator _iter = _coll.begin(); _iter != _coll.end(); ++_iter)
 
         forx(std::vector<bool>, bu, is_binded)
         forx(std::vector<bool>, bd, is_binded)
