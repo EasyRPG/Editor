@@ -50,9 +50,9 @@ void DialogImportProject::on_lineGameFolder_textChanged(const QString &arg1)
 void DialogImportProject::on_toolProjectPath_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this,
-                                                     "Select destination forlder",
+                                                     "Select destination folder",
                                                      m_defDir);
-    if (path == QString())
+    if (path.isEmpty())
         return;
     ui->lineProjectPath->setText(path+"/");
     m_defDir = ui->lineProjectPath->text();
@@ -61,9 +61,9 @@ void DialogImportProject::on_toolProjectPath_clicked()
 void DialogImportProject::on_toolSourcePath_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this,
-                                                     "Select destination forlder",
+                                                     "Select origin folder",
                                                      m_defDir);
-    if (path == QString())
+    if (path.isEmpty())
         return;
     if (!QFileInfo(path+"/RPG_RT.ldb").exists())
     {
