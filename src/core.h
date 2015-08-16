@@ -138,6 +138,7 @@ public:
     int translate(short tile_id);
 
     inline bool chipsetIsNull() {return m_tileCache[0].isNull();}
+    QPixmap* createDummyPixmap(int width, int height);
 
     bool isWater(int terrain_id);
     bool isABWater(int terrain_id);
@@ -175,8 +176,6 @@ signals:
     void chipsetChanged();
 
 private:
-    QPixmap* createDummyPixmap(int width, int height);
-
     RPG::Map *m_map;
     RPG::Chipset m_chipset;
     int m_tileSize;

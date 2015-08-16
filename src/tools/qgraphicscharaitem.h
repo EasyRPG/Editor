@@ -48,7 +48,7 @@ protected:
     void advance(int phase);
 
 private:
-    QPixmap m_pix;
+    QScopedPointer<QPixmap> m_pix;
     int frame_count;
     int m_index;
     int m_facing;
