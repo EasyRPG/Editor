@@ -16,7 +16,6 @@
 #define DOWNRIGHT  128
 #define SAMPLE 256
 /****************************/
-#define EV 0x7FFE
 #define NTILE 0x7FFD
 
 /****************************
@@ -130,6 +129,7 @@ public:
 
     void beginPainting(QPixmap &dest);
     void renderTile(const short &tile_id, const QRect &dest_rect);
+    void renderEvent(const RPG::Event& event, const QRect &dest_rect);
     void endPainting();
 
     QColor keycolor();
@@ -175,6 +175,8 @@ signals:
     void chipsetChanged();
 
 private:
+    QPixmap* createDummyPixmap(int width, int height);
+
     RPG::Map *m_map;
     RPG::Chipset m_chipset;
     int m_tileSize;
@@ -188,6 +190,7 @@ private:
     Tool m_tool;
     QPixmap *m_background;
     QMap<int, QPixmap> m_tileCache;
+    QMap<int, QPixmap> m_eventCache;
     QMap<int, short> m_dictionary;
     QMap<int, RPG::Map> m_maps;
     QMap<int, QWidget*> m_mapTabs;

@@ -119,6 +119,3 @@ void QGraphicsCharaItem::setSpin(bool spin)
 {
     m_spin = spin;
 }
-
-
-

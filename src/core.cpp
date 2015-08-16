@@ -4,6 +4,7 @@
 #include <QBrush>
 #include <QGraphicsView>
 #include <QPainter>
+#include <QDebug>
 #include "data.h"
 #include "tools/qgraphicsmapscene.h"
 
@@ -94,32 +95,32 @@ void Core::LoadChipset(int n_chipsetid)
         m_tileCache.clear();
         return;
     }
-    QPixmap *o_chipset = new QPixmap(filePath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
+
+    const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
+    QScopedPointer<QPixmap> o_chipset (new QPixmap(filePath(CHIPSET, chipset_name)));
+    if (o_chipset->isNull())
+        o_chipset.reset(new QPixmap(rtpPath(CHIPSET, chipset_name)));
     if (o_chipset->isNull())
     {
-        o_chipset = new QPixmap(rtpPath(CHIPSET, QString::fromStdString(m_chipset.chipset_name)));
+        qWarning()<<"Chipset"<<chipset_name<<"not found.";
+        o_chipset.reset(createDummyPixmap(480,256));
     }
-    if (o_chipset->isNull())
+    else // Skip color mask when using the dummy pixmap
     {
-        o_chipset = new QPixmap(480,256);
-        o_chipset->fill(Qt::black);
+        if (o_chipset->toImage().colorCount() > 0)
+            m_keycolor = QColor(o_chipset->toImage().color(0));
+        else
+            // Qt might remove the color table. Use the color of the first upper tile instead
+            m_keycolor = QColor(o_chipset->toImage().pixel(288,128));
+        o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
     }
-    /* TODO: find out the right way to set key color */
-    m_keycolor = QColor(o_chipset->toImage().pixel(290,130));
-    o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
-    /*                    /TODO                     */
 
     int r_tileSize = o_chipset->width()/30;
     int r_tileHalf = r_tileSize/2;
 
     /* BindWaterTiles */
     m_tileCache.clear();
-    QPixmap ev(tileSize(),tileSize());
-    QPainter p_ev(&ev);
-    p_ev.drawPixmap(0, 0, tileSize(), tileSize(), QPixmap(":/icons/share/old_ev.png"));
-    p_ev.end();
-    ev.setMask(ev.createMaskFromColor(Qt::black));
-    m_tileCache[EV] = ev;
+
     /*
      * TileIDs:
      * 0- WaterA
@@ -310,7 +311,7 @@ void Core::LoadChipset(int n_chipsetid)
         std::vector<bool> is_binded;
         is_binded.push_back(true);
         is_binded.push_back(false);
-#define forx(_type,_iter,_coll) for (_type::iterator _iter = _coll.begin(); _iter != _coll.end(); _iter++)
+#define forx(_type,_iter,_coll) for (_type::iterator _iter = _coll.begin(); _iter != _coll.end(); ++_iter)
 
         forx(std::vector<bool>, bu, is_binded)
         forx(std::vector<bool>, bd, is_binded)
@@ -529,7 +530,7 @@ void Core::LoadChipset(int n_chipsetid)
             tileset_col++;
         }
     }
-    delete o_chipset;
+
     emit chipsetChanged();
 }
 
@@ -594,58 +595,37 @@ void Core::setGameTitle(const QString &currentGameTitle)
 
 bool Core::isWater(int terrain_id)
 {
-    if (terrain_id >= 0 && terrain_id <= 2)
-        return true;
-    else
-        return false;
+    return terrain_id >= 0 && terrain_id <= 2;
 }
 
 bool Core::isABWater(int terrain_id)
 {
-    if (terrain_id == 0 || terrain_id == 1)
-        return true;
-    else
-        return false;
+    return terrain_id == 0 || terrain_id == 1;
 }
 
 bool Core::isDWater(int terrain_id)
 {
-    if (terrain_id == 2)
-        return true;
-    else
-        return false;
+    return terrain_id == 2;
 }
 
 bool Core::isAnimation(int terrain_id)
 {
-    if (terrain_id >= 3 && terrain_id <= 5)
-        return true;
-    else
-        return false;
+    return terrain_id >= 3 && terrain_id <= 5;
 }
 
 bool Core::isDblock(int terrain_id)
 {
-    if (terrain_id >= 6 && terrain_id <= 17)
-        return true;
-    else
-        return false;
+    return terrain_id >= 6 && terrain_id <= 17;
 }
 
 bool Core::isEblock(int terrain_id)
 {
-    if (terrain_id >= 18 && terrain_id <= 161)
-        return true;
-    else
-        return false;
+    return terrain_id >= 18 && terrain_id <= 161;
 }
 
 bool Core::isFblock(int terrain_id)
 {
-    if (terrain_id >= 162 && terrain_id <= 305)
-        return true;
-    else
-        return false;
+    return terrain_id >= 162 && terrain_id <= 305;
 }
 QString Core::defDir() const
 {
@@ -693,14 +673,31 @@ void Core::beginPainting(QPixmap &dest)
     m_painter.begin(&dest);
     if (m_painter.isActive())
         m_painter.setBackground(QBrush(*m_background));
+    m_painter.setPen(Qt::yellow);
 }
 
 void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 {
-
     if (tile_id < 10000)
         m_painter.fillRect(dest_rect, QBrush(*m_background));
     m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
+}
+
+void Core::renderEvent(const RPG::Event& event, const QRect &dest_rect)
+{
+    if (event.pages.empty())
+        return;
+
+    const int fact = dest_rect.width();
+    QRect final_rect = dest_rect.adjusted(fact/6,fact/6,-fact/6,-fact/6);
+    m_painter.drawRect(final_rect.adjusted(-1,-1,0,0));
+    if (event.pages[0].character_name.empty())
+        renderTile(event.pages[0].character_index+10000, final_rect);
+    else {
+        if (!m_eventCache.contains(event.ID))
+            return;
+        m_painter.drawPixmap(final_rect, m_eventCache.value(event.ID), QRect(0,6,24,24));
+    }
 }
 
 void Core::endPainting()
@@ -806,7 +803,7 @@ int Core::selHeight()
 
 void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
 {
-    if (!n_sel.size() == n_w * n_h)
+    if ((int) n_sel.size() != n_w * n_h)
         return;
     switch(m_layer)
     {
@@ -842,4 +839,41 @@ RPG::Event *Core::currentMapEvent(int eventID)
 void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 {
     m_currentMapEvents = events;
+
+    m_eventCache.clear();
+    for (QMap<int, RPG::Event*>::iterator it = events->begin(); it != events->end(); ++it)
+    {
+        RPG::Event* ev = it.value();
+        if (ev->pages.empty())
+            continue;
+
+        RPG::EventPage& evp = ev->pages[0];
+        if (evp.character_name.empty())
+            continue;
+
+        QString char_name = QString::fromStdString(evp.character_name);
+
+        QScopedPointer<QPixmap> charset (new QPixmap(filePath(CHARSET,char_name)));
+        if (charset->isNull())
+            charset.reset(new QPixmap(rtpPath(CHARSET,char_name)));
+        if (charset->isNull())
+        {
+            qWarning()<<"CharSet"<<char_name<<"not found.";
+            charset.reset(createDummyPixmap(288,256));
+        }
+
+        int char_index = evp.character_index;
+        int src_x = (char_index%4)*72 + evp.character_pattern * 24;
+        int src_y = (char_index/4)*128 + evp.character_direction * 32;
+        m_eventCache[it.key()] = charset->copy(src_x, src_y, 24, 32);
+    }
+}
+
+QPixmap* Core::createDummyPixmap(int width, int height)
+{
+    QPixmap* dummy (new QPixmap(480,256));
+    QPainter p(dummy);
+    p.drawTiledPixmap(0, 0, width, height, QPixmap(":/embedded/share/old_grid.png"));
+    p.end();
+    return dummy;
 }

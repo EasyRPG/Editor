@@ -3,11 +3,10 @@
 QUndoEvent::QUndoEvent(RPG::Event data,
                        QGraphicsMapScene *scene,
                        QUndoCommand *parent) :
-QUndoCommand(parent)
-{
-    m_data = data;
-    m_scene = scene;
-}
+QUndoCommand(parent),
+m_data(data),
+m_scene(scene)
+{}
 
 void QUndoEvent::undo()
 {
