@@ -99,7 +99,7 @@ private:
     QGraphicsItemGroup* m_lines;
     QGraphicsRectItem* m_selectionTile;
     QUndoStack *m_undoStack;
-    std::auto_ptr<RPG::Map> m_map;
+    std::unique_ptr<RPG::Map> m_map;
     RPG::MapInfo n_mapInfo; //To store unsaved changes
     std::vector<short> m_lower;
     std::vector<short> m_upper;

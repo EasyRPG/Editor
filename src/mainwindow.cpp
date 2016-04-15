@@ -1103,7 +1103,7 @@ void MainWindow::on_actionNew_Map_triggered()
         return;
     }
 
-    std::auto_ptr<RPG::Map> map = LMU_Reader::LoadXml(template_file.toStdString());
+    std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(template_file.toStdString());
     RPG::MapInfo info;
 
     // Find first free map id
@@ -1167,7 +1167,7 @@ void MainWindow::on_actionPaste_Map_triggered()
         return;
     }
 
-    std::auto_ptr<RPG::Map> map = LMU_Reader::LoadXml(m_copiedMap.toStdString());
+    std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(m_copiedMap.toStdString());
     RPG::MapInfo info;
     for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
     {
