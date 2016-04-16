@@ -6,7 +6,8 @@
 
 DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
     QDialog(parent),
-    ui(new Ui::DialogCharaPicker)
+    ui(new Ui::DialogCharaPicker),
+    m_tilePick(tile_pick)
 {
     ui->setupUi(this);
     ui->stackedStatic->setCurrentWidget(tile_pick ? ui->pageStatic : ui->pageEmpty);
@@ -74,7 +75,6 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 
     updateFacing();
     updateFrame();
-
 }
 
 DialogCharaPicker::~DialogCharaPicker()
@@ -84,45 +84,51 @@ DialogCharaPicker::~DialogCharaPicker()
 
 int DialogCharaPicker::frame()
 {
+    if (m_tilePick && ui->listRess->currentRow() == 0)
+        return 0;
     return m_chara->frame();
 }
 
 void DialogCharaPicker::setFrame(int frame)
 {
+    if (m_tilePick && ui->listRess->currentRow() == 0)
+        return;
     m_chara->setFrame(frame);
     updateFrame();
 }
 
 int DialogCharaPicker::facing()
 {
+    if (m_tilePick && ui->listRess->currentRow() == 0)
+        return 0;
     return m_chara->facing();
 }
 
 void DialogCharaPicker::setFacing(int facing)
 {
+    if (m_tilePick && ui->listRess->currentRow() == 0)
+        return;
     m_chara->setFacing(facing);
     updateFacing();
 }
 
 std::string DialogCharaPicker::name()
 {
-    QString name = ui->listRess->currentItem()->text();
-    if (name.contains("*"))
-        name = "";
-    return name.toStdString();
+    if (m_tilePick && ui->listRess->currentRow() == 0)
+        return "";
+    return ui->listRess->currentItem()->text().toStdString();
 }
 
 void DialogCharaPicker::setName(std::string name)
 {
-    if (name.empty() && ui->listRess->count() > 0)
+    if (m_tilePick && name.empty())
     {
         ui->listRess->setCurrentRow(0);
         return;
     }
     QList<QListWidgetItem*> items = ui->listRess->findItems(QString::fromStdString(name),
                                                             Qt::MatchFixedString);
-    if (!items.empty())
-        ui->listRess->setCurrentItem(items[0]);
+    ui->listRess->setCurrentItem(items.empty() ? ui->listRess->item(0) : items[0]);
 }
 
 void DialogCharaPicker::setAnimated(bool animated)
@@ -149,14 +155,14 @@ void DialogCharaPicker::updateFacing()
 }
 int DialogCharaPicker::index() const
 {
-    if (ui->listRess->currentItem()->text().contains("*"))
+    if (m_tilePick && ui->listRess->currentRow() == 0)
         return m_tileScene->index();
     return m_charaScene->index();
 }
 
 void DialogCharaPicker::setIndex(int index)
 {
-    if (ui->listRess->currentItem()->text().contains("*"))
+    if (m_tilePick && ui->listRess->currentRow() == 0)
         m_tileScene->setIndex(index);
     else
         m_charaScene->setIndex(index);

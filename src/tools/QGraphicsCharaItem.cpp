@@ -14,9 +14,11 @@ QGraphicsCharaItem::QGraphicsCharaItem(const QPixmap pix) :
 
 void QGraphicsCharaItem::setBasePix(const QString &n_pixName)
 {
-    m_pix = QPixmap(mCore->filePath(CHARSET,n_pixName));
-    if (m_pix.isNull())
-        m_pix = QPixmap(mCore->rtpPath(CHARSET,n_pixName));
+    m_pix.reset(new QPixmap(mCore->filePath(CHARSET,n_pixName)));
+    if (m_pix->isNull())
+        m_pix.reset(new QPixmap(mCore->rtpPath(CHARSET,n_pixName)));
+    if (m_pix->isNull())
+        m_pix.reset(mCore->createDummyPixmap(288,256));
     updatePix();
 }
 
@@ -54,7 +56,7 @@ void QGraphicsCharaItem::setFrame(int frame)
 
 void QGraphicsCharaItem::updatePix()
 {
-    if (m_pix.isNull())
+    if (m_pix->isNull())
         return;
     if (m_index == -1)
     {
@@ -64,7 +66,7 @@ void QGraphicsCharaItem::updatePix()
         {
             int src_x = (index%4)*72 + m_frame * 24;
             int src_y = (index/4)*128 + m_facing * 32;
-            p.drawPixmap((index%4)*24, (index/4)*32, 24, 32, m_pix.copy(src_x,src_y,24,32));
+            p.drawPixmap((index%4)*24, (index/4)*32, 24, 32, m_pix->copy(src_x,src_y,24,32));
         }
         p.end();
         this->setPixmap(n_pix);
@@ -73,7 +75,7 @@ void QGraphicsCharaItem::updatePix()
     {
         int x = (m_index%4)*72 + m_frame * 24;
         int y = (m_index/4)*128 + m_facing * 32;
-        this->setPixmap(m_pix.copy(x,y,24,32));
+        this->setPixmap(m_pix->copy(x,y,24,32));
     }
 }
 

@@ -61,6 +61,7 @@ private:
     QGraphicsPickerScene *m_charaScene;
     QGraphicsPickerScene *m_tileScene;
     QGraphicsCharaItem *m_chara;
+    bool m_tilePick;
     QTimer *m_timer;
     int m_tileIndex;
     int m_charaIndex;

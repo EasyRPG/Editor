@@ -536,10 +536,11 @@ void Core::LoadChipset(int n_chipsetid)
 
 void Core::LoadBackground(QString name)
 {
-    if (name.isEmpty())
-        m_background = new QPixmap();
-    else
-        m_background = new QPixmap(filePath(PANORAMA, name));
+    if (name.isEmpty()) {
+        m_background.reset(new QPixmap(640,480));
+        m_background->fill(Qt::magenta);
+    } else
+        m_background.reset(new QPixmap(filePath(PANORAMA, name)));
 }
 
 int Core::tileSize()
