@@ -12,6 +12,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProgressDialog>
 #include <QScrollBar>
 #include <QStringList>
 #include <QDir>
@@ -283,8 +284,12 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     QStringList entries;
     for (const QString& dir : resource_dirs)
         recurseAddDir(QDir(p_path+dir), entries);
+
+    QProgressDialog progress("Importing resources...", "", 0, entries.count(), this);
+    progress.setWindowModality(Qt::WindowModal);
     for (int i = 0; i < entries.count(); i++)
     {
+        progress.setValue(i);
         QFileInfo info(entries[i]);
         QString dest_file = mCore->filePath(info.dir().dirName()+"/",info.fileName());
         if (!QFile::copy(entries[i], dest_file))
@@ -306,6 +311,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
             return;
         }
     }
+    progress.setValue(entries.count());
 
     QList<QVariant> m_mapList;
     QList<QVariant> m_scaleList;
@@ -352,9 +358,12 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
         m_treeItems[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
     }
     //Import Maps
+    progress.setLabelText("Importing maps...");
+    progress.setMaximum(maps.maps.size());
     std::stringstream ss;
     for (unsigned int i = 1; i < maps.maps.size(); i++)
     {
+        progress.setValue(i);
         if (maps.maps[i].type == 2)
             continue;
         ss.str("");
@@ -374,6 +383,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
            << ".emu";
         LMU_Reader::SaveXml(ss.str(),map);
     }
+    progress.setValue(maps.maps.size());
     m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG),
                                QSettings::IniFormat,
                                this);
