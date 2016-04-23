@@ -29,6 +29,10 @@
 Q_DECLARE_METATYPE(QList<int>)
 Q_DECLARE_METATYPE(QList<float>)
 
+const std::vector<QString> resource_dirs =
+    {BACKDROP, BATTLE, BATTLE2, BATTLECHARSET, BATTLEWEAPON, CHARSET, CHIPSET, FACESET,
+    GAMEOVER, MONSTER, MOVIE, MUSIC, PANORAMA, PICTURE, SOUND, SYSTEM, SYSTEM2, TITLE};
+
 static void recurseAddDir(QDir d, QStringList & list) {
 
     QStringList qsl = d.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
@@ -276,43 +280,9 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
     LDB_Reader::SaveXml(mCore->filePath(ROOT, EASY_DB).toStdString());
     LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
-    QDir srcDir(p_path+BACKDROP);
     QStringList entries;
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+PANORAMA);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+BATTLE);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+BATTLE2);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+BATTLECHARSET);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+BATTLEWEAPON);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+CHARSET);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+CHIPSET);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+FACESET);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+GAMEOVER);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+MONSTER);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+MOVIE);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+MUSIC);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+PICTURE);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+SOUND);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+SYSTEM);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+SYSTEM2);
-    recurseAddDir(srcDir, entries);
-    srcDir = QDir(p_path+TITLE);
-    recurseAddDir(srcDir, entries);
+    for (const QString& dir : resource_dirs)
+        recurseAddDir(QDir(p_path+dir), entries);
     for (int i = 0; i < entries.count(); i++)
     {
         QFileInfo info(entries[i]);
@@ -550,25 +520,8 @@ void MainWindow::on_action_New_Project_triggered()
         mCore->setTileSize(dlg.getTileSize());
         mCore->setDefDir(dlg.getDefDir());
         Data::Clear();
-        d_gamepath.mkpath(mCore->filePath(BACKDROP));
-        d_gamepath.mkpath(mCore->filePath(PANORAMA));
-        d_gamepath.mkpath(mCore->filePath(BATTLE));
-        d_gamepath.mkpath(mCore->filePath(BATTLE2));
-        d_gamepath.mkpath(mCore->filePath(BATTLECHARSET));
-        d_gamepath.mkpath(mCore->filePath(BATTLEWEAPON));
-        d_gamepath.mkpath(mCore->filePath(CHARSET));
-        d_gamepath.mkpath(mCore->filePath(CHIPSET));
-        d_gamepath.mkpath(mCore->filePath(FACESET));
-        d_gamepath.mkpath(mCore->filePath(FRAME));
-        d_gamepath.mkpath(mCore->filePath(GAMEOVER));
-        d_gamepath.mkpath(mCore->filePath(MONSTER));
-        d_gamepath.mkpath(mCore->filePath(MOVIE));
-        d_gamepath.mkpath(mCore->filePath(MUSIC));
-        d_gamepath.mkpath(mCore->filePath(PICTURE));
-        d_gamepath.mkpath(mCore->filePath(SOUND));
-        d_gamepath.mkpath(mCore->filePath(SYSTEM));
-        d_gamepath.mkpath(mCore->filePath(SYSTEM2));
-        d_gamepath.mkpath(mCore->filePath(TITLE));
+        for (const QString& dir : resource_dirs)
+            d_gamepath.mkpath(mCore->filePath(dir));
         m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
         setWindowTitle("EasyRPG Editor - " +  mCore->gameTitle());
         m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->gameTitle());
@@ -931,27 +884,10 @@ void MainWindow::on_actionImport_Project_triggered()
             }
             else
                 d_gamepath.mkpath(".");
-         mCore->setTileSize(16);
-         mCore->setProjectFolder(dlg.getProjectFolder());
-        d_gamepath.mkpath(mCore->filePath(BACKDROP));
-        d_gamepath.mkpath(mCore->filePath(PANORAMA));
-        d_gamepath.mkpath(mCore->filePath(BATTLE));
-        d_gamepath.mkpath(mCore->filePath(BATTLE2));
-        d_gamepath.mkpath(mCore->filePath(BATTLECHARSET));
-        d_gamepath.mkpath(mCore->filePath(BATTLEWEAPON));
-        d_gamepath.mkpath(mCore->filePath(CHARSET));
-        d_gamepath.mkpath(mCore->filePath(CHIPSET));
-        d_gamepath.mkpath(mCore->filePath(FACESET));
-        d_gamepath.mkpath(mCore->filePath(FRAME));
-        d_gamepath.mkpath(mCore->filePath(GAMEOVER));
-        d_gamepath.mkpath(mCore->filePath(MONSTER));
-        d_gamepath.mkpath(mCore->filePath(MOVIE));
-        d_gamepath.mkpath(mCore->filePath(MUSIC));
-        d_gamepath.mkpath(mCore->filePath(PICTURE));
-        d_gamepath.mkpath(mCore->filePath(SOUND));
-        d_gamepath.mkpath(mCore->filePath(SYSTEM));
-        d_gamepath.mkpath(mCore->filePath(SYSTEM2));
-        d_gamepath.mkpath(mCore->filePath(TITLE));
+        mCore->setTileSize(16);
+        mCore->setProjectFolder(dlg.getProjectFolder());
+        for (const QString& dir : resource_dirs)
+            d_gamepath.mkpath(mCore->filePath(dir));
         m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
         ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
     }
