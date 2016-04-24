@@ -6,6 +6,7 @@
 #include "dialogmapproperties.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QImage>
 #include <QToolBar>
 #include <QCloseEvent>
 #include <QApplication>
@@ -16,6 +17,7 @@
 #include <QScrollBar>
 #include <QStringList>
 #include <QDir>
+#include <cassert>
 #include <sstream>
 #include <iomanip>
 #include "core.h"
@@ -235,7 +237,7 @@ void MainWindow::LoadProject(QString foldername)
     update_actions();
 }
 
-void MainWindow::ImportProject(QString p_path, QString d_folder)
+void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xyz)
 {
     Data::Clear();
     mCore->setProjectFolder(d_folder);
@@ -310,6 +312,21 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
             on_action_Close_Project_triggered();
             return;
         }
+        if (convert_xyz && info.dir().dirName() != MUSIC && info.dir().dirName() != SOUND)
+        {
+            QFile file(dest_file);
+            file.open(QIODevice::ReadOnly);
+            if (file.read(4) == "XYZ1")
+            {
+                QString conv_path = mCore->filePath(info.dir().dirName()+"/",
+                                                    info.completeBaseName() + ".png");
+                if (convertXYZtoPNG(file, conv_path))
+                    file.remove();
+                else
+                    qWarning() << QString("Failed to convert %1 to PNG").arg(dest_file);
+            }
+        }
+
     }
     progress.setValue(entries.count());
 
@@ -393,6 +410,30 @@ void MainWindow::ImportProject(QString p_path, QString d_folder)
     m_projSett->setValue(SCALES, m_scaleList);
     m_projSett->setValue(TILESIZE, 16);
     this->on_treeMap_itemDoubleClicked(m_treeItems[m_mapList[0].toInt()], 0);
+}
+
+bool MainWindow::convertXYZtoPNG(QFile &xyz_file, QString out_path)
+{
+    QByteArray compressed_data(xyz_file.readAll());
+    assert(!compressed_data.isEmpty());
+    uint16_t width = (uint8_t)compressed_data[0] + ((uint8_t)compressed_data[1] << 8);
+    uint16_t height = (uint8_t)compressed_data[2] + ((uint8_t)compressed_data[3] << 8);
+    uint32_t size = width * height;
+    // Put the total size in the first 4 bytes to make it valid for qUncompress
+    for (int i = 0; i < 4; ++i)
+        compressed_data[i] = ((uint8_t*)&size)[3-i];
+
+    QByteArray xyz_data(qUncompress(compressed_data));
+
+    if (xyz_data.isEmpty())
+        return false;
+
+    QImage image((uchar*)xyz_data.data() + 768, width, height, QImage::Format_Indexed8);
+    // Add color table
+    for (int i = 0; i < 256; ++i)
+        image.setColor(i, qRgb(xyz_data[i * 3], xyz_data[i * 3 + 1], xyz_data[i * 3 + 2]));
+
+    return image.save(out_path, "PNG");
 }
 
 void MainWindow::on_action_Quit_triggered()
@@ -899,7 +940,7 @@ void MainWindow::on_actionImport_Project_triggered()
         for (const QString& dir : resource_dirs)
             d_gamepath.mkpath(mCore->filePath(dir));
         m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
-        ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder());
+        ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder(), dlg.getConvertXYZ());
     }
     m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
     update_actions();

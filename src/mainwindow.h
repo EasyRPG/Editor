@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFile>
 #include <QMainWindow>
 #include <QSettings>
 #include <QTreeWidgetItem>
@@ -24,7 +25,7 @@ public:
 
     void LoadLastProject();
     void LoadProject(QString foldername);
-    void ImportProject(QString p_path, QString d_folder);
+    void ImportProject(QString p_path, QString d_folder, bool convert_xyz);
 
 private slots:
     void on_action_Quit_triggered();
@@ -118,6 +119,7 @@ private:
     QGraphicsMapScene *currentScene();
     void removeView(int id);
     void removeMap(const int id);
+    bool convertXYZtoPNG(QFile &xyz_file, QString out_path);
 
     Ui::MainWindow *ui;
     DialogResourceManager *dlg_resource;
