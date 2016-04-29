@@ -19,6 +19,7 @@ public:
     QString getDefDir();
     QString getProjectFolder() const;
     QString getSourceFolder() const;
+    bool getConvertXYZ() const;
 private slots:
     void on_lineGameFolder_textChanged(const QString &arg1);
 

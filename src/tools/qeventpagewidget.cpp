@@ -33,6 +33,8 @@ QEventPageWidget::QEventPageWidget(QWidget *parent) :
     m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
     ui->graphicsSprite->setScene(m_scene);
     ui->treeCommands->hideColumn(1);
+    ui->treeCommands->header()->hide();
+    ui->treeCommands->setMouseTracking(true);
 }
 
 QEventPageWidget::~QEventPageWidget()
@@ -79,25 +81,21 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
     QTreeWidgetItem *parent = 0;
     for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
     {
-        QStringList p;
-        for (unsigned int j = 0; j < m_eventPage->event_commands[i].parameters.size(); j++)
-            p << QString::number(m_eventPage->event_commands[i].parameters[j]);
-        QTreeWidgetItem *item = new QTreeWidgetItem(QStringList()
-                                        << Stringizer::Stringize(m_eventPage->event_commands[i])
-                                        << QString::number(m_codeGen)
-                                        << QString::fromStdString(m_eventPage->event_commands[i].string)
-                                        << p.join("|"));
-        if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceOption &&
-                m_eventPage->event_commands[i].parameters[0] != 0)
+        const RPG::EventCommand& command = m_eventPage->event_commands[i];
+        QTreeWidgetItem *item = new QTreeWidgetItem({Stringizer::stringize(command),
+                                                     QString::number(m_codeGen)});
+        item->setToolTip(0, tr("Line") + ": " + QString::number(m_codeGen));
+
+        if (command.code == Cmd::ShowChoiceOption && command.parameters[0] != 0)
             parent = parent->parent();
-        if (m_eventPage->event_commands[i].code == Cmd::ShowChoiceEnd)
+        if (command.code == Cmd::ShowChoiceEnd)
         {
             parent = parent->parent()->parent();
             continue;
         }
         if (parent)
         {
-            switch (m_eventPage->event_commands[i].code)
+            switch (command.code)
             {
             case (Cmd::ShowChoiceEnd):
             case (Cmd::EndBranch):
@@ -112,7 +110,7 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
         }
         else
             ui->treeCommands->addTopLevelItem(item);
-        switch (m_eventPage->event_commands[i].code)
+        switch (command.code)
         {
         case (Cmd::ShowChoice):
         case (Cmd::ConditionalBranch):

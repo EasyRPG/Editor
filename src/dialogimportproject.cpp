@@ -42,6 +42,10 @@ QString DialogImportProject::getDefDir()
     return ui->lineProjectPath->text();
 }
 
+bool DialogImportProject::getConvertXYZ() const {
+    return ui->checkConvertXYZ->isChecked();
+}
+
 void DialogImportProject::on_lineGameFolder_textChanged(const QString &arg1)
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!arg1.isEmpty());

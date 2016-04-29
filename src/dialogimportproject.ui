@@ -7,23 +7,23 @@
     <x>0</x>
     <y>0</y>
     <width>396</width>
-    <height>195</height>
+    <height>234</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>396</width>
-    <height>195</height>
+    <height>234</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>396</width>
-    <height>195</height>
+    <height>234</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Import Project</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
    <item>
@@ -92,6 +92,13 @@
          <widget class="QLineEdit" name="lineGameFolder"/>
         </item>
        </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkConvertXYZ">
+       <property name="text">
+        <string>Convert XYZ images to PNG</string>
+       </property>
       </widget>
      </item>
     </layout>
