@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia concurrent
+QT       += core gui multimedia concurrent widgets
 win32:QT += winextras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -155,6 +155,8 @@ DESTDIR = bin
 
 CONFIG(debug, debug|release) TARGET = EasyRPG-EditorD
 
+CONFIG += c++11
+
 win32 {
     INCLUDEPATH += $$PWD/libs/liblcf/src
     DEPENDPATH += $$PWD/libs/liblcf/src
@@ -166,27 +168,25 @@ win32 {
     LIBS += Advapi32.lib
 
     CONFIG(debug, debug|release) {
-	LIBS += /NODEFAULTLIB:libcmtd.lib
-	LIBS += -L$$PWD/libs/liblcf/lib/debug/
 	!contains(QMAKE_HOST.arch, x86_64) {
-	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Debug -llibexpat
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/x86/Debug -llibexpat
 	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf
 	} else {
-	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Debug -llibexpat
-	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf64
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/amd64/Debug -llibexpat
+	    LIBS += -lsicudtd -lsicuucd -lsicuind -lliblcf
 	}
     }
     CONFIG(release, debug|release) {
-	LIBS += /NODEFAULTLIB:libcmt.lib
-	LIBS += -L$$PWD/libs/liblcf/lib/release/
 	!contains(QMAKE_HOST.arch, x86_64) {
-	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/x86/Release -llibexpat
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/x86/Release -llibexpat
 	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf
 	} else {
-	    LIBS += -L$$(EASYDEV_MSVC)/lib/v100/amd64/Release -llibexpat
-	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf64
+	    LIBS += -L$$(EASYDEV_MSVC)/lib/amd64/Release -llibexpat
+	    LIBS += -lsicudt -lsicuuc -lsicuin -lliblcf
 	}
     }
+
+    QMAKE_LFLAGS_RELEASE = /LTCG
 }
 
 !win32:TARGET = easyrpg-editor
