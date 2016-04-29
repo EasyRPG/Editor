@@ -1,13 +1,7 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-09-28T16:21:38
-#
-#-------------------------------------------------
+lessThan(QT_MAJOR_VERSION, 5): error("Qt 5 required")
 
 QT       += core gui multimedia concurrent widgets
 win32:QT += winextras
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 win32:TARGET = EasyRPG-Editor
 TEMPLATE = app
@@ -189,8 +183,10 @@ win32 {
     QMAKE_LFLAGS_RELEASE = /LTCG
 }
 
-!win32:TARGET = easyrpg-editor
-!win32:QMAKE_CXXFLAGS += -Wall -Wextra -ansi -pedantic -std=c++0x
-!win32:QMAKE_CXXFLAGS_DEBUG += -O0 -g3
-!win32:CONFIG += link_pkgconfig silent
-!win32:PKGCONFIG += liblcf
+unix {
+    TARGET = easyrpg-editor
+    QMAKE_CXXFLAGS += -Wall -Wextra -pedantic
+    QMAKE_CXXFLAGS_DEBUG += -O0 -g3
+    CONFIG += link_pkgconfig silent
+    PKGCONFIG += liblcf
+}
