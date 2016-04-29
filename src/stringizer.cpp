@@ -651,8 +651,9 @@ namespace
             direction = Stringizer::direction(com.parameters[3]);
 
         return tr("Teleport") + ": "
-            + map(com.parameters[0]) + " "
-            + "(" + com.parameters[1] + "," + com.parameters[2] + "), "
+            + map(com.parameters[0]) + " ("
+            + QString::number(com.parameters[1]) + ","
+            + QString::number(com.parameters[2]) + "), "
             + direction;
     }
 
@@ -686,7 +687,8 @@ namespace
         else
             return tr("Set Vehicle Location") + ": " + vehicle + ", "
                 + map(com.parameters[0]) + " ("
-                + com.parameters[1] + "," + com.parameters[2] + ")";
+                + QString::number(com.parameters[1]) + ","
+                + QString::number(com.parameters[2]) + ")";
     }
 
     QString stringizeChangeEventLocation(const RPG::EventCommand& com)
@@ -841,7 +843,7 @@ namespace
     QString stringizeMovePicture(const RPG::EventCommand& com)
     {
         return tr("Move Picture") + ": "
-            + com.parameters[0] + ", ("
+            + QString::number(com.parameters[0]) + ", ("
             + valueOrVariable(com.parameters[1], com.parameters[2]) + ","
             + valueOrVariable(com.parameters[1], com.parameters[3]) + "), "
             + tenthSeconds(com.parameters[14]) + " "
@@ -952,8 +954,9 @@ namespace
                 + tr("Remove") + " " + map(com.parameters[1]);
         else
             return tr("Teleport Targets") + ": "
-                + tr("Add") + " " + map(com.parameters[1]) + " "
-                + "(" + com.parameters[2] + "," + com.parameters[3] + ")";
+                + tr("Add") + " " + map(com.parameters[1]) + " ("
+                + QString::number(com.parameters[2]) + ","
+                + QString::number(com.parameters[3]) + ")";
     }
 
     QString stringizeChangeTeleportAccess(const RPG::EventCommand& com)
@@ -966,7 +969,8 @@ namespace
     {
         return tr("Escape Target") + ": "
             + map(com.parameters[0]) + " ("
-            + com.parameters[1] + "," + com.parameters[2] + ")";
+            + QString::number(com.parameters[1]) + ","
+            + QString::number(com.parameters[2]) + ")";
     }
 
     QString stringizeChangeEscapeAccess(const RPG::EventCommand& com)
