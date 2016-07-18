@@ -83,8 +83,8 @@ void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
     ui->tableNew_CharacterProperties->item(3,1)->setText(QString::number(actor->final_level));
     ui->tableNew_CharacterProperties->item(4,1)->setText(actor->critical_hit ? yes : no);
     ui->tableNew_CharacterProperties->item(5,1)->setText(tr("1 of %1 turns").arg(actor->critical_hit_chance));
-    ui->tableNew_CharacterProperties->item(6,1)->setText(actor->two_swords_style ? yes :no);
-    ui->tableNew_CharacterProperties->item(7,1)->setText(actor->fix_equipment ? yes :no);
+    ui->tableNew_CharacterProperties->item(6,1)->setText(actor->two_weapon ? yes :no);
+    ui->tableNew_CharacterProperties->item(7,1)->setText(actor->lock_equipment ? yes :no);
     ui->tableNew_CharacterProperties->item(8,1)->setText(actor->auto_battle ? yes :no);
     ui->tableNew_CharacterProperties->item(9,1)->setText(actor->super_guard ? yes :no);
     ui->tableNew_CharacterProperties->item(10,1)->setText(actor->class_id < 1 ? tr("<none>") :

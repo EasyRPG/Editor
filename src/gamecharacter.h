@@ -121,9 +121,9 @@ public:
     void initialhelmet(int n_initialequip);
     void initialother(int n_initialequip);
 
-    /*Unarmed Animation*/
-    int unarmedanimation() const;
-    void unarmedanimation(int n_animation);
+    /*Battler Animation*/
+    int battleranimation() const;
+    void battleranimation(int n_animation);
 
     /*Skills*/
     QMap<int,int>* skills();
@@ -176,7 +176,7 @@ private:
     int m_initialarmor;
     int m_initialhelmet;
     int m_initialother;
-    int m_unarmedanimation;
+    int m_battleranimation;
     QMap<int,int> m_skills;
     QMap<int,int> m_attranks;
     QMap<int,int> m_stsranks;

@@ -28,7 +28,7 @@ GameCharacter::GameCharacter() :
     m_initialarmor(-1),
     m_initialhelmet(-1),
     m_initialother(-1),
-    m_unarmedanimation(-1)
+    m_battleranimation(-1)
   {
       for (int i = 0; i < 100; i++) {
           m_hpcurve.append(1);
@@ -66,7 +66,7 @@ GameCharacter::GameCharacter(const GameCharacter &other) :
     m_initialarmor(other.m_initialarmor),
     m_initialhelmet(other.m_initialhelmet),
     m_initialother(other.m_initialother),
-    m_unarmedanimation(other.m_unarmedanimation)
+    m_battleranimation(other.m_battleranimation)
   {
       for (int i = 0; i < 100; i++) {
           m_hpcurve.append(other.m_hpcurve[i]);
@@ -112,7 +112,7 @@ bool GameCharacter::operator==(const GameCharacter &other)
             check(m_initialarmor) &&
             check(m_initialhelmet) &&
             check(m_initialother) &&
-            check(m_unarmedanimation) &&
+            check(m_battleranimation) &&
             check(m_faceindex) &&
             check(m_facename) &&
             check(m_charaindex) &&
@@ -207,9 +207,9 @@ void GameCharacter::initialhelmet(int n_initialequip) {m_initialhelmet = n_initi
 
 void GameCharacter::initialother(int n_initialequip) {m_initialother = n_initialequip;}
 
-int GameCharacter::unarmedanimation() const {return m_unarmedanimation;}
+int GameCharacter::battleranimation() const {return m_battleranimation;}
 
-void GameCharacter::unarmedanimation(int n_animation) {m_unarmedanimation = n_animation;}
+void GameCharacter::battleranimation(int n_animation) {m_battleranimation = n_animation;}
 
 QMap<int, int> *GameCharacter::skills() {return &m_skills;}
 

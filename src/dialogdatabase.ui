@@ -1630,7 +1630,7 @@
              </item>
              <item row="26" column="0">
               <property name="text">
-               <string>UnarmedAnimation</string>
+               <string>BattlerAnimation</string>
               </property>
              </item>
              <item row="26" column="1">
