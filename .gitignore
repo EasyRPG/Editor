@@ -28,3 +28,14 @@ Makefile.Release
 /bin/*.exp
 /bin/*.res
 /bin/platforms
+
+# CMake
+/bin/EasyRPG_Editor
+/libs/*.a
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*automoc.cpp
+
+# CLion
+.idea
