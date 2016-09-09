@@ -6,7 +6,9 @@
 #include <data.h>
 #include <lmu_reader.h>
 #include <rpg_map.h>
-#include <iostream>
+#include <functional>
+#include <vector>
+#include <tuple>
 
 DialogSearch::DialogSearch(QWidget *parent) :
     QDialog(parent),
