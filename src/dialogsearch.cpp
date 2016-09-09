@@ -9,6 +9,7 @@
 #include <functional>
 #include <vector>
 #include <tuple>
+#include <QMessageBox>
 
 DialogSearch::DialogSearch(QWidget *parent) :
     QDialog(parent),
@@ -57,10 +58,11 @@ void DialogSearch::on_button_search_clicked()
 
     if (ui->radio_variable->isChecked())
     {
+        //TODO implement me
     }
     else if (ui->radio_switch->isChecked())
     {
-
+        //TODO implement me
     }
     else if (ui->radio_item->isChecked())
     {
@@ -87,12 +89,17 @@ void DialogSearch::on_button_search_clicked()
     }
     else //if (ui->radio_eventname->isChecked())
     {
+        //TODO implement me
+    }
 
+    if (!func)
+    {
+        QMessageBox::warning(this, "", "This search parameter isn't supported yet.");
+        return;
     }
 
     if (ui->scope_current->isChecked())
     {
-
         const auto *cs = static_cast<MainWindow*>(parent())->currentScene();
         const QString file = QString("Map%1.emu").arg(QString::number(cs->id()), 4, QLatin1Char('0'));
         auto map = LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString());
@@ -109,7 +116,7 @@ void DialogSearch::on_button_search_clicked()
     }
     else if (ui->scope_events->isChecked())
     {
-
+        //TODO implement me
     }
     else // if (ui->scope_project->isChecked())
     {
