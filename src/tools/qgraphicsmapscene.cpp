@@ -872,3 +872,7 @@ void QGraphicsMapScene::selectTile(int x, int y)
     mousePressEvent(mpe.get());
 }
 
+void QGraphicsMapScene::centerOnTile(int x, int y)
+{
+    m_view->centerOn(x * s_tileSize, y * s_tileSize);
+}

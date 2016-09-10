@@ -172,8 +172,9 @@ void DialogSearch::on_button_search_clicked()
 
 void DialogSearch::on_list_result_doubleClicked(const QModelIndex &index)
 {
-    auto *par = dynamic_cast<MainWindow*>(parent());
+    auto *par = static_cast<MainWindow*>(parent());
     par->openScene(std::get<0>(objectData[index.row()]));
     auto *event = (*par->currentScene()->mapEvents())[std::get<1>(objectData[index.row()])];
     par->selectTile(event->x, event->y);
+    par->currentScene()->centerOnTile(event->x, event->y);
 }

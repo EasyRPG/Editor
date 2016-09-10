@@ -24,6 +24,7 @@ public:
     void Init();
     float scale() const;
     void selectTile(int x, int y);
+    void centerOnTile(int x, int y);
     void setScale(float scale);
     QString mapName() const;
     bool isModified() const;
