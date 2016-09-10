@@ -7,6 +7,7 @@
 #include <QTreeWidgetItem>
 #include "dialogresourcemanager.h"
 #include "dialogdatabase.h"
+#include "dialogsearch.h"
 #include "tools/qgraphicsmapscene.h"
 #include "tools/QGraphicsPaleteScene.h"
 #include "musicplayer.h"
@@ -26,6 +27,10 @@ public:
     void LoadLastProject();
     void LoadProject(QString foldername);
     void ImportProject(QString p_path, QString d_folder, bool convert_xyz);
+
+    QGraphicsMapScene *currentScene();
+    void openScene(int mapID);
+    void selectTile(int x, int y);
 
 private slots:
     void on_action_Quit_triggered();
@@ -84,6 +89,8 @@ private slots:
 
     void updateToolActions();
 
+    void updateSearchUI();
+
     void on_action_Play_Test_triggered();
 
     void on_mapChanged();
@@ -108,6 +115,8 @@ private slots:
 
     void on_actionMap_Properties_triggered();
 
+    void on_actionSearch_triggered();
+
 private:
     void closeEvent(QCloseEvent *event);
     bool saveAll();
@@ -116,7 +125,6 @@ private:
     QGraphicsMapScene *getScene(int id);
     QGraphicsView *getTabView(int index);
     QGraphicsMapScene *getTabScene(int index);
-    QGraphicsMapScene *currentScene();
     void removeView(int id);
     void removeMap(const int id);
     bool convertXYZtoPNG(QFile &xyz_file, QString out_path);
@@ -130,6 +138,7 @@ private:
     QMap<int,QGraphicsView*> m_views;
     QMap<int,QTreeWidgetItem*> m_treeItems;
     QString m_copiedMap;
+    DialogSearch *searchdialog;
 };
 
 

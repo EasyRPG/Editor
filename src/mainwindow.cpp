@@ -88,7 +88,8 @@ static void associateFileTypes(const QStringList &fileTypes)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    searchdialog(nullptr)
 {
     ui->setupUi(this);
     // Hide map ids
@@ -126,11 +127,13 @@ MainWindow::MainWindow(QWidget *parent) :
                                         qApp->applicationDirPath()).toString());
     updateLayerActions();
     updateToolActions();
+    updateSearchUI();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete searchdialog;
     delete dlg_resource;
     delete dlg_db;
 }
@@ -146,6 +149,7 @@ void MainWindow::LoadLastProject()
         mCore->setProjectFolder(QString());
     updateLayerActions();
     updateToolActions();
+    updateSearchUI();
 }
 
 void MainWindow::LoadProject(QString foldername)
@@ -1141,7 +1145,6 @@ void MainWindow::on_actionNew_Map_triggered()
     on_treeMap_itemDoubleClicked(item, 0);
 }
 
-
 void MainWindow::on_actionPaste_Map_triggered()
 {
     QFileInfo f(m_copiedMap);
@@ -1274,4 +1277,36 @@ void MainWindow::on_actionMap_Properties_triggered()
         return;
 
     currentScene()->editMapProperties();
+}
+
+void MainWindow::on_actionSearch_triggered()
+{
+    if (!searchdialog)
+    {
+        searchdialog = new DialogSearch(this);
+        searchdialog->updateUI();
+    }
+    searchdialog->setVisible(true);
+}
+
+void MainWindow::updateSearchUI()
+{
+    if (searchdialog)
+        searchdialog->updateUI();
+}
+
+void MainWindow::openScene(int mapID)
+{
+    this->on_treeMap_itemDoubleClicked(m_treeItems[mapID], 0);
+}
+
+void MainWindow::selectTile(int x, int y)
+{
+    if (currentScene())
+    {
+        mCore->setLayer(Core::EVENT);
+        updateLayerActions();
+
+        currentScene()->selectTile(x, y);
+    }
 }

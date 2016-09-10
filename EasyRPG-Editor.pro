@@ -22,6 +22,7 @@ SOURCES += src/mainwindow.cpp \
     src/dialogrungame.cpp \
     src/tools/qundodraw.cpp \
     src/dialogevent.cpp \
+    src/dialogsearch.cpp \
     src/dialogmapproperties.cpp \
     src/tools/qundoevent.cpp \
     src/dialogcharapicker.cpp \
@@ -55,7 +56,7 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qgraphicscurveitem.cpp \
     src/tools/qactordelegate.cpp \
     src/tools/qencounterdelegate.cpp \
-    src/stringizer.cpp \
+    src/stringizer.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -75,6 +76,7 @@ HEADERS  += src/mainwindow.h \
     src/dialogevent.h \
     src/tools/qundoevent.h \
     src/dialogcharapicker.h \
+    src/dialogsearch.h \
     src/dialogsplash.h \
     src/tools/qeventpagewidget.h \
     src/tools/qgraphicscharaitem.h \
@@ -114,6 +116,7 @@ FORMS    += src/mainwindow.ui \
     src/dialognewproject.ui \
     src/dialogopenproject.ui \
     src/dialogimportproject.ui \
+    src/dialogsearch.ui \
     src/dialogrtppath.ui \
     src/dialogrungame.ui \
     src/dialogmapproperties.ui \

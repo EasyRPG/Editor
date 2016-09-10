@@ -862,3 +862,17 @@ short QGraphicsMapScene::bind(int x, int y)
 #undef tile_dl
 #undef tile_dr
 }
+
+void QGraphicsMapScene::selectTile(int x, int y)
+{
+    cur_x = x;
+    cur_y = y;
+    std::unique_ptr<QGraphicsSceneMouseEvent> mpe{new QGraphicsSceneMouseEvent()};
+    mpe->setButton(Qt::LeftButton);
+    mousePressEvent(mpe.get());
+}
+
+void QGraphicsMapScene::centerOnTile(int x, int y)
+{
+    m_view->centerOn(x * s_tileSize, y * s_tileSize);
+}
