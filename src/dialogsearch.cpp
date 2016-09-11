@@ -36,13 +36,13 @@ void DialogSearch::updateUI()
     const QString format("%1: %2");
 
     for (auto &v : Data::variables)
-        ui->combo_variable->addItem(format.arg(QString::number(v.ID), QString::fromStdString(v.name)));
+        ui->combo_variable->addItem(format.arg(QString::number(v.ID), QString::fromStdString(v.name)), v.ID);
     for (auto &s : Data::switches)
-        ui->combo_switch->addItem(format.arg(QString::number(s.ID), QString::fromStdString(s.name)));
+        ui->combo_switch->addItem(format.arg(QString::number(s.ID), QString::fromStdString(s.name)), s.ID);
     for (auto &i : Data::items)
-        ui->combo_item->addItem(format.arg(QString::number(i.ID), QString::fromStdString(i.name)));
+        ui->combo_item->addItem(format.arg(QString::number(i.ID), QString::fromStdString(i.name)), i.ID);
     for (auto &e : Data::commonevents)
-        ui->combo_eventname->addItem(format.arg(QString::number(e.ID), QString::fromStdString(e.name)));
+        ui->combo_eventname->addItem(format.arg(QString::number(e.ID), QString::fromStdString(e.name)), e.ID);
 }
 
 void DialogSearch::enableCache(bool enable)
@@ -102,8 +102,7 @@ void DialogSearch::on_button_search_clicked()
     }
     else if (ui->radio_item->isChecked())
     {
-        QRegularExpression re("^(\\d+):?.*$");
-        int itemID = re.match(ui->combo_item->currentText()).captured(1).toInt();
+        int itemID = ui->combo_item->currentData().toInt();
 
         search_predicate = [itemID](const RPG::EventCommand& com)
         {
