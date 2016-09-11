@@ -156,7 +156,21 @@ void DialogSearch::on_button_search_clicked()
     }
     else if (ui->radio_switch->isChecked())
     {
-        //TODO implement me
+        int switchID = ui->combo_switch->currentData().toInt();
+
+        search_predicate = [switchID](const RPG::EventCommand& com)
+        {
+            switch(com.code)
+            {
+                case Cmd::ControlSwitches:
+                    return (com.parameters[0] != 2 && com.parameters[1] == switchID) ||
+                        (com.parameters[0] == 1 && com.parameters[2] == switchID);
+                case Cmd::ConditionalBranch:
+                    return com.parameters[0] == 0 && com.parameters[1] == switchID;
+                default:
+                    return false;
+            }
+        };
     }
     else if (ui->radio_item->isChecked())
     {
