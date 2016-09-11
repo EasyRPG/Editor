@@ -65,7 +65,32 @@ void DialogSearch::on_button_search_clicked()
     sl << "Map" << "Event" << "Event Page" << "Sourceline" << "Action";
     ui->list_result->setHorizontalHeaderLabels(sl);
 
-    std::function<std::vector<command_info>(const RPG::Map&)> map_searcher;
+    std::function<bool(const RPG::EventCommand&)> search_predicate;
+    auto map_searcher = [&search_predicate](const RPG::Map& map) {
+        std::vector<command_info> res;
+        for (auto& e : map.events)
+            for (auto& p : e.pages)
+                for (size_t line = 0; line < p.event_commands.size(); line++)
+                {
+                    auto& com = p.event_commands[line];
+                    if (search_predicate(com))
+                        res.emplace_back(map.ID, e.ID, p.ID, line, com);
+                }
+
+        return res;
+    };
+    auto common_searcher = [&search_predicate](const std::vector<RPG::CommonEvent> events) {
+        std::vector<command_info> res;
+        for (auto& e : events)
+            for (size_t line = 0; line < e.event_commands.size(); line++)
+            {
+                auto& com = e.event_commands[line];
+                if (search_predicate(com))
+                    res.emplace_back(0, e.ID, 0, line, com);
+            }
+
+        return res;
+    };
 
     if (ui->radio_variable->isChecked())
     {
@@ -80,36 +105,21 @@ void DialogSearch::on_button_search_clicked()
         QRegularExpression re("^(\\d+):?.*$");
         int itemID = re.match(ui->combo_item->currentText()).captured(1).toInt();
 
-        map_searcher = [itemID](const RPG::Map& map) {
-            std::vector<command_info> res;
-            for (auto& e : map.events)
-                for (auto& p : e.pages)
-                    for (size_t line = 0; line < p.event_commands.size(); line++)
-                    {
-                        auto& com = p.event_commands[line];
-                        switch (com.code)
-                        {
-                            case Cmd::ChangeItems:
-                                if (com.parameters[2] == itemID)
-                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
-                                break;
-                            case Cmd::ControlVars:
-                                if (com.parameters[4] == 4 && com.parameters[5] == itemID)
-                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
-                                break;
-                            case Cmd::ChangeEquipment:
-                                if (com.parameters[3] == 0 && com.parameters[4] == itemID)
-                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
-                                break;
-                            case Cmd::ConditionalBranch:
-                                if (com.parameters[0] == 0 && com.parameters[1] == itemID)
-                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
-                                break;
-                            default:
-                                ;
-                        }
-                    }
-            return res;
+        search_predicate = [itemID](const RPG::EventCommand& com)
+        {
+            switch (com.code)
+            {
+                case Cmd::ChangeItems:
+                    return com.parameters[2] == itemID;
+                case Cmd::ControlVars:
+                    return com.parameters[4] == 4 && com.parameters[5] == itemID;
+                case Cmd::ChangeEquipment:
+                    return com.parameters[3] == 0 && com.parameters[4] == itemID;
+                case Cmd::ConditionalBranch:
+                    return com.parameters[0] == 4 && com.parameters[1] == itemID;
+                default:
+                    return false;
+            }
         };
     }
     else //if (ui->radio_eventname->isChecked())
@@ -117,7 +127,7 @@ void DialogSearch::on_button_search_clicked()
         //TODO implement me
     }
 
-    if (!map_searcher)
+    if (!search_predicate)
     {
         QMessageBox::warning(this, "", "This search parameter isn't supported yet.");
         return;
@@ -134,7 +144,7 @@ void DialogSearch::on_button_search_clicked()
     }
     else if (ui->scope_events->isChecked())
     {
-        //TODO implement me
+        showResults(common_searcher(Data::commonevents));
     }
     else // if (ui->scope_project->isChecked())
     {
@@ -189,12 +199,19 @@ void DialogSearch::showResults(const std::vector<command_info>& results) {
 
         auto mm = mapID;
         QStringList maps_rev;
-        do
+        if (mm == 0) // Common Event
         {
-            auto& mapinfo = Data::treemap.maps[mm];
-            maps_rev << QString::fromStdString(mapinfo.name);
-            mm = mapinfo.parent_map;
-        } while (mm != 0);
+            maps_rev << "Common";
+        }
+        else
+        {
+            do
+            {
+                auto& mapinfo = Data::treemap.maps[mm];
+                maps_rev << QString::fromStdString(mapinfo.name);
+                mm = mapinfo.parent_map;
+            } while (mm != 0);
+        }
 
         const auto descr = Stringizer::stringize(command);
 
