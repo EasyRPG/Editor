@@ -94,7 +94,65 @@ void DialogSearch::on_button_search_clicked()
 
     if (ui->radio_variable->isChecked())
     {
-        //TODO implement me
+        int varID = ui->combo_variable->currentData().toInt();
+
+        search_predicate = [varID](const RPG::EventCommand& com)
+        {
+            switch (com.code)
+            {
+                case Cmd::InputNumber:
+                    return com.parameters[1] == varID;
+                case Cmd::ControlSwitches:
+                    return com.parameters[0] == 2 && com.parameters[1] == varID;
+                case Cmd::ControlVars:
+                    return (com.parameters[4] == 1 && com.parameters[5] == varID) ||
+                        (com.parameters[4] == 2 && com.parameters[5] == varID) ||
+                        com.parameters[0] == varID || com.parameters[1] == varID;
+                case Cmd::ChangeItems:
+                case Cmd::ChangePartyMembers:
+                    return com.parameters[1] == 1 && com.parameters[2] == varID;
+                case Cmd::EnemyEncounter:
+                    return com.parameters[0] == 1 && com.parameters[2] == varID;
+                case Cmd::ChangeSkills:
+                case Cmd::ChangeEquipment:
+                case Cmd::ChangeHP:
+                case Cmd::ChangeSP:
+                    return com.parameters[3] == 1 && com.parameters[4] == varID;
+                case Cmd::SimulatedAttack:
+                    return com.parameters[6] != 0 && com.parameters[7] == varID;
+                case Cmd::MemorizeLocation:
+                case Cmd::RecallToLocation:
+                    return com.parameters[0] == varID || com.parameters[1] == varID ||
+                        com.parameters[1] == varID;
+                case Cmd::SetVehicleLocation:
+                    return (com.parameters[1] == 1 && com.parameters[2] == varID) ||
+                        (com.parameters[1] == 1 && com.parameters[3] == varID) ||
+                        (com.parameters[1] == 1 && com.parameters[4] == varID);
+                case Cmd::ChangeEventLocation:
+                case Cmd::ShowPicture:
+                case Cmd::MovePicture:
+                    return (com.parameters[1] == 1 && com.parameters[2] == varID) ||
+                        (com.parameters[1] == 1 && com.parameters[3] == varID);
+                case Cmd::StoreTerrainID:
+                case Cmd::StoreEventID:
+                    return (com.parameters[1] == 1 && com.parameters[2] == varID) ||
+                        (com.parameters[1] == 1 && com.parameters[3] == varID) ||
+                        (com.parameters[1] == 1 && com.parameters[4] == varID);
+                case Cmd::KeyInputProc:
+                    return com.parameters[0] == varID ||
+                        (com.parameters.size() > 6 && com.parameters[7] == varID);
+                case Cmd::ConditionalBranch:
+                    return com.parameters[0] == 1 &&
+                        (com.parameters[1] == varID || (com.parameters[2] != 0 && com.parameters[3] == varID));
+                case Cmd::CallEvent:
+                    return com.parameters[0] == 2 && (com.parameters[1] == varID || com.parameters[2] == varID);
+                case Cmd::PlayMovie:
+                    return (com.parameters[0] == 1 && com.parameters[1] == varID) ||
+                        (com.parameters[0] == 1 && com.parameters[2] == varID);
+                default:
+                    return false;
+            }
+        };
     }
     else if (ui->radio_switch->isChecked())
     {
