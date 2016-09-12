@@ -9,7 +9,7 @@
 #include "dialogdatabase.h"
 #include "dialogsearch.h"
 #include "tools/qgraphicsmapscene.h"
-#include "tools/QGraphicsPaleteScene.h"
+#include "tools/qgraphicspaletescene.h"
 #include "musicplayer.h"
 
 namespace Ui {

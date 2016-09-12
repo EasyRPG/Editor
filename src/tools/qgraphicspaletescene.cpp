@@ -1,4 +1,4 @@
-#include "QGraphicsPaleteScene.h"
+#include "qgraphicspaletescene.h"
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>
 

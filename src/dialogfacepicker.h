@@ -6,7 +6,7 @@
 #include <QGraphicsRectItem>
 #include <QTimer>
 #include "tools/qgraphicsfaceitem.h"
-#include "tools/QGraphicsPickerScene.h"
+#include "tools/qgraphicspickerscene.h"
 
 namespace Ui {
 class DialogCharaPicker;
