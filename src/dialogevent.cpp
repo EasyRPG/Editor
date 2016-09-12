@@ -1,4 +1,4 @@
-#include "dialogEvent.h"
+#include "dialogevent.h"
 #include "ui_dialogevent.h"
 #include <QFileDialog>
 #include <QSettings>

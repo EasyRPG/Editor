@@ -2,7 +2,7 @@
 #include "dialogopenproject.h"
 #include "dialogimportproject.h"
 #include "dialogrtppath.h"
-#include "dialogEvent.h"
+#include "dialogevent.h"
 #include "dialogmapproperties.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"

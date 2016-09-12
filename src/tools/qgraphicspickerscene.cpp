@@ -1,4 +1,4 @@
-#include "QGraphicsPickerScene.h"
+#include "qgraphicspickerscene.h"
 
 QGraphicsPickerScene::QGraphicsPickerScene(QObject *parent,
                                            QGraphicsPixmapItem *backgroundItem,

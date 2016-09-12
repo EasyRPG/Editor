@@ -1,4 +1,4 @@
-#include "QGraphicsImportItem.h"
+#include "qgraphicsimportitem.h"
 #include <QBitmap>
 
 QGraphicsImportItem::QGraphicsImportItem(const QPixmap pix) :
