@@ -2,7 +2,9 @@
 #include "ui_dialogsearch.h"
 #include "mainwindow.h"
 #include "core.h"
+#include "stringizer.h"
 
+#include <command_codes.h>
 #include <data.h>
 #include <lmu_reader.h>
 #include <functional>
@@ -63,10 +65,7 @@ void DialogSearch::on_button_search_clicked()
     sl << "Map" << "Event" << "Event Page" << "Sourceline" << "Action";
     ui->list_result->setHorizontalHeaderLabels(sl);
 
-
-
-    std::function<std::vector<std::tuple<int, int, int, int, std::vector<int>>>(const RPG::Map &)> func;
-
+    std::function<std::vector<command_info>(const RPG::Map&)> map_searcher;
 
     if (ui->radio_variable->isChecked())
     {
@@ -78,33 +77,47 @@ void DialogSearch::on_button_search_clicked()
     }
     else if (ui->radio_item->isChecked())
     {
-        auto itemfunc = [](const int itemID, const RPG::Map& map){
-            std::vector<std::tuple<int, int, int, int, std::vector<int>>> res;
-            for (auto &e : map.events)
-                for (auto &p : e.pages)
+        QRegularExpression re("^(\\d+):?.*$");
+        int itemID = re.match(ui->combo_item->currentText()).captured(1).toInt();
+
+        map_searcher = [itemID](const RPG::Map& map) {
+            std::vector<command_info> res;
+            for (auto& e : map.events)
+                for (auto& p : e.pages)
                     for (size_t line = 0; line < p.event_commands.size(); line++)
                     {
-                        auto ev = p.event_commands[line];
-                        if (ev.code == RPG::EventCommand::Code::ChangeItems)
+                        auto& com = p.event_commands[line];
+                        switch (com.code)
                         {
-                            if (ev.parameters[2] == itemID)
-                                res.push_back({map.ID, e.ID, p.ID, line, ev.parameters});
+                            case Cmd::ChangeItems:
+                                if (com.parameters[2] == itemID)
+                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
+                                break;
+                            case Cmd::ControlVars:
+                                if (com.parameters[4] == 4 && com.parameters[5] == itemID)
+                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
+                                break;
+                            case Cmd::ChangeEquipment:
+                                if (com.parameters[3] == 0 && com.parameters[4] == itemID)
+                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
+                                break;
+                            case Cmd::ConditionalBranch:
+                                if (com.parameters[0] == 0 && com.parameters[1] == itemID)
+                                    res.emplace_back(map.ID, e.ID, p.ID, line, com);
+                                break;
+                            default:
+                                ;
                         }
                     }
             return res;
         };
-
-
-        QRegularExpression re("^(\\d+):?.*$");
-        auto itemID = re.match(ui->combo_item->currentText()).captured(1).toInt();
-        func = std::bind(itemfunc, itemID, std::placeholders::_1);
     }
     else //if (ui->radio_eventname->isChecked())
     {
         //TODO implement me
     }
 
-    if (!func)
+    if (!map_searcher)
     {
         QMessageBox::warning(this, "", "This search parameter isn't supported yet.");
         return;
@@ -116,14 +129,15 @@ void DialogSearch::on_button_search_clicked()
         auto map = loadMap(mapID);
 
         map->ID = mapID; // FIX: currently XML serialization is broken
-        auto res = func(*map);
+        auto res = map_searcher(*map);
         for (auto &r : res)
         {
             int mapID, eventID, eventPage,  sourceLine;
-            std::vector<int> parameters;
-            std::tie(mapID, eventID, eventPage, sourceLine, parameters) = r;
+            const RPG::EventCommand& command = std::get<4>(r);
+            std::tie(mapID, eventID, eventPage, sourceLine, std::ignore) = r;
 
         }
+
     }
     else if (ui->scope_events->isChecked())
     {
@@ -141,12 +155,12 @@ void DialogSearch::on_button_search_clicked()
             if (!mapp) continue;
 
             mapp->ID = map.ID; // FIX: currently XML serialization is broken
-            auto res = func(*mapp);
+            auto res = map_searcher(*mapp);
             for (auto &r : res)
             {
                 int mapID, eventID, eventPage,  sourceLine;
-                std::vector<int> parameters;
-                std::tie(mapID, eventID, eventPage, sourceLine, parameters) = r;
+                const RPG::EventCommand& command = std::get<4>(r);
+                std::tie(mapID, eventID, eventPage, sourceLine, std::ignore) = r;
 
                 std::vector<std::string> maps;
                 auto mm = mapID;
@@ -157,12 +171,10 @@ void DialogSearch::on_button_search_clicked()
                     mm = mapinfo.parent_map;
                 } while (mm != 0);
 
-                const auto descr = QString("%1 %2")
-                        .arg(parameters[0] == 1 ? "Remove" : "Add",
-                             QString(parameters[3] == 0 ? "%1" : "V[%1]").arg(QString::number(parameters[4])));
-
                 QStringList maps_rev;
                 std::for_each(maps.crbegin(), maps.crend(), [&maps_rev](const std::string &m) { maps_rev << QString::fromStdString(m); });
+
+                const auto descr = Stringizer::stringize(command);
 
                 const int rows = ui->list_result->rowCount();
                 ui->list_result->setRowCount(rows+1);

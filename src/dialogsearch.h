@@ -6,7 +6,11 @@
 #include <rpg_map.h>
 
 namespace Ui {
-class DialogSearch;
+    class DialogSearch;
+}
+
+namespace RPG {
+    class EventCommand;
 }
 
 class DialogSearch : public QDialog
@@ -29,7 +33,8 @@ private:
     std::shared_ptr<RPG::Map> loadMap(int mapID);
 
     Ui::DialogSearch *ui;
-    std::vector<std::tuple<int, int, int, int, std::vector<int>>> objectData;
+    using command_info = std::tuple<int, int, int, int, const RPG::EventCommand&>; // map id, event id, page index, line, event command
+    std::vector<command_info> objectData;
     std::vector<std::shared_ptr<RPG::Map>> map_cache;
     bool useCache;
 };
