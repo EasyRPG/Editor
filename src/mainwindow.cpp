@@ -89,7 +89,7 @@ static void associateFileTypes(const QStringList &fileTypes)
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    searchdialog(nullptr)
+    searchdialog(new DialogSearch(this))
 {
     ui->setupUi(this);
     // Hide map ids
@@ -128,6 +128,7 @@ MainWindow::MainWindow(QWidget *parent) :
     updateLayerActions();
     updateToolActions();
     updateSearchUI();
+    searchdialog->enableCache(ui->actionEnable_Caching->isChecked());
 }
 
 MainWindow::~MainWindow()
@@ -150,6 +151,7 @@ void MainWindow::LoadLastProject()
     updateLayerActions();
     updateToolActions();
     updateSearchUI();
+    searchdialog->enableCache(ui->actionEnable_Caching->isChecked());
 }
 
 void MainWindow::LoadProject(QString foldername)
@@ -587,7 +589,7 @@ void MainWindow::on_action_New_Project_triggered()
         LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
         Data::treemap.maps[0].name = mCore->gameTitle().toStdString();
         /* Map */
-        RPG::Map map = *(LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu").get());
+        RPG::Map map = *LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu");
         /* DataBase */
         LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
         /* Save */
@@ -1281,18 +1283,12 @@ void MainWindow::on_actionMap_Properties_triggered()
 
 void MainWindow::on_actionSearch_triggered()
 {
-    if (!searchdialog)
-    {
-        searchdialog = new DialogSearch(this);
-        searchdialog->updateUI();
-    }
     searchdialog->setVisible(true);
 }
 
 void MainWindow::updateSearchUI()
 {
-    if (searchdialog)
-        searchdialog->updateUI();
+    searchdialog->updateUI();
 }
 
 void MainWindow::openScene(int mapID)
@@ -1309,4 +1305,9 @@ void MainWindow::selectTile(int x, int y)
 
         currentScene()->selectTile(x, y);
     }
+}
+
+void MainWindow::on_actionEnable_Caching_toggled(bool checked)
+{
+    searchdialog->enableCache(checked);
 }

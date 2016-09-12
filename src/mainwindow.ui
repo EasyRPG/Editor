@@ -122,6 +122,7 @@
      <string>Debug</string>
     </property>
     <addaction name="actionRtp_Path"/>
+    <addaction name="actionEnable_Caching"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -927,6 +928,20 @@
    </property>
    <property name="toolTip">
     <string>Delete selected map.</string>
+   </property>
+  </action>
+  <action name="actionEnable_Caching">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Caching</string>
+   </property>
+   <property name="toolTip">
+    <string>Enable caching in the searchdialog</string>
    </property>
   </action>
  </widget>
