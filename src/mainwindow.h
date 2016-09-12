@@ -117,6 +117,8 @@ private slots:
 
     void on_actionSearch_triggered();
 
+    void on_actionEnable_Caching_toggled(bool checked);
+
 private:
     void closeEvent(QCloseEvent *event);
     bool saveAll();

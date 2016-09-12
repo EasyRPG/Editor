@@ -5,7 +5,6 @@
 
 #include <data.h>
 #include <lmu_reader.h>
-#include <rpg_map.h>
 #include <functional>
 #include <vector>
 #include <tuple>
@@ -21,6 +20,8 @@ DialogSearch::DialogSearch(QWidget *parent) :
     ui->list_result->setRowCount(0);
     ui->list_result->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->list_result->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    enableCache(false);
 }
 
 DialogSearch::~DialogSearch()
@@ -40,6 +41,17 @@ void DialogSearch::updateUI()
         ui->combo_item->addItem(format.arg(QString::number(i.ID), QString::fromStdString(i.name)));
     for (auto &e : Data::commonevents)
         ui->combo_eventname->addItem(format.arg(QString::number(e.ID), QString::fromStdString(e.name)));
+}
+
+void DialogSearch::enableCache(bool enable)
+{
+    useCache = enable;
+
+    if (enable)
+        map_cache = std::vector<std::shared_ptr<RPG::Map>>(Data::treemap.maps.size());
+    else
+        map_cache.clear();
+
 }
 
 void DialogSearch::on_button_search_clicked()
@@ -100,11 +112,10 @@ void DialogSearch::on_button_search_clicked()
 
     if (ui->scope_current->isChecked())
     {
-        const auto *cs = static_cast<MainWindow*>(parent())->currentScene();
-        const QString file = QString("Map%1.emu").arg(QString::number(cs->id()), 4, QLatin1Char('0'));
-        auto map = LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString());
+        const auto mapID = static_cast<MainWindow*>(parent())->currentScene()->id();
+        auto map = loadMap(mapID);
 
-        map->ID = cs->id(); // FIX: currently XML serialization is broken
+        map->ID = mapID; // FIX: currently XML serialization is broken
         auto res = func(*map);
         for (auto &r : res)
         {
@@ -125,8 +136,7 @@ void DialogSearch::on_button_search_clicked()
             ui->label_status->setText(QString("Parsing Map %1 / %2").arg(QString::number(map.ID + 1), QString::number(Data::treemap.maps.size())));
             QApplication::processEvents(); //FIXME: can this be done better?!
 
-            const QString file = QString("Map%1.emu").arg(QString::number(map.ID), 4, QLatin1Char('0'));
-            const auto mapp = LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString());
+            auto mapp = loadMap(map.ID);
 
             if (!mapp) continue;
 
@@ -178,3 +188,20 @@ void DialogSearch::on_list_result_doubleClicked(const QModelIndex &index)
     par->selectTile(event->x, event->y);
     par->currentScene()->centerOnTile(event->x, event->y);
 }
+
+std::shared_ptr<RPG::Map> DialogSearch::loadMap(int mapID)
+{
+    if (!(useCache && map_cache[mapID]))
+    {
+        const QString file = QString("Map%1.emu").arg(QString::number(mapID), 4, QLatin1Char('0'));
+        const std::shared_ptr<RPG::Map> res_map{LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString())};
+
+        if (useCache)
+            map_cache[mapID] = res_map;
+
+        return res_map;
+    }
+
+    return map_cache[mapID];
+}
+
