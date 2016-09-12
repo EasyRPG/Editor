@@ -368,7 +368,7 @@ namespace
     QString stringizeChangeItems(const RPG::EventCommand& com)
     {
         return tr("Change Items") + ": "
-            + (com.parameters[0] ? "-" : "+")
+            + (com.parameters[0] ? "-" : "+") + " "
             + valueOrVariable(com.parameters[3], com.parameters[4])
             + (com.parameters[1] ? tr("Item") + " " + variable(com.parameters[2])
                                  : Stringizer::itemName(com.parameters[2]));
