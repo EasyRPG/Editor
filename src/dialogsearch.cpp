@@ -112,6 +112,31 @@ void DialogSearch::on_button_search_clicked()
             std::vector<int> parameters;
             std::tie(mapID, eventID, eventPage, sourceLine, parameters) = r;
 
+            std::vector<std::string> maps;
+            auto mm = mapID;
+            do
+            {
+                auto mapinfo = Data::treemap.maps[mm];
+                maps.push_back(mapinfo.name);
+                mm = mapinfo.parent_map;
+            } while (mm != 0);
+
+            const auto descr = QString("%1 %2")
+                    .arg(parameters[0] == 1 ? "Remove" : "Add",
+                            QString(parameters[3] == 0 ? "%1" : "V[%1]").arg(QString::number(parameters[4])));
+
+            QStringList maps_rev;
+            std::for_each(maps.crbegin(), maps.crend(), [&maps_rev](const std::string &m) { maps_rev << QString::fromStdString(m); });
+
+            const int rows = ui->list_result->rowCount();
+            ui->list_result->setRowCount(rows+1);
+            ui->list_result->setItem(rows, 0, new QTableWidgetItem(maps_rev.join(" > ")));
+            ui->list_result->setItem(rows, 1, new QTableWidgetItem(QString::number(eventID)));
+            ui->list_result->setItem(rows, 2, new QTableWidgetItem(QString::number(eventPage)));
+            ui->list_result->setItem(rows, 3, new QTableWidgetItem(QString::number(sourceLine)));
+            ui->list_result->setItem(rows, 4, new QTableWidgetItem(descr));
+
+            objectData.push_back(r);
         }
     }
     else if (ui->scope_events->isChecked())
