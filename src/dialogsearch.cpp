@@ -130,14 +130,7 @@ void DialogSearch::on_button_search_clicked()
 
         map->ID = mapID; // FIX: currently XML serialization is broken
         auto res = map_searcher(*map);
-        for (auto &r : res)
-        {
-            int mapID, eventID, eventPage,  sourceLine;
-            const RPG::EventCommand& command = std::get<4>(r);
-            std::tie(mapID, eventID, eventPage, sourceLine, std::ignore) = r;
-
-        }
-
+        showResults(res);
     }
     else if (ui->scope_events->isChecked())
     {
@@ -156,37 +149,7 @@ void DialogSearch::on_button_search_clicked()
 
             mapp->ID = map.ID; // FIX: currently XML serialization is broken
             auto res = map_searcher(*mapp);
-            for (auto &r : res)
-            {
-                int mapID, eventID, eventPage,  sourceLine;
-                const RPG::EventCommand& command = std::get<4>(r);
-                std::tie(mapID, eventID, eventPage, sourceLine, std::ignore) = r;
-
-                std::vector<std::string> maps;
-                auto mm = mapID;
-                do
-                {
-                    auto mapinfo = Data::treemap.maps[mm];
-                    maps.push_back(mapinfo.name);
-                    mm = mapinfo.parent_map;
-                } while (mm != 0);
-
-                QStringList maps_rev;
-                std::for_each(maps.crbegin(), maps.crend(), [&maps_rev](const std::string &m) { maps_rev << QString::fromStdString(m); });
-
-                const auto descr = Stringizer::stringize(command);
-
-                const int rows = ui->list_result->rowCount();
-                ui->list_result->setRowCount(rows+1);
-                ui->list_result->setItem(rows, 0, new QTableWidgetItem(maps_rev.join(" > ")));
-                ui->list_result->setItem(rows, 1, new QTableWidgetItem(QString::number(eventID)));
-                ui->list_result->setItem(rows, 2, new QTableWidgetItem(QString::number(eventPage)));
-                ui->list_result->setItem(rows, 3, new QTableWidgetItem(QString::number(sourceLine)));
-                ui->list_result->setItem(rows, 4, new QTableWidgetItem(descr));
-
-                objectData.push_back(r);
-            }
-
+            showResults(res);
         }
     }
     ui->list_result->resizeColumnsToContents();
@@ -217,3 +180,32 @@ std::shared_ptr<RPG::Map> DialogSearch::loadMap(int mapID)
     return map_cache[mapID];
 }
 
+void DialogSearch::showResults(const std::vector<command_info>& results) {
+    for (auto &r : results)
+    {
+        int mapID, eventID, eventPage,  sourceLine;
+        const RPG::EventCommand& command = std::get<4>(r);
+        std::tie(mapID, eventID, eventPage, sourceLine, std::ignore) = r;
+
+        auto mm = mapID;
+        QStringList maps_rev;
+        do
+        {
+            auto& mapinfo = Data::treemap.maps[mm];
+            maps_rev << QString::fromStdString(mapinfo.name);
+            mm = mapinfo.parent_map;
+        } while (mm != 0);
+
+        const auto descr = Stringizer::stringize(command);
+
+        const int rows = ui->list_result->rowCount();
+        ui->list_result->setRowCount(rows+1);
+        ui->list_result->setItem(rows, 0, new QTableWidgetItem(maps_rev.join(" > ")));
+        ui->list_result->setItem(rows, 1, new QTableWidgetItem(QString::number(eventID)));
+        ui->list_result->setItem(rows, 2, new QTableWidgetItem(QString::number(eventPage)));
+        ui->list_result->setItem(rows, 3, new QTableWidgetItem(QString::number(sourceLine)));
+        ui->list_result->setItem(rows, 4, new QTableWidgetItem(descr));
+
+        objectData.push_back(r);
+    }
+}

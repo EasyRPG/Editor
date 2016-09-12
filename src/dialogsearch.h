@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <memory>
 #include <rpg_map.h>
+#include <vector>
 
 namespace Ui {
     class DialogSearch;
@@ -37,6 +38,7 @@ private:
     std::vector<command_info> objectData;
     std::vector<std::shared_ptr<RPG::Map>> map_cache;
     bool useCache;
+    void showResults(const std::vector<command_info>& results);
 };
 
 #endif // DIALOGSEARCH_H
