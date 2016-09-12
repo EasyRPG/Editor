@@ -107,7 +107,7 @@ void DialogSearch::on_button_search_clicked()
                 case Cmd::ControlVars:
                     return (com.parameters[4] == 1 && com.parameters[5] == varID) ||
                         (com.parameters[4] == 2 && com.parameters[5] == varID) ||
-                        com.parameters[0] == varID || com.parameters[1] == varID;
+                        com.parameters[1] == varID || com.parameters[2] == varID;
                 case Cmd::ChangeItems:
                 case Cmd::ChangePartyMembers:
                     return com.parameters[1] == 1 && com.parameters[2] == varID;
