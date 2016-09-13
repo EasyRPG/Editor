@@ -74,7 +74,7 @@ void DialogSearch::on_button_search_clicked()
                 {
                     auto& com = p.event_commands[line];
                     if (search_predicate(com))
-                        res.emplace_back(map.ID, e.ID, p.ID, line, com);
+                        res.emplace_back(map.ID, e.ID, p.ID, line+1, com);
                 }
 
         return res;
@@ -86,7 +86,7 @@ void DialogSearch::on_button_search_clicked()
             {
                 auto& com = e.event_commands[line];
                 if (search_predicate(com))
-                    res.emplace_back(0, e.ID, 0, line, com);
+                    res.emplace_back(0, e.ID, 0, line+1, com);
             }
 
         return res;
