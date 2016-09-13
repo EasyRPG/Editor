@@ -9,6 +9,7 @@
 #include <vector>
 #include <tuple>
 #include <QMessageBox>
+#include <QCompleter>
 
 DialogSearch::DialogSearch(QWidget *parent) :
     QDialog(parent),
@@ -20,6 +21,13 @@ DialogSearch::DialogSearch(QWidget *parent) :
     ui->list_result->setRowCount(0);
     ui->list_result->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->list_result->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
+    for (auto *box : {ui->combo_variable, ui->combo_switch, ui->combo_item, ui->combo_eventname})
+    {
+        box->completer()->setFilterMode(Qt::MatchContains);
+        box->completer()->setCompletionMode(QCompleter::PopupCompletion);
+    }
 
     enableCache(false);
 }
