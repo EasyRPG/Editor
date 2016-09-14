@@ -84,7 +84,7 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
         const RPG::EventCommand& command = m_eventPage->event_commands[i];
         QTreeWidgetItem *item = new QTreeWidgetItem({Stringizer::stringize(command),
                                                      QString::number(m_codeGen)});
-        item->setToolTip(0, tr("Line") + ": " + QString::number(m_codeGen));
+        item->setToolTip(0, tr("Line") + ": " + QString::number(m_codeGen+1));
 
         if (command.code == Cmd::ShowChoiceOption && command.parameters[0] != 0)
             parent = parent->parent();
