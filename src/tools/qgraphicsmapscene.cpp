@@ -88,7 +88,6 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
 
 QGraphicsMapScene::~QGraphicsMapScene()
 {
-    delete m_eventMenu;
     delete m_lowerpix;
     delete m_upperpix;
     delete m_lines;
