@@ -77,6 +77,8 @@ private slots:
 
     void on_pushSetSprite_clicked();
 
+    void on_treeCommands_doubleClicked(const QModelIndex &index);
+
 private:
 
     void updateGraphic();

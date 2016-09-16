@@ -1,6 +1,7 @@
 #include "qeventpagewidget.h"
 #include "ui_qeventpagewidget.h"
 #include <QDialogButtonBox>
+#include <QMessageBox>
 #include <data.h>
 #include "../dialogcharapicker.h"
 #include "../core.h"
@@ -85,6 +86,7 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
         QTreeWidgetItem *item = new QTreeWidgetItem({Stringizer::stringize(command),
                                                      QString::number(m_codeGen)});
         item->setToolTip(0, tr("Line") + ": " + QString::number(m_codeGen+1));
+        item->setData(0, Qt::UserRole, QVariant::fromValue(static_cast<void*>(&m_eventPage->event_commands[i])));
 
         if (command.code == Cmd::ShowChoiceOption && command.parameters[0] != 0)
             parent = parent->parent();
@@ -357,4 +359,31 @@ void QEventPageWidget::updateGraphic()
         m_charaItem->setVisible(true);
         m_scene->setSceneRect(0,0,48,64);
     }
+}
+
+#include "../commands/changemoney.h"
+
+void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
+{
+    using namespace RPG;
+    auto &cmd = *static_cast<EventCommand*>(index.data(Qt::UserRole).value<void*>());
+
+
+    QDialog *dialog = nullptr;
+    switch (cmd.code)
+    {
+        case EventCommand::Code::ChangeGold: dialog = new ChangeMoney(this, cmd); break;
+    }
+
+
+    if (!dialog)
+    {
+        QMessageBox::warning(this, "", "This command is not implemented yet.");
+        return;
+    }
+
+    dialog->exec();
+    delete dialog;
+
+    ui->treeCommands->currentItem()->setData(0, Qt::DisplayRole, Stringizer::stringize(cmd));
 }
