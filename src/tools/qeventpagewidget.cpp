@@ -363,6 +363,7 @@ void QEventPageWidget::updateGraphic()
 
 #include "../commands/changemoney.h"
 #include "../commands/changeitem.h"
+#include "../commands/changeparty.h"
 
 void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 {
@@ -375,6 +376,7 @@ void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
     {
         case EventCommand::Code::ChangeGold: dialog = new ChangeMoney(this, cmd); break;
         case EventCommand::Code::ChangeItems: dialog = new ChangeItem(this, cmd); break;
+        case EventCommand::Code::ChangePartyMembers: dialog = new ChangeParty(this, cmd); break;
     }
 
 
