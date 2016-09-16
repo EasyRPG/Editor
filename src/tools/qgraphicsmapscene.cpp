@@ -5,6 +5,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QPainter>
 #include <QScrollBar>
+#include <QStatusBar>
 #include "rpg_event.h"
 #include <iomanip>
 #include <sstream>
@@ -87,7 +88,6 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
 
 QGraphicsMapScene::~QGraphicsMapScene()
 {
-    delete m_eventMenu;
     delete m_lowerpix;
     delete m_upperpix;
     delete m_lines;
@@ -514,6 +514,26 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             break;
         }
     }
+
+    // Update status bar
+    QMainWindow* mw = qobject_cast<QMainWindow*>(parent());
+
+    // Show coordinates of current tile
+    QString status_msg = QString("(%0, %1)").arg(cur_x).arg(cur_y);
+
+    if (mCore->layer() == Core::EVENT)
+    {
+        // Show events on current tile
+        for (const RPG::Event& evt : m_map->events)
+        {
+            if (_index(cur_x,cur_y) == _index(evt.x,evt.y))
+            {
+                status_msg.append(QString(" - Event %0: %1").arg(evt.ID).arg(evt.name.c_str()));
+            }
+        }
+    }
+
+    mw->statusBar()->showMessage(status_msg);
 }
 
 void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -551,6 +571,7 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         return;
     std::vector<RPG::Event>::iterator ev;
     for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
+    {
         if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
         {
             RPG::Event backup = *ev;
@@ -563,6 +584,7 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
             redrawMap();
             return;
         }
+    }
     on_actionNewEvent();
 }
 
