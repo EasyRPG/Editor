@@ -57,7 +57,8 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qactordelegate.cpp \
     src/tools/qencounterdelegate.cpp \
     src/stringizer.cpp \
-    src/commands/changemoney.cpp
+    src/commands/changemoney.cpp \
+    src/commands/changeitem.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -109,7 +110,8 @@ HEADERS  += src/mainwindow.h \
     src/tools/qactordelegate.h \
     src/tools/qencounterdelegate.h \
     src/stringizer.h \
-    src/commands/changemoney.h
+    src/commands/changemoney.h \
+    src/commands/changeitem.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -143,7 +145,8 @@ FORMS    += src/mainwindow.ui \
     src/tools/qdbpagesystem2.ui \
     src/tools/qdbpagecommonevents.ui \
     src/tools/qdbpageattributes.ui \
-    src/commands/changemoney.ui
+    src/commands/changemoney.ui \
+    src/commands/changeitem.ui
 
 RESOURCES += \
     src/Resources.qrc
