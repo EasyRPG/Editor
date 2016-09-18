@@ -113,7 +113,9 @@ HEADERS  += src/mainwindow.h \
     src/stringizer.h \
     src/commands/changemoney.h \
     src/commands/changeparty.h \
-    src/commands/changeitem.h
+    src/commands/changeitem.h \
+    src/tools/rpgmodel.h \
+    src/tools/rpgcombobox.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
