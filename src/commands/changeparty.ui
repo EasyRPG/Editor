@@ -66,7 +66,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="target_specific"/>
+          <widget class="ActorRpgComboBox" name="target_specific"/>
          </item>
          <item row="1" column="0">
           <widget class="QRadioButton" name="target_box_variable">
@@ -76,7 +76,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="target_variable">
+          <widget class="VariableRpgComboBox" name="target_variable">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -100,6 +100,18 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ActorRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>src/tools/rpgcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VariableRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>src/tools/rpgcombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
