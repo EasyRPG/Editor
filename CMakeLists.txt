@@ -57,6 +57,17 @@ set(SRCS
 	src/tools/qgraphicspickerscene.cpp
 	src/tools/qundodraw.cpp
 	src/tools/qundoevent.cpp
+    src/commands/changeitem.cpp
+    src/commands/changemoney.cpp
+    src/commands/changeparty.cpp
+    src/commands/changeexperience.cpp
+    src/commands/facegraphics.cpp
+    src/commands/inputnumber.cpp
+    src/commands/messageoptions.cpp
+    src/commands/showchoices.cpp
+    src/commands/showmessage.cpp
+    src/commands/switchoperations.cpp
+    src/commands/variableoperations.cpp
 	src/volumebutton.cpp
 )
 

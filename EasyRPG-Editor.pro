@@ -125,7 +125,16 @@ HEADERS  += src/mainwindow.h \
     src/tools/rpgcombobox.h \
     src/commands/changemoney.h \
     src/commands/changeparty.h \
-    src/commands/changeitem.h
+    src/commands/changeitem.h \
+    src/commands/changeexperience.h \
+    src/commands/messageoptions.h \
+    src/commands/showmessage.h \
+    src/commands/facegraphics.h \
+    src/commands/inputnumber.h \
+    src/commands/showchoices.h \
+    src/commands/switchoperations.h \
+    src/commands/variableoperations.h \
+    src/commands/allcommands.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -162,7 +171,15 @@ FORMS    += src/mainwindow.ui \
     src/tools/qdbpageattributes.ui \
     src/commands/changemoney.ui \
     src/commands/changeparty.ui \
-    src/commands/changeitem.ui
+    src/commands/changeitem.ui \
+    src/commands/changeexperience.ui \
+    src/commands/messageoptions.ui \
+    src/commands/showmessage.ui \
+    src/commands/facegraphics.ui \
+    src/commands/inputnumber.ui \
+    src/commands/switchoperations.ui \
+    src/commands/variableoperations.ui \
+    src/commands/showchoices.ui
 
 RESOURCES += \
     src/Resources.qrc
@@ -215,3 +232,5 @@ unix {
     CONFIG += link_pkgconfig silent
     PKGCONFIG += liblcf
 }
+
+DISTFILES +=

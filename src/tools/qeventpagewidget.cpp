@@ -6,6 +6,7 @@
 #include "../dialogcharapicker.h"
 #include "../core.h"
 #include "../stringizer.h"
+#include "../commands/allcommands.h"
 
 QEventPageWidget::QEventPageWidget(QWidget *parent) :
     QWidget(parent),
@@ -361,10 +362,6 @@ void QEventPageWidget::updateGraphic()
     }
 }
 
-#include "../commands/changemoney.h"
-#include "../commands/changeitem.h"
-#include "../commands/changeparty.h"
-
 void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 {
     using namespace RPG;
@@ -377,6 +374,14 @@ void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
         case EventCommand::Code::ChangeGold: dialog = new ChangeMoney(this, cmd); break;
         case EventCommand::Code::ChangeItems: dialog = new ChangeItem(this, cmd); break;
         case EventCommand::Code::ChangePartyMembers: dialog = new ChangeParty(this, cmd); break;
+        case EventCommand::Code::ChangeExp: dialog = new ChangeExperience(this, cmd); break;
+        case EventCommand::Code::ChangeFaceGraphic: dialog = new FaceGraphics(this, cmd); break;
+        case EventCommand::Code::InputNumber: dialog = new InputNumber(this, cmd); break;
+        case EventCommand::Code::MessageOptions: dialog = new MessageOptions(this, cmd); break;
+        case EventCommand::Code::ShowChoice: dialog = new ShowChoices(this, cmd); break;
+        case EventCommand::Code::ShowMessage: dialog = new ShowMessage(this, cmd); break;
+        case EventCommand::Code::ControlSwitches: dialog = new SwitchOperations(this, cmd); break;
+        case EventCommand::Code::ControlVars: dialog = new VariableOperations(this, cmd); break;
     }
 
 

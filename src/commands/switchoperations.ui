@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChangeItem</class>
- <widget class="QDialog" name="ChangeItem">
+ <class>SwitchOperations</class>
+ <widget class="QDialog" name="SwitchOperations">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
-    <height>385</height>
+    <width>473</width>
+    <height>307</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Change item</string>
+   <string>Switch Operations</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -32,23 +32,83 @@
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="title">
-         <string>Operation</string>
+         <string>Switch to change</string>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QRadioButton" name="op_add">
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="sw_box_single">
            <property name="text">
-            <string>Add item</string>
+            <string>Single switch</string>
            </property>
            <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item>
-          <widget class="QRadioButton" name="op_rem">
+         <item row="0" column="1">
+          <widget class="SwitchRpgComboBox" name="sw_single"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="sw_box_range">
            <property name="text">
-            <string>Remo&amp;ve item</string>
+            <string>Switch range</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QSpinBox" name="sw_range_from">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>999</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="sw_range_label">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>-</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="sw_range_to">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>999</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="0">
+          <widget class="QRadioButton" name="sw_box_ref">
+           <property name="text">
+            <string>&amp;Variable reference</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="VariableRpgComboBox" name="sw_ref">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -58,69 +118,30 @@
       <item>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
-         <string>Select item</string>
+         <string>Operation</string>
         </property>
-        <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0">
-          <widget class="QRadioButton" name="item_box_item">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QRadioButton" name="op_on">
            <property name="text">
-            <string>Specific item</string>
+            <string>On</string>
            </property>
            <property name="checked">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="ItemRpgComboBox" name="item_item"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="item_box_variable">
+         <item>
+          <widget class="QRadioButton" name="op_off">
            <property name="text">
-            <string>Item with ID stored in</string>
+            <string>Off</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="VariableRpgComboBox" name="item_variable">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="title">
-         <string>Amount</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout_2">
-         <item row="0" column="0">
-          <widget class="QRadioButton" name="amount_box_fix">
+         <item>
+          <widget class="QRadioButton" name="on_toggle">
            <property name="text">
-            <string>Fi&amp;xed amount</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QSpinBox" name="amount_amount"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="amount_box_variable">
-           <property name="text">
-            <string>A&amp;mount stored in</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="VariableRpgComboBox" name="amount_variable">
-           <property name="enabled">
-            <bool>false</bool>
+            <string>Toggle</string>
            </property>
           </widget>
          </item>
@@ -138,6 +159,9 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
   </layout>
@@ -149,7 +173,7 @@
    <header>src/tools/rpgcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>ItemRpgComboBox</class>
+   <class>SwitchRpgComboBox</class>
    <extends>QComboBox</extends>
    <header>src/tools/rpgcombobox.h</header>
   </customwidget>
@@ -159,7 +183,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ChangeItem</receiver>
+   <receiver>SwitchOperations</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -175,7 +199,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ChangeItem</receiver>
+   <receiver>SwitchOperations</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -191,85 +215,102 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>ChangeItem</receiver>
-   <slot>helpRequested()</slot>
+   <receiver>SwitchOperations</receiver>
+   <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>200</x>
-     <y>255</y>
+     <x>298</x>
+     <y>204</y>
     </hint>
     <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
+     <x>298</x>
+     <y>113</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>item_box_item</sender>
+   <sender>sw_box_range</sender>
    <signal>toggled(bool)</signal>
-   <receiver>item_item</receiver>
+   <receiver>sw_range_from</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>83</x>
-     <y>136</y>
+     <x>85</x>
+     <y>101</y>
     </hint>
     <hint type="destinationlabel">
-     <x>328</x>
-     <y>136</y>
+     <x>217</x>
+     <y>107</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>item_box_variable</sender>
+   <sender>sw_box_single</sender>
    <signal>toggled(bool)</signal>
-   <receiver>item_variable</receiver>
+   <receiver>sw_single</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>113</x>
-     <y>167</y>
+     <x>85</x>
+     <y>63</y>
     </hint>
     <hint type="destinationlabel">
-     <x>328</x>
-     <y>167</y>
+     <x>260</x>
+     <y>66</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>amount_box_fix</sender>
+   <sender>sw_box_ref</sender>
    <signal>toggled(bool)</signal>
-   <receiver>amount_amount</receiver>
+   <receiver>sw_ref</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>241</y>
+     <x>103</x>
+     <y>145</y>
     </hint>
     <hint type="destinationlabel">
-     <x>313</x>
-     <y>241</y>
+     <x>260</x>
+     <y>148</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>amount_box_variable</sender>
+   <sender>sw_box_range</sender>
    <signal>toggled(bool)</signal>
-   <receiver>amount_variable</receiver>
+   <receiver>sw_range_label</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>98</x>
-     <y>273</y>
+     <x>85</x>
+     <y>101</y>
     </hint>
     <hint type="destinationlabel">
-     <x>313</x>
-     <y>273</y>
+     <x>260</x>
+     <y>107</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sw_box_range</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sw_range_to</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>107</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>helpRequested()</slot>
+  <slot>helpRequest()</slot>
+  <slot>textChanged()</slot>
  </slots>
 </ui>

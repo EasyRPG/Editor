@@ -62,7 +62,7 @@
         </property>
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0">
-          <widget class="QRadioButton" name="op_fixed">
+          <widget class="QRadioButton" name="amount_box_amount">
            <property name="text">
             <string>Fi&amp;xed amount</string>
            </property>
@@ -72,7 +72,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QSpinBox" name="amount">
+          <widget class="QSpinBox" name="amount_amount">
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::UpDownArrows</enum>
            </property>
@@ -85,14 +85,14 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QRadioButton" name="op_variable">
+          <widget class="QRadioButton" name="amount_box_variable">
            <property name="text">
             <string>Amount stored in</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="VariableRpgComboBox" name="box_variable">
+          <widget class="VariableRpgComboBox" name="amount_variable">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -174,9 +174,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>op_fixed</sender>
+   <sender>amount_box_amount</sender>
    <signal>toggled(bool)</signal>
-   <receiver>amount</receiver>
+   <receiver>amount_amount</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -190,9 +190,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>op_variable</sender>
+   <sender>amount_box_variable</sender>
    <signal>toggled(bool)</signal>
-   <receiver>box_variable</receiver>
+   <receiver>amount_variable</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
