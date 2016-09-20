@@ -233,4 +233,3 @@ unix {
     PKGCONFIG += liblcf
 }
 
-DISTFILES +=
