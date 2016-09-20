@@ -5,18 +5,17 @@
 #include <QComboBox>
 #include <QAbstractItemModel>
 #include <QCompleter>
+#include <functional>
 #include "rpgmodel.h"
-#include <iostream>
+#include "../dialogedit.h"
+
+
 template <class MODEL>
 class RpgComboBox : public QComboBox
 {
 public:
     RpgComboBox(QWidget *parent, QAbstractItemModel *model = new MODEL());
     virtual ~RpgComboBox() {}
-    virtual int currentIndex() const { return QComboBox::currentIndex() + 1; }
-    virtual void setCurrentIndex(int index) { QComboBox::setCurrentIndex(index-1); }
-    //FIXME: I don't like this, but elsewise we have to write +1/-1 evertime we put some data
-    //       in or get some data out of the combobox. Does anyone have a better solution?
 };
 
 template <class MODEL>
@@ -31,6 +30,17 @@ RpgComboBox<MODEL>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
     comp->setFilterMode(Qt::MatchContains);
     comp->setCompletionMode(QCompleter::PopupCompletion);
     setCompleter(comp);
+
+
+    connect(this, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
+        if (index == 0)
+        {
+            auto type = typename MODEL::typestruct()();
+            DialogEdit<decltype(type)> edit(this, type);
+
+            edit.exec();
+        }
+    });
 
 }
 

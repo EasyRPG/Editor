@@ -14,6 +14,9 @@ public:
     virtual int rowCount(const QModelIndex & = QModelIndex()) const override { return _data.size(); }
     virtual QVariant data(const QModelIndex &index, int role) const override;
 
+    typedef decltype(DATA()()) type;
+    typedef DATA typestruct;
+
 private:
     decltype(DATA()()) _data;
 };
@@ -23,21 +26,31 @@ QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-    else if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        auto data = _data[index.row()];
-        return QString("%1: %2").arg(data.ID).arg(QString::fromStdString(data.name));
+    else if (role == Qt::DisplayRole || role == Qt::EditRole)
+    {
+        if (index.row() == 0)
+        {
+            return QString("=== EDIT ===");
+        }
+        else
+        {
+            auto data = _data[index.row()-1];
+            return QString("%1: %2").arg(data.ID).arg(QString::fromStdString(data.name));
+        }
     }
     else if (role == Qt::UserRole)
-        return _data[index.row()].ID;
-    else
-        return QVariant();
+        if (index.row() > 0)
+            return _data[index.row()-1].ID;
+
+    return QVariant();
 }
 
 
 
+
 #define VARSTRUCT(STRUCTNAME, VARNAME) \
-    struct STRUCTNAME { decltype(Data::VARNAME) operator()() const { return Data::VARNAME; } }; \
-    using  STRUCTNAME##RpgModel = RpgModel<STRUCTNAME>;
+    namespace detail { struct STRUCTNAME { decltype(Data::VARNAME) operator()() const { return Data::VARNAME; } }; } \
+    using  STRUCTNAME##RpgModel = RpgModel<detail::STRUCTNAME>;
 
 VARSTRUCT(Actor, actors)
 VARSTRUCT(Skill, skills)
