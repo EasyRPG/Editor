@@ -56,7 +56,19 @@ SOURCES += src/mainwindow.cpp \
     src/tools/qgraphicscurveitem.cpp \
     src/tools/qactordelegate.cpp \
     src/tools/qencounterdelegate.cpp \
-    src/stringizer.cpp
+    src/stringizer.cpp \
+    src/dialogedit.cpp \
+    src/commands/changemoney.cpp \
+    src/commands/changeparty.cpp \
+    src/commands/changeitem.cpp \
+    src/commands/changeexperience.cpp \
+    src/commands/messageoptions.cpp \
+    src/commands/showmessage.cpp \
+    src/commands/facegraphics.cpp \
+    src/commands/inputnumber.cpp \
+    src/commands/showchoices.cpp \
+    src/commands/switchoperations.cpp \
+    src/commands/variableoperations.cpp
 
 HEADERS  += src/mainwindow.h \
     src/dialogresourcemanager.h \
@@ -107,7 +119,22 @@ HEADERS  += src/mainwindow.h \
     src/tools/qgraphicscurveitem.h \
     src/tools/qactordelegate.h \
     src/tools/qencounterdelegate.h \
-    src/stringizer.h
+    src/stringizer.h \
+    src/dialogedit.h \
+    src/tools/rpgmodel.h \
+    src/tools/rpgcombobox.h \
+    src/commands/changemoney.h \
+    src/commands/changeparty.h \
+    src/commands/changeitem.h \
+    src/commands/changeexperience.h \
+    src/commands/messageoptions.h \
+    src/commands/showmessage.h \
+    src/commands/facegraphics.h \
+    src/commands/inputnumber.h \
+    src/commands/showchoices.h \
+    src/commands/switchoperations.h \
+    src/commands/variableoperations.h \
+    src/commands/allcommands.h
 
 FORMS    += src/mainwindow.ui \
     src/dialogresourcemanager.ui \
@@ -123,6 +150,7 @@ FORMS    += src/mainwindow.ui \
     src/dialogevent.ui \
     src/dialogcharapicker.ui \
     src/dialogsplash.ui \
+    src/dialogedit.ui \
     src/tools/qeventpagewidget.ui \
     src/tools/qdbpageactors.ui \
     src/tools/qdbpageclasses.ui \
@@ -140,7 +168,18 @@ FORMS    += src/mainwindow.ui \
     src/tools/qdbpagesystem.ui \
     src/tools/qdbpagesystem2.ui \
     src/tools/qdbpagecommonevents.ui \
-    src/tools/qdbpageattributes.ui
+    src/tools/qdbpageattributes.ui \
+    src/commands/changemoney.ui \
+    src/commands/changeparty.ui \
+    src/commands/changeitem.ui \
+    src/commands/changeexperience.ui \
+    src/commands/messageoptions.ui \
+    src/commands/showmessage.ui \
+    src/commands/facegraphics.ui \
+    src/commands/inputnumber.ui \
+    src/commands/switchoperations.ui \
+    src/commands/variableoperations.ui \
+    src/commands/showchoices.ui
 
 RESOURCES += \
     src/Resources.qrc
@@ -193,3 +232,4 @@ unix {
     CONFIG += link_pkgconfig silent
     PKGCONFIG += liblcf
 }
+
