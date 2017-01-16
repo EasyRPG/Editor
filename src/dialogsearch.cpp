@@ -131,7 +131,7 @@ void DialogSearch::on_button_search_clicked()
                 case Cmd::MemorizeLocation:
                 case Cmd::RecallToLocation:
                     return com.parameters[0] == varID || com.parameters[1] == varID ||
-                        com.parameters[1] == varID;
+                        com.parameters[2] == varID;
                 case Cmd::SetVehicleLocation:
                     return (com.parameters[1] == 1 && com.parameters[2] == varID) ||
                         (com.parameters[1] == 1 && com.parameters[3] == varID) ||
