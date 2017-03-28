@@ -74,7 +74,7 @@ void DialogSearch::on_button_search_clicked()
     ui->list_result->setHorizontalHeaderLabels(sl);
 
     std::function<bool(const RPG::EventCommand&)> search_predicate;
-    auto map_searcher = [&search_predicate](const RPG::Map& map) {
+    auto map_searcher = [&search_predicate](int mapID, const RPG::Map& map) {
         std::vector<command_info> res;
         for (auto& e : map.events)
             for (auto& p : e.pages)
@@ -82,7 +82,7 @@ void DialogSearch::on_button_search_clicked()
                 {
                     auto& com = p.event_commands[line];
                     if (search_predicate(com))
-                        res.emplace_back(map.ID, e.ID, p.ID, line+1, com);
+                        res.emplace_back(mapID, e.ID, p.ID, line+1, com);
                 }
 
         return res;
@@ -217,8 +217,7 @@ void DialogSearch::on_button_search_clicked()
         const auto mapID = static_cast<MainWindow*>(parent())->currentScene()->id();
         auto map = loadMap(mapID);
 
-        map->ID = mapID; // FIX: currently XML serialization is broken
-        auto res = map_searcher(*map);
+        auto res = map_searcher(mapID, *map);
         showResults(res);
     }
     else if (ui->scope_events->isChecked())
@@ -236,8 +235,7 @@ void DialogSearch::on_button_search_clicked()
 
             if (!mapp) continue;
 
-            mapp->ID = map.ID; // FIX: currently XML serialization is broken
-            auto res = map_searcher(*mapp);
+            auto res = map_searcher(map.ID, *mapp);
             showResults(res);
         }
     }
