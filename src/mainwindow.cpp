@@ -1104,7 +1104,6 @@ void MainWindow::on_actionNew_Map_triggered()
     {
         if (!m_treeItems.contains(i))
         {
-            map->ID = i;
             info.ID = i;
             info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
             break;
@@ -1123,10 +1122,10 @@ void MainWindow::on_actionNew_Map_triggered()
 
     Data::treemap.maps.push_back(info);
     QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setData(1,Qt::DisplayRole,map->ID);
+    item->setData(1,Qt::DisplayRole,info.ID);
     item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
     item->setIcon(0, QIcon(":/icons/share/old_map.png"));
-    m_treeItems[map->ID] = item;
+    m_treeItems[info.ID] = item;
     m_treeItems[info.parent_map]->addChild(item);
     QTreeWidgetItem *root = m_treeItems[0];
     QTreeWidgetItemIterator it(root);
@@ -1142,7 +1141,7 @@ void MainWindow::on_actionNew_Map_triggered()
     item->setSelected(true);
     LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
     QString path = mCore->filePath(ROOT, "Map%1.emu");
-    path = path.arg(QString::number(map->ID), 4, QLatin1Char('0'));
+    path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
     LMU_Reader::SaveXml(path.toStdString(), *map);
     on_treeMap_itemDoubleClicked(item, 0);
 }
@@ -1163,7 +1162,7 @@ void MainWindow::on_actionPaste_Map_triggered()
     RPG::MapInfo info;
     for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
     {
-        if (Data::treemap.maps[i].ID == map->ID)
+        if (Data::treemap.maps[i].ID == info.ID)
         {
             info = Data::treemap.maps[i];
             break;
@@ -1175,7 +1174,6 @@ void MainWindow::on_actionPaste_Map_triggered()
     {
         if (!m_treeItems.contains(i))
         {
-            map->ID = i;
             info.ID = i;
             info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
             break;
@@ -1199,10 +1197,10 @@ void MainWindow::on_actionPaste_Map_triggered()
 
     Data::treemap.maps.push_back(info);
     QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setData(1,Qt::DisplayRole,map->ID);
+    item->setData(1,Qt::DisplayRole,info.ID);
     item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
     item->setIcon(0, QIcon(":/icons/share/old_map.png"));
-    m_treeItems[map->ID] = item;
+    m_treeItems[info.ID] = item;
     m_treeItems[info.parent_map]->addChild(item);
     QTreeWidgetItem *root = m_treeItems[0];
     QTreeWidgetItemIterator it(root);
@@ -1218,7 +1216,7 @@ void MainWindow::on_actionPaste_Map_triggered()
     item->setSelected(true);
     LMT_Reader::SaveXml(mCore->filePath(ROOT, EASY_MT).toStdString());
     QString path = mCore->filePath(ROOT, "Map%1.emu");
-    path = path.arg(QString::number(map->ID), 4, QLatin1Char('0'));
+    path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
     LMU_Reader::SaveXml(path.toStdString(), *map);
     on_treeMap_itemDoubleClicked(item, 0);
 }
