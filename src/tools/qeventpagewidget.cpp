@@ -140,17 +140,33 @@ void QEventPageWidget::on_comboMoveType_currentIndexChanged(int index)
     m_eventPage->move_type = index;
 }
 
+/**
+ * @brief Formats the text for the switch condition’s selector
+ * @param switchId ID of the switch to format, 1-based
+ * @return Formatted text
+ */
+QString formatSwitchCondition(int switchId) {
+    if (switchId >= 1 && switchId <= Data::switches.size()) {
+        return QString("%1: %2").arg(switchId)
+                .arg(QString::fromStdString
+                     (Data::switches[switchId-1].name));
+    }
+    else {
+        return QString("%1: ???").arg(switchId);
+    }
+}
+
 void QEventPageWidget::on_checkSwitchA_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
-    if (checked)
-    ui->lineSwitchA->setText(QString("%1: %2").arg
-            (m_eventPage->condition.switch_a_id)
-            .arg(QString::fromStdString
-                 (Data::switches[m_eventPage->condition.switch_a_id-1].name)));
-    else
+    if (checked) {
+        int switchId = m_eventPage->condition.switch_a_id-1;
+        ui->lineSwitchA->setText(formatSwitchCondition(switchId));
+    }
+    else {
         ui->lineSwitchA->setText("");
+    }
     m_eventPage->condition.flags.switch_a = checked;
 }
 
@@ -158,13 +174,13 @@ void QEventPageWidget::on_checkSwitchB_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
-    if (checked)
-    ui->lineSwitchB->setText(QString("%1: %2").arg
-            (m_eventPage->condition.switch_b_id)
-            .arg(QString::fromStdString
-                 (Data::switches[m_eventPage->condition.switch_b_id-1].name)));
-    else
+    if (checked) {
+        int switchId = m_eventPage->condition.switch_b_id-1;
+        ui->lineSwitchB->setText(formatSwitchCondition(switchId));
+    }
+    else {
         ui->lineSwitchB->setText("");
+    }
     m_eventPage->condition.flags.switch_b = checked;
 }
 
@@ -172,13 +188,20 @@ void QEventPageWidget::on_checkVar_toggled(bool checked)
 {
     if (!m_eventPage)
         return;
-    if (checked)
-    ui->lineVar->setText(QString("%1: %2").arg
-            (m_eventPage->condition.variable_id)
-            .arg(QString::fromStdString
-                 (Data::variables[m_eventPage->condition.variable_id-1].name)));
-    else
+    if (checked) {
+        int varId = m_eventPage->condition.variable_id;
+        if (varId >= 1 && varId <= Data::variables.size()) {
+            ui->lineVar->setText(QString("%1: %2").arg(varId)
+                .arg(QString::fromStdString
+                     (Data::variables[varId - 1].name)));
+        }
+        else {
+            ui->lineVar->setText(QString("%1: ???").arg(varId));
+        }
+    }
+    else {
         ui->lineVar->setText("");
+    }
     m_eventPage->condition.flags.variable = checked;
 }
 
