@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>754</width>
-    <height>996</height>
+    <width>866</width>
+    <height>1041</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -544,7 +544,7 @@
        </widget>
       </item>
       <item row="2" column="1" rowspan="2" colspan="2">
-       <widget class="QGroupBox" name="groupBox_371">
+       <widget class="QGroupBox" name="groupBoxClass">
         <property name="title">
          <string>Profession</string>
         </property>
@@ -687,7 +687,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QGridLayout" name="gridLayout">
+          <layout class="QGridLayout" name="gridFaceSet">
            <item row="0" column="0" rowspan="2">
             <widget class="QGraphicsView" name="graphicsFaceset">
              <property name="minimumSize">
@@ -740,7 +740,7 @@
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="gridLayout_2">
+          <layout class="QGridLayout" name="gridCharSet">
            <item row="0" column="0" rowspan="3">
             <widget class="QGraphicsView" name="graphicsCharset">
              <property name="minimumSize">
@@ -800,7 +800,7 @@
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="gridLayout_3">
+          <layout class="QGridLayout" name="gridBattleSet">
            <item row="0" column="0" rowspan="2">
             <widget class="QGraphicsView" name="graphicsBattleset">
              <property name="minimumSize">

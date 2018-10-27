@@ -77,6 +77,13 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     UpdateModels();
     if (ui->listCharacters->count())
         ui->listCharacters->setCurrentRow(0);
+
+    if (database.system.ldb_id != 2003) {
+        for (int i = 0; i < ui->gridBattleSet->count(); ++i) {
+            ui->gridBattleSet->itemAt(i)->widget()->hide();
+        }
+        ui->groupBoxClass->hide();
+    }
 }
 
 QDbPageActors::~QDbPageActors()
