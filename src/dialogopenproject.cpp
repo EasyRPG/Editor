@@ -43,7 +43,7 @@ QString DialogOpenProject::getProjectFolder()
 
 void DialogOpenProject::RefreshProjectList()
 {
-    ui->tableProjects->setRowCount(0);
+    ui->tableProjects->clearContents();
     QDir dir(m_defDir);
     if (!dir.exists())
         return;
@@ -67,6 +67,9 @@ void DialogOpenProject::RefreshProjectList()
                 ui->tableProjects->setItem(ui->tableProjects->rowCount()-1,1,item);
             }
         }
+    }
+    if (ui->tableProjects->rowCount() > 0) {
+        ui->tableProjects->setCurrentItem(ui->tableProjects->item(0,1));
     }
 }
 
