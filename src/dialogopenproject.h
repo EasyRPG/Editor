@@ -25,6 +25,8 @@ private slots:
 
     void on_tableProjects_cellDoubleClicked(int row, int column);
 
+    void on_tableProjects_itemSelectionChanged();
+
 private:
     Ui::DialogOpenProject *ui;
     QString m_defDir;

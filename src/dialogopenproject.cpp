@@ -14,6 +14,7 @@ DialogOpenProject::DialogOpenProject(QWidget *parent) :
 {
     setModal(true);
     ui->setupUi(this);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 DialogOpenProject::~DialogOpenProject()
@@ -111,4 +112,9 @@ void DialogOpenProject::on_tableProjects_cellDoubleClicked(int row, int column)
     Q_UNUSED(row);
     Q_UNUSED(column);
     emit ui->buttonBox->accepted();
+}
+
+void DialogOpenProject::on_tableProjects_itemSelectionChanged()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!ui->tableProjects->selectedItems().empty());
 }
