@@ -97,7 +97,7 @@ void QDbPageActors::UpdateModels()
     ui->listCharacters->clear();
     ui->comboBattleset->clear();
     ui->comboProfession->clear();
-    ui->comboBattlerAnimation->clear();
+    ui->comboUnarmedAnimation->clear();
     ui->listAttributeRanks->clear();
     ui->listStatusRanks->clear();
     /* Fill */
@@ -107,9 +107,9 @@ void QDbPageActors::UpdateModels()
     ui->comboProfession->addItem(tr("<none>"));
     for (unsigned int i = 0; i < m_data.classes.size(); i++)
         ui->comboProfession->addItem(m_data.classes[i].name.c_str());
-    ui->comboBattlerAnimation->addItem(tr("<none>"));
+    ui->comboUnarmedAnimation->addItem(tr("<none>"));
     for (unsigned int i = 0; i < m_data.animations.size(); i++)
-        ui->comboBattlerAnimation->addItem(m_data.animations[i].name.c_str());
+        ui->comboUnarmedAnimation->addItem(m_data.animations[i].name.c_str());
     for (unsigned int i = 0; i < m_data.attributes.size(); i++)
         ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
     for (unsigned int i = 0; i < m_data.states.size(); i++)
@@ -251,13 +251,13 @@ void QDbPageActors::on_comboInitialMisc_currentIndexChanged(int index)
     m_currentActor->initial_equipment.accessory_id = ui->comboInitialMisc->itemData(index).toInt();
 }
 
-void QDbPageActors::on_comboBattlerAnimation_currentIndexChanged(int index)
+void QDbPageActors::on_comboUnarmedAnimation_currentIndexChanged(int index)
 {
     if(index < 0) return;
     if(!m_currentActor) return;
-    if(m_currentActor->battler_animation == index)
+    if(m_currentActor->unarmed_animation == index)
         return;
-    m_currentActor->battler_animation = index;
+    m_currentActor->unarmed_animation = index;
 }
 
 void QDbPageActors::on_pushSetCharset_clicked()
@@ -320,7 +320,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         ui->comboInitialWeapon->clear();
         ui->comboInitialShield->clear();
         ui->comboProfession->setCurrentIndex(0);
-        ui->comboBattlerAnimation->setCurrentIndex(0);
+        ui->comboUnarmedAnimation->setCurrentIndex(0);
         ui->tableSkills->setRowCount(0);
         m_charaItem->setVisible(false);
         m_faceItem->setVisible(false);
@@ -346,7 +346,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         ui->comboInitialWeapon->setEnabled(false);
         ui->comboInitialShield->setEnabled(false);
         ui->comboProfession->setEnabled(false);
-        ui->comboBattlerAnimation->setEnabled(false);
+        ui->comboUnarmedAnimation->setEnabled(false);
         ui->tableSkills->setEnabled(false);
         ui->listAttributeRanks->setEnabled(false);
         ui->listStatusRanks->setEnabled(false);
@@ -421,7 +421,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         }
     }
     ui->comboProfession->setCurrentIndex(actor->class_id);
-    ui->comboBattlerAnimation->setCurrentIndex(actor->battler_animation);
+    ui->comboUnarmedAnimation->setCurrentIndex(actor->unarmed_animation);
     ui->tableSkills->setRowCount(0);
     for (unsigned int i = 0; i < actor->skills.size(); i++){
         ui->tableSkills->insertRow(i);
@@ -490,7 +490,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     ui->comboInitialWeapon->setEnabled(true);
     ui->comboInitialShield->setEnabled(true);
     ui->comboProfession->setEnabled(true);
-    ui->comboBattlerAnimation->setEnabled(true);
+    ui->comboUnarmedAnimation->setEnabled(true);
     ui->tableSkills->setEnabled(true);
     ui->listAttributeRanks->setEnabled(true);
     ui->listStatusRanks->setEnabled(true);
@@ -548,7 +548,6 @@ void QDbPageActors::on_pushApplyProfession_clicked()
     actor->state_ranks = n_class.state_ranks;
     actor->super_guard = n_class.super_guard;
     actor->two_weapon = n_class.two_weapon;
-    /* TODO: Fix naming typo after fixing liblcf */
     actor->battler_animation = n_class.battler_animation;
     /* /TODO */
 

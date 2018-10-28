@@ -44,7 +44,7 @@ private slots:
     void on_comboInitialArmor_currentIndexChanged(int index);
     void on_comboInitialHelmet_currentIndexChanged(int index);
     void on_comboInitialMisc_currentIndexChanged(int index);
-    void on_comboBattlerAnimation_currentIndexChanged(int index);
+    void on_comboUnarmedAnimation_currentIndexChanged(int index);
     void on_pushSetCharset_clicked();
     void on_pushSetFace_clicked();
     void on_comboBattleset_currentIndexChanged(int index);
