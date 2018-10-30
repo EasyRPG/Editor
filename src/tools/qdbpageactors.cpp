@@ -8,9 +8,12 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     ui(new Ui::QDbPageActors),
     m_data(database)
 {
+    const auto kMaxLevel = database.system.ldb_id == 2003 ? 99 : 50;
     ui->setupUi(this);
 
     m_currentActor = 0;
+
+    ui->spinMaxLv->setMaximum(kMaxLevel);
 
     ui->graphicsBattleset->setScene(new QGraphicsScene(this));
     m_charaItem = new QGraphicsCharaItem();
@@ -24,7 +27,7 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
 
     m_battlerItem = new QGraphicsBattleAnimationItem();
 
-    for (int i = 0; i < 99; i++)
+    for (int i = 0; i < kMaxLevel; i++)
         m_dummyCurve.push_back(0);
     m_hpItem = new QGraphicsCurveItem(Qt::red, m_dummyCurve);
     m_hpItem->setMaxValue(9999.0);
