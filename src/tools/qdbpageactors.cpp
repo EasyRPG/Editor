@@ -9,6 +9,7 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     m_data(database)
 {
     const auto kMaxLevel = database.system.ldb_id == 2003 ? 99 : 50;
+    const auto kMaxHp = database.system.ldb_id == 2003 ? 9999 : 999;
     ui->setupUi(this);
 
     m_currentActor = 0;
@@ -30,7 +31,7 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     for (int i = 0; i < kMaxLevel; i++)
         m_dummyCurve.push_back(0);
     m_hpItem = new QGraphicsCurveItem(Qt::red, m_dummyCurve);
-    m_hpItem->setMaxValue(9999.0);
+    m_hpItem->setMaxValue(kMaxHp);
     m_mpItem = new QGraphicsCurveItem(Qt::magenta, m_dummyCurve);
     m_attItem = new QGraphicsCurveItem(Qt::yellow, m_dummyCurve);
     m_defItem = new QGraphicsCurveItem(Qt::green, m_dummyCurve);
@@ -326,7 +327,7 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
         ui->lineName->clear();
         ui->lineTitle->clear();
         ui->spinCritChance->setValue(30);
-        ui->spinMaxLv->setValue(99);
+        ui->spinMaxLv->setValue(1);
         ui->spinMinLv->setValue(1);
         ui->checkAI->setChecked(false);
         ui->checkDualWeapon->setChecked(false);
