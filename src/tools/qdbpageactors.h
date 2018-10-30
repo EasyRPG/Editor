@@ -61,6 +61,7 @@ private:
     Ui::QDbPageActors *ui;
 
     void UpdateModels();
+    void ResetExpText(RPG::Actor* actor);
 
     QGraphicsCharaItem *m_charaItem;
     QGraphicsFaceItem *m_faceItem;

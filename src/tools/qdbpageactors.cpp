@@ -300,9 +300,27 @@ void QDbPageActors::on_pushSetFace_clicked()
     }
 }
 
+void QDbPageActors::ResetExpText(RPG::Actor* actor) {
+    int base = 0;
+    int inflation = 0;
+    int correction = 0;
+    if (actor != nullptr) {
+        base = actor->exp_base;
+        inflation = actor->exp_inflation;
+        correction = actor->exp_correction;
+    }
+    char buf[1024] = {};
+    snprintf(buf, sizeof(buf), "Initial = %d; Increment = %d; Correction = %d",
+             base, inflation, correction);
+    ui->labelExpCurve->setText(buf);
+}
+
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
     m_currentActor = 0;
+
+    ResetExpText(actor);
+
     if (actor == 0){
         /* Clear widgets */
         ui->lineName->clear();
