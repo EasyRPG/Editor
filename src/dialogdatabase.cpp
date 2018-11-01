@@ -143,6 +143,7 @@ void DialogDataBase::on_buttonBox_clicked(QAbstractButton *button)
         // Standard buttons:
         case QDialogButtonBox::Apply:
         case QDialogButtonBox::Ok:
+            LDB_Reader::PrepareSave(m_data);
             Data::data = m_data;
             LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
         break;
