@@ -295,6 +295,7 @@ void QGraphicsMapScene::Save()
     LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
     QString file = QString("Map%1.emu")
             .arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
+    LMU_Reader::PrepareSave(*m_map);
     LMU_Reader::SaveXml(mCore->filePath(ROOT, file).toStdString(), *m_map);
     m_undoStack->clear();
     emit mapSaved();
