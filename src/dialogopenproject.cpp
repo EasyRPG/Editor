@@ -14,6 +14,7 @@ DialogOpenProject::DialogOpenProject(QWidget *parent) :
 {
     setModal(true);
     ui->setupUi(this);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 DialogOpenProject::~DialogOpenProject()
@@ -42,7 +43,7 @@ QString DialogOpenProject::getProjectFolder()
 
 void DialogOpenProject::RefreshProjectList()
 {
-    ui->tableProjects->setRowCount(0);
+    ui->tableProjects->clearContents();
     QDir dir(m_defDir);
     if (!dir.exists())
         return;
@@ -66,6 +67,9 @@ void DialogOpenProject::RefreshProjectList()
                 ui->tableProjects->setItem(ui->tableProjects->rowCount()-1,1,item);
             }
         }
+    }
+    if (ui->tableProjects->rowCount() > 0) {
+        ui->tableProjects->setCurrentItem(ui->tableProjects->item(0,1));
     }
 }
 
@@ -111,4 +115,9 @@ void DialogOpenProject::on_tableProjects_cellDoubleClicked(int row, int column)
     Q_UNUSED(row);
     Q_UNUSED(column);
     emit ui->buttonBox->accepted();
+}
+
+void DialogOpenProject::on_tableProjects_itemSelectionChanged()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!ui->tableProjects->selectedItems().empty());
 }
