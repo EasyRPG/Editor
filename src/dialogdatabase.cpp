@@ -11,8 +11,8 @@ DialogDataBase::DialogDataBase(QWidget *parent) :
 {
     ui->setupUi(this);
     m_data = Data::data;
-    m_currentActor = 0;
-    on_currentActorChanged(0);
+    m_currentActor = nullptr;
+    on_currentActorChanged(nullptr);
     Old_PageActors = new QDbPageActors(m_data, this);
     Old_PageClasses = new QDbPageClasses(m_data, this);
     Old_PageSkills= new QDbPageSkills(m_data, this);
@@ -65,7 +65,7 @@ DialogDataBase::~DialogDataBase()
 void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
 {
     m_currentActor = actor;
-    if (actor == 0){
+    if (actor == nullptr){
         /* Clear Table */
         for (int i = 0; i < ui->tableNew_CharacterProperties->rowCount(); i++)
             ui->tableNew_CharacterProperties->item(i,1)->setText("");
@@ -88,9 +88,9 @@ void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
     ui->tableNew_CharacterProperties->item(8,1)->setText(actor->auto_battle ? yes :no);
     ui->tableNew_CharacterProperties->item(9,1)->setText(actor->super_guard ? yes :no);
     ui->tableNew_CharacterProperties->item(10,1)->setText(actor->class_id < 1 ? tr("<none>") :
-                                                          actor->class_id >= (int)m_data.classes.size() ?
+                                                          actor->class_id >= static_cast<int>(m_data.classes.size()) ?
                                                           tr("<%1?>").arg(actor->class_id) :
-                                                          m_data.classes[actor->class_id-1].name.c_str());
+                                                          m_data.classes[static_cast<size_t>(actor->class_id)-1].name.c_str());
     ui->tableNew_CharacterProperties->item(11,1)->setText(QString("%1[%2]")
                                                           .arg(actor->face_name.c_str())
                                                           .arg(actor->face_index));
@@ -99,9 +99,9 @@ void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
                                                           .arg(actor->character_index)
                                                           .arg(actor->transparent ? " [Transparent]" : ""));
     ui->tableNew_CharacterProperties->item(13,1)->setText(actor->battler_animation < 1 ? tr("<none>") :
-                                                          actor->battler_animation >= (int)m_data.battleranimations.size() ?
+                                                          actor->battler_animation >= static_cast<int>(m_data.battleranimations.size()) ?
                                                           tr("<%1?>").arg(actor->battler_animation) :
-                                                          m_data.battleranimations[actor->battler_animation-1].name.c_str());
+                                                          m_data.battleranimations[static_cast<size_t>(actor->battler_animation) - 1].name.c_str());
 
     /* TODO: fill the following information */
     ui->tableNew_CharacterProperties->item(14,1)->setText("Click to Edit");
@@ -133,7 +133,7 @@ void DialogDataBase::on_tabOld_Pages_currentChanged(int index)
 
 void DialogDataBase::on_toolSwitchStyle_clicked(bool checked)
 {
-    ui->stackedStyle->setCurrentIndex((int)checked);
+    ui->stackedStyle->setCurrentIndex(static_cast<int>(checked));
 }
 
 void DialogDataBase::on_buttonBox_clicked(QAbstractButton *button)
@@ -165,13 +165,13 @@ void DialogDataBase::on_lineNew_CharacterFilter_textChanged(const QString &arg1)
 
 void DialogDataBase::on_listNew_Character_currentRowChanged(int currentRow)
 {
-    if (currentRow < 0 || currentRow >= (int)m_data.actors.size())
+    if (currentRow < 0 || currentRow >= static_cast<int>(m_data.actors.size()))
     {
-        on_currentActorChanged(0);
-        emit currentActorChanged(0);
+        on_currentActorChanged(nullptr);
+        emit currentActorChanged(nullptr);
         return; //invalid
     }
 
-    on_currentActorChanged(&m_data.actors[currentRow]);
-    emit currentActorChanged(&m_data.actors[currentRow]);
+    on_currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
+    emit currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
 }

@@ -30,8 +30,8 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
     ui->lineName->setText(QString::fromStdString(info.name));
     ui->lineBGMname->setText(QString::fromStdString(info.music.name));
     ui->lineBackdropName->setText(QString::fromStdString(info.background_name));
-    for (int i = 0; i < (int)Data::chipsets.size(); i++)
-        ui->comboTileset->addItem(QString::fromStdString(Data::chipsets[i].name), i+1);
+    for (int i = 0; i < static_cast<int>(Data::chipsets.size()); i++)
+        ui->comboTileset->addItem(QString::fromStdString(Data::chipsets[static_cast<size_t>(i)].name), i+1);
     ui->comboTileset->setCurrentIndex(map.chipset_id-1);
     ui->comboWrapping->setCurrentIndex(map.scroll_type);
     ui->spinDungeonRoomHeight->setValue(map.generator_height);
@@ -69,11 +69,11 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
     ui->radioDungeonOpenRoom->setChecked(map.generator_mode == 3);
     ui->radioDungeonPassage1_1->setChecked(map.generator_tiles == 0);
     ui->radioDungeonPassage2_2->setChecked(map.generator_tiles == 1);
-    for (int i = (int)info.encounters.size() - 1; i >= 0; i--)
+    for (int i = static_cast<int>(info.encounters.size()) - 1; i >= 0; i--)
     {
         QTableWidgetItem * item = new QTableWidgetItem();
-        item->setData(Qt::DisplayRole, QString::fromStdString(Data::troops[info.encounters[i].troop_id-1].name));
-        item->setData(Qt::UserRole, info.encounters[i].troop_id);
+        item->setData(Qt::DisplayRole, QString::fromStdString(Data::troops[static_cast<size_t>(info.encounters[static_cast<size_t>(i)].troop_id)-1].name));
+        item->setData(Qt::UserRole, info.encounters[static_cast<size_t>(i)].troop_id);
         ui->tableEncounters->insertRow(0);
         ui->tableEncounters->setItem(0,0,item);
     }

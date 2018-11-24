@@ -12,7 +12,7 @@ QWidget *QActorDelegate::createEditor(QWidget *parent, const QStyleOptionViewIte
     Q_UNUSED(option)
     QComboBox *editor = new QComboBox(parent);
     editor->addItem(tr("<None>"), 0);
-    for (int i = 0; i < (int)Data::actors.size(); i++)
+    for (size_t i = 0; i < Data::actors.size(); i++)
         editor->addItem(QString::fromStdString(Data::actors[i].name), Data::actors[i].ID);
     return editor;
 }
@@ -27,7 +27,7 @@ void QActorDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
 {
     int id = static_cast<QComboBox*>(editor)->currentIndex() + 1;
     model->setData(index, id, Qt::UserRole);
-    model->setData(index, QString::fromStdString(Data::actors[id-1].name));
+    model->setData(index, QString::fromStdString(Data::actors[static_cast<size_t>(id)-1].name));
 }
 
 void QActorDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

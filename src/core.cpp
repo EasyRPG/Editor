@@ -23,7 +23,7 @@ Core::Core()
     m_lowerSelH = 1;
     m_upperSelH = 1;
     m_eventSel = 10000;
-    m_currentMapEvents = 0;
+    m_currentMapEvents = nullptr;
     m_dictionary[UPLEFT]                            = 1;
     m_dictionary[UPRIGHT]                           = 2;
     m_dictionary[UPLEFT+UPRIGHT]                    = 3;
@@ -72,7 +72,7 @@ Core::Core()
     m_dictionary[UP+DOWN+LEFT+RIGHT]                = 46;
     m_dictionary[SAMPLE]                            = 47;
 
-    m_runGameDialog = 0;
+    m_runGameDialog = nullptr;
 }
 
 Core *Core::getCore()
@@ -240,36 +240,36 @@ void Core::LoadChipset(int n_chipsetid)
         //Draw LowerRight corner
         dest_y = tileSize()/2;
         if (d+r == 10)
-            blit(border_xoffset+r_tileHalf, 0.5*r_tileSize);
+            blit(border_xoffset+r_tileHalf, r_tileSize/2);
         else if (d)
-            blit(border_xoffset+r_tileHalf, 2.5*r_tileSize);
+            blit(border_xoffset+r_tileHalf, r_tileSize*5/2);
         else if (r)
-            blit(border_xoffset+r_tileHalf, 1.5*r_tileSize);
+            blit(border_xoffset+r_tileHalf, r_tileSize*3/2);
         else if (dr)
-            blit(border_xoffset+r_tileHalf, 3.5*r_tileSize);
+            blit(border_xoffset+r_tileHalf, r_tileSize*7/2);
         else if (sdr)
         {
             if (isABWater (terrain_id))
-                blit(tileSize()/2, 5.5*r_tileSize);
+                blit(tileSize()/2, r_tileSize*11/2);
             else
-                blit(tileSize()/2, 6.5*r_tileSize);
+                blit(tileSize()/2, r_tileSize*13/2);
         }
         //Draw LowerLeft corner
         dest_x = 0;
         if (d+l == 6)
-            blit(border_xoffset, 0.5*r_tileSize);
+            blit(border_xoffset, r_tileSize/2);
         else if (d)
-            blit(border_xoffset, 2.5*r_tileSize);
+            blit(border_xoffset, r_tileSize*5/2);
         else if (l)
-            blit(border_xoffset, 1.5*r_tileSize);
+            blit(border_xoffset, r_tileSize*3/2);
         else if (dl)
-            blit(border_xoffset, 3.5*r_tileSize);
+            blit(border_xoffset, r_tileSize*7/2);
         else if (sdl)
         {
             if (isABWater (terrain_id))
-                blit(0, 5.5*r_tileSize);
+                blit(0, r_tileSize*11/2);
             else
-                blit(0, 6.5*r_tileSize);
+                blit(0, r_tileSize*13/2);
         }
 #undef blit
         m_tileCache[id] = p_tile;
@@ -388,33 +388,33 @@ void Core::LoadChipset(int n_chipsetid)
              */
             dest_x = tileSize()/2;
             if (u+r == 9)
-                blit(r_tileSize*2.5, r_tileSize);
+                blit(r_tileSize*5/2, r_tileSize);
             else if (u)
             {
                 if(l)
-                    blit(r_tileSize*0.5, r_tileSize);
+                    blit(r_tileSize/2, r_tileSize);
                 else
-                    blit(r_tileSize*1.5, r_tileSize);
+                    blit(r_tileSize*3/2, r_tileSize);
             }
             else if (r)
             {
                 if (d)
-                    blit(r_tileSize*2.5, r_tileSize*3);
+                    blit(r_tileSize*5/2, r_tileSize*3);
                 else
-                    blit(r_tileSize*2.5, r_tileSize*2);
+                    blit(r_tileSize*5/2, r_tileSize*2);
             }
             else if (ur)
-                blit(r_tileSize*2.5, 0);
+                blit(r_tileSize*5/2, 0);
             else //0
             {
                 if (d+l == 6)
-                    blit(r_tileSize*0.5, r_tileSize*3);
+                    blit(r_tileSize/2, r_tileSize*3);
                 else if (l)
-                    blit(r_tileSize*0.5, r_tileSize*2);
+                    blit(r_tileSize/2, r_tileSize*2);
                 else if (d)
-                    blit(r_tileSize*1.5, r_tileSize*3);
+                    blit(r_tileSize*3/2, r_tileSize*3);
                 else
-                    blit(r_tileSize*1.5, r_tileSize*2);
+                    blit(r_tileSize*3/2, r_tileSize*2);
             }
             /*
              * Draw down_left corner
@@ -422,66 +422,66 @@ void Core::LoadChipset(int n_chipsetid)
             dest_x = 0;
             dest_y = tileSize()/2;
             if (d+l == 6)
-                blit(0, r_tileSize*3.5);
+                blit(0, r_tileSize*7/2);
             else if (d)
             {
                 if (r)
-                    blit(r_tileSize*2, r_tileSize*3.5);
+                    blit(r_tileSize*2, r_tileSize*7/2);
                 else
-                    blit(r_tileSize, r_tileSize*3.5);
+                    blit(r_tileSize, r_tileSize*7/2);
             }
             else if (l)
             {
                 if (u)
-                    blit(0, r_tileSize*1.5);
+                    blit(0, r_tileSize*3/2);
                 else
-                    blit(0, r_tileSize*2.5);
+                    blit(0, r_tileSize*5/2);
             }
             else if (dl)
                 blit(r_tileSize*2, r_tileHalf);
             else
             {
                 if (u+r == 9)
-                    blit(r_tileSize*2, r_tileSize*1.5);
+                    blit(r_tileSize*2, r_tileSize*3/2);
                 else if (r)
-                    blit(r_tileSize*2, r_tileSize*2.5);
+                    blit(r_tileSize*2, r_tileSize*5/2);
                 else if (u)
-                    blit(r_tileSize, r_tileSize*1.5);
+                    blit(r_tileSize, r_tileSize*3/2);
                 else
-                    blit(r_tileSize, r_tileSize*2.5);
+                    blit(r_tileSize, r_tileSize*5/2);
             }
             /*
              * Draw down_right corner
              */
             dest_x = tileSize()/2;
             if (d+r == 10)
-                blit(r_tileSize*2.5, r_tileSize*3.5);
+                blit(r_tileSize*5*2, r_tileSize*7/2);
             else if (d)
             {
                 if (l)
-                    blit(r_tileSize*0.5, r_tileSize*3.5);
+                    blit(r_tileSize/2, r_tileSize*7/2);
                 else
-                    blit(r_tileSize*1.5, r_tileSize*3.5);
+                    blit(r_tileSize*3/2, r_tileSize*7/2);
             }
             else if (r)
             {
                 if (u)
-                    blit(r_tileSize*2.5, r_tileSize*1.5);
+                    blit(r_tileSize*5/2, r_tileSize*3/2);
                 else
-                    blit(r_tileSize*2.5, r_tileSize*2.5);
+                    blit(r_tileSize*5/2, r_tileSize*5/2);
             }
             else if (dr)
-                blit(r_tileSize*2.5, r_tileHalf);
+                blit(r_tileSize*5/2, r_tileHalf);
             else //0
             {
                 if (u+l == 5)
-                    blit(r_tileHalf,r_tileSize*1.5);
+                    blit(r_tileHalf,r_tileSize*3/2);
                 else if (l)
-                    blit(r_tileHalf,r_tileSize*2.5);
+                    blit(r_tileHalf,r_tileSize*5/2);
                 else if (u)
-                    blit(r_tileSize*1.5,r_tileSize*1.5);
+                    blit(r_tileSize*3/2,r_tileSize*3/2);
                 else
-                    blit(r_tileSize*1.5,r_tileSize*2.5);
+                    blit(r_tileSize*3/2,r_tileSize*5/2);
             }
 #undef blit
             /*
@@ -693,7 +693,7 @@ void Core::renderEvent(const RPG::Event& event, const QRect &dest_rect)
     QRect final_rect = dest_rect.adjusted(fact/6,fact/6,-fact/6,-fact/6);
     m_painter.drawRect(final_rect.adjusted(-1,-1,0,0));
     if (event.pages[0].character_name.empty())
-        renderTile(event.pages[0].character_index+10000, final_rect);
+        renderTile(static_cast<short>(event.pages[0].character_index+10000), final_rect);
     else {
         if (!m_eventCache.contains(event.ID))
             return;
@@ -716,15 +716,15 @@ short Core::translate(int terrain_id, int _code, int _scode)
     if (terrain_id < 0)
         return 0x7FFF;
     if (isWater(terrain_id))
-        return (terrain_id*1000+m_dictionary[_code]+m_dictionary[_scode]*50);
+        return (static_cast<short>(terrain_id)*1000+m_dictionary[_code]+m_dictionary[_scode]*50);
     if (isAnimation(terrain_id))
-        return (3000+(terrain_id-3)*50+46);
+        return (3000+(static_cast<short>(terrain_id)-3)*50+46);
     if (isDblock(terrain_id))
-        return (4000+(terrain_id-6)*50+m_dictionary[_code]);
+        return (4000+(static_cast<short>(terrain_id)-6)*50+m_dictionary[_code]);
     if (isEblock(terrain_id))
-        return (5000+terrain_id-18);
+        return (5000+static_cast<short>(terrain_id)-18);
     if (isFblock(terrain_id))
-        return (10000+terrain_id-162);
+        return (10000+static_cast<short>(terrain_id)-162);
     return 0x7FFF;
 }
 
@@ -764,7 +764,7 @@ short Core::selection(int off_x, int off_y)
             off_x += m_lowerSelW;
         if (off_y < 0)
             off_y += m_lowerSelH;
-        result = m_lowerSel[off_x+off_y*m_lowerSelW];
+        result = m_lowerSel[static_cast<size_t>(off_x+off_y*m_lowerSelW)];
         break;
     case UPPER:
         off_x %= m_upperSelW;
@@ -773,7 +773,7 @@ short Core::selection(int off_x, int off_y)
             off_x += m_upperSelW;
         if (off_y < 0)
             off_y += m_upperSelH;
-        result = m_upperSel[off_x+off_y*m_upperSelW];
+        result = m_upperSel[static_cast<size_t>(off_x+off_y*m_upperSelW)];
         break;
     case EVENT:
         result = m_eventSel;
@@ -804,7 +804,7 @@ int Core::selHeight()
 
 void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
 {
-    if ((int) n_sel.size() != n_w * n_h)
+    if (static_cast<int>(n_sel.size()) != n_w * n_h)
         return;
     switch(m_layer)
     {
@@ -826,7 +826,7 @@ void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
 
 RPG::Event *Core::currentMapEvent(int eventID)
 {
-    RPG::Event *event = 0;
+    RPG::Event *event = nullptr;
     if (m_currentMapEvents)
         event = m_currentMapEvents->value(eventID);
     if (!event)

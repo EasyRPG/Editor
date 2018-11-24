@@ -563,10 +563,10 @@ namespace
             };
 
         QString context;
-        if (com.parameters[0] < 0 || com.parameters[0] >= (int)bgm_contexts.size())
+        if (com.parameters[0] < 0 || com.parameters[0] >= static_cast<int>(bgm_contexts.size()))
             context = tr("Unknown");
         else
-            context = bgm_contexts[com.parameters[0]];
+            context = bgm_contexts[static_cast<size_t>(com.parameters[0])];
         return tr("Change System BGM") + ": " + context + ", "
             + QString::fromStdString(com.string);
     }
@@ -589,10 +589,10 @@ namespace
                 tr("Use Item")
             };
         QString sfx;
-        if (com.parameters[0] < 0 || com.parameters[0] >= (int)system_sfx.size())
+        if (com.parameters[0] < 0 || com.parameters[0] >= static_cast<int>(system_sfx.size()))
             sfx = tr("Unknown");
         else
-            sfx = system_sfx[com.parameters[0]];
+            sfx = system_sfx[static_cast<size_t>(com.parameters[0])];
         return tr("Change System SFX") + ": " + sfx + ", "
             + QString::fromStdString(com.string);
     }
@@ -622,12 +622,13 @@ namespace
         switch (com.parameters[0])
         {
             case 0:
-                buysell = tr("Buy") + "/" + tr("Sell"); break;
+                buysell = tr("Buy") + "/" + tr("Sell");
+                break;
             case 1:
                 buysell = tr("Buy");
+                break;
             case 2:
                 buysell = tr("Sell");
-
         }
         return tr("Open Shop") + ": " + buysell;
     }
@@ -880,7 +881,7 @@ namespace
     QString stringizeMoveEvent(const RPG::EventCommand& com)
     {
         QString movements;
-        for (int i = 4; i < 8 && i < (int)com.parameters.size(); ++i)
+        for (size_t i = 4; i < 8 && i < com.parameters.size(); ++i)
             movements.append(", ").append(Stringizer::moveCommand(com.parameters[i]));
         if (com.parameters.size() >= 8)
             movements.append("...");
@@ -1079,6 +1080,7 @@ namespace
             break;
         case 9: // BGM looped at least once
             condition = tr("BGM has Played Through Once");
+            break;
         case 10: // Timer 2
             condition = tr("Timer") + "2 "
                 + (com.parameters[2] ? "<=" : ">=") + " "
@@ -1193,72 +1195,72 @@ namespace Stringizer
 {
     QString varName(int id)
     {
-        if (id < 1 || id > (int)Data::variables.size())
+        if (id < 1 || id > static_cast<int>(Data::variables.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::variables[id-1].name);
+        return QString::fromStdString(Data::variables[static_cast<size_t>(id)-1].name);
     }
 
     QString switchName(int id)
     {
-        if (id < 1 || id > (int)Data::switches.size())
+        if (id < 1 || id > static_cast<int>(Data::switches.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::switches[id-1].name);
+        return QString::fromStdString(Data::switches[static_cast<size_t>(id) - 1].name);
     }
 
     QString itemName(int id)
     {
-        if (id < 1 || id > (int)Data::items.size())
+        if (id < 1 || id > static_cast<int>(Data::items.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::items[id-1].name);
+        return QString::fromStdString(Data::items[static_cast<size_t>(id)-1].name);
     }
 
     QString heroName(int id)
     {
-        if (id < 1 || id > (int)Data::actors.size())
+        if (id < 1 || id > static_cast<int>(Data::actors.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::actors[id-1].name);
+        return QString::fromStdString(Data::actors[static_cast<size_t>(id)-1].name);
     }
 
     QString className(int id)
     {
-        if (id < 1 || id > (int)Data::classes.size())
+        if (id < 1 || id > static_cast<int>(Data::classes.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::classes[id-1].name);
+        return QString::fromStdString(Data::classes[static_cast<size_t>(id)-1].name);
     }
 
     QString stateName(int id)
     {
-        if (id < 1 || id > (int)Data::states.size())
+        if (id < 1 || id > static_cast<int>(Data::states.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::states[id-1].name);
+        return QString::fromStdString(Data::states[static_cast<size_t>(id)-1].name);
     }
 
     QString skillName(int id)
     {
-        if (id < 1 || id > (int)Data::skills.size())
+        if (id < 1 || id > static_cast<int>(Data::skills.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::skills[id-1].name);
+        return QString::fromStdString(Data::skills[static_cast<size_t>(id)-1].name);
     }
 
     QString battleCommandName(int id)
     {
-        if (id < 1 || id > (int)Data::battlecommands.commands.size())
+        if (id < 1 || id > static_cast<int>(Data::battlecommands.commands.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::battlecommands.commands[id-1].name);
+        return QString::fromStdString(Data::battlecommands.commands[static_cast<size_t>(id)-1].name);
     }
 
 
     QString animationName(int id)
     {
-        if (id < 1 || id > (int)Data::animations.size())
+        if (id < 1 || id > static_cast<int>(Data::animations.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::animations[id-1].name);
+        return QString::fromStdString(Data::animations[static_cast<size_t>(id)-1].name);
     }
     QString conditionName(int id)
     {
-        if (id < 1 || id > (int)Data::states.size())
+        if (id < 1 || id > static_cast<int>(Data::states.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::states[id-1].name);
+        return QString::fromStdString(Data::states[static_cast<size_t>(id)-1].name);
     }
 
     QString eventName(int id)
@@ -1270,28 +1272,28 @@ namespace Stringizer
 
     QString commonEventName(int id)
     {
-        if (id < 1 || id > (int)Data::commonevents.size())
+        if (id < 1 || id > static_cast<int>(Data::commonevents.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::commonevents[id-1].name);
+        return QString::fromStdString(Data::commonevents[static_cast<size_t>(id)-1].name);
     }
 
     QString troopName(int id)
     {
-        if (id < 1 || id > (int)Data::troops.size())
+        if (id < 1 || id > static_cast<int>(Data::troops.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::troops[id-1].name);
+        return QString::fromStdString(Data::troops[static_cast<size_t>(id)-1].name);
     }
 
     QString terrainName(int id)
     {
-        if (id < 1 || id > (int)Data::terrains.size())
+        if (id < 1 || id > static_cast<int>(Data::terrains.size()))
             return QString("<%1?>").arg(id);
-        return QString::fromStdString(Data::terrains[id-1].name);
+        return QString::fromStdString(Data::terrains[static_cast<size_t>(id)-1].name);
     }
 
     QString mapName(int id)
     {
-        if (id < 1 || id > (int)Data::treemap.maps.size())
+        if (id < 1 || id > static_cast<int>(Data::treemap.maps.size()))
             return QString("<%1?>").arg(id);
         for (unsigned i = 0; i < Data::treemap.maps.size(); i++)
             if (Data::treemap.maps[i].ID == id)
@@ -1391,10 +1393,10 @@ namespace Stringizer
             };
         if (id < 0)
             return tr("Use Default");
-        else if (id >= (int)erase_transitions.size())
+        else if (id >= static_cast<int>(erase_transitions.size()))
             return tr("Unknown");
         else
-            return erase_transitions[id];
+            return erase_transitions[static_cast<size_t>(id)];
     }
 
     QString showTransitionName(int id)
@@ -1423,10 +1425,10 @@ namespace Stringizer
             };
         if (id < 0)
             return tr("Use Default");
-        else if (id >= (int)show_transitions.size())
+        else if (id >= static_cast<int>(show_transitions.size()))
             return tr("Unknown");
         else
-            return show_transitions[id];
+            return show_transitions[static_cast<size_t>(id)];
     }
 
     QString stringize(const RPG::EventCommand& com)

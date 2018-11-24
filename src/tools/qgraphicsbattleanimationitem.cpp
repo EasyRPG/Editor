@@ -85,7 +85,7 @@ void QGraphicsBattleAnimationItem::on_demoAdvance()
     m_demoIndex++;
     if (m_demoIndex > 11)
         m_demoIndex = 0;
-    RPG::BattlerAnimationExtension anim = m_demoAnimation.base_data[m_demoIndex];
+    RPG::BattlerAnimationExtension anim = m_demoAnimation.base_data[static_cast<size_t>(m_demoIndex)];
     setBasePix(Battler, QString::fromStdString(anim.battler_name));
     m_index = anim.battler_index;
     updatePix();

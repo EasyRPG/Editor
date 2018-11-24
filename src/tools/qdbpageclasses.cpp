@@ -9,7 +9,7 @@ QDbPageClasses::QDbPageClasses(RPG::Database &database, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_currentClass = 0;
+    m_currentClass = nullptr;
 
     m_battlerItem = new QGraphicsBattleAnimationItem();
 

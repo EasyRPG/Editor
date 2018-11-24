@@ -75,7 +75,7 @@ void DialogRunGame::UpdateModels()
 {
     // Maps
     ui->comboMapId->clear();
-    for (int i = 1; i < (int)Data::treemap.maps.size(); i++)
+    for (size_t i = 1; i < Data::treemap.maps.size(); i++)
     {
         if (Data::treemap.maps[i].type == 1)
         {
@@ -87,10 +87,10 @@ void DialogRunGame::UpdateModels()
     // Troops
     ui->comboTroop->clear();
     ui->comboTroop->addItem(tr("<Test Troop>"));
-    for (int i = 1; i < (int)Data::troops.size(); i++)
+    for (size_t i = 1; i < Data::troops.size(); i++)
         ui->comboTroop->addItem(QString::fromStdString(Data::troops[i].name));
 
-    bool auto_placement = (bool)Data::data.battlecommands.placement;
+    bool auto_placement = static_cast<bool>(Data::data.battlecommands.placement);
     ui->groupPartyFormation->setEnabled(auto_placement);
     ui->comboBattleCondition->clear();
     QStringList conditions;
@@ -100,12 +100,12 @@ void DialogRunGame::UpdateModels()
     ui->comboBattleCondition->addItems(conditions);
 
     ui->comboCustomFormation->clear();
-    for (int i = 0; i < (int)Data::terrains.size(); i++)
+    for (size_t i = 0; i < Data::terrains.size(); i++)
         ui->comboCustomFormation->addItem(QString::fromStdString(Data::terrains[i].name));
 
     battletest_data = Data::system.battletest_data;
-    for (int i = 0; i < (int)battletest_data.size(); i++)
-        ui->tableInitialParty->item(i,0)->setData(Qt::UserRole, battletest_data[i].actor_id);
+    for (size_t i = 0; i < battletest_data.size(); i++)
+        ui->tableInitialParty->item(static_cast<int>(i),0)->setData(Qt::UserRole, battletest_data[i].actor_id);
 }
 
 void DialogRunGame::on_tableInitialParty_itemChanged(QTableWidgetItem *item)
