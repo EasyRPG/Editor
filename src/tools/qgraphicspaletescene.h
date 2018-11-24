@@ -12,7 +12,7 @@ class QGraphicsPaleteScene : public QGraphicsScene
     Q_OBJECT
 public:
 
-    explicit QGraphicsPaleteScene(QObject *parent = 0);
+    explicit QGraphicsPaleteScene(QObject *parent = nullptr);
 
 
 signals:

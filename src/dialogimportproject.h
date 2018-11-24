@@ -12,7 +12,7 @@ class DialogImportProject : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogImportProject(QWidget *parent = 0);
+    explicit DialogImportProject(QWidget *parent = nullptr);
     ~DialogImportProject();
 
     void setDefDir(QString n_defDir);

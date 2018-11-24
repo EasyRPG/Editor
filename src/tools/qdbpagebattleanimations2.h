@@ -13,7 +13,7 @@ class QDbPageBattleAnimations2 : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageBattleAnimations2(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageBattleAnimations2(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageBattleAnimations2();
 
 private:

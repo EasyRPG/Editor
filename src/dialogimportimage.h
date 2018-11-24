@@ -15,7 +15,7 @@ class DialogImportImage : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogImportImage(QString n_filepath, QWidget *parent = 0);
+    explicit DialogImportImage(QString n_filepath, QWidget *parent = nullptr);
     ~DialogImportImage();
 
     QImage image();

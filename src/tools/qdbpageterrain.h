@@ -13,7 +13,7 @@ class QDbPageTerrain : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageTerrain(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageTerrain(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageTerrain();
 
 private:

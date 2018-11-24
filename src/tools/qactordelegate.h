@@ -8,7 +8,7 @@ class QActorDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    explicit QActorDelegate(QObject *parent = 0);
+    explicit QActorDelegate(QObject *parent = nullptr);
 
     QWidget *createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,

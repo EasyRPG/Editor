@@ -8,7 +8,7 @@
 class QGraphicsCurveItem : public QGraphicsItem
 {
 public:
-    explicit QGraphicsCurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent = 0);
+    explicit QGraphicsCurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent = nullptr);
 
     QRectF boundingRect() const;
 

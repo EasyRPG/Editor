@@ -18,7 +18,7 @@ class QGraphicsMapScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit QGraphicsMapScene(int id,QGraphicsView *view, QObject *parent = 0);
+    explicit QGraphicsMapScene(int id,QGraphicsView *view, QObject *parent = nullptr);
     ~QGraphicsMapScene();
 
     void Init();

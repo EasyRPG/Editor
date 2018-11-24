@@ -9,7 +9,7 @@ class QEncounterDelegate : public QItemDelegate
 {
     Q_OBJECT
 public:
-    explicit QEncounterDelegate(QObject *parent = 0);
+    explicit QEncounterDelegate(QObject *parent = nullptr);
 
     QWidget *createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,

@@ -13,7 +13,7 @@ class QDbPageCommonEvents : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageCommonEvents(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageCommonEvents(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageCommonEvents();
 
 private:

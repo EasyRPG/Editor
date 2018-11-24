@@ -13,7 +13,7 @@ class QDbPageEnemyGroups : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageEnemyGroups(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageEnemyGroups(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageEnemyGroups();
 
 private:

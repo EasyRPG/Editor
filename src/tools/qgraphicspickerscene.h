@@ -9,8 +9,8 @@
 class QGraphicsPickerScene : public QGraphicsScene
 {
 public:
-    QGraphicsPickerScene(QObject *parent = 0,
-                         QGraphicsPixmapItem* backgroundItem = 0,
+    QGraphicsPickerScene(QObject *parent = nullptr,
+                         QGraphicsPixmapItem* backgroundItem = nullptr,
                          int rowCount = 1,
                          int columnCount = 1);
 

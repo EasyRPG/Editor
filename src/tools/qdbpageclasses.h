@@ -15,7 +15,7 @@ class QDbPageClasses : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageClasses(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageClasses(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageClasses();
 
     void UpdateModels();

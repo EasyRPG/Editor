@@ -13,7 +13,7 @@ class DialogResourceManager : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogResourceManager(QWidget *parent = 0);
+    explicit DialogResourceManager(QWidget *parent = nullptr);
     ~DialogResourceManager();
 
 private slots:

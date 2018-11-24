@@ -33,7 +33,7 @@ class DialogDataBase : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogDataBase(QWidget *parent = 0);
+    explicit DialogDataBase(QWidget *parent = nullptr);
     ~DialogDataBase();
 
 signals:

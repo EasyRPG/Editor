@@ -11,7 +11,7 @@ public:
     explicit QUndoDraw(Core::Layer layer,
                        std::vector<short> data,
                        QGraphicsMapScene *scene,
-                       QUndoCommand *parent = 0);
+                       QUndoCommand *parent = nullptr);
 
     void undo();
 signals:
