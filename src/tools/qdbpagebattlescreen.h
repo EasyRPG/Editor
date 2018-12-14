@@ -13,7 +13,7 @@ class QDbPageBattleScreen : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageBattleScreen(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageBattleScreen(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageBattleScreen();
 
 private:

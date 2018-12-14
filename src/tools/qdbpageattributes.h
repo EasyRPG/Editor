@@ -13,7 +13,7 @@ class QDbPageAttributes : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageAttributes(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageAttributes(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageAttributes();
 
 private:

@@ -12,7 +12,7 @@ class DialogNewProject : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogNewProject(QWidget *parent = 0);
+    explicit DialogNewProject(QWidget *parent = nullptr);
     ~DialogNewProject();
 
     QString getGameTitle() const;

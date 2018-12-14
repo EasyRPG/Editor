@@ -13,7 +13,7 @@ class QDbPageChipset : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageChipset(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageChipset(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageChipset();
 
 private:

@@ -14,7 +14,7 @@ class DialogSplash : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogSplash(QWidget *parent = 0);
+    explicit DialogSplash(QWidget *parent = nullptr);
     ~DialogSplash();
 
 private:

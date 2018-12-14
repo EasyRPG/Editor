@@ -12,7 +12,7 @@ class DialogRtpPath : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogRtpPath(QWidget *parent = 0);
+    explicit DialogRtpPath(QWidget *parent = nullptr);
     ~DialogRtpPath();
 
 private slots:

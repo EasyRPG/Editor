@@ -22,7 +22,7 @@ class QEventPageWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit QEventPageWidget(QWidget *parent = 0);
+    explicit QEventPageWidget(QWidget *parent = nullptr);
     ~QEventPageWidget();
 
     RPG::EventPage *eventPage() const;

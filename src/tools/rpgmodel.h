@@ -9,7 +9,7 @@ template <class DATA>
 class RpgModel : public QAbstractListModel
 {
 public:
-    RpgModel(QObject *parent = 0) : QAbstractListModel(parent), _data(DATA()()) {}
+    RpgModel(QObject *parent = nullptr) : QAbstractListModel(parent), _data(DATA()()) {}
     virtual ~RpgModel() {}
     virtual int rowCount(const QModelIndex & = QModelIndex()) const override { return _data.size(); }
     virtual QVariant data(const QModelIndex &index, int role) const override;

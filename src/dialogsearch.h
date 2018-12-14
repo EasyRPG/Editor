@@ -19,7 +19,7 @@ class DialogSearch : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogSearch(QWidget *parent = 0);
+    explicit DialogSearch(QWidget *parent = nullptr);
     ~DialogSearch();
 
     void updateUI();

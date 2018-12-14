@@ -32,7 +32,7 @@ int DialogEvent::edit(QWidget *parent, RPG::Event *event)
     dlg.setEvent(event);
     dlg.exec();
     if (dlg.lst_result != QDialogButtonBox::Cancel)
-        *event = dlg.event();
+        *event = dlg.getEvent();
     return dlg.lst_result;
 }
 
@@ -100,7 +100,7 @@ bool DialogEvent::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
 #undef chk
 }
 
-RPG::Event DialogEvent::event() const
+RPG::Event DialogEvent::getEvent() const
 {
     switch(lst_result)
     {

@@ -13,7 +13,7 @@ class QDbPageHeroStatus : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageHeroStatus(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageHeroStatus(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageHeroStatus();
 
 private:

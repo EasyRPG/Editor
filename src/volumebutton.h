@@ -53,7 +53,7 @@ class VolumeButton : public QToolButton
     Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
 public:
-    VolumeButton(QWidget *parent = 0);
+    VolumeButton(QWidget *parent = nullptr);
 
     int volume() const;
 

@@ -17,7 +17,7 @@ class DialogMapProperties : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWidget *parent = 0);
+    explicit DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWidget *parent = nullptr);
     ~DialogMapProperties();
 
 private slots:

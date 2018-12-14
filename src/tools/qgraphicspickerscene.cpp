@@ -21,10 +21,10 @@ void QGraphicsPickerScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (!sceneRect().contains(event->scenePos()))
         return;
-    int x = event->scenePos().x()/m_selection->rect().width();
-    int y = event->scenePos().y()/m_selection->rect().height();
-    m_selection->setPos(x*(int)m_selection->rect().width(),
-                        y*(int)m_selection->rect().height());
+    int x = static_cast<int>(event->scenePos().x()/m_selection->rect().width());
+    int y = static_cast<int>(event->scenePos().y()/m_selection->rect().height());
+    m_selection->setPos(x*static_cast<int>(m_selection->rect().width()),
+                        y*static_cast<int>(m_selection->rect().height()));
 }
 int QGraphicsPickerScene::columnCount() const
 {
@@ -41,8 +41,8 @@ void QGraphicsPickerScene::setColumnCount(int columnCount)
 
 int QGraphicsPickerScene::index()
 {
-    int x = m_selection->pos().x()/m_selection->rect().width();
-    int y = m_selection->pos().y()/m_selection->rect().height();
+    int x = static_cast<int>(m_selection->pos().x()/m_selection->rect().width());
+    int y = static_cast<int>(m_selection->pos().y()/m_selection->rect().height());
     return (x+y*columnCount());
 }
 

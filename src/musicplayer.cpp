@@ -51,19 +51,19 @@
 
 MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
 #ifdef Q_OS_WIN
-    taskbarButton(0),
-    taskbarProgress(0),
-    thumbnailToolBar(0),
-    playToolButton(0),
-    forwardToolButton(0),
-    backwardToolButton(0),
+    taskbarButton(nullptr),
+    taskbarProgress(nullptr),
+    thumbnailToolBar(nullptr),
+    playToolButton(nullptr),
+    forwardToolButton(nullptr),
+    backwardToolButton(nullptr),
 #endif
-    mediaPlayer(0),
-    playButton(0),
-    volumeButton(0),
-    positionSlider(0),
-    positionLabel(0),
-    infoLabel(0)
+    mediaPlayer(nullptr),
+    playButton(nullptr),
+    volumeButton(nullptr),
+    positionSlider(nullptr),
+    positionLabel(nullptr),
+    infoLabel(nullptr)
 {
     createWidgets();
     createShortcuts();
@@ -184,17 +184,17 @@ void MusicPlayer::updateState(QMediaPlayer::State state)
 
 void MusicPlayer::updatePosition(qint64 position)
 {
-    positionSlider->setValue(position);
+    positionSlider->setValue(static_cast<int>(position));
 
-    QTime duration(0, position / 60000, qRound((position % 60000) / 1000.0));
+    QTime duration(0, static_cast<int>(position / 60000), qRound((position % 60000) / 1000.0));
     positionLabel->setText(duration.toString(tr("mm:ss")));
 }
 
 void MusicPlayer::updateDuration(qint64 duration)
 {
-    positionSlider->setRange(0, duration);
+    positionSlider->setRange(0, static_cast<int>(duration));
     positionSlider->setEnabled(duration > 0);
-    positionSlider->setPageStep(duration / 10);
+    positionSlider->setPageStep(static_cast<int>(duration / 10));
 }
 
 void MusicPlayer::setPosition(int position)

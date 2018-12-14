@@ -81,10 +81,10 @@ void QGraphicsPaleteScene::onChipsetChange()
 void QGraphicsPaleteScene::updateSelectionRect()
 {
     QRectF selRect;
-    int small_x = (m_initial.x() <= m_current.x()) ? m_initial.x()/32.0 : m_current.x()/32.0;
-    int big_x = (m_initial.x() >= m_current.x()) ? m_initial.x()/32.0 : m_current.x()/32.0;
-    int small_y = (m_initial.y() <= m_current.y()) ? m_initial.y()/32.0 : m_current.y()/32.0;
-    int big_y = (m_initial.y() >= m_current.y()) ? m_initial.y()/32.0 : m_current.y()/32.0;
+    int small_x = (m_initial.x() <= m_current.x()) ? static_cast<int>(m_initial.x())/32 : static_cast<int>(m_current.x())/32;
+    int big_x = (m_initial.x() >= m_current.x()) ? static_cast<int>(m_initial.x())/32 : static_cast<int>(m_current.x())/32;
+    int small_y = (m_initial.y() <= m_current.y()) ? static_cast<int>(m_initial.y())/32 : static_cast<int>(m_current.y())/32;
+    int big_y = (m_initial.y() >= m_current.y()) ? static_cast<int>(m_initial.y())/32 : static_cast<int>(m_current.y())/32;
     //keep inside the scene
     if (small_x < 0)
         small_x = 0;
@@ -98,7 +98,7 @@ void QGraphicsPaleteScene::updateSelectionRect()
         big_y = 27;
     if (big_y - small_y > 5)
     {
-        if ((int)m_initial.y()/32 == small_y)
+        if (static_cast<int>(m_initial.y())/32 == small_y)
             big_y = small_y + 5;
         else
             small_y = big_y - 5;
@@ -153,10 +153,10 @@ void QGraphicsPaleteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     //TODO: set selection
     std::vector<short> sel;
-    int x = m_selectionItem->rect().left()/32.0;
-    int y = m_selectionItem->rect().top()/32.0;
-    int w =  m_selectionItem->rect().width()/32;
-    int h = m_selectionItem->rect().height()/32;
+    int x = static_cast<int>(m_selectionItem->rect().left())/32;
+    int y = static_cast<int>(m_selectionItem->rect().top())/32;
+    int w = static_cast<int>(m_selectionItem->rect().width())/32;
+    int h = static_cast<int>(m_selectionItem->rect().height())/32;
     if (y == 0)
     {
         sel.push_back(NTILE);

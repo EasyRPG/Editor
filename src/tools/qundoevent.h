@@ -10,7 +10,7 @@ class QUndoEvent : public QUndoCommand
 public:
     explicit QUndoEvent(RPG::Event data,
                         QGraphicsMapScene *scene,
-                        QUndoCommand *parent = 0);
+                        QUndoCommand *parent = nullptr);
     void undo();
 
 private:

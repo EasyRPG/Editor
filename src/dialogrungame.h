@@ -15,7 +15,7 @@ class DialogRunGame : public QDialog
 
 public:
 
-    explicit DialogRunGame(QWidget *parent = 0);
+    explicit DialogRunGame(QWidget *parent = nullptr);
     ~DialogRunGame();
 
     void runHere(int map_id, int x, int y);

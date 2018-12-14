@@ -14,7 +14,7 @@ class QDbPageVocabulary : public QWidget
 
     RPG::Terms *terms;
 public:
-    explicit QDbPageVocabulary(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageVocabulary(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageVocabulary();
 private slots:
     void on_lineEdit_34_textChanged(const QString &arg1);

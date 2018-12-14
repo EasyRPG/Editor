@@ -44,7 +44,7 @@ void DialogImportImage::on_pushZoomIn_clicked()
     m_scale += 1.0;
     ui->graphicsView->resetTransform();
     ui->graphicsView->scale(m_scale,m_scale);
-    if (m_scale == 4)
+    if (static_cast<int>(m_scale) == 4)
         ui->pushZoomIn->setEnabled(false);
     ui->pushZoomOut->setEnabled(true);
 
@@ -55,7 +55,7 @@ void DialogImportImage::on_pushZoomOut_clicked()
     m_scale -= 1.0;
     ui->graphicsView->resetTransform();
     ui->graphicsView->scale(m_scale,m_scale);
-    if (m_scale == 1)
+    if (static_cast<int>(m_scale) == 1)
         ui->pushZoomOut->setEnabled(false);
     ui->pushZoomIn->setEnabled(true);
 }

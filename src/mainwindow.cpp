@@ -100,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Create dialogs
     dlg_resource = new DialogResourceManager(this);
     dlg_resource->setModal(true);
-    dlg_db = 0;
+    dlg_db = nullptr;
     m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
     ui->graphicsPalete->setScene(m_paleteScene);
     connect(mCore,
@@ -382,11 +382,11 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
     }
     //Import Maps
     progress.setLabelText("Importing maps...");
-    progress.setMaximum(maps.maps.size());
+    progress.setMaximum(static_cast<int>(maps.maps.size()));
     std::stringstream ss;
-    for (unsigned int i = 1; i < maps.maps.size(); i++)
+    for (size_t i = 1; i < maps.maps.size(); i++)
     {
-        progress.setValue(i);
+        progress.setValue(static_cast<int>(i));
         if (maps.maps[i].type == 2)
             continue;
         ss.str("");
@@ -406,7 +406,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
            << ".emu";
         LMU_Reader::SaveXml(ss.str(),map);
     }
-    progress.setValue(maps.maps.size());
+    progress.setValue(static_cast<int>(maps.maps.size()));
     m_projSett = new QSettings(mCore->filePath(ROOT, EASY_CFG),
                                QSettings::IniFormat,
                                this);
@@ -422,19 +422,19 @@ bool MainWindow::convertXYZtoPNG(QFile &xyz_file, QString out_path)
 {
     QByteArray compressed_data(xyz_file.readAll());
     assert(!compressed_data.isEmpty());
-    uint16_t width = (uint8_t)compressed_data[0] + ((uint8_t)compressed_data[1] << 8);
-    uint16_t height = (uint8_t)compressed_data[2] + ((uint8_t)compressed_data[3] << 8);
+    uint16_t width = static_cast<uint16_t>(static_cast<uint8_t>(compressed_data[0]) + (static_cast<uint8_t>(compressed_data[1]) << 8));
+    uint16_t height = static_cast<uint16_t>(static_cast<uint8_t>(compressed_data[2]) + (static_cast<uint8_t>(compressed_data[3]) << 8));
     uint32_t size = width * height;
     // Put the total size in the first 4 bytes to make it valid for qUncompress
     for (int i = 0; i < 4; ++i)
-        compressed_data[i] = ((uint8_t*)&size)[3-i];
+        compressed_data[i] = static_cast<char>((reinterpret_cast<uint8_t*>(&size))[3-i]);
 
     QByteArray xyz_data(qUncompress(compressed_data));
 
     if (xyz_data.isEmpty())
         return false;
 
-    QImage image((uchar*)xyz_data.data() + 768, width, height, QImage::Format_Indexed8);
+    QImage image(reinterpret_cast<uchar*>(xyz_data.data()) + 768, width, height, QImage::Format_Indexed8);
     // Add color table
     for (int i = 0; i < 256; ++i)
         image.setColor(i, qRgb(xyz_data[i * 3], xyz_data[i * 3 + 1], xyz_data[i * 3 + 2]));
@@ -727,21 +727,21 @@ QGraphicsMapScene *MainWindow::getScene(int id)
 {
     QGraphicsView* view = m_views[id];
     if (!view)
-        return 0;
+        return nullptr;
     return (static_cast<QGraphicsMapScene*>(view->scene()));
 }
 
 QGraphicsView *MainWindow::getTabView(int index)
 {
     if (index == -1)
-        return 0;
+        return nullptr;
     return (static_cast<QGraphicsView*>(ui->tabMap->widget(index)));
 }
 
 QGraphicsMapScene *MainWindow::getTabScene(int index)
 {
     if (!getTabView(index))
-        return 0;
+        return nullptr;
     QGraphicsView* view = getTabView(index);
     return (static_cast<QGraphicsMapScene*>(view->scene()));
 }
@@ -750,7 +750,7 @@ QGraphicsMapScene *MainWindow::currentScene()
 {
     QGraphicsView* view = static_cast<QGraphicsView*>(ui->tabMap->currentWidget());
     if (!view)
-        return 0;
+        return nullptr;
     return (static_cast<QGraphicsMapScene*>(view->scene()));
 }
 
@@ -846,13 +846,13 @@ void MainWindow::on_action_Events_triggered()
 
 void MainWindow::on_actionZoomIn_triggered()
 {
-    if (currentScene()->scale() != 2.0)
+    if (static_cast<double>(currentScene()->scale()) != 2.0)
         currentScene()->setScale(currentScene()->scale()*2);
 }
 
 void MainWindow::on_actionZoomOut_triggered()
 {
-    if (currentScene()->scale() != 0.25)
+    if (static_cast<double>(currentScene()->scale()) != 0.25)
         currentScene()->setScale(currentScene()->scale()/2);
 }
 
@@ -888,9 +888,11 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
         {
         case (QMessageBox::Yes):
             getTabScene(index)->Save();
+            break;
         case (QMessageBox::No):
             removeView(getTabScene(index)->id());
-        default:
+            break;
+        case (QMessageBox::Cancel):
             return;
         }
     }
@@ -1160,7 +1162,7 @@ void MainWindow::on_actionPaste_Map_triggered()
 
     std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(m_copiedMap.toStdString());
     RPG::MapInfo info;
-    for (int i = 0; i < (int) Data::treemap.maps.size(); i++)
+    for (size_t i = 0; i < Data::treemap.maps.size(); i++)
     {
         if (Data::treemap.maps[i].ID == info.ID)
         {

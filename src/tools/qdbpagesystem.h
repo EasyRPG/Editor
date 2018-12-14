@@ -13,7 +13,7 @@ class QDbPageSystem : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageSystem(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageSystem(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageSystem();
 
 private:

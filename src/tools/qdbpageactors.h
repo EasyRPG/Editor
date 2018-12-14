@@ -21,7 +21,7 @@ class QDbPageActors : public QWidget
     Q_OBJECT
 
 public:
-    explicit QDbPageActors(RPG::Database &database, QWidget *parent = 0);
+    explicit QDbPageActors(RPG::Database &database, QWidget *parent = nullptr);
     ~QDbPageActors();
 
 public slots:

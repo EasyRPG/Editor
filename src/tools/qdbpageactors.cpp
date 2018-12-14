@@ -12,7 +12,7 @@ QDbPageActors::QDbPageActors(RPG::Database &database, QWidget *parent) :
     const auto kMaxHp = database.system.ldb_id == 2003 ? 9999 : 999;
     ui->setupUi(this);
 
-    m_currentActor = 0;
+    m_currentActor = nullptr;
 
     ui->spinMaxLv->setMaximum(kMaxLevel);
 
@@ -170,10 +170,10 @@ void QDbPageActors::on_comboBattleset_currentIndexChanged(int index)
 
     m_currentActor->battler_animation = index;
 
-    if (index <= 0 || index >= (int)m_data.battleranimations.size())
+    if (index <= 0 || index >= static_cast<int>(m_data.battleranimations.size()))
         m_battlerItem->setBasePix(QGraphicsBattleAnimationItem::Battler,"");
     else
-        m_battlerItem->setDemoAnimation(m_data.battleranimations[index-1]);
+        m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(index) - 1]);
 }
 
 void QDbPageActors::on_checkDualWeapon_toggled(bool checked)
@@ -219,7 +219,7 @@ void QDbPageActors::on_comboInitialWeapon_currentIndexChanged(int index)
     if(!m_currentActor) return;
     if(m_currentActor->initial_equipment.weapon_id == ui->comboInitialWeapon->itemData(index))
         return;
-    m_currentActor->initial_equipment.weapon_id = ui->comboInitialWeapon->itemData(index).toInt();
+    m_currentActor->initial_equipment.weapon_id = static_cast<short>(ui->comboInitialWeapon->itemData(index).toInt());
 }
 
 void QDbPageActors::on_comboInitialShield_currentIndexChanged(int index)
@@ -228,7 +228,7 @@ void QDbPageActors::on_comboInitialShield_currentIndexChanged(int index)
     if(!m_currentActor) return;
     if(m_currentActor->initial_equipment.shield_id == ui->comboInitialShield->itemData(index).toInt())
         return;
-    m_currentActor->initial_equipment.shield_id = ui->comboInitialShield->itemData(index).toInt();
+    m_currentActor->initial_equipment.shield_id = static_cast<short>(ui->comboInitialShield->itemData(index).toInt());
 }
 void QDbPageActors::on_comboInitialArmor_currentIndexChanged(int index)
 {
@@ -236,7 +236,7 @@ void QDbPageActors::on_comboInitialArmor_currentIndexChanged(int index)
     if(!m_currentActor) return;
     if(m_currentActor->initial_equipment.armor_id == ui->comboInitialArmor->itemData(index).toInt())
         return;
-    m_currentActor->initial_equipment.armor_id = ui->comboInitialArmor->itemData(index).toInt();
+    m_currentActor->initial_equipment.armor_id = static_cast<short>(ui->comboInitialArmor->itemData(index).toInt());
 }
 void QDbPageActors::on_comboInitialHelmet_currentIndexChanged(int index)
 {
@@ -244,7 +244,7 @@ void QDbPageActors::on_comboInitialHelmet_currentIndexChanged(int index)
     if(!m_currentActor) return;
     if(m_currentActor->initial_equipment.helmet_id == ui->comboInitialHelmet->itemData(index).toInt())
         return;
-    m_currentActor->initial_equipment.helmet_id = ui->comboInitialHelmet->itemData(index).toInt();
+    m_currentActor->initial_equipment.helmet_id = static_cast<short>(ui->comboInitialHelmet->itemData(index).toInt());
 }
 void QDbPageActors::on_comboInitialMisc_currentIndexChanged(int index)
 {
@@ -252,7 +252,7 @@ void QDbPageActors::on_comboInitialMisc_currentIndexChanged(int index)
     if(!m_currentActor) return;
     if(m_currentActor->initial_equipment.accessory_id == ui->comboInitialMisc->itemData(index).toInt())
         return;
-    m_currentActor->initial_equipment.accessory_id = ui->comboInitialMisc->itemData(index).toInt();
+    m_currentActor->initial_equipment.accessory_id = static_cast<short>(ui->comboInitialMisc->itemData(index).toInt());
 }
 
 void QDbPageActors::on_comboUnarmedAnimation_currentIndexChanged(int index)
@@ -318,11 +318,11 @@ void QDbPageActors::ResetExpText(RPG::Actor* actor) {
 
 void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 {
-    m_currentActor = 0;
+    m_currentActor = nullptr;
 
     ResetExpText(actor);
 
-    if (actor == 0){
+    if (actor == nullptr){
         /* Clear widgets */
         ui->lineName->clear();
         ui->lineTitle->clear();
@@ -403,14 +403,14 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     ui->comboInitialMisc->addItem(tr("<none>"), 0);
     ui->comboInitialShield->addItem(tr("<none>"), 0);
     ui->comboInitialWeapon->addItem(tr("<none>"), 0);
-    for (unsigned int i = 0; i < m_data.items.size(); i++)
+    for (size_t i = 0; i < m_data.items.size(); i++)
     {
         /* Check if hero can use item*/
-        if (actor->ID <= (int) m_data.items[i].actor_set.size() &&
-                !m_data.items[i].actor_set[actor->ID-1])
+        if (actor->ID <= static_cast<int>(m_data.items[i].actor_set.size()) &&
+                !m_data.items[i].actor_set[static_cast<size_t>(actor->ID)-1])
             if (actor->class_id <= 0 ||
-                    (actor->class_id >= (int) m_data.items[i].class_set.size() &&
-                     ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[actor->class_id-1]))))
+                    (actor->class_id >= static_cast<int>(m_data.items[i].class_set.size()) &&
+                     ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[static_cast<size_t>(actor->class_id)-1]))))
                 continue;
 
         switch (m_data.items[i].type)
@@ -445,32 +445,32 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     ui->comboProfession->setCurrentIndex(actor->class_id);
     ui->comboUnarmedAnimation->setCurrentIndex(actor->unarmed_animation);
     ui->tableSkills->setRowCount(0);
-    for (unsigned int i = 0; i < actor->skills.size(); i++){
+    for (int i = 0; i < static_cast<int>(actor->skills.size()); i++){
         ui->tableSkills->insertRow(i);
         ui->tableSkills->setItem(i,0,new QTableWidgetItem());
         ui->tableSkills->setItem(i,1,new QTableWidgetItem());
-        ui->tableSkills->item(i, 0)->setText(QString::number(actor->skills[i].level));
+        ui->tableSkills->item(i, 0)->setText(QString::number(actor->skills[static_cast<size_t>(i)].level));
         // TODO: move getSkillName to Core
-        QString name = QString("<%1?>").arg(actor->skills[i].skill_id);
-        if ((unsigned) actor->skills[i].skill_id < m_data.skills.size())
-            name = m_data.skills[actor->skills[i].skill_id-1].name.c_str();
+        QString name = QString("<%1?>").arg(actor->skills[static_cast<size_t>(i)].skill_id);
+        if (actor->skills[static_cast<size_t>(i)].skill_id < static_cast<int>(m_data.skills.size()))
+            name = m_data.skills[static_cast<size_t>(actor->skills[static_cast<size_t>(i)].skill_id)-1].name.c_str();
         // TODO/
         ui->tableSkills->item(i, 1)->setText(name);
     }
-    ui->tableSkills->insertRow((int)actor->skills.size());
+    ui->tableSkills->insertRow(static_cast<int>(actor->skills.size()));
     for (int i = 0; i < ui->listAttributeRanks->count(); i++)
     {
-        if (i >= (int)actor->attribute_ranks.size())
-            ui->listAttributeRanks->item(i)->setIcon(QIcon(":/embedded/share/old_rank2.png"));
+        if (i >= static_cast<int>(actor->attribute_ranks.size()))
+            ui->listAttributeRanks->item(static_cast<int>(i))->setIcon(QIcon(":/embedded/share/old_rank2.png"));
         else
-            ui->listAttributeRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg((int)actor->attribute_ranks[i])));
+            ui->listAttributeRanks->item(static_cast<int>(i))->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg(static_cast<int>(actor->attribute_ranks[static_cast<size_t>(i)]))));
     }
     for (int i = 0; i < ui->listStatusRanks->count(); i++)
     {
-        if (i >= (int)actor->state_ranks.size())
+        if (i >= static_cast<int>(actor->state_ranks.size()))
             ui->listStatusRanks->item(i)->setIcon(QIcon(":/embedded/share/old_rank2.png"));
         else
-            ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg((int)actor->state_ranks[i])));
+            ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg(static_cast<int>(actor->state_ranks[static_cast<size_t>(i)]))));
     }
     m_charaItem->setVisible(true);
     m_charaItem->setBasePix(actor->character_name.c_str());
@@ -482,10 +482,10 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
     m_faceItem->setIndex(actor->face_index);
 
     if (actor->battler_animation <= 0 ||
-            actor->battler_animation >= (int)m_data.battleranimations.size())
+            actor->battler_animation >= static_cast<int>(m_data.battleranimations.size()))
         m_battlerItem->setBasePix(QGraphicsBattleAnimationItem::Battler,"");
     else
-        m_battlerItem->setDemoAnimation(m_data.battleranimations[actor->battler_animation-1]);
+        m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(actor->battler_animation)-1]);
 
     m_hpItem->setData(actor->parameters.maxhp);
     m_mpItem->setData(actor->parameters.maxsp);
@@ -527,15 +527,15 @@ void QDbPageActors::on_currentActorChanged(RPG::Actor *actor)
 
 void QDbPageActors::on_listCharacters_currentRowChanged(int currentRow)
 {
-    if (currentRow < 0 || currentRow >= (int)m_data.actors.size())
+    if (currentRow < 0 || currentRow >= static_cast<int>(m_data.actors.size()))
     {
-        on_currentActorChanged(0);
-        emit currentActorChanged(0);
+        on_currentActorChanged(nullptr);
+        emit currentActorChanged(nullptr);
         return; //invalid
     }
 
-    on_currentActorChanged(&m_data.actors[currentRow]);
-    emit currentActorChanged(&m_data.actors[currentRow]);
+    on_currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
+    emit currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
 }
 
 void QDbPageActors::on_checkTranslucent_toggled(bool checked)
@@ -552,10 +552,10 @@ void QDbPageActors::on_pushApplyProfession_clicked()
     if (!m_currentActor)
         return;
 
-    const RPG::Class &n_class = m_data.classes[ui->comboProfession->currentIndex()];
+    const RPG::Class &n_class = m_data.classes[static_cast<size_t>(ui->comboProfession->currentIndex())];
     /* Disconnect widgets */
     RPG::Actor *actor = m_currentActor;
-    m_currentActor = 0;
+    m_currentActor = nullptr;
     /* /Disconnect widgets */
     actor->class_id = ui->comboProfession->currentIndex();
     actor->attribute_ranks = n_class.attribute_ranks;

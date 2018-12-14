@@ -60,7 +60,7 @@ class MusicPlayer : public QWidget
 {
     Q_OBJECT
 public:
-    MusicPlayer(QWidget *parent = 0);
+    MusicPlayer(QWidget *parent = nullptr);
 
 public slots:
     void openFile();

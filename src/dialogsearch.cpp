@@ -245,26 +245,26 @@ void DialogSearch::on_button_search_clicked()
 void DialogSearch::on_list_result_doubleClicked(const QModelIndex &index)
 {
     auto *par = static_cast<MainWindow*>(parent());
-    par->openScene(std::get<0>(objectData[index.row()]));
-    auto *event = (*par->currentScene()->mapEvents())[std::get<1>(objectData[index.row()])];
+    par->openScene(std::get<0>(objectData[static_cast<size_t>(index.row())]));
+    auto *event = (*par->currentScene()->mapEvents())[std::get<1>(objectData[static_cast<size_t>(index.row())])];
     par->selectTile(event->x, event->y);
     par->currentScene()->centerOnTile(event->x, event->y);
 }
 
 std::shared_ptr<RPG::Map> DialogSearch::loadMap(int mapID)
 {
-    if (!(useCache && map_cache[mapID]))
+    if (!(useCache && map_cache[static_cast<size_t>(mapID)]))
     {
         const QString file = QString("Map%1.emu").arg(QString::number(mapID), 4, QLatin1Char('0'));
         const std::shared_ptr<RPG::Map> res_map{LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString())};
 
         if (useCache)
-            map_cache[mapID] = res_map;
+            map_cache[static_cast<size_t>(mapID)] = res_map;
 
         return res_map;
     }
 
-    return map_cache[mapID];
+    return map_cache[static_cast<size_t>(mapID)];
 }
 
 void DialogSearch::showResults(const std::vector<command_info>& results) {
@@ -284,7 +284,7 @@ void DialogSearch::showResults(const std::vector<command_info>& results) {
         {
             do
             {
-                auto& mapinfo = Data::treemap.maps[mm];
+                auto& mapinfo = Data::treemap.maps[static_cast<size_t>(mm)];
                 maps_rev << QString::fromStdString(mapinfo.name);
                 mm = mapinfo.parent_map;
             } while (mm != 0);

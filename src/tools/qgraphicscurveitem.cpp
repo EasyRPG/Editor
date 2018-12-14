@@ -28,9 +28,9 @@ void QGraphicsCurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     QRectF r = scene()->sceneRect();
     QVector<QPointF> p;
     p.append(r.bottomLeft());
-    for (int i = 0; i < (int)m_data.size(); i++)
-        p.append(QPointF(((qreal)i*r.width())/99.0,
-                         r.height()-r.height()*(qreal)m_data[i]/m_maxValue));
+    for (size_t i = 0; i < m_data.size(); i++)
+        p.append(QPointF((static_cast<qreal>(i)*r.width())/99.0,
+                         r.height()-r.height()*static_cast<qreal>(m_data[i])/m_maxValue));
     p.append(r.bottomRight());
 
     painter->fillRect(r, Qt::black);

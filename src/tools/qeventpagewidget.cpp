@@ -11,7 +11,7 @@
 QEventPageWidget::QEventPageWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QEventWidget),
-    m_eventPage(0)
+    m_eventPage(nullptr)
 {
     ui->setupUi(this);
     for (unsigned int i = 0; i < Data::items.size(); i++)
@@ -80,7 +80,7 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
     updateGraphic();
 
     m_codeGen = 0;
-    QTreeWidgetItem *parent = 0;
+    QTreeWidgetItem *parent = nullptr;
     for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
     {
         const RPG::EventCommand& command = m_eventPage->event_commands[i];
@@ -146,10 +146,10 @@ void QEventPageWidget::on_comboMoveType_currentIndexChanged(int index)
  * @return Formatted text
  */
 QString formatSwitchCondition(int switchId) {
-    if (switchId >= 1 && switchId <= Data::switches.size()) {
+    if (switchId >= 1 && switchId <= static_cast<int>(Data::switches.size())) {
         return QString("%1: %2").arg(switchId)
                 .arg(QString::fromStdString
-                     (Data::switches[switchId-1].name));
+                     (Data::switches[static_cast<size_t>(switchId) - 1].name));
     }
     else {
         return QString("%1: ???").arg(switchId);
@@ -190,10 +190,10 @@ void QEventPageWidget::on_checkVar_toggled(bool checked)
         return;
     if (checked) {
         int varId = m_eventPage->condition.variable_id;
-        if (varId >= 1 && varId <= Data::variables.size()) {
+        if (varId >= 1 && varId <= static_cast<int>(Data::variables.size())) {
             ui->lineVar->setText(QString("%1: %2").arg(varId)
                 .arg(QString::fromStdString
-                     (Data::variables[varId - 1].name)));
+                     (Data::variables[static_cast<size_t>(varId) - 1].name)));
         }
         else {
             ui->lineVar->setText(QString("%1: ???").arg(varId));
@@ -366,7 +366,7 @@ void QEventPageWidget::updateGraphic()
         QPixmap pix(16,16);
         pix.fill(QColor(0,0,0,0));
         mCore->beginPainting(pix);
-        mCore->renderTile(10000+m_eventPage->character_index,QRect(0,0,16,16));
+        mCore->renderTile(10000 + static_cast<short>(m_eventPage->character_index), QRect(0,0,16,16));
         mCore->endPainting();
         m_tileItem->setPixmap(pix);
         m_tileItem->setVisible(true);
