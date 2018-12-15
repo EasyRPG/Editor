@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/core.cpp
 	src/dialogcharapicker.cpp
 	src/dialogdatabase.cpp
+	src/dialogedit.cpp
 	src/dialogevent.cpp
 	src/dialogfacepicker.cpp
 	src/dialogimportimage.cpp
@@ -24,6 +25,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/mainwindow.cpp
 	src/musicplayer.cpp
 	src/stringizer.cpp
+	src/volumebutton.cpp
 	src/tools/qactordelegate.cpp
 	src/tools/qdbpageactors.cpp
 	src/tools/qdbpageattributes.cpp
@@ -50,7 +52,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/tools/qgraphicsfaceitem.cpp
 	src/tools/qgraphicsimportitem.cpp
 	src/tools/qgraphicsmapscene.cpp
-	src/tools/qgraphicspaletescene.cpp
+	src/tools/qgraphicspalettescene.cpp
 	src/tools/qgraphicspickerscene.cpp
 	src/tools/qundodraw.cpp
 	src/tools/qundoevent.cpp
@@ -65,7 +67,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/commands/showmessage.cpp
 	src/commands/switchoperations.cpp
 	src/commands/variableoperations.cpp
-	src/volumebutton.cpp
 )
 
 # C++17 is required

@@ -14,8 +14,8 @@ Documentation is available at the documentation wiki: https://wiki.easyrpg.org
 
 ## Requirements
 
-- liblcf for RPG Maker data reading. https://github.com/EasyRPG/liblcf
-- Qt (>= 5.2)
+- [liblcf] for RPG Maker data reading.
+- [Qt] (>= 5.2)
 - Qt multimedia
 
 
@@ -41,21 +41,6 @@ https://easyrpg.org/downloads/editor/
 
 ## Building
 
-### QMake method
-
-Building requirements:
-
-- GNU make
-
-Use Qt Creator or build it from command line using qmake.
-
-Step-by-step instructions:
-
-    qmake # generate Makefile (qmake-qt5 on some systems)
-    make  # compile the executable
-
-### CMake method
-
 Building requirements:
 
 - CMake
@@ -77,10 +62,16 @@ Available options:
 
 * File an issue at https://github.com/EasyRPG/Editor-Qt/issues
 * Open a thread at https://community.easyrpg.org/
-* Chat with us via IRC: #easyrpg at irc.freenode.net
+* Chat with us via IRC: [#easyrpg at irc.freenode.net]
 
 
 ## License
 
-EasyRPG Editor is free software available under the GPLv3 license. See the file
-COPYING for license conditions.
+EasyRPG Editor is free software available under the GPLv3 license.
+See the file [COPYING] for license conditions.
+
+
+[liblcf]: https://github.com/EasyRPG/liblcf
+[Qt]: https://www.qt.io
+[#easyrpg at irc.freenode.net]: https://kiwiirc.com/nextclient/#ircs://irc.freenode.net/#easyrpg?nick=rpgguest??
+[COPYING]: COPYING
