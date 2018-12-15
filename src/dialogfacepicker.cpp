@@ -21,7 +21,7 @@ dialogfacepicker::dialogfacepicker(QWidget *parent, bool tile_pick) :
 		if (info.isSymLink())
 			continue;
 		if (QString("png").contains(info.suffix(), Qt::CaseInsensitive))
-			ui->listRess->addItem(info.baseName());
+			ui->listRes->addItem(info.baseName());
 	}
 
 	dir = QDir(mCore->rtpPath(FACESET));
@@ -35,7 +35,7 @@ dialogfacepicker::dialogfacepicker(QWidget *parent, bool tile_pick) :
 		if (info.isSymLink())
 			continue;
 		if (QString("png").contains(info.suffix(), Qt::CaseInsensitive))
-			ui->listRess->addItem(info.baseName());
+			ui->listRes->addItem(info.baseName());
 	}
 
 	m_chara = new QGraphicsFaceItem();
@@ -76,7 +76,7 @@ void dialogfacepicker::setFrame(int frame)
 
 std::string dialogfacepicker::name()
 {
-	QString name = ui->listRess->currentItem()->text();
+	QString name = ui->listRes->currentItem()->text();
 	if (name.contains("*"))
 		name = "";
 	return name.toStdString();
@@ -84,15 +84,15 @@ std::string dialogfacepicker::name()
 
 void dialogfacepicker::setName(std::string name)
 {
-	if (name.empty() && ui->listRess->count() > 0)
+	if (name.empty() && ui->listRes->count() > 0)
 	{
-		ui->listRess->setCurrentRow(0);
+		ui->listRes->setCurrentRow(0);
 		return;
 	}
-	QList<QListWidgetItem*> items = ui->listRess->findItems(QString::fromStdString(name),
+	QList<QListWidgetItem*> items = ui->listRes->findItems(QString::fromStdString(name),
 															Qt::MatchFixedString);
 	if (!items.empty())
-		ui->listRess->setCurrentItem(items[0]);
+		ui->listRes->setCurrentItem(items[0]);
 }
 
 void dialogfacepicker::setAnimated(bool animated)
@@ -105,23 +105,23 @@ void dialogfacepicker::setAnimated(bool animated)
 
 int dialogfacepicker::index() const
 {
-	if (ui->listRess->currentItem()->text().contains("*"))
+	if (ui->listRes->currentItem()->text().contains("*"))
 		return m_tileScene->index();
 	return m_charaScene->index();
 }
 
 void dialogfacepicker::setIndex(int index)
 {
-	if (ui->listRess->currentItem()->text().contains("*"))
+	if (ui->listRes->currentItem()->text().contains("*"))
 		m_tileScene->setIndex(index);
 	else
 		m_charaScene->setIndex(index);
 }
 
-void dialogfacepicker::on_listRess_currentRowChanged(int currentRow)
+void dialogfacepicker::on_listRes_currentRowChanged(int currentRow)
 {
 	Q_UNUSED(currentRow)
-	if (ui->listRess->currentItem()->text().contains("*"))
+	if (ui->listRes->currentItem()->text().contains("*"))
 	{
 		ui->stackedMain->setCurrentWidget(ui->pageTileset);
 		return;
@@ -129,7 +129,7 @@ void dialogfacepicker::on_listRess_currentRowChanged(int currentRow)
 	else
 	{
 		ui->stackedMain->setCurrentWidget(ui->pageChara);
-		m_chara->setBasePix(ui->listRess->currentItem()->text());
+		m_chara->setBasePix(ui->listRes->currentItem()->text());
 	}
 }
 

@@ -14,7 +14,7 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 	ui->stackedMain->setCurrentWidget(tile_pick ? ui->pageTileset : ui->pageChara);
 	if (tile_pick)
 	{
-		ui->listRess->addItem(tr("*Tileset"));
+		ui->listRes->addItem(tr("*Tileset"));
 		QGraphicsPixmapItem *tileItem = new QGraphicsPixmapItem();
 		QPixmap pix(96, 384);
 		pix.fill(QColor(0,0,0,0));
@@ -40,7 +40,7 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 		if (info.isSymLink())
 			continue;
 		if (QString("png").contains(info.suffix(), Qt::CaseInsensitive))
-			ui->listRess->addItem(info.baseName());
+			ui->listRes->addItem(info.baseName());
 	}
 
 	dir = QDir(mCore->rtpPath(CHARSET));
@@ -54,7 +54,7 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 		if (info.isSymLink())
 			continue;
 		if (QString("png").contains(info.suffix(), Qt::CaseInsensitive))
-			ui->listRess->addItem(info.baseName());
+			ui->listRes->addItem(info.baseName());
 	}
 
 	m_chara = new QGraphicsCharaItem();
@@ -84,14 +84,14 @@ DialogCharaPicker::~DialogCharaPicker()
 
 int DialogCharaPicker::frame()
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return 0;
 	return m_chara->frame();
 }
 
 void DialogCharaPicker::setFrame(int frame)
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return;
 	m_chara->setFrame(frame);
 	updateFrame();
@@ -99,14 +99,14 @@ void DialogCharaPicker::setFrame(int frame)
 
 int DialogCharaPicker::facing()
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return 0;
 	return m_chara->facing();
 }
 
 void DialogCharaPicker::setFacing(int facing)
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return;
 	m_chara->setFacing(facing);
 	updateFacing();
@@ -114,21 +114,21 @@ void DialogCharaPicker::setFacing(int facing)
 
 std::string DialogCharaPicker::name()
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return "";
-	return ui->listRess->currentItem()->text().toStdString();
+	return ui->listRes->currentItem()->text().toStdString();
 }
 
 void DialogCharaPicker::setName(std::string name)
 {
 	if (m_tilePick && name.empty())
 	{
-		ui->listRess->setCurrentRow(0);
+		ui->listRes->setCurrentRow(0);
 		return;
 	}
-	QList<QListWidgetItem*> items = ui->listRess->findItems(QString::fromStdString(name),
+	QList<QListWidgetItem*> items = ui->listRes->findItems(QString::fromStdString(name),
 															Qt::MatchFixedString);
-	ui->listRess->setCurrentItem(items.empty() ? ui->listRess->item(0) : items[0]);
+	ui->listRes->setCurrentItem(items.empty() ? ui->listRes->item(0) : items[0]);
 }
 
 void DialogCharaPicker::setAnimated(bool animated)
@@ -155,14 +155,14 @@ void DialogCharaPicker::updateFacing()
 }
 int DialogCharaPicker::index() const
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return m_tileScene->index();
 	return m_charaScene->index();
 }
 
 void DialogCharaPicker::setIndex(int index)
 {
-	if (m_tilePick && ui->listRess->currentRow() == 0)
+	if (m_tilePick && ui->listRes->currentRow() == 0)
 		m_tileScene->setIndex(index);
 	else
 		m_charaScene->setIndex(index);
@@ -209,10 +209,10 @@ void DialogCharaPicker::on_radioRight_clicked()
 	m_chara->setFrame(QGraphicsCharaItem::Frame_right);
 }
 
-void DialogCharaPicker::on_listRess_currentRowChanged(int currentRow)
+void DialogCharaPicker::on_listRes_currentRowChanged(int currentRow)
 {
 	Q_UNUSED(currentRow)
-	if (ui->listRess->currentItem()->text().contains("*"))
+	if (ui->listRes->currentItem()->text().contains("*"))
 	{
 		ui->stackedMain->setCurrentWidget(ui->pageTileset);
 		return;
@@ -220,7 +220,7 @@ void DialogCharaPicker::on_listRess_currentRowChanged(int currentRow)
 	else
 	{
 		ui->stackedMain->setCurrentWidget(ui->pageChara);
-		m_chara->setBasePix(ui->listRess->currentItem()->text());
+		m_chara->setBasePix(ui->listRes->currentItem()->text());
 	}
 }
 
