@@ -18,7 +18,7 @@
     <normaloff>:/icons/share/old_easyrpg.png</normaloff>:/icons/share/old_easyrpg.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <layout class="QHBoxLayout" name="layoutCentral">
     <item>
      <widget class="QTabWidget" name="tabMap">
       <property name="documentMode">
@@ -92,7 +92,7 @@
     <addaction name="actionSearch"/>
     <addaction name="action_Script_Editor"/>
    </widget>
-   <widget class="QMenu" name="menuGame_2">
+   <widget class="QMenu" name="menuGame2">
     <property name="title">
      <string>Game</string>
     </property>
@@ -128,7 +128,7 @@
    <addaction name="menuMaps"/>
    <addaction name="menuView"/>
    <addaction name="menuTools"/>
-   <addaction name="menuGame_2"/>
+   <addaction name="menuGame2"/>
    <addaction name="menuHelp"/>
    <addaction name="menuDebug"/>
   </widget>
@@ -192,7 +192,7 @@
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="layoutDock">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -210,7 +210,7 @@
      </property>
      <item>
       <widget class="QWidget" name="widgetBar" native="true">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="layoutBar">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -248,8 +248,8 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+   <widget class="QWidget" name="dockWidgetContents2">
+    <layout class="QVBoxLayout" name="layoutDock2">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -267,7 +267,7 @@
      </property>
      <item>
       <widget class="QWidget" name="widgetBar2" native="true">
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="layoutBar2">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -323,7 +323,7 @@
     </size>
    </property>
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Toolbar</string>
    </property>
    <property name="movable">
     <bool>false</bool>
@@ -344,7 +344,7 @@
   </widget>
   <widget class="QToolBar" name="toolBar2">
    <property name="windowTitle">
-    <string>toolBar_2</string>
+    <string>Toolbar 2</string>
    </property>
    <property name="movable">
     <bool>false</bool>
