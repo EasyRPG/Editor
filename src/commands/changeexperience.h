@@ -10,18 +10,18 @@ class ChangeExperience;
 
 class ChangeExperience : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ChangeExperience(QWidget *parent, RPG::EventCommand &cmd);
-    ~ChangeExperience();
+	explicit ChangeExperience(QWidget *parent, RPG::EventCommand &cmd);
+	~ChangeExperience();
 
 private slots:
-    void on_ChangeExperience_accepted();
+	void on_ChangeExperience_accepted();
 
 private:
-    Ui::ChangeExperience *ui;
-    RPG::EventCommand &cmd;
+	Ui::ChangeExperience *ui;
+	RPG::EventCommand &cmd;
 };
 
 #endif // CHANGEEXPERIENCE_H

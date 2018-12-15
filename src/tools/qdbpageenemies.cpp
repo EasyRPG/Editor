@@ -2,14 +2,14 @@
 #include "ui_qdbpageenemies.h"
 
 QDbPageEnemies::QDbPageEnemies(RPG::Database &database, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::QDbPageEnemies),
-    m_data(database)
+	QWidget(parent),
+	ui(new Ui::QDbPageEnemies),
+	m_data(database)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 QDbPageEnemies::~QDbPageEnemies()
 {
-    delete ui;
+	delete ui;
 }

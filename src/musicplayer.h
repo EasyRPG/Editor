@@ -11,15 +11,15 @@
 ** "Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are
 ** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
+**	 * Redistributions of source code must retain the above copyright
+**	   notice, this list of conditions and the following disclaimer.
+**	 * Redistributions in binary form must reproduce the above copyright
+**	   notice, this list of conditions and the following disclaimer in
+**	   the documentation and/or other materials provided with the
+**	   distribution.
+**	 * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
+**	   of its contributors may be used to endorse or promote products derived
+**	   from this software without specific prior written permission.
 **
 **
 ** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -58,61 +58,61 @@ QT_FORWARD_DECLARE_CLASS(QWinThumbnailToolButton)
 
 class MusicPlayer : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    MusicPlayer(QWidget *parent = nullptr);
+	MusicPlayer(QWidget *parent = nullptr);
 
 public slots:
-    void openFile();
-    void playFile(const QString& filePath);
-    void togglePlayback();
-    void seekForward();
-    void seekBackward();
+	void openFile();
+	void playFile(const QString& filePath);
+	void togglePlayback();
+	void seekForward();
+	void seekBackward();
 
 protected:
-    bool event(QEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+	bool event(QEvent *event);
+	void mousePressEvent(QMouseEvent *event);
+	void mouseMoveEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:
 #ifdef Q_OS_WIN
-    void stylize();
+	void stylize();
 #endif
-    void updateState(QMediaPlayer::State state);
-    void updatePosition(qint64 position);
-    void updateDuration(qint64 duration);
-    void setPosition(int position);
-    void updateInfo();
-    void handleError();
+	void updateState(QMediaPlayer::State state);
+	void updatePosition(qint64 position);
+	void updateDuration(qint64 duration);
+	void setPosition(int position);
+	void updateInfo();
+	void handleError();
 #ifdef Q_OS_WIN
-    void updateTaskbar();
-    void updateThumbnailToolBar();
+	void updateTaskbar();
+	void updateThumbnailToolBar();
 #endif
 
 private:
-    void createWidgets();
-    void createShortcuts();
-    void createJumpList();
-    void createTaskbar();
-    void createThumbnailToolBar();
+	void createWidgets();
+	void createShortcuts();
+	void createJumpList();
+	void createTaskbar();
+	void createThumbnailToolBar();
 
 #ifdef Q_OS_WIN
-    QWinTaskbarButton* taskbarButton;
-    QWinTaskbarProgress* taskbarProgress;
-    QWinThumbnailToolBar* thumbnailToolBar;
-    QWinThumbnailToolButton *playToolButton;
-    QWinThumbnailToolButton *forwardToolButton;
-    QWinThumbnailToolButton *backwardToolButton;
+	QWinTaskbarButton* taskbarButton;
+	QWinTaskbarProgress* taskbarProgress;
+	QWinThumbnailToolBar* thumbnailToolBar;
+	QWinThumbnailToolButton *playToolButton;
+	QWinThumbnailToolButton *forwardToolButton;
+	QWinThumbnailToolButton *backwardToolButton;
 #endif
 
-    QMediaPlayer mediaPlayer;
-    QAbstractButton *playButton;
-    VolumeButton *volumeButton;
-    QSlider *positionSlider;
-    QLabel *positionLabel;
-    QLabel *infoLabel;
-    QPoint offset;
+	QMediaPlayer mediaPlayer;
+	QAbstractButton *playButton;
+	VolumeButton *volumeButton;
+	QSlider *positionSlider;
+	QLabel *positionLabel;
+	QLabel *infoLabel;
+	QPoint offset;
 };
 
 #endif // MUSICPLAYER_H

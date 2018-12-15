@@ -10,15 +10,15 @@ class ShowMessage;
 
 class ShowMessage : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ShowMessage(QWidget *parent, RPG::EventCommand &command);
-    ~ShowMessage();
+	explicit ShowMessage(QWidget *parent, RPG::EventCommand &command);
+	~ShowMessage();
 
 private:
-    Ui::ShowMessage *ui;
-    RPG::EventCommand &command;
+	Ui::ShowMessage *ui;
+	RPG::EventCommand &command;
 };
 
 #endif // SHOWMESSAGE_H

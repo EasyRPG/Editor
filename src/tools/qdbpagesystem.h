@@ -10,15 +10,15 @@ class QDbPageSystem;
 
 class QDbPageSystem : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageSystem(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageSystem();
+	explicit QDbPageSystem(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageSystem();
 
 private:
-    Ui::QDbPageSystem *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageSystem *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGESYSTEM_H

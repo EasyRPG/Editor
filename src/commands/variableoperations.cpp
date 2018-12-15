@@ -2,16 +2,16 @@
 #include "ui_variableoperations.h"
 
 VariableOperations::VariableOperations(QWidget *parent, RPG::EventCommand &cmd) :
-    QDialog(parent),
-    ui(new Ui::VariableOperations),
-    cmd(cmd)
+	QDialog(parent),
+	ui(new Ui::VariableOperations),
+	cmd(cmd)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    //TODO
+	//TODO
 }
 
 VariableOperations::~VariableOperations()
 {
-    delete ui;
+	delete ui;
 }

@@ -9,18 +9,18 @@ class DialogRtpPath;
 
 class DialogRtpPath : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit DialogRtpPath(QWidget *parent = nullptr);
-    ~DialogRtpPath();
+	explicit DialogRtpPath(QWidget *parent = nullptr);
+	~DialogRtpPath();
 
 private slots:
-    void on_toolRtpPath_clicked();
+	void on_toolRtpPath_clicked();
 
-    void on_ok();
+	void on_ok();
 private:
-    Ui::DialogRtpPath *ui;
+	Ui::DialogRtpPath *ui;
 };
 
 #endif // DIALOGRTPPATH_H

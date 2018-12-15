@@ -11,15 +11,15 @@
 ** "Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are
 ** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
+**	 * Redistributions of source code must retain the above copyright
+**	   notice, this list of conditions and the following disclaimer.
+**	 * Redistributions in binary form must reproduce the above copyright
+**	   notice, this list of conditions and the following disclaimer in
+**	   the documentation and/or other materials provided with the
+**	   distribution.
+**	 * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
+**	   of its contributors may be used to endorse or promote products derived
+**	   from this software without specific prior written permission.
 **
 **
 ** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -49,29 +49,29 @@ QT_FORWARD_DECLARE_CLASS(QSlider)
 
 class VolumeButton : public QToolButton
 {
-    Q_OBJECT
-    Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
+	Q_OBJECT
+	Q_PROPERTY(int volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
 public:
-    VolumeButton(QWidget *parent = nullptr);
+	VolumeButton(QWidget *parent = nullptr);
 
-    int volume() const;
+	int volume() const;
 
 public slots:
-    void increaseVolume();
-    void descreaseVolume();
-    void setVolume(int volume);
+	void increaseVolume();
+	void descreaseVolume();
+	void setVolume(int volume);
 #ifdef Q_OS_WIN
-    void stylize();
+	void stylize();
 #endif
 
 signals:
-    void volumeChanged(int volume);
+	void volumeChanged(int volume);
 
 private:
-    QMenu *menu;
-    QLabel *label;
-    QSlider *slider;
+	QMenu *menu;
+	QLabel *label;
+	QSlider *slider;
 };
 
 #endif // VOLUMEBUTTON_H

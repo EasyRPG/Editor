@@ -10,15 +10,15 @@ class QDbPageEnemyGroups;
 
 class QDbPageEnemyGroups : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageEnemyGroups(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageEnemyGroups();
+	explicit QDbPageEnemyGroups(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageEnemyGroups();
 
 private:
-    Ui::QDbPageEnemyGroups *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageEnemyGroups *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEENEMYGROUPS_H

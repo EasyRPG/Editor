@@ -10,15 +10,15 @@ class QDbPageItems;
 
 class QDbPageItems : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageItems(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageItems();
+	explicit QDbPageItems(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageItems();
 
 private:
-    Ui::QDbPageItems *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageItems *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEITEMS_H

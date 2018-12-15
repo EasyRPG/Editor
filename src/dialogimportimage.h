@@ -12,28 +12,28 @@ class DialogImportImage;
 
 class DialogImportImage : public QDialog
 {
-    Q_OBJECT
-    
+	Q_OBJECT
+	
 public:
-    explicit DialogImportImage(QString n_filepath, QWidget *parent = nullptr);
-    ~DialogImportImage();
+	explicit DialogImportImage(QString n_filepath, QWidget *parent = nullptr);
+	~DialogImportImage();
 
-    QImage image();
-    
+	QImage image();
+	
 private slots:
-    void on_pushZoomIn_clicked();
+	void on_pushZoomIn_clicked();
 
-    void on_pushZoomOut_clicked();
+	void on_pushZoomOut_clicked();
 
-    void image_clicked(QPointF pos, bool pressed);
+	void image_clicked(QPointF pos, bool pressed);
 
 private:
-    Ui::DialogImportImage *ui;
+	Ui::DialogImportImage *ui;
 
-    qreal m_scale;
-    QString m_filepath;
-    QGraphicsScene *scene;
-    QGraphicsImportItem * m_pixmap;
+	qreal m_scale;
+	QString m_filepath;
+	QGraphicsScene *scene;
+	QGraphicsImportItem * m_pixmap;
 
 };
 

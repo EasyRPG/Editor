@@ -8,20 +8,20 @@
 class QUndoDraw : public QUndoCommand
 {
 public:
-    explicit QUndoDraw(Core::Layer layer,
-                       std::vector<short> data,
-                       QGraphicsMapScene *scene,
-                       QUndoCommand *parent = nullptr);
+	explicit QUndoDraw(Core::Layer layer,
+					   std::vector<short> data,
+					   QGraphicsMapScene *scene,
+					   QUndoCommand *parent = nullptr);
 
-    void undo();
+	void undo();
 signals:
 
 public slots:
 
 private:
-    Core::Layer m_layer;
-    std::vector<short> m_data;
-    QGraphicsMapScene* m_scene;
+	Core::Layer m_layer;
+	std::vector<short> m_data;
+	QGraphicsMapScene* m_scene;
 };
 
 #endif // QUNDODRAW_H

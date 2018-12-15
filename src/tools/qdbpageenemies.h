@@ -10,15 +10,15 @@ class QDbPageEnemies;
 
 class QDbPageEnemies : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageEnemies(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageEnemies();
+	explicit QDbPageEnemies(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageEnemies();
 
 private:
-    Ui::QDbPageEnemies *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageEnemies *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEENEMIES_H

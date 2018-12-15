@@ -7,43 +7,43 @@
 
 class QGraphicsBattleAnimationItem : public QObject, public QGraphicsPixmapItem
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    enum Type{
-        Battler,
-        Weapon
-    };
+	enum Type{
+		Battler,
+		Weapon
+	};
 
-    explicit QGraphicsBattleAnimationItem(const QPixmap pix = QPixmap());
+	explicit QGraphicsBattleAnimationItem(const QPixmap pix = QPixmap());
 
-    void setDemoAnimation(const RPG::BattlerAnimation &demoAnimation);
+	void setDemoAnimation(const RPG::BattlerAnimation &demoAnimation);
 
-    void setBasePix(Type type, const QString &pixName);
+	void setBasePix(Type type, const QString &pixName);
 
-    int index() const;
-    void setIndex(int index);
+	int index() const;
+	void setIndex(int index);
 
-    void updatePix();
+	void updatePix();
 
-    inline int frameSize(){return (m_type == Battler) ? 48 : 64;}
+	inline int frameSize(){return (m_type == Battler) ? 48 : 64;}
 
 signals:
-    void demoAdvance();
+	void demoAdvance();
 
 private slots:
-    void on_demoAdvance();
+	void on_demoAdvance();
 
 protected:
-    void advance(int phase);
+	void advance(int phase);
 
 private:
-    QPixmap m_pix;
-    Type m_type;
-    int m_index;
-    int m_frame;
-    bool m_demo;
-    int m_demoIndex;
-    RPG::BattlerAnimation m_demoAnimation;
+	QPixmap m_pix;
+	Type m_type;
+	int m_index;
+	int m_frame;
+	bool m_demo;
+	int m_demoIndex;
+	RPG::BattlerAnimation m_demoAnimation;
 };
 
 #endif // QGRAPHICSBATTLERITEM_H

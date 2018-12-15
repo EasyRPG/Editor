@@ -11,14 +11,14 @@ class DialogSplash;
 
 class DialogSplash : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit DialogSplash(QWidget *parent = nullptr);
-    ~DialogSplash();
+	explicit DialogSplash(QWidget *parent = nullptr);
+	~DialogSplash();
 
 private:
-    Ui::DialogSplash *ui;
+	Ui::DialogSplash *ui;
 };
 
 #endif // DIALOGSPLASH_H

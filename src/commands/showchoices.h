@@ -10,17 +10,17 @@ class ShowChoices;
 
 class ShowChoices : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ShowChoices(QWidget *parent, RPG::EventCommand &cmd);
-    ~ShowChoices();
+	explicit ShowChoices(QWidget *parent, RPG::EventCommand &cmd);
+	~ShowChoices();
 
 private slots:
 
 private:
-    Ui::ShowChoices *ui;
-    RPG::EventCommand &cmd;
+	Ui::ShowChoices *ui;
+	RPG::EventCommand &cmd;
 };
 
 #endif // SHOWCHOICES_H

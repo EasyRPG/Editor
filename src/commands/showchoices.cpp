@@ -2,16 +2,16 @@
 #include "ui_showchoices.h"
 
 ShowChoices::ShowChoices(QWidget *parent, RPG::EventCommand &cmd) :
-    QDialog(parent),
-    ui(new Ui::ShowChoices),
-    cmd(cmd)
+	QDialog(parent),
+	ui(new Ui::ShowChoices),
+	cmd(cmd)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    //TODO
+	//TODO
 }
 
 ShowChoices::~ShowChoices()
 {
-    delete ui;
+	delete ui;
 }

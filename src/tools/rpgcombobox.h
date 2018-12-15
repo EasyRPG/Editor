@@ -14,33 +14,33 @@ template <class MODEL>
 class RpgComboBox : public QComboBox
 {
 public:
-    RpgComboBox(QWidget *parent, QAbstractItemModel *model = new MODEL());
-    virtual ~RpgComboBox() {}
+	RpgComboBox(QWidget *parent, QAbstractItemModel *model = new MODEL());
+	virtual ~RpgComboBox() {}
 };
 
 template <class MODEL>
 RpgComboBox<MODEL>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
-    QComboBox(parent)
+	QComboBox(parent)
 {
-    setModel(model);
-    setEditable(true);
+	setModel(model);
+	setEditable(true);
 
-    QCompleter *comp = new QCompleter(model, this);
-    comp->setCaseSensitivity(Qt::CaseInsensitive);
-    comp->setFilterMode(Qt::MatchContains);
-    comp->setCompletionMode(QCompleter::PopupCompletion);
-    setCompleter(comp);
+	QCompleter *comp = new QCompleter(model, this);
+	comp->setCaseSensitivity(Qt::CaseInsensitive);
+	comp->setFilterMode(Qt::MatchContains);
+	comp->setCompletionMode(QCompleter::PopupCompletion);
+	setCompleter(comp);
 
 
-    connect(this, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
-        if (index == 0)
-        {
-            auto type = typename MODEL::typestruct()();
-            DialogEdit<decltype(type)> edit(this, type);
+	connect(this, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
+		if (index == 0)
+		{
+			auto type = typename MODEL::typestruct()();
+			DialogEdit<decltype(type)> edit(this, type);
 
-            edit.exec();
-        }
-    });
+			edit.exec();
+		}
+	});
 
 }
 

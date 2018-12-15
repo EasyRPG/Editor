@@ -10,15 +10,15 @@ class QDbPageSkills;
 
 class QDbPageSkills : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageSkills(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageSkills();
+	explicit QDbPageSkills(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageSkills();
 
 private:
-    Ui::QDbPageSkills *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageSkills *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGESKILLS_H

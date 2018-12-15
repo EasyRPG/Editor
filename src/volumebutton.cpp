@@ -11,15 +11,15 @@
 ** "Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are
 ** met:
-**   * Redistributions of source code must retain the above copyright
-**     notice, this list of conditions and the following disclaimer.
-**   * Redistributions in binary form must reproduce the above copyright
-**     notice, this list of conditions and the following disclaimer in
-**     the documentation and/or other materials provided with the
-**     distribution.
-**   * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
-**     of its contributors may be used to endorse or promote products derived
-**     from this software without specific prior written permission.
+**	 * Redistributions of source code must retain the above copyright
+**	   notice, this list of conditions and the following disclaimer.
+**	 * Redistributions in binary form must reproduce the above copyright
+**	   notice, this list of conditions and the following disclaimer in
+**	   the documentation and/or other materials provided with the
+**	   distribution.
+**	 * Neither the name of Digia Plc and its Subsidiary(-ies) nor the names
+**	   of its contributors may be used to endorse or promote products derived
+**	   from this software without specific prior written permission.
 **
 **
 ** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -46,73 +46,73 @@
 #endif
 
 VolumeButton::VolumeButton(QWidget *parent) :
-    QToolButton(parent), menu(nullptr), label(nullptr), slider(nullptr)
+	QToolButton(parent), menu(nullptr), label(nullptr), slider(nullptr)
 {
-    setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
-    setPopupMode(QToolButton::InstantPopup);
+	setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+	setPopupMode(QToolButton::InstantPopup);
 
-    QWidget *popup = new QWidget(this);
+	QWidget *popup = new QWidget(this);
 
-    slider = new QSlider(Qt::Horizontal, popup);
-    slider->setRange(0, 100);
-    connect(slider, SIGNAL(valueChanged(int)), this, SIGNAL(volumeChanged(int)));
+	slider = new QSlider(Qt::Horizontal, popup);
+	slider->setRange(0, 100);
+	connect(slider, SIGNAL(valueChanged(int)), this, SIGNAL(volumeChanged(int)));
 
-    label = new QLabel(popup);
-    label->setAlignment(Qt::AlignCenter);
-    label->setNum(100);
-    label->setMinimumWidth(label->sizeHint().width());
-    connect(slider, SIGNAL(valueChanged(int)), label, SLOT(setNum(int)));
+	label = new QLabel(popup);
+	label->setAlignment(Qt::AlignCenter);
+	label->setNum(100);
+	label->setMinimumWidth(label->sizeHint().width());
+	connect(slider, SIGNAL(valueChanged(int)), label, SLOT(setNum(int)));
 
-    QBoxLayout *popupLayout = new QHBoxLayout(popup);
-    popupLayout->setMargin(2);
-    popupLayout->addWidget(slider);
-    popupLayout->addWidget(label);
+	QBoxLayout *popupLayout = new QHBoxLayout(popup);
+	popupLayout->setMargin(2);
+	popupLayout->addWidget(slider);
+	popupLayout->addWidget(label);
 
-    QWidgetAction *action = new QWidgetAction(this);
-    action->setDefaultWidget(popup);
+	QWidgetAction *action = new QWidgetAction(this);
+	action->setDefaultWidget(popup);
 
-    menu = new QMenu(this);
-    menu->addAction(action);
-    setMenu(menu);
+	menu = new QMenu(this);
+	menu->addAction(action);
+	setMenu(menu);
 
 #ifdef Q_OS_WIN
-    stylize();
+	stylize();
 #endif
 }
 
 void VolumeButton::increaseVolume()
 {
-    slider->triggerAction(QSlider::SliderPageStepAdd);
+	slider->triggerAction(QSlider::SliderPageStepAdd);
 }
 
 void VolumeButton::descreaseVolume()
 {
-    slider->triggerAction(QSlider::SliderPageStepSub);
+	slider->triggerAction(QSlider::SliderPageStepSub);
 }
 
 int VolumeButton::volume() const
 {
-    return slider->value();
+	return slider->value();
 }
 
 void VolumeButton::setVolume(int volume)
 {
-    slider->setValue(volume);
+	slider->setValue(volume);
 }
 
 #ifdef Q_OS_WIN
 //! [0]
 void VolumeButton::stylize()
 {
-    if (QtWin::isCompositionEnabled()) {
-        QtWin::enableBlurBehindWindow(menu);
-        QString css("QMenu { border: 1px solid %1; border-radius: 2px; background: transparent; }");
-        menu->setStyleSheet(css.arg(QtWin::realColorizationColor().name()));
-    } else {
-        QtWin::disableBlurBehindWindow(menu);
-        QString css("QMenu { border: 1px solid black; background: %1; }");
-        menu->setStyleSheet(css.arg(QtWin::realColorizationColor().name()));
-    }
+	if (QtWin::isCompositionEnabled()) {
+		QtWin::enableBlurBehindWindow(menu);
+		QString css("QMenu { border: 1px solid %1; border-radius: 2px; background: transparent; }");
+		menu->setStyleSheet(css.arg(QtWin::realColorizationColor().name()));
+	} else {
+		QtWin::disableBlurBehindWindow(menu);
+		QString css("QMenu { border: 1px solid black; background: %1; }");
+		menu->setStyleSheet(css.arg(QtWin::realColorizationColor().name()));
+	}
 }
 //! [0]
 #endif

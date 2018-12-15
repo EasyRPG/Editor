@@ -10,17 +10,17 @@ class VariableOperations;
 
 class VariableOperations : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit VariableOperations(QWidget *parent, RPG::EventCommand &cmd);
-    ~VariableOperations();
+	explicit VariableOperations(QWidget *parent, RPG::EventCommand &cmd);
+	~VariableOperations();
 
 private slots:
 
 private:
-    Ui::VariableOperations *ui;
-    RPG::EventCommand &cmd;
+	Ui::VariableOperations *ui;
+	RPG::EventCommand &cmd;
 };
 
 

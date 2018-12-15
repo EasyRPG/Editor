@@ -9,30 +9,30 @@ class DialogNewProject;
 
 class DialogNewProject : public QDialog
 {
-    Q_OBJECT
-    
+	Q_OBJECT
+	
 public:
-    explicit DialogNewProject(QWidget *parent = nullptr);
-    ~DialogNewProject();
+	explicit DialogNewProject(QWidget *parent = nullptr);
+	~DialogNewProject();
 
-    QString getGameTitle() const;
-    QString getProjectFolder() const;
-    int getTileSize() const;
+	QString getGameTitle() const;
+	QString getProjectFolder() const;
+	int getTileSize() const;
 
-    //TODO: generate RTP template code.
+	//TODO: generate RTP template code.
 
-    void setDefDir(QString n_defDir);
-    QString getDefDir();
+	void setDefDir(QString n_defDir);
+	QString getDefDir();
 
 
 private slots:
-    void on_toolProjectPath_clicked();
+	void on_toolProjectPath_clicked();
 
-    void on_lineGameFolder_textChanged(const QString &arg1);
+	void on_lineGameFolder_textChanged(const QString &arg1);
 
 private:
-    Ui::DialogNewProject *ui;
-    QString m_defDir;
+	Ui::DialogNewProject *ui;
+	QString m_defDir;
 };
 
 #endif // DIALOGNEWPROJECT_H

@@ -10,15 +10,15 @@ class MessageOptions;
 
 class MessageOptions : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit MessageOptions(QWidget *parent, RPG::EventCommand &command);
-    ~MessageOptions();
+	explicit MessageOptions(QWidget *parent, RPG::EventCommand &command);
+	~MessageOptions();
 
 private:
-    Ui::MessageOptions *ui;
-    RPG::EventCommand &command;
+	Ui::MessageOptions *ui;
+	RPG::EventCommand &command;
 };
 
 #endif // MESSAGEOPTIONS_H

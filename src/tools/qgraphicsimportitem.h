@@ -7,17 +7,17 @@
 class QGraphicsImportItem : public QGraphicsPixmapItem
 {
 public:
-    explicit QGraphicsImportItem(const QPixmap pix);
-    
+	explicit QGraphicsImportItem(const QPixmap pix);
+	
 private:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+	void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
-    void updateKeyColor(QPointF pos);
+	void updateKeyColor(QPointF pos);
 
-    QPixmap m_original_pix;
-    
+	QPixmap m_original_pix;
+	
 public slots:
-    
+	
 };
 
 #endif // QIMPORTVIEW_H
