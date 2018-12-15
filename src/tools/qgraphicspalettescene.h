@@ -1,5 +1,5 @@
-#ifndef QGRAPHICSPALETESCENE_H
-#define QGRAPHICSPALETESCENE_H
+#ifndef QGRAPHICSPALETTESCENE_H
+#define QGRAPHICSPALETTESCENE_H
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -7,12 +7,12 @@
 #include <QGraphicsRectItem>
 #include "../core.h"
 
-class QGraphicsPaleteScene : public QGraphicsScene
+class QGraphicsPaletteScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
 
-	explicit QGraphicsPaleteScene(QObject *parent = nullptr);
+	explicit QGraphicsPaletteScene(QObject *parent = nullptr);
 
 
 signals:
@@ -42,4 +42,4 @@ protected:
 
 };
 
-#endif // QGRAPHICSPALETESCENE_H
+#endif // QGRAPHICSPALETTESCENE_H
