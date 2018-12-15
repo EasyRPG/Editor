@@ -22,15 +22,15 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="layoutPanel">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_19">
+       <layout class="QVBoxLayout" name="layoutLeft">
         <item>
-         <widget class="QGroupBox" name="groupBox">
+         <widget class="QGroupBox" name="groupName">
           <property name="title">
            <string>Name</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <layout class="QHBoxLayout" name="layoutName">
            <item>
             <widget class="QLineEdit" name="lineName"/>
            </item>
@@ -38,11 +38,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_2">
+         <widget class="QGroupBox" name="groupTileset">
           <property name="title">
-           <string>Title set</string>
+           <string>Tile set</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
+          <layout class="QVBoxLayout" name="layoutTilset">
            <item>
             <widget class="QComboBox" name="comboTileset"/>
            </item>
@@ -50,11 +50,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_4">
+         <widget class="QGroupBox" name="groupDimensions">
           <property name="title">
            <string>Dimensions</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <layout class="QHBoxLayout" name="layoutDimensions">
            <item>
             <widget class="QSpinBox" name="spinWidth"/>
            </item>
@@ -65,11 +65,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_3">
+         <widget class="QGroupBox" name="groupWrapping">
           <property name="title">
            <string>Wrapping</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <layout class="QVBoxLayout" name="layoutWrapping">
            <item>
             <widget class="QComboBox" name="comboWrapping">
              <item>
@@ -98,11 +98,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_5">
+         <widget class="QGroupBox" name="groupEncounters">
           <property name="title">
            <string>Enemy Encounters</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <layout class="QVBoxLayout" name="layoutEncounters">
            <item>
             <widget class="QTableWidget" name="tableEncounters">
              <attribute name="horizontalHeaderVisible">
@@ -150,16 +150,16 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <layout class="QHBoxLayout" name="layoutEncounterRate">
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="labelEncounterRate">
                <property name="text">
                 <string>Rate</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="spinEncontrerRate"/>
+              <widget class="QSpinBox" name="spinEncounterRate"/>
              </item>
             </layout>
            </item>
@@ -169,7 +169,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QGridLayout" name="gridLayout_2">
+       <layout class="QGridLayout" name="layoutMiddle">
         <item row="0" column="0" colspan="4">
          <widget class="QGroupBox" name="groupPanorama">
           <property name="sizePolicy">
@@ -184,7 +184,7 @@
           <property name="checkable">
            <bool>true</bool>
           </property>
-          <layout class="QGridLayout" name="gridLayout_4">
+          <layout class="QGridLayout" name="layoutPanorama">
            <item row="0" column="0" colspan="2">
             <widget class="QGraphicsView" name="graphicsPanorama"/>
            </item>
@@ -203,7 +203,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
+             <layout class="QVBoxLayout" name="layoutHorizontalScroll">
               <item>
                <widget class="QCheckBox" name="checkHorizontalAutoscroll">
                 <property name="sizePolicy">
@@ -218,9 +218,9 @@
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <layout class="QHBoxLayout" name="layoutHorizontalScrollSpeed">
                 <item>
-                 <widget class="QLabel" name="label_2">
+                 <widget class="QLabel" name="labelHorizontalScrollSpeed">
                   <property name="text">
                    <string>Speed</string>
                   </property>
@@ -255,7 +255,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
+             <layout class="QVBoxLayout" name="layoutVerticalScroll">
               <item>
                <widget class="QCheckBox" name="checkVerticalAutoscroll">
                 <property name="sizePolicy">
@@ -270,9 +270,9 @@
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout">
+               <layout class="QHBoxLayout" name="layoutVerticalScrollSpeed">
                 <item>
-                 <widget class="QLabel" name="label_3">
+                 <widget class="QLabel" name="labelVerticalScrollSpeed">
                   <property name="text">
                    <string>Speed</string>
                   </property>
@@ -303,11 +303,11 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="2">
-         <widget class="QGroupBox" name="groupBox_15">
+         <widget class="QGroupBox" name="groupBGM">
           <property name="title">
            <string>BGM</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_13">
+          <layout class="QVBoxLayout" name="layoutBGM">
            <item>
             <widget class="QRadioButton" name="radioBGMparent">
              <property name="text">
@@ -330,7 +330,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <layout class="QHBoxLayout" name="layoutBGMname">
              <item>
               <widget class="QLineEdit" name="lineBGMname">
                <property name="sizePolicy">
@@ -354,11 +354,11 @@
          </widget>
         </item>
         <item row="1" column="2" colspan="2">
-         <widget class="QGroupBox" name="groupBox_16">
+         <widget class="QGroupBox" name="groupBattleBackground">
           <property name="title">
            <string>Battle Background</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_14">
+          <layout class="QVBoxLayout" name="layoutBattleBackground">
            <item>
             <widget class="QRadioButton" name="radioBackdropParent">
              <property name="text">
@@ -381,7 +381,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <layout class="QHBoxLayout" name="layoutBackdropSpecify">
              <item>
               <widget class="QLineEdit" name="lineBackdropName"/>
              </item>
@@ -398,11 +398,11 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QGroupBox" name="groupBox_12">
+         <widget class="QGroupBox" name="groupTeleport">
           <property name="title">
            <string>Teleport</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_10">
+          <layout class="QVBoxLayout" name="layoutTeleport">
            <item>
             <widget class="QRadioButton" name="radioTeleportParent">
              <property name="text">
@@ -428,11 +428,11 @@
          </widget>
         </item>
         <item row="2" column="1" colspan="2">
-         <widget class="QGroupBox" name="groupBox_13">
+         <widget class="QGroupBox" name="groupEscape">
           <property name="title">
            <string>Escape</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
+          <layout class="QVBoxLayout" name="layoutEscape">
            <item>
             <widget class="QRadioButton" name="radioEscapeParent">
              <property name="text">
@@ -458,11 +458,11 @@
          </widget>
         </item>
         <item row="2" column="3">
-         <widget class="QGroupBox" name="groupBox_14">
+         <widget class="QGroupBox" name="groupSave">
           <property name="title">
            <string>Save</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_12">
+          <layout class="QVBoxLayout" name="layoutSave">
            <item>
             <widget class="QRadioButton" name="radioSaveParent">
              <property name="text">
@@ -503,13 +503,13 @@
         <property name="checkable">
          <bool>true</bool>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_18">
+        <layout class="QVBoxLayout" name="layoutGeneratorGuidelines">
          <item>
-          <widget class="QGroupBox" name="groupBox_17">
+          <widget class="QGroupBox" name="groupGeneratorGuidelines">
            <property name="title">
             <string>Dungeon Generation guidelines</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_17">
+           <layout class="QVBoxLayout" name="layoutGroupGeneratorGuidelines">
             <item>
              <widget class="QRadioButton" name="radioDungeonSinglePassage">
               <property name="text">
@@ -539,13 +539,13 @@
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <layout class="QHBoxLayout" name="layoutPassageRoom">
               <item>
-               <widget class="QGroupBox" name="groupBox_28">
+               <widget class="QGroupBox" name="groupDungeonPassage">
                 <property name="title">
                  <string>Passage Granularity</string>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_15">
+                <layout class="QVBoxLayout" name="layoutDungeonPassage">
                  <item>
                   <widget class="QRadioButton" name="radioDungeonPassage1_1">
                    <property name="text">
@@ -564,7 +564,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_27">
+               <widget class="QGroupBox" name="groupRoomDimensions">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>1</horstretch>
@@ -572,11 +572,11 @@
                  </sizepolicy>
                 </property>
                 <property name="title">
-                 <string>Rom Dimentions</string>
+                 <string>Room Dimensions</string>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_3">
+                <layout class="QGridLayout" name="layoutRoomDimensions">
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_4">
+                  <widget class="QLabel" name="labelDungeonRoomWidth">
                    <property name="text">
                     <string>Width</string>
                    </property>
@@ -599,7 +599,7 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLabel" name="label_5">
+                  <widget class="QLabel" name="labelDungeonRoomHeight">
                    <property name="text">
                     <string>Height</string>
                    </property>
@@ -631,13 +631,13 @@
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="gridLayout">
+          <layout class="QGridLayout" name="layoutTiles">
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_18">
+            <widget class="QGroupBox" name="groupCeiling">
              <property name="title">
               <string>Ceiling</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_23">
+             <layout class="QVBoxLayout" name="layoutCeiling">
               <item>
                <widget class="QGraphicsView" name="graphicsCeiling">
                 <property name="minimumSize">
@@ -664,11 +664,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_19">
+            <widget class="QGroupBox" name="groupLowerWall">
              <property name="title">
               <string>Lower Wall</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_22">
+             <layout class="QVBoxLayout" name="layoutLowerWall">
               <item>
                <widget class="QGraphicsView" name="graphicsLowerWall">
                 <property name="minimumSize">
@@ -702,7 +702,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_21">
+             <layout class="QVBoxLayout" name="layoutUpperWall">
               <item>
                <widget class="QGraphicsView" name="graphicsUpperWall">
                 <property name="minimumSize">
@@ -729,11 +729,11 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_26">
+            <widget class="QGroupBox" name="groupFloorA">
              <property name="title">
               <string>Floor A</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_24">
+             <layout class="QVBoxLayout" name="layoutFloorA">
               <item>
                <widget class="QGraphicsView" name="graphicsFloorA">
                 <property name="minimumSize">
@@ -767,7 +767,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_25">
+             <layout class="QVBoxLayout" name="layoutFloorB">
               <item>
                <widget class="QGraphicsView" name="graphicsFloorB">
                 <property name="minimumSize">
@@ -801,7 +801,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_26">
+             <layout class="QVBoxLayout" name="layoutFloorC">
               <item>
                <widget class="QGraphicsView" name="graphicsFloorC">
                 <property name="minimumSize">
@@ -828,11 +828,11 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QGroupBox" name="groupBox_23">
+            <widget class="QGroupBox" name="groupObstacleA">
              <property name="title">
               <string>Obstacle A</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_29">
+             <layout class="QVBoxLayout" name="layoutObstacleA">
               <item>
                <widget class="QGraphicsView" name="graphicsObstacleA">
                 <property name="minimumSize">
@@ -866,7 +866,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_28">
+             <layout class="QVBoxLayout" name="layoutObstacleB">
               <item>
                <widget class="QGraphicsView" name="graphicsObstacleB">
                 <property name="minimumSize">
@@ -900,7 +900,7 @@
              <property name="checkable">
               <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_27">
+             <layout class="QVBoxLayout" name="layoutObstacleC">
               <item>
                <widget class="QGraphicsView" name="graphicsObstacleC">
                 <property name="minimumSize">
