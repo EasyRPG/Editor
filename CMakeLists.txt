@@ -68,9 +68,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/volumebutton.cpp
 )
 
-# C++11 is required
+# C++17 is required
 set_target_properties(${PROJECT_NAME} PROPERTIES
-	CXX_STANDARD 11
+	CXX_STANDARD 17
 	CXX_STANDARD_REQUIRED ON
 	CXX_EXTENSIONS OFF
 )
