@@ -89,27 +89,20 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Extra FindModule files
 list(APPEND CMAKE_MODULE_PATH
-    "${CMAKE_CURRENT_SOURCE_DIR}/Modules")
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+
+include(ConfigureWindows)
 
 # Dependencies
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5Gui REQUIRED)
-if(WIN32)
-	find_package(Qt5WinExtras REQUIRED)
-endif()
 find_package(liblcf REQUIRED)
 
-# Additional include directories
-include_directories(${LIBLCF_INCLUDE_DIRS})
-
 # Libraries
-list(APPEND EASYRPG_EDITOR_LIBRARIES ${LIBLCF_LIBRARIES})
+list(APPEND EASYRPG_EDITOR_LIBRARIES liblcf::liblcf)
 list(APPEND EASYRPG_EDITOR_LIBRARIES Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia)
-if(WIN32)
-	list(APPEND EASYRPG_EDITOR_LIBRARIES Qt5::WinExtras)
-endif()
 
 set(EASYRPG_EDITOR_LIBRARIES_ALL ${EASYRPG_EDITOR_LIBRARIES} "${PROJECT_NAME}_Static")
 
