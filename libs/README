@@ -1,5 +1,0 @@
-HOW TO:
-
-1- Clone (or download) https://github.com/EasyRPG/liblcf.git in this folder.
-2- Make sure the project's name is <liblcf>
-3- Build liblcf from liblcf\builds\qt\liblcf.pro
