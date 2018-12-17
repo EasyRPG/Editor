@@ -10,15 +10,15 @@ class QDbPageAttributes;
 
 class QDbPageAttributes : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageAttributes(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageAttributes();
+	explicit QDbPageAttributes(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageAttributes();
 
 private:
-    Ui::QDbPageAttributes *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageAttributes *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEATTIBUTES_H

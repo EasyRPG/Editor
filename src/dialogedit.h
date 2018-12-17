@@ -10,23 +10,23 @@ class DialogEdit;
 template <class DATA>
 class DialogEdit : public QDialog
 {
-    //Q_OBJECT
+	//Q_OBJECT
 
 public:
-    DialogEdit(QWidget *parent, DATA &data);
-    ~DialogEdit() = default;
+	DialogEdit(QWidget *parent, DATA &data);
+	~DialogEdit() = default;
 
 private:
-    Ui::DialogEdit *ui;
-    DATA _data;
+	Ui::DialogEdit *ui;
+	DATA _data;
 };
 
 template <class DATA>
 DialogEdit<DATA>::DialogEdit(QWidget *parent, DATA& data) :
-    QDialog(parent),
-    _data(data)
+	QDialog(parent),
+	_data(data)
 {
-    //TODO put in data and stuff
+	//TODO put in data and stuff
 }
 
 #endif // DIALOGEDIT_H

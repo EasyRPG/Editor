@@ -10,15 +10,15 @@ class QDbPageHeroStatus;
 
 class QDbPageHeroStatus : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageHeroStatus(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageHeroStatus();
+	explicit QDbPageHeroStatus(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageHeroStatus();
 
 private:
-    Ui::QDbPageHeroStatus *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageHeroStatus *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEHEROSTATUS_H

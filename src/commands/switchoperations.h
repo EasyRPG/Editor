@@ -10,17 +10,17 @@ class SwitchOperations;
 
 class SwitchOperations : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit SwitchOperations(QWidget *parent, RPG::EventCommand &cmd);
-    ~SwitchOperations();
+	explicit SwitchOperations(QWidget *parent, RPG::EventCommand &cmd);
+	~SwitchOperations();
 
 private slots:
 
 private:
-    Ui::SwitchOperations *ui;
-    RPG::EventCommand &cmd;
+	Ui::SwitchOperations *ui;
+	RPG::EventCommand &cmd;
 };
 
 #endif // SWITCHOPERATIONS_H

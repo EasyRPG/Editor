@@ -10,15 +10,15 @@ class QDbPageTerrain;
 
 class QDbPageTerrain : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageTerrain(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageTerrain();
+	explicit QDbPageTerrain(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageTerrain();
 
 private:
-    Ui::QDbPageTerrain *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageTerrain *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGETERRAIN_H

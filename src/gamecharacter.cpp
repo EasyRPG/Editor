@@ -3,79 +3,79 @@
 
 
 GameCharacter::GameCharacter() :
-    m_name(""),
-    m_title(""),
-    m_minlvl(1),
-    m_maxlvl(99),
-    m_docritical(true),
-    m_critical(30),
-    m_dualweapons(false),
-    m_fixedequip(false),
-    m_ai(false),
-    m_strongdefense(false),
-    m_profession(-1),
-    m_facename("<none>"),
-    m_faceindex(0),
-    m_charaname("<none>"),
-    m_charaindex(0),
-    m_charatranslucent(false),
-    m_battleset(-1),
-    m_expinitial(300),
-    m_expincrement(300),
-    m_expcorrection(0),
-    m_initialweapon(-1),
-    m_initialshield(-1),
-    m_initialarmor(-1),
-    m_initialhelmet(-1),
-    m_initialother(-1),
-    m_battleranimation(-1)
+	m_name(""),
+	m_title(""),
+	m_minlvl(1),
+	m_maxlvl(99),
+	m_docritical(true),
+	m_critical(30),
+	m_dualweapons(false),
+	m_fixedequip(false),
+	m_ai(false),
+	m_strongdefense(false),
+	m_profession(-1),
+	m_facename("<none>"),
+	m_faceindex(0),
+	m_charaname("<none>"),
+	m_charaindex(0),
+	m_charatranslucent(false),
+	m_battleset(-1),
+	m_expinitial(300),
+	m_expincrement(300),
+	m_expcorrection(0),
+	m_initialweapon(-1),
+	m_initialshield(-1),
+	m_initialarmor(-1),
+	m_initialhelmet(-1),
+	m_initialother(-1),
+	m_battleranimation(-1)
   {
-      for (int i = 0; i < 100; i++) {
-          m_hpcurve.append(1);
-          m_mpcurve.append(0);
-          m_attackcurve.append(1);
-          m_defensecurve.append(1);
-          m_intelligencecurve.append(1);
-          m_agilitycurve.append(1);
-      }
+	  for (int i = 0; i < 100; i++) {
+		  m_hpcurve.append(1);
+		  m_mpcurve.append(0);
+		  m_attackcurve.append(1);
+		  m_defensecurve.append(1);
+		  m_intelligencecurve.append(1);
+		  m_agilitycurve.append(1);
+	  }
 }
 
 GameCharacter::GameCharacter(const GameCharacter &other) :
-    m_name(other.m_name),
-    m_title(other.m_title),
-    m_minlvl(other.m_minlvl),
-    m_maxlvl(other.m_maxlvl),
-    m_docritical(other.m_docritical),
-    m_critical(other.m_critical),
-    m_dualweapons(other.m_dualweapons),
-    m_fixedequip(other.m_fixedequip),
-    m_ai(other.m_ai),
-    m_strongdefense(other.m_strongdefense),
-    m_profession(other.m_profession),
-    m_facename(other.m_facename),
-    m_faceindex(other.m_faceindex),
-    m_charaname(other.m_charaname),
-    m_charaindex(other.m_charaindex),
-    m_charatranslucent(other.m_charatranslucent),
-    m_battleset(other.m_battleset),
-    m_expinitial(other.m_expinitial),
-    m_expincrement(other.m_expincrement),
-    m_expcorrection(other.m_expcorrection),
-    m_initialweapon(other.m_initialweapon),
-    m_initialshield(other.m_initialshield),
-    m_initialarmor(other.m_initialarmor),
-    m_initialhelmet(other.m_initialhelmet),
-    m_initialother(other.m_initialother),
-    m_battleranimation(other.m_battleranimation)
+	m_name(other.m_name),
+	m_title(other.m_title),
+	m_minlvl(other.m_minlvl),
+	m_maxlvl(other.m_maxlvl),
+	m_docritical(other.m_docritical),
+	m_critical(other.m_critical),
+	m_dualweapons(other.m_dualweapons),
+	m_fixedequip(other.m_fixedequip),
+	m_ai(other.m_ai),
+	m_strongdefense(other.m_strongdefense),
+	m_profession(other.m_profession),
+	m_facename(other.m_facename),
+	m_faceindex(other.m_faceindex),
+	m_charaname(other.m_charaname),
+	m_charaindex(other.m_charaindex),
+	m_charatranslucent(other.m_charatranslucent),
+	m_battleset(other.m_battleset),
+	m_expinitial(other.m_expinitial),
+	m_expincrement(other.m_expincrement),
+	m_expcorrection(other.m_expcorrection),
+	m_initialweapon(other.m_initialweapon),
+	m_initialshield(other.m_initialshield),
+	m_initialarmor(other.m_initialarmor),
+	m_initialhelmet(other.m_initialhelmet),
+	m_initialother(other.m_initialother),
+	m_battleranimation(other.m_battleranimation)
   {
-      for (int i = 0; i < 100; i++) {
-          m_hpcurve.append(other.m_hpcurve[i]);
-          m_mpcurve.append(other.m_mpcurve[i]);
-          m_attackcurve.append(other.m_attackcurve[i]);
-          m_defensecurve.append(other.m_defensecurve[i]);
-          m_intelligencecurve.append(other.m_intelligencecurve[i]);
-          m_agilitycurve.append(other.m_agilitycurve[i]);
-      }
+	  for (int i = 0; i < 100; i++) {
+		  m_hpcurve.append(other.m_hpcurve[i]);
+		  m_mpcurve.append(other.m_mpcurve[i]);
+		  m_attackcurve.append(other.m_attackcurve[i]);
+		  m_defensecurve.append(other.m_defensecurve[i]);
+		  m_intelligencecurve.append(other.m_intelligencecurve[i]);
+		  m_agilitycurve.append(other.m_agilitycurve[i]);
+	  }
 }
 
 GameCharacter::~GameCharacter()
@@ -85,54 +85,54 @@ GameCharacter::~GameCharacter()
 
 GameCharacter &GameCharacter::operator=(const GameCharacter &other)
 {
-    if (this != &other){
-        this->~GameCharacter();
-        new (this) GameCharacter(other);
-    }
-    return *this;
+	if (this != &other){
+		this->~GameCharacter();
+		new (this) GameCharacter(other);
+	}
+	return *this;
 }
 
 bool GameCharacter::operator==(const GameCharacter &other)
 {
 #define check(var) var == other.var
-    return (check(m_name) &&
-            check(m_title) &&
-            check(m_minlvl) &&
-            check(m_maxlvl) &&
-            check(m_docritical) &&
-            check(m_critical) &&
-            check(m_dualweapons) &&
-            check(m_fixedequip) &&
-            check(m_ai) &&
-            check(m_strongdefense) &&
-            check(m_profession) &&
-            check(m_battleset) &&
-            check(m_initialweapon) &&
-            check(m_initialshield) &&
-            check(m_initialarmor) &&
-            check(m_initialhelmet) &&
-            check(m_initialother) &&
-            check(m_battleranimation) &&
-            check(m_faceindex) &&
-            check(m_facename) &&
-            check(m_charaindex) &&
-            check(m_charaname) &&
-            check(m_charatranslucent) &&
-            check(m_expinitial) &&
-            check(m_expincrement) &&
-            check(m_expcorrection) &&
-            check(m_hpcurve) &&
-            check(m_mpcurve) &&
-            check(m_attackcurve) &&
-            check(m_defensecurve) &&
-            check(m_intelligencecurve) &&
-            check(m_agilitycurve));
+	return (check(m_name) &&
+			check(m_title) &&
+			check(m_minlvl) &&
+			check(m_maxlvl) &&
+			check(m_docritical) &&
+			check(m_critical) &&
+			check(m_dualweapons) &&
+			check(m_fixedequip) &&
+			check(m_ai) &&
+			check(m_strongdefense) &&
+			check(m_profession) &&
+			check(m_battleset) &&
+			check(m_initialweapon) &&
+			check(m_initialshield) &&
+			check(m_initialarmor) &&
+			check(m_initialhelmet) &&
+			check(m_initialother) &&
+			check(m_battleranimation) &&
+			check(m_faceindex) &&
+			check(m_facename) &&
+			check(m_charaindex) &&
+			check(m_charaname) &&
+			check(m_charatranslucent) &&
+			check(m_expinitial) &&
+			check(m_expincrement) &&
+			check(m_expcorrection) &&
+			check(m_hpcurve) &&
+			check(m_mpcurve) &&
+			check(m_attackcurve) &&
+			check(m_defensecurve) &&
+			check(m_intelligencecurve) &&
+			check(m_agilitycurve));
 #undef check
 }
 
 bool GameCharacter::operator!=(const GameCharacter &other)
 {
-    return !(this->operator ==(other));
+	return !(this->operator ==(other));
 }
 
 void GameCharacter::name(QString n_name) {m_name = n_name;}
@@ -158,14 +158,14 @@ void GameCharacter::strongdefense(bool n_sdef) {m_strongdefense = n_sdef;}
 void GameCharacter::profession(int n_profession) {m_profession = n_profession;}
 
 void GameCharacter::faceset(QString n_facename, int n_faceindex) {m_facename = n_facename;
-                                                                  m_faceindex = n_faceindex;}
+																  m_faceindex = n_faceindex;}
 
 void GameCharacter::facename(QString n_facename) {m_facename = n_facename;}
 
 void GameCharacter::faceindex(int n_faceindex) {m_faceindex = n_faceindex;}
 
 void GameCharacter::charaset(QString n_charaname, int n_charaindex) {m_charaname = n_charaname;
-                                                                     m_charaindex = n_charaindex;}
+																	 m_charaindex = n_charaindex;}
 
 void GameCharacter::charaname(QString n_charaname) {m_charaname = n_charaname;}
 
@@ -188,8 +188,8 @@ void GameCharacter::intelligencecurve(QVector<int> n_curve) {m_intelligencecurve
 void GameCharacter::agilitycurve(QVector<int> n_curve) {m_agilitycurve = n_curve;}
 
 void GameCharacter::expcurve(int n_expinitial, int n_expincrement, int n_expcorrection) {m_expinitial = n_expinitial;
-                                                                                         m_expincrement = n_expincrement;
-                                                                                                                                                                              m_expcorrection = n_expcorrection;}
+																						 m_expincrement = n_expincrement;
+																																											  m_expcorrection = n_expcorrection;}
 
 void GameCharacter::expinitial(int n_expinitial) {m_expinitial = n_expinitial;}
 

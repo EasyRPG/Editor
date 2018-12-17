@@ -6,17 +6,17 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    a.setApplicationName("EasyRPG Editor");
-    a.setOrganizationName("EasyRPG");
-    a.setOrganizationDomain("easy-rpg.org");
-    MainWindow w;
-    DialogSplash s(&w);
-    s.show();
-    QTimer::singleShot(3000, &s, SLOT(hide()));
-    QTimer::singleShot(3000, &w, SLOT(show()));
+	QApplication a(argc, argv);
+	a.setApplicationName("EasyRPG Editor");
+	a.setOrganizationName("EasyRPG");
+	a.setOrganizationDomain("easy-rpg.org");
+	MainWindow w;
+	DialogSplash s(&w);
+	s.show();
+	QTimer::singleShot(3000, &s, SLOT(hide()));
+	QTimer::singleShot(3000, &w, SLOT(show()));
 
-    w.LoadLastProject();
+	w.LoadLastProject();
 
-    return a.exec();
+	return a.exec();
 }

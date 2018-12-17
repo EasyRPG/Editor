@@ -8,14 +8,14 @@
 class QUndoEvent : public QUndoCommand
 {
 public:
-    explicit QUndoEvent(RPG::Event data,
-                        QGraphicsMapScene *scene,
-                        QUndoCommand *parent = nullptr);
-    void undo();
+	explicit QUndoEvent(RPG::Event data,
+						QGraphicsMapScene *scene,
+						QUndoCommand *parent = nullptr);
+	void undo();
 
 private:
-    RPG::Event m_data;
-    QGraphicsMapScene* m_scene;
+	RPG::Event m_data;
+	QGraphicsMapScene* m_scene;
 };
 
 #endif // QUNDOEVENT_H

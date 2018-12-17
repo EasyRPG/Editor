@@ -12,27 +12,27 @@ class QDbPageClasses;
 
 class QDbPageClasses : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageClasses(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageClasses();
+	explicit QDbPageClasses(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageClasses();
 
-    void UpdateModels();
+	void UpdateModels();
 
 public slots:
-    void on_currentClassChanged(RPG::Class *_class);
+	void on_currentClassChanged(RPG::Class *_class);
 
 signals:
-    void currentClassChanged(RPG::Class *_class);
+	void currentClassChanged(RPG::Class *_class);
 
 private:
-    Ui::QDbPageClasses *ui;
+	Ui::QDbPageClasses *ui;
 
-    QGraphicsBattleAnimationItem *m_battlerItem;
+	QGraphicsBattleAnimationItem *m_battlerItem;
 
-    RPG::Class *m_currentClass;
-    RPG::Database &m_data;
+	RPG::Class *m_currentClass;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEPROFESSIONS_H

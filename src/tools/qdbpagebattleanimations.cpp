@@ -2,14 +2,14 @@
 #include "ui_qdbpagebattleanimations.h"
 
 QDbPageBattleAnimations::QDbPageBattleAnimations(RPG::Database &database, QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::QDbPageBattleAnimations),
-    m_data(database)
+	QWidget(parent),
+	ui(new Ui::QDbPageBattleAnimations),
+	m_data(database)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 }
 
 QDbPageBattleAnimations::~QDbPageBattleAnimations()
 {
-    delete ui;
+	delete ui;
 }

@@ -10,15 +10,15 @@ class QDbPageBattleAnimations2;
 
 class QDbPageBattleAnimations2 : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageBattleAnimations2(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageBattleAnimations2();
+	explicit QDbPageBattleAnimations2(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageBattleAnimations2();
 
 private:
-    Ui::QDbPageBattleAnimations2 *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageBattleAnimations2 *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGEBATTLEANIMATIONS2_H

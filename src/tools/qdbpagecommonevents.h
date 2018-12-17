@@ -10,15 +10,15 @@ class QDbPageCommonEvents;
 
 class QDbPageCommonEvents : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit QDbPageCommonEvents(RPG::Database &database, QWidget *parent = nullptr);
-    ~QDbPageCommonEvents();
+	explicit QDbPageCommonEvents(RPG::Database &database, QWidget *parent = nullptr);
+	~QDbPageCommonEvents();
 
 private:
-    Ui::QDbPageCommonEvents *ui;
-    RPG::Database &m_data;
+	Ui::QDbPageCommonEvents *ui;
+	RPG::Database &m_data;
 };
 
 #endif // QDBPAGECOMMONEVENTS_H

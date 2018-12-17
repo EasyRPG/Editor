@@ -9,28 +9,28 @@ class DialogImportProject;
 
 class DialogImportProject : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit DialogImportProject(QWidget *parent = nullptr);
-    ~DialogImportProject();
+	explicit DialogImportProject(QWidget *parent = nullptr);
+	~DialogImportProject();
 
-    void setDefDir(QString n_defDir);
-    QString getDefDir();
-    QString getProjectFolder() const;
-    QString getSourceFolder() const;
-    bool getConvertXYZ() const;
+	void setDefDir(QString n_defDir);
+	QString getDefDir();
+	QString getProjectFolder() const;
+	QString getSourceFolder() const;
+	bool getConvertXYZ() const;
 private slots:
-    void on_lineGameFolder_textChanged(const QString &arg1);
+	void on_lineGameFolder_textChanged(const QString &arg1);
 
-    void on_toolProjectPath_clicked();
+	void on_toolProjectPath_clicked();
 
-    void on_toolSourcePath_clicked();
+	void on_toolSourcePath_clicked();
 
 private:
-    Ui::DialogImportProject *ui;
+	Ui::DialogImportProject *ui;
 
-    QString m_defDir;
+	QString m_defDir;
 };
 
 #endif // DIALOGIMPORTPROJECT_H
