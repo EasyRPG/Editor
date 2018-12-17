@@ -49,12 +49,6 @@ class VolumeButton;
 QT_FORWARD_DECLARE_CLASS(QLabel)
 QT_FORWARD_DECLARE_CLASS(QSlider)
 QT_FORWARD_DECLARE_CLASS(QAbstractButton)
-#ifdef Q_OS_WIN
-QT_FORWARD_DECLARE_CLASS(QWinTaskbarButton)
-QT_FORWARD_DECLARE_CLASS(QWinTaskbarProgress)
-QT_FORWARD_DECLARE_CLASS(QWinThumbnailToolBar)
-QT_FORWARD_DECLARE_CLASS(QWinThumbnailToolButton)
-#endif
 
 class MusicPlayer : public QWidget
 {
@@ -76,19 +70,12 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:
-#ifdef Q_OS_WIN
-	void stylize();
-#endif
 	void updateState(QMediaPlayer::State state);
 	void updatePosition(qint64 position);
 	void updateDuration(qint64 duration);
 	void setPosition(int position);
 	void updateInfo();
 	void handleError();
-#ifdef Q_OS_WIN
-	void updateTaskbar();
-	void updateThumbnailToolBar();
-#endif
 
 private:
 	void createWidgets();
@@ -96,15 +83,6 @@ private:
 	void createJumpList();
 	void createTaskbar();
 	void createThumbnailToolBar();
-
-#ifdef Q_OS_WIN
-	QWinTaskbarButton* taskbarButton;
-	QWinTaskbarProgress* taskbarProgress;
-	QWinThumbnailToolBar* thumbnailToolBar;
-	QWinThumbnailToolButton *playToolButton;
-	QWinThumbnailToolButton *forwardToolButton;
-	QWinThumbnailToolButton *backwardToolButton;
-#endif
 
 	QMediaPlayer mediaPlayer;
 	QAbstractButton *playButton;

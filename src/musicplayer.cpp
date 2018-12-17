@@ -42,22 +42,11 @@
 #include "volumebutton.h"
 
 #include <QtWidgets>
-#ifdef Q_OS_WIN
-#include <QtWinExtras>
-#endif
 #include <QWidget>
 #include <QMediaPlayer>
 
 
 MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
-#ifdef Q_OS_WIN
-	taskbarButton(nullptr),
-	taskbarProgress(nullptr),
-	thumbnailToolBar(nullptr),
-	playToolButton(nullptr),
-	forwardToolButton(nullptr),
-	backwardToolButton(nullptr),
-#endif
 	mediaPlayer(nullptr),
 	playButton(nullptr),
 	volumeButton(nullptr),
@@ -67,21 +56,13 @@ MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
 {
 	createWidgets();
 	createShortcuts();
-#ifdef Q_OS_WIN
-	createJumpList();
-	createTaskbar();
-	createThumbnailToolBar();
-#endif
+
 	connect(&mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(updatePosition(qint64)));
 	connect(&mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(updateDuration(qint64)));
 	connect(&mediaPlayer, SIGNAL(metaDataAvailableChanged(bool)), this, SLOT(updateInfo()));
 	connect(&mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(handleError()));
 	connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)),
 			this, SLOT(updateState(QMediaPlayer::State)));
-
-#ifdef Q_OS_WIN
-	stylize();
-#endif
 }
 
 void MusicPlayer::openFile()
@@ -123,16 +104,10 @@ void MusicPlayer::seekBackward()
 	positionSlider->triggerAction(QSlider::SliderPageStepSub);
 }
 
-//! [0]
 bool MusicPlayer::event(QEvent *event)
 {
-#ifdef Q_OS_WIN
-	if (event->type() == QWinEvent::CompositionChange || event->type() == QWinEvent::ColorizationChange)
-		stylize();
-#endif
 	return QWidget::event(event);
 }
-//! [0]
 
 void MusicPlayer::mousePressEvent(QMouseEvent *event)
 {
@@ -151,25 +126,6 @@ void MusicPlayer::mouseReleaseEvent(QMouseEvent *event)
 	offset = QPoint();
 	event->accept();
 }
-
-#ifdef Q_OS_WIN
-//! [1]
-void MusicPlayer::stylize()
-{
-	if (QtWin::isCompositionEnabled()) {
-		QtWin::extendFrameIntoClientArea(this, -1, -1, -1, -1);
-		setAttribute(Qt::WA_TranslucentBackground, true);
-		setAttribute(Qt::WA_NoSystemBackground, false);
-		setStyleSheet("MusicPlayer { background: transparent; }");
-	} else {
-		QtWin::resetExtendedFrame(this);
-		setAttribute(Qt::WA_TranslucentBackground, false);
-		setStyleSheet(QString("MusicPlayer { background: %1; }").arg(QtWin::realColorizationColor().name()));
-	}
-	volumeButton->stylize();
-}
-//! [1]
-#endif
 
 void MusicPlayer::updateState(QMediaPlayer::State state)
 {
@@ -222,47 +178,6 @@ void MusicPlayer::handleError()
 	playButton->setEnabled(false);
 	infoLabel->setText(tr("Error: %1").arg(mediaPlayer.errorString()));
 }
-
-#ifdef Q_OS_WIN
-//! [2]
-void MusicPlayer::updateTaskbar()
-{
-	switch (mediaPlayer.state()) {
-	case QMediaPlayer::PlayingState:
-		taskbarButton->setOverlayIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-		taskbarProgress->show();
-		taskbarProgress->resume();
-		break;
-	case QMediaPlayer::PausedState:
-		taskbarButton->setOverlayIcon(style()->standardIcon(QStyle::SP_MediaPause));
-		taskbarProgress->show();
-		taskbarProgress->pause();
-		break;
-	case QMediaPlayer::StoppedState:
-		taskbarButton->setOverlayIcon(style()->standardIcon(QStyle::SP_MediaStop));
-		taskbarProgress->hide();
-		break;
-	}
-}
-//! [2]
-
-//! [3]
-void MusicPlayer::updateThumbnailToolBar()
-{
-	playToolButton->setEnabled(mediaPlayer.duration() > 0);
-	backwardToolButton->setEnabled(mediaPlayer.position() > 0);
-	forwardToolButton->setEnabled(mediaPlayer.position() < mediaPlayer.duration());
-
-	if (mediaPlayer.state() == QMediaPlayer::PlayingState) {
-		playToolButton->setToolTip(tr("Pause"));
-		playToolButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
-	} else {
-		playToolButton->setToolTip(tr("Play"));
-		playToolButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-	}
-}
-//! [3]
-#endif
 
 void MusicPlayer::createWidgets()
 {
@@ -328,61 +243,3 @@ void MusicPlayer::createShortcuts()
 	QShortcut *decreaseShortcut = new QShortcut(Qt::Key_Down, this);
 	connect(decreaseShortcut, SIGNAL(activated()), volumeButton, SLOT(descreaseVolume()));
 }
-
-#ifdef Q_OS_WIN
-//! [4]
-void MusicPlayer::createJumpList()
-{
-	QWinJumpList jumplist;
-	jumplist.recent()->setVisible(true);
-}
-//! [4]
-
-//! [5]
-void MusicPlayer::createTaskbar()
-{
-	taskbarButton = new QWinTaskbarButton(this);
-	taskbarButton->setWindow(windowHandle());
-
-	taskbarProgress = taskbarButton->progress();
-	connect(positionSlider, SIGNAL(valueChanged(int)), taskbarProgress, SLOT(setValue(int)));
-	connect(positionSlider, SIGNAL(rangeChanged(int, int)), taskbarProgress, SLOT(setRange(int, int)));
-
-	connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(updateTaskbar()));
-}
-//! [5]
-
-//! [6]
-void MusicPlayer::createThumbnailToolBar()
-{
-	thumbnailToolBar = new QWinThumbnailToolBar(this);
-	thumbnailToolBar->setWindow(windowHandle());
-
-	playToolButton = new QWinThumbnailToolButton(thumbnailToolBar);
-	playToolButton->setEnabled(false);
-	playToolButton->setToolTip(tr("Play"));
-	playToolButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-	connect(playToolButton, SIGNAL(clicked()), this, SLOT(togglePlayback()));
-
-	forwardToolButton = new QWinThumbnailToolButton(thumbnailToolBar);
-	forwardToolButton->setEnabled(false);
-	forwardToolButton->setToolTip(tr("Fast forward"));
-	forwardToolButton->setIcon(style()->standardIcon(QStyle::SP_MediaSeekForward));
-	connect(forwardToolButton, SIGNAL(clicked()), this, SLOT(seekForward()));
-
-	backwardToolButton = new QWinThumbnailToolButton(thumbnailToolBar);
-	backwardToolButton->setEnabled(false);
-	backwardToolButton->setToolTip(tr("Rewind"));
-	backwardToolButton->setIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward));
-	connect(backwardToolButton, SIGNAL(clicked()), this, SLOT(seekBackward()));
-
-	thumbnailToolBar->addButton(backwardToolButton);
-	thumbnailToolBar->addButton(playToolButton);
-	thumbnailToolBar->addButton(forwardToolButton);
-
-	connect(&mediaPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(updateThumbnailToolBar()));
-	connect(&mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(updateThumbnailToolBar()));
-	connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(updateThumbnailToolBar()));
-}
-//! [6]
-#endif
