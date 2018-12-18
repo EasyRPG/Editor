@@ -61,9 +61,6 @@ public slots:
 	void increaseVolume();
 	void descreaseVolume();
 	void setVolume(int volume);
-#ifdef Q_OS_WIN
-	void stylize();
-#endif
 
 signals:
 	void volumeChanged(int volume);
