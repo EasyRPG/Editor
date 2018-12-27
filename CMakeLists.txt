@@ -67,6 +67,50 @@ add_library(${PROJECT_NAME} STATIC
 	src/commands/showmessage.cpp
 	src/commands/switchoperations.cpp
 	src/commands/variableoperations.cpp
+	src/dialogcharapicker.ui
+	src/dialogdatabase.ui
+	src/dialogedit.ui
+	src/dialogevent.ui
+	src/dialogimportimage.ui
+	src/dialogimportproject.ui
+	src/dialognewproject.ui
+	src/dialogmapproperties.ui
+	src/dialogopenproject.ui
+	src/dialogresourcemanager.ui
+	src/dialogrtppath.ui
+	src/dialogrungame.ui
+	src/dialogsearch.ui
+	src/dialogsplash.ui
+	src/mainwindow.ui
+	src/tools/qdbpageactors.ui
+	src/tools/qdbpageattributes.ui
+	src/tools/qdbpagebattleanimations.ui
+	src/tools/qdbpagebattleanimations2.ui
+	src/tools/qdbpagebattlescreen.ui
+	src/tools/qdbpagechipset.ui
+	src/tools/qdbpageclasses.ui
+	src/tools/qdbpagecommonevents.ui
+	src/tools/qdbpageenemies.ui
+	src/tools/qdbpageenemygroups.ui
+	src/tools/qdbpageherostatus.ui
+	src/tools/qdbpageitems.ui
+	src/tools/qdbpageskills.ui
+	src/tools/qdbpagesystem.ui
+	src/tools/qdbpagesystem2.ui
+	src/tools/qdbpageterrain.ui
+	src/tools/qdbpagevocabulary.ui
+	src/tools/qeventpagewidget.ui
+	src/commands/changeexperience.ui
+	src/commands/changeitem.ui
+	src/commands/changemoney.ui
+	src/commands/changeparty.ui
+	src/commands/facegraphics.ui
+	src/commands/inputnumber.ui
+	src/commands/showchoices.ui
+	src/commands/showmessage.ui
+	src/commands/switchoperations.ui
+	src/commands/messageoptions.ui
+	src/commands/variableoperations.ui
 )
 
 # C++17 is required
