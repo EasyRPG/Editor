@@ -23,11 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Character sprite picker</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="layoutCharaPicker">
    <item row="0" column="0">
-    <widget class="QListWidget" name="listRess">
+    <widget class="QListWidget" name="listRes">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>1</horstretch>
@@ -42,7 +42,7 @@
       <number>1</number>
      </property>
      <widget class="QWidget" name="pageChara">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="layoutPageChara">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -56,9 +56,9 @@
         <number>0</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QHBoxLayout" name="layoutChara">
          <item>
-          <spacer name="horizontalSpacer_2">
+          <spacer name="spacerCharaLeft">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -93,7 +93,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer">
+          <spacer name="spacerCharaRight">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -113,7 +113,7 @@
           <number>0</number>
          </property>
          <widget class="QWidget" name="pageStatic">
-          <layout class="QHBoxLayout" name="horizontalLayout">
+          <layout class="QHBoxLayout" name="layoutStatic">
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -131,7 +131,7 @@
              <property name="title">
               <string>Facing</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout">
+             <layout class="QGridLayout" name="layoutFacing">
               <item row="0" column="1">
                <widget class="QToolButton" name="toolUp">
                 <property name="text">
@@ -183,7 +183,7 @@
              <property name="title">
               <string>Frame</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout">
+             <layout class="QVBoxLayout" name="layoutFrame">
               <item>
                <widget class="QRadioButton" name="radioLeft">
                 <property name="text">
@@ -194,7 +194,7 @@
               <item>
                <widget class="QRadioButton" name="radioMiddle">
                 <property name="text">
-                 <string>Middel</string>
+                 <string>Middle</string>
                 </property>
                </widget>
               </item>
@@ -216,7 +216,7 @@
       </layout>
      </widget>
      <widget class="QWidget" name="pageTileset">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="layoutTileset">
        <property name="leftMargin">
         <number>0</number>
        </property>

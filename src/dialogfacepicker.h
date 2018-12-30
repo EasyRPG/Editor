@@ -36,7 +36,7 @@ public:
 
 private slots:
 
-	void on_listRess_currentRowChanged(int currentRow);
+	void on_listRes_currentRowChanged(int currentRow);
 
 	void ok();
 

@@ -36,7 +36,7 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
 	ui->comboWrapping->setCurrentIndex(map.scroll_type);
 	ui->spinDungeonRoomHeight->setValue(map.generator_height);
 	ui->spinDungeonRoomWidth->setValue(map.generator_width);
-	ui->spinEncontrerRate->setValue(info.encounter_steps);
+	ui->spinEncounterRate->setValue(info.encounter_steps);
 	ui->spinHeight->setValue(map.height);
 	ui->spinWidth->setValue(map.width);
 	ui->spinHorizontalScrollSpeed->setValue(map.parallax_sx);
