@@ -9,7 +9,7 @@
 #include "dialogdatabase.h"
 #include "dialogsearch.h"
 #include "tools/qgraphicsmapscene.h"
-#include "tools/qgraphicspaletescene.h"
+#include "tools/qgraphicspalettescene.h"
 #include "musicplayer.h"
 
 namespace Ui {
@@ -35,7 +35,7 @@ public:
 private slots:
 	void on_action_Quit_triggered();
 
-	void on_actionPalete_triggered(bool checked);
+	void on_actionPalette_triggered(bool checked);
 
 	void on_actionMap_Tree_triggered(bool checked);
 
@@ -136,7 +136,7 @@ private:
 	DialogDataBase *dlg_db;
 	QSettings m_settings;
 	QSettings *m_projSett;
-	QGraphicsPaleteScene *m_paleteScene;
+	QGraphicsPaletteScene *m_paletteScene;
 	QMap<int,QGraphicsView*> m_views;
 	QMap<int,QTreeWidgetItem*> m_treeItems;
 	QString m_copiedMap;

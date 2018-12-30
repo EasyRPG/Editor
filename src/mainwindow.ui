@@ -114,7 +114,7 @@
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="actionPalete"/>
+    <addaction name="actionPalette"/>
     <addaction name="actionMap_Tree"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
@@ -164,7 +164,7 @@
    <addaction name="actionZoomOut"/>
    <addaction name="actionScale_1_1"/>
    <addaction name="separator"/>
-   <addaction name="actionPalete"/>
+   <addaction name="actionPalette"/>
    <addaction name="actionMap_Tree"/>
    <addaction name="actionJukebox"/>
    <addaction name="separator"/>
@@ -181,7 +181,7 @@
    <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QDockWidget" name="dockPalete">
+  <widget class="QDockWidget" name="dockPalette">
    <property name="features">
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
@@ -230,7 +230,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="graphicsPalete"/>
+      <widget class="QGraphicsView" name="graphicsPalette"/>
      </item>
     </layout>
    </widget>
@@ -708,7 +708,7 @@
     <string>Open Script Editor</string>
    </property>
   </action>
-  <action name="actionPalete">
+  <action name="actionPalette">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -720,7 +720,7 @@
      <normaloff>:/icons/share/old_palette.png</normaloff>:/icons/share/old_palette.png</iconset>
    </property>
    <property name="text">
-    <string>Palete</string>
+    <string>Palette</string>
    </property>
    <property name="statusTip">
     <string>Show/Hide palette window</string>

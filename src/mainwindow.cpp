@@ -101,8 +101,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	dlg_resource = new DialogResourceManager(this);
 	dlg_resource->setModal(true);
 	dlg_db = nullptr;
-	m_paleteScene = new QGraphicsPaleteScene(ui->graphicsPalete);
-	ui->graphicsPalete->setScene(m_paleteScene);
+	m_paletteScene = new QGraphicsPaletteScene(ui->graphicsPalette);
+	ui->graphicsPalette->setScene(m_paletteScene);
 	connect(mCore,
 			SIGNAL(toolChanged()),
 			this,
@@ -113,11 +113,11 @@ MainWindow::MainWindow(QWidget *parent) :
 			SLOT(updateLayerActions()));
 	connect(mCore,
 			SIGNAL(layerChanged()),
-			m_paleteScene,
+			m_paletteScene,
 			SLOT(onLayerChange()));
 	connect(mCore,
 			SIGNAL(chipsetChanged()),
-			m_paleteScene,
+			m_paletteScene,
 			SLOT(onChipsetChange()));
 	update_actions();
 	mCore->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
@@ -450,12 +450,12 @@ void MainWindow::on_action_Quit_triggered()
 	qApp->quit();
 }
 
-void MainWindow::on_actionPalete_triggered(bool checked)
+void MainWindow::on_actionPalette_triggered(bool checked)
 {
 	if (checked)
-		ui->dockPalete->show();
+		ui->dockPalette->show();
 	else
-		ui->dockPalete->hide();
+		ui->dockPalette->hide();
 }
 
 void MainWindow::on_actionMap_Tree_triggered(bool checked)
@@ -869,7 +869,7 @@ void MainWindow::on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column)
 	QGraphicsView *view = getView(item->data(1,Qt::DisplayRole).toInt());
 	ui->tabMap->setCurrentWidget(view);
 	if (ui->tabMap->count() == 1)
-		m_paleteScene->onChipsetChange();
+		m_paletteScene->onChipsetChange();
 }
 
 void MainWindow::on_tabMap_tabCloseRequested(int index)
@@ -903,8 +903,8 @@ void MainWindow::on_tabMap_currentChanged(int index)
 {
 	if (index == -1)
 	{
-		for (int i = 0; i < m_paleteScene->items().size(); i++)
-			m_paleteScene->items()[i]->setVisible(false);
+		for (int i = 0; i < m_paletteScene->items().size(); i++)
+			m_paletteScene->items()[i]->setVisible(false);
 		return;
 	}
 	if (currentScene())
