@@ -19,7 +19,7 @@
 #include "ui_event_dialog.h"
 #include <QFileDialog>
 #include <QSettings>
-#include "tools/event_page_widget.h"
+#include "event_page_widget.h"
 #include "core.h"
 
 EventDialog::EventDialog(QWidget *parent) :

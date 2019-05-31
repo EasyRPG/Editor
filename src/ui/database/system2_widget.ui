@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SystemWidget2</class>
+ <class>System2Widget</class>
  <widget class="QWidget" name="SystemWidget2">
   <property name="geometry">
    <rect>

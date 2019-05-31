@@ -31,13 +31,13 @@
 #include "attribute_widget.h"
 #include "state_widget.h"
 #include "battle_animation_widget.h"
-#include "tools/battle_animation_widget2.h"
+#include "battle_animation2_widget.h"
 #include "battle_screen_widget.h"
 #include "terrain_widget.h"
 #include "chipset_widget.h"
 #include "vocabulary_widget.h"
 #include "system_widget.h"
-#include "tools/system_widget2.h"
+#include "system2_widget.h"
 #include "common_event_widget.h"
 #include "core.h"
 
@@ -84,13 +84,13 @@ private:
 	AttributeWidget *Old_PageAttributes;
 	StateWidget *Old_PageHeroStatus;
 	BattleAnimationWidget *Old_PageBattleAnimation;
-	BattleAnimationWidget2 *Old_PageBattleAnimation2;
+	BattleAnimation2Widget *Old_PageBattleAnimation2;
 	BattleScreenWidget *Old_PageBatleScreen;
 	TerrainWidget *Old_PageTerrain;
 	ChipSetWidget *Old_PageChipset;
 	VocabularyWidget *Old_PageVocabulary;
 	SystemWidget *Old_PageSystem;
-	SystemWidget2 *Old_PageSystem2;
+	System2Widget *Old_PageSystem2;
 	CommonEventWidget *Old_PageCommonevents;
 	RPG::Database m_data;
 	RPG::Actor *m_currentActor;

@@ -17,7 +17,7 @@
 
 #include "run_game_dialog.h"
 #include "ui_run_game_dialog.h"
-#include "tools/actor_delegate.h"
+#include "ui/database/actor_delegate.h"
 #include <data.h>
 
 RunGameDialog::RunGameDialog(QWidget *parent) :

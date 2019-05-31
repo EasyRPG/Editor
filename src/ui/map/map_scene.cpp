@@ -26,11 +26,11 @@
 #include "rpg_event.h"
 #include <iomanip>
 #include <sstream>
-#include "../core.h"
-#include "../event_dialog.h"
-#include "../run_game_dialog.h"
-#include "../map_properties_dialog.h"
-#include "../main_window.h"
+#include "core.h"
+#include "ui/event/event_dialog.h"
+#include "ui/other/run_game_dialog.h"
+#include "ui/maptree/map_properties_dialog.h"
+#include "ui/main_window.h"
 #include "undo_draw.h"
 #include "undo_event.h"
 #include <data.h>

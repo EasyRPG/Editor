@@ -15,18 +15,18 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "system_widget2.h"
-#include "ui_system_widget2.h"
+#include "system2_widget.h"
+#include "ui_system2_widget.h"
 
-SystemWidget2::SystemWidget2(RPG::Database &database, QWidget *parent) :
+System2Widget::System2Widget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::SystemWidget2),
+	ui(new Ui::System2Widget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-SystemWidget2::~SystemWidget2()
+System2Widget::~System2Widget()
 {
 	delete ui;
 }

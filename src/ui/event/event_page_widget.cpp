@@ -20,10 +20,10 @@
 #include <QDialogButtonBox>
 #include <QMessageBox>
 #include <data.h>
-#include "../charset_picker_dialog.h"
-#include "../core.h"
-#include "../stringizer.h"
-#include "../commands/all_commands.h"
+#include "ui/common/charset_picker_dialog.h"
+#include "core.h"
+#include "stringizer.h"
+#include "ui/commands/all_commands.h"
 
 EventPageWidget::EventPageWidget(QWidget *parent) :
 	QWidget(parent),
@@ -412,14 +412,14 @@ void EventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 	switch (cmd.code)
 	{
 		case EventCommand::Code::ChangeGold: dialog = new ChangeMoneyWidgetWidget(this, cmd); break;
-		case EventCommand::Code::ChangeItemWidgets: dialog = new ChangeItemWidget(this, cmd); break;
-		case EventCommand::Code::ChangePartyWidgetMembers: dialog = new ChangePartyWidget(this, cmd); break;
+		case EventCommand::Code::ChangeItems: dialog = new ChangeItemWidget(this, cmd); break;
+		case EventCommand::Code::ChangePartyMembers: dialog = new ChangePartyWidget(this, cmd); break;
 		case EventCommand::Code::ChangeExp: dialog = new ChangeExperienceWidget(this, cmd); break;
 		case EventCommand::Code::ChangeFaceGraphic: dialog = new FaceGraphicsWidget(this, cmd); break;
-		case EventCommand::Code::InputNumberWidget: dialog = new InputNumberWidget(this, cmd); break;
-		case EventCommand::Code::MessageOptionsWidget: dialog = new MessageOptionsWidget(this, cmd); break;
+		case EventCommand::Code::InputNumber: dialog = new InputNumberWidget(this, cmd); break;
+		case EventCommand::Code::MessageOptions: dialog = new MessageOptionsWidget(this, cmd); break;
 		case EventCommand::Code::ShowChoice: dialog = new ShowChoicesWidget(this, cmd); break;
-		case EventCommand::Code::ShowMessageWidget: dialog = new ShowMessageWidget(this, cmd); break;
+		case EventCommand::Code::ShowMessage: dialog = new ShowMessageWidget(this, cmd); break;
 		case EventCommand::Code::ControlSwitches: dialog = new SwitchOperationsWidget(this, cmd); break;
 		case EventCommand::Code::ControlVars: dialog = new VariableOperationsWidget(this, cmd); break;
 	}

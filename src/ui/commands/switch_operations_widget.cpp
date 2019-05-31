@@ -15,8 +15,8 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "switchoperations.h"
-#include "ui_switchoperations.h"
+#include "switch_operations_widget.h"
+#include "ui_switch_operations_widget.h"
 
 SwitchOperationsWidget::SwitchOperationsWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),

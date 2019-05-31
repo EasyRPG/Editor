@@ -15,8 +15,8 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "changeparty.h"
-#include "ui_changeparty.h"
+#include "change_party_widget.h"
+#include "ui_change_party_widget.h"
 
 ChangePartyWidget::ChangePartyWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),

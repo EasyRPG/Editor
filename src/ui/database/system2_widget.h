@@ -22,19 +22,19 @@
 #include <data.h>
 
 namespace Ui {
-class SystemWidget2;
+class System2Widget;
 }
 
-class SystemWidget2 : public QWidget
+class System2Widget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit SystemWidget2(RPG::Database &database, QWidget *parent = nullptr);
-	~SystemWidget2();
+	explicit System2Widget(RPG::Database &database, QWidget *parent = nullptr);
+	~System2Widget();
 
 private:
-	Ui::SystemWidget2 *ui;
+	Ui::System2Widget *ui;
 	RPG::Database &m_data;
 };
 

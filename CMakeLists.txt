@@ -21,9 +21,9 @@ add_library(EasyRPG_Editor STATIC
 	src/ui/commands/change_money_widget.cpp
 	src/ui/commands/change_money_widget.h
 	src/ui/commands/change_money_widget.ui
-	src/ui/commands/changeparty.cpp
-	src/ui/commands/changeparty.h
-	src/ui/commands/changeparty.ui
+	src/ui/commands/change_party_widget.cpp
+	src/ui/commands/change_party_widget.h
+	src/ui/commands/change_party_widget.ui
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
@@ -39,9 +39,9 @@ add_library(EasyRPG_Editor STATIC
 	src/ui/commands/show_message_widget.cpp
 	src/ui/commands/show_message_widget.h
 	src/ui/commands/show_message_widget.ui
-	src/ui/commands/switchoperations.cpp
-	src/ui/commands/switchoperations.h
-	src/ui/commands/switchoperations.ui
+	src/ui/commands/switch_operations_widget.cpp
+	src/ui/commands/switch_operations_widget.h
+	src/ui/commands/switch_operations_widget.ui
 	src/ui/commands/variable_operations_widget.cpp
 	src/ui/commands/variable_operations_widget.h
 	src/ui/commands/variable_operations_widget.ui
@@ -139,9 +139,6 @@ add_library(EasyRPG_Editor STATIC
 	src/ui/main_window.cpp
 	src/ui/main_window.h
 	src/ui/main_window.ui
-	src/ui/main_window_widget.cpp
-	src/ui/main_window_widget.h
-	src/ui/main_window_widget.ui
 	src/ui/map/map_scene.cpp
 	src/ui/map/map_scene.h
 	src/ui/map/undo_draw.cpp

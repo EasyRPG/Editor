@@ -16,7 +16,7 @@
  */
 
 #include "faceset_item.h"
-#include "../core.h"
+#include "core.h"
 
 FaceSetItem::FaceSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)

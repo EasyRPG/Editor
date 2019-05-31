@@ -23,7 +23,7 @@
 #include <QPainter>
 #include <QDebug>
 #include "data.h"
-#include "tools/map_scene.h"
+#include "ui/map/map_scene.h"
 
 //define static member
 Core *Core::core = new Core();

@@ -120,7 +120,7 @@
   <customwidget>
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpg_combobox.h</header>
+   <header>ui/common/rpg_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

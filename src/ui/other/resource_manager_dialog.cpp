@@ -21,7 +21,7 @@
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QDebug>
-#include "import_image_dialog.h"
+#include "ui/common/import_image_dialog.h"
 
 ResourceManagerDialog::ResourceManagerDialog(QWidget *parent) :
 	QDialog(parent),

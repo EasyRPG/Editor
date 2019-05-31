@@ -39,13 +39,13 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	Old_PageAttributes=new AttributeWidget(m_data, this);
 	Old_PageHeroStatus=new StateWidget(m_data, this);
 	Old_PageBattleAnimation=new BattleAnimationWidget(m_data, this);
-	Old_PageBattleAnimation2=new BattleAnimationWidget2(m_data, this);
+	Old_PageBattleAnimation2=new BattleAnimation2Widget(m_data, this);
 	Old_PageBatleScreen=new BattleScreenWidget(m_data, this);
 	Old_PageTerrain=new TerrainWidget(m_data, this);
 	Old_PageChipset= new ChipSetWidget(m_data, this);
 	Old_PageVocabulary= new VocabularyWidget(m_data, this);
 	Old_PageSystem= new SystemWidget(m_data, this);
-	Old_PageSystem2= new SystemWidget2(m_data, this);
+	Old_PageSystem2= new System2Widget(m_data, this);
 	Old_PageCommonevents= new CommonEventWidget(m_data, this);
 	ui->tabOld_Pages->insertTab(0, Old_PageActors, tr("Characters"));
 	ui->tabOld_Pages->insertTab(1, Old_PageClasses, tr("Professions"));

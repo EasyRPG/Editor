@@ -22,19 +22,19 @@
 #include <data.h>
 
 namespace Ui {
-class BattleAnimationWidget2;
+class BattleAnimation2Widget;
 }
 
-class BattleAnimationWidget2 : public QWidget
+class BattleAnimation2Widget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit BattleAnimationWidget2(RPG::Database &database, QWidget *parent = nullptr);
-	~BattleAnimationWidget2();
+	explicit BattleAnimation2Widget(RPG::Database &database, QWidget *parent = nullptr);
+	~BattleAnimation2Widget();
 
 private:
-	Ui::BattleAnimationWidget2 *ui;
+	Ui::BattleAnimation2Widget *ui;
 	RPG::Database &m_data;
 };
 

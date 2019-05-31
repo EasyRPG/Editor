@@ -16,7 +16,7 @@
  */
 
 #include "charset_item.h"
-#include "../core.h"
+#include "core.h"
 
 CharSetItem::CharSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)

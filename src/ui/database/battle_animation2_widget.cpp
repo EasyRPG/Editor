@@ -15,18 +15,18 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "battle_animation_widget2.h"
-#include "ui_battle_animation_widget2.h"
+#include "battle_animation2_widget.h"
+#include "ui_battle_animation2_widget.h"
 
-BattleAnimationWidget2::BattleAnimationWidget2(RPG::Database &database, QWidget *parent) :
+BattleAnimation2Widget::BattleAnimation2Widget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::BattleAnimationWidget2),
+	ui(new Ui::BattleAnimation2Widget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-BattleAnimationWidget2::~BattleAnimationWidget2()
+BattleAnimation2Widget::~BattleAnimation2Widget()
 {
 	delete ui;
 }

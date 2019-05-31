@@ -17,7 +17,7 @@
 
 #include "search_dialog.h"
 #include "ui_search_dialog.h"
-#include "main_window.h"
+#include "ui/main_window.h"
 #include "core.h"
 #include "stringizer.h"
 
@@ -125,7 +125,7 @@ void SearchDialog::on_button_search_clicked()
 		{
 			switch (com.code)
 			{
-				case Cmd::InputNumberWidget:
+				case Cmd::InputNumber:
 					return com.parameters[1] == varID;
 				case Cmd::ControlSwitches:
 					return com.parameters[0] == 2 && com.parameters[1] == varID;
@@ -133,8 +133,8 @@ void SearchDialog::on_button_search_clicked()
 					return (com.parameters[4] == 1 && com.parameters[5] == varID) ||
 						(com.parameters[4] == 2 && com.parameters[5] == varID) ||
 						com.parameters[1] == varID || com.parameters[2] == varID;
-				case Cmd::ChangeItemWidgets:
-				case Cmd::ChangePartyWidgetMembers:
+				case Cmd::ChangeItems:
+				case Cmd::ChangePartyMembers:
 					return com.parameters[1] == 1 && com.parameters[2] == varID;
 				case Cmd::EnemyEncounter:
 					return com.parameters[0] == 1 && com.parameters[2] == varID;
@@ -205,7 +205,7 @@ void SearchDialog::on_button_search_clicked()
 		{
 			switch (com.code)
 			{
-				case Cmd::ChangeItemWidgets:
+				case Cmd::ChangeItems:
 					return com.parameters[2] == itemID;
 				case Cmd::ControlVars:
 					return com.parameters[4] == 4 && com.parameters[5] == itemID;
