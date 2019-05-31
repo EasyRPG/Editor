@@ -5,17 +5,17 @@
 #include <data.h>
 
 namespace Ui {
-class QDbPageVocabulary;
+class VocabularyWidget;
 }
 
-class QDbPageVocabulary : public QWidget
+class VocabularyWidget : public QWidget
 {
 	Q_OBJECT
 
 	RPG::Terms *terms;
 public:
-	explicit QDbPageVocabulary(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageVocabulary();
+	explicit VocabularyWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~VocabularyWidget();
 private slots:
 	void on_lineEdit_34_textChanged(const QString &arg1);
 	void on_lineEdit_35_textChanged(const QString &arg1);
@@ -119,7 +119,7 @@ private slots:
 
 
 private:
-	Ui::QDbPageVocabulary *ui;
+	Ui::VocabularyWidget *ui;
 	RPG::Database &m_data;
 
 };

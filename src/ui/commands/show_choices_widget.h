@@ -5,21 +5,21 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class ShowChoices;
+class ShowChoicesWidget;
 }
 
-class ShowChoices : public QDialog
+class ShowChoicesWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ShowChoices(QWidget *parent, RPG::EventCommand &cmd);
-	~ShowChoices();
+	explicit ShowChoicesWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~ShowChoicesWidget();
 
 private slots:
 
 private:
-	Ui::ShowChoices *ui;
+	Ui::ShowChoicesWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

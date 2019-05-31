@@ -1,15 +1,15 @@
-#include "qdbpageherostatus.h"
-#include "ui_qdbpageherostatus.h"
+#include "state_widget.h"
+#include "ui_state_widget.h"
 
-QDbPageHeroStatus::QDbPageHeroStatus(RPG::Database &database, QWidget *parent) :
+StateWidget::StateWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageHeroStatus),
+	ui(new Ui::StateWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-QDbPageHeroStatus::~QDbPageHeroStatus()
+StateWidget::~StateWidget()
 {
 	delete ui;
 }

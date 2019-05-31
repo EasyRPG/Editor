@@ -1,9 +1,9 @@
-#include "showchoices.h"
-#include "ui_showchoices.h"
+#include "show_choices_widget.h"
+#include "ui_show_choices_widget.h"
 
-ShowChoices::ShowChoices(QWidget *parent, RPG::EventCommand &cmd) :
+ShowChoicesWidget::ShowChoicesWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::ShowChoices),
+	ui(new Ui::ShowChoicesWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -11,7 +11,7 @@ ShowChoices::ShowChoices(QWidget *parent, RPG::EventCommand &cmd) :
 	//TODO
 }
 
-ShowChoices::~ShowChoices()
+ShowChoicesWidget::~ShowChoicesWidget()
 {
 	delete ui;
 }

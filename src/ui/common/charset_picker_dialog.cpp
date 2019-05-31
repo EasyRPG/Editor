@@ -1,12 +1,12 @@
-#include "dialogcharapicker.h"
-#include "ui_dialogcharapicker.h"
+#include "charset_picker_dialog.h"
+#include "ui_charset_picker_dialog.h"
 #include <QDir>
 #include <QPushButton>
 #include "core.h"
 
-DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
+CharSetPickerDialog::CharSetPickerDialog(QWidget *parent, bool tile_pick) :
 	QDialog(parent),
-	ui(new Ui::DialogCharaPicker),
+	ui(new Ui::CharSetPickerDialog),
 	m_tilePick(tile_pick)
 {
 	ui->setupUi(this);
@@ -24,7 +24,7 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 		mCore->endPainting();
 		tileItem->setPixmap(pix);
 		tileItem->setScale(2.0);
-		m_tileScene = new QGraphicsPickerScene(ui->graphicsTile, tileItem, 24, 6);
+		m_tileScene = new PickerScene(ui->graphicsTile, tileItem, 24, 6);
 		m_tileScene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 		ui->graphicsTile->setScene(m_tileScene);
 	}
@@ -57,10 +57,10 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 			ui->listRes->addItem(info.baseName());
 	}
 
-	m_chara = new QGraphicsCharaItem();
+	m_chara = new CharSetItem();
 	m_chara->setWalk(!tile_pick);
 	m_chara->setScale(2.0);
-	m_charaScene = new QGraphicsPickerScene(ui->viewChara, m_chara, 2, 4);
+	m_charaScene = new PickerScene(ui->viewChara, m_chara, 2, 4);
 	ui->viewChara->setScene(m_charaScene);
 
 	m_timer = new QTimer(this);
@@ -77,19 +77,19 @@ DialogCharaPicker::DialogCharaPicker(QWidget *parent, bool tile_pick) :
 	updateFrame();
 }
 
-DialogCharaPicker::~DialogCharaPicker()
+CharSetPickerDialog::~CharSetPickerDialog()
 {
 	delete ui;
 }
 
-int DialogCharaPicker::frame()
+int CharSetPickerDialog::frame()
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return 0;
 	return m_chara->frame();
 }
 
-void DialogCharaPicker::setFrame(int frame)
+void CharSetPickerDialog::setFrame(int frame)
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return;
@@ -97,14 +97,14 @@ void DialogCharaPicker::setFrame(int frame)
 	updateFrame();
 }
 
-int DialogCharaPicker::facing()
+int CharSetPickerDialog::facing()
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return 0;
 	return m_chara->facing();
 }
 
-void DialogCharaPicker::setFacing(int facing)
+void CharSetPickerDialog::setFacing(int facing)
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return;
@@ -112,14 +112,14 @@ void DialogCharaPicker::setFacing(int facing)
 	updateFacing();
 }
 
-std::string DialogCharaPicker::name()
+std::string CharSetPickerDialog::name()
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return "";
 	return ui->listRes->currentItem()->text().toStdString();
 }
 
-void DialogCharaPicker::setName(std::string name)
+void CharSetPickerDialog::setName(std::string name)
 {
 	if (m_tilePick && name.empty())
 	{
@@ -131,7 +131,7 @@ void DialogCharaPicker::setName(std::string name)
 	ui->listRes->setCurrentItem(items.empty() ? ui->listRes->item(0) : items[0]);
 }
 
-void DialogCharaPicker::setAnimated(bool animated)
+void CharSetPickerDialog::setAnimated(bool animated)
 {
 	if (animated)
 		m_timer->start(200);
@@ -139,28 +139,28 @@ void DialogCharaPicker::setAnimated(bool animated)
 		m_timer->stop();
 }
 
-void DialogCharaPicker::updateFrame()
+void CharSetPickerDialog::updateFrame()
 {
-	ui->radioLeft->setChecked(m_chara->frame() == QGraphicsCharaItem::Frame_left);
-	ui->radioMiddle->setChecked(m_chara->frame() == QGraphicsCharaItem::Frame_middle);
-	ui->radioRight->setChecked(m_chara->frame() == QGraphicsCharaItem::Frame_right);
+	ui->radioLeft->setChecked(m_chara->frame() == CharSetItem::Frame_left);
+	ui->radioMiddle->setChecked(m_chara->frame() == CharSetItem::Frame_middle);
+	ui->radioRight->setChecked(m_chara->frame() == CharSetItem::Frame_right);
 }
 
-void DialogCharaPicker::updateFacing()
+void CharSetPickerDialog::updateFacing()
 {
-	ui->toolDown->setChecked(m_chara->facing() == QGraphicsCharaItem::Direction_down);
-	ui->toolLeft->setChecked(m_chara->facing() == QGraphicsCharaItem::Direction_left);
-	ui->toolUp->setChecked(m_chara->facing() == QGraphicsCharaItem::Direction_up);
-	ui->toolRight->setChecked(m_chara->facing() == QGraphicsCharaItem::Direction_right);
+	ui->toolDown->setChecked(m_chara->facing() == CharSetItem::Direction_down);
+	ui->toolLeft->setChecked(m_chara->facing() == CharSetItem::Direction_left);
+	ui->toolUp->setChecked(m_chara->facing() == CharSetItem::Direction_up);
+	ui->toolRight->setChecked(m_chara->facing() == CharSetItem::Direction_right);
 }
-int DialogCharaPicker::index() const
+int CharSetPickerDialog::index() const
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return m_tileScene->index();
 	return m_charaScene->index();
 }
 
-void DialogCharaPicker::setIndex(int index)
+void CharSetPickerDialog::setIndex(int index)
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		m_tileScene->setIndex(index);
@@ -170,46 +170,46 @@ void DialogCharaPicker::setIndex(int index)
 
 
 
-void DialogCharaPicker::on_toolUp_clicked()
+void CharSetPickerDialog::on_toolUp_clicked()
 {
-	m_chara->setFacing(QGraphicsCharaItem::Direction_up);
+	m_chara->setFacing(CharSetItem::Direction_up);
 	updateFacing();
 }
 
-void DialogCharaPicker::on_toolRight_clicked()
+void CharSetPickerDialog::on_toolRight_clicked()
 {
-	m_chara->setFacing(QGraphicsCharaItem::Direction_right);
+	m_chara->setFacing(CharSetItem::Direction_right);
 	updateFacing();
 }
 
-void DialogCharaPicker::on_toolDown_clicked()
+void CharSetPickerDialog::on_toolDown_clicked()
 {
-	m_chara->setFacing(QGraphicsCharaItem::Direction_down);
+	m_chara->setFacing(CharSetItem::Direction_down);
 	updateFacing();
 }
 
-void DialogCharaPicker::on_toolLeft_clicked()
+void CharSetPickerDialog::on_toolLeft_clicked()
 {
-	m_chara->setFacing(QGraphicsCharaItem::Direction_left);
+	m_chara->setFacing(CharSetItem::Direction_left);
 	updateFacing();
 }
 
-void DialogCharaPicker::on_radioLeft_clicked()
+void CharSetPickerDialog::on_radioLeft_clicked()
 {
-	m_chara->setFrame(QGraphicsCharaItem::Frame_left);
+	m_chara->setFrame(CharSetItem::Frame_left);
 }
 
-void DialogCharaPicker::on_radioMiddle_clicked()
+void CharSetPickerDialog::on_radioMiddle_clicked()
 {
-	m_chara->setFrame(QGraphicsCharaItem::Frame_middle);
+	m_chara->setFrame(CharSetItem::Frame_middle);
 }
 
-void DialogCharaPicker::on_radioRight_clicked()
+void CharSetPickerDialog::on_radioRight_clicked()
 {
-	m_chara->setFrame(QGraphicsCharaItem::Frame_right);
+	m_chara->setFrame(CharSetItem::Frame_right);
 }
 
-void DialogCharaPicker::on_listRes_currentRowChanged(int currentRow)
+void CharSetPickerDialog::on_listRes_currentRowChanged(int currentRow)
 {
 	Q_UNUSED(currentRow)
 	if (ui->listRes->currentItem()->text().contains("*"))
@@ -224,7 +224,7 @@ void DialogCharaPicker::on_listRes_currentRowChanged(int currentRow)
 	}
 }
 
-void DialogCharaPicker::ok()
+void CharSetPickerDialog::ok()
 {
 	setResult(QDialogButtonBox::Ok);
 }

@@ -1,6 +1,6 @@
-#include "qgraphicspickerscene.h"
+#include "picker_scene.h"
 
-QGraphicsPickerScene::QGraphicsPickerScene(QObject *parent,
+PickerScene::PickerScene(QObject *parent,
 										   QGraphicsPixmapItem *backgroundItem,
 										   int rowCount,
 										   int columnCount) :
@@ -17,7 +17,7 @@ QGraphicsPickerScene::QGraphicsPickerScene(QObject *parent,
 	setRowCount(rowCount);
 }
 
-void QGraphicsPickerScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void PickerScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (!sceneRect().contains(event->scenePos()))
 		return;
@@ -26,12 +26,12 @@ void QGraphicsPickerScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	m_selection->setPos(x*static_cast<int>(m_selection->rect().width()),
 						y*static_cast<int>(m_selection->rect().height()));
 }
-int QGraphicsPickerScene::columnCount() const
+int PickerScene::columnCount() const
 {
 	return m_columnCount;
 }
 
-void QGraphicsPickerScene::setColumnCount(int columnCount)
+void PickerScene::setColumnCount(int columnCount)
 {
 	m_columnCount = columnCount;
 	QRectF rect = m_selection->rect();
@@ -39,25 +39,25 @@ void QGraphicsPickerScene::setColumnCount(int columnCount)
 	m_selection->setRect(rect);
 }
 
-int QGraphicsPickerScene::index()
+int PickerScene::index()
 {
 	int x = static_cast<int>(m_selection->pos().x()/m_selection->rect().width());
 	int y = static_cast<int>(m_selection->pos().y()/m_selection->rect().height());
 	return (x+y*columnCount());
 }
 
-void QGraphicsPickerScene::setIndex(int index)
+void PickerScene::setIndex(int index)
 {
 	m_selection->setPos((index%columnCount())*m_selection->rect().width(),
 						index/columnCount()*m_selection->rect().height());
 }
 
-int QGraphicsPickerScene::rowCount() const
+int PickerScene::rowCount() const
 {
 	return m_rowCount;
 }
 
-void QGraphicsPickerScene::setRowCount(int rowCount)
+void PickerScene::setRowCount(int rowCount)
 {
 	m_rowCount = rowCount;
 	QRectF rect = m_selection->rect();

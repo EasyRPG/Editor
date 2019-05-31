@@ -5,16 +5,16 @@
 #include <rpg_event.h>
 
 namespace Ui {
-class DialogEvent;
+class EventDialog;
 }
 
-class DialogEvent : public QDialog
+class EventDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogEvent(QWidget *parent = nullptr);
-	~DialogEvent();
+	explicit EventDialog(QWidget *parent = nullptr);
+	~EventDialog();
 
 	static int edit(QWidget *parent, RPG::Event *event);
 
@@ -30,7 +30,7 @@ private slots:
 	void ok();
 
 private:
-	Ui::DialogEvent *ui;
+	Ui::EventDialog *ui;
 	RPG::Event m_event;
 	RPG::Event r_event;
 	RPG::Event a_event;

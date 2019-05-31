@@ -8,8 +8,8 @@
 #include <QGraphicsScene>
 #include <rpg_eventcommand.h>
 #include <command_codes.h>
-#include "qgraphicscharaitem.h"
-#include "../dialogsplash.h"
+#include "charset_item.h"
+#include "../splash_dialog.h"
 #include <QProgressBar>
 #include <QLabel>
 
@@ -17,13 +17,13 @@ namespace Ui {
 class QEventWidget;
 }
 
-class QEventPageWidget : public QWidget
+class EventPageWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QEventPageWidget(QWidget *parent = nullptr);
-	~QEventPageWidget();
+	explicit EventPageWidget(QWidget *parent = nullptr);
+	~EventPageWidget();
 
 	RPG::EventPage *eventPage() const;
 	void setEventPage(RPG::EventPage *eventPage);
@@ -86,7 +86,7 @@ private:
 	Ui::QEventWidget *ui;
 	RPG::EventPage *m_eventPage;
 	QGraphicsPixmapItem *m_tileItem;
-	QGraphicsCharaItem *m_charaItem;
+	CharSetItem *m_charaItem;
 	QGraphicsScene *m_scene;
 	QGraphicsOpacityEffect *m_effect;
 	int m_codeGen;

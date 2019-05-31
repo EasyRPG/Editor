@@ -1,14 +1,14 @@
-#include "dialogresourcemanager.h"
-#include "ui_dialogresourcemanager.h"
+#include "resource_manager_dialog.h"
+#include "ui_resource_manager_dialog.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QDebug>
-#include "dialogimportimage.h"
+#include "import_image_dialog.h"
 
-DialogResourceManager::DialogResourceManager(QWidget *parent) :
+ResourceManagerDialog::ResourceManagerDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogResourceManager)
+	ui(new Ui::ResourceManagerDialog)
 {
 	ui->setupUi(this);
 	m_model = new QStringListModel(this);
@@ -21,12 +21,12 @@ DialogResourceManager::DialogResourceManager(QWidget *parent) :
 	ui->listResources->setModel(m_model);
 }
 
-DialogResourceManager::~DialogResourceManager()
+ResourceManagerDialog::~ResourceManagerDialog()
 {
 	delete ui;
 }
 
-void DialogResourceManager::on_listResourceType_currentRowChanged(int currentRow)
+void ResourceManagerDialog::on_listResourceType_currentRowChanged(int currentRow)
 {
 //	  if (!project())
 //		  return;
@@ -94,7 +94,7 @@ void DialogResourceManager::on_listResourceType_currentRowChanged(int currentRow
 	}
 }
 
-void DialogResourceManager::on_pushImport_clicked()
+void ResourceManagerDialog::on_pushImport_clicked()
 {
 	if (ui->listResourceType->currentIndex().row() < 0 ||
 		ui->listResourceType->currentIndex().row() > 18)
@@ -117,7 +117,7 @@ void DialogResourceManager::on_pushImport_clicked()
 	if (!info.exists() || info.isDir())
 		return;
 
-	DialogImportImage *dialog;
+	ImportImageDialog *dialog;
 
 	switch (ui->listResourceType->currentIndex().row())
 	{
@@ -138,7 +138,7 @@ void DialogResourceManager::on_pushImport_clicked()
 			msg.exec();
 			return;
 		}
-		dialog = new DialogImportImage(filename,this);
+		dialog = new ImportImageDialog(filename,this);
 		dialog->exec();
 		if (dialog->result() == QDialog::Accepted)
 			image = dialog->image();
@@ -175,7 +175,7 @@ void DialogResourceManager::on_pushImport_clicked()
 			msg.exec();
 			return;
 		}
-		dialog = new DialogImportImage(filename,this);
+		dialog = new ImportImageDialog(filename,this);
 		dialog->exec();
 		if (dialog->result() == QDialog::Accepted)
 			image = dialog->image();

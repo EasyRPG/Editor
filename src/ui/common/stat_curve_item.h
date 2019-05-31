@@ -5,10 +5,10 @@
 #include <QPainter>
 #include <stdint.h>
 
-class QGraphicsCurveItem : public QGraphicsItem
+class CurveItem : public QGraphicsItem
 {
 public:
-	explicit QGraphicsCurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent = nullptr);
+	explicit CurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent = nullptr);
 
 	QRectF boundingRect() const;
 

@@ -1,9 +1,9 @@
 #include "switchoperations.h"
 #include "ui_switchoperations.h"
 
-SwitchOperations::SwitchOperations(QWidget *parent, RPG::EventCommand &cmd) :
+SwitchOperationsWidget::SwitchOperationsWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::SwitchOperations),
+	ui(new Ui::SwitchOperationsWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -11,7 +11,7 @@ SwitchOperations::SwitchOperations(QWidget *parent, RPG::EventCommand &cmd) :
 	//TODO
 }
 
-SwitchOperations::~SwitchOperations()
+SwitchOperationsWidget::~SwitchOperationsWidget()
 {
 	delete ui;
 }

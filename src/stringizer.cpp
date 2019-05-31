@@ -110,12 +110,12 @@ namespace
 			+ Stringizer::battleCommandName(com.parameters[4]);
 	}
 
-	QString stringizeShowMessage(const RPG::EventCommand& com)
+	QString stringizeShowMessageWidget(const RPG::EventCommand& com)
 	{
 		return tr("Show Message") + ":\n	" + QString::fromStdString(com.string);
 	}
 
-	QString stringizeMessageOptions(const RPG::EventCommand& com)
+	QString stringizeMessageOptionsWidget(const RPG::EventCommand& com)
 	{
 		QString position;
 		switch (com.parameters[1])
@@ -150,7 +150,7 @@ namespace
 		return tr("Show Choice") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeInputNumber(const RPG::EventCommand& com)
+	QString stringizeInputNumberWidget(const RPG::EventCommand& com)
 	{
 		return tr("Input Number") + ": "
 			+ tr("%1 Digits").arg(QString::number(com.parameters[0])) + ", "
@@ -365,7 +365,7 @@ namespace
 			+ valueOrVariable(com.parameters[1], com.parameters[2]);
 	}
 
-	QString stringizeChangeItems(const RPG::EventCommand& com)
+	QString stringizeChangeItemWidgets(const RPG::EventCommand& com)
 	{
 		return tr("Change Items") + ": "
 			+ (com.parameters[0] ? "-" : "+") + " "
@@ -374,7 +374,7 @@ namespace
 								 : Stringizer::itemName(com.parameters[2]));
 	}
 
-	QString stringizeChangePartyMembers(const RPG::EventCommand& com)
+	QString stringizeChangePartyWidgetMembers(const RPG::EventCommand& com)
 	{
 		return tr("Change Party Members") + ": "
 			+ tr(com.parameters[0] ? "Remove" : "Add") + " "
@@ -1175,7 +1175,7 @@ namespace
 		return "ConditionalBranch_B";
 	}
 
-	QString stringizeShowMessage_2(const RPG::EventCommand& com)
+	QString stringizeShowMessageWidget_2(const RPG::EventCommand& com)
 	{
 		return "	" + QString::fromStdString(com.string);
 	}
@@ -1442,17 +1442,17 @@ namespace Stringizer
 		case C::EnableCombo:			 return stringizeEnableCombo(com);
 		case C::ChangeClass:			 return stringizeChangeClass(com);
 		case C::ChangeBattleCommands:	 return stringizeChangeBattleCommands(com);
-		case C::ShowMessage:			 return stringizeShowMessage(com);
-		case C::MessageOptions:			 return stringizeMessageOptions(com);
+		case C::ShowMessageWidget:			 return stringizeShowMessageWidget(com);
+		case C::MessageOptionsWidget:			 return stringizeMessageOptionsWidget(com);
 		case C::ChangeFaceGraphic:		 return stringizeChangeFaceGraphic(com);
 		case C::ShowChoice:				 return stringizeShowChoice(com);
-		case C::InputNumber:			 return stringizeInputNumber(com);
+		case C::InputNumberWidget:			 return stringizeInputNumberWidget(com);
 		case C::ControlSwitches:		 return stringizeControlSwitches(com);
 		case C::ControlVars:			 return stringizeControlVars(com);
 		case C::TimerOperation:			 return stringizeTimerOperation(com);
 		case C::ChangeGold:				 return stringizeChangeGold(com);
-		case C::ChangeItems:			 return stringizeChangeItems(com);
-		case C::ChangePartyMembers:		 return stringizeChangePartyMembers(com);
+		case C::ChangeItemWidgets:			 return stringizeChangeItemWidgets(com);
+		case C::ChangePartyWidgetMembers:		 return stringizeChangePartyWidgetMembers(com);
 		case C::ChangeExp:				 return stringizeChangeExp(com);
 		case C::ChangeLevel:			 return stringizeChangeLevel(com);
 		case C::ChangeParameters:		 return stringizeChangeParameters(com);
@@ -1540,7 +1540,7 @@ namespace Stringizer
 		case C::ShowBattleAnimation_B:	 return stringizeShowBattleAnimation_B(com);
 		case C::ConditionalBranch_B:	 return stringizeConditionalBranch_B(com);
 		case C::TerminateBattle:		 return tr("Terminate Battle");
-		case C::ShowMessage_2:			 return stringizeShowMessage_2(com);
+		case C::ShowMessageWidget_2:			 return stringizeShowMessageWidget_2(com);
 		case C::ShowChoiceOption:		 return stringizeShowChoiceOption(com);
 		case C::ShowChoiceEnd:			 return tr("End");
 		case C::VictoryHandler:			 return tr("Victory");

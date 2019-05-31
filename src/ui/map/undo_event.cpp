@@ -1,14 +1,14 @@
-#include "qundoevent.h"
+#include "undo_event.h"
 
-QUndoEvent::QUndoEvent(RPG::Event data,
-					   QGraphicsMapScene *scene,
+UndoEvent::UndoEvent(RPG::Event data,
+					   MapScene *scene,
 					   QUndoCommand *parent) :
 QUndoCommand(parent),
 m_data(data),
 m_scene(scene)
 {}
 
-void QUndoEvent::undo()
+void UndoEvent::undo()
 {
 	m_scene->setEventData(m_data.ID, m_data);
 }

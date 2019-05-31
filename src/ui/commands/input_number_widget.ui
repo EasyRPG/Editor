@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InputNumber</class>
- <widget class="QDialog" name="InputNumber">
+ <class>InputNumberWidget</class>
+ <widget class="QDialog" name="InputNumberWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -88,7 +88,7 @@
   <customwidget>
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -96,7 +96,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>InputNumber</receiver>
+   <receiver>InputNumberWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -112,7 +112,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>InputNumber</receiver>
+   <receiver>InputNumberWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -128,7 +128,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>InputNumber</receiver>
+   <receiver>InputNumberWidget</receiver>
    <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">

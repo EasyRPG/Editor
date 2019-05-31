@@ -1,15 +1,15 @@
-#include "qdbpagesystem.h"
-#include "ui_qdbpagesystem.h"
+#include "system_widget.h"
+#include "ui_system_widget.h"
 
-QDbPageSystem::QDbPageSystem(RPG::Database &database, QWidget *parent) :
+SystemWidget::SystemWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageSystem),
+	ui(new Ui::SystemWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-QDbPageSystem::~QDbPageSystem()
+SystemWidget::~SystemWidget()
 {
 	delete ui;
 }

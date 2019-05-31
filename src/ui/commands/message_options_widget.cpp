@@ -1,9 +1,9 @@
-#include "messageoptions.h"
-#include "ui_messageoptions.h"
+#include "message_options_widget.h"
+#include "ui_message_options_widget.h"
 
-MessageOptions::MessageOptions(QWidget *parent, RPG::EventCommand &command) :
+MessageOptionsWidget::MessageOptionsWidget(QWidget *parent, RPG::EventCommand &command) :
 	QDialog(parent),
-	ui(new Ui::MessageOptions),
+	ui(new Ui::MessageOptionsWidget),
 	command(command)
 {
 	ui->setupUi(this);
@@ -11,7 +11,7 @@ MessageOptions::MessageOptions(QWidget *parent, RPG::EventCommand &command) :
 	//TODO
 }
 
-MessageOptions::~MessageOptions()
+MessageOptionsWidget::~MessageOptionsWidget()
 {
 	delete ui;
 }

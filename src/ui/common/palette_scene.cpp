@@ -1,8 +1,8 @@
-#include "qgraphicspalettescene.h"
+#include "palette_scene.h"
 #include <QGraphicsDropShadowEffect>
 #include <QPainter>
 
-QGraphicsPaletteScene::QGraphicsPaletteScene(QObject *parent) :
+PaletteScene::PaletteScene(QObject *parent) :
 	QGraphicsScene(parent),
 	m_cancel(false),
 	m_pressed(false)
@@ -25,7 +25,7 @@ QGraphicsPaletteScene::QGraphicsPaletteScene(QObject *parent) :
 	setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 }
 
-void QGraphicsPaletteScene::onLayerChange()
+void PaletteScene::onLayerChange()
 {
 	if (mCore->layer() == Core::LOWER)
 	{
@@ -40,7 +40,7 @@ void QGraphicsPaletteScene::onLayerChange()
 	m_tiles->graphicsEffect()->setEnabled(mCore->layer() != Core::LOWER);
 }
 
-void QGraphicsPaletteScene::onChipsetChange()
+void PaletteScene::onChipsetChange()
 {
 	if (mCore->chipsetIsNull())
 	{
@@ -78,7 +78,7 @@ void QGraphicsPaletteScene::onChipsetChange()
 	onLayerChange();
 }
 
-void QGraphicsPaletteScene::updateSelectionRect()
+void PaletteScene::updateSelectionRect()
 {
 	QRectF selRect;
 	int small_x = (m_initial.x() <= m_current.x()) ? static_cast<int>(m_initial.x())/32 : static_cast<int>(m_current.x())/32;
@@ -111,7 +111,7 @@ void QGraphicsPaletteScene::updateSelectionRect()
 	m_selectionItem->setRect(selRect);
 }
 
-void QGraphicsPaletteScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void PaletteScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (event->button() == Qt::RightButton)
 	{
@@ -126,7 +126,7 @@ void QGraphicsPaletteScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	QGraphicsScene::mousePressEvent(event);
 }
 
-void QGraphicsPaletteScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void PaletteScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (m_cancel)
 		return;
@@ -141,7 +141,7 @@ void QGraphicsPaletteScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 	QGraphicsScene::mouseMoveEvent(event);
 }
 
-void QGraphicsPaletteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void PaletteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (event->button() == Qt::LeftButton && m_cancel)
 	{
@@ -177,7 +177,7 @@ void QGraphicsPaletteScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 	QGraphicsScene::mouseReleaseEvent(event);
 }
 
-void QGraphicsPaletteScene::cancelSelection()
+void PaletteScene::cancelSelection()
 {
 	m_cancel = true;
 	m_selectionItem->setRect(last_selection);

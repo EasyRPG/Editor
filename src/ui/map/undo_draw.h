@@ -3,14 +3,14 @@
 
 #include <QUndoCommand>
 #include "../core.h"
-#include "qgraphicsmapscene.h"
+#include "map_scene.h"
 
-class QUndoDraw : public QUndoCommand
+class UndoDraw : public QUndoCommand
 {
 public:
-	explicit QUndoDraw(Core::Layer layer,
+	explicit UndoDraw(Core::Layer layer,
 					   std::vector<short> data,
-					   QGraphicsMapScene *scene,
+					   MapScene *scene,
 					   QUndoCommand *parent = nullptr);
 
 	void undo();
@@ -21,7 +21,7 @@ public slots:
 private:
 	Core::Layer m_layer;
 	std::vector<short> m_data;
-	QGraphicsMapScene* m_scene;
+	MapScene* m_scene;
 };
 
 #endif // QUNDODRAW_H

@@ -4,16 +4,16 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogOpenProject;
+class OpenProjectDialog;
 }
 
-class DialogOpenProject : public QDialog
+class OpenProjectDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogOpenProject(QWidget *parent = nullptr);
-	~DialogOpenProject();
+	explicit OpenProjectDialog(QWidget *parent = nullptr);
+	~OpenProjectDialog();
 
 	void setDefDir(QString n_defDir);
 	QString getDefDir();
@@ -28,7 +28,7 @@ private slots:
 	void on_tableProjects_itemSelectionChanged();
 
 private:
-	Ui::DialogOpenProject *ui;
+	Ui::OpenProjectDialog *ui;
 	QString m_defDir;
 	bool removeDir(const QString &dirName);
 	void RefreshProjectList();

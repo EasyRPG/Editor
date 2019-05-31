@@ -4,25 +4,25 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogEdit;
+class EditDialog;
 }
 
 template <class DATA>
-class DialogEdit : public QDialog
+class EditDialog : public QDialog
 {
 	//Q_OBJECT
 
 public:
-	DialogEdit(QWidget *parent, DATA &data);
-	~DialogEdit() = default;
+	EditDialog(QWidget *parent, DATA &data);
+	~EditDialog() = default;
 
 private:
-	Ui::DialogEdit *ui;
+	Ui::EditDialog *ui;
 	DATA _data;
 };
 
 template <class DATA>
-DialogEdit<DATA>::DialogEdit(QWidget *parent, DATA& data) :
+EditDialog<DATA>::EditDialog(QWidget *parent, DATA& data) :
 	QDialog(parent),
 	_data(data)
 {

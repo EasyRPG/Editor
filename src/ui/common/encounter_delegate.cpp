@@ -1,4 +1,4 @@
-#include "qencounterdelegate.h"
+#include "encounter_delegate.h"
 #include <data.h>
 
 QEncounterDelegate::QEncounterDelegate(QObject *parent) :

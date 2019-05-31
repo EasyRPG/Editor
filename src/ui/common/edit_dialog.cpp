@@ -1,1 +1,1 @@
-#include "dialogedit.h"
+#include "edit_dialog.h"

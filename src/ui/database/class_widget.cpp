@@ -1,17 +1,17 @@
-#include "qdbpageclasses.h"
-#include "ui_qdbpageclasses.h"
+#include "class_widget.h"
+#include "ui_class_widget.h"
 #include <QTimer>
 
-QDbPageClasses::QDbPageClasses(RPG::Database &database, QWidget *parent) :
+ClassWidget::ClassWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageClasses),
+	ui(new Ui::ClassWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
 
 	m_currentClass = nullptr;
 
-	m_battlerItem = new QGraphicsBattleAnimationItem();
+	m_battlerItem = new BattleAnimationItem();
 
 	ui->graphicsBattler->setScene(new QGraphicsScene(this));
 	ui->graphicsBattler->scene()->addItem(m_battlerItem);
@@ -25,7 +25,7 @@ QDbPageClasses::QDbPageClasses(RPG::Database &database, QWidget *parent) :
 		ui->listClasses->setCurrentRow(0);
 }
 
-void QDbPageClasses::UpdateModels()
+void ClassWidget::UpdateModels()
 {
 	/* Clear */
 	ui->listClasses->clear();
@@ -41,14 +41,14 @@ void QDbPageClasses::UpdateModels()
 	on_currentClassChanged(m_currentClass);
 }
 
-void QDbPageClasses::on_currentClassChanged(RPG::Class *_class)
+void ClassWidget::on_currentClassChanged(RPG::Class *_class)
 {
 	/* TODO: Update Widgets */
 	m_currentClass = _class;
 	emit currentClassChanged(_class);
 }
 
-QDbPageClasses::~QDbPageClasses()
+ClassWidget::~ClassWidget()
 {
 	delete ui;
 }

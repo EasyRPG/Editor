@@ -1,14 +1,14 @@
-#include "qeventpagewidget.h"
-#include "ui_qeventpagewidget.h"
+#include "event_page_widget.h"
+#include "ui_event_page_widget.h"
 #include <QDialogButtonBox>
 #include <QMessageBox>
 #include <data.h>
-#include "../dialogcharapicker.h"
+#include "../charset_picker_dialog.h"
 #include "../core.h"
 #include "../stringizer.h"
-#include "../commands/allcommands.h"
+#include "../commands/all_commands.h"
 
-QEventPageWidget::QEventPageWidget(QWidget *parent) :
+EventPageWidget::EventPageWidget(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::QEventWidget),
 	m_eventPage(nullptr)
@@ -18,7 +18,7 @@ QEventPageWidget::QEventPageWidget(QWidget *parent) :
 		ui->comboItem->addItem(QString::fromStdString(Data::items[i].name));
 	for (unsigned int i = 0; i < Data::actors.size(); i++)
 		ui->comboHero->addItem(QString::fromStdString(Data::actors[i].name));
-	m_charaItem = new QGraphicsCharaItem();
+	m_charaItem = new CharSetItem();
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
 	m_effect = new QGraphicsOpacityEffect(this);
@@ -39,18 +39,18 @@ QEventPageWidget::QEventPageWidget(QWidget *parent) :
 	ui->treeCommands->setMouseTracking(true);
 }
 
-QEventPageWidget::~QEventPageWidget()
+EventPageWidget::~EventPageWidget()
 {
 	delete m_tileItem;
 	delete m_charaItem;
 	delete ui;
 }
-RPG::EventPage *QEventPageWidget::eventPage() const
+RPG::EventPage *EventPageWidget::eventPage() const
 {
 	return m_eventPage;
 }
 
-void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
+void EventPageWidget::setEventPage(RPG::EventPage *eventPage)
 {
 	m_eventPage = eventPage;
 	ui->checkSwitchA->setChecked(eventPage->condition.flags.switch_a);
@@ -131,7 +131,7 @@ void QEventPageWidget::setEventPage(RPG::EventPage *eventPage)
 }
 
 
-void QEventPageWidget::on_comboMoveType_currentIndexChanged(int index)
+void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
@@ -156,7 +156,7 @@ QString formatSwitchCondition(int switchId) {
 	}
 }
 
-void QEventPageWidget::on_checkSwitchA_toggled(bool checked)
+void EventPageWidget::on_checkSwitchA_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
@@ -170,7 +170,7 @@ void QEventPageWidget::on_checkSwitchA_toggled(bool checked)
 	m_eventPage->condition.flags.switch_a = checked;
 }
 
-void QEventPageWidget::on_checkSwitchB_toggled(bool checked)
+void EventPageWidget::on_checkSwitchB_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
@@ -184,7 +184,7 @@ void QEventPageWidget::on_checkSwitchB_toggled(bool checked)
 	m_eventPage->condition.flags.switch_b = checked;
 }
 
-void QEventPageWidget::on_checkVar_toggled(bool checked)
+void EventPageWidget::on_checkVar_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
@@ -205,91 +205,91 @@ void QEventPageWidget::on_checkVar_toggled(bool checked)
 	m_eventPage->condition.flags.variable = checked;
 }
 
-void QEventPageWidget::on_checkItem_toggled(bool checked)
+void EventPageWidget::on_checkItem_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.flags.item = checked;
 }
 
-void QEventPageWidget::on_comboVarOperation_currentIndexChanged(int index)
+void EventPageWidget::on_comboVarOperation_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.compare_operator = index;
 }
 
-void QEventPageWidget::on_spinVarValue_valueChanged(int arg1)
+void EventPageWidget::on_spinVarValue_valueChanged(int arg1)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.variable_value = arg1;
 }
 
-void QEventPageWidget::on_comboItem_currentIndexChanged(int index)
+void EventPageWidget::on_comboItem_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.item_id = index+1;
 }
 
-void QEventPageWidget::on_comboHero_currentIndexChanged(int index)
+void EventPageWidget::on_comboHero_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.actor_id = index+1;
 }
 
-void QEventPageWidget::on_checkHero_toggled(bool checked)
+void EventPageWidget::on_checkHero_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.flags.item = checked;
 }
 
-void QEventPageWidget::on_checkTimerA_toggled(bool checked)
+void EventPageWidget::on_checkTimerA_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.flags.timer = checked;
 }
 
-void QEventPageWidget::on_spinTimerAMin_valueChanged(int arg1)
+void EventPageWidget::on_spinTimerAMin_valueChanged(int arg1)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.timer_sec = arg1*60 + ui->spinTimerASec->value();
 }
 
-void QEventPageWidget::on_spinTimerASec_valueChanged(int arg1)
+void EventPageWidget::on_spinTimerASec_valueChanged(int arg1)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.timer_sec = ui->spinTimerAMin->value()*60 + arg1;
 }
 
-void QEventPageWidget::on_checkTimerB_toggled(bool checked)
+void EventPageWidget::on_checkTimerB_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.flags.timer2 = checked;
 }
 
-void QEventPageWidget::on_spinTimerBMin_valueChanged(int arg1)
+void EventPageWidget::on_spinTimerBMin_valueChanged(int arg1)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.timer2_sec = arg1*60 + ui->spinTimerBSec->value();
 }
 
-void QEventPageWidget::on_spinTimerBSec_valueChanged(int arg1)
+void EventPageWidget::on_spinTimerBSec_valueChanged(int arg1)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.timer2_sec = ui->spinTimerBMin->value()*60 + arg1;
 }
 
-void QEventPageWidget::on_checkTransparent_toggled(bool checked)
+void EventPageWidget::on_checkTransparent_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
@@ -297,51 +297,51 @@ void QEventPageWidget::on_checkTransparent_toggled(bool checked)
 	m_effect->setEnabled(checked);
 }
 
-void QEventPageWidget::on_comboMoveSpeed_currentIndexChanged(int index)
+void EventPageWidget::on_comboMoveSpeed_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->move_speed = index+1;
 }
 
-void QEventPageWidget::on_comboCondition_currentIndexChanged(int index)
+void EventPageWidget::on_comboCondition_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->trigger = index;
 }
 
-void QEventPageWidget::on_comboLayer_currentIndexChanged(int index)
+void EventPageWidget::on_comboLayer_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->layer = index;
 }
 
-void QEventPageWidget::on_checkOverlapForbidden_toggled(bool checked)
+void EventPageWidget::on_checkOverlapForbidden_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->overlap_forbidden = checked;
 }
 
-void QEventPageWidget::on_comboAnimationType_currentIndexChanged(int index)
+void EventPageWidget::on_comboAnimationType_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->animation_type = index;
 }
 
-void QEventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
+void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
 	m_eventPage->move_frequency = index+1;
 }
 
-void QEventPageWidget::on_pushSetSprite_clicked()
+void EventPageWidget::on_pushSetSprite_clicked()
 {
-	DialogCharaPicker dlg(this, true);
+	CharSetPickerDialog dlg(this, true);
 	dlg.setName(m_eventPage->character_name);
 	dlg.setFrame(m_eventPage->character_pattern);
 	dlg.setFacing(m_eventPage->character_direction);
@@ -359,7 +359,7 @@ void QEventPageWidget::on_pushSetSprite_clicked()
 
 
 
-void QEventPageWidget::updateGraphic()
+void EventPageWidget::updateGraphic()
 {
 	if (m_eventPage->character_name.empty())
 	{
@@ -385,7 +385,7 @@ void QEventPageWidget::updateGraphic()
 	}
 }
 
-void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
+void EventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 {
 	using namespace RPG;
 	auto &cmd = *static_cast<EventCommand*>(index.data(Qt::UserRole).value<void*>());
@@ -394,17 +394,17 @@ void QEventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 	QDialog *dialog = nullptr;
 	switch (cmd.code)
 	{
-		case EventCommand::Code::ChangeGold: dialog = new ChangeMoney(this, cmd); break;
-		case EventCommand::Code::ChangeItems: dialog = new ChangeItem(this, cmd); break;
-		case EventCommand::Code::ChangePartyMembers: dialog = new ChangeParty(this, cmd); break;
-		case EventCommand::Code::ChangeExp: dialog = new ChangeExperience(this, cmd); break;
-		case EventCommand::Code::ChangeFaceGraphic: dialog = new FaceGraphics(this, cmd); break;
-		case EventCommand::Code::InputNumber: dialog = new InputNumber(this, cmd); break;
-		case EventCommand::Code::MessageOptions: dialog = new MessageOptions(this, cmd); break;
-		case EventCommand::Code::ShowChoice: dialog = new ShowChoices(this, cmd); break;
-		case EventCommand::Code::ShowMessage: dialog = new ShowMessage(this, cmd); break;
-		case EventCommand::Code::ControlSwitches: dialog = new SwitchOperations(this, cmd); break;
-		case EventCommand::Code::ControlVars: dialog = new VariableOperations(this, cmd); break;
+		case EventCommand::Code::ChangeGold: dialog = new ChangeMoneyWidgetWidget(this, cmd); break;
+		case EventCommand::Code::ChangeItemWidgets: dialog = new ChangeItemWidget(this, cmd); break;
+		case EventCommand::Code::ChangePartyWidgetMembers: dialog = new ChangePartyWidget(this, cmd); break;
+		case EventCommand::Code::ChangeExp: dialog = new ChangeExperienceWidget(this, cmd); break;
+		case EventCommand::Code::ChangeFaceGraphic: dialog = new FaceGraphicsWidget(this, cmd); break;
+		case EventCommand::Code::InputNumberWidget: dialog = new InputNumberWidget(this, cmd); break;
+		case EventCommand::Code::MessageOptionsWidget: dialog = new MessageOptionsWidget(this, cmd); break;
+		case EventCommand::Code::ShowChoice: dialog = new ShowChoicesWidget(this, cmd); break;
+		case EventCommand::Code::ShowMessageWidget: dialog = new ShowMessageWidget(this, cmd); break;
+		case EventCommand::Code::ControlSwitches: dialog = new SwitchOperationsWidget(this, cmd); break;
+		case EventCommand::Code::ControlVars: dialog = new VariableOperationsWidget(this, cmd); break;
 	}
 
 

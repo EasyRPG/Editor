@@ -6,8 +6,8 @@
 #include <QAbstractItemModel>
 #include <QCompleter>
 #include <functional>
-#include "rpgmodel.h"
-#include "../dialogedit.h"
+#include "rpg_model.h"
+#include "../edit_dialog.h"
 
 
 template <class MODEL>
@@ -36,7 +36,7 @@ RpgComboBox<MODEL>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 		if (index == 0)
 		{
 			auto type = typename MODEL::typestruct()();
-			DialogEdit<decltype(type)> edit(this, type);
+			EditDialog<decltype(type)> edit(this, type);
 
 			edit.exec();
 		}

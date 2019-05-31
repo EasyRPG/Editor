@@ -1,6 +1,6 @@
-#include "dialogsearch.h"
-#include "ui_dialogsearch.h"
-#include "mainwindow.h"
+#include "search_dialog.h"
+#include "ui_search_dialog.h"
+#include "main_window.h"
 #include "core.h"
 #include "stringizer.h"
 
@@ -13,9 +13,9 @@
 #include <QMessageBox>
 #include <QCompleter>
 
-DialogSearch::DialogSearch(QWidget *parent) :
+SearchDialog::SearchDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogSearch)
+	ui(new Ui::SearchDialog)
 {
 	ui->setupUi(this);
 
@@ -34,12 +34,12 @@ DialogSearch::DialogSearch(QWidget *parent) :
 	enableCache(false);
 }
 
-DialogSearch::~DialogSearch()
+SearchDialog::~SearchDialog()
 {
 	delete ui;
 }
 
-void DialogSearch::updateUI()
+void SearchDialog::updateUI()
 {
 	const QString format("%1: %2");
 
@@ -53,7 +53,7 @@ void DialogSearch::updateUI()
 		ui->combo_eventname->addItem(format.arg(QString::number(e.ID), QString::fromStdString(e.name)), e.ID);
 }
 
-void DialogSearch::enableCache(bool enable)
+void SearchDialog::enableCache(bool enable)
 {
 	useCache = enable;
 
@@ -64,7 +64,7 @@ void DialogSearch::enableCache(bool enable)
 
 }
 
-void DialogSearch::on_button_search_clicked()
+void SearchDialog::on_button_search_clicked()
 {
 	objectData.clear();
 	ui->list_result->clear();
@@ -108,7 +108,7 @@ void DialogSearch::on_button_search_clicked()
 		{
 			switch (com.code)
 			{
-				case Cmd::InputNumber:
+				case Cmd::InputNumberWidget:
 					return com.parameters[1] == varID;
 				case Cmd::ControlSwitches:
 					return com.parameters[0] == 2 && com.parameters[1] == varID;
@@ -116,8 +116,8 @@ void DialogSearch::on_button_search_clicked()
 					return (com.parameters[4] == 1 && com.parameters[5] == varID) ||
 						(com.parameters[4] == 2 && com.parameters[5] == varID) ||
 						com.parameters[1] == varID || com.parameters[2] == varID;
-				case Cmd::ChangeItems:
-				case Cmd::ChangePartyMembers:
+				case Cmd::ChangeItemWidgets:
+				case Cmd::ChangePartyWidgetMembers:
 					return com.parameters[1] == 1 && com.parameters[2] == varID;
 				case Cmd::EnemyEncounter:
 					return com.parameters[0] == 1 && com.parameters[2] == varID;
@@ -188,7 +188,7 @@ void DialogSearch::on_button_search_clicked()
 		{
 			switch (com.code)
 			{
-				case Cmd::ChangeItems:
+				case Cmd::ChangeItemWidgets:
 					return com.parameters[2] == itemID;
 				case Cmd::ControlVars:
 					return com.parameters[4] == 4 && com.parameters[5] == itemID;
@@ -242,7 +242,7 @@ void DialogSearch::on_button_search_clicked()
 	ui->list_result->resizeColumnsToContents();
 }
 
-void DialogSearch::on_list_result_doubleClicked(const QModelIndex &index)
+void SearchDialog::on_list_result_doubleClicked(const QModelIndex &index)
 {
 	auto *par = static_cast<MainWindow*>(parent());
 	par->openScene(std::get<0>(objectData[static_cast<size_t>(index.row())]));
@@ -251,7 +251,7 @@ void DialogSearch::on_list_result_doubleClicked(const QModelIndex &index)
 	par->currentScene()->centerOnTile(event->x, event->y);
 }
 
-std::shared_ptr<RPG::Map> DialogSearch::loadMap(int mapID)
+std::shared_ptr<RPG::Map> SearchDialog::loadMap(int mapID)
 {
 	if (!(useCache && map_cache[static_cast<size_t>(mapID)]))
 	{
@@ -267,7 +267,7 @@ std::shared_ptr<RPG::Map> DialogSearch::loadMap(int mapID)
 	return map_cache[static_cast<size_t>(mapID)];
 }
 
-void DialogSearch::showResults(const std::vector<command_info>& results) {
+void SearchDialog::showResults(const std::vector<command_info>& results) {
 	for (auto &r : results)
 	{
 		int mapID, eventID, eventPage,	sourceLine;

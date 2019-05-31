@@ -1,9 +1,9 @@
 #include "changeparty.h"
 #include "ui_changeparty.h"
 
-ChangeParty::ChangeParty(QWidget *parent, RPG::EventCommand &cmd) :
+ChangePartyWidget::ChangePartyWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::ChangeParty),
+	ui(new Ui::ChangePartyWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -22,12 +22,12 @@ ChangeParty::ChangeParty(QWidget *parent, RPG::EventCommand &cmd) :
 	}
 }
 
-ChangeParty::~ChangeParty()
+ChangePartyWidget::~ChangePartyWidget()
 {
 	delete ui;
 }
 
-void ChangeParty::on_ChangeParty_accepted()
+void ChangePartyWidget::on_ChangePartyWidget_accepted()
 {
 	cmd.parameters[0] = ui->op_rem->isChecked() ? 1 : 0;
 	cmd.parameters[1] = ui->target_box_variable->isChecked() ? 1 : 0;

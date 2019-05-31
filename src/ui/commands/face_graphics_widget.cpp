@@ -1,9 +1,9 @@
-#include "facegraphics.h"
-#include "ui_facegraphics.h"
+#include "face_graphics_widget.h"
+#include "ui_face_graphics_widget.h"
 
-FaceGraphics::FaceGraphics(QWidget *parent, RPG::EventCommand &cmd) :
+FaceGraphicsWidget::FaceGraphicsWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::FaceGraphics),
+	ui(new Ui::FaceGraphicsWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -11,7 +11,7 @@ FaceGraphics::FaceGraphics(QWidget *parent, RPG::EventCommand &cmd) :
 	//TODO
 }
 
-FaceGraphics::~FaceGraphics()
+FaceGraphicsWidget::~FaceGraphicsWidget()
 {
 	delete ui;
 }

@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class QDbPageSkills;
+class SkillWidget;
 }
 
-class QDbPageSkills : public QWidget
+class SkillWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QDbPageSkills(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageSkills();
+	explicit SkillWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~SkillWidget();
 
 private:
-	Ui::QDbPageSkills *ui;
+	Ui::SkillWidget *ui;
 	RPG::Database &m_data;
 };
 

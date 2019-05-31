@@ -1,35 +1,35 @@
-#include "dialogdatabase.h"
-#include "ui_dialogdatabase.h"
+#include "database_dialog.h"
+#include "ui_database_dialog.h"
 #include <QPushButton>
 #include <QInputDialog>
 #include <QDialogButtonBox>
 #include "ldb_reader.h"
 
-DialogDataBase::DialogDataBase(QWidget *parent) :
+DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogDataBase)
+	ui(new Ui::DatabaseDialog)
 {
 	ui->setupUi(this);
 	m_data = Data::data;
 	m_currentActor = nullptr;
 	on_currentActorChanged(nullptr);
-	Old_PageActors = new QDbPageActors(m_data, this);
-	Old_PageClasses = new QDbPageClasses(m_data, this);
-	Old_PageSkills= new QDbPageSkills(m_data, this);
-	Old_PageItems=new QDbPageItems(m_data, this);
-	Old_PageEnemies=new QDbPageEnemies(m_data, this);
-	Old_PageEnemyGroup= new QDbPageEnemyGroups(m_data, this);
-	Old_PageAttributes=new QDbPageAttributes(m_data, this);
-	Old_PageHeroStatus=new QDbPageHeroStatus(m_data, this);
-	Old_PageBattleAnimation=new QDbPageBattleAnimations(m_data, this);
-	Old_PageBattleAnimation2=new QDbPageBattleAnimations2(m_data, this);
-	Old_PageBatleScreen=new QDbPageBattleScreen(m_data, this);
-	Old_PageTerrain=new QDbPageTerrain(m_data, this);
-	Old_PageChipset= new QDbPageChipset(m_data, this);
-	Old_PageVocabulary= new QDbPageVocabulary(m_data, this);
-	Old_PageSystem= new QDbPageSystem(m_data, this);
-	Old_PageSystem2= new QDbPageSystem2(m_data, this);
-	Old_PageCommonevents= new QDbPageCommonEvents(m_data, this);
+	Old_PageActors = new ActorWidget(m_data, this);
+	Old_PageClasses = new ClassWidget(m_data, this);
+	Old_PageSkills= new SkillWidget(m_data, this);
+	Old_PageItems=new ItemWidget(m_data, this);
+	Old_PageEnemies=new EnemyWidget(m_data, this);
+	Old_PageEnemyGroup= new EnemyGroupWidget(m_data, this);
+	Old_PageAttributes=new AttributeWidget(m_data, this);
+	Old_PageHeroStatus=new StateWidget(m_data, this);
+	Old_PageBattleAnimation=new BattleAnimationWidget(m_data, this);
+	Old_PageBattleAnimation2=new BattleAnimationWidget2(m_data, this);
+	Old_PageBatleScreen=new BattleScreenWidget(m_data, this);
+	Old_PageTerrain=new TerrainWidget(m_data, this);
+	Old_PageChipset= new ChipSetWidget(m_data, this);
+	Old_PageVocabulary= new VocabularyWidget(m_data, this);
+	Old_PageSystem= new SystemWidget(m_data, this);
+	Old_PageSystem2= new SystemWidget2(m_data, this);
+	Old_PageCommonevents= new CommonEventWidget(m_data, this);
 	ui->tabOld_Pages->insertTab(0, Old_PageActors, tr("Characters"));
 	ui->tabOld_Pages->insertTab(1, Old_PageClasses, tr("Professions"));
 	ui->tabOld_Pages->insertTab(2, Old_PageSkills, tr("Skills"));
@@ -57,12 +57,12 @@ DialogDataBase::DialogDataBase(QWidget *parent) :
 								   .arg(Data::actors[i].name.c_str()));
 }
 
-DialogDataBase::~DialogDataBase()
+DatabaseDialog::~DatabaseDialog()
 {
 	delete ui;
 }
 
-void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
+void DatabaseDialog::on_currentActorChanged(RPG::Actor *actor)
 {
 	m_currentActor = actor;
 	if (actor == nullptr){
@@ -125,18 +125,18 @@ void DialogDataBase::on_currentActorChanged(RPG::Actor *actor)
 	ui->tableNew_CharacterProperties->setEnabled(true);
 }
 
-void DialogDataBase::on_tabOld_Pages_currentChanged(int index)
+void DatabaseDialog::on_tabOld_Pages_currentChanged(int index)
 {
 	ui->listNew_Pages->setCurrentRow(index);
 	emit ui->listNew_Pages->currentRowChanged(index);
 }
 
-void DialogDataBase::on_toolSwitchStyle_clicked(bool checked)
+void DatabaseDialog::on_toolSwitchStyle_clicked(bool checked)
 {
 	ui->stackedStyle->setCurrentIndex(static_cast<int>(checked));
 }
 
-void DialogDataBase::on_buttonBox_clicked(QAbstractButton *button)
+void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
 	switch(ui->buttonBox->standardButton(button))
 	{
@@ -152,18 +152,18 @@ void DialogDataBase::on_buttonBox_clicked(QAbstractButton *button)
 			break;
 	}
 }
-void DialogDataBase::on_pushNew_CharacterMax_clicked()
+void DatabaseDialog::on_pushNew_CharacterMax_clicked()
 {
 	/* TODO: resize characters */
 }
 
-void DialogDataBase::on_lineNew_CharacterFilter_textChanged(const QString &arg1)
+void DatabaseDialog::on_lineNew_CharacterFilter_textChanged(const QString &arg1)
 {
 	for (int i = 0; i < ui->listNew_Character->count(); i++)
 		ui->listNew_Character->item(i)->setHidden(ui->listNew_Character->item(i)->text().contains(arg1,Qt::CaseInsensitive));
 }
 
-void DialogDataBase::on_listNew_Character_currentRowChanged(int currentRow)
+void DatabaseDialog::on_listNew_Character_currentRowChanged(int currentRow)
 {
 	if (currentRow < 0 || currentRow >= static_cast<int>(m_data.actors.size()))
 	{

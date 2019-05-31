@@ -1,9 +1,9 @@
-#include "changemoney.h"
-#include "ui_changemoney.h"
+#include "change_money_widget.h"
+#include "ui_change_money_widget.h"
 
-ChangeMoney::ChangeMoney(QWidget *parent, RPG::EventCommand &cmd) :
+ChangeMoneyWidgetWidget::ChangeMoneyWidgetWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::ChangeMoney),
+	ui(new Ui::ChangeMoneyWidgetWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -21,12 +21,12 @@ ChangeMoney::ChangeMoney(QWidget *parent, RPG::EventCommand &cmd) :
 	}
 }
 
-ChangeMoney::~ChangeMoney()
+ChangeMoneyWidgetWidget::~ChangeMoneyWidgetWidget()
 {
 	delete ui;
 }
 
-void ChangeMoney::on_ChangeMoney_accepted()
+void ChangeMoneyWidgetWidget::on_ChangeMoneyWidgetWidget_accepted()
 {
 	cmd.parameters[0] = ui->op_dec->isChecked() ? 1 : 0;
 	cmd.parameters[1] = ui->amount_box_variable->isChecked() ? 1 : 0;

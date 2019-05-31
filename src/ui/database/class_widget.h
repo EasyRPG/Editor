@@ -4,19 +4,19 @@
 #include <QWidget>
 #include <rpg_database.h>
 #include <rpg_class.h>
-#include "qgraphicsbattleanimationitem.h"
+#include "battle_animation_item.h"
 
 namespace Ui {
-class QDbPageClasses;
+class ClassWidget;
 }
 
-class QDbPageClasses : public QWidget
+class ClassWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QDbPageClasses(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageClasses();
+	explicit ClassWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~ClassWidget();
 
 	void UpdateModels();
 
@@ -27,9 +27,9 @@ signals:
 	void currentClassChanged(RPG::Class *_class);
 
 private:
-	Ui::QDbPageClasses *ui;
+	Ui::ClassWidget *ui;
 
-	QGraphicsBattleAnimationItem *m_battlerItem;
+	BattleAnimationItem *m_battlerItem;
 
 	RPG::Class *m_currentClass;
 	RPG::Database &m_data;

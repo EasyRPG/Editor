@@ -3,7 +3,7 @@
 
 #include <QGraphicsPixmapItem>
 
-class QGraphicsCharaItem : public QGraphicsPixmapItem
+class CharSetItem : public QGraphicsPixmapItem
 {
 public:
 	enum Direction {
@@ -19,7 +19,7 @@ public:
 		Frame_right = 2
 	};
 
-	explicit QGraphicsCharaItem(const QPixmap pix = QPixmap(96,64));
+	explicit CharSetItem(const QPixmap pix = QPixmap(96,64));
 
 	void setBasePix(const QString &n_pixName);
 

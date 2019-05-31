@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChangeMoney</class>
- <widget class="QDialog" name="ChangeMoney">
+ <class>ChangeMoneyWidgetWidget</class>
+ <widget class="QDialog" name="ChangeMoneyWidgetWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -120,7 +120,7 @@
   <customwidget>
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -128,7 +128,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ChangeMoney</receiver>
+   <receiver>ChangeMoneyWidgetWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -144,7 +144,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ChangeMoney</receiver>
+   <receiver>ChangeMoneyWidgetWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -160,7 +160,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>ChangeMoney</receiver>
+   <receiver>ChangeMoneyWidgetWidget</receiver>
    <slot>helpRequested()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -5,21 +5,21 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class VariableOperations;
+class VariableOperationsWidget;
 }
 
-class VariableOperations : public QDialog
+class VariableOperationsWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit VariableOperations(QWidget *parent, RPG::EventCommand &cmd);
-	~VariableOperations();
+	explicit VariableOperationsWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~VariableOperationsWidget();
 
 private slots:
 
 private:
-	Ui::VariableOperations *ui;
+	Ui::VariableOperationsWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

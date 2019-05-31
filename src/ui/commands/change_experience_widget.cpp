@@ -1,9 +1,9 @@
-#include "changeexperience.h"
-#include "ui_changeexperience.h"
+#include "change_experience_widget.h"
+#include "ui_change_experience_widget.h"
 
-ChangeExperience::ChangeExperience(QWidget *parent, RPG::EventCommand &cmd) :
+ChangeExperienceWidget::ChangeExperienceWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::ChangeExperience),
+	ui(new Ui::ChangeExperienceWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -37,12 +37,12 @@ ChangeExperience::ChangeExperience(QWidget *parent, RPG::EventCommand &cmd) :
 	ui->option_show->setChecked(cmd.parameters[5]);
 }
 
-ChangeExperience::~ChangeExperience()
+ChangeExperienceWidget::~ChangeExperienceWidget()
 {
 	delete ui;
 }
 
-void ChangeExperience::on_ChangeExperience_accepted()
+void ChangeExperienceWidget::on_ChangeExperienceWidget_accepted()
 {
 	if (ui->target_box_entire->isChecked())
 		cmd.parameters[0] = 0;

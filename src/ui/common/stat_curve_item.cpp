@@ -1,7 +1,7 @@
-#include "qgraphicscurveitem.h"
+#include "stat_curve_item.h"
 #include "QGraphicsScene"
 
-QGraphicsCurveItem::QGraphicsCurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent) :
+CurveItem::CurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent) :
 	QGraphicsItem(parent),
 	m_data(data)
 {
@@ -9,7 +9,7 @@ QGraphicsCurveItem::QGraphicsCurveItem(QColor color, std::vector<int16_t> &data,
 	m_maxValue = 999.0;
 }
 
-QRectF QGraphicsCurveItem::boundingRect() const
+QRectF CurveItem::boundingRect() const
 {
 	if (!scene())
 		return QRectF();
@@ -17,7 +17,7 @@ QRectF QGraphicsCurveItem::boundingRect() const
 	return scene()->sceneRect();
 }
 
-void QGraphicsCurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
@@ -40,17 +40,17 @@ void QGraphicsCurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 	painter->drawPoints(p);
 }
 
-void QGraphicsCurveItem::setData(std::vector<int16_t> &data)
+void CurveItem::setData(std::vector<int16_t> &data)
 {
 	m_data = data;
 	update();
 }
-qreal QGraphicsCurveItem::maxValue() const
+qreal CurveItem::maxValue() const
 {
 	return m_maxValue;
 }
 
-void QGraphicsCurveItem::setMaxValue(const qreal &maxValue)
+void CurveItem::setMaxValue(const qreal &maxValue)
 {
 	m_maxValue = maxValue;
 }

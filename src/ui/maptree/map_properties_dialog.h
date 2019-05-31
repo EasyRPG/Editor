@@ -6,19 +6,19 @@
 #include <QTableWidgetItem>
 #include <rpg_mapinfo.h>
 #include <rpg_map.h>
-#include "tools/qencounterdelegate.h"
+#include "tools/encounter_delegate.h"
 
 namespace Ui {
-class DialogMapProperties;
+class MapPropertiesDialog;
 }
 
-class DialogMapProperties : public QDialog
+class MapPropertiesDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWidget *parent = nullptr);
-	~DialogMapProperties();
+	explicit MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWidget *parent = nullptr);
+	~MapPropertiesDialog();
 
 private slots:
 	void on_groupPanorama_toggled(bool arg1);
@@ -38,7 +38,7 @@ private slots:
 	void on_tableEncounters_itemChanged(QTableWidgetItem *item);
 
 private:
-	Ui::DialogMapProperties *ui;
+	Ui::MapPropertiesDialog *ui;
 
 	QGraphicsPixmapItem *m_panoramaItem;
 	QGraphicsPixmapItem *m_ceilingItem;

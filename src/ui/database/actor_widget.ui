@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QDbPageActors</class>
- <widget class="QWidget" name="QDbPageActors">
+ <class>ActorWidget</class>
+ <widget class="QWidget" name="ActorWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

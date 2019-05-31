@@ -5,22 +5,22 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class ChangeItem;
+class ChangeItemWidget;
 }
 
-class ChangeItem : public QDialog
+class ChangeItemWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeItem(QWidget *parent, RPG::EventCommand &cmd);
-	~ChangeItem();
+	explicit ChangeItemWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~ChangeItemWidget();
 
 private slots:
-	void on_ChangeItem_accepted();
+	void on_ChangeItemWidget_accepted();
 
 private:
-	Ui::ChangeItem *ui;
+	Ui::ChangeItemWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

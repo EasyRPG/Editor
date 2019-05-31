@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ShowChoices</class>
- <widget class="QDialog" name="ShowChoices">
+ <class>ShowChoicesWidget</class>
+ <widget class="QDialog" name="ShowChoicesWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -171,7 +171,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ShowChoices</receiver>
+   <receiver>ShowChoicesWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -187,7 +187,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ShowChoices</receiver>
+   <receiver>ShowChoicesWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -203,7 +203,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>ShowChoices</receiver>
+   <receiver>ShowChoicesWidget</receiver>
    <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">

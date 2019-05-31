@@ -1,13 +1,13 @@
-#include "qgraphicsfaceitem.h"
+#include "faceset_item.h"
 #include "../core.h"
 
-QGraphicsFaceItem::QGraphicsFaceItem(const QPixmap pix) :
+FaceSetItem::FaceSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
 {
 	m_index = -1;
 }
 
-void QGraphicsFaceItem::setBasePix(const QString &n_pixName)
+void FaceSetItem::setBasePix(const QString &n_pixName)
 {
 	m_pix = QPixmap(mCore->filePath(FACESET,n_pixName));
 	if (m_pix.isNull())
@@ -15,39 +15,39 @@ void QGraphicsFaceItem::setBasePix(const QString &n_pixName)
 	updatePix();
 }
 
-int QGraphicsFaceItem::index() const
+int FaceSetItem::index() const
 {
 	return m_index;
 }
 
-void QGraphicsFaceItem::setIndex(int index)
+void FaceSetItem::setIndex(int index)
 {
 	m_index = index;
 	updatePix();
 }
 
-int QGraphicsFaceItem::facing() const
+int FaceSetItem::facing() const
 {
 	return m_facing;
 }
 
-void QGraphicsFaceItem::setFacing(int facing)
+void FaceSetItem::setFacing(int facing)
 {
 	m_facing = facing;
 	updatePix();
 }
-int QGraphicsFaceItem::frame() const
+int FaceSetItem::frame() const
 {
 	return m_frame;
 }
 
-void QGraphicsFaceItem::setFrame(int frame)
+void FaceSetItem::setFrame(int frame)
 {
 	m_frame = frame;
 	updatePix();
 }
 
-void QGraphicsFaceItem::updatePix()
+void FaceSetItem::updatePix()
 {
 	if (m_pix.isNull())
 		return;

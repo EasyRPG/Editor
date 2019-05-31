@@ -5,20 +5,20 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QTimer>
-#include "tools/qgraphicsfaceitem.h"
-#include "tools/qgraphicspickerscene.h"
+#include "tools/faceset_item.h"
+#include "tools/picker_scene.h"
 
 namespace Ui {
-class DialogCharaPicker;
+class CharSetPickerDialog;
 }
 
-class dialogfacepicker: public QDialog
+class faceset_picker_dialog: public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit dialogfacepicker(QWidget *parent, bool tile_pick);
-	~dialogfacepicker();
+	explicit faceset_picker_dialog(QWidget *parent, bool tile_pick);
+	~faceset_picker_dialog();
 
 	int frame();
 	void setFrame(int frame);
@@ -42,10 +42,10 @@ private slots:
 
 private:
 
-	Ui::DialogCharaPicker *ui;
-	QGraphicsPickerScene *m_charaScene;
-	QGraphicsPickerScene *m_tileScene;
-	QGraphicsFaceItem *m_chara;
+	Ui::CharSetPickerDialog *ui;
+	PickerScene *m_charaScene;
+	PickerScene *m_tileScene;
+	FaceSetItem *m_chara;
 	QTimer *m_timer;
 	int m_tileIndex;
 	int m_charaIndex;

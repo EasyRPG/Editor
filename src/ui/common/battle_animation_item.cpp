@@ -1,6 +1,6 @@
-#include "qgraphicsbattleanimationitem.h"
+#include "battle_animation_item.h"
 
-QGraphicsBattleAnimationItem::QGraphicsBattleAnimationItem(const QPixmap pix) :
+BattleAnimationItem::BattleAnimationItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
 {
 	m_demo = false;
@@ -9,7 +9,7 @@ QGraphicsBattleAnimationItem::QGraphicsBattleAnimationItem(const QPixmap pix) :
 	connect(this, SIGNAL(demoAdvance()), this, SLOT(on_demoAdvance()));
 }
 
-void QGraphicsBattleAnimationItem::setDemoAnimation(const RPG::BattlerAnimation &demoAnimation)
+void BattleAnimationItem::setDemoAnimation(const RPG::BattlerAnimation &demoAnimation)
 {
 	m_demo = true;
 	m_index = 0;
@@ -19,7 +19,7 @@ void QGraphicsBattleAnimationItem::setDemoAnimation(const RPG::BattlerAnimation 
 	on_demoAdvance();
 }
 
-void QGraphicsBattleAnimationItem::setBasePix(Type type, const QString &pixName)
+void BattleAnimationItem::setBasePix(Type type, const QString &pixName)
 {
 	m_type = type;
 	if (pixName.isEmpty())
@@ -41,18 +41,18 @@ void QGraphicsBattleAnimationItem::setBasePix(Type type, const QString &pixName)
 	updatePix();
 }
 
-int QGraphicsBattleAnimationItem::index() const
+int BattleAnimationItem::index() const
 {
 	return m_index;
 }
 
-void QGraphicsBattleAnimationItem::setIndex(int index)
+void BattleAnimationItem::setIndex(int index)
 {
 	m_index = index;
 	updatePix();
 }
 
-void QGraphicsBattleAnimationItem::updatePix()
+void BattleAnimationItem::updatePix()
 {
 	if (m_pix.isNull())
 		return;
@@ -78,7 +78,7 @@ void QGraphicsBattleAnimationItem::updatePix()
 	}
 }
 
-void QGraphicsBattleAnimationItem::on_demoAdvance()
+void BattleAnimationItem::on_demoAdvance()
 {
 	if (!m_demo)
 		return;
@@ -91,7 +91,7 @@ void QGraphicsBattleAnimationItem::on_demoAdvance()
 	updatePix();
 }
 
-void QGraphicsBattleAnimationItem::advance(int phase)
+void BattleAnimationItem::advance(int phase)
 {
 	static int frame_count = 0;
 	static int patterns[4] = {1, 0, 1, 2}; /* Mid, Left, Mid, Right*/

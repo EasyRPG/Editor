@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChangeParty</class>
- <widget class="QDialog" name="ChangeParty">
+ <class>ChangePartyWidget</class>
+ <widget class="QDialog" name="ChangePartyWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -107,12 +107,12 @@
   <customwidget>
    <class>ActorRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
   <customwidget>
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -120,7 +120,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ChangeParty</receiver>
+   <receiver>ChangePartyWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -136,7 +136,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ChangeParty</receiver>
+   <receiver>ChangePartyWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

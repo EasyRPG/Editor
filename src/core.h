@@ -81,7 +81,7 @@
 #include <QListWidget>
 #include "rpg_map.h"
 #include "rpg_chipset.h"
-#include "dialogrungame.h"
+#include "run_game_dialog.h"
 
 class Core : public QObject
 {
@@ -202,7 +202,7 @@ private:
 	int m_upperSelH;
 	static Core *core;
 	QMap<int, RPG::Event*> *m_currentMapEvents;
-	DialogRunGame *m_runGameDialog;
+	RunGameDialog *m_runGameDialog;
 };
 
 #endif // CORE_H

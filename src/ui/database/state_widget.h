@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class QDbPageHeroStatus;
+class StateWidget;
 }
 
-class QDbPageHeroStatus : public QWidget
+class StateWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QDbPageHeroStatus(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageHeroStatus();
+	explicit StateWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~StateWidget();
 
 private:
-	Ui::QDbPageHeroStatus *ui;
+	Ui::StateWidget *ui;
 	RPG::Database &m_data;
 };
 

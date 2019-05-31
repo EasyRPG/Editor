@@ -1,11 +1,11 @@
-#include "dialognewproject.h"
-#include "dialogopenproject.h"
-#include "dialogimportproject.h"
-#include "dialogrtppath.h"
-#include "dialogevent.h"
-#include "dialogmapproperties.h"
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "new_project_dialog.h"
+#include "open_project_dialog.h"
+#include "import_project_dialog.h"
+#include "rtp_path_dialog.h"
+#include "event_dialog.h"
+#include "map_properties_dialog.h"
+#include "main_window.h"
+#include "ui_main_window.h"
 #include <QImage>
 #include <QToolBar>
 #include <QCloseEvent>
@@ -89,7 +89,7 @@ static void associateFileTypes(const QStringList &fileTypes)
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	searchdialog(new DialogSearch(this))
+	searchdialog(new SearchDialog(this))
 {
 	ui->setupUi(this);
 	// Hide map ids
@@ -98,10 +98,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->widgetBar->layout()->addWidget(ui->toolBar);
 	ui->widgetBar2->layout()->addWidget(ui->toolBar2);
 	//Create dialogs
-	dlg_resource = new DialogResourceManager(this);
+	dlg_resource = new ResourceManagerDialog(this);
 	dlg_resource->setModal(true);
 	dlg_db = nullptr;
-	m_paletteScene = new QGraphicsPaletteScene(ui->graphicsPalette);
+	m_paletteScene = new PaletteScene(ui->graphicsPalette);
 	ui->graphicsPalette->setScene(m_paletteScene);
 	connect(mCore,
 			SIGNAL(toolChanged()),
@@ -236,7 +236,7 @@ void MainWindow::LoadProject(QString foldername)
 			continue;
 
 		QGraphicsView *view = getView(mapId);
-		QGraphicsMapScene *scene = getScene(mapId);
+		MapScene *scene = getScene(mapId);
 		scene->setScale(i < m_scaleList.size() ? m_scaleList[i].toFloat() : 1.0);
 		ui->tabMap->setCurrentWidget(view);
 	}
@@ -475,7 +475,7 @@ void MainWindow::on_actionData_Base_triggered()
 {
 	if (dlg_db)
 		delete dlg_db;
-	dlg_db = new DialogDataBase(this);
+	dlg_db = new DatabaseDialog(this);
 	dlg_db->setModal(true);
 	dlg_db->exec();
 }
@@ -548,7 +548,7 @@ void MainWindow::update_actions()
 
 void MainWindow::on_action_New_Project_triggered()
 {
-	DialogNewProject dlg(this);
+	NewProjectDialog dlg(this);
 	dlg.setDefDir(mCore->defDir());
 	dlg.exec();
 	if (dlg.result() == QDialog::Accepted)
@@ -648,7 +648,7 @@ void MainWindow::on_action_New_Project_triggered()
 			m_treeItems[maps.maps[i].ID]->setExpanded(maps.maps[i].expanded_node);
 		}
 		QGraphicsView *view = getView(1);
-		QGraphicsMapScene *scene = getScene(1);
+		MapScene *scene = getScene(1);
 		scene->setScale(0 < scaleList.size() ? scaleList[0].toFloat() : 1.0);
 		ui->tabMap->setCurrentWidget(view);
 		update_actions();
@@ -703,7 +703,7 @@ QGraphicsView *MainWindow::getView(int id)
 		ui->tabMap->addTab(view,
 						   QIcon(":/icons/share/old_map.png"),
 						   QString::fromStdString(mapName));
-		view->setScene(new QGraphicsMapScene(id, view, this));
+		view->setScene(new MapScene(id, view, this));
 		connect(getScene(id),
 				SIGNAL(mapChanged()),
 				this,
@@ -723,12 +723,12 @@ QGraphicsView *MainWindow::getView(int id)
 	return view;
 }
 
-QGraphicsMapScene *MainWindow::getScene(int id)
+MapScene *MainWindow::getScene(int id)
 {
 	QGraphicsView* view = m_views[id];
 	if (!view)
 		return nullptr;
-	return (static_cast<QGraphicsMapScene*>(view->scene()));
+	return (static_cast<MapScene*>(view->scene()));
 }
 
 QGraphicsView *MainWindow::getTabView(int index)
@@ -738,26 +738,26 @@ QGraphicsView *MainWindow::getTabView(int index)
 	return (static_cast<QGraphicsView*>(ui->tabMap->widget(index)));
 }
 
-QGraphicsMapScene *MainWindow::getTabScene(int index)
+MapScene *MainWindow::getTabScene(int index)
 {
 	if (!getTabView(index))
 		return nullptr;
 	QGraphicsView* view = getTabView(index);
-	return (static_cast<QGraphicsMapScene*>(view->scene()));
+	return (static_cast<MapScene*>(view->scene()));
 }
 
-QGraphicsMapScene *MainWindow::currentScene()
+MapScene *MainWindow::currentScene()
 {
 	QGraphicsView* view = static_cast<QGraphicsView*>(ui->tabMap->currentWidget());
 	if (!view)
 		return nullptr;
-	return (static_cast<QGraphicsMapScene*>(view->scene()));
+	return (static_cast<MapScene*>(view->scene()));
 }
 
 void MainWindow::removeView(int id)
 {
 	QGraphicsView* view = m_views[id];
-	QGraphicsMapScene* scene = static_cast<QGraphicsMapScene*>(view->scene());
+	MapScene* scene = static_cast<MapScene*>(view->scene());
 	m_views.remove(id);
 	delete scene;
 	delete view;
@@ -795,7 +795,7 @@ void MainWindow::on_action_Close_Project_triggered()
 
 void MainWindow::on_action_Open_Project_triggered()
 {
-	DialogOpenProject dlg(this);
+	OpenProjectDialog dlg(this);
 	dlg.setDefDir(mCore->defDir());
 	if (dlg.exec() == QDialog::Accepted)
 		LoadProject(dlg.getProjectFolder());
@@ -919,7 +919,7 @@ void MainWindow::on_tabMap_currentChanged(int index)
 
 void MainWindow::on_actionImport_Project_triggered()
 {
-	DialogImportProject dlg(this);
+	ImportProjectDialog dlg(this);
 	dlg.setDefDir(mCore->defDir());
 	dlg.exec();
 	if (dlg.result() == QDialog::Accepted){
@@ -956,7 +956,7 @@ void MainWindow::on_actionImport_Project_triggered()
 
 void MainWindow::on_actionRtp_Path_triggered()
 {
-	DialogRtpPath dlg(this);
+	RtpPathDialog dlg(this);
 }
 
 void MainWindow::on_actionZoom_triggered()

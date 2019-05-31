@@ -1,13 +1,13 @@
-#include "dialogevent.h"
-#include "ui_dialogevent.h"
+#include "event_dialog.h"
+#include "ui_event_dialog.h"
 #include <QFileDialog>
 #include <QSettings>
-#include "tools/qeventpagewidget.h"
+#include "tools/event_page_widget.h"
 #include "core.h"
 
-DialogEvent::DialogEvent(QWidget *parent) :
+EventDialog::EventDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogEvent)
+	ui(new Ui::EventDialog)
 {
 	ui->setupUi(this);
 	lst_result = QDialogButtonBox::Cancel;
@@ -21,14 +21,14 @@ DialogEvent::DialogEvent(QWidget *parent) :
 			SLOT(apply()));
 }
 
-DialogEvent::~DialogEvent()
+EventDialog::~EventDialog()
 {
 	delete ui;
 }
 
-int DialogEvent::edit(QWidget *parent, RPG::Event *event)
+int EventDialog::edit(QWidget *parent, RPG::Event *event)
 {
-	DialogEvent dlg(parent);
+	EventDialog dlg(parent);
 	dlg.setEvent(event);
 	dlg.exec();
 	if (dlg.lst_result != QDialogButtonBox::Cancel)
@@ -36,7 +36,7 @@ int DialogEvent::edit(QWidget *parent, RPG::Event *event)
 	return dlg.lst_result;
 }
 
-bool DialogEvent::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
+bool EventDialog::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
 {
 #define chk(property) if (e1.property != e2.property) return false
 	if (e1.ID != e2.ID) return false; //Prevents warning
@@ -100,7 +100,7 @@ bool DialogEvent::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
 #undef chk
 }
 
-RPG::Event DialogEvent::getEvent() const
+RPG::Event EventDialog::getEvent() const
 {
 	switch(lst_result)
 	{
@@ -112,7 +112,7 @@ RPG::Event DialogEvent::getEvent() const
 	return r_event;
 }
 
-void DialogEvent::setEvent(RPG::Event *event)
+void EventDialog::setEvent(RPG::Event *event)
 {
 	m_event = *event;
 	r_event = *event;
@@ -121,13 +121,13 @@ void DialogEvent::setEvent(RPG::Event *event)
 	ui->tabEventPages->clear();
 	for (unsigned int i = 0; i < m_event.pages.size(); i++)
 	{
-		QEventPageWidget *tab = new QEventPageWidget(this);
+		EventPageWidget *tab = new EventPageWidget(this);
 		tab->setEventPage(&(m_event.pages[i]));
 		ui->tabEventPages->addTab(tab,QString::number(i+1));
 	}
 }
 
-void DialogEvent::apply()
+void EventDialog::apply()
 {
 	a_event = m_event;
 	if (equalEvents(a_event, r_event))
@@ -136,7 +136,7 @@ void DialogEvent::apply()
 		lst_result = QDialogButtonBox::Apply;
 }
 
-void DialogEvent::ok()
+void EventDialog::ok()
 {
 	if (equalEvents(m_event, r_event))
 		lst_result = QDialogButtonBox::Cancel;

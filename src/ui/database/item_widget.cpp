@@ -1,15 +1,15 @@
-#include "qdbpageitems.h"
-#include "ui_qdbpageitems.h"
+#include "item_widget.h"
+#include "ui_item_widget.h"
 
-QDbPageItems::QDbPageItems(RPG::Database &database, QWidget *parent) :
+ItemWidget::ItemWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageItems),
+	ui(new Ui::ItemWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-QDbPageItems::~QDbPageItems()
+ItemWidget::~ItemWidget()
 {
 	delete ui;
 }

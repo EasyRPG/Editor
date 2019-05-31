@@ -5,22 +5,22 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class ChangeParty;
+class ChangePartyWidget;
 }
 
-class ChangeParty : public QDialog
+class ChangePartyWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeParty(QWidget *parent, RPG::EventCommand &cmd);
-	~ChangeParty();
+	explicit ChangePartyWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~ChangePartyWidget();
 
 private slots:
-	void on_ChangeParty_accepted();
+	void on_ChangePartyWidget_accepted();
 
 private:
-	Ui::ChangeParty *ui;
+	Ui::ChangePartyWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

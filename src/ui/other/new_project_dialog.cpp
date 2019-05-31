@@ -1,37 +1,37 @@
-#include "dialognewproject.h"
-#include "ui_dialognewproject.h"
+#include "new_project_dialog.h"
+#include "ui_new_project_dialog.h"
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
 #include <QPushButton>
 
-DialogNewProject::DialogNewProject(QWidget *parent) :
+NewProjectDialog::NewProjectDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogNewProject)
+	ui(new Ui::NewProjectDialog)
 {
 	ui->setupUi(this);
 	setModal(true);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
-DialogNewProject::~DialogNewProject()
+NewProjectDialog::~NewProjectDialog()
 {
 	delete ui;
 }
 
-QString DialogNewProject::getProjectFolder() const
+QString NewProjectDialog::getProjectFolder() const
 {
 	return ui->lineGameFolder->text();
 }
 
-QString DialogNewProject::getGameTitle() const
+QString NewProjectDialog::getGameTitle() const
 {
 	if (ui->lineGameTitle->text().isEmpty())
 		return (tr("Untitled"));
 	return ui->lineGameTitle->text();
 }
 
-int DialogNewProject::getTileSize() const
+int NewProjectDialog::getTileSize() const
 {
 	bool *ok = new bool;
 	int val = ui->comboTileSize->currentText().toInt(ok);
@@ -40,7 +40,7 @@ int DialogNewProject::getTileSize() const
 	return val;
 }
 
-void DialogNewProject::setDefDir(QString n_defDir)
+void NewProjectDialog::setDefDir(QString n_defDir)
 {
 	if (!n_defDir.endsWith('/'))
 		n_defDir.append("/");
@@ -48,12 +48,12 @@ void DialogNewProject::setDefDir(QString n_defDir)
 	m_defDir = n_defDir;
 }
 
-QString DialogNewProject::getDefDir()
+QString NewProjectDialog::getDefDir()
 {
 	return ui->lineProjectPath->text();
 }
 
-void DialogNewProject::on_toolProjectPath_clicked()
+void NewProjectDialog::on_toolProjectPath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,
 													 "Select destination forlder",
@@ -66,7 +66,7 @@ void DialogNewProject::on_toolProjectPath_clicked()
 
 //TODO: generate RTP template code.
 
-void DialogNewProject::on_lineGameFolder_textChanged(const QString &arg1)
+void NewProjectDialog::on_lineGameFolder_textChanged(const QString &arg1)
 {
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!arg1.isEmpty());
 }

@@ -1,35 +1,35 @@
-#include "dialogimportproject.h"
-#include "ui_dialogimportproject.h"
+#include "import_project_dialog.h"
+#include "ui_import_project_dialog.h"
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QPushButton>
 
-DialogImportProject::DialogImportProject(QWidget *parent) :
+ImportProjectDialog::ImportProjectDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogImportProject)
+	ui(new Ui::ImportProjectDialog)
 {
 	ui->setupUi(this);
 	setModal(true);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
-DialogImportProject::~DialogImportProject()
+ImportProjectDialog::~ImportProjectDialog()
 {
 	delete ui;
 }
 
-QString DialogImportProject::getProjectFolder() const
+QString ImportProjectDialog::getProjectFolder() const
 {
 	return ui->lineGameFolder->text();
 }
 
-QString DialogImportProject::getSourceFolder() const
+QString ImportProjectDialog::getSourceFolder() const
 {
 	return ui->lineSourcePath->text();
 }
 
-void DialogImportProject::setDefDir(QString n_defDir)
+void ImportProjectDialog::setDefDir(QString n_defDir)
 {
 	if (!n_defDir.endsWith('/'))
 		n_defDir.append("/");
@@ -37,21 +37,21 @@ void DialogImportProject::setDefDir(QString n_defDir)
 	m_defDir = n_defDir;
 }
 
-QString DialogImportProject::getDefDir()
+QString ImportProjectDialog::getDefDir()
 {
 	return ui->lineProjectPath->text();
 }
 
-bool DialogImportProject::getConvertXYZ() const {
+bool ImportProjectDialog::getConvertXYZ() const {
 	return ui->checkConvertXYZ->isChecked();
 }
 
-void DialogImportProject::on_lineGameFolder_textChanged(const QString &arg1)
+void ImportProjectDialog::on_lineGameFolder_textChanged(const QString &arg1)
 {
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!arg1.isEmpty());
 }
 
-void DialogImportProject::on_toolProjectPath_clicked()
+void ImportProjectDialog::on_toolProjectPath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,
 													 "Select destination folder",
@@ -62,7 +62,7 @@ void DialogImportProject::on_toolProjectPath_clicked()
 	m_defDir = ui->lineProjectPath->text();
 }
 
-void DialogImportProject::on_toolSourcePath_clicked()
+void ImportProjectDialog::on_toolSourcePath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,
 													 "Select origin folder",

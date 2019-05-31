@@ -5,16 +5,16 @@
 #include <QStringListModel>
 
 namespace Ui {
-class DialogResourceManager;
+class ResourceManagerDialog;
 }
 
-class DialogResourceManager : public QDialog
+class ResourceManagerDialog : public QDialog
 {
 	Q_OBJECT
 	
 public:
-	explicit DialogResourceManager(QWidget *parent = nullptr);
-	~DialogResourceManager();
+	explicit ResourceManagerDialog(QWidget *parent = nullptr);
+	~ResourceManagerDialog();
 
 private slots:
 	void on_listResourceType_currentRowChanged(int currentRow);
@@ -22,7 +22,7 @@ private slots:
 	void on_pushImport_clicked();
 
 private:
-	Ui::DialogResourceManager *ui;
+	Ui::ResourceManagerDialog *ui;
 	QStringListModel *m_model;
 
 	QString m_lastmusicpath;

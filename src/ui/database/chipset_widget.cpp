@@ -1,15 +1,15 @@
-#include "qdbpagechipset.h"
-#include "ui_qdbpagechipset.h"
+#include "chipset_widget.h"
+#include "ui_chipset_widget.h"
 
-QDbPageChipset::QDbPageChipset(RPG::Database &database, QWidget *parent) :
+ChipSetWidget::ChipSetWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageChipset),
+	ui(new Ui::ChipSetWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-QDbPageChipset::~QDbPageChipset()
+ChipSetWidget::~ChipSetWidget()
 {
 	delete ui;
 }

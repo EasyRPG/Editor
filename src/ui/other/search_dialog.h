@@ -7,20 +7,20 @@
 #include <vector>
 
 namespace Ui {
-	class DialogSearch;
+	class SearchDialog;
 }
 
 namespace RPG {
 	class EventCommand;
 }
 
-class DialogSearch : public QDialog
+class SearchDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogSearch(QWidget *parent = nullptr);
-	~DialogSearch();
+	explicit SearchDialog(QWidget *parent = nullptr);
+	~SearchDialog();
 
 	void updateUI();
 	void enableCache(bool enable);
@@ -33,7 +33,7 @@ private slots:
 private:
 	std::shared_ptr<RPG::Map> loadMap(int mapID);
 
-	Ui::DialogSearch *ui;
+	Ui::SearchDialog *ui;
 	using command_info = std::tuple<int, int, int, int, const RPG::EventCommand&>; // map id, event id, page index, line, event command
 	std::vector<command_info> objectData;
 	std::vector<std::shared_ptr<RPG::Map>> map_cache;

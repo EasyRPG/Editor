@@ -5,21 +5,21 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class SwitchOperations;
+class SwitchOperationsWidget;
 }
 
-class SwitchOperations : public QDialog
+class SwitchOperationsWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit SwitchOperations(QWidget *parent, RPG::EventCommand &cmd);
-	~SwitchOperations();
+	explicit SwitchOperationsWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~SwitchOperationsWidget();
 
 private slots:
 
 private:
-	Ui::SwitchOperations *ui;
+	Ui::SwitchOperationsWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

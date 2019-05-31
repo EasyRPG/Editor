@@ -1,7 +1,7 @@
-#include "qgraphicscharaitem.h"
+#include "charset_item.h"
 #include "../core.h"
 
-QGraphicsCharaItem::QGraphicsCharaItem(const QPixmap pix) :
+CharSetItem::CharSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
 {
 	m_index = -1;
@@ -12,7 +12,7 @@ QGraphicsCharaItem::QGraphicsCharaItem(const QPixmap pix) :
 	frame_count = 0;
 }
 
-void QGraphicsCharaItem::setBasePix(const QString &n_pixName)
+void CharSetItem::setBasePix(const QString &n_pixName)
 {
 	m_pix.reset(new QPixmap(mCore->filePath(CHARSET,n_pixName)));
 	if (m_pix->isNull())
@@ -22,39 +22,39 @@ void QGraphicsCharaItem::setBasePix(const QString &n_pixName)
 	updatePix();
 }
 
-int QGraphicsCharaItem::index() const
+int CharSetItem::index() const
 {
 	return m_index;
 }
 
-void QGraphicsCharaItem::setIndex(int index)
+void CharSetItem::setIndex(int index)
 {
 	m_index = index;
 	updatePix();
 }
 
-int QGraphicsCharaItem::facing() const
+int CharSetItem::facing() const
 {
 	return m_facing;
 }
 
-void QGraphicsCharaItem::setFacing(int facing)
+void CharSetItem::setFacing(int facing)
 {
 	m_facing = facing;
 	updatePix();
 }
-int QGraphicsCharaItem::frame() const
+int CharSetItem::frame() const
 {
 	return m_frame;
 }
 
-void QGraphicsCharaItem::setFrame(int frame)
+void CharSetItem::setFrame(int frame)
 {
 	m_frame = frame;
 	updatePix();
 }
 
-void QGraphicsCharaItem::updatePix()
+void CharSetItem::updatePix()
 {
 	if (m_pix->isNull())
 		return;
@@ -79,7 +79,7 @@ void QGraphicsCharaItem::updatePix()
 	}
 }
 
-void QGraphicsCharaItem::advance(int phase)
+void CharSetItem::advance(int phase)
 {
 	static int patterns[4] = {Frame_middle, Frame_right, Frame_middle,Frame_left};
 	if (!phase)
@@ -102,22 +102,22 @@ void QGraphicsCharaItem::advance(int phase)
 	else
 		updatePix();
 }
-bool QGraphicsCharaItem::walk() const
+bool CharSetItem::walk() const
 {
 	return m_walk;
 }
 
-void QGraphicsCharaItem::setWalk(bool walk)
+void CharSetItem::setWalk(bool walk)
 {
 	m_walk = walk;
 }
 
-bool QGraphicsCharaItem::spin() const
+bool CharSetItem::spin() const
 {
 	return m_spin;
 }
 
-void QGraphicsCharaItem::setSpin(bool spin)
+void CharSetItem::setSpin(bool spin)
 {
 	m_spin = spin;
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QDbPageCommonEvents</class>
- <widget class="QWidget" name="QDbPageCommonEvents">
+ <class>CommonEventWidget</class>
+ <widget class="QWidget" name="CommonEventWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -4,19 +4,19 @@
 #include <QDialog>
 #include <QGraphicsPixmapItem>
 
-#include "tools/qgraphicsimportitem.h"
+#include "tools/import_item.h"
 
 namespace Ui {
-class DialogImportImage;
+class ImportImageDialog;
 }
 
-class DialogImportImage : public QDialog
+class ImportImageDialog : public QDialog
 {
 	Q_OBJECT
 	
 public:
-	explicit DialogImportImage(QString n_filepath, QWidget *parent = nullptr);
-	~DialogImportImage();
+	explicit ImportImageDialog(QString n_filepath, QWidget *parent = nullptr);
+	~ImportImageDialog();
 
 	QImage image();
 	
@@ -28,12 +28,12 @@ private slots:
 	void image_clicked(QPointF pos, bool pressed);
 
 private:
-	Ui::DialogImportImage *ui;
+	Ui::ImportImageDialog *ui;
 
 	qreal m_scale;
 	QString m_filepath;
 	QGraphicsScene *scene;
-	QGraphicsImportItem * m_pixmap;
+	ImportItem * m_pixmap;
 
 };
 

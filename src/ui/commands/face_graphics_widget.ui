@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FaceGraphics</class>
- <widget class="QDialog" name="FaceGraphics">
+ <class>FaceGraphicsWidget</class>
+ <widget class="QDialog" name="FaceGraphicsWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -177,7 +177,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>FaceGraphics</receiver>
+   <receiver>FaceGraphicsWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -193,7 +193,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>FaceGraphics</receiver>
+   <receiver>FaceGraphicsWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -209,7 +209,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>FaceGraphics</receiver>
+   <receiver>FaceGraphicsWidget</receiver>
    <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">

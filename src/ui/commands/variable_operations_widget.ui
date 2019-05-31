@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VariableOperations</class>
- <widget class="QDialog" name="VariableOperations">
+ <class>VariableOperationsWidget</class>
+ <widget class="QDialog" name="VariableOperationsWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -552,17 +552,17 @@
   <customwidget>
    <class>ActorRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
   <customwidget>
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
   <customwidget>
    <class>ItemRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -570,7 +570,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>VariableOperations</receiver>
+   <receiver>VariableOperationsWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -586,7 +586,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>VariableOperations</receiver>
+   <receiver>VariableOperationsWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -602,7 +602,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>VariableOperations</receiver>
+   <receiver>VariableOperationsWidget</receiver>
    <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">

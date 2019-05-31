@@ -1,15 +1,15 @@
-#include "qdbpageattributes.h"
-#include "ui_qdbpageattributes.h"
+#include "attribute_widget.h"
+#include "ui_attribute_widget.h"
 
-QDbPageAttributes::QDbPageAttributes(RPG::Database &database, QWidget *parent) :
+AttributeWidget::AttributeWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageAttributes),
+	ui(new Ui::AttributeWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
 }
 
-QDbPageAttributes::~QDbPageAttributes()
+AttributeWidget::~AttributeWidget()
 {
 	delete ui;
 }

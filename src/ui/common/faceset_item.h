@@ -3,10 +3,10 @@
 
 #include <QGraphicsPixmapItem>
 
-class QGraphicsFaceItem : public QGraphicsPixmapItem
+class FaceSetItem : public QGraphicsPixmapItem
 {
 public:
-	  explicit QGraphicsFaceItem(const QPixmap pix = QPixmap(192,192));
+	  explicit FaceSetItem(const QPixmap pix = QPixmap(192,192));
 
 		void setBasePix(const QString &n_pixName);
 

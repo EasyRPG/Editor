@@ -1,26 +1,26 @@
-#include "dialogrungame.h"
-#include "ui_dialogrungame.h"
-#include "tools/qactordelegate.h"
+#include "run_game_dialog.h"
+#include "ui_run_game_dialog.h"
+#include "tools/actor_delegate.h"
 #include <data.h>
 
-DialogRunGame::DialogRunGame(QWidget *parent) :
+RunGameDialog::RunGameDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogRunGame)
+	ui(new Ui::RunGameDialog)
 {
 	ui->setupUi(this);
 
-	ui->tableInitialParty->setItemDelegate(new QActorDelegate(this));
+	ui->tableInitialParty->setItemDelegate(new ActorDelegate(this));
 	on_comboMode_currentIndexChanged(0);
 
 	UpdateModels();
 }
 
-DialogRunGame::~DialogRunGame()
+RunGameDialog::~RunGameDialog()
 {
 	delete ui;
 }
 
-void DialogRunGame::runHere(int map_id, int x, int y)
+void RunGameDialog::runHere(int map_id, int x, int y)
 {
 	UpdateModels();
 	ui->comboMode->setCurrentIndex(1);
@@ -38,14 +38,14 @@ void DialogRunGame::runHere(int map_id, int x, int y)
 	this->exec();
 }
 
-void DialogRunGame::runBattle(int troop_id)
+void RunGameDialog::runBattle(int troop_id)
 {
 	UpdateModels();
 	ui->comboMode->setCurrentIndex(3);
 	ui->comboTroop->setCurrentIndex(troop_id-1);
 }
 
-void DialogRunGame::on_comboMode_currentIndexChanged(int index)
+void RunGameDialog::on_comboMode_currentIndexChanged(int index)
 {
 	switch (index)
 	{
@@ -71,7 +71,7 @@ void DialogRunGame::on_comboMode_currentIndexChanged(int index)
 	}
 }
 
-void DialogRunGame::UpdateModels()
+void RunGameDialog::UpdateModels()
 {
 	// Maps
 	ui->comboMapId->clear();
@@ -108,7 +108,7 @@ void DialogRunGame::UpdateModels()
 		ui->tableInitialParty->item(static_cast<int>(i),0)->setData(Qt::UserRole, battletest_data[i].actor_id);
 }
 
-void DialogRunGame::on_tableInitialParty_itemChanged(QTableWidgetItem *item)
+void RunGameDialog::on_tableInitialParty_itemChanged(QTableWidgetItem *item)
 {
 	if (item->data(Qt::UserRole).toInt() == 0)
 	{

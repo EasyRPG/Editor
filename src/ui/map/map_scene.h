@@ -14,12 +14,12 @@
 #include <rpg_mapinfo.h>
 #include "../core.h"
 
-class QGraphicsMapScene : public QGraphicsScene
+class MapScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
-	explicit QGraphicsMapScene(int id,QGraphicsView *view, QObject *parent = nullptr);
-	~QGraphicsMapScene();
+	explicit MapScene(int id,QGraphicsView *view, QObject *parent = nullptr);
+	~MapScene();
 
 	void Init();
 	float scale() const;

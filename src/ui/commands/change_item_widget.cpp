@@ -1,9 +1,9 @@
-#include "changeitem.h"
-#include "ui_changeitem.h"
+#include "change_item_widget.h"
+#include "ui_change_item_widget.h"
 
-ChangeItem::ChangeItem(QWidget *parent, RPG::EventCommand &cmd) :
+ChangeItemWidget::ChangeItemWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::ChangeItem),
+	ui(new Ui::ChangeItemWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -33,12 +33,12 @@ ChangeItem::ChangeItem(QWidget *parent, RPG::EventCommand &cmd) :
 	}
 }
 
-ChangeItem::~ChangeItem()
+ChangeItemWidget::~ChangeItemWidget()
 {
 	delete ui;
 }
 
-void ChangeItem::on_ChangeItem_accepted()
+void ChangeItemWidget::on_ChangeItemWidget_accepted()
 {
 	cmd.parameters[0] = ui->op_rem->isChecked() ? 1 : 0;
 	cmd.parameters[1] = ui->item_box_variable->isChecked() ? 1 : 0;

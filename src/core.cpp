@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QDebug>
 #include "data.h"
-#include "tools/qgraphicsmapscene.h"
+#include "tools/map_scene.h"
 
 //define static member
 Core *Core::core = new Core();
@@ -650,21 +650,21 @@ void Core::setProjectFolder(const QString &projectFolder)
 void Core::runGame()
 {
 	if (!m_runGameDialog)
-		m_runGameDialog = new DialogRunGame();
+		m_runGameDialog = new RunGameDialog();
 	m_runGameDialog->exec();
 }
 
 void Core::runGameHere(int map_id, int x, int y)
 {
 	if (!m_runGameDialog)
-		m_runGameDialog = new DialogRunGame();
+		m_runGameDialog = new RunGameDialog();
 	m_runGameDialog->runHere(map_id, x, y);
 }
 
 void Core::runBattleTest(int troop_id)
 {
 	if (!m_runGameDialog)
-		m_runGameDialog = new DialogRunGame();
+		m_runGameDialog = new RunGameDialog();
 	//Set parametters
 	m_runGameDialog->runBattle(troop_id);
 }

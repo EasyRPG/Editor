@@ -4,23 +4,23 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogRtpPath;
+class RtpPathDialog;
 }
 
-class DialogRtpPath : public QDialog
+class RtpPathDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogRtpPath(QWidget *parent = nullptr);
-	~DialogRtpPath();
+	explicit RtpPathDialog(QWidget *parent = nullptr);
+	~RtpPathDialog();
 
 private slots:
 	void on_toolRtpPath_clicked();
 
 	void on_ok();
 private:
-	Ui::DialogRtpPath *ui;
+	Ui::RtpPathDialog *ui;
 };
 
 #endif // DIALOGRTPPATH_H

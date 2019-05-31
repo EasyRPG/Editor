@@ -5,7 +5,7 @@
 #include "../core.h"
 #include "rpg_battleranimation.h"
 
-class QGraphicsBattleAnimationItem : public QObject, public QGraphicsPixmapItem
+class BattleAnimationItem : public QObject, public QGraphicsPixmapItem
 {
 	Q_OBJECT
 public:
@@ -14,7 +14,7 @@ public:
 		Weapon
 	};
 
-	explicit QGraphicsBattleAnimationItem(const QPixmap pix = QPixmap());
+	explicit BattleAnimationItem(const QPixmap pix = QPixmap());
 
 	void setDemoAnimation(const RPG::BattlerAnimation &demoAnimation);
 

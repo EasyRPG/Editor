@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QDbPageBattleAnimations2</class>
- <widget class="QWidget" name="QDbPageBattleAnimations2">
+ <class>BattleAnimationWidget2</class>
+ <widget class="QWidget" name="BattleAnimationWidget2">
   <property name="geometry">
    <rect>
     <x>0</x>

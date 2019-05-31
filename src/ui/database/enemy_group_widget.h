@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class QDbPageEnemyGroups;
+class EnemyGroupWidget;
 }
 
-class QDbPageEnemyGroups : public QWidget
+class EnemyGroupWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QDbPageEnemyGroups(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageEnemyGroups();
+	explicit EnemyGroupWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~EnemyGroupWidget();
 
 private:
-	Ui::QDbPageEnemyGroups *ui;
+	Ui::EnemyGroupWidget *ui;
 	RPG::Database &m_data;
 };
 

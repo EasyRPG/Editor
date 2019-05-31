@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogRunGame</class>
- <widget class="QDialog" name="DialogRunGame">
+ <class>RunGameDialog</class>
+ <widget class="QDialog" name="RunGameDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -606,7 +606,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogRunGame</receiver>
+   <receiver>RunGameDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -622,7 +622,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogRunGame</receiver>
+   <receiver>RunGameDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

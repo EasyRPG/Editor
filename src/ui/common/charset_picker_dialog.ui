@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogCharaPicker</class>
- <widget class="QDialog" name="DialogCharaPicker">
+ <class>CharSetPickerDialog</class>
+ <widget class="QDialog" name="CharSetPickerDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -260,7 +260,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogCharaPicker</receiver>
+   <receiver>CharSetPickerDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -276,7 +276,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogCharaPicker</receiver>
+   <receiver>CharSetPickerDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

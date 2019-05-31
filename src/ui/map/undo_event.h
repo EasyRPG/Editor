@@ -3,19 +3,19 @@
 
 #include <QUndoCommand>
 #include <rpg_event.h>
-#include "qgraphicsmapscene.h"
+#include "map_scene.h"
 
-class QUndoEvent : public QUndoCommand
+class UndoEvent : public QUndoCommand
 {
 public:
-	explicit QUndoEvent(RPG::Event data,
-						QGraphicsMapScene *scene,
+	explicit UndoEvent(RPG::Event data,
+						MapScene *scene,
 						QUndoCommand *parent = nullptr);
 	void undo();
 
 private:
 	RPG::Event m_data;
-	QGraphicsMapScene* m_scene;
+	MapScene* m_scene;
 };
 
 #endif // QUNDOEVENT_H

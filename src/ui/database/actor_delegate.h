@@ -4,11 +4,11 @@
 #include <QItemDelegate>
 #include <QComboBox>
 
-class QActorDelegate : public QItemDelegate
+class ActorDelegate : public QItemDelegate
 {
 	Q_OBJECT
 public:
-	explicit QActorDelegate(QObject *parent = nullptr);
+	explicit ActorDelegate(QObject *parent = nullptr);
 
 	QWidget *createEditor(QWidget *parent,
 						  const QStyleOptionViewItem &option,

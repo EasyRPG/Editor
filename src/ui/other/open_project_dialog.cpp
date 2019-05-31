@@ -1,5 +1,5 @@
-#include "dialogopenproject.h"
-#include "ui_dialogopenproject.h"
+#include "open_project_dialog.h"
+#include "ui_open_project_dialog.h"
 #include <QDir>
 #include <QFileInfo>
 #include <QFileDialog>
@@ -8,21 +8,21 @@
 #include <QStyle>
 #include "core.h"
 
-DialogOpenProject::DialogOpenProject(QWidget *parent) :
+OpenProjectDialog::OpenProjectDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogOpenProject)
+	ui(new Ui::OpenProjectDialog)
 {
 	setModal(true);
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
-DialogOpenProject::~DialogOpenProject()
+OpenProjectDialog::~OpenProjectDialog()
 {
 	delete ui;
 }
 
-void DialogOpenProject::setDefDir(QString n_defDir)
+void OpenProjectDialog::setDefDir(QString n_defDir)
 {
 	if (!n_defDir.endsWith('/'))
 		n_defDir.append("/");
@@ -31,17 +31,17 @@ void DialogOpenProject::setDefDir(QString n_defDir)
 	RefreshProjectList();
 }
 
-QString DialogOpenProject::getDefDir()
+QString OpenProjectDialog::getDefDir()
 {
 	return m_defDir;
 }
 
-QString DialogOpenProject::getProjectFolder()
+QString OpenProjectDialog::getProjectFolder()
 {
 	return (ui->tableProjects->item(ui->tableProjects->currentRow(),0)->text());
 }
 
-void DialogOpenProject::RefreshProjectList()
+void OpenProjectDialog::RefreshProjectList()
 {
 	ui->tableProjects->clearContents();
 	QDir dir(m_defDir);
@@ -73,7 +73,7 @@ void DialogOpenProject::RefreshProjectList()
 	}
 }
 
-void DialogOpenProject::on_toolProjectPath_clicked()
+void OpenProjectDialog::on_toolProjectPath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this, "Select destination forlder", m_defDir);
 	if (path == QString())
@@ -83,7 +83,7 @@ void DialogOpenProject::on_toolProjectPath_clicked()
 	RefreshProjectList();
 }
 
-bool DialogOpenProject::removeDir(const QString & dirName)
+bool OpenProjectDialog::removeDir(const QString & dirName)
 {
 	bool result = true;
 	QDir dir(dirName);
@@ -110,14 +110,14 @@ bool DialogOpenProject::removeDir(const QString & dirName)
 	return result;
 }
 
-void DialogOpenProject::on_tableProjects_cellDoubleClicked(int row, int column)
+void OpenProjectDialog::on_tableProjects_cellDoubleClicked(int row, int column)
 {
 	Q_UNUSED(row);
 	Q_UNUSED(column);
 	emit ui->buttonBox->accepted();
 }
 
-void DialogOpenProject::on_tableProjects_itemSelectionChanged()
+void OpenProjectDialog::on_tableProjects_itemSelectionChanged()
 {
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!ui->tableProjects->selectedItems().empty());
 }

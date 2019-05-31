@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChangeItem</class>
- <widget class="QDialog" name="ChangeItem">
+ <class>ChangeItemWidget</class>
+ <widget class="QDialog" name="ChangeItemWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -146,12 +146,12 @@
   <customwidget>
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
   <customwidget>
    <class>ItemRpgComboBox</class>
    <extends>QComboBox</extends>
-   <header>src/tools/rpgcombobox.h</header>
+   <header>src/tools/rpg_combobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -159,7 +159,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ChangeItem</receiver>
+   <receiver>ChangeItemWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -175,7 +175,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ChangeItem</receiver>
+   <receiver>ChangeItemWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -191,7 +191,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>ChangeItem</receiver>
+   <receiver>ChangeItemWidget</receiver>
    <slot>helpRequested()</slot>
    <hints>
     <hint type="sourcelabel">

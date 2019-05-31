@@ -5,19 +5,19 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class ShowMessage;
+class ShowMessageWidget;
 }
 
-class ShowMessage : public QDialog
+class ShowMessageWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ShowMessage(QWidget *parent, RPG::EventCommand &command);
-	~ShowMessage();
+	explicit ShowMessageWidget(QWidget *parent, RPG::EventCommand &command);
+	~ShowMessageWidget();
 
 private:
-	Ui::ShowMessage *ui;
+	Ui::ShowMessageWidget *ui;
 	RPG::EventCommand &command;
 };
 

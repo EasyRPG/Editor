@@ -5,22 +5,22 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class FaceGraphics;
+class FaceGraphicsWidget;
 }
 
-class FaceGraphics : public QDialog
+class FaceGraphicsWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit FaceGraphics(QWidget *parent, RPG::EventCommand &cmd);
-	~FaceGraphics();
+	explicit FaceGraphicsWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~FaceGraphicsWidget();
 
 private slots:
 
 
 private:
-	Ui::FaceGraphics *ui;
+	Ui::FaceGraphicsWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

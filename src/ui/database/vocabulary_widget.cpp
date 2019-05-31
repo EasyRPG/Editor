@@ -1,9 +1,9 @@
-#include "qdbpagevocabulary.h"
-#include "ui_qdbpagevocabulary.h"
+#include "vocabulary_widget.h"
+#include "ui_vocabulary_widget.h"
 
-QDbPageVocabulary::QDbPageVocabulary(RPG::Database &database, QWidget *parent) :
+VocabularyWidget::VocabularyWidget(RPG::Database &database, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::QDbPageVocabulary),
+	ui(new Ui::VocabularyWidget),
 	m_data(database)
 {
 	ui->setupUi(this);
@@ -110,200 +110,200 @@ QDbPageVocabulary::QDbPageVocabulary(RPG::Database &database, QWidget *parent) :
 
 }
 
-QDbPageVocabulary::~QDbPageVocabulary()
+VocabularyWidget::~VocabularyWidget()
 {
 	delete ui;
 }
 
-void QDbPageVocabulary::on_lineEdit_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_textChanged(const QString &arg1)
 {
 	if ( terms->item_recieved == arg1.toStdString())
 		return;
 	terms->item_recieved = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_34_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_34_textChanged(const QString &arg1)
 {
 	if ( terms->encounter == arg1.toStdString())
 		return;
 	terms->encounter = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_35_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_35_textChanged(const QString &arg1)
 {
 	if ( terms->special_combat == arg1.toStdString())
 		return;
 	terms->special_combat = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_36_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_36_textChanged(const QString &arg1)
 {
 	if ( terms->miss == arg1.toStdString())
 		return;
 	terms->miss = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_37_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_37_textChanged(const QString &arg1)
 {
 	if ( terms->escape_failure == arg1.toStdString())
 		return;
 	terms->escape_failure = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_38_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_38_textChanged(const QString &arg1)
 {
 	if ( terms->victory == arg1.toStdString())
 		return;
 	terms->victory = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_39_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_39_textChanged(const QString &arg1)
 {
 	if ( terms->defeat == arg1.toStdString())
 		return;
 	terms->defeat = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_40_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_40_textChanged(const QString &arg1)
 {
 	if ( terms->exp_received == arg1.toStdString())
 		return;
 	terms->exp_received = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_41_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_41_textChanged(const QString &arg1)
 {
 	if ( terms->gold_recieved_a == arg1.toStdString())
 		return;
 	terms->gold_recieved_a = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_42_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_42_textChanged(const QString &arg1)
 {
 	if ( terms->gold_recieved_b == arg1.toStdString())
 		return;
 	terms->gold_recieved_b = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_43_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_43_textChanged(const QString &arg1)
 {
 	if ( terms->level_up == arg1.toStdString())
 		return;
 	terms->level_up = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_44_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_44_textChanged(const QString &arg1)
 {
 	if ( terms->skill_learned == arg1.toStdString())
 		return;
 	terms->skill_learned = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_45_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_45_textChanged(const QString &arg1)
 {
 	if ( terms->shop_greeting1 == arg1.toStdString())
 		return;
 	terms->shop_greeting1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_46_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_46_textChanged(const QString &arg1)
 {
 	if ( terms->shop_regreeting1 == arg1.toStdString())
 		return;
 	terms->shop_regreeting1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_47_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_47_textChanged(const QString &arg1)
 {
 	if ( terms->shop_buy1== arg1.toStdString())
 		return;
 	terms->shop_buy1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_48_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_48_textChanged(const QString &arg1)
 {
 	if ( terms->shop_buy_select1== arg1.toStdString())
 		return;
 	terms->shop_buy_select1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_49_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_49_textChanged(const QString &arg1)
 {
 	if ( terms->shop_buy_number1== arg1.toStdString())
 		return;
    terms->shop_buy_number1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_50_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_50_textChanged(const QString &arg1)
 {
 	if (terms->shop_purchased1== arg1.toStdString())
 		return;
 	terms->shop_purchased1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_51_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_51_textChanged(const QString &arg1)
 {
 	if (terms->shop_sell_select1== arg1.toStdString())
 		return;
 	terms->shop_sell_select1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_52_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_52_textChanged(const QString &arg1)
 {
 	if (terms->shop_sell_select1== arg1.toStdString())
 		return;
    terms->shop_sell_select1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_53_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_53_textChanged(const QString &arg1)
 {
 	if (terms->shop_sold1== arg1.toStdString())
 		return;
    terms->shop_sold1 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_54_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_54_textChanged(const QString &arg1)
 {
 	if (terms->shop_greeting2== arg1.toStdString())
 		return;
    terms->shop_greeting2= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_55_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_55_textChanged(const QString &arg1)
 {
 	if (terms->shop_regreeting2== arg1.toStdString())
 		return;
    terms->shop_regreeting2 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_56_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_56_textChanged(const QString &arg1)
 {
 	if (terms->shop_buy2== arg1.toStdString())
 		return;
    terms->shop_buy2 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_57_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_57_textChanged(const QString &arg1)
 {
 	if (terms->shop_buy_select2== arg1.toStdString())
 		return;
    terms->shop_buy_select2 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_58_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_58_textChanged(const QString &arg1)
 {
 	if (terms->shop_buy_number2== arg1.toStdString())
 		return;
   terms->shop_buy_number2= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_59_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_59_textChanged(const QString &arg1)
 {
 	if (terms->shop_purchased2== arg1.toStdString())
 		return;
    terms->shop_purchased2 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_60_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_60_textChanged(const QString &arg1)
 {
 	if (terms->shop_sell_select2== arg1.toStdString())
 		return;
    terms->shop_sell_select2 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_61_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_61_textChanged(const QString &arg1)
 {
 	if (terms->shop_sell_select2== arg1.toStdString())
 		return;
    terms->shop_sell_select2 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_62_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_62_textChanged(const QString &arg1)
 {
 	if (terms->shop_sold2== arg1.toStdString())
 		return;
@@ -311,402 +311,402 @@ void QDbPageVocabulary::on_lineEdit_62_textChanged(const QString &arg1)
 }
 
 
-void QDbPageVocabulary::on_lineEdit_63_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_63_textChanged(const QString &arg1)
 {
 	if (terms->shop_greeting3== arg1.toStdString())
 		return;
    terms->shop_greeting3= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_64_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_64_textChanged(const QString &arg1)
 {
 	if (terms->shop_regreeting3== arg1.toStdString())
 		return;
    terms->shop_regreeting3 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_65_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_65_textChanged(const QString &arg1)
 {
 	if (terms->shop_buy3== arg1.toStdString())
 		return;
    terms->shop_buy3 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_66_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_66_textChanged(const QString &arg1)
 {
 	if (terms->shop_buy_select3== arg1.toStdString())
 		return;
    terms->shop_buy_select3 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_67_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_67_textChanged(const QString &arg1)
 {
 	if (terms->shop_buy_number3== arg1.toStdString())
 		return;
   terms->shop_buy_number3= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_68_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_68_textChanged(const QString &arg1)
 {
 	if (terms->shop_purchased3== arg1.toStdString())
 		return;
    terms->shop_purchased3 = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_69_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_69_textChanged(const QString &arg1)
 {
 	if (terms->shop_sell_select3== arg1.toStdString())
 		return;
    terms->shop_sell_select3 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_70_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_70_textChanged(const QString &arg1)
 {
 	if (terms->shop_sell_select3== arg1.toStdString())
 		return;
    terms->shop_sell_select3 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_71_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_71_textChanged(const QString &arg1)
 {
 	if (terms->shop_sold3== arg1.toStdString())
 		return;
   terms->shop_sold3 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_72_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_72_textChanged(const QString &arg1)
 {
 	if (terms->inn_a_greeting_1== arg1.toStdString())
 		return;
   terms->inn_a_greeting_1 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_76_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_76_textChanged(const QString &arg1)
 {
 	if (terms->inn_a_greeting_2== arg1.toStdString())
 		return;
   terms->inn_a_greeting_2 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_73_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_73_textChanged(const QString &arg1)
 {
 	if (terms->inn_a_greeting_3== arg1.toStdString())
 		return;
   terms->inn_a_greeting_3 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_74_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_74_textChanged(const QString &arg1)
 {
 	if (terms->inn_a_accept== arg1.toStdString())
 		return;
   terms->inn_a_accept = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_75_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_75_textChanged(const QString &arg1)
 {
 	if (terms->inn_a_cancel== arg1.toStdString())
 		return;
   terms->inn_a_cancel = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_77_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_77_textChanged(const QString &arg1)
 {
 	if (terms->inn_b_greeting_1== arg1.toStdString())
 		return;
   terms->inn_b_greeting_1 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_78_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_78_textChanged(const QString &arg1)
 {
 	if (terms->inn_b_greeting_2== arg1.toStdString())
 		return;
   terms->inn_b_greeting_2 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_79_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_79_textChanged(const QString &arg1)
 {
 	if (terms->inn_b_greeting_3== arg1.toStdString())
 		return;
   terms->inn_b_greeting_3 = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_80_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_80_textChanged(const QString &arg1)
 {
 	if (terms->inn_b_accept== arg1.toStdString())
 		return;
   terms->inn_b_accept = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_81_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_81_textChanged(const QString &arg1)
 {
 	if (terms->inn_b_cancel== arg1.toStdString())
 		return;
   terms->inn_b_cancel = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_84_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_84_textChanged(const QString &arg1)
 {
 	if (terms->possessed_items== arg1.toStdString())
 		return;
   terms->possessed_items = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_85_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_85_textChanged(const QString &arg1)
 {
 	if (terms->equipped_items== arg1.toStdString())
 		return;
   terms->equipped_items = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_86_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_86_textChanged(const QString &arg1)
 {
 	if (terms->gold== arg1.toStdString())
 		return;
   terms->gold = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_90_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_90_textChanged(const QString &arg1)
 {
 	if (terms->level== arg1.toStdString())
 		return;
   terms->level = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_97_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_97_textChanged(const QString &arg1)
 {
 	if (terms->lvl_short== arg1.toStdString())
 		return;
   terms->lvl_short = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_82_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_82_textChanged(const QString &arg1)
 {
 	if (terms->health_points== arg1.toStdString())
 		return;
   terms->health_points = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_96_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_96_textChanged(const QString &arg1)
 {
 	if (terms->hp_short== arg1.toStdString())
 		return;
   terms->hp_short = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_93_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_93_textChanged(const QString &arg1)
 {
 	if (terms->spirit_points== arg1.toStdString())
 		return;
   terms->spirit_points = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_100_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_100_textChanged(const QString &arg1)
 {
 	if (terms->sp_short== arg1.toStdString())
 		return;
   terms->sp_short = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_92_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_92_textChanged(const QString &arg1)
 {
 	if (terms->normal_status== arg1.toStdString())
 		return;
   terms->normal_status = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_99_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_99_textChanged(const QString &arg1)
 {
 	if (terms->exp_short== arg1.toStdString())
 		return;
   terms->exp_short = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_91_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_91_textChanged(const QString &arg1)
 {
 	if (terms->sp_cost== arg1.toStdString())
 		return;
   terms->sp_cost = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_95_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_95_textChanged(const QString &arg1)
 {
 	if (terms->weapon== arg1.toStdString())
 		return;
   terms->weapon = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_89_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_89_textChanged(const QString &arg1)
 {
 	if (terms->attack== arg1.toStdString())
 		return;
   terms->attack = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_101_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_101_textChanged(const QString &arg1)
 {
 	if (terms->shield== arg1.toStdString())
 		return;
   terms->shield = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_88_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_88_textChanged(const QString &arg1)
 {
 	if (terms->defense== arg1.toStdString())
 		return;
   terms->defense = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_102_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_102_textChanged(const QString &arg1)
 {
 	if (terms->armor== arg1.toStdString())
 		return;
   terms->armor = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_87_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_87_textChanged(const QString &arg1)
 {
 	if (terms->spirit== arg1.toStdString())
 		return;
   terms->spirit = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_98_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_98_textChanged(const QString &arg1)
 {
 	if (terms->helmet== arg1.toStdString())
 		return;
   terms->helmet = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_83_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_83_textChanged(const QString &arg1)
 {
 	if (terms->agility== arg1.toStdString())
 		return;
   terms->agility = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_94_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_94_textChanged(const QString &arg1)
 {
 	if (terms->accessory== arg1.toStdString())
 		return;
   terms->accessory = arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_103_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_103_textChanged(const QString &arg1)
 {
 	if (terms->battle_fight== arg1.toStdString())
 		return;
   terms->battle_fight = arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_107_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_107_textChanged(const QString &arg1)
 {
 	if (terms->command_skill== arg1.toStdString())
 		return;
   terms->command_skill= arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_114_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_114_textChanged(const QString &arg1)
 {
 	if (terms->status== arg1.toStdString())
 		return;
   terms->status= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_115_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_115_textChanged(const QString &arg1)
 {
 	if (terms->new_game== arg1.toStdString())
 		return;
   terms->new_game= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_104_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_104_textChanged(const QString &arg1)
 {
 	if (terms->battle_auto== arg1.toStdString())
 		return;
   terms->battle_auto= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_109_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_109_textChanged(const QString &arg1)
 {
 	if (terms->menu_equipment== arg1.toStdString())
 		return;
   terms->menu_equipment= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_111_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_111_textChanged(const QString &arg1)
 {
 	if (terms->row== arg1.toStdString())
 		return;
   terms->row= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_116_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_116_textChanged(const QString &arg1)
 {
 	if (terms->load_game== arg1.toStdString())
 		return;
  terms->load_game= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_105_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_105_textChanged(const QString &arg1)
 {
 	if (terms->battle_escape==arg1.toStdString())
 		return;
  terms->battle_escape= arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_110_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_110_textChanged(const QString &arg1)
 {
 	if (terms->menu_save==arg1.toStdString())
 		return;
  terms->menu_save= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_113_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_113_textChanged(const QString &arg1)
 {
 	if (terms->order==arg1.toStdString())
 		return;
  terms->order= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_117_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_117_textChanged(const QString &arg1)
 {
 	if (terms->menu_quit==arg1.toStdString())
 		return;
  terms->menu_quit= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_106_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_106_textChanged(const QString &arg1)
 {
 	if (terms->command_item==arg1.toStdString())
 		return;
  terms->command_item= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_108_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_108_textChanged(const QString &arg1)
 {
 	if (terms->menu_quit==arg1.toStdString())
 		return;
  terms->menu_quit= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_112_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_112_textChanged(const QString &arg1)
 {
 	if (terms->wait_on==arg1.toStdString())
 		return;
  terms->wait_on= arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_118_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_118_textChanged(const QString &arg1)
 {
 	if (terms->wait_off==arg1.toStdString())
 		return;
 terms->wait_off= arg1.toStdString();
 }
 
-void QDbPageVocabulary::on_lineEdit_119_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_119_textChanged(const QString &arg1)
 {
 	if (terms->save_game_message==arg1.toStdString())
 		return;
 terms->save_game_message= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_121_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_121_textChanged(const QString &arg1)
 {
 	if (terms->load_game_message==arg1.toStdString())
 		return;
 terms->load_game_message= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_122_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_122_textChanged(const QString &arg1)
 {
 	if (terms->exit_game_message==arg1.toStdString())
 		return;
 terms->exit_game_message= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_120_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_120_textChanged(const QString &arg1)
 {
 	if (terms->file==arg1.toStdString())
 		return;
 terms->file= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_123_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_123_textChanged(const QString &arg1)
 {
 	if (terms->yes==arg1.toStdString())
 		return;
 terms->yes= arg1.toStdString();
 }
-void QDbPageVocabulary::on_lineEdit_125_textChanged(const QString &arg1)
+void VocabularyWidget::on_lineEdit_125_textChanged(const QString &arg1)
 {
 	if (terms->no==arg1.toStdString())
 		return;

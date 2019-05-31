@@ -4,16 +4,16 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogImportProject;
+class ImportProjectDialog;
 }
 
-class DialogImportProject : public QDialog
+class ImportProjectDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogImportProject(QWidget *parent = nullptr);
-	~DialogImportProject();
+	explicit ImportProjectDialog(QWidget *parent = nullptr);
+	~ImportProjectDialog();
 
 	void setDefDir(QString n_defDir);
 	QString getDefDir();
@@ -28,7 +28,7 @@ private slots:
 	void on_toolSourcePath_clicked();
 
 private:
-	Ui::DialogImportProject *ui;
+	Ui::ImportProjectDialog *ui;
 
 	QString m_defDir;
 };

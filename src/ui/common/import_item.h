@@ -4,10 +4,10 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 
-class QGraphicsImportItem : public QGraphicsPixmapItem
+class ImportItem : public QGraphicsPixmapItem
 {
 public:
-	explicit QGraphicsImportItem(const QPixmap pix);
+	explicit ImportItem(const QPixmap pix);
 	
 private:
 	void mousePressEvent(QGraphicsSceneMouseEvent *event);

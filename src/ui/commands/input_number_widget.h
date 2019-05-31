@@ -5,22 +5,22 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class InputNumber;
+class InputNumberWidget;
 }
 
-class InputNumber : public QDialog
+class InputNumberWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit InputNumber(QWidget *parent, RPG::EventCommand &cmd);
-	~InputNumber();
+	explicit InputNumberWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~InputNumberWidget();
 
 private slots:
 
 
 private:
-	Ui::InputNumber *ui;
+	Ui::InputNumberWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

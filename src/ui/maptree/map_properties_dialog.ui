@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogMapProperties</class>
- <widget class="QDialog" name="DialogMapProperties">
+ <class>MapPropertiesDialog</class>
+ <widget class="QDialog" name="MapPropertiesDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -951,7 +951,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DialogMapProperties</receiver>
+   <receiver>MapPropertiesDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -967,7 +967,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DialogMapProperties</receiver>
+   <receiver>MapPropertiesDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

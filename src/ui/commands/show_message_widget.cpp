@@ -1,9 +1,9 @@
-#include "showmessage.h"
-#include "ui_showmessage.h"
+#include "show_message_widget.h"
+#include "ui_show_message_widget.h"
 
-ShowMessage::ShowMessage(QWidget *parent, RPG::EventCommand &command) :
+ShowMessageWidget::ShowMessageWidget(QWidget *parent, RPG::EventCommand &command) :
 	QDialog(parent),
-	ui(new Ui::ShowMessage),
+	ui(new Ui::ShowMessageWidget),
 	command(command)
 {
 	ui->setupUi(this);
@@ -11,7 +11,7 @@ ShowMessage::ShowMessage(QWidget *parent, RPG::EventCommand &command) :
 	//TODO
 }
 
-ShowMessage::~ShowMessage()
+ShowMessageWidget::~ShowMessageWidget()
 {
 	delete ui;
 }

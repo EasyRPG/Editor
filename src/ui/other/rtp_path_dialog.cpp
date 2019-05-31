@@ -1,12 +1,12 @@
-#include "dialogrtppath.h"
-#include "ui_dialogrtppath.h"
+#include "rtp_path_dialog.h"
+#include "ui_rtp_path_dialog.h"
 #include <QFileDialog>
 #include <QSettings>
 #include "core.h"
 
-DialogRtpPath::DialogRtpPath(QWidget *parent) :
+RtpPathDialog::RtpPathDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogRtpPath)
+	ui(new Ui::RtpPathDialog)
 {
 	ui->setupUi(this);
 	ui->lineRtpPath->setText(mCore->rtpPath(ROOT));
@@ -14,12 +14,12 @@ DialogRtpPath::DialogRtpPath(QWidget *parent) :
 	exec();
 }
 
-DialogRtpPath::~DialogRtpPath()
+RtpPathDialog::~RtpPathDialog()
 {
 	delete ui;
 }
 
-void DialogRtpPath::on_toolRtpPath_clicked()
+void RtpPathDialog::on_toolRtpPath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,
 													 "Select Rtp forlder",
@@ -29,7 +29,7 @@ void DialogRtpPath::on_toolRtpPath_clicked()
 	ui->lineRtpPath->setText(path+"/");
 }
 
-void DialogRtpPath::on_ok()
+void RtpPathDialog::on_ok()
 {
 	mCore->setRtpDir(ui->lineRtpPath->text());
 	QSettings m_settings;

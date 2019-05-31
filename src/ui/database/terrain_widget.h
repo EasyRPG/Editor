@@ -5,19 +5,19 @@
 #include <data.h>
 
 namespace Ui {
-class QDbPageTerrain;
+class TerrainWidget;
 }
 
-class QDbPageTerrain : public QWidget
+class TerrainWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QDbPageTerrain(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageTerrain();
+	explicit TerrainWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~TerrainWidget();
 
 private:
-	Ui::QDbPageTerrain *ui;
+	Ui::TerrainWidget *ui;
 	RPG::Database &m_data;
 };
 

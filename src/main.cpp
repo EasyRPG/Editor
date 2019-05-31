@@ -1,6 +1,6 @@
-#include "dialogsplash.h"
-#include "mainwindow.h"
-#include "tools/qeventpagewidget.h"
+#include "splash_dialog.h"
+#include "main_window.h"
+#include "tools/event_page_widget.h"
 #include <QApplication>
 #include <QTimer>
 
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	a.setOrganizationName("EasyRPG");
 	a.setOrganizationDomain("easy-rpg.org");
 	MainWindow w;
-	DialogSplash s(&w);
+	SplashDialog s(&w);
 	s.show();
 	QTimer::singleShot(3000, &s, SLOT(hide()));
 	QTimer::singleShot(3000, &w, SLOT(show()));

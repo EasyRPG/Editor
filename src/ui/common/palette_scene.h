@@ -7,12 +7,12 @@
 #include <QGraphicsRectItem>
 #include "../core.h"
 
-class QGraphicsPaletteScene : public QGraphicsScene
+class PaletteScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
 
-	explicit QGraphicsPaletteScene(QObject *parent = nullptr);
+	explicit PaletteScene(QObject *parent = nullptr);
 
 
 signals:

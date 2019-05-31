@@ -1,11 +1,11 @@
-#include "dialogmapproperties.h"
-#include "ui_dialogmapproperties.h"
+#include "map_properties_dialog.h"
+#include "ui_map_properties_dialog.h"
 #include <data.h>
 #include "core.h"
 
-DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWidget *parent) :
+MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogMapProperties),
+	ui(new Ui::MapPropertiesDialog),
 	m_info(info),
 	m_map(map)
 {
@@ -188,7 +188,7 @@ DialogMapProperties::DialogMapProperties(RPG::MapInfo &info, RPG::Map &map, QWid
 	}
 }
 
-DialogMapProperties::~DialogMapProperties()
+MapPropertiesDialog::~MapPropertiesDialog()
 {
 	delete m_panoramaItem;
 	delete m_ceilingItem;
@@ -204,12 +204,12 @@ DialogMapProperties::~DialogMapProperties()
 	delete ui;
 }
 
-void DialogMapProperties::on_groupPanorama_toggled(bool arg1)
+void MapPropertiesDialog::on_groupPanorama_toggled(bool arg1)
 {
 	m_panoramaItem->setVisible(arg1);
 }
 
-void DialogMapProperties::on_groupUseGenerator_toggled(bool arg1)
+void MapPropertiesDialog::on_groupUseGenerator_toggled(bool arg1)
 {
 	m_ceilingItem->setVisible(arg1);
 	m_lowerWallItem->setVisible(arg1);
@@ -233,32 +233,32 @@ void DialogMapProperties::on_groupUseGenerator_toggled(bool arg1)
 	}
 }
 
-void DialogMapProperties::on_groupUpperWall_toggled(bool arg1)
+void MapPropertiesDialog::on_groupUpperWall_toggled(bool arg1)
 {
 	m_upperWallItem->setVisible(arg1);
 }
 
-void DialogMapProperties::on_groupFloorB_toggled(bool arg1)
+void MapPropertiesDialog::on_groupFloorB_toggled(bool arg1)
 {
 	m_floorBItem->setVisible(arg1);
 }
 
-void DialogMapProperties::on_groupFloorC_toggled(bool arg1)
+void MapPropertiesDialog::on_groupFloorC_toggled(bool arg1)
 {
 	m_floorCItem->setVisible(arg1);
 }
 
-void DialogMapProperties::on_groupObstacleB_toggled(bool arg1)
+void MapPropertiesDialog::on_groupObstacleB_toggled(bool arg1)
 {
 	m_ObstacleBItem->setVisible(arg1);
 }
 
-void DialogMapProperties::on_groupObstacleC_toggled(bool arg1)
+void MapPropertiesDialog::on_groupObstacleC_toggled(bool arg1)
 {
 	m_ObstacleCItem->setVisible(arg1);
 }
 
-void DialogMapProperties::on_tableEncounters_itemChanged(QTableWidgetItem *item)
+void MapPropertiesDialog::on_tableEncounters_itemChanged(QTableWidgetItem *item)
 {
 	if (item->row() == ui->tableEncounters->rowCount()-1)
 	{

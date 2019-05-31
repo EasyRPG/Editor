@@ -1,9 +1,9 @@
-#include "inputnumber.h"
-#include "ui_inputnumber.h"
+#include "input_number_widget.h"
+#include "ui_input_number_widget.h"
 
-InputNumber::InputNumber(QWidget *parent, RPG::EventCommand &cmd) :
+InputNumberWidget::InputNumberWidget(QWidget *parent, RPG::EventCommand &cmd) :
 	QDialog(parent),
-	ui(new Ui::InputNumber),
+	ui(new Ui::InputNumberWidget),
 	cmd(cmd)
 {
 	ui->setupUi(this);
@@ -11,7 +11,7 @@ InputNumber::InputNumber(QWidget *parent, RPG::EventCommand &cmd) :
 	//TODO
 }
 
-InputNumber::~InputNumber()
+InputNumberWidget::~InputNumberWidget()
 {
 	delete ui;
 }

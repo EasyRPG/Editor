@@ -5,22 +5,22 @@
 #include <rpg_eventcommand.h>
 
 namespace Ui {
-class ChangeExperience;
+class ChangeExperienceWidget;
 }
 
-class ChangeExperience : public QDialog
+class ChangeExperienceWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeExperience(QWidget *parent, RPG::EventCommand &cmd);
-	~ChangeExperience();
+	explicit ChangeExperienceWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~ChangeExperienceWidget();
 
 private slots:
-	void on_ChangeExperience_accepted();
+	void on_ChangeExperienceWidget_accepted();
 
 private:
-	Ui::ChangeExperience *ui;
+	Ui::ChangeExperienceWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

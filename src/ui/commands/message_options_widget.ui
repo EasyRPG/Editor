@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MessageOptions</class>
- <widget class="QDialog" name="MessageOptions">
+ <class>MessageOptionsWidget</class>
+ <widget class="QDialog" name="MessageOptionsWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -144,7 +144,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>MessageOptions</receiver>
+   <receiver>MessageOptionsWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -160,7 +160,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>MessageOptions</receiver>
+   <receiver>MessageOptionsWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -176,7 +176,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>MessageOptions</receiver>
+   <receiver>MessageOptionsWidget</receiver>
    <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">

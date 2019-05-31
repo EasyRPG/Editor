@@ -5,11 +5,11 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QTreeWidgetItem>
-#include "dialogresourcemanager.h"
-#include "dialogdatabase.h"
-#include "dialogsearch.h"
-#include "tools/qgraphicsmapscene.h"
-#include "tools/qgraphicspalettescene.h"
+#include "resource_manager_dialog.h"
+#include "database_dialog.h"
+#include "search_dialog.h"
+#include "tools/map_scene.h"
+#include "tools/palette_scene.h"
 #include "musicplayer.h"
 
 namespace Ui {
@@ -28,7 +28,7 @@ public:
 	void LoadProject(QString foldername);
 	void ImportProject(QString p_path, QString d_folder, bool convert_xyz);
 
-	QGraphicsMapScene *currentScene();
+	MapScene *currentScene();
 	void openScene(int mapID);
 	void selectTile(int x, int y);
 
@@ -124,23 +124,23 @@ private:
 	bool saveAll();
 	bool removeDir(const QString & dirName, const QString &root);
 	QGraphicsView *getView(int id);
-	QGraphicsMapScene *getScene(int id);
+	MapScene *getScene(int id);
 	QGraphicsView *getTabView(int index);
-	QGraphicsMapScene *getTabScene(int index);
+	MapScene *getTabScene(int index);
 	void removeView(int id);
 	void removeMap(const int id);
 	bool convertXYZtoPNG(QFile &xyz_file, QString out_path);
 
 	Ui::MainWindow *ui;
-	DialogResourceManager *dlg_resource;
-	DialogDataBase *dlg_db;
+	ResourceManagerDialog *dlg_resource;
+	DatabaseDialog *dlg_db;
 	QSettings m_settings;
 	QSettings *m_projSett;
-	QGraphicsPaletteScene *m_paletteScene;
+	PaletteScene *m_paletteScene;
 	QMap<int,QGraphicsView*> m_views;
 	QMap<int,QTreeWidgetItem*> m_treeItems;
 	QString m_copiedMap;
-	DialogSearch *searchdialog;
+	SearchDialog *searchdialog;
 };
 
 

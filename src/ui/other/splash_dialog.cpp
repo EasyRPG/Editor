@@ -1,9 +1,9 @@
-#include "dialogsplash.h"
-#include "ui_dialogsplash.h"
+#include "splash_dialog.h"
+#include "ui_splash_dialog.h"
 
-DialogSplash::DialogSplash(QWidget *parent) :
+SplashDialog::SplashDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DialogSplash)
+	ui(new Ui::SplashDialog)
 {
 	ui->setupUi(this);
 	setModal(true);
@@ -18,7 +18,7 @@ DialogSplash::DialogSplash(QWidget *parent) :
 	ui->graphicsView->scroll(ui->graphicsView->width()/2, ui->graphicsView->height()/2);
 }
 
-DialogSplash::~DialogSplash()
+SplashDialog::~SplashDialog()
 {
 	delete ui;
 }

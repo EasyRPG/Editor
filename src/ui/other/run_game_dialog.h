@@ -6,17 +6,17 @@
 #include <rpg_testbattler.h>
 
 namespace Ui {
-class DialogRunGame;
+class RunGameDialog;
 }
 
-class DialogRunGame : public QDialog
+class RunGameDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
 
-	explicit DialogRunGame(QWidget *parent = nullptr);
-	~DialogRunGame();
+	explicit RunGameDialog(QWidget *parent = nullptr);
+	~RunGameDialog();
 
 	void runHere(int map_id, int x, int y);
 
@@ -30,7 +30,7 @@ private slots:
 private:
 	void UpdateModels();
 
-	Ui::DialogRunGame *ui;
+	Ui::RunGameDialog *ui;
 	std::vector<RPG::TestBattler> battletest_data;
 };
 

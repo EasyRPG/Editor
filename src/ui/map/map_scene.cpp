@@ -1,4 +1,4 @@
-#include "qgraphicsmapscene.h"
+#include "map_scene.h"
 #include <QAction>
 #include <QDialogButtonBox>
 #include <QGraphicsBlurEffect>
@@ -10,17 +10,17 @@
 #include <iomanip>
 #include <sstream>
 #include "../core.h"
-#include "../dialogevent.h"
-#include "../dialogrungame.h"
-#include "../dialogmapproperties.h"
-#include "../mainwindow.h"
-#include "qundodraw.h"
-#include "qundoevent.h"
+#include "../event_dialog.h"
+#include "../run_game_dialog.h"
+#include "../map_properties_dialog.h"
+#include "../main_window.h"
+#include "undo_draw.h"
+#include "undo_event.h"
 #include <data.h>
 #include <lmu_reader.h>
 #include <lmt_reader.h>
 
-QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *parent) :
+MapScene::MapScene(int id, QGraphicsView *view, QObject *parent) :
 	QGraphicsScene(parent)
 {
 	m_init = false;
@@ -86,7 +86,7 @@ QGraphicsMapScene::QGraphicsMapScene(int id, QGraphicsView *view, QObject *paren
 	onToolChanged();
 }
 
-QGraphicsMapScene::~QGraphicsMapScene()
+MapScene::~MapScene()
 {
 	delete m_lowerpix;
 	delete m_upperpix;
@@ -95,7 +95,7 @@ QGraphicsMapScene::~QGraphicsMapScene()
 	delete m_undoStack;
 }
 
-void QGraphicsMapScene::Init()
+void MapScene::Init()
 {
 	connect(m_view->verticalScrollBar(),
 			SIGNAL(actionTriggered(int)),
@@ -143,32 +143,32 @@ void QGraphicsMapScene::Init()
 	redrawMap();
 }
 
-float QGraphicsMapScene::scale() const
+float MapScene::scale() const
 {
 	return m_scale;
 }
 
-QString QGraphicsMapScene::mapName() const
+QString MapScene::mapName() const
 {
 	return QString::fromStdString(n_mapInfo.name);
 }
 
-bool QGraphicsMapScene::isModified() const
+bool MapScene::isModified() const
 {
 	return (m_undoStack->count() > 0);
 }
 
-int QGraphicsMapScene::id() const
+int MapScene::id() const
 {
 	return n_mapInfo.ID;
 }
 
-int QGraphicsMapScene::chipsetId() const
+int MapScene::chipsetId() const
 {
 	return m_map->chipset_id;
 }
 
-void QGraphicsMapScene::setLayerData(Core::Layer layer, std::vector<short> data)
+void MapScene::setLayerData(Core::Layer layer, std::vector<short> data)
 {
 	if (layer == Core::LOWER)
 	{
@@ -183,14 +183,14 @@ void QGraphicsMapScene::setLayerData(Core::Layer layer, std::vector<short> data)
 	redrawLayer(layer);
 }
 
-void QGraphicsMapScene::setEventData(int id, const RPG::Event &data)
+void MapScene::setEventData(int id, const RPG::Event &data)
 {
 	for (unsigned int i = 0; i < m_map->events.size(); i++)
 		if (m_map->events[i].ID == id)
 			m_map->events[i] = data;
 }
 
-QMap<int, RPG::Event*> *QGraphicsMapScene::mapEvents()
+QMap<int, RPG::Event*> *MapScene::mapEvents()
 {
 	QMap<int, RPG::Event*> *events = new QMap<int, RPG::Event*>();
 	for (unsigned int i = 0; i < m_map->events.size(); i++)
@@ -198,13 +198,13 @@ QMap<int, RPG::Event*> *QGraphicsMapScene::mapEvents()
 	return events;
 }
 
-void QGraphicsMapScene::editMapProperties()
+void MapScene::editMapProperties()
 {
-	DialogMapProperties dlg(n_mapInfo, *m_map, m_view);
+	MapPropertiesDialog dlg(n_mapInfo, *m_map, m_view);
 	dlg.exec();
 }
 
-void QGraphicsMapScene::redrawMap()
+void MapScene::redrawMap()
 {
 	if (!m_init)
 		return;
@@ -215,7 +215,7 @@ void QGraphicsMapScene::redrawMap()
 	redrawLayer(Core::UPPER);
 }
 
-void QGraphicsMapScene::setScale(float scale)
+void MapScene::setScale(float scale)
 {
 	m_scale = scale;
 	m_lines->setScale(static_cast<int>(m_scale));
@@ -227,7 +227,7 @@ void QGraphicsMapScene::setScale(float scale)
 	redrawMap();
 }
 
-void QGraphicsMapScene::onLayerChanged()
+void MapScene::onLayerChanged()
 {
 	if (m_drawing)
 		stopDrawing();
@@ -255,7 +255,7 @@ void QGraphicsMapScene::onLayerChanged()
 	}
 }
 
-void QGraphicsMapScene::onToolChanged()
+void MapScene::onToolChanged()
 {
 	if (m_drawing)
 		stopDrawing();
@@ -281,7 +281,7 @@ void QGraphicsMapScene::onToolChanged()
 	}
 }
 
-void QGraphicsMapScene::Save()
+void MapScene::Save()
 {
 	if (!isModified())
 		return;
@@ -301,7 +301,7 @@ void QGraphicsMapScene::Save()
 	emit mapSaved();
 }
 
-void QGraphicsMapScene::Load()
+void MapScene::Load()
 {
 	for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
 		if (Data::treemap.maps[i].ID == n_mapInfo.ID)
@@ -335,7 +335,7 @@ void QGraphicsMapScene::Load()
 	emit mapReverted();
 }
 
-void QGraphicsMapScene::undo()
+void MapScene::undo()
 {
 	m_undoStack->undo();
 	if (m_undoStack->index() == 0)
@@ -345,7 +345,7 @@ void QGraphicsMapScene::undo()
 	}
 }
 
-void QGraphicsMapScene::on_actionNewEvent()
+void MapScene::on_actionNewEvent()
 {
 	// Find first free id
 	std::vector<RPG::Event>::iterator ev;
@@ -370,7 +370,7 @@ void QGraphicsMapScene::on_actionNewEvent()
 	event.y = cur_y;
 	event.pages.push_back(RPG::EventPage());
 
-	int result = DialogEvent::edit(m_view, &event);
+	int result = EventDialog::edit(m_view, &event);
 	if (result != QDialogButtonBox::Cancel)
 	{
 		m_map->events.push_back(event);
@@ -379,7 +379,7 @@ void QGraphicsMapScene::on_actionNewEvent()
 	}
 }
 
-void QGraphicsMapScene::on_actionDeleteEvent()
+void MapScene::on_actionDeleteEvent()
 {
 	std::vector<RPG::Event>::iterator ev;
 	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
@@ -394,12 +394,12 @@ void QGraphicsMapScene::on_actionDeleteEvent()
 	}
 }
 
-void QGraphicsMapScene::on_actionRunHere()
+void MapScene::on_actionRunHere()
 {
 	mCore->runGameHere(id(), lst_x, lst_y);
 }
 
-void QGraphicsMapScene::on_actionSetStartPosition()
+void MapScene::on_actionSetStartPosition()
 {
 	Data::treemap.start.party_map_id = this->id();
 	Data::treemap.start.party_x = lst_x;
@@ -407,12 +407,12 @@ void QGraphicsMapScene::on_actionSetStartPosition()
 	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
 }
 
-void QGraphicsMapScene::on_user_interaction()
+void MapScene::on_user_interaction()
 {
 	m_userInteraction = true;
 }
 
-void QGraphicsMapScene::on_view_V_Scroll()
+void MapScene::on_view_V_Scroll()
 {
 	if (!m_userInteraction || !m_init)
 		return;
@@ -424,7 +424,7 @@ void QGraphicsMapScene::on_view_V_Scroll()
 	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
 }
 
-void QGraphicsMapScene::on_view_H_Scroll()
+void MapScene::on_view_H_Scroll()
 {
 	if (!m_userInteraction || !m_init)
 		return;
@@ -436,7 +436,7 @@ void QGraphicsMapScene::on_view_H_Scroll()
 	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
 }
 
-void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (event->button() == Qt::RightButton)
 	{
@@ -494,7 +494,7 @@ void QGraphicsMapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 	}
 }
 
-void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (!sceneRect().contains(event->scenePos()))
 		return;
@@ -538,7 +538,7 @@ void QGraphicsMapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 	mw->statusBar()->showMessage(status_msg);
 }
 
-void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 	if (m_cancelled && !event->buttons())
 	{
@@ -550,14 +550,14 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 		m_drawing = false;
 		if (mCore->layer() == Core::LOWER)
 		{
-			m_undoStack->push(new QUndoDraw(Core::LOWER,
+			m_undoStack->push(new UndoDraw(Core::LOWER,
 											m_map->lower_layer,
 											this));
 			m_map->lower_layer = m_lower;
 		}
 		else
 		{
-			m_undoStack->push(new QUndoDraw(Core::UPPER,
+			m_undoStack->push(new UndoDraw(Core::UPPER,
 											m_map->upper_layer,
 											this));
 			m_map->upper_layer = m_upper;
@@ -566,7 +566,7 @@ void QGraphicsMapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 	}
 }
 
-void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void MapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 	Q_UNUSED(event)
 	if (mCore->layer() != Core::EVENT)
@@ -577,10 +577,10 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 		if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
 		{
 			RPG::Event backup = *ev;
-			int result = DialogEvent::edit(m_view, &(*ev));
+			int result = EventDialog::edit(m_view, &(*ev));
 			if (result != QDialogButtonBox::Cancel)
 			{
-				m_undoStack->push(new QUndoEvent(backup, this));
+				m_undoStack->push(new UndoEvent(backup, this));
 				emit mapChanged();
 			}
 			redrawMap();
@@ -590,22 +590,22 @@ void QGraphicsMapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 	on_actionNewEvent();
 }
 
-int QGraphicsMapScene::_x(int index)
+int MapScene::_x(int index)
 {
 	return (index%m_map->width);
 }
 
-int QGraphicsMapScene::_y(int index)
+int MapScene::_y(int index)
 {
 	return (index/m_map->width);
 }
 
-int QGraphicsMapScene::_index(int x, int y)
+int MapScene::_index(int x, int y)
 {
 	return (m_map->width*y+x);
 }
 
-void QGraphicsMapScene::redrawTile(const Core::Layer &layer,
+void MapScene::redrawTile(const Core::Layer &layer,
 								   const int &x,
 								   const int &y,
 								   const QRect &dest_rec)
@@ -623,7 +623,7 @@ void QGraphicsMapScene::redrawTile(const Core::Layer &layer,
 	}
 }
 
-void QGraphicsMapScene::stopDrawing()
+void MapScene::stopDrawing()
 {
 	m_cancelled = true;
 	m_drawing = false;
@@ -634,7 +634,7 @@ void QGraphicsMapScene::stopDrawing()
 	redrawLayer(Core::UPPER);
 }
 
-void QGraphicsMapScene::stopSelecting()
+void MapScene::stopSelecting()
 {
 	m_cancelled = true;
 	m_selecting = false;
@@ -643,7 +643,7 @@ void QGraphicsMapScene::stopSelecting()
 	//cancel selection...
 }
 
-void QGraphicsMapScene::updateArea(int x1, int y1, int x2, int y2)
+void MapScene::updateArea(int x1, int y1, int x2, int y2)
 {
 	//Normalize
 	if (x1 < 0)
@@ -669,7 +669,7 @@ void QGraphicsMapScene::updateArea(int x1, int y1, int x2, int y2)
 	redrawLayer(mCore->layer());
 }
 
-void QGraphicsMapScene::redrawLayer(Core::Layer layer)
+void MapScene::redrawLayer(Core::Layer layer)
 {
 	QSize size = m_view->size();
 	if (size.width() > m_map->width*s_tileSize)
@@ -722,7 +722,7 @@ void QGraphicsMapScene::redrawLayer(Core::Layer layer)
 	}
 }
 
-void QGraphicsMapScene::drawPen()
+void MapScene::drawPen()
 {
 	for (int x = cur_x; x < cur_x + mCore->selWidth(); x++)
 		for (int y = cur_y; y < cur_y + mCore->selHeight(); y++)
@@ -735,7 +735,7 @@ void QGraphicsMapScene::drawPen()
 	updateArea(cur_x-1,cur_y-1,cur_x+mCore->selWidth()+1,cur_y+mCore->selHeight()+1);
 }
 
-void QGraphicsMapScene::drawRect()
+void MapScene::drawRect()
 {
 	switch (mCore->layer())
 	{
@@ -764,7 +764,7 @@ void QGraphicsMapScene::drawRect()
 	updateArea(x1-2, y1-2, x2+2, y2+2);
 }
 
-void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
+void MapScene::drawFill(int terrain_id, int x, int y)
 {
 	if (x < 0 || x >= m_map->width || y < 0 || y >= m_map->height)
 		return;
@@ -791,7 +791,7 @@ void QGraphicsMapScene::drawFill(int terrain_id, int x, int y)
 	drawFill(terrain_id, x, y+1);
 }
 
-short QGraphicsMapScene::bind(int x, int y)
+short MapScene::bind(int x, int y)
 {
 #define tile_u mCore->translate(m_lower[static_cast<size_t>(_index(x, y-1))])
 #define tile_d mCore->translate(m_lower[static_cast<size_t>(_index(x, y+1))])
@@ -887,7 +887,7 @@ short QGraphicsMapScene::bind(int x, int y)
 #undef tile_dr
 }
 
-void QGraphicsMapScene::selectTile(int x, int y)
+void MapScene::selectTile(int x, int y)
 {
 	cur_x = x;
 	cur_y = y;
@@ -896,7 +896,7 @@ void QGraphicsMapScene::selectTile(int x, int y)
 	mousePressEvent(mpe.get());
 }
 
-void QGraphicsMapScene::centerOnTile(int x, int y)
+void MapScene::centerOnTile(int x, int y)
 {
 	m_view->centerOn(x * s_tileSize, y * s_tileSize);
 }

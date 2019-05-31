@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ShowMessage</class>
- <widget class="QDialog" name="ShowMessage">
+ <class>ShowMessageWidget</class>
+ <widget class="QDialog" name="ShowMessageWidget">
   <property name="windowModality">
    <enum>Qt::WindowModal</enum>
   </property>
@@ -47,7 +47,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ShowMessage</receiver>
+   <receiver>ShowMessageWidget</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -63,7 +63,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ShowMessage</receiver>
+   <receiver>ShowMessageWidget</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -79,7 +79,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>helpRequested()</signal>
-   <receiver>ShowMessage</receiver>
+   <receiver>ShowMessageWidget</receiver>
    <slot>helpRequest()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -95,7 +95,7 @@
   <connection>
    <sender>text</sender>
    <signal>textChanged()</signal>
-   <receiver>ShowMessage</receiver>
+   <receiver>ShowMessageWidget</receiver>
    <slot>textChanged()</slot>
    <hints>
     <hint type="sourcelabel">

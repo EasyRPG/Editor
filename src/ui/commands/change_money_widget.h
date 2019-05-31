@@ -5,22 +5,22 @@
 #include <rpg_commonevent.h>
 
 namespace Ui {
-class ChangeMoney;
+class ChangeMoneyWidgetWidget;
 }
 
-class ChangeMoney : public QDialog
+class ChangeMoneyWidgetWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeMoney(QWidget *parent, RPG::EventCommand &cmd);
-	~ChangeMoney();
+	explicit ChangeMoneyWidgetWidget(QWidget *parent, RPG::EventCommand &cmd);
+	~ChangeMoneyWidgetWidget();
 
 private slots:
-	void on_ChangeMoney_accepted();
+	void on_ChangeMoneyWidgetWidget_accepted();
 
 private:
-	Ui::ChangeMoney *ui;
+	Ui::ChangeMoneyWidgetWidget *ui;
 	RPG::EventCommand &cmd;
 };
 

@@ -6,10 +6,10 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 
-class QGraphicsPickerScene : public QGraphicsScene
+class PickerScene : public QGraphicsScene
 {
 public:
-	QGraphicsPickerScene(QObject *parent = nullptr,
+	PickerScene(QObject *parent = nullptr,
 						 QGraphicsPixmapItem* backgroundItem = nullptr,
 						 int rowCount = 1,
 						 int columnCount = 1);

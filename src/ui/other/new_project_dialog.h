@@ -4,16 +4,16 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogNewProject;
+class NewProjectDialog;
 }
 
-class DialogNewProject : public QDialog
+class NewProjectDialog : public QDialog
 {
 	Q_OBJECT
 	
 public:
-	explicit DialogNewProject(QWidget *parent = nullptr);
-	~DialogNewProject();
+	explicit NewProjectDialog(QWidget *parent = nullptr);
+	~NewProjectDialog();
 
 	QString getGameTitle() const;
 	QString getProjectFolder() const;
@@ -31,7 +31,7 @@ private slots:
 	void on_lineGameFolder_textChanged(const QString &arg1);
 
 private:
-	Ui::DialogNewProject *ui;
+	Ui::NewProjectDialog *ui;
 	QString m_defDir;
 };
 

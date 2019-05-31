@@ -5,24 +5,24 @@
 #include <data.h>
 #include <rpg_actor.h>
 #include <QDialogButtonBox>
-#include "qgraphicscharaitem.h"
-#include "qgraphicsfaceitem.h"
-#include "../dialogcharapicker.h"
-#include "../dialogfacepicker.h"
-#include "qgraphicsbattleanimationitem.h"
-#include "qgraphicscurveitem.h"
+#include "charset_item.h"
+#include "faceset_item.h"
+#include "../charset_picker_dialog.h"
+#include "../faceset_picker_dialog.h"
+#include "battle_animation_item.h"
+#include "stat_curve_item.h"
 
 namespace Ui {
-class QDbPageActors;
+class ActorWidget;
 }
 
-class QDbPageActors : public QWidget
+class ActorWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit QDbPageActors(RPG::Database &database, QWidget *parent = nullptr);
-	~QDbPageActors();
+	explicit ActorWidget(RPG::Database &database, QWidget *parent = nullptr);
+	~ActorWidget();
 
 public slots:
 	void on_currentActorChanged(RPG::Actor *actor);
@@ -58,20 +58,20 @@ protected:
 	void resizeEvent(QResizeEvent * event);
 
 private:
-	Ui::QDbPageActors *ui;
+	Ui::ActorWidget *ui;
 
 	void UpdateModels();
 	void ResetExpText(RPG::Actor* actor);
 
-	QGraphicsCharaItem *m_charaItem;
-	QGraphicsFaceItem *m_faceItem;
-	QGraphicsBattleAnimationItem *m_battlerItem;
-	QGraphicsCurveItem *m_hpItem;
-	QGraphicsCurveItem *m_mpItem;
-	QGraphicsCurveItem *m_attItem;
-	QGraphicsCurveItem *m_defItem;
-	QGraphicsCurveItem *m_intItem;
-	QGraphicsCurveItem *m_agyItem;
+	CharSetItem *m_charaItem;
+	FaceSetItem *m_faceItem;
+	BattleAnimationItem *m_battlerItem;
+	CurveItem *m_hpItem;
+	CurveItem *m_mpItem;
+	CurveItem *m_attItem;
+	CurveItem *m_defItem;
+	CurveItem *m_intItem;
+	CurveItem *m_agyItem;
 	std::vector<short> m_dummyCurve;
 
 	RPG::Actor *m_currentActor;

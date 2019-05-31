@@ -6,19 +6,19 @@
 #include <QLabel>
 
 namespace Ui {
-class DialogSplash;
+class SplashDialog;
 }
 
-class DialogSplash : public QDialog
+class SplashDialog : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit DialogSplash(QWidget *parent = nullptr);
-	~DialogSplash();
+	explicit SplashDialog(QWidget *parent = nullptr);
+	~SplashDialog();
 
 private:
-	Ui::DialogSplash *ui;
+	Ui::SplashDialog *ui;
 };
 
 #endif // DIALOGSPLASH_H

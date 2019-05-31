@@ -1,12 +1,12 @@
-#include "dialogfacepicker.h"
-#include "ui_dialogcharapicker.h"
+#include "faceset_picker_dialog.h"
+#include "ui_charset_picker_dialog.h"
 #include <QDir>
 #include <QPushButton>
 #include "core.h"
 
-dialogfacepicker::dialogfacepicker(QWidget *parent, bool tile_pick) :
+faceset_picker_dialog::faceset_picker_dialog(QWidget *parent, bool tile_pick) :
 	QDialog(parent),
-	ui(new Ui::DialogCharaPicker)
+	ui(new Ui::CharSetPickerDialog)
 {
 	ui->setupUi(this);
 
@@ -38,11 +38,11 @@ dialogfacepicker::dialogfacepicker(QWidget *parent, bool tile_pick) :
 			ui->listRes->addItem(info.baseName());
 	}
 
-	m_chara = new QGraphicsFaceItem();
+	m_chara = new FaceSetItem();
 	m_chara->setScale(1.0);
 	ui->viewChara->resize(192,192);
 	ui->viewChara->setMinimumHeight(196);
-	m_charaScene = new QGraphicsPickerScene(ui->viewChara, m_chara, 4, 4);
+	m_charaScene = new PickerScene(ui->viewChara, m_chara, 4, 4);
 	ui->viewChara->setScene(m_charaScene);
 
 	m_timer = new QTimer(this);
@@ -59,22 +59,22 @@ dialogfacepicker::dialogfacepicker(QWidget *parent, bool tile_pick) :
 
 }
 
-dialogfacepicker::~dialogfacepicker()
+faceset_picker_dialog::~faceset_picker_dialog()
 {
 	delete ui;
 }
 
-int dialogfacepicker::frame()
+int faceset_picker_dialog::frame()
 {
 	return m_chara->frame();
 }
 
-void dialogfacepicker::setFrame(int frame)
+void faceset_picker_dialog::setFrame(int frame)
 {
 	m_chara->setFrame(frame);
 }
 
-std::string dialogfacepicker::name()
+std::string faceset_picker_dialog::name()
 {
 	QString name = ui->listRes->currentItem()->text();
 	if (name.contains("*"))
@@ -82,7 +82,7 @@ std::string dialogfacepicker::name()
 	return name.toStdString();
 }
 
-void dialogfacepicker::setName(std::string name)
+void faceset_picker_dialog::setName(std::string name)
 {
 	if (name.empty() && ui->listRes->count() > 0)
 	{
@@ -95,7 +95,7 @@ void dialogfacepicker::setName(std::string name)
 		ui->listRes->setCurrentItem(items[0]);
 }
 
-void dialogfacepicker::setAnimated(bool animated)
+void faceset_picker_dialog::setAnimated(bool animated)
 {
 	if (animated)
 		m_timer->start(200);
@@ -103,14 +103,14 @@ void dialogfacepicker::setAnimated(bool animated)
 		m_timer->stop();
 }
 
-int dialogfacepicker::index() const
+int faceset_picker_dialog::index() const
 {
 	if (ui->listRes->currentItem()->text().contains("*"))
 		return m_tileScene->index();
 	return m_charaScene->index();
 }
 
-void dialogfacepicker::setIndex(int index)
+void faceset_picker_dialog::setIndex(int index)
 {
 	if (ui->listRes->currentItem()->text().contains("*"))
 		m_tileScene->setIndex(index);
@@ -118,7 +118,7 @@ void dialogfacepicker::setIndex(int index)
 		m_charaScene->setIndex(index);
 }
 
-void dialogfacepicker::on_listRes_currentRowChanged(int currentRow)
+void faceset_picker_dialog::on_listRes_currentRowChanged(int currentRow)
 {
 	Q_UNUSED(currentRow)
 	if (ui->listRes->currentItem()->text().contains("*"))
@@ -133,7 +133,7 @@ void dialogfacepicker::on_listRes_currentRowChanged(int currentRow)
 	}
 }
 
-void dialogfacepicker::ok()
+void faceset_picker_dialog::ok()
 {
 	setResult(QDialogButtonBox::Ok);
 }

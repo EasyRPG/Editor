@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QDbPageTerrain</class>
- <widget class="QWidget" name="QDbPageTerrain">
+ <class>TerrainWidget</class>
+ <widget class="QWidget" name="TerrainWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
