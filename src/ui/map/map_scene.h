@@ -12,7 +12,7 @@
 #include <memory>
 #include <rpg_map.h>
 #include <rpg_mapinfo.h>
-#include "../core.h"
+#include "core.h"
 
 class MapScene : public QGraphicsScene
 {

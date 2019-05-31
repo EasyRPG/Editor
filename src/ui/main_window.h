@@ -5,12 +5,12 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QTreeWidgetItem>
-#include "resource_manager_dialog.h"
-#include "database_dialog.h"
-#include "search_dialog.h"
-#include "tools/map_scene.h"
-#include "tools/palette_scene.h"
-#include "musicplayer.h"
+#include "ui/other/resource_manager_dialog.h"
+#include "ui/database/database_dialog.h"
+#include "ui/other/search_dialog.h"
+#include "ui/map/map_scene.h"
+#include "ui/common/palette_scene.h"
+#include "ui/other/musicplayer.h"
 
 namespace Ui {
 class MainWindow;

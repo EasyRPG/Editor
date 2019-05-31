@@ -5,12 +5,12 @@
 #include <data.h>
 #include <rpg_actor.h>
 #include <QDialogButtonBox>
-#include "charset_item.h"
-#include "faceset_item.h"
-#include "../charset_picker_dialog.h"
-#include "../faceset_picker_dialog.h"
-#include "battle_animation_item.h"
-#include "stat_curve_item.h"
+#include "ui/common/charset_item.h"
+#include "ui/common/faceset_item.h"
+#include "ui/common/charset_picker_dialog.h"
+#include "ui/common/faceset_picker_dialog.h"
+#include "ui/common/battle_animation_item.h"
+#include "ui/common/stat_curve_item.h"
 
 namespace Ui {
 class ActorWidget;

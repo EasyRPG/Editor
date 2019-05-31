@@ -7,7 +7,7 @@
 #include <QCompleter>
 #include <functional>
 #include "rpg_model.h"
-#include "../edit_dialog.h"
+#include "edit_dialog.h"
 
 
 template <class MODEL>

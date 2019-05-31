@@ -2,7 +2,7 @@
 #define QUNDODRAW_H
 
 #include <QUndoCommand>
-#include "../core.h"
+#include "core.h"
 #include "map_scene.h"
 
 class UndoDraw : public QUndoCommand

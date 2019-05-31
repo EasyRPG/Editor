@@ -81,7 +81,7 @@
 #include <QListWidget>
 #include "rpg_map.h"
 #include "rpg_chipset.h"
-#include "run_game_dialog.h"
+#include "ui/other/run_game_dialog.h"
 
 class Core : public QObject
 {

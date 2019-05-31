@@ -5,8 +5,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QTimer>
-#include "tools/charset_item.h"
-#include "tools/picker_scene.h"
+#include "charset_item.h"
+#include "picker_scene.h"
 
 namespace Ui {
 class CharSetPickerDialog;

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <rpg_database.h>
 #include <rpg_class.h>
-#include "battle_animation_item.h"
+#include "ui/common/battle_animation_item.h"
 
 namespace Ui {
 class ClassWidget;

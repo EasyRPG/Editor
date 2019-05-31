@@ -6,7 +6,7 @@
 #include <QTableWidgetItem>
 #include <rpg_mapinfo.h>
 #include <rpg_map.h>
-#include "tools/encounter_delegate.h"
+#include "ui/common/encounter_delegate.h"
 
 namespace Ui {
 class MapPropertiesDialog;

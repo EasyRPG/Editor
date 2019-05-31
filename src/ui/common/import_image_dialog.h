@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QGraphicsPixmapItem>
 
-#include "tools/import_item.h"
+#include "import_item.h"
 
 namespace Ui {
 class ImportImageDialog;

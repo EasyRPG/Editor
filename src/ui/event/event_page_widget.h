@@ -8,8 +8,8 @@
 #include <QGraphicsScene>
 #include <rpg_eventcommand.h>
 #include <command_codes.h>
-#include "charset_item.h"
-#include "../splash_dialog.h"
+#include "ui/common/charset_item.h"
+#include "ui/other/splash_dialog.h"
 #include <QProgressBar>
 #include <QLabel>
 

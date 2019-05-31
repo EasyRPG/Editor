@@ -2,7 +2,7 @@
 #define QGRAPHICSBATTLERITEM_H
 
 #include <QGraphicsPixmapItem>
-#include "../core.h"
+#include "core.h"
 #include "rpg_battleranimation.h"
 
 class BattleAnimationItem : public QObject, public QGraphicsPixmapItem

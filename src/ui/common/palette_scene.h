@@ -5,7 +5,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
-#include "../core.h"
+#include "core.h"
 
 class PaletteScene : public QGraphicsScene
 {
