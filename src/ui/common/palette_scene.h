@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSPALETTESCENE_H
-#define QGRAPHICSPALETTESCENE_H
+#pragma once
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -59,4 +58,3 @@ protected:
 
 };
 
-#endif // QGRAPHICSPALETTESCENE_H

@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QDBPAGEPROFESSIONS_H
-#define QDBPAGEPROFESSIONS_H
+#pragma once
 
 #include <QWidget>
 #include <rpg_database.h>
@@ -52,4 +51,3 @@ private:
 	RPG::Database &m_data;
 };
 
-#endif // QDBPAGEPROFESSIONS_H

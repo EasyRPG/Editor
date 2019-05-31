@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHANGEPARTY_H
-#define CHANGEPARTY_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_eventcommand.h>
@@ -41,4 +40,3 @@ private:
 	RPG::EventCommand &cmd;
 };
 
-#endif // CHANGEPARTY_H

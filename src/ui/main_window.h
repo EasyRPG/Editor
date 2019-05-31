@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QFile>
 #include <QMainWindow>
@@ -161,4 +160,3 @@ private:
 };
 
 
-#endif // MAINWINDOW_H

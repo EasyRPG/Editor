@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QDBPAGEITEMS_H
-#define QDBPAGEITEMS_H
+#pragma once
 
 #include <QWidget>
 #include <data.h>
@@ -38,4 +37,3 @@ private:
 	RPG::Database &m_data;
 };
 
-#endif // QDBPAGEITEMS_H

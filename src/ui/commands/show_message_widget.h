@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHOWMESSAGE_H
-#define SHOWMESSAGE_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_eventcommand.h>
@@ -38,4 +37,3 @@ private:
 	RPG::EventCommand &command;
 };
 
-#endif // SHOWMESSAGE_H

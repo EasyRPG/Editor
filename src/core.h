@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CORE_H
-#define CORE_H
+#pragma once
 
 #define mCore Core::getCore()
 
@@ -222,4 +221,3 @@ private:
 	RunGameDialog *m_runGameDialog;
 };
 
-#endif // CORE_H

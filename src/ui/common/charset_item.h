@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSCHARAITEM_H
-#define QGRAPHICSCHARAITEM_H
+#pragma once
 
 #include <QGraphicsPixmapItem>
 
@@ -74,4 +73,3 @@ private:
 	bool m_walk;
 };
 
-#endif // QGRAPHICSCHARAITEM_H

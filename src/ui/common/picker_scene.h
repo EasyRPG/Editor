@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSPICKERSCENE_H
-#define QGRAPHICSPICKERSCENE_H
+#pragma once
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -51,4 +50,3 @@ protected:
 	QRectF m_defaultRect;
 };
 
-#endif // QGRAPHICSPICKERSCENE_H

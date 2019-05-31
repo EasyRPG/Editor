@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QUNDODRAW_H
-#define QUNDODRAW_H
+#pragma once
 
 #include <QUndoCommand>
 #include "core.h"
@@ -41,4 +40,3 @@ private:
 	MapScene* m_scene;
 };
 
-#endif // QUNDODRAW_H

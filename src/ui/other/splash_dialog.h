@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGSPLASH_H
-#define DIALOGSPLASH_H
+#pragma once
 
 #include <QDialog>
 #include <QProgressBar>
@@ -38,4 +37,3 @@ private:
 	Ui::SplashDialog *ui;
 };
 
-#endif // DIALOGSPLASH_H

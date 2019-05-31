@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGMAPPROPERTIES_H
-#define DIALOGMAPPROPERTIES_H
+#pragma once
 
 #include <QDialog>
 #include <QGraphicsPixmapItem>
@@ -77,4 +76,3 @@ private:
 	std::vector<short> m_generatorUpperLayer;
 };
 
-#endif // DIALOGMAPPROPERTIES_H

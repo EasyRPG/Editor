@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGFACEPICKER_H
-#define DIALOGFACEPICKER_H
+#pragma once
 
 #include <QDialog>
 #include <QGraphicsScene>
@@ -68,4 +67,3 @@ private:
 	int m_charaIndex;
 };
 
-#endif // DIALOGFACEPICKER_H

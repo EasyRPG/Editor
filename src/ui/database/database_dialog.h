@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGDATABASE_H
-#define DIALOGDATABASE_H
+#pragma once
 
 #include <QDialog>
 #include <data.h>
@@ -96,4 +95,3 @@ private:
 	RPG::Actor *m_currentActor;
 };
 
-#endif // DIALOGDATABASE_H

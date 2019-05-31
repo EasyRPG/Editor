@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QIMPORTVIEW_H
-#define QIMPORTVIEW_H
+#pragma once
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
@@ -37,4 +36,3 @@ public slots:
 	
 };
 
-#endif // QIMPORTVIEW_H

@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSMAPSCENE_H
-#define QGRAPHICSMAPSCENE_H
+#pragma once
 
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
@@ -138,4 +137,3 @@ private:
 	bool m_userInteraction;
 };
 
-#endif // QGRAPHICSMAPSCENE_H

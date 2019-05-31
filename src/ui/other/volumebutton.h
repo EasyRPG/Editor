@@ -55,8 +55,7 @@
 **
 ****************************************************************************/
 
-#ifndef VOLUMEBUTTON_H
-#define VOLUMEBUTTON_H
+#pragma once
 
 #include <QToolButton>
 
@@ -88,4 +87,3 @@ private:
 	QSlider *slider;
 };
 
-#endif // VOLUMEBUTTON_H

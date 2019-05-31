@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSCURVEITEM_H
-#define QGRAPHICSCURVEITEM_H
+#pragma once
 
 #include <QGraphicsItem>
 #include <QPainter>
@@ -42,4 +41,3 @@ private:
 	qreal m_maxValue;
 };
 
-#endif // QGRAPHICSCURVEITEM_H

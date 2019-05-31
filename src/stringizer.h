@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STRINGIZER_H
-#define STRINGIZER_H
+#pragma once
 
 #include <QString>
 #include "rpg_eventcommand.h"
@@ -45,4 +44,3 @@ namespace Stringizer {
 	QString eraseTransitionName(int id);
 	QString showTransitionName(int id);
 }
-#endif // STRINGIZER_H

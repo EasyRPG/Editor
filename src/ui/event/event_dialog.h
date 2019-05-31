@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGEVENT_H
-#define DIALOGEVENT_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_event.h>
@@ -53,4 +52,3 @@ private:
 	RPG::Event a_event;
 	int lst_result;
 };
-#endif // DIALOGEVENT_H

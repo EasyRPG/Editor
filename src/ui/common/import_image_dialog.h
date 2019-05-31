@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGIMPORTIMAGE_H
-#define DIALOGIMPORTIMAGE_H
+#pragma once
 
 #include <QDialog>
 #include <QGraphicsPixmapItem>
@@ -54,4 +53,3 @@ private:
 
 };
 
-#endif // DIALOGIMPORTIMAGE_H

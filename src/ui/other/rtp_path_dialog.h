@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGRTPPATH_H
-#define DIALOGRTPPATH_H
+#pragma once
 
 #include <QDialog>
 
@@ -40,4 +39,3 @@ private:
 	Ui::RtpPathDialog *ui;
 };
 
-#endif // DIALOGRTPPATH_H

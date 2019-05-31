@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QDBPAGESKILLS_H
-#define QDBPAGESKILLS_H
+#pragma once
 
 #include <QWidget>
 #include <data.h>
@@ -38,4 +37,3 @@ private:
 	RPG::Database &m_data;
 };
 
-#endif // QDBPAGESKILLS_H

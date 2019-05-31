@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CHANGEMONEY_H
-#define CHANGEMONEY_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_commonevent.h>
@@ -41,4 +40,3 @@ private:
 	RPG::EventCommand &cmd;
 };
 
-#endif // CHANGEMONEY_H

@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGEDIT_H
-#define DIALOGEDIT_H
+#pragma once
 
 #include <QDialog>
 
@@ -46,4 +45,3 @@ EditDialog<DATA>::EditDialog(QWidget *parent, DATA& data) :
 	//TODO put in data and stuff
 }
 
-#endif // DIALOGEDIT_H

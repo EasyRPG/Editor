@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGRESOURCEMANAGER_H
-#define DIALOGRESOURCEMANAGER_H
+#pragma once
 
 #include <QDialog>
 #include <QStringListModel>
@@ -49,4 +48,3 @@ private:
 
 };
 
-#endif // DIALOGRESOURCEMANAGER_H

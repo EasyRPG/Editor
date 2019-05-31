@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHOWCHOICES_H
-#define SHOWCHOICES_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_eventcommand.h>
@@ -40,4 +39,3 @@ private:
 	RPG::EventCommand &cmd;
 };
 
-#endif // SHOWCHOICES_H

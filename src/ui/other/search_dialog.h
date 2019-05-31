@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGSEARCH_H
-#define DIALOGSEARCH_H
+#pragma once
 
 #include <QDialog>
 #include <memory>
@@ -58,4 +57,3 @@ private:
 	void showResults(const std::vector<command_info>& results);
 };
 
-#endif // DIALOGSEARCH_H

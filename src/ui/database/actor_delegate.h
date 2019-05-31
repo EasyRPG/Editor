@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QACTORDELEGATE_H
-#define QACTORDELEGATE_H
+#pragma once
 
 #include <QItemDelegate>
 #include <QComboBox>
@@ -45,4 +44,3 @@ public slots:
 
 };
 
-#endif // QACTORDELEGATE_H

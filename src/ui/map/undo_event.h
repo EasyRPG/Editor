@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QUNDOEVENT_H
-#define QUNDOEVENT_H
+#pragma once
 
 #include <QUndoCommand>
 #include <rpg_event.h>
@@ -35,4 +34,3 @@ private:
 	MapScene* m_scene;
 };
 
-#endif // QUNDOEVENT_H

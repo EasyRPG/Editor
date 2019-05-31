@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GAMECHARACTER_H
-#define GAMECHARACTER_H
+#pragma once
 #include <QString>
 #include <QVariant>
 #include <QVector>
@@ -200,4 +199,3 @@ private:
 	QMap<int, QVariant> m_customProperties;
 };
 
-#endif // GAMECHARACTER_H

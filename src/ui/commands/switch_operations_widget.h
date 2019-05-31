@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SWITCHOPERATIONS_H
-#define SWITCHOPERATIONS_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_eventcommand.h>
@@ -40,4 +39,3 @@ private:
 	RPG::EventCommand &cmd;
 };
 
-#endif // SWITCHOPERATIONS_H

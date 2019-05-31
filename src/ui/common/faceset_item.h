@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSFACEITEM_H
-#define QGRAPHICSFACEITEM_H
+#pragma once
 
 #include <QGraphicsPixmapItem>
 
@@ -49,4 +48,3 @@ public:
 		int m_frame;
 };
 
-#endif // QGRAPHICSFACEITEM_H

@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QDBPAGEVOCABULARY_H
-#define QDBPAGEVOCABULARY_H
+#pragma once
 
 #include <QWidget>
 #include <data.h>
@@ -141,4 +140,3 @@ private:
 
 };
 
-#endif // QDBPAGEVOCABULARY_H

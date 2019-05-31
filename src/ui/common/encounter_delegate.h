@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QCOMBODELEGATE_H
-#define QCOMBODELEGATE_H
+#pragma once
 
 #include <QItemDelegate>
 #include <QComboBox>
@@ -46,4 +45,3 @@ public slots:
 
 };
 
-#endif // QCOMBODELEGATE_H

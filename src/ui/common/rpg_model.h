@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RPGMODEL_H
-#define RPGMODEL_H
+#pragma once
 
 #include <QObject>
 #include <QAbstractItemModel>
@@ -88,4 +87,3 @@ VARSTRUCT(Variable, variables)
 
 #undef VARSTRUCT
 
-#endif // RPGMODEL_H

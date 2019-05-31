@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QGRAPHICSBATTLERITEM_H
-#define QGRAPHICSBATTLERITEM_H
+#pragma once
 
 #include <QGraphicsPixmapItem>
 #include "core.h"
@@ -63,4 +62,3 @@ private:
 	RPG::BattlerAnimation m_demoAnimation;
 };
 
-#endif // QGRAPHICSBATTLERITEM_H

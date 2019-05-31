@@ -55,8 +55,7 @@
 **
 ****************************************************************************/
 
-#ifndef MUSICPLAYER_H
-#define MUSICPLAYER_H
+#pragma once
 
 #include <QWidget>
 #include <QMediaPlayer>
@@ -110,4 +109,3 @@ private:
 	QPoint offset;
 };
 
-#endif // MUSICPLAYER_H

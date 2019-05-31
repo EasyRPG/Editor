@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGOPENPROJECT_H
-#define DIALOGOPENPROJECT_H
+#pragma once
 
 #include <QDialog>
 
@@ -51,4 +50,3 @@ private:
 	void RefreshProjectList();
 };
 
-#endif // DIALOGOPENPROJECT_H

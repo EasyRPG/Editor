@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGRUNGAME_H
-#define DIALOGRUNGAME_H
+#pragma once
 
 #include <QDialog>
 #include <QTableWidgetItem>
@@ -51,4 +50,3 @@ private:
 	std::vector<RPG::TestBattler> battletest_data;
 };
 
-#endif // DIALOGRUNGAME_H

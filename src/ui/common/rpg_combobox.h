@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef RPGCOMBOBOX_H
-#define RPGCOMBOBOX_H
+#pragma once
 
 #include <QObject>
 #include <QComboBox>
@@ -77,4 +76,3 @@ using BattlerAnimationRpgComboBox = RpgComboBox<BattlerAnimationRpgModel>;
 using SwitchRpgComboBox = RpgComboBox<SwitchRpgModel>;
 using VariableRpgComboBox = RpgComboBox<VariableRpgModel>;
 
-#endif // RPGCOMBOBOX_H

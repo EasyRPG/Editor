@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QEVENTPAGEWIDGET_H
-#define QEVENTPAGEWIDGET_H
+#pragma once
 
 #include <QWidget>
 #include <rpg_eventpage.h>
@@ -109,4 +108,3 @@ private:
 	int m_codeGen;
 };
 
-#endif // QEVENTPAGEWIDGET_H

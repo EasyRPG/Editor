@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VARIABLEOPERATIONS_H
-#define VARIABLEOPERATIONS_H
+#pragma once
 
 #include <QDialog>
 #include <rpg_eventcommand.h>
@@ -41,4 +40,3 @@ private:
 };
 
 
-#endif // VARIABLEOPERATIONS_H

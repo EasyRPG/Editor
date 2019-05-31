@@ -15,8 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOGNEWPROJECT_H
-#define DIALOGNEWPROJECT_H
+#pragma once
 
 #include <QDialog>
 
@@ -52,4 +51,3 @@ private:
 	QString m_defDir;
 };
 
-#endif // DIALOGNEWPROJECT_H
