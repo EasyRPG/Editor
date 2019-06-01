@@ -72,9 +72,6 @@ DatabaseSplitWidget<T, U>::DatabaseSplitWidget(RPG::Database& database, std::vec
 	ui->splitter->setStretchFactor(1, 4);
 
 	connect(ui->list, &QListView::activated, this, [&](const QModelIndex &index) {
-		auto a = new U(db, nullptr);
-		a->setData(&data[index.row()]);
-		a->show();
 		m_contentWidget->setData(&data[index.row()]);
 	});
 }

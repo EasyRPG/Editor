@@ -45,7 +45,6 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_listCharacters_currentRowChanged(int currentRow);
 	void on_lineName_textChanged(const QString &arg1);
 	void on_lineTitle_textChanged(const QString &arg1);
 	void on_checkTranslucent_toggled(bool checked);

@@ -30,3 +30,8 @@ AttributeWidget::~AttributeWidget()
 {
 	delete ui;
 }
+
+void AttributeWidget::setData(RPG::Attribute* attribute)
+{
+
+}

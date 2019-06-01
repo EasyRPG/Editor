@@ -30,3 +30,8 @@ BattleAnimation2Widget::~BattleAnimation2Widget()
 {
 	delete ui;
 }
+
+void BattleAnimation2Widget::setData(RPG::BattlerAnimation* battler_anim)
+{
+
+}

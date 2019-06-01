@@ -21,6 +21,18 @@
 #include "rpg_database.h"
 #include "ui/common/rpg_model.h"
 #include "actor_widget.h"
+#include "attribute_widget.h"
+#include "battle_animation2_widget.h"
+#include "battle_animation_widget.h"
+#include "chipset_widget.h"
+#include "class_widget.h"
+#include "common_event_widget.h"
+#include "enemy_group_widget.h"
+#include "enemy_widget.h"
+#include "item_widget.h"
+#include "skill_widget.h"
+#include "state_widget.h"
+#include "terrain_widget.h"
 
 namespace Ui {
 class DatabaseSplitWidget;
@@ -54,4 +66,15 @@ private:
 };
 
 template class DatabaseSplitWidget<RPG::Actor, ActorWidget>;
-
+template class DatabaseSplitWidget<RPG::Class, ClassWidget>;
+template class DatabaseSplitWidget<RPG::Skill, SkillWidget>;
+template class DatabaseSplitWidget<RPG::Item, ItemWidget>;
+template class DatabaseSplitWidget<RPG::Enemy, EnemyWidget>;
+template class DatabaseSplitWidget<RPG::Troop, EnemyGroupWidget>;
+template class DatabaseSplitWidget<RPG::Attribute, AttributeWidget>;
+template class DatabaseSplitWidget<RPG::State, StateWidget>;
+template class DatabaseSplitWidget<RPG::Animation, BattleAnimationWidget>;
+template class DatabaseSplitWidget<RPG::BattlerAnimation, BattleAnimation2Widget>;
+template class DatabaseSplitWidget<RPG::Terrain, TerrainWidget>;
+template class DatabaseSplitWidget<RPG::Chipset, ChipSetWidget>;
+template class DatabaseSplitWidget<RPG::CommonEvent, CommonEventWidget>;

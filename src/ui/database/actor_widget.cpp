@@ -118,7 +118,6 @@ ActorWidget::~ActorWidget()
 void ActorWidget::UpdateModels()
 {
 	/* Clear */
-	//ui->listCharacters->clear();
 	ui->comboBattleset->clear();
 	ui->comboProfession->clear();
 	ui->comboUnarmedAnimation->clear();
@@ -138,10 +137,6 @@ void ActorWidget::UpdateModels()
 		ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.states.size(); i++)
 		ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
-	/*for (unsigned int i = 0; i < m_data.actors.size(); i++)
-		ui->listCharacters->addItem(QString("%1: %2")
-							   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-							   .arg(m_data.actors[i].name.c_str()));*/
 
 	on_currentActorChanged(m_currentActor);
 }
@@ -152,7 +147,6 @@ void ActorWidget::on_lineName_textChanged(const QString &arg1)
 	if (!m_currentActor || m_currentActor->name == arg1.toStdString())
 		return;
 	m_currentActor->name = arg1.toStdString();
-	//ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
 }
 
 void ActorWidget::on_lineTitle_textChanged(const QString &arg1)

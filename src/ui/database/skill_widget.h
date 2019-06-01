@@ -32,6 +32,8 @@ public:
 	explicit SkillWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~SkillWidget();
 
+	void setData(RPG::Skill* skill);
+
 private:
 	Ui::SkillWidget *ui;
 	lcf::rpg::Database &m_data;

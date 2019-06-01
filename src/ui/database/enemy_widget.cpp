@@ -30,3 +30,8 @@ EnemyWidget::~EnemyWidget()
 {
 	delete ui;
 }
+
+void EnemyWidget::setData(RPG::Enemy* enemy)
+{
+
+}

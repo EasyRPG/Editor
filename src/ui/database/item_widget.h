@@ -32,6 +32,8 @@ public:
 	explicit ItemWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~ItemWidget();
 
+	void setData(RPG::Item* item);
+
 private:
 	Ui::ItemWidget *ui;
 	lcf::rpg::Database &m_data;

@@ -38,21 +38,10 @@ ClassWidget::ClassWidget(lcf::rpg::Database &database, QWidget *parent) :
 	connect(timer, SIGNAL(timeout()), ui->graphicsBattler->scene(), SLOT(advance()));
 	timer->start(200);
 	UpdateModels();
-	if (ui->listClasses->count())
-		ui->listClasses->setCurrentRow(0);
 }
 
 void ClassWidget::UpdateModels()
 {
-	/* Clear */
-	ui->listClasses->clear();
-
-	/* Fill */
-	for (unsigned int i = 0; i < m_data.classes.size(); i++)
-		ui->listClasses->addItem(QString("%1: %2")
-							   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-							   .arg(m_data.classes[i].name.c_str()));
-
 	/* TODO: Fill battle commands combos*/
 
 	on_currentClassChanged(m_currentClass);
@@ -68,4 +57,9 @@ void ClassWidget::on_currentClassChanged(lcf::rpg::Class *_class)
 ClassWidget::~ClassWidget()
 {
 	delete ui;
+}
+
+void ClassWidget::setData(RPG::Class* cls)
+{
+
 }

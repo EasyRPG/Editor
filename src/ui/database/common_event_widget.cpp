@@ -30,3 +30,8 @@ CommonEventWidget::~CommonEventWidget()
 {
 	delete ui;
 }
+
+void CommonEventWidget::setData(RPG::CommonEvent* common_event)
+{
+
+}

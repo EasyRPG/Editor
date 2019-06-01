@@ -30,3 +30,8 @@ TerrainWidget::~TerrainWidget()
 {
 	delete ui;
 }
+
+void TerrainWidget::setData(RPG::Terrain* terrain)
+{
+
+}

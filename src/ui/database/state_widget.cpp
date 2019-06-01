@@ -30,3 +30,8 @@ StateWidget::~StateWidget()
 {
 	delete ui;
 }
+
+void StateWidget::setData(RPG::State* state)
+{
+
+}

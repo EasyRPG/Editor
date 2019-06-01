@@ -30,3 +30,8 @@ ChipSetWidget::~ChipSetWidget()
 {
 	delete ui;
 }
+
+void ChipSetWidget::setData(RPG::Chipset* chipset)
+{
+
+}
