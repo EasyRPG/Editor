@@ -26,14 +26,15 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	a.setApplicationName("EasyRPG Editor");
 	a.setOrganizationName("EasyRPG");
-	a.setOrganizationDomain("easy-rpg.org");
+	a.setOrganizationDomain("easyrpg.org");
 	MainWindow w;
-	SplashDialog s(&w);
-	s.show();
-	QTimer::singleShot(3000, &s, SLOT(hide()));
-	QTimer::singleShot(3000, &w, SLOT(show()));
-
+	// FIXME: SplashScreen disabled for now, this imposed a 6s startup delay due to timers...
+	//SplashDialog s(&w);
+	//s.show();
+	//QTimer::singleShot(3000, &s, SLOT(hide()));
+	//QTimer::singleShot(3000, &w, SLOT(show()));
 	w.LoadLastProject();
+	w.show();
 
 	return a.exec();
 }
