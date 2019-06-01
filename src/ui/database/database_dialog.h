@@ -91,7 +91,7 @@ private:
 	SystemWidget *Old_PageSystem;
 	System2Widget *Old_PageSystem2;
 	CommonEventWidget *Old_PageCommonevents;
-	RPG::Database m_data;
+	RPG::Database& m_data;
 	RPG::Actor *m_currentActor;
 };
 

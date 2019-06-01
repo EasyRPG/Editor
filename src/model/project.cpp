@@ -93,16 +93,14 @@ bool Project::loadDatabaseAndMapTree() {
 			return false;
 		}
 		if (!LMT_Reader::Load(findFile(RM_MT).toStdString(), encoding().toStdString())) {
-			Data::Clear();
-			return false;
+			Data::Clear();			return false;
 		}
 	} else {
 		if (!LDB_Reader::LoadXml(findFile(EASY_DB).toStdString())) {
 			return false;
 		}
 		if (!LMT_Reader::LoadXml(findFile(EASY_MT).toStdString())) {
-			Data::Clear();
-			return false;
+			Data::Clear();			return false;
 		}
 	}
 

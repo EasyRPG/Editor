@@ -60,13 +60,13 @@ void SearchDialog::updateUI()
 {
 	const QString format("%1: %2");
 
-	for (auto &v : Data::variables)
+	for (auto &v : mCore->project()->database().variables)
 		ui->combo_variable->addItem(format.arg(QString::number(v.ID), QString::fromStdString(v.name)), v.ID);
-	for (auto &s : Data::switches)
+	for (auto &s : mCore->project()->database().switches)
 		ui->combo_switch->addItem(format.arg(QString::number(s.ID), QString::fromStdString(s.name)), s.ID);
-	for (auto &i : Data::items)
+	for (auto &i : mCore->project()->database().items)
 		ui->combo_item->addItem(format.arg(QString::number(i.ID), QString::fromStdString(i.name)), i.ID);
-	for (auto &e : Data::commonevents)
+	for (auto &e : mCore->project()->database().commonevents)
 		ui->combo_eventname->addItem(format.arg(QString::number(e.ID), QString::fromStdString(e.name)), e.ID);
 }
 
@@ -75,7 +75,7 @@ void SearchDialog::enableCache(bool enable)
 	useCache = enable;
 
 	if (enable)
-		map_cache = std::vector<std::shared_ptr<RPG::Map>>(Data::treemap.maps.size());
+		map_cache = std::vector<std::shared_ptr<RPG::Map>>(mCore->project()->treeMap().maps.size());
 	else
 		map_cache.clear();
 
@@ -239,13 +239,13 @@ void SearchDialog::on_button_search_clicked()
 	}
 	else if (ui->scope_events->isChecked())
 	{
-		showResults(common_searcher(Data::commonevents));
+		showResults(common_searcher(mCore->project()->database().commonevents));
 	}
 	else // if (ui->scope_project->isChecked())
 	{
-		for (auto &map : Data::treemap.maps)
+		for (auto &map : mCore->project()->treeMap().maps)
 		{
-			ui->label_status->setText(QString("Parsing Map %1 / %2").arg(QString::number(map.ID + 1), QString::number(Data::treemap.maps.size())));
+			ui->label_status->setText(QString("Parsing Map %1 / %2").arg(QString::number(map.ID + 1), QString::number(mCore->project()->treeMap().maps.size())));
 			QApplication::processEvents(); //FIXME: can this be done better?!
 
 			auto mapp = loadMap(map.ID);
@@ -301,7 +301,7 @@ void SearchDialog::showResults(const std::vector<command_info>& results) {
 		{
 			do
 			{
-				auto& mapinfo = Data::treemap.maps[static_cast<size_t>(mm)];
+				auto& mapinfo = mCore->project()->treeMap().maps[static_cast<size_t>(mm)];
 				maps_rev << QString::fromStdString(mapinfo.name);
 				mm = mapinfo.parent_map;
 			} while (mm != 0);

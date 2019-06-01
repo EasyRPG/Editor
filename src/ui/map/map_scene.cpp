@@ -46,10 +46,10 @@ MapScene::MapScene(int id, QGraphicsView *view, QObject *parent) :
 	m_undoStack = new QUndoStack(this);
 	m_selectionTile = new QGraphicsRectItem(QRectF(QRect(0,32,32,32)));
 	m_selecting = false;
-	for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
-		if (Data::treemap.maps[i].ID == id)
+	for (unsigned int i = 1; i < mCore->project()->treeMap().maps.size(); i++)
+		if (mCore->project()->treeMap().maps[i].ID == id)
 		{
-			n_mapInfo = Data::treemap.maps[i];
+			n_mapInfo = mCore->project()->treeMap().maps[i];
 			break;
 		}
 	m_eventMenu = new QMenu(m_view);
@@ -303,10 +303,10 @@ void MapScene::Save()
 	if (!isModified())
 		return;
 
-	for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
-		if (Data::treemap.maps[i].ID == n_mapInfo.ID)
+	for (unsigned int i = 1; i < mCore->project()->treeMap().maps.size(); i++)
+		if (mCore->project()->treeMap().maps[i].ID == n_mapInfo.ID)
 		{
-			Data::treemap.maps[i] = n_mapInfo; //Apply info changes
+			mCore->project()->treeMap().maps[i] = n_mapInfo; //Apply info changes
 			break;
 		}
 	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
@@ -320,10 +320,10 @@ void MapScene::Save()
 
 void MapScene::Load()
 {
-	for (unsigned int i = 1; i < Data::treemap.maps.size(); i++)
-		if (Data::treemap.maps[i].ID == n_mapInfo.ID)
+	for (unsigned int i = 1; i < mCore->project()->treeMap().maps.size(); i++)
+		if (mCore->project()->treeMap().maps[i].ID == n_mapInfo.ID)
 		{
-			n_mapInfo = Data::treemap.maps[i]; //Revert info changes
+			n_mapInfo = mCore->project()->treeMap().maps[i]; //Revert info changes
 			break;
 		}
 
@@ -417,9 +417,9 @@ void MapScene::on_actionRunHere()
 
 void MapScene::on_actionSetStartPosition()
 {
-	Data::treemap.start.party_map_id = this->id();
-	Data::treemap.start.party_x = lst_x;
-	Data::treemap.start.party_y = lst_y;
+	mCore->project()->treeMap().start.party_map_id = this->id();
+	mCore->project()->treeMap().start.party_x = lst_x;
+	mCore->project()->treeMap().start.party_y = lst_y;
 	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
 }
 

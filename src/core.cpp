@@ -101,10 +101,10 @@ void Core::LoadChipset(int n_chipsetid)
 {
 	if (n_chipsetid == m_chipset.ID)
 		return;
-	for (unsigned int i = 0; i < Data::chipsets.size();i++)
-		if (Data::chipsets[i].ID == n_chipsetid)
+	for (unsigned int i = 0; i < mCore->project()->database().chipsets.size();i++)
+		if (mCore->project()->database().chipsets[i].ID == n_chipsetid)
 		{
-			m_chipset = Data::chipsets[i];
+			m_chipset = mCore->project()->database().chipsets[i];
 			break;
 		}
 	if (m_chipset.ID == 0)

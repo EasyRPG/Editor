@@ -31,10 +31,10 @@ EventPageWidget::EventPageWidget(QWidget *parent) :
 	m_eventPage(nullptr)
 {
 	ui->setupUi(this);
-	for (unsigned int i = 0; i < Data::items.size(); i++)
-		ui->comboItem->addItem(QString::fromStdString(Data::items[i].name));
-	for (unsigned int i = 0; i < Data::actors.size(); i++)
-		ui->comboHero->addItem(QString::fromStdString(Data::actors[i].name));
+	for (unsigned int i = 0; i < mCore->project()->database().items.size(); i++)
+		ui->comboItem->addItem(QString::fromStdString(mCore->project()->database().items[i].name));
+	for (unsigned int i = 0; i < mCore->project()->database().actors.size(); i++)
+		ui->comboHero->addItem(QString::fromStdString(mCore->project()->database().actors[i].name));
 	m_charaItem = new CharSetItem();
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
@@ -163,10 +163,10 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
  * @return Formatted text
  */
 QString formatSwitchCondition(int switchId) {
-	if (switchId >= 1 && switchId <= static_cast<int>(Data::switches.size())) {
+	if (switchId >= 1 && switchId <= static_cast<int>(mCore->project()->database().switches.size())) {
 		return QString("%1: %2").arg(switchId)
 				.arg(QString::fromStdString
-					 (Data::switches[static_cast<size_t>(switchId) - 1].name));
+					 (mCore->project()->database().switches[static_cast<size_t>(switchId) - 1].name));
 	}
 	else {
 		return QString("%1: ???").arg(switchId);
@@ -207,10 +207,10 @@ void EventPageWidget::on_checkVar_toggled(bool checked)
 		return;
 	if (checked) {
 		int varId = m_eventPage->condition.variable_id;
-		if (varId >= 1 && varId <= static_cast<int>(Data::variables.size())) {
+		if (varId >= 1 && varId <= static_cast<int>(mCore->project()->database().variables.size())) {
 			ui->lineVar->setText(QString("%1: %2").arg(varId)
 				.arg(QString::fromStdString
-					 (Data::variables[static_cast<size_t>(varId) - 1].name)));
+					 (mCore->project()->database().variables[static_cast<size_t>(varId) - 1].name)));
 		}
 		else {
 			ui->lineVar->setText(QString("%1: ???").arg(varId));
