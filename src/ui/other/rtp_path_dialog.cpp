@@ -26,7 +26,7 @@ RtpPathDialog::RtpPathDialog(QWidget *parent) :
 	ui(new Ui::RtpPathDialog)
 {
 	ui->setupUi(this);
-	ui->lineRtpPath->setText(mCore->rtpPath(ROOT));
+	ui->lineRtpPath->setText(mCore->rtpPath(""));
 	connect(this,SIGNAL(accepted()),this,SLOT(on_ok()));
 	exec();
 }

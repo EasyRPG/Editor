@@ -114,7 +114,7 @@ void Core::LoadChipset(int n_chipsetid)
 	}
 
 	const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
-	QScopedPointer<QPixmap> o_chipset (new QPixmap(project()->findFile(CHIPSET, chipset_name)));
+	QScopedPointer<QPixmap> o_chipset (new QPixmap(project()->findFile(CHIPSET, chipset_name, FileFinder::FileType::Image)));
 	if (o_chipset->isNull())
 		o_chipset.reset(new QPixmap(rtpPath(CHIPSET, chipset_name)));
 	if (o_chipset->isNull())
@@ -557,7 +557,7 @@ void Core::LoadBackground(QString name)
 		m_background.reset(new QPixmap(640,480));
 		m_background->fill(Qt::magenta);
 	} else
-		m_background.reset(new QPixmap(project()->findFile(PANORAMA, name)));
+		m_background.reset(new QPixmap(project()->findFile(PANORAMA, name, FileFinder::FileType::Image)));
 }
 
 int Core::tileSize()
@@ -855,7 +855,7 @@ void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 
 		QString char_name = QString::fromStdString(evp.character_name);
 
-		QScopedPointer<QPixmap> charset (new QPixmap(project()->findFile(CHARSET,char_name)));
+		QScopedPointer<QPixmap> charset (new QPixmap(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
 		if (charset->isNull())
 			charset.reset(new QPixmap(rtpPath(CHARSET,char_name)));
 		if (charset->isNull())

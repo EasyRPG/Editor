@@ -31,7 +31,7 @@ CharSetItem::CharSetItem(const QPixmap pix) :
 
 void CharSetItem::setBasePix(const QString &n_pixName)
 {
-	m_pix.reset(new QPixmap(mCore->project()->findFile(CHARSET,n_pixName)));
+	m_pix.reset(new QPixmap(mCore->project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image)));
 	if (m_pix->isNull())
 		m_pix.reset(new QPixmap(mCore->rtpPath(CHARSET,n_pixName)));
 	if (m_pix->isNull())

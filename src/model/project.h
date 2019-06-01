@@ -38,6 +38,7 @@ public:
 
 	bool loadDatabaseAndMapTree();
 	std::unique_ptr<RPG::Map> loadMap(int index);
+	bool saveMap(RPG::Map& map, int index);
 
 	QString findFile(const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
 	QString findFile(const QString& dir, const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
@@ -56,6 +57,9 @@ public:
 
 	RPG::Database& database() const;
 	RPG::TreeMap& treeMap() const;
+
+	bool saveDatabase();
+	bool saveTreeMap();
 
 private:
 	FileFinder::ProjectType m_projectType;

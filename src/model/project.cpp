@@ -128,6 +128,25 @@ std::unique_ptr<RPG::Map> Project::loadMap(int index) {
 	}
 }
 
+bool Project::saveMap(RPG::Map& map, int index) {
+	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
+
+	QString file = QString("Map%1.%2")
+			.arg(QString::number(index), 4, QLatin1Char('0')).arg(ext);
+	QString mapFile = findFile(file);
+
+	if (mapFile.isNull()) {
+		// New Map file
+		mapFile = file;
+	}
+
+	if (projectType() == FileFinder::ProjectType::EasyRpg) {
+		return LMU_Reader::SaveXml(mapFile.toStdString(), map);
+	} else {
+		return LMU_Reader::Save(mapFile.toStdString(), map, encoding().toStdString());
+	}
+}
+
 QString Project::findFile(const QString& filename, FileFinder::FileType type) const {
 	return FileFinder::Find(projectDir().absolutePath(), filename, type);
 }
@@ -160,24 +179,48 @@ void Project::setGameTitle(const QString& gameTitle) {
 	m_gameTitle = gameTitle;
 }
 
-FileFinder::ProjectType Project::projectType() const
-{
+FileFinder::ProjectType Project::projectType() const {
 	return m_projectType;
 }
 
-void Project::setProjectType(FileFinder::ProjectType projectType)
-{
+void Project::setProjectType(FileFinder::ProjectType projectType) {
 	m_projectType = projectType;
 }
 
-RPG::Database& Project::database() const
-{
+RPG::Database& Project::database() const {
 	assert(m_db);
 	return *m_db;
 }
 
-RPG::TreeMap& Project::treeMap() const
-{
+RPG::TreeMap& Project::treeMap() const {
 	assert(m_treeMap);
 	return *m_treeMap;
+}
+
+bool Project::saveDatabase() {
+	if (projectType() == FileFinder::ProjectType::Legacy) {
+		if (!LDB_Reader::Save(findFile(RM_DB).toStdString(), encoding().toStdString())) {
+			return false;
+		}
+	} else {
+		if (!LDB_Reader::SaveXml(findFile(EASY_DB).toStdString())) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Project::saveTreeMap() {
+	if (projectType() == FileFinder::ProjectType::Legacy) {
+		if (!LMT_Reader::Save(findFile(RM_DB).toStdString(), encoding().toStdString())) {
+			return false;
+		}
+	} else {
+		if (!LMT_Reader::SaveXml(findFile(EASY_DB).toStdString())) {
+			return false;
+		}
+	}
+
+	return true;
 }

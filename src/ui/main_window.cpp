@@ -139,7 +139,7 @@ MainWindow::MainWindow(QWidget *parent) :
 			SLOT(onChipsetChange()));
 	update_actions();
 	mCore->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
-	if (mCore->rtpPath(ROOT).isEmpty())
+	if (mCore->rtpPath("").isEmpty())
 		on_actionRtp_Path_triggered();
 	mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
 										qApp->applicationDirPath()).toString());
@@ -297,7 +297,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 	setWindowTitle("EasyRPG Editor - " +  mCore->project()->gameTitle());
 	m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
 	LDB_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_DB).toStdString());
-	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_MT).toStdString());
+	mCore->project()->saveTreeMap();
 	QStringList entries;
 	for (const QString& dir : resource_dirs)
 		recurseAddDir(QDir(p_path+dir), entries);
@@ -556,6 +556,9 @@ void MainWindow::update_actions()
 
 void MainWindow::on_action_New_Project_triggered()
 {
+	// FIXME!
+	return;
+
 	NewProjectDialog dlg(this);
 	dlg.setDefDir(mCore->defDir());
 	dlg.exec();
@@ -597,11 +600,11 @@ void MainWindow::on_action_New_Project_triggered()
 		/* Map */
 		RPG::Map map = *LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu");
 		/* DataBase */
-		LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
+		//LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
 		/* Save */
-		LMU_Reader::SaveXml(mCore->project()->findFile(ROOT,"Map0001.emu").toStdString(), map);
-		LDB_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_DB).toStdString());
-		LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
+		//LMU_Reader::SaveXml(mCore->project()->findFile(ROOT,"Map0001.emu").toStdString(), map);
+		//LDB_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_DB).toStdString());
+		mCore->project()->saveTreeMap();
 		/*m_projSett = new QSettings(mCore->project()->findFile(ROOT, EASY_CFG),
 								   QSettings::IniFormat,
 								   this);*/
@@ -1069,12 +1072,12 @@ void MainWindow::on_treeMap_itemSelectionChanged()
 	ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
 	ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
 	mCore->project()->treeMap().active_node = ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0;
-	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_MT).toStdString());
+	mCore->project()->saveTreeMap();
 }
 
 void MainWindow::on_actionCopy_Map_triggered()
 {
-	m_copiedMap = mCore->project()->findFile(ROOT)+"Map%1.emu";
+	m_copiedMap = mCore->project()->findFile("Map%1.emu");
 	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
 								  4, QLatin1Char('0'));
 	ui->actionPaste_Map->setEnabled(true);
@@ -1138,8 +1141,8 @@ void MainWindow::on_actionNew_Map_triggered()
 	ui->treeMap->currentItem()->setExpanded(true);
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
-	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_MT).toStdString());
-	QString path = mCore->project()->findFile(ROOT, "Map%1.emu");
+	mCore->project()->saveTreeMap();
+	QString path = mCore->project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	LMU_Reader::SaveXml(path.toStdString(), *map);
 	on_treeMap_itemDoubleClicked(item, 0);
@@ -1213,8 +1216,8 @@ void MainWindow::on_actionPaste_Map_triggered()
 	ui->treeMap->currentItem()->setExpanded(true);
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
-	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_MT).toStdString());
-	QString path = mCore->project()->findFile(ROOT, "Map%1.emu");
+	mCore->project()->saveTreeMap();
+	QString path = mCore->project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	LMU_Reader::SaveXml(path.toStdString(), *map);
 	on_treeMap_itemDoubleClicked(item, 0);
@@ -1224,7 +1227,7 @@ void MainWindow::on_actionDelete_Map_triggered()
 {
 	removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
 
-	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_MT).toStdString());
+	mCore->project()->saveTreeMap();
 }
 
 void MainWindow::removeMap(const int id)
@@ -1233,7 +1236,7 @@ void MainWindow::removeMap(const int id)
 	for (int i = 0; i < m_treeItems[id]->childCount(); i++)
 		removeMap(m_treeItems[id]->child(i)->data(1, Qt::DisplayRole).toInt());
 
-	QString mapPath = mCore->project()->findFile(ROOT, "Map%1.emu");
+	QString mapPath = mCore->project()->findFile("Map%1.emu");
 	mapPath = mapPath.arg(QString::number(id), 4, QLatin1Char('0'));
 
 	if (QFileInfo(mapPath).exists())
