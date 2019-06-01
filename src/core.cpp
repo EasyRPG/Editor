@@ -24,6 +24,7 @@
 #include <QDebug>
 #include "data.h"
 #include "ui/map/map_scene.h"
+#include "common/image_loader.h"
 
 //define static member
 Core *Core::core = new Core();
@@ -114,9 +115,9 @@ void Core::LoadChipset(int n_chipsetid)
 	}
 
 	const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
-	QScopedPointer<QPixmap> o_chipset (new QPixmap(project()->findFile(CHIPSET, chipset_name, FileFinder::FileType::Image)));
+	QScopedPointer<QPixmap> o_chipset (ImageLoader::Load(project()->findFile(CHIPSET, chipset_name, FileFinder::FileType::Image)));
 	if (o_chipset->isNull())
-		o_chipset.reset(new QPixmap(rtpPath(CHIPSET, chipset_name)));
+		o_chipset.reset(ImageLoader::Load(rtpPath(CHIPSET, chipset_name)));
 	if (o_chipset->isNull())
 	{
 		qWarning()<<"Chipset"<<chipset_name<<"not found.";
@@ -557,7 +558,7 @@ void Core::LoadBackground(QString name)
 		m_background.reset(new QPixmap(640,480));
 		m_background->fill(Qt::magenta);
 	} else
-		m_background.reset(new QPixmap(project()->findFile(PANORAMA, name, FileFinder::FileType::Image)));
+		m_background.reset(ImageLoader::Load(project()->findFile(PANORAMA, name, FileFinder::FileType::Image)));
 }
 
 int Core::tileSize()
@@ -855,9 +856,9 @@ void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 
 		QString char_name = QString::fromStdString(evp.character_name);
 
-		QScopedPointer<QPixmap> charset (new QPixmap(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
+		QScopedPointer<QPixmap> charset (ImageLoader::Load(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
 		if (charset->isNull())
-			charset.reset(new QPixmap(rtpPath(CHARSET,char_name)));
+			charset.reset(ImageLoader::Load(rtpPath(CHARSET,char_name)));
 		if (charset->isNull())
 		{
 			qWarning()<<"CharSet"<<char_name<<"not found.";

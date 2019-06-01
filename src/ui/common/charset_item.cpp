@@ -17,6 +17,7 @@
 
 #include "charset_item.h"
 #include "core.h"
+#include "common/image_loader.h"
 
 CharSetItem::CharSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
@@ -31,9 +32,9 @@ CharSetItem::CharSetItem(const QPixmap pix) :
 
 void CharSetItem::setBasePix(const QString &n_pixName)
 {
-	m_pix.reset(new QPixmap(mCore->project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image)));
+	m_pix.reset(ImageLoader::Load(mCore->project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image)));
 	if (m_pix->isNull())
-		m_pix.reset(new QPixmap(mCore->rtpPath(CHARSET,n_pixName)));
+		m_pix.reset(ImageLoader::Load(mCore->rtpPath(CHARSET, n_pixName)));
 	if (m_pix->isNull())
 		m_pix.reset(mCore->createDummyPixmap(288,256));
 	updatePix();

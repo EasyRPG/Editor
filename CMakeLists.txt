@@ -11,6 +11,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_library(${PROJECT_NAME} STATIC
 	src/common/filefinder.cpp
 	src/common/filefinder.h
+	src/common/image_loader.cpp
+	src/common/image_loader.h
 	src/core.cpp
 	src/core.h
 	src/defines.h
@@ -211,11 +213,13 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(liblcf REQUIRED)
 
 # Libraries
 target_link_libraries(${PROJECT_NAME}
 	liblcf::liblcf
+	ZLIB::ZLIB
 	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia
 )
 
