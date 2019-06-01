@@ -158,14 +158,7 @@ MainWindow::~MainWindow()
 void MainWindow::LoadLastProject()
 {
 	QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
-	auto prj = Project::load(l_project);
-	if (prj && prj->loadDatabaseAndMapTree()) {
-		mCore->project() = prj;
-		updateLayerActions();
-		updateToolActions();
-		updateSearchUI();
-		searchdialog->enableCache(ui->actionEnable_Caching->isChecked());
-	}
+	LoadProject(l_project);
 }
 
 void MainWindow::LoadProject(QString foldername)

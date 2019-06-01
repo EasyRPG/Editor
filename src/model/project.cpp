@@ -63,7 +63,7 @@ std::shared_ptr<Project> Project::load(const QString& path) {
 	}
 
 	if (!cfg.isNull()) {
-		INIReader ini(FileFinder::CombinePath(path, cfg).toStdString());
+		INIReader ini(cfg.toStdString());
 		std::string title = ini.GetString("RPG_RT", GAMETITLE, "Untitled");
 
 		if (project_type == FileFinder::ProjectType::Legacy) {
@@ -74,7 +74,7 @@ std::shared_ptr<Project> Project::load(const QString& path) {
 			}
 
 			p->setEncoding(QString::fromStdString(enc));
-			title = ReaderUtil::Recode(title, ReaderUtil::DetectEncoding(title));
+			title = ReaderUtil::Recode(title, enc);
 		}
 
 		p->setGameTitle(QString::fromStdString(title));
@@ -93,14 +93,16 @@ bool Project::loadDatabaseAndMapTree() {
 			return false;
 		}
 		if (!LMT_Reader::Load(findFile(RM_MT).toStdString(), encoding().toStdString())) {
-			Data::Clear();			return false;
+			Data::Clear();
+			return false;
 		}
 	} else {
 		if (!LDB_Reader::LoadXml(findFile(EASY_DB).toStdString())) {
 			return false;
 		}
 		if (!LMT_Reader::LoadXml(findFile(EASY_MT).toStdString())) {
-			Data::Clear();			return false;
+			Data::Clear();
+			return false;
 		}
 	}
 
@@ -213,11 +215,11 @@ bool Project::saveDatabase() {
 
 bool Project::saveTreeMap() {
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!LMT_Reader::Save(findFile(RM_DB).toStdString(), encoding().toStdString())) {
+		if (!LMT_Reader::Save(findFile(RM_MT).toStdString(), encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!LMT_Reader::SaveXml(findFile(EASY_DB).toStdString())) {
+		if (!LMT_Reader::SaveXml(findFile(EASY_MT).toStdString())) {
 			return false;
 		}
 	}
