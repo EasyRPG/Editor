@@ -96,8 +96,6 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
 	timer->start(200);
 	UpdateModels();
-	if (ui->listCharacters->count())
-		ui->listCharacters->setCurrentRow(0);
 
 	if (database.system.ldb_id != 2003) {
 		for (int i = 0; i < ui->gridBattleSet->count(); ++i) {
@@ -105,6 +103,11 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 		}
 		ui->groupBoxClass->hide();
 	}
+}
+
+void ActorWidget::setData(RPG::Actor* actor)
+{
+	on_currentActorChanged(actor);
 }
 
 ActorWidget::~ActorWidget()
@@ -115,7 +118,7 @@ ActorWidget::~ActorWidget()
 void ActorWidget::UpdateModels()
 {
 	/* Clear */
-	ui->listCharacters->clear();
+	//ui->listCharacters->clear();
 	ui->comboBattleset->clear();
 	ui->comboProfession->clear();
 	ui->comboUnarmedAnimation->clear();
@@ -135,10 +138,10 @@ void ActorWidget::UpdateModels()
 		ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.states.size(); i++)
 		ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
-	for (unsigned int i = 0; i < m_data.actors.size(); i++)
+	/*for (unsigned int i = 0; i < m_data.actors.size(); i++)
 		ui->listCharacters->addItem(QString("%1: %2")
 							   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-							   .arg(m_data.actors[i].name.c_str()));
+							   .arg(m_data.actors[i].name.c_str()));*/
 
 	on_currentActorChanged(m_currentActor);
 }
@@ -149,7 +152,7 @@ void ActorWidget::on_lineName_textChanged(const QString &arg1)
 	if (!m_currentActor || m_currentActor->name == arg1.toStdString())
 		return;
 	m_currentActor->name = arg1.toStdString();
-	ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
+	//ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
 }
 
 void ActorWidget::on_lineTitle_textChanged(const QString &arg1)
@@ -540,19 +543,6 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	ui->pushEditCustom->setEnabled(true);
 
 	m_currentActor = actor;
-}
-
-void ActorWidget::on_listCharacters_currentRowChanged(int currentRow)
-{
-	if (currentRow < 0 || currentRow >= static_cast<int>(m_data.actors.size()))
-	{
-		on_currentActorChanged(nullptr);
-		emit currentActorChanged(nullptr);
-		return; //invalid
-	}
-
-	on_currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
-	emit currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
 }
 
 void ActorWidget::on_checkTranslucent_toggled(bool checked)

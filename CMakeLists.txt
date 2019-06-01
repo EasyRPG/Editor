@@ -116,6 +116,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/database_dialog.cpp
 	src/ui/database/database_dialog.h
 	src/ui/database/database_dialog.ui
+	src/ui/database/database_split_widget.cpp
+	src/ui/database/database_split_widget.h
+	src/ui/database/database_split_widget.ui
 	src/ui/database/enemy_group_widget.cpp
 	src/ui/database/enemy_group_widget.h
 	src/ui/database/enemy_group_widget.ui

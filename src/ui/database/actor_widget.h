@@ -38,6 +38,7 @@ class ActorWidget : public QWidget
 
 public:
 	explicit ActorWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	void setData(RPG::Actor* actor);
 	~ActorWidget();
 
 public slots:

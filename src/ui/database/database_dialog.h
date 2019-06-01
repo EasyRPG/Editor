@@ -39,6 +39,8 @@
 #include "system2_widget.h"
 #include "common_event_widget.h"
 #include "core.h"
+#include "database_split_widget.h"
+#include "ui/common/rpg_model.h"
 
 namespace Ui {
 class DatabaseDialog;
@@ -73,7 +75,7 @@ private slots:
 private:
 	Ui::DatabaseDialog *ui;
 
-	ActorWidget *Old_PageActors;
+	DatabaseSplitWidget<RPG::Actor, ActorWidget> *pageActors;
 	ClassWidget *Old_PageClasses;
 
 	SkillWidget *Old_PageSkills;

@@ -31,7 +31,7 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->setupUi(this);
 	m_currentActor = nullptr;
 	on_currentActorChanged(nullptr);
-	Old_PageActors = new ActorWidget(m_data, this);
+	pageActors = new DatabaseSplitWidget<RPG::Actor, ActorWidget>(m_data, m_data.actors, this);
 	Old_PageClasses = new ClassWidget(m_data, this);
 	Old_PageSkills= new SkillWidget(m_data, this);
 	Old_PageItems=new ItemWidget(m_data, this);
@@ -48,7 +48,7 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	Old_PageSystem= new SystemWidget(m_data, this);
 	Old_PageSystem2= new System2Widget(m_data, this);
 	Old_PageCommonevents= new CommonEventWidget(m_data, this);
-	ui->tabOld_Pages->insertTab(0, Old_PageActors, tr("Characters"));
+	ui->tabOld_Pages->insertTab(0, pageActors, tr("Characters"));
 	ui->tabOld_Pages->insertTab(1, Old_PageClasses, tr("Professions"));
 	ui->tabOld_Pages->insertTab(2, Old_PageSkills, tr("Skills"));
 	ui->tabOld_Pages->insertTab(3, Old_PageItems, tr("Items"));
@@ -66,7 +66,7 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->tabOld_Pages->insertTab(15, Old_PageSystem2, tr("System"));
 	ui->tabOld_Pages->insertTab(16, Old_PageCommonevents, tr("Common events"));
 
-	ui->tabOld_Pages->setCurrentWidget(Old_PageActors);
+	ui->tabOld_Pages->setCurrentWidget(pageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
 	/* Fill Characters list */
 	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
