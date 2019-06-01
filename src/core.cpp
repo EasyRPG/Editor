@@ -114,7 +114,7 @@ void Core::LoadChipset(int n_chipsetid)
 	}
 
 	const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
-	QScopedPointer<QPixmap> o_chipset (new QPixmap(filePath(CHIPSET, chipset_name)));
+	QScopedPointer<QPixmap> o_chipset (new QPixmap(project()->findFile(CHIPSET, chipset_name)));
 	if (o_chipset->isNull())
 		o_chipset.reset(new QPixmap(rtpPath(CHIPSET, chipset_name)));
 	if (o_chipset->isNull())
@@ -557,7 +557,7 @@ void Core::LoadBackground(QString name)
 		m_background.reset(new QPixmap(640,480));
 		m_background->fill(Qt::magenta);
 	} else
-		m_background.reset(new QPixmap(filePath(PANORAMA, name)));
+		m_background.reset(new QPixmap(project()->findFile(PANORAMA, name)));
 }
 
 int Core::tileSize()
@@ -568,11 +568,6 @@ int Core::tileSize()
 void Core::setTileSize(int tile_size)
 {
 	m_tileSize = tile_size;
-}
-
-QString Core::filePath(QString folder, QString filename)
-{
-	return m_defDir+m_projectFolder+"/"+folder+filename;
 }
 
 QString Core::rtpPath(const QString &folder, const QString &filename) const
@@ -599,16 +594,6 @@ void Core::setTool(const Tool &current_tool)
 {
 	m_tool = current_tool;
 	emit toolChanged();
-}
-
-QString Core::gameTitle()
-{
-	return m_gameTitle;
-}
-
-void Core::setGameTitle(const QString &currentGameTitle)
-{
-	m_gameTitle = currentGameTitle;
 }
 
 bool Core::isWater(int terrain_id)
@@ -654,15 +639,6 @@ void Core::setDefDir(const QString &defDir)
 {
 	m_defDir = defDir + (defDir.endsWith('/') ? "" : "/");
 }
-QString Core::projectFolder() const
-{
-	return m_projectFolder;
-}
-
-void Core::setProjectFolder(const QString &projectFolder)
-{
-	m_projectFolder = projectFolder;
-}
 
 void Core::runGame()
 {
@@ -684,6 +660,14 @@ void Core::runBattleTest(int troop_id)
 		m_runGameDialog = new RunGameDialog();
 	//Set parametters
 	m_runGameDialog->runBattle(troop_id);
+}
+
+std::shared_ptr<Project>& Core::project() {
+	return m_project;
+}
+
+const std::shared_ptr<Project>& Core::project() const {
+	return m_project;
 }
 
 void Core::beginPainting(QPixmap &dest)
@@ -871,7 +855,7 @@ void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 
 		QString char_name = QString::fromStdString(evp.character_name);
 
-		QScopedPointer<QPixmap> charset (new QPixmap(filePath(CHARSET,char_name)));
+		QScopedPointer<QPixmap> charset (new QPixmap(project()->findFile(CHARSET,char_name)));
 		if (charset->isNull())
 			charset.reset(new QPixmap(rtpPath(CHARSET,char_name)));
 		if (charset->isNull())

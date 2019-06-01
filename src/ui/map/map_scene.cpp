@@ -309,11 +309,11 @@ void MapScene::Save()
 			Data::treemap.maps[i] = n_mapInfo; //Apply info changes
 			break;
 		}
-	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
+	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
 	QString file = QString("Map%1.emu")
 			.arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
 	LMU_Reader::PrepareSave(*m_map);
-	LMU_Reader::SaveXml(mCore->filePath(ROOT, file).toStdString(), *m_map);
+	LMU_Reader::SaveXml(mCore->project()->findFile(ROOT, file).toStdString(), *m_map);
 	m_undoStack->clear();
 	emit mapSaved();
 }
@@ -326,9 +326,8 @@ void MapScene::Load()
 			n_mapInfo = Data::treemap.maps[i]; //Revert info changes
 			break;
 		}
-	QString file = QString("Map%1.emu")
-			.arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
-	m_map = LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString());
+
+	m_map = mCore->project()->loadMap(n_mapInfo.ID);
 	m_lower =  m_map->lower_layer;
 	m_upper =  m_map->upper_layer;
 	if(m_map->parallax_flag)
@@ -421,7 +420,7 @@ void MapScene::on_actionSetStartPosition()
 	Data::treemap.start.party_map_id = this->id();
 	Data::treemap.start.party_x = lst_x;
 	Data::treemap.start.party_y = lst_y;
-	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
+	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
 }
 
 void MapScene::on_user_interaction()
@@ -438,7 +437,7 @@ void MapScene::on_view_V_Scroll()
 		n_mapInfo.scrollbar_y = m_view->verticalScrollBar()->value() / static_cast<int>(m_scale);
 	}
 	m_userInteraction = false;
-	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
+	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
 }
 
 void MapScene::on_view_H_Scroll()
@@ -450,7 +449,7 @@ void MapScene::on_view_H_Scroll()
 		n_mapInfo.scrollbar_x = m_view->horizontalScrollBar()->value() / static_cast<int>(m_scale);
 	}
 	m_userInteraction = false;
-	LMT_Reader::SaveXml(mCore->filePath(ROOT,EASY_MT).toStdString());
+	LMT_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_MT).toStdString());
 }
 
 void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)

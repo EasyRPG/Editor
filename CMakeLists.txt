@@ -2,13 +2,23 @@ cmake_minimum_required(VERSION 3.7)
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
+# C++17 is required
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Source Files
-add_library(EasyRPG_Editor STATIC
+add_library(${PROJECT_NAME} STATIC
+	src/common/filefinder.cpp
+	src/common/filefinder.h
 	src/core.cpp
 	src/core.h
+	src/defines.h
 	src/gamecharacter.cpp
 	src/gamecharacter.h
 	src/main.cpp
+	src/model/project.cpp
+	src/model/project.h
 	src/stringizer.cpp
 	src/stringizer.h
 	src/ui/commands/all_commands.h
@@ -176,13 +186,6 @@ add_library(EasyRPG_Editor STATIC
 	src/ui/other/splash_dialog.ui
 	src/ui/other/volumebutton.cpp
 	src/ui/other/volumebutton.h
-)
-
-# C++17 is required
-set_target_properties(${PROJECT_NAME} PROPERTIES
-	CXX_STANDARD 17
-	CXX_STANDARD_REQUIRED ON
-	CXX_EXTENSIONS OFF
 )
 
 # Include directories

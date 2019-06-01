@@ -151,7 +151,6 @@ private:
 	ResourceManagerDialog *dlg_resource;
 	DatabaseDialog *dlg_db;
 	QSettings m_settings;
-	QSettings *m_projSett;
 	PaletteScene *m_paletteScene;
 	QMap<int,QGraphicsView*> m_views;
 	QMap<int,QTreeWidgetItem*> m_treeItems;

@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QStyle>
 #include "core.h"
+#include "model/project.h"
 
 OpenProjectDialog::OpenProjectDialog(QWidget *parent) :
 	QDialog(parent),
@@ -39,65 +40,57 @@ OpenProjectDialog::~OpenProjectDialog()
 	delete ui;
 }
 
-void OpenProjectDialog::setDefDir(QString n_defDir)
+void OpenProjectDialog::setDefaultDir(const QString& n_defDir)
 {
-	if (!n_defDir.endsWith('/'))
-		n_defDir.append("/");
-	m_defDir = n_defDir;
+	m_defaultDir = n_defDir;
 	ui->lineProjectPath->setText(n_defDir);
-	RefreshProjectList();
+	refreshProjectList();
 }
 
-QString OpenProjectDialog::getDefDir()
+QString OpenProjectDialog::getDefaultDir()
 {
-	return m_defDir;
+	return m_defaultDir;
 }
 
-QString OpenProjectDialog::getProjectFolder()
-{
-	return (ui->tableProjects->item(ui->tableProjects->currentRow(),0)->text());
+std::shared_ptr<Project> OpenProjectDialog::getProject() {
+	if (ui->tableProjects->currentRow() >= 0) {
+		return prjList[static_cast<size_t>(ui->tableProjects->currentRow())];
+	}
+
+	return nullptr;
 }
 
-void OpenProjectDialog::RefreshProjectList()
+void OpenProjectDialog::refreshProjectList()
 {
 	ui->tableProjects->clearContents();
-	QDir dir(m_defDir);
-	if (!dir.exists())
-		return;
-	Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden	| QDir::AllDirs | QDir::Files, QDir::DirsFirst))
-	{
-		if (info.isDir())
-		{
-			QFileInfo f_project(info.absoluteFilePath()+"/"+EASY_DB);
-			if (f_project.exists())
-			{
-				ui->tableProjects->insertRow(ui->tableProjects->rowCount());
-				QTableWidgetItem *item = new QTableWidgetItem(info.baseName());
-				item->setIcon(style()->standardIcon(QStyle::SP_DirIcon));
-				item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-				ui->tableProjects->setItem(ui->tableProjects->rowCount()-1,0,item);
-				QSettings settings(m_defDir+info.baseName()+"/"+EASY_CFG,
-									QSettings::IniFormat,
-									this);
-				item = new QTableWidgetItem(settings.value(GAMETITLE, "Untitled").toString());
-				item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-				ui->tableProjects->setItem(ui->tableProjects->rowCount()-1,1,item);
-			}
-		}
+
+	prjList = Project::enumerate(m_defaultDir);
+
+	for (const auto& prj: prjList) {
+		ui->tableProjects->insertRow(ui->tableProjects->rowCount());
+		QTableWidgetItem* item = new QTableWidgetItem(prj->projectDir().dirName());
+		item->setIcon(style()->standardIcon(QStyle::SP_DirIcon));
+		item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+		ui->tableProjects->setItem(ui->tableProjects->rowCount() - 1, 0, item);
+
+		item = new QTableWidgetItem(prj->gameTitle());
+		item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+		ui->tableProjects->setItem(ui->tableProjects->rowCount() - 1, 1, item);
 	}
+
 	if (ui->tableProjects->rowCount() > 0) {
-		ui->tableProjects->setCurrentItem(ui->tableProjects->item(0,1));
+		ui->tableProjects->setCurrentItem(ui->tableProjects->item(0, 1));
 	}
 }
 
 void OpenProjectDialog::on_toolProjectPath_clicked()
 {
-	QString path = QFileDialog::getExistingDirectory(this, "Select destination forlder", m_defDir);
+	QString path = QFileDialog::getExistingDirectory(this, "Select destination folder", m_defaultDir);
 	if (path == QString())
 		return;
 	ui->lineProjectPath->setText(path+"/");
-	m_defDir = ui->lineProjectPath->text();
-	RefreshProjectList();
+	m_defaultDir = ui->lineProjectPath->text();
+	refreshProjectList();
 }
 
 bool OpenProjectDialog::removeDir(const QString & dirName)
@@ -129,8 +122,8 @@ bool OpenProjectDialog::removeDir(const QString & dirName)
 
 void OpenProjectDialog::on_tableProjects_cellDoubleClicked(int row, int column)
 {
-	Q_UNUSED(row);
-	Q_UNUSED(column);
+	Q_UNUSED(row)
+	Q_UNUSED(column)
 	emit ui->buttonBox->accepted();
 }
 

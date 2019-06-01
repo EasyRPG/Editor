@@ -27,7 +27,7 @@ faceset_picker_dialog::faceset_picker_dialog(QWidget *parent, bool tile_pick) :
 {
 	ui->setupUi(this);
 
-	QDir dir(mCore->filePath(FACESET));
+	QDir dir(mCore->project()->findFile(FACESET));
 	QStringList entry = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
 
 	foreach (QString file, entry)

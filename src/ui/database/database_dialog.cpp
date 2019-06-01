@@ -162,7 +162,7 @@ void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 		case QDialogButtonBox::Ok:
 			LDB_Reader::PrepareSave(m_data);
 			Data::data = m_data;
-			LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
+			LDB_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_DB).toStdString());
 		break;
 		default:
 			// shouldn't happen

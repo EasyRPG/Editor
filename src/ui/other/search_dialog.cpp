@@ -273,7 +273,7 @@ std::shared_ptr<RPG::Map> SearchDialog::loadMap(int mapID)
 	if (!(useCache && map_cache[static_cast<size_t>(mapID)]))
 	{
 		const QString file = QString("Map%1.emu").arg(QString::number(mapID), 4, QLatin1Char('0'));
-		const std::shared_ptr<RPG::Map> res_map{LMU_Reader::LoadXml(mCore->filePath(ROOT, file).toStdString())};
+		const std::shared_ptr<RPG::Map> res_map{LMU_Reader::LoadXml(mCore->project()->findFile(ROOT, file).toStdString())};
 
 		if (useCache)
 			map_cache[static_cast<size_t>(mapID)] = res_map;

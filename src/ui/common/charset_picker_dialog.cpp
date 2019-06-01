@@ -46,7 +46,7 @@ CharSetPickerDialog::CharSetPickerDialog(QWidget *parent, bool tile_pick) :
 		ui->graphicsTile->setScene(m_tileScene);
 	}
 
-	QDir dir(mCore->filePath(CHARSET));
+	QDir dir(mCore->project()->findFile(CHARSET));
 	QStringList entry = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
 
 	foreach (QString file, entry)

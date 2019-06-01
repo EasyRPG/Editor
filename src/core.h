@@ -17,75 +17,11 @@
 
 #pragma once
 
+#include "defines.h"
+
+// FIXME. this is ugly
 #define mCore Core::getCore()
 
-/****************************
- *	   Binding Constants	*
- * **************************/
-#define UP 1
-#define DOWN 2
-#define LEFT 4
-#define RIGHT 8
-#define UPLEFT 16
-#define UPRIGHT	 32
-#define DOWNLEFT  64
-#define DOWNRIGHT  128
-#define SAMPLE 256
-/****************************/
-#define NTILE 0x7FFD
-
-/****************************
- *		SETTINGS KEYS		*
- * **************************/
-#define CURRENT_PROJECT_KEY "current_project"
-#define DEFAULT_DIR_KEY "default_dir"
-#define RTP_KEY "rtp_path"
-
-/****************************
- *	   PROJECT SETTINGS		*
- * **************************/
-#define LAYER "Layer"
-#define MAPS "ActiveMaps"
-#define SCALES "ActiveMapScales"
-#define TILESIZE "TileSize"
-#define GAMETITLE "GameTitle"
-
-/****************************
- *		FOLDER CONSTANTS	*
- * **************************/
-#define ROOT ""
-#define BACKDROP "Backdrop/"
-#define BATTLE "Battle/"
-#define BATTLE2 "Battle2/"
-#define BATTLECHARSET "BattleCharSet/"
-#define BATTLEWEAPON "BattleWeapon/"
-#define CHARSET "CharSet/"
-#define CHIPSET "ChipSet/"
-#define FACESET "FaceSet/"
-#define FRAME "Frame/"
-#define GAMEOVER "GameOver/"
-#define MONSTER "Monster/"
-#define MOVIE "Movie/"
-#define MUSIC "Music/"
-#define PANORAMA "Panorama/"
-#define PICTURE "Picture/"
-#define SOUND "Sound/"
-#define SYSTEM "System/"
-#define SYSTEM2 "System2/"
-#define TITLE "Title/"
-
-/***************************
- *		  FILE NAMES	   *
- * *************************/
-#define RM_DB "RPG_RT.ldb"
-#define RM_MT "RPG_RT.lmt"
-#define RM_INI "RPG_RT.ini"
-//		RM_LMU "MapXXXX.lmu"
-/***************************/
-#define EASY_DB "EASY_RT.edb"
-#define EASY_MT "EASY_RT.emt"
-#define EASY_CFG "EASY_RT.cfg"
-//		EASY_EMU "MapXXXX.emu"
 #ifdef Q_OS_WIN
 #define PLAYER "Player.exe"
 #else
@@ -98,6 +34,7 @@
 #include "rpg_map.h"
 #include "rpg_chipset.h"
 #include "ui/other/run_game_dialog.h"
+#include "model/project.h"
 
 class Core : public QObject
 {
@@ -131,7 +68,6 @@ public:
 	int tileSize();
 	void setTileSize(int tileSize);
 
-	QString filePath(QString folder, QString filename = QString());
 	QString rtpPath(const QString &folder, const QString &filename = QString()) const;
 
 	Layer layer();
@@ -177,12 +113,12 @@ public:
 	RPG::Event *currentMapEvent(int eventID);
 	void setCurrentMapEvents(QMap<int, RPG::Event *> *events);
 
-	QString projectFolder() const;
-	void setProjectFolder(const QString &projectFolder);
-
 	void runGame();
 	void runGameHere(int map_id, int x, int y);
 	void runBattleTest(int troop_id);
+
+	std::shared_ptr<Project>& project();
+	const std::shared_ptr<Project>& project() const;
 
 signals:
 	void toolChanged();
@@ -196,9 +132,7 @@ private:
 	RPG::Chipset m_chipset;
 	int m_tileSize;
 	QPainter m_painter;
-	QString m_gameTitle;
 	QString m_defDir;
-	QString m_projectFolder;
 	QString m_rtpDir;
 	QColor m_keycolor;
 	Layer m_layer;
@@ -219,5 +153,6 @@ private:
 	static Core *core;
 	QMap<int, RPG::Event*> *m_currentMapEvents;
 	RunGameDialog *m_runGameDialog;
+	std::shared_ptr<Project> m_project;
 };
 
