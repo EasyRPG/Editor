@@ -20,6 +20,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/gamecharacter.cpp
 	src/gamecharacter.h
 	src/main.cpp
+	src/model/list_model.h
 	src/model/project.cpp
 	src/model/project.h
 	src/stringizer.cpp
