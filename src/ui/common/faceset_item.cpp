@@ -17,6 +17,7 @@
 
 #include "faceset_item.h"
 #include "core.h"
+#include "src/common/image_loader.h"
 
 FaceSetItem::FaceSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
@@ -26,7 +27,7 @@ FaceSetItem::FaceSetItem(const QPixmap pix) :
 
 void FaceSetItem::setBasePix(const QString &n_pixName)
 {
-	m_pix = QPixmap(core().project()->findFile(FACESET, n_pixName, FileFinder::FileType::Image));
+	m_pix = ImageLoader::Load(core().project()->findFile(FACESET, n_pixName, FileFinder::FileType::Image));
 	if (!m_pix)
 		m_pix = QPixmap(core().rtpPath(FACESET,n_pixName));
 	updatePix();
