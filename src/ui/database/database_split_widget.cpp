@@ -17,37 +17,7 @@
 
 #include "database_split_widget.h"
 #include "ui_database_split_widget.h"
-
-template <class DATA>
-class ListModel : public QAbstractListModel
-{
-public:
-	ListModel(std::vector<DATA>& data, QObject *parent = nullptr) :
-		QAbstractListModel(parent), m_data(data) {}
-	virtual ~ListModel() {}
-	virtual int rowCount(const QModelIndex& = QModelIndex()) const override { return m_data.size(); }
-	virtual QVariant data(const QModelIndex &index, int role) const override;
-
-private:
-	std::vector<DATA>& m_data;
-};
-
-template <class DATA>
-QVariant ListModel<DATA>::data(const QModelIndex &index, int role) const
-{
-	if (!index.isValid())
-		return QVariant();
-	else if (role == Qt::DisplayRole || role == Qt::EditRole)
-	{
-		auto data = m_data[index.row()];
-		return QString("%1: %2").arg(data.ID, 4, 10, QChar('0')).arg(QString::fromStdString(data.name));
-	}
-	else if (role == Qt::UserRole)
-		if (index.row() > 0)
-			return m_data[index.row()].ID;
-
-	return QVariant();
-}
+#include "model/list_model.h"
 
 DatabaseSplitWidgetBase::DatabaseSplitWidgetBase(QWidget* parent) :
 	QWidget(parent),

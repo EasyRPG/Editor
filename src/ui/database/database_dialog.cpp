@@ -42,6 +42,7 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	pageStates = new DatabaseSplitWidget<RPG::State, StateWidget>(m_data, m_data.states, this);
 	pageBattleAnimations = new DatabaseSplitWidget<RPG::Animation, BattleAnimationWidget>(m_data, m_data.animations, this);
 	pageBattleAnimations2 = new DatabaseSplitWidget<RPG::BattlerAnimation, BattleAnimation2Widget>(m_data, m_data.battleranimations, this);
+	pageBattleScreen = new BattleScreenWidget(core().project()->database(), this);
 	pageTerrain = new DatabaseSplitWidget<RPG::Terrain, TerrainWidget>(m_data, m_data.terrains, this);
 	pageChipset = new DatabaseSplitWidget<RPG::Chipset, ChipSetWidget>(m_data, m_data.chipsets, this);
 	pageCommonevents = new DatabaseSplitWidget<RPG::CommonEvent, CommonEventWidget>(m_data, m_data.commonevents, this);
