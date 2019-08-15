@@ -1,5 +1,21 @@
-#ifndef CORE_H
-#define CORE_H
+/*
+ * This file is part of EasyRPG Editor.
+ *
+ * EasyRPG Editor is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * EasyRPG Editor is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
 
 #define mCore Core::getCore()
 
@@ -81,7 +97,7 @@
 #include <QListWidget>
 #include "rpg_map.h"
 #include "rpg_chipset.h"
-#include "dialogrungame.h"
+#include "ui/other/run_game_dialog.h"
 
 class Core : public QObject
 {
@@ -202,7 +218,6 @@ private:
 	int m_upperSelH;
 	static Core *core;
 	QMap<int, RPG::Event*> *m_currentMapEvents;
-	DialogRunGame *m_runGameDialog;
+	RunGameDialog *m_runGameDialog;
 };
 
-#endif // CORE_H
