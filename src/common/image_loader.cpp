@@ -20,11 +20,11 @@
 #include <QFile>
 #include <zlib.h>
 
-QPixmap* ImageLoader::Load(const QString& path) {
+QPixmap ImageLoader::Load(const QString& path) {
 	QFile file(path);
 
 	if (!file.open(QFile::ReadOnly)) {
-		return nullptr;
+		return QPixmap();
 	}
 
 	char header[4];
@@ -34,9 +34,9 @@ QPixmap* ImageLoader::Load(const QString& path) {
 		file.close();
 		// Not a XYZ file, check if BMP and PNG as these are the formats suppoted by Player
 		if (!memcmp(header, "BM", 2) || !memcmp(header, "PNG", 3)) {
-			return new QPixmap(path);
+			return QPixmap(path);
 		}
-		return nullptr;
+		return QPixmap();
 	}
 
 	// XYZ file processing
@@ -44,7 +44,7 @@ QPixmap* ImageLoader::Load(const QString& path) {
 	auto size = file.size();
 
 	if (size <= 8 || size > 1024*1024*1024) {
-		return nullptr;
+		return QPixmap();
 	}
 
 	std::vector<char> data;
@@ -65,7 +65,7 @@ QPixmap* ImageLoader::Load(const QString& path) {
 	int status = uncompress(&dst_buffer.front(), &dst_size, src_buffer, src_size);
 
 	if (status != Z_OK) {
-		return nullptr;
+		return QPixmap();
 	}
 	const uint8_t (*palette)[3] = (const uint8_t(*)[3]) &dst_buffer.front();
 
@@ -87,8 +87,8 @@ QPixmap* ImageLoader::Load(const QString& path) {
 
 	QImage img((uchar*)pixels.data(), w, h, QImage::Format_ARGB32);
 
-	QPixmap* pixmap = new QPixmap(w, h);
-	pixmap->convertFromImage(img);
+	QPixmap pixmap(w, h);
+	pixmap.convertFromImage(img);
 
 	return pixmap;
 }

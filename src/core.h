@@ -87,7 +87,7 @@ public:
 	int translate(short tile_id);
 
 	inline bool chipsetIsNull() {return m_tileCache[0].isNull();}
-	QPixmap* createDummyPixmap(int width, int height);
+	QPixmap createDummyPixmap(int width, int height);
 
 	bool isWater(int terrain_id);
 	bool isABWater(int terrain_id);
@@ -134,7 +134,7 @@ private:
 	QColor m_keycolor;
 	Layer m_layer;
 	Tool m_tool;
-	QScopedPointer<QPixmap> m_background;
+	QPixmap m_background;
 	QMap<int, QPixmap> m_tileCache;
 	QMap<int, QPixmap> m_eventCache;
 	QMap<int, short> m_dictionary;

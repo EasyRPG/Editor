@@ -27,7 +27,7 @@
 #include "common/image_loader.h"
 
 //define static member
-Core *Core::core_instance = new Core();
+Core *Core::core_instance = nullptr;
 
 Core& core() {
 	return *Core::getCore();
@@ -99,6 +99,9 @@ Core::Core()
 
 Core *Core::getCore()
 {
+	if (!core_instance) {
+		core_instance = new Core();
+	}
 	return core_instance;
 }
 
@@ -119,25 +122,25 @@ void Core::LoadChipset(int n_chipsetid)
 	}
 
 	const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
-	QScopedPointer<QPixmap> o_chipset (ImageLoader::Load(project()->findFile(CHIPSET, chipset_name, FileFinder::FileType::Image)));
-	if (o_chipset->isNull())
-		o_chipset.reset(ImageLoader::Load(rtpPath(CHIPSET, chipset_name)));
-	if (o_chipset->isNull())
+	QPixmap o_chipset = ImageLoader::Load(project()->findFile(CHIPSET, chipset_name, FileFinder::FileType::Image));
+	if (!o_chipset)
+		o_chipset = ImageLoader::Load(rtpPath(CHIPSET, chipset_name));
+	if (!o_chipset)
 	{
 		qWarning()<<"Chipset"<<chipset_name<<"not found.";
-		o_chipset.reset(createDummyPixmap(480,256));
+		o_chipset = createDummyPixmap(480,256);
 	}
 	else // Skip color mask when using the dummy pixmap
 	{
-		if (o_chipset->toImage().colorCount() > 0)
-			m_keycolor = QColor(o_chipset->toImage().color(0));
+		if (o_chipset.toImage().colorCount() > 0)
+			m_keycolor = QColor(o_chipset.toImage().color(0));
 		else
 			// Qt might remove the color table. Use the color of the first upper tile instead
-			m_keycolor = QColor(o_chipset->toImage().pixel(288,128));
-		o_chipset->setMask(o_chipset->createMaskFromColor(m_keycolor));
+			m_keycolor = QColor(o_chipset.toImage().pixel(288,128));
+		o_chipset.setMask(o_chipset.createMaskFromColor(m_keycolor));
 	}
 
-	int r_tileSize = o_chipset->width()/30;
+	int r_tileSize = o_chipset.width()/30;
 	int r_tileHalf = r_tileSize/2;
 
 	/* BindWaterTiles */
@@ -221,12 +224,12 @@ void Core::LoadChipset(int n_chipsetid)
 		QPixmap p_tile(tileSize(), tileSize());
 		QPainter p(&p_tile);
 		if (isABWater (terrain_id))
-			p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 4*r_tileSize,r_tileSize,r_tileSize));
+			p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(0, 4*r_tileSize,r_tileSize,r_tileSize));
 		else
-			p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(0, 7*r_tileSize,r_tileSize,r_tileSize));
+			p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(0, 7*r_tileSize,r_tileSize,r_tileSize));
 		// Draw UpperLeft corner
 		int dest_x = 0, dest_y = 0;
-#define blit(x,y) p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset->copy(x, y,r_tileHalf,r_tileHalf))
+#define blit(x,y) p.drawPixmap(dest_x,dest_y,tileSize()/2,tileSize()/2,o_chipset.copy(x, y,r_tileHalf,r_tileHalf))
 		if (u+l == 5)
 			blit(border_xoffset, 0);
 		else if (u)
@@ -300,11 +303,11 @@ void Core::LoadChipset(int n_chipsetid)
 	/* Register AnimationTiles */
 	QPixmap a_tile(tileSize(), tileSize());
 	QPainter a(&a_tile);
-	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
+	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
 	m_tileCache[translate(3)] = a_tile;
-	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
+	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
 	m_tileCache[translate(4)] = a_tile;
-	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
+	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
 	m_tileCache[translate(5)] = a_tile;
 
 	/* BindGroundTiles */
@@ -322,7 +325,7 @@ void Core::LoadChipset(int n_chipsetid)
 	{
 		int orig_x = (2 * tileset_col + block_col) *3*r_tileSize;
 		int orig_y = block_row *4*r_tileSize;
-		QPixmap p_block = o_chipset->copy(orig_x, orig_y, 3*r_tileSize, 4*r_tileSize);
+		QPixmap p_block = o_chipset.copy(orig_x, orig_y, 3*r_tileSize, 4*r_tileSize);
 
 		/*
 		 * Generate binded cache and store them on hash table
@@ -538,7 +541,7 @@ void Core::LoadChipset(int n_chipsetid)
 			QPainter ef(&ef_tile);
 			int orig_x = tileset_col*6*r_tileSize+col*r_tileSize;
 			int orig_y = tile_row*r_tileSize;
-			ef.drawPixmap(0,0,tileSize(),tileSize(),o_chipset->copy(orig_x,orig_y,r_tileSize,r_tileSize));
+			ef.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(orig_x,orig_y,r_tileSize,r_tileSize));
 			ef.end();
 			ef_tile.setMask(a_tile.createMaskFromColor(m_keycolor));
 			m_tileCache[translate(terrain_id)] = ef_tile;
@@ -559,10 +562,10 @@ void Core::LoadChipset(int n_chipsetid)
 void Core::LoadBackground(QString name)
 {
 	if (name.isEmpty()) {
-		m_background.reset(new QPixmap(640,480));
-		m_background->fill(Qt::magenta);
+		m_background = QPixmap(640,480);
+		m_background.fill(Qt::magenta);
 	} else
-		m_background.reset(ImageLoader::Load(project()->findFile(PANORAMA, name, FileFinder::FileType::Image)));
+		m_background = ImageLoader::Load(project()->findFile(PANORAMA, name, FileFinder::FileType::Image));
 }
 
 int Core::tileSize()
@@ -679,14 +682,14 @@ void Core::beginPainting(QPixmap &dest)
 {
 	m_painter.begin(&dest);
 	if (m_painter.isActive())
-		m_painter.setBackground(QBrush(*m_background));
+		m_painter.setBackground(QBrush(m_background));
 	m_painter.setPen(Qt::yellow);
 }
 
 void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 {
 	if (tile_id < 10000)
-		m_painter.fillRect(dest_rect, QBrush(*m_background));
+		m_painter.fillRect(dest_rect, QBrush(m_background));
 	m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
 }
 
@@ -860,26 +863,26 @@ void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
 
 		QString char_name = QString::fromStdString(evp.character_name);
 
-		QScopedPointer<QPixmap> charset (ImageLoader::Load(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
-		if (charset->isNull())
-			charset.reset(ImageLoader::Load(rtpPath(CHARSET,char_name)));
-		if (charset->isNull())
+		QPixmap charset(ImageLoader::Load(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
+		if (!charset)
+			charset = ImageLoader::Load(rtpPath(CHARSET,char_name));
+		if (!charset)
 		{
 			qWarning()<<"CharSet"<<char_name<<"not found.";
-			charset.reset(createDummyPixmap(288,256));
+			charset = createDummyPixmap(288,256);
 		}
 
 		int char_index = evp.character_index;
 		int src_x = (char_index%4)*72 + evp.character_pattern * 24;
 		int src_y = (char_index/4)*128 + evp.character_direction * 32;
-		m_eventCache[it.key()] = charset->copy(src_x, src_y, 24, 32);
+		m_eventCache[it.key()] = charset.copy(src_x, src_y, 24, 32);
 	}
 }
 
-QPixmap* Core::createDummyPixmap(int width, int height)
+QPixmap Core::createDummyPixmap(int width, int height)
 {
-	QPixmap* dummy (new QPixmap(480,256));
-	QPainter p(dummy);
+	QPixmap dummy(QPixmap(480,256));
+	QPainter p(&dummy);
 	p.drawTiledPixmap(0, 0, width, height, QPixmap(":/embedded/share/old_grid.png"));
 	p.end();
 	return dummy;

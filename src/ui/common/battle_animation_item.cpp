@@ -52,7 +52,7 @@ void BattleAnimationItem::setBasePix(Type type, const QString &pixName)
 		else
 			dir = BATTLECHARSET;
 		m_pix = QPixmap(core().project()->findFile(dir, pixName, FileFinder::FileType::Image));
-		if (m_pix.isNull())
+		if (!m_pix)
 			m_pix = QPixmap(core().rtpPath(dir, pixName));
 	}
 	updatePix();
@@ -71,7 +71,7 @@ void BattleAnimationItem::setIndex(int index)
 
 void BattleAnimationItem::updatePix()
 {
-	if (m_pix.isNull())
+	if (!m_pix)
 		return;
 	if (m_index == -1)
 	{

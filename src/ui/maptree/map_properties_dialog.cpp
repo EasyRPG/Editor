@@ -189,7 +189,7 @@ MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWid
 	if (map.parallax_flag)
 	{
 		pix = QPixmap(core().project()->findFile(PANORAMA, QString::fromStdString(map.parallax_name), FileFinder::FileType::Image));
-		if (pix.isNull())
+		if (!pix)
 			pix = QPixmap(core().rtpPath(PANORAMA,QString::fromStdString(map.parallax_name)));
 		m_panoramaItem->setPixmap(pix);
 	}

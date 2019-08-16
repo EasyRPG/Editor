@@ -21,5 +21,5 @@
 #include <QString>
 
 namespace ImageLoader {
-	QPixmap* Load(const QString& path);
+	QPixmap Load(const QString& path);
 }
