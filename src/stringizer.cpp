@@ -1212,109 +1212,109 @@ namespace Stringizer
 {
 	QString varName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().variables.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().variables.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().variables[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().variables[static_cast<size_t>(id)-1].name);
 	}
 
 	QString switchName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().switches.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().switches.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().switches[static_cast<size_t>(id) - 1].name);
+		return QString::fromStdString(core().project()->database().switches[static_cast<size_t>(id) - 1].name);
 	}
 
 	QString itemName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().items.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().items.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().items[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().items[static_cast<size_t>(id)-1].name);
 	}
 
 	QString heroName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().actors.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().actors.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().actors[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().actors[static_cast<size_t>(id)-1].name);
 	}
 
 	QString className(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().classes.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().classes.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().classes[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().classes[static_cast<size_t>(id)-1].name);
 	}
 
 	QString stateName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().states.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().states.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().states[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().states[static_cast<size_t>(id)-1].name);
 	}
 
 	QString skillName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().skills.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().skills.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().skills[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().skills[static_cast<size_t>(id)-1].name);
 	}
 
 	QString battleCommandName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().battlecommands.commands.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().battlecommands.commands.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().battlecommands.commands[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().battlecommands.commands[static_cast<size_t>(id)-1].name);
 	}
 
 
 	QString animationName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().animations.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().animations.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().animations[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().animations[static_cast<size_t>(id)-1].name);
 	}
 	QString conditionName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().states.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().states.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().states[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().states[static_cast<size_t>(id)-1].name);
 	}
 
 	QString eventName(int id)
 	{
-		if (!mCore->currentMapEvent(id))
+		if (!core().currentMapEvent(id))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->currentMapEvent(id)->name);
+		return QString::fromStdString(core().currentMapEvent(id)->name);
 	}
 
 	QString commonEventName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().commonevents.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().commonevents.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().commonevents[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().commonevents[static_cast<size_t>(id)-1].name);
 	}
 
 	QString troopName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().troops.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().troops.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().troops[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().troops[static_cast<size_t>(id)-1].name);
 	}
 
 	QString terrainName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->database().terrains.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->database().terrains.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(mCore->project()->database().terrains[static_cast<size_t>(id)-1].name);
+		return QString::fromStdString(core().project()->database().terrains[static_cast<size_t>(id)-1].name);
 	}
 
 	QString mapName(int id)
 	{
-		if (id < 1 || id > static_cast<int>(mCore->project()->treeMap().maps.size()))
+		if (id < 1 || id > static_cast<int>(core().project()->treeMap().maps.size()))
 			return QString("<%1?>").arg(id);
-		for (unsigned i = 0; i < mCore->project()->treeMap().maps.size(); i++)
-			if (mCore->project()->treeMap().maps[i].ID == id)
-				return QString::fromStdString(mCore->project()->treeMap().maps[i].name);
+		for (unsigned i = 0; i < core().project()->treeMap().maps.size(); i++)
+			if (core().project()->treeMap().maps[i].ID == id)
+				return QString::fromStdString(core().project()->treeMap().maps[i].name);
 		return QString("<NotFound:%1?>").arg(id);
 	}
 

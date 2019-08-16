@@ -19,9 +19,6 @@
 
 #include "defines.h"
 
-// FIXME. this is ugly
-#define mCore Core::getCore()
-
 #ifdef Q_OS_WIN
 #define PLAYER "Player.exe"
 #else
@@ -150,9 +147,10 @@ private:
 	int m_lowerSelH;
 	int m_upperSelW;
 	int m_upperSelH;
-	static Core *core;
+	static Core *core_instance;
 	QMap<int, RPG::Event*> *m_currentMapEvents;
 	RunGameDialog *m_runGameDialog;
 	std::shared_ptr<Project> m_project;
 };
 
+Core& core();

@@ -93,22 +93,22 @@ void RunGameDialog::UpdateModels()
 {
 	// Maps
 	ui->comboMapId->clear();
-	for (size_t i = 1; i < mCore->project()->treeMap().maps.size(); i++)
+	for (size_t i = 1; i < core().project()->treeMap().maps.size(); i++)
 	{
-		if (mCore->project()->treeMap().maps[i].type == 1)
+		if (core().project()->treeMap().maps[i].type == 1)
 		{
-			ui->comboMapId->addItem(QString::fromStdString(mCore->project()->treeMap().maps[i].name),
-									mCore->project()->treeMap().maps[i].ID);
+			ui->comboMapId->addItem(QString::fromStdString(core().project()->treeMap().maps[i].name),
+									core().project()->treeMap().maps[i].ID);
 		}
 	}
 
 	// Troops
 	ui->comboTroop->clear();
 	ui->comboTroop->addItem(tr("<Test Troop>"));
-	for (size_t i = 1; i < mCore->project()->database().troops.size(); i++)
-		ui->comboTroop->addItem(QString::fromStdString(mCore->project()->database().troops[i].name));
+	for (size_t i = 1; i < core().project()->database().troops.size(); i++)
+		ui->comboTroop->addItem(QString::fromStdString(core().project()->database().troops[i].name));
 
-	bool auto_placement = static_cast<bool>(mCore->project()->database().battlecommands.placement);
+	bool auto_placement = static_cast<bool>(core().project()->database().battlecommands.placement);
 	ui->groupPartyFormation->setEnabled(auto_placement);
 	ui->comboBattleCondition->clear();
 	QStringList conditions;
@@ -118,10 +118,10 @@ void RunGameDialog::UpdateModels()
 	ui->comboBattleCondition->addItems(conditions);
 
 	ui->comboCustomFormation->clear();
-	for (size_t i = 0; i < mCore->project()->database().terrains.size(); i++)
-		ui->comboCustomFormation->addItem(QString::fromStdString(mCore->project()->database().terrains[i].name));
+	for (size_t i = 0; i < core().project()->database().terrains.size(); i++)
+		ui->comboCustomFormation->addItem(QString::fromStdString(core().project()->database().terrains[i].name));
 
-	battletest_data = mCore->project()->database().system.battletest_data;
+	battletest_data = core().project()->database().system.battletest_data;
 	for (size_t i = 0; i < battletest_data.size(); i++)
 		ui->tableInitialParty->item(static_cast<int>(i),0)->setData(Qt::UserRole, battletest_data[i].actor_id);
 }

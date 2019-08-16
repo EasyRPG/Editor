@@ -31,10 +31,10 @@ EventPageWidget::EventPageWidget(QWidget *parent) :
 	m_eventPage(nullptr)
 {
 	ui->setupUi(this);
-	for (unsigned int i = 0; i < mCore->project()->database().items.size(); i++)
-		ui->comboItem->addItem(QString::fromStdString(mCore->project()->database().items[i].name));
-	for (unsigned int i = 0; i < mCore->project()->database().actors.size(); i++)
-		ui->comboHero->addItem(QString::fromStdString(mCore->project()->database().actors[i].name));
+	for (unsigned int i = 0; i < core().project()->database().items.size(); i++)
+		ui->comboItem->addItem(QString::fromStdString(core().project()->database().items[i].name));
+	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
+		ui->comboHero->addItem(QString::fromStdString(core().project()->database().actors[i].name));
 	m_charaItem = new CharSetItem();
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
@@ -163,10 +163,10 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
  * @return Formatted text
  */
 QString formatSwitchCondition(int switchId) {
-	if (switchId >= 1 && switchId <= static_cast<int>(mCore->project()->database().switches.size())) {
+	if (switchId >= 1 && switchId <= static_cast<int>(core().project()->database().switches.size())) {
 		return QString("%1: %2").arg(switchId)
 				.arg(QString::fromStdString
-					 (mCore->project()->database().switches[static_cast<size_t>(switchId) - 1].name));
+					 (core().project()->database().switches[static_cast<size_t>(switchId) - 1].name));
 	}
 	else {
 		return QString("%1: ???").arg(switchId);
@@ -207,10 +207,10 @@ void EventPageWidget::on_checkVar_toggled(bool checked)
 		return;
 	if (checked) {
 		int varId = m_eventPage->condition.variable_id;
-		if (varId >= 1 && varId <= static_cast<int>(mCore->project()->database().variables.size())) {
+		if (varId >= 1 && varId <= static_cast<int>(core().project()->database().variables.size())) {
 			ui->lineVar->setText(QString("%1: %2").arg(varId)
 				.arg(QString::fromStdString
-					 (mCore->project()->database().variables[static_cast<size_t>(varId) - 1].name)));
+					 (core().project()->database().variables[static_cast<size_t>(varId) - 1].name)));
 		}
 		else {
 			ui->lineVar->setText(QString("%1: ???").arg(varId));
@@ -382,9 +382,9 @@ void EventPageWidget::updateGraphic()
 	{
 		QPixmap pix(16,16);
 		pix.fill(QColor(0,0,0,0));
-		mCore->beginPainting(pix);
-		mCore->renderTile(10000 + static_cast<short>(m_eventPage->character_index), QRect(0,0,16,16));
-		mCore->endPainting();
+		core().beginPainting(pix);
+		core().renderTile(10000 + static_cast<short>(m_eventPage->character_index), QRect(0,0,16,16));
+		core().endPainting();
 		m_tileItem->setPixmap(pix);
 		m_tileItem->setVisible(true);
 		m_charaItem->setVisible(false);

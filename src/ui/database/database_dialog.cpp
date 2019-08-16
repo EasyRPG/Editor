@@ -26,7 +26,7 @@
 DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DatabaseDialog),
-	m_data(mCore->project()->database())
+	m_data(core().project()->database())
 {
 	ui->setupUi(this);
 	m_currentActor = nullptr;
@@ -69,10 +69,10 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->tabOld_Pages->setCurrentWidget(Old_PageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
 	/* Fill Characters list */
-	for (unsigned int i = 0; i < mCore->project()->database().actors.size(); i++)
+	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
 		ui->listNew_Character->addItem(QString("%1:%2")
 								   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-								   .arg(mCore->project()->database().actors[i].name.c_str()));
+								   .arg(core().project()->database().actors[i].name.c_str()));
 }
 
 DatabaseDialog::~DatabaseDialog()
@@ -162,7 +162,7 @@ void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 		case QDialogButtonBox::Apply:
 		case QDialogButtonBox::Ok:
 			LDB_Reader::PrepareSave(m_data);
-			mCore->project()->saveDatabase();
+			core().project()->saveDatabase();
 		break;
 		default:
 			// shouldn't happen

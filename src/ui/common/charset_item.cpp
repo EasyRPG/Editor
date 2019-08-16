@@ -32,11 +32,11 @@ CharSetItem::CharSetItem(const QPixmap pix) :
 
 void CharSetItem::setBasePix(const QString &n_pixName)
 {
-	m_pix.reset(ImageLoader::Load(mCore->project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image)));
+	m_pix.reset(ImageLoader::Load(core().project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image)));
 	if (m_pix->isNull())
-		m_pix.reset(ImageLoader::Load(mCore->rtpPath(CHARSET, n_pixName)));
+		m_pix.reset(ImageLoader::Load(core().rtpPath(CHARSET, n_pixName)));
 	if (m_pix->isNull())
-		m_pix.reset(mCore->createDummyPixmap(288,256));
+		m_pix.reset(core().createDummyPixmap(288,256));
 	updatePix();
 }
 

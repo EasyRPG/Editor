@@ -66,7 +66,7 @@ QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
 
 
 #define VARSTRUCT(STRUCTNAME, VARNAME) \
-	namespace detail { struct STRUCTNAME { decltype(mCore->project()->database().VARNAME) operator()() const { return mCore->project()->database().VARNAME; } }; } \
+	namespace detail { struct STRUCTNAME { decltype(core().project()->database().VARNAME) operator()() const { return core().project()->database().VARNAME; } }; } \
 	using  STRUCTNAME##RpgModel = RpgModel<detail::STRUCTNAME>;
 
 VARSTRUCT(Actor, actors)

@@ -27,7 +27,11 @@
 #include "common/image_loader.h"
 
 //define static member
-Core *Core::core = new Core();
+Core *Core::core_instance = new Core();
+
+Core& core() {
+	return *Core::getCore();
+}
 
 Core::Core()
 {
@@ -95,17 +99,17 @@ Core::Core()
 
 Core *Core::getCore()
 {
-	return core;
+	return core_instance;
 }
 
 void Core::LoadChipset(int n_chipsetid)
 {
 	if (n_chipsetid == m_chipset.ID)
 		return;
-	for (unsigned int i = 0; i < mCore->project()->database().chipsets.size();i++)
-		if (mCore->project()->database().chipsets[i].ID == n_chipsetid)
+	for (unsigned int i = 0; i < core().project()->database().chipsets.size();i++)
+		if (core().project()->database().chipsets[i].ID == n_chipsetid)
 		{
-			m_chipset = mCore->project()->database().chipsets[i];
+			m_chipset = core().project()->database().chipsets[i];
 			break;
 		}
 	if (m_chipset.ID == 0)

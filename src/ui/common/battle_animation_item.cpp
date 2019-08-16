@@ -51,9 +51,9 @@ void BattleAnimationItem::setBasePix(Type type, const QString &pixName)
 			dir = BATTLEWEAPON;
 		else
 			dir = BATTLECHARSET;
-		m_pix = QPixmap(mCore->project()->findFile(dir, pixName, FileFinder::FileType::Image));
+		m_pix = QPixmap(core().project()->findFile(dir, pixName, FileFinder::FileType::Image));
 		if (m_pix.isNull())
-			m_pix = QPixmap(mCore->rtpPath(dir, pixName));
+			m_pix = QPixmap(core().rtpPath(dir, pixName));
 	}
 	updatePix();
 }

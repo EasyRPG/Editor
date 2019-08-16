@@ -35,10 +35,10 @@ CharSetPickerDialog::CharSetPickerDialog(QWidget *parent, bool tile_pick) :
 		QGraphicsPixmapItem *tileItem = new QGraphicsPixmapItem();
 		QPixmap pix(96, 384);
 		pix.fill(QColor(0,0,0,0));
-		mCore->beginPainting(pix);
+		core().beginPainting(pix);
 		for (short i = 0; i < 144; i++)
-			mCore->renderTile(10000+i, QRect((i%6)*16,i/6*16,16,16));
-		mCore->endPainting();
+			core().renderTile(10000+i, QRect((i%6)*16,i/6*16,16,16));
+		core().endPainting();
 		tileItem->setPixmap(pix);
 		tileItem->setScale(2.0);
 		m_tileScene = new PickerScene(ui->graphicsTile, tileItem, 24, 6);
@@ -46,7 +46,7 @@ CharSetPickerDialog::CharSetPickerDialog(QWidget *parent, bool tile_pick) :
 		ui->graphicsTile->setScene(m_tileScene);
 	}
 
-	QDir dir(mCore->project()->findFile(CHARSET));
+	QDir dir(core().project()->findFile(CHARSET));
 	QStringList entry = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
 
 	foreach (QString file, entry)
@@ -60,7 +60,7 @@ CharSetPickerDialog::CharSetPickerDialog(QWidget *parent, bool tile_pick) :
 			ui->listRes->addItem(info.baseName());
 	}
 
-	dir = QDir(mCore->rtpPath(CHARSET));
+	dir = QDir(core().rtpPath(CHARSET));
 	entry = dir.entryList(QDir::NoDotAndDotDot | QDir::Files);
 
 	foreach (QString file, entry)

@@ -121,27 +121,27 @@ MainWindow::MainWindow(QWidget *parent) :
 	dlg_db = nullptr;
 	m_paletteScene = new PaletteScene(ui->graphicsPalette);
 	ui->graphicsPalette->setScene(m_paletteScene);
-	connect(mCore,
+	connect(&core(),
 			SIGNAL(toolChanged()),
 			this,
 			SLOT(updateToolActions()));
-	connect(mCore,
+	connect(&core(),
 			SIGNAL(layerChanged()),
 			this,
 			SLOT(updateLayerActions()));
-	connect(mCore,
+	connect(&core(),
 			SIGNAL(layerChanged()),
 			m_paletteScene,
 			SLOT(onLayerChange()));
-	connect(mCore,
+	connect(&core(),
 			SIGNAL(chipsetChanged()),
 			m_paletteScene,
 			SLOT(onChipsetChange()));
 	update_actions();
-	mCore->setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
-	if (mCore->rtpPath("").isEmpty())
+	core().setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
+	if (core().rtpPath("").isEmpty())
 		on_actionRtp_Path_triggered();
-	mCore->setDefDir(m_settings.value(DEFAULT_DIR_KEY,
+	core().setDefDir(m_settings.value(DEFAULT_DIR_KEY,
 										qApp->applicationDirPath()).toString());
 	updateLayerActions();
 	updateToolActions();
@@ -179,22 +179,22 @@ void MainWindow::LoadProject(QString foldername)
 		return;
 	}
 
-	mCore->project() = prj;
+	core().project() = prj;
 
-	//m_projSett = new QSettings(mCore->project()->findFile(ROOT, EASY_CFG), QSettings::IniFormat, this);
+	//m_projSett = new QSettings(core().project()->findFile(ROOT, EASY_CFG), QSettings::IniFormat, this);
 	//QString title = m_projSett->value(GAMETITLE, "Untitled").toString();
-	setWindowTitle("EasyRPG Editor - " +  mCore->project()->gameTitle());
-	//mCore->setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
-	//mCore->setTileSize(m_projSett->value(TILESIZE, 16).toInt());
+	setWindowTitle("EasyRPG Editor - " +  core().project()->gameTitle());
+	//core().setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
+	//core().setTileSize(m_projSett->value(TILESIZE, 16).toInt());
 	//QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
 	//QList<QVariant> m_scaleList = m_projSett->value(SCALES, QList<QVariant>()).toList();
-	m_settings.setValue(CURRENT_PROJECT_KEY, mCore->project()->projectDir().absolutePath());
+	m_settings.setValue(CURRENT_PROJECT_KEY, core().project()->projectDir().absolutePath());
 	ui->treeMap->clear();
 	QTreeWidgetItem *root = new QTreeWidgetItem();
 	root->setData(1, Qt::DisplayRole, 0);
-	root->setData(0,Qt::DisplayRole,  mCore->project()->gameTitle());
+	root->setData(0,Qt::DisplayRole,  core().project()->gameTitle());
 	root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
-	RPG::TreeMap maps = mCore->project()->treeMap();
+	RPG::TreeMap maps = core().project()->treeMap();
 	ui->treeMap->addTopLevelItem(root);
 	m_treeItems.clear();
 	m_treeItems[0] = root;
@@ -247,8 +247,8 @@ void MainWindow::LoadProject(QString foldername)
 
 void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xyz)
 {
-	/*mCore->project()->database().Clear();
-	mCore->setProjectFolder(d_folder);
+	/*core().project()->database().Clear();
+	core().setProjectFolder(d_folder);
 	std::string encoding = ReaderUtil::GetEncoding(QString(p_path+RM_INI).toStdString());
 	if (encoding.empty()) {
 		encoding = ReaderUtil::DetectEncoding(QString(p_path+RM_DB).toStdString());
@@ -258,8 +258,8 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 		QMessageBox::critical(this,
 							  "Error loading project",
 							  "Could not load database file: "+p_path+RM_DB);
-		mCore->setProjectFolder("");
-		mCore->project()->database().Clear();
+		core().setProjectFolder("");
+		core().project()->database().Clear();
 		return;
 	}
 	if (!LMT_Reader::Load((p_path+RM_MT).toStdString(), encoding))
@@ -267,30 +267,30 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 		QMessageBox::critical(this,
 							  "Error loading project",
 							  "Could not load map tree file: "+p_path+RM_MT);
-		mCore->setProjectFolder("");
-		mCore->project()->database().Clear();
+		core().setProjectFolder("");
+		core().project()->database().Clear();
 		return;
 	}
 	INIReader reader((p_path+RM_INI).toStdString());
 	QString title (ReaderUtil::Recode(reader.Get("RPG_RT","GameTitle", "Untitled"), encoding).c_str());
-	mCore->project()->treeMap().maps[0].name = title.toStdString();
-	mCore->project()->setGameTitle(title);
+	core().project()->treeMap().maps[0].name = title.toStdString();
+	core().project()->setGameTitle(title);
 	switch (reader.GetInteger("RPG_RT","MapEditMode", 0))
 	{
 	case 1:
-		 mCore->setLayer(Core::UPPER);
+		 core().setLayer(Core::UPPER);
 		break;
 	case 2:
-		 mCore->setLayer(Core::EVENT);
+		 core().setLayer(Core::EVENT);
 		break;
 	default:
-		 mCore->setLayer(Core::LOWER);
+		 core().setLayer(Core::LOWER);
 		break;
 	}
-	setWindowTitle("EasyRPG Editor - " +  mCore->project()->gameTitle());
-	m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->projectFolder());
-	LDB_Reader::SaveXml(mCore->project()->findFile(ROOT, EASY_DB).toStdString());
-	mCore->project()->saveTreeMap();
+	setWindowTitle("EasyRPG Editor - " +  core().project()->gameTitle());
+	m_settings.setValue(CURRENT_PROJECT_KEY,  core().projectFolder());
+	LDB_Reader::SaveXml(core().project()->findFile(ROOT, EASY_DB).toStdString());
+	core().project()->saveTreeMap();
 	QStringList entries;
 	for (const QString& dir : resource_dirs)
 		recurseAddDir(QDir(p_path+dir), entries);
@@ -301,7 +301,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 	{
 		progress.setValue(i);
 		QFileInfo info(entries[i]);
-		QString dest_file = mCore->project()->findFile(info.dir().dirName()+"/",info.fileName());
+		QString dest_file = core().project()->findFile(info.dir().dirName()+"/",info.fileName());
 		if (!QFile::copy(entries[i], dest_file))
 		{
 			QMessageBox box(this);
@@ -326,7 +326,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 			file.open(QIODevice::ReadOnly);
 			if (file.read(4) == "XYZ1")
 			{
-				QString conv_path = mCore->project()->findFile(info.dir().dirName()+"/",
+				QString conv_path = core().project()->findFile(info.dir().dirName()+"/",
 													info.completeBaseName() + ".png");
 				if (convertXYZtoPNG(file, conv_path))
 					file.remove();
@@ -343,9 +343,9 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 	ui->treeMap->clear();
 	QTreeWidgetItem *root = new QTreeWidgetItem();
 	root->setData(1, Qt::DisplayRole, 0);
-	root->setData(0,Qt::DisplayRole,  mCore->project()->gameTitle());
+	root->setData(0,Qt::DisplayRole,  core().project()->gameTitle());
 	root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
-	RPG::TreeMap maps = mCore->project()->treeMap();
+	RPG::TreeMap maps = core().project()->treeMap();
 	ui->treeMap->addTopLevelItem(root);
 	m_treeItems.clear();
 	m_treeItems[0] = root;
@@ -400,7 +400,7 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 		   << ".lmu";
 		RPG::Map map = *LMU_Reader::Load(ss.str(), encoding).get();
 		ss.str("");
-		ss << mCore->project()->findFile(ROOT).toStdString()
+		ss << core().project()->findFile(ROOT).toStdString()
 		   << "Map"
 		   << std::setfill('0')
 		   << std::setw(4)
@@ -409,11 +409,11 @@ void MainWindow::ImportProject(QString p_path, QString d_folder, bool convert_xy
 		LMU_Reader::SaveXml(ss.str(),map);
 	}
 	progress.setValue(static_cast<int>(maps.maps.size()));
-	m_projSett = new QSettings(mCore->project()->findFile(ROOT, EASY_CFG),
+	m_projSett = new QSettings(core().project()->findFile(ROOT, EASY_CFG),
 							   QSettings::IniFormat,
 							   this);
 	m_projSett->setValue(GAMETITLE, title);
-	m_projSett->setValue(LAYER, mCore->layer());
+	m_projSett->setValue(LAYER, core().layer());
 	m_projSett->setValue(MAPS, m_mapList);
 	m_projSett->setValue(SCALES, m_scaleList);
 	m_projSett->setValue(TILESIZE, 16);
@@ -483,7 +483,7 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-	if (!mCore->project()){
+	if (!core().project()){
 		ui->actionCircle->setEnabled(false);
 		ui->actionCreate_Game_Disk->setEnabled(false);
 		ui->actionData_Base->setEnabled(false);
@@ -553,68 +553,68 @@ void MainWindow::on_action_New_Project_triggered()
 	return;
 
 	NewProjectDialog dlg(this);
-	dlg.setDefDir(mCore->defDir());
+	dlg.setDefDir(core().defDir());
 	dlg.exec();
 	if (dlg.result() == QDialog::Accepted)
 	{
 		if (dlg.getProjectFolder() == QString())
 		return;
-		QDir d_gamepath(mCore->defDir()+dlg.getProjectFolder());
+		QDir d_gamepath(core().defDir()+dlg.getProjectFolder());
 		if (d_gamepath.exists())
 		{
 			int response = QMessageBox::warning(this,
 							"Game folder exist",
 							QString("The folder %1 where you want to place your new game already exist.\n"
 									"Do you want to delete this folder and all it's content?"
-									).arg(mCore->defDir()+dlg.getProjectFolder()),
+									).arg(core().defDir()+dlg.getProjectFolder()),
 							QMessageBox::Ok,
 							QMessageBox::Cancel);
 			if (response == QMessageBox::Cancel)
 				return;
-			removeDir(mCore->defDir()+dlg.getProjectFolder(),
-					  mCore->defDir()+dlg.getProjectFolder());
+			removeDir(core().defDir()+dlg.getProjectFolder(),
+					  core().defDir()+dlg.getProjectFolder());
 		}
 		else
 			d_gamepath.mkpath(".");
-		mCore->project()->setGameTitle(dlg.getGameTitle());
-		mCore->setTileSize(dlg.getTileSize());
-		mCore->setDefDir(dlg.getDefDir());
+		core().project()->setGameTitle(dlg.getGameTitle());
+		core().setTileSize(dlg.getTileSize());
+		core().setDefDir(dlg.getDefDir());
 		for (const QString& dir : resource_dirs)
-			d_gamepath.mkpath(mCore->project()->findFile(dir));
+			d_gamepath.mkpath(core().project()->findFile(dir));
 		m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefDir());
-		setWindowTitle("EasyRPG Editor - " +  mCore->project()->gameTitle());
-		m_settings.setValue(CURRENT_PROJECT_KEY,  mCore->project()->gameTitle());
+		setWindowTitle("EasyRPG Editor - " +  core().project()->gameTitle());
+		m_settings.setValue(CURRENT_PROJECT_KEY,  core().project()->gameTitle());
 		QString t_folder = qApp->applicationDirPath()+"/templates/";
 
-		QFile::copy(t_folder+PLAYER, mCore->project()->findFile(PLAYER));
+		QFile::copy(t_folder+PLAYER, core().project()->findFile(PLAYER));
 		/* Map tree */
 		LMT_Reader::LoadXml(t_folder.toStdString()+EASY_MT);
-		mCore->project()->treeMap().maps[0].name = mCore->project()->gameTitle().toStdString();
+		core().project()->treeMap().maps[0].name = core().project()->gameTitle().toStdString();
 		/* Map */
 		RPG::Map map = *LMU_Reader::LoadXml(t_folder.toStdString()+"Map0001.emu");
 		/* DataBase */
 		//LDB_Reader::LoadXml(t_folder.toStdString()+EASY_DB);
 		/* Save */
-		//LMU_Reader::SaveXml(mCore->project()->findFile(ROOT,"Map0001.emu").toStdString(), map);
-		//LDB_Reader::SaveXml(mCore->project()->findFile(ROOT,EASY_DB).toStdString());
-		mCore->project()->saveTreeMap();
-		/*m_projSett = new QSettings(mCore->project()->findFile(ROOT, EASY_CFG),
+		//LMU_Reader::SaveXml(core().project()->findFile(ROOT,"Map0001.emu").toStdString(), map);
+		//LDB_Reader::SaveXml(core().project()->findFile(ROOT,EASY_DB).toStdString());
+		core().project()->saveTreeMap();
+		/*m_projSett = new QSettings(core().project()->findFile(ROOT, EASY_CFG),
 								   QSettings::IniFormat,
 								   this);*/
 		QList<QVariant> mapList;
 		mapList.append(1);
 		QList<QVariant> scaleList;
 		scaleList.append(1.0);
-		/*m_projSett->setValue(GAMETITLE, mCore->project()->gameTitle());
-		m_projSett->setValue(LAYER, mCore->layer());
+		/*m_projSett->setValue(GAMETITLE, core().project()->gameTitle());
+		m_projSett->setValue(LAYER, core().layer());
 		m_projSett->setValue(MAPS, mapList);
 		m_projSett->setValue(SCALES, scaleList);
 		m_projSett->setValue(TILESIZE, 16);*/
 		QTreeWidgetItem *root = new QTreeWidgetItem();
 		root->setData(1, Qt::DisplayRole, 0);
-		root->setData(0,Qt::DisplayRole,  mCore->project()->gameTitle());
+		root->setData(0,Qt::DisplayRole,  core().project()->gameTitle());
 		root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
-		RPG::TreeMap maps = mCore->project()->treeMap();
+		RPG::TreeMap maps = core().project()->treeMap();
 		ui->treeMap->addTopLevelItem(root);
 		m_treeItems.clear();
 		m_treeItems[0] = root;
@@ -696,10 +696,10 @@ QGraphicsView *MainWindow::getView(int id)
 		m_views[id] = view;
 		view->setTransformationAnchor(QGraphicsView::NoAnchor);
 		std::string mapName;
-		for (unsigned int i = 0; i < mCore->project()->treeMap().maps.size();i++)
-			if (mCore->project()->treeMap().maps[i].ID == id)
+		for (unsigned int i = 0; i < core().project()->treeMap().maps.size();i++)
+			if (core().project()->treeMap().maps[i].ID == id)
 			{
-				mapName = mCore->project()->treeMap().maps[i].name;
+				mapName = core().project()->treeMap().maps[i].name;
 				break;
 			}
 		ui->tabMap->addTab(view,
@@ -718,7 +718,7 @@ QGraphicsView *MainWindow::getView(int id)
 				SIGNAL(mapSaved()),
 				this,
 				SLOT(on_mapUnchanged()));
-		mCore->setCurrentMapEvents(getScene(id)->mapEvents());
+		core().setCurrentMapEvents(getScene(id)->mapEvents());
 		getScene(id)->setScale(2.0);
 		getScene(id)->Init();
 	}
@@ -767,24 +767,24 @@ void MainWindow::removeView(int id)
 
 void MainWindow::updateLayerActions()
 {
-	ui->action_Lower_Layer->setChecked(mCore->layer() == Core::LOWER);
-	ui->action_Upper_Layer->setChecked(mCore->layer() == Core::UPPER);
-	ui->action_Events->setChecked(mCore->layer() == Core::EVENT);
+	ui->action_Lower_Layer->setChecked(core().layer() == Core::LOWER);
+	ui->action_Upper_Layer->setChecked(core().layer() == Core::UPPER);
+	ui->action_Events->setChecked(core().layer() == Core::EVENT);
 }
 
 void MainWindow::updateToolActions()
 {
-	ui->actionZoom->setChecked(mCore->tool() == Core::ZOOM);
-	ui->actionDraw->setChecked(mCore->tool() == Core::PENCIL);
-	ui->actionRectangle->setChecked(mCore->tool() == Core::RECTANGLE);
-	ui->actionCircle->setChecked(mCore->tool() == Core::CIRCLE);
-	ui->actionFill->setChecked(mCore->tool() == Core::FILL);
+	ui->actionZoom->setChecked(core().tool() == Core::ZOOM);
+	ui->actionDraw->setChecked(core().tool() == Core::PENCIL);
+	ui->actionRectangle->setChecked(core().tool() == Core::RECTANGLE);
+	ui->actionCircle->setChecked(core().tool() == Core::CIRCLE);
+	ui->actionFill->setChecked(core().tool() == Core::FILL);
 }
 
 void MainWindow::on_action_Close_Project_triggered()
 {
 	m_settings.setValue(CURRENT_PROJECT_KEY, QString());
-	mCore->project().reset();
+	core().project().reset();
 	ui->treeMap->clear();
 	saveAll();
 	while (ui->tabMap->currentIndex() != -1)
@@ -796,10 +796,10 @@ void MainWindow::on_action_Close_Project_triggered()
 void MainWindow::on_action_Open_Project_triggered()
 {
 	OpenProjectDialog dlg(this);
-	dlg.setDefaultDir(mCore->defDir());
+	dlg.setDefaultDir(core().defDir());
 	if (dlg.exec() == QDialog::Accepted)
 		LoadProject(dlg.getProject()->projectDir().absolutePath());
-	mCore->setDefDir(dlg.getDefaultDir());
+	core().setDefDir(dlg.getDefaultDir());
 	m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefaultDir());
 }
 
@@ -821,19 +821,19 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
 
 void MainWindow::on_action_Lower_Layer_triggered()
 {
-	mCore->setLayer(Core::LOWER);
+	core().setLayer(Core::LOWER);
 	updateLayerActions();
 }
 
 void MainWindow::on_action_Upper_Layer_triggered()
 {
-	mCore->setLayer(Core::UPPER);
+	core().setLayer(Core::UPPER);
 	updateLayerActions();
 }
 
 void MainWindow::on_action_Events_triggered()
 {
-	mCore->setLayer(Core::EVENT);
+	core().setLayer(Core::EVENT);
 	updateLayerActions();
 }
 
@@ -902,8 +902,8 @@ void MainWindow::on_tabMap_currentChanged(int index)
 	}
 	if (currentScene())
 	{
-		mCore->LoadChipset(currentScene()->chipsetId());
-		mCore->setCurrentMapEvents(currentScene()->mapEvents());
+		core().LoadChipset(currentScene()->chipsetId());
+		core().setCurrentMapEvents(currentScene()->mapEvents());
 		ui->actionUndo->setEnabled(currentScene()->isModified());
 		ui->action_Save_Map->setEnabled(currentScene()->isModified());
 		ui->actionRevert_Map->setEnabled(currentScene()->isModified());
@@ -913,10 +913,10 @@ void MainWindow::on_tabMap_currentChanged(int index)
 void MainWindow::on_actionImport_Project_triggered()
 {
 	/*ImportProjectDialog dlg(this);
-	dlg.setDefDir(mCore->defDir());
+	dlg.setDefDir(core().defDir());
 	dlg.exec();
 	if (dlg.result() == QDialog::Accepted){
-		mCore->setDefDir(dlg.getDefDir());
+		core().setDefDir(dlg.getDefDir());
 		if (dlg.getProjectFolder() == QString())
 			return;
 		QDir d_gamepath(dlg.getDefDir()+dlg.getProjectFolder());
@@ -936,10 +936,10 @@ void MainWindow::on_actionImport_Project_triggered()
 			}
 			else
 				d_gamepath.mkpath(".");
-		mCore->setTileSize(16);
-		mCore->setProjectFolder(dlg.getProjectFolder());
+		core().setTileSize(16);
+		core().setProjectFolder(dlg.getProjectFolder());
 		for (const QString& dir : resource_dirs)
-			d_gamepath.mkpath(mCore->project()->findFile(dir));
+			d_gamepath.mkpath(core().project()->findFile(dir));
 		m_settings.setValue(CURRENT_PROJECT_KEY, dlg.getProjectFolder());
 		ImportProject(dlg.getSourceFolder(), dlg.getProjectFolder(), dlg.getConvertXYZ());
 	}
@@ -954,32 +954,32 @@ void MainWindow::on_actionRtp_Path_triggered()
 
 void MainWindow::on_actionZoom_triggered()
 {
-	mCore->setTool(Core::ZOOM);
+	core().setTool(Core::ZOOM);
 }
 
 void MainWindow::on_actionDraw_triggered()
 {
-	mCore->setTool(Core::PENCIL);
+	core().setTool(Core::PENCIL);
 }
 
 void MainWindow::on_actionRectangle_triggered()
 {
-	mCore->setTool(Core::RECTANGLE);
+	core().setTool(Core::RECTANGLE);
 }
 
 void MainWindow::on_actionCircle_triggered()
 {
-	mCore->setTool(Core::CIRCLE);
+	core().setTool(Core::CIRCLE);
 }
 
 void MainWindow::on_actionFill_triggered()
 {
-	mCore->setTool(Core::FILL);
+	core().setTool(Core::FILL);
 }
 
 void MainWindow::on_action_Play_Test_triggered()
 {
-	mCore->runGame();
+	core().runGame();
 }
 
 void MainWindow::on_mapChanged()
@@ -1064,13 +1064,13 @@ void MainWindow::on_treeMap_itemSelectionChanged()
 	}
 	ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
 	ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
-	mCore->project()->treeMap().active_node = ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0;
-	mCore->project()->saveTreeMap();
+	core().project()->treeMap().active_node = ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0;
+	core().project()->saveTreeMap();
 }
 
 void MainWindow::on_actionCopy_Map_triggered()
 {
-	m_copiedMap = mCore->project()->findFile("Map%1.emu");
+	m_copiedMap = core().project()->findFile("Map%1.emu");
 	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
 								  4, QLatin1Char('0'));
 	ui->actionPaste_Map->setEnabled(true);
@@ -1115,7 +1115,7 @@ void MainWindow::on_actionNew_Map_triggered()
 		info.save = RPG::MapInfo::TriState_allow;
 	}
 
-	mCore->project()->treeMap().maps.push_back(info);
+	core().project()->treeMap().maps.push_back(info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
 	item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
@@ -1130,12 +1130,12 @@ void MainWindow::on_actionNew_Map_triggered()
 		tree_order.push_back((*it)->data(1, Qt::DisplayRole).toInt());
 		it++;
 	}
-	mCore->project()->treeMap().tree_order = tree_order;
+	core().project()->treeMap().tree_order = tree_order;
 	ui->treeMap->currentItem()->setExpanded(true);
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
-	mCore->project()->saveTreeMap();
-	QString path = mCore->project()->findFile("Map%1.emu");
+	core().project()->saveTreeMap();
+	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	LMU_Reader::SaveXml(path.toStdString(), *map);
 	on_treeMap_itemDoubleClicked(item, 0);
@@ -1155,11 +1155,11 @@ void MainWindow::on_actionPaste_Map_triggered()
 
 	std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(m_copiedMap.toStdString());
 	RPG::MapInfo info;
-	for (size_t i = 0; i < mCore->project()->treeMap().maps.size(); i++)
+	for (size_t i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
-		if (mCore->project()->treeMap().maps[i].ID == info.ID)
+		if (core().project()->treeMap().maps[i].ID == info.ID)
 		{
-			info = mCore->project()->treeMap().maps[i];
+			info = core().project()->treeMap().maps[i];
 			break;
 		}
 	}
@@ -1190,7 +1190,7 @@ void MainWindow::on_actionPaste_Map_triggered()
 			info.save = RPG::MapInfo::TriState_allow;
 	}
 
-	mCore->project()->treeMap().maps.push_back(info);
+	core().project()->treeMap().maps.push_back(info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
 	item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
@@ -1205,12 +1205,12 @@ void MainWindow::on_actionPaste_Map_triggered()
 		tree_order.push_back((*it)->data(1, Qt::DisplayRole).toInt());
 		it++;
 	}
-	mCore->project()->treeMap().tree_order = tree_order;
+	core().project()->treeMap().tree_order = tree_order;
 	ui->treeMap->currentItem()->setExpanded(true);
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
-	mCore->project()->saveTreeMap();
-	QString path = mCore->project()->findFile("Map%1.emu");
+	core().project()->saveTreeMap();
+	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	LMU_Reader::SaveXml(path.toStdString(), *map);
 	on_treeMap_itemDoubleClicked(item, 0);
@@ -1220,7 +1220,7 @@ void MainWindow::on_actionDelete_Map_triggered()
 {
 	removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
 
-	mCore->project()->saveTreeMap();
+	core().project()->saveTreeMap();
 }
 
 void MainWindow::removeMap(const int id)
@@ -1229,7 +1229,7 @@ void MainWindow::removeMap(const int id)
 	for (int i = 0; i < m_treeItems[id]->childCount(); i++)
 		removeMap(m_treeItems[id]->child(i)->data(1, Qt::DisplayRole).toInt());
 
-	QString mapPath = mCore->project()->findFile("Map%1.emu");
+	QString mapPath = core().project()->findFile("Map%1.emu");
 	mapPath = mapPath.arg(QString::number(id), 4, QLatin1Char('0'));
 
 	if (QFileInfo(mapPath).exists())
@@ -1237,20 +1237,20 @@ void MainWindow::removeMap(const int id)
 	else
 		qWarning() << QString("file not found: %1").arg(mapPath);
 
-	for (unsigned int i = 0; i < mCore->project()->treeMap().maps.size(); i++)
+	for (unsigned int i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
-		if (mCore->project()->treeMap().maps[i].ID == id)
+		if (core().project()->treeMap().maps[i].ID == id)
 		{
-			mCore->project()->treeMap().maps.erase(mCore->project()->treeMap().maps.begin()+i);
+			core().project()->treeMap().maps.erase(core().project()->treeMap().maps.begin()+i);
 			break;
 		}
 	}
 
-	for (unsigned int i = 0; i < mCore->project()->treeMap().tree_order.size(); i++)
+	for (unsigned int i = 0; i < core().project()->treeMap().tree_order.size(); i++)
 	{
-		if (mCore->project()->treeMap().tree_order[i] == id)
+		if (core().project()->treeMap().tree_order[i] == id)
 		{
-			mCore->project()->treeMap().tree_order.erase(mCore->project()->treeMap().tree_order.begin()+i);
+			core().project()->treeMap().tree_order.erase(core().project()->treeMap().tree_order.begin()+i);
 			break;
 		}
 	}
@@ -1293,7 +1293,7 @@ void MainWindow::selectTile(int x, int y)
 {
 	if (currentScene())
 	{
-		mCore->setLayer(Core::EVENT);
+		core().setLayer(Core::EVENT);
 		updateLayerActions();
 
 		currentScene()->selectTile(x, y);
