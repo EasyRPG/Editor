@@ -32,8 +32,10 @@ QPixmap ImageLoader::Load(const QString& path) {
 
 	if (memcmp(header, "XYZ1", 4)) {
 		file.close();
-		// Not a XYZ file, check if BMP and PNG as these are the formats suppoted by Player
-		if (!memcmp(header, "BM", 2) || !memcmp(header, "PNG", 3)) {
+
+		constexpr char png_header[4] = { '\x89', 'P', 'N', 'G' };
+		// Not a XYZ file, check if BMP and PNG as these are the formats supported by Player
+		if (!memcmp(header, "BM", 2) || !memcmp(header, png_header, 4)) {
 			return QPixmap(path);
 		}
 		return QPixmap();
