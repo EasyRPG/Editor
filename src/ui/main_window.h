@@ -119,7 +119,7 @@ private slots:
 
 	void on_actionRevert_Map_triggered();
 
-	void on_treeMap_itemSelectionChanged();
+	void on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
 
 	void on_actionNew_Map_triggered();
 

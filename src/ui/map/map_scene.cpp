@@ -420,7 +420,6 @@ void MapScene::on_actionSetStartPosition()
 	core().project()->treeMap().start.party_map_id = this->id();
 	core().project()->treeMap().start.party_x = lst_x;
 	core().project()->treeMap().start.party_y = lst_y;
-	core().project()->saveTreeMap();
 }
 
 void MapScene::on_user_interaction()
@@ -437,7 +436,6 @@ void MapScene::on_view_V_Scroll()
 		n_mapInfo.scrollbar_y = m_view->verticalScrollBar()->value() / static_cast<int>(m_scale);
 	}
 	m_userInteraction = false;
-	core().project()->saveTreeMap();
 }
 
 void MapScene::on_view_H_Scroll()
@@ -449,7 +447,6 @@ void MapScene::on_view_H_Scroll()
 		n_mapInfo.scrollbar_x = m_view->horizontalScrollBar()->value() / static_cast<int>(m_scale);
 	}
 	m_userInteraction = false;
-	core().project()->saveTreeMap();
 }
 
 void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)

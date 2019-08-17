@@ -784,9 +784,10 @@ void MainWindow::updateToolActions()
 void MainWindow::on_action_Close_Project_triggered()
 {
 	m_settings.setValue(CURRENT_PROJECT_KEY, QString());
-	core().project().reset();
 	ui->treeMap->clear();
 	saveAll();
+	core().project().reset();
+
 	while (ui->tabMap->currentIndex() != -1)
 		removeView(currentScene()->id());
 	update_actions();
@@ -1038,6 +1039,9 @@ bool MainWindow::saveAll()
 			return false;
 		}
 	}
+
+	core().project()->saveTreeMap();
+
 	return true;
 }
 
@@ -1054,18 +1058,19 @@ void MainWindow::on_actionRevert_Map_triggered()
 }
 
 
-void MainWindow::on_treeMap_itemSelectionChanged()
+void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
 {
-	if (!ui->treeMap->currentItem())
+	Q_UNUSED(previous)
+
+	if (!current)
 	{
 		ui->actionCopy_Map->setEnabled(false);
 		ui->actionDelete_Map->setEnabled(false);
 		return;
 	}
-	ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
-	ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
-	core().project()->treeMap().active_node = ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0;
-	core().project()->saveTreeMap();
+	ui->actionCopy_Map->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
+	ui->actionDelete_Map->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
+	core().project()->treeMap().active_node = current->data(1,Qt::DisplayRole).toInt() != 0;
 }
 
 void MainWindow::on_actionCopy_Map_triggered()
