@@ -14,6 +14,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/common/image_loader.cpp
 	src/common/image_loader.h
 	src/common/scope_guard.h
+	src/common/signal_blocker.h
 	src/common/widget_helper.cpp
 	src/common/widget_helper.h
 	src/core.cpp

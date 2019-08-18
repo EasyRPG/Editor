@@ -24,8 +24,11 @@ class QGroupBox;
 
 #include <QObject>
 #include <QSpinBox>
+#include <QComboBox>
 #include <QVariant>
 #include <string>
+
+#include "signal_blocker.h"
 
 template<class T>
 class LcfObjectHolder : QObject {
@@ -76,6 +79,25 @@ namespace WidgetHelper {
 		parent->connect(spinBox, qOverload<int>(&QSpinBox::valueChanged), parent, callback);
 	}
 
+	template<typename T>
+	void connect(QWidget* parent, QComboBox* comboBox, bool has_user_role = false) {
+		auto callback = [=](){
+			QVariant variant = comboBox->property("ee_data");
+			if (variant.isNull()) {
+				return;
+			}
+
+			auto data = variant.value<LcfObjectHolder<T>>();
+			if (has_user_role) {
+				data.obj() = static_cast<T>(comboBox->itemData(comboBox->currentIndex()).toInt());
+			} else {
+				data.obj() = static_cast<T>(comboBox->currentIndex());
+			}
+		};
+
+		parent->connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
+	}
+
 	void setProperty(QLineEdit* widget, std::string& data);
 	void setProperty(QCheckBox* widget, bool& data);
 	void setProperty(QGroupBox* widget, bool& data);
@@ -86,6 +108,21 @@ namespace WidgetHelper {
 		LcfObjectHolder oh(data);
 		v.setValue(oh);
 		widget->setProperty("ee_data", v);
+		SignalBlocker s(widget);
 		widget->setValue(data);
+	}
+
+	template<typename T>
+	void setProperty(QComboBox* widget, T& data, bool has_user_role = false) {
+		QVariant v;
+		LcfObjectHolder oh(data);
+		v.setValue(oh);
+		widget->setProperty("ee_data", v);
+		if (!has_user_role) {
+			// a user role means that the data is filtered, direct mapping not possible.
+			// caller is responsible for setting the proper index
+			SignalBlocker s(widget);
+			widget->setCurrentIndex(data);
+		}
 	}
 }

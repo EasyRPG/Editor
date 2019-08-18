@@ -45,12 +45,6 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_comboInitialWeapon_currentIndexChanged(int index);
-	void on_comboInitialShield_currentIndexChanged(int index);
-	void on_comboInitialArmor_currentIndexChanged(int index);
-	void on_comboInitialHelmet_currentIndexChanged(int index);
-	void on_comboInitialMisc_currentIndexChanged(int index);
-	void on_comboUnarmedAnimation_currentIndexChanged(int index);
 	void on_pushSetCharset_clicked();
 	void on_pushSetFace_clicked();
 	void on_comboBattleset_currentIndexChanged(int index);

@@ -126,7 +126,19 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 		WidgetHelper::connect<int32_t>(this, uis);
 	}
 
+	for (auto& uis : {
+			ui->comboInitialWeapon,
+			ui->comboInitialShield,
+			ui->comboInitialArmor,
+			ui->comboInitialHelmet,
+			ui->comboInitialMisc }) {
+		WidgetHelper::connect<int16_t>(this, uis, true);
+	}
+
 	WidgetHelper::connect(this, ui->groupCritChance);
+
+	WidgetHelper::connect<int32_t>(this, ui->comboUnarmedAnimation);
+
 }
 
 void ActorWidget::setData(RPG::Actor* actor) {
@@ -175,57 +187,6 @@ void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
 		m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(index) - 1]);
-}
-
-void ActorWidget::on_comboInitialWeapon_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.weapon_id == ui->comboInitialWeapon->itemData(index))
-		return;
-	m_currentActor->initial_equipment.weapon_id = static_cast<short>(ui->comboInitialWeapon->itemData(index).toInt());
-}
-
-void ActorWidget::on_comboInitialShield_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.shield_id == ui->comboInitialShield->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.shield_id = static_cast<short>(ui->comboInitialShield->itemData(index).toInt());
-}
-void ActorWidget::on_comboInitialArmor_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.armor_id == ui->comboInitialArmor->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.armor_id = static_cast<short>(ui->comboInitialArmor->itemData(index).toInt());
-}
-void ActorWidget::on_comboInitialHelmet_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.helmet_id == ui->comboInitialHelmet->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.helmet_id = static_cast<short>(ui->comboInitialHelmet->itemData(index).toInt());
-}
-void ActorWidget::on_comboInitialMisc_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.accessory_id == ui->comboInitialMisc->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.accessory_id = static_cast<short>(ui->comboInitialMisc->itemData(index).toInt());
-}
-
-void ActorWidget::on_comboUnarmedAnimation_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->unarmed_animation == index)
-		return;
-	m_currentActor->unarmed_animation = index;
 }
 
 void ActorWidget::on_pushSetCharset_clicked()
@@ -330,6 +291,21 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	WidgetHelper::setProperty(ui->spinMaxLv, actor->final_level);
 	WidgetHelper::setProperty(ui->spinCritChance, actor->critical_hit_chance);
 	WidgetHelper::setProperty(ui->groupCritChance, actor->critical_hit);
+	WidgetHelper::setProperty(ui->comboUnarmedAnimation, actor->unarmed_animation);
+	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id, true);
+	WidgetHelper::setProperty(ui->comboInitialShield, actor->initial_equipment.shield_id, true);
+	WidgetHelper::setProperty(ui->comboInitialHelmet, actor->initial_equipment.helmet_id, true);
+	WidgetHelper::setProperty(ui->comboInitialArmor, actor->initial_equipment.armor_id, true);
+	WidgetHelper::setProperty(ui->comboInitialMisc, actor->initial_equipment.accessory_id, true);
+
+	// Prevent event calling on filtered comboboxes before the filter is correctly configured
+	SignalBlocker s {
+		ui->comboInitialWeapon,
+		ui->comboInitialShield,
+		ui->comboInitialHelmet,
+		ui->comboInitialArmor,
+		ui->comboInitialMisc
+	};
 
 	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
 	ui->comboInitialArmor->clear();
@@ -382,7 +358,6 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		}
 	}
 	ui->comboProfession->setCurrentIndex(actor->class_id);
-	ui->comboUnarmedAnimation->setCurrentIndex(actor->unarmed_animation);
 	ui->tableSkills->setRowCount(0);
 	for (int i = 0; i < static_cast<int>(actor->skills.size()); i++){
 		ui->tableSkills->insertRow(i);

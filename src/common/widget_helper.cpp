@@ -72,6 +72,7 @@ void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
 	LcfObjectHolder oh(data);
 	v.setValue(oh);
 	widget->setProperty("ee_data", v);
+	SignalBlocker s(widget);
 	widget->setText(QString::fromStdString(data));
 }
 
@@ -80,6 +81,7 @@ void WidgetHelper::setProperty(QCheckBox* widget, bool& data) {
 	LcfObjectHolder oh(data);
 	v.setValue(oh);
 	widget->setProperty("ee_data", v);
+	SignalBlocker s(widget);
 	widget->setChecked(data);
 }
 
@@ -88,5 +90,6 @@ void WidgetHelper::setProperty(QGroupBox* widget, bool& data) {
 	LcfObjectHolder oh(data);
 	v.setValue(oh);
 	widget->setProperty("ee_data", v);
+	SignalBlocker s(widget);
 	widget->setChecked(data);
 }
