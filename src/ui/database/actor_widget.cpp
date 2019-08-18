@@ -21,30 +21,7 @@
 #include <QGraphicsOpacityEffect>
 
 #include "common/widget_helper.h"
-/*
-template<class T>
-class LcfObjectHolder : QObject {
-public:
-	LcfObjectHolder() {}
 
-	LcfObjectHolder(T& obj) : m_obj(&obj) {
-
-	}
-
-	LcfObjectHolder(const LcfObjectHolder<T>& other) {
-		m_obj = other.m_obj;
-	}
-
-	T& obj() {
-		return *m_obj;
-	}
-
-private:
-	T* m_obj = nullptr;
-};
-
-Q_DECLARE_METATYPE(LcfObjectHolder<std::string>)
-*/
 ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ActorWidget),
@@ -132,6 +109,18 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	for (auto& uis : { ui->lineName, ui->lineTitle }) {
 		WidgetHelper::connect(this, uis);
 	}
+
+	for (auto& uis : {
+			ui->checkAI,
+			ui->checkDualWeapon,
+			ui->checkFixedEquip,
+			ui->checkTranslucent,
+			ui->checkStrongDefense }) {
+		WidgetHelper::connect(this, uis);
+	}
+
+	WidgetHelper::connect<int32_t>(this, ui->spinMinLv);
+	WidgetHelper::connect<int32_t>(this, ui->spinMaxLv);
 }
 
 void ActorWidget::setData(RPG::Actor* actor) {
@@ -169,35 +158,6 @@ void ActorWidget::UpdateModels()
 	on_currentActorChanged(m_currentActor);
 }
 
-/*
-void ActorWidget::on_lineName_textChanged(const QString &arg1)
-{
-	if (!m_currentActor || m_currentActor->name == arg1.toStdString())
-		return;
-	m_currentActor->name = arg1.toStdString();
-}
-*/
-/*void ActorWidget::on_lineTitle_textChanged(const QString &arg1)
-{
-	if (!m_currentActor || m_currentActor->title == arg1.toStdString())
-		return;
-	m_currentActor->title = arg1.toStdString();
-}
-*/
-void ActorWidget::on_spinMinLv_valueChanged(int arg1)
-{
-	if (!m_currentActor || m_currentActor->initial_level == arg1)
-		return;
-	m_currentActor->initial_level = arg1;
-}
-
-void ActorWidget::on_spinMaxLv_valueChanged(int arg1)
-{
-	if (!m_currentActor || m_currentActor->final_level == arg1)
-		return;
-	m_currentActor->final_level = arg1;
-}
-
 void ActorWidget::on_groupCritChance_toggled(bool checked)
 {
 	if (!m_currentActor || m_currentActor->critical_hit == checked)
@@ -216,36 +176,6 @@ void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
 		m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(index) - 1]);
-}
-
-void ActorWidget::on_checkDualWeapon_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->two_weapon == checked)
-		return;
-	m_currentActor->two_weapon = checked;
-}
-
-void ActorWidget::on_checkAI_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->auto_battle == checked)
-		return;
-	m_currentActor->auto_battle = checked;
-}
-
-void ActorWidget::on_checkFixedEquip_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->lock_equipment == checked)
-		return;
-	m_currentActor->lock_equipment = checked;
-}
-
-void ActorWidget::on_checkStrongDefense_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->super_guard == checked)
-	{
-		return;
-	}
-	m_currentActor->super_guard = checked;
 }
 
 void ActorWidget::on_spinCritChance_valueChanged(int arg1)
@@ -424,15 +354,15 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 	WidgetHelper::setProperty(ui->lineName, actor->name);
 	WidgetHelper::setProperty(ui->lineTitle, actor->title);
+	WidgetHelper::setProperty(ui->checkAI, actor->auto_battle);
+	WidgetHelper::setProperty(ui->checkDualWeapon, actor->two_weapon);
+	WidgetHelper::setProperty(ui->checkFixedEquip, actor->lock_equipment);
+	WidgetHelper::setProperty(ui->checkStrongDefense, actor->super_guard);
+	WidgetHelper::setProperty(ui->checkTranslucent, actor->transparent);
+	WidgetHelper::setProperty(ui->spinMinLv, actor->initial_level);
+	WidgetHelper::setProperty(ui->spinMaxLv, actor->final_level);
 
 	ui->spinCritChance->setValue(actor->critical_hit_chance);
-	ui->spinMaxLv->setValue(actor->final_level);
-	ui->spinMinLv->setValue(actor->initial_level);
-	ui->checkAI->setChecked(actor->auto_battle);
-	ui->checkDualWeapon->setChecked(actor->two_weapon);
-	ui->checkFixedEquip->setChecked(actor->lock_equipment);
-	ui->checkStrongDefense->setChecked(actor->super_guard);
-	ui->checkTranslucent->setChecked(actor->transparent);
 	ui->groupCritChance->setChecked(actor->critical_hit);
 	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
 	ui->comboInitialArmor->clear();
@@ -565,15 +495,6 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	ui->pushEditCustom->setEnabled(true);
 
 	m_currentActor = actor;
-}
-
-void ActorWidget::on_checkTranslucent_toggled(bool checked)
-{
-	if (!m_currentActor)
-		return;
-
-	m_currentActor->transparent = checked;
-	m_charaItem->graphicsEffect()->setEnabled(checked);
 }
 
 void ActorWidget::on_pushApplyProfession_clicked()

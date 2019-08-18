@@ -15,44 +15,17 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QObject>
+#include <QCheckBox>
 #include <QLineEdit>
 
 #include "widget_helper.h"
-
-
-template<class T>
-class LcfObjectHolder : QObject {
-public:
-	LcfObjectHolder() {}
-
-	LcfObjectHolder(T& obj) : m_obj(&obj) {}
-
-	LcfObjectHolder(const LcfObjectHolder<T>& other) {
-		m_obj = other.m_obj;
-	}
-
-	T& obj() {
-		return *m_obj;
-	}
-
-private:
-	T* m_obj = nullptr;
-};
-
-Q_DECLARE_METATYPE(LcfObjectHolder<std::string>)
-Q_DECLARE_METATYPE(LcfObjectHolder<bool>)
-Q_DECLARE_METATYPE(LcfObjectHolder<uint8_t>)
-Q_DECLARE_METATYPE(LcfObjectHolder<uint16_t>)
-Q_DECLARE_METATYPE(LcfObjectHolder<uint32_t>)
-Q_DECLARE_METATYPE(LcfObjectHolder<double>)
 
 namespace {
 
 }
 
 void WidgetHelper::connect(QWidget* parent, QLineEdit* lineEdit) {
-	auto lineEdit_callback = [=](){
+	auto callback = [=](){
 		QVariant variant = lineEdit->property("ee_data");
 		if (variant.isNull()) {
 			return;
@@ -62,7 +35,21 @@ void WidgetHelper::connect(QWidget* parent, QLineEdit* lineEdit) {
 		data.obj() = lineEdit->text().toStdString();
 	};
 
-	parent->connect(lineEdit, &QLineEdit::textChanged, parent, lineEdit_callback);
+	parent->connect(lineEdit, &QLineEdit::textChanged, parent, callback);
+}
+
+void WidgetHelper::connect(QWidget* parent, QCheckBox* checkBox) {
+	auto callback = [=](){
+		QVariant variant = checkBox->property("ee_data");
+		if (variant.isNull()) {
+			return;
+		}
+
+		auto data = variant.value<LcfObjectHolder<bool>>();
+		data.obj() = checkBox->isChecked();
+	};
+
+	parent->connect(checkBox, &QCheckBox::stateChanged, parent, callback);
 }
 
 void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
@@ -71,4 +58,12 @@ void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
 	v.setValue(oh);
 	widget->setProperty("ee_data", v);
 	widget->setText(QString::fromStdString(data));
+}
+
+void WidgetHelper::setProperty(QCheckBox* widget, bool& data) {
+	QVariant v;
+	LcfObjectHolder oh(data);
+	v.setValue(oh);
+	widget->setProperty("ee_data", v);
+	widget->setChecked(data);
 }
