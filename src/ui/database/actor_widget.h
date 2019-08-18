@@ -45,13 +45,11 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_lineName_textChanged(const QString &arg1);
-	void on_lineTitle_textChanged(const QString &arg1);
-	void on_checkTranslucent_toggled(bool checked);
+	/*void on_checkTranslucent_toggled(bool checked);
 	void on_checkDualWeapon_toggled(bool checked);
 	void on_checkAI_toggled(bool checked);
 	void on_checkFixedEquip_toggled(bool checked);
-	void on_checkStrongDefense_toggled(bool checked);
+	void on_checkStrongDefense_toggled(bool checked);*/
 	void on_spinMinLv_valueChanged(int arg1);
 	void on_spinMaxLv_valueChanged(int arg1);
 	void on_groupCritChance_toggled(bool on);

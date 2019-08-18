@@ -14,12 +14,16 @@ add_library(${PROJECT_NAME} STATIC
 	src/common/image_loader.cpp
 	src/common/image_loader.h
 	src/common/scope_guard.h
+	src/common/widget_helper.cpp
+	src/common/widget_helper.h
 	src/core.cpp
 	src/core.h
 	src/defines.h
 	src/gamecharacter.cpp
 	src/gamecharacter.h
 	src/main.cpp
+	src/model/actor.cpp
+	src/model/actor.h
 	src/model/list_model.h
 	src/model/project.cpp
 	src/model/project.h

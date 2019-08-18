@@ -20,6 +20,31 @@
 #include <QTimer>
 #include <QGraphicsOpacityEffect>
 
+#include "common/widget_helper.h"
+/*
+template<class T>
+class LcfObjectHolder : QObject {
+public:
+	LcfObjectHolder() {}
+
+	LcfObjectHolder(T& obj) : m_obj(&obj) {
+
+	}
+
+	LcfObjectHolder(const LcfObjectHolder<T>& other) {
+		m_obj = other.m_obj;
+	}
+
+	T& obj() {
+		return *m_obj;
+	}
+
+private:
+	T* m_obj = nullptr;
+};
+
+Q_DECLARE_METATYPE(LcfObjectHolder<std::string>)
+*/
 ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ActorWidget),
@@ -103,10 +128,13 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 		}
 		ui->groupBoxClass->hide();
 	}
+
+	for (auto& uis : { ui->lineName, ui->lineTitle }) {
+		WidgetHelper::connect(this, uis);
+	}
 }
 
-void ActorWidget::setData(RPG::Actor* actor)
-{
+void ActorWidget::setData(RPG::Actor* actor) {
 	on_currentActorChanged(actor);
 }
 
@@ -141,21 +169,21 @@ void ActorWidget::UpdateModels()
 	on_currentActorChanged(m_currentActor);
 }
 
-
+/*
 void ActorWidget::on_lineName_textChanged(const QString &arg1)
 {
 	if (!m_currentActor || m_currentActor->name == arg1.toStdString())
 		return;
 	m_currentActor->name = arg1.toStdString();
 }
-
-void ActorWidget::on_lineTitle_textChanged(const QString &arg1)
+*/
+/*void ActorWidget::on_lineTitle_textChanged(const QString &arg1)
 {
 	if (!m_currentActor || m_currentActor->title == arg1.toStdString())
 		return;
 	m_currentActor->title = arg1.toStdString();
 }
-
+*/
 void ActorWidget::on_spinMinLv_valueChanged(int arg1)
 {
 	if (!m_currentActor || m_currentActor->initial_level == arg1)
@@ -394,9 +422,9 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		return;
 	}
 
-	/* Fill widgets data */
-	ui->lineName->setText(actor->name.c_str());
-	ui->lineTitle->setText(actor->title.c_str());
+	WidgetHelper::setProperty(ui->lineName, actor->name);
+	WidgetHelper::setProperty(ui->lineTitle, actor->title);
+
 	ui->spinCritChance->setValue(actor->critical_hit_chance);
 	ui->spinMaxLv->setValue(actor->final_level);
 	ui->spinMinLv->setValue(actor->initial_level);
