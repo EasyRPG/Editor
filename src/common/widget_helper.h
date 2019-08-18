@@ -20,6 +20,7 @@
 class QWidget;
 class QLineEdit;
 class QCheckBox;
+class QGroupBox;
 
 #include <QObject>
 #include <QSpinBox>
@@ -58,6 +59,7 @@ Q_DECLARE_METATYPE(LcfObjectHolder<double>)
 namespace WidgetHelper {
 	void connect(QWidget* parent, QLineEdit* lineEdit);
 	void connect(QWidget* parent, QCheckBox* checkBox);
+	void connect(QWidget* parent, QGroupBox* groupBox);
 
 	template<typename T>
 	void connect(QWidget* parent, QSpinBox* spinBox) {
@@ -76,6 +78,7 @@ namespace WidgetHelper {
 
 	void setProperty(QLineEdit* widget, std::string& data);
 	void setProperty(QCheckBox* widget, bool& data);
+	void setProperty(QGroupBox* widget, bool& data);
 
 	template<typename T>
 	void setProperty(QSpinBox* widget, T& data) {

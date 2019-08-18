@@ -45,7 +45,6 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_groupCritChance_toggled(bool on);
 	void on_comboInitialWeapon_currentIndexChanged(int index);
 	void on_comboInitialShield_currentIndexChanged(int index);
 	void on_comboInitialArmor_currentIndexChanged(int index);
@@ -55,7 +54,6 @@ private slots:
 	void on_pushSetCharset_clicked();
 	void on_pushSetFace_clicked();
 	void on_comboBattleset_currentIndexChanged(int index);
-	void on_spinCritChance_valueChanged(int arg1);
 	void on_pushApplyProfession_clicked();
 
 signals:

@@ -119,8 +119,14 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 		WidgetHelper::connect(this, uis);
 	}
 
-	WidgetHelper::connect<int32_t>(this, ui->spinMinLv);
-	WidgetHelper::connect<int32_t>(this, ui->spinMaxLv);
+	for (auto& uis : {
+			ui->spinMinLv,
+			ui->spinMaxLv,
+			ui->spinCritChance }) {
+		WidgetHelper::connect<int32_t>(this, uis);
+	}
+
+	WidgetHelper::connect(this, ui->groupCritChance);
 }
 
 void ActorWidget::setData(RPG::Actor* actor) {
@@ -158,13 +164,6 @@ void ActorWidget::UpdateModels()
 	on_currentActorChanged(m_currentActor);
 }
 
-void ActorWidget::on_groupCritChance_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->critical_hit == checked)
-		return;
-	m_currentActor->critical_hit = checked;
-}
-
 void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 {
 	if (!m_currentActor)
@@ -176,13 +175,6 @@ void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
 		m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(index) - 1]);
-}
-
-void ActorWidget::on_spinCritChance_valueChanged(int arg1)
-{
-	if (!m_currentActor || m_currentActor->critical_hit_chance == 1)
-		return;
-	m_currentActor->critical_hit_chance = arg1;
 }
 
 void ActorWidget::on_comboInitialWeapon_currentIndexChanged(int index)
@@ -294,7 +286,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 	ResetExpText(actor);
 
-	if (actor == nullptr){
+	if (actor == nullptr) {
 		/* Clear widgets */
 		ui->lineName->clear();
 		ui->lineTitle->clear();
@@ -361,9 +353,9 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	WidgetHelper::setProperty(ui->checkTranslucent, actor->transparent);
 	WidgetHelper::setProperty(ui->spinMinLv, actor->initial_level);
 	WidgetHelper::setProperty(ui->spinMaxLv, actor->final_level);
+	WidgetHelper::setProperty(ui->spinCritChance, actor->critical_hit_chance);
+	WidgetHelper::setProperty(ui->groupCritChance, actor->critical_hit);
 
-	ui->spinCritChance->setValue(actor->critical_hit_chance);
-	ui->groupCritChance->setChecked(actor->critical_hit);
 	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
 	ui->comboInitialArmor->clear();
 	ui->comboInitialHelmet->clear();

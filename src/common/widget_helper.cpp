@@ -17,6 +17,7 @@
 
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QGroupBox>
 
 #include "widget_helper.h"
 
@@ -52,6 +53,20 @@ void WidgetHelper::connect(QWidget* parent, QCheckBox* checkBox) {
 	parent->connect(checkBox, &QCheckBox::stateChanged, parent, callback);
 }
 
+void WidgetHelper::connect(QWidget* parent, QGroupBox* groupBox) {
+	auto callback = [=](){
+		QVariant variant = groupBox->property("ee_data");
+		if (variant.isNull()) {
+			return;
+		}
+
+		auto data = variant.value<LcfObjectHolder<bool>>();
+		data.obj() = groupBox->isChecked();
+	};
+
+	parent->connect(groupBox, &QGroupBox::toggled, parent, callback);
+}
+
 void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
 	QVariant v;
 	LcfObjectHolder oh(data);
@@ -61,6 +76,14 @@ void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
 }
 
 void WidgetHelper::setProperty(QCheckBox* widget, bool& data) {
+	QVariant v;
+	LcfObjectHolder oh(data);
+	v.setValue(oh);
+	widget->setProperty("ee_data", v);
+	widget->setChecked(data);
+}
+
+void WidgetHelper::setProperty(QGroupBox* widget, bool& data) {
 	QVariant v;
 	LcfObjectHolder oh(data);
 	v.setValue(oh);
