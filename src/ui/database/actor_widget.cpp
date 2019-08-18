@@ -114,8 +114,8 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 			ui->checkAI,
 			ui->checkDualWeapon,
 			ui->checkFixedEquip,
-			ui->checkTranslucent,
-			ui->checkStrongDefense }) {
+			ui->checkStrongDefense,
+			ui->checkTranslucent }) {
 		WidgetHelper::connect(this, uis);
 	}
 
@@ -314,33 +314,8 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 			ui->listAttributeRanks->item(i)->setIcon(QIcon());
 		for (int i = 0; i < ui->listStatusRanks->count(); i++)
 			ui->listStatusRanks->item(i)->setIcon(QIcon());
-		/* Disable widgets */
-		ui->lineName->setEnabled(false);
-		ui->lineTitle->setEnabled(false);
-		ui->spinMaxLv->setEnabled(false);
-		ui->spinMinLv->setEnabled(false);
-		ui->checkAI->setEnabled(false);
-		ui->checkDualWeapon->setEnabled(false);
-		ui->checkFixedEquip->setEnabled(false);
-		ui->checkStrongDefense->setEnabled(false);
-		ui->checkTranslucent->setEnabled(false);
-		ui->groupCritChance->setEnabled(false);
-		ui->comboBattleset->setEnabled(false);
-		ui->comboInitialArmor->setEnabled(false);
-		ui->comboInitialHelmet->setEnabled(false);
-		ui->comboInitialMisc->setEnabled(false);
-		ui->comboInitialWeapon->setEnabled(false);
-		ui->comboInitialShield->setEnabled(false);
-		ui->comboProfession->setEnabled(false);
-		ui->comboUnarmedAnimation->setEnabled(false);
-		ui->tableSkills->setEnabled(false);
-		ui->listAttributeRanks->setEnabled(false);
-		ui->listStatusRanks->setEnabled(false);
-		ui->pushApplyProfession->setEnabled(false);
-		ui->pushExpCurveEdit->setEnabled(false);
-		ui->pushSetCharset->setEnabled(false);
-		ui->pushSetFace->setEnabled(false);
-		ui->pushEditCustom->setEnabled(false);
+
+		this->setEnabled(false);
 		return;
 	}
 
@@ -458,33 +433,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	m_intItem->setData(actor->parameters.spirit);
 	m_agyItem->setData(actor->parameters.agility);
 
-	/* Enable widgets */
-	ui->lineName->setEnabled(true);
-	ui->lineTitle->setEnabled(true);
-	ui->spinMaxLv->setEnabled(true);
-	ui->spinMinLv->setEnabled(true);
-	ui->checkAI->setEnabled(true);
-	ui->checkDualWeapon->setEnabled(true);
-	ui->checkFixedEquip->setEnabled(true);
-	ui->checkStrongDefense->setEnabled(true);
-	ui->checkTranslucent->setEnabled(true);
-	ui->groupCritChance->setEnabled(true);
-	ui->comboBattleset->setEnabled(true);
-	ui->comboInitialArmor->setEnabled(true);
-	ui->comboInitialHelmet->setEnabled(true);
-	ui->comboInitialMisc->setEnabled(true);
-	ui->comboInitialWeapon->setEnabled(true);
-	ui->comboInitialShield->setEnabled(true);
-	ui->comboProfession->setEnabled(true);
-	ui->comboUnarmedAnimation->setEnabled(true);
-	ui->tableSkills->setEnabled(true);
-	ui->listAttributeRanks->setEnabled(true);
-	ui->listStatusRanks->setEnabled(true);
-	ui->pushApplyProfession->setEnabled(true);
-	ui->pushExpCurveEdit->setEnabled(true);
-	ui->pushSetCharset->setEnabled(true);
-	ui->pushSetFace->setEnabled(true);
-	ui->pushEditCustom->setEnabled(true);
+	this->setEnabled(true);
 
 	m_currentActor = actor;
 }
