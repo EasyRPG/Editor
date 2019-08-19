@@ -42,8 +42,10 @@ Project::ProjectList Project::enumerate(const QDir& path) {
 }
 
 std::shared_ptr<Project> Project::load(const QString& path) {
-	QDir dir = QDir(path);
+	return load(QDir(path));
+}
 
+std::shared_ptr<Project> Project::load(const QDir& dir) {
 	FileFinder::ProjectType project_type = FileFinder::GetProjectType(dir);
 
 	if (project_type == FileFinder::ProjectType::None) {
@@ -83,6 +85,8 @@ std::shared_ptr<Project> Project::load(const QString& path) {
 
 	return p;
 }
+
+
 
 bool Project::loadDatabaseAndMapTree() {
 	// FIXME: Should assign to private members when liblcf doesn't use global DB and Tree anymore
@@ -136,19 +140,16 @@ std::unique_ptr<RPG::Map> Project::loadMap(int index) {
 	}
 }
 
-bool Project::saveMap(RPG::Map& map, int index) {
+bool Project::saveMap(RPG::Map& map, int index, bool incSavecount) {
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")
 			.arg(QString::number(index), 4, QLatin1Char('0')).arg(ext);
-	QString mapFile = findFile(file);
+	QString mapFile = findFileOrDefault(file);
 
-	if (mapFile.isNull()) {
-		// New Map file
-		mapFile = file;
+	if (incSavecount) {
+		LMU_Reader::PrepareSave(map);
 	}
-
-	LMU_Reader::PrepareSave(map);
 
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
 		return LMU_Reader::SaveXml(mapFile.toStdString(), map);
@@ -157,12 +158,22 @@ bool Project::saveMap(RPG::Map& map, int index) {
 	}
 }
 
+void Project::relocate(const QDir& newDir, FileFinder::ProjectType newProjectType) {
+	setProjectDir(newDir);
+	setProjectType(newProjectType);
+}
+
 QString Project::findFile(const QString& filename, FileFinder::FileType type) const {
 	return FileFinder::Find(projectDir().absolutePath(), filename, type);
 }
 
 QString Project::findFile(const QString& dir, const QString& filename, FileFinder::FileType type) const {
 	return FileFinder::Find(projectDir().absolutePath(), dir, filename, type);
+}
+
+QString Project::findFileOrDefault(const QString& filename) {
+	QString found = findFile(filename);
+	return found.isEmpty() ? FileFinder::CombinePath(projectDir().absolutePath(), filename) : found;
 }
 
 QString Project::encoding() const {
@@ -207,8 +218,10 @@ RPG::TreeMap& Project::treeMap() const {
 	return *m_treeMap;
 }
 
-bool Project::saveDatabase() {
-	LDB_Reader::PrepareSave(*m_db);
+bool Project::saveDatabase(bool inc_savecount) {
+	if (inc_savecount) {
+		LDB_Reader::PrepareSave(*m_db);
+	}
 
 	Data::data = *m_db;
 	ScopeGuard clear_on_return([]() {
@@ -216,11 +229,11 @@ bool Project::saveDatabase() {
 	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!LDB_Reader::Save(findFile(RM_DB).toStdString(), encoding().toStdString())) {
+		if (!LDB_Reader::Save(findFileOrDefault(RM_DB).toStdString(), encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!LDB_Reader::SaveXml(findFile(EASY_DB).toStdString())) {
+		if (!LDB_Reader::SaveXml(findFileOrDefault(EASY_DB).toStdString())) {
 			return false;
 		}
 	}
@@ -235,11 +248,11 @@ bool Project::saveTreeMap() {
 	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!LMT_Reader::Save(findFile(RM_MT).toStdString(), encoding().toStdString())) {
+		if (!LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!LMT_Reader::SaveXml(findFile(EASY_MT).toStdString())) {
+		if (!LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString())) {
 			return false;
 		}
 	}

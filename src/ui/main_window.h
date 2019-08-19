@@ -42,7 +42,7 @@ public:
 
 	void LoadLastProject();
 	void LoadProject(QString foldername);
-	void ImportProject(QString p_path, QString d_folder, bool convert_xyz);
+	void ImportProject(const QDir& src_dir, QDir& target_dir, bool convert_xyz);
 
 	MapScene *currentScene();
 	void openScene(int mapID);

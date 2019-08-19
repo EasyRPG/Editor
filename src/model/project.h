@@ -35,13 +35,23 @@ public:
 	static ProjectList enumerate(const QDir& path);
 
 	static std::shared_ptr<Project> load(const QString& path);
+	static std::shared_ptr<Project> load(const QDir& path);
 
 	bool loadDatabaseAndMapTree();
 	std::unique_ptr<RPG::Map> loadMap(int index);
-	bool saveMap(RPG::Map& map, int index);
+	bool saveMap(RPG::Map& map, int index, bool incSavecount = true);
+
+	void relocate(const QDir& newDir, FileFinder::ProjectType newProjectType);
 
 	QString findFile(const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
 	QString findFile(const QString& dir, const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
+	/**
+	 * Does a case-insensitive file search. When the file is not found the
+	 * requested filename is returned.
+	 * @param filename File to find
+	 * @return Found file or the passed filename when not found
+	 */
+	QString findFileOrDefault(const QString& filename);
 
 	QString encoding() const;
 	void setEncoding(const QString& encoding);
@@ -58,7 +68,7 @@ public:
 	RPG::Database& database() const;
 	RPG::TreeMap& treeMap() const;
 
-	bool saveDatabase();
+	bool saveDatabase(bool incSavecount = true);
 	bool saveTreeMap();
 
 private:
