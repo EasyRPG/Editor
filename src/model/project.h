@@ -68,6 +68,6 @@ private:
 	std::shared_ptr<QSettings> m_projectSettings;
 	QString m_gameTitle;
 
-	RPG::Database* m_db = nullptr;
-	RPG::TreeMap* m_treeMap = nullptr;
+	std::unique_ptr<RPG::Database> m_db;
+	std::unique_ptr<RPG::TreeMap> m_treeMap;
 };

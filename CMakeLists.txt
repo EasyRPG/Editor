@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/common/filefinder.h
 	src/common/image_loader.cpp
 	src/common/image_loader.h
+	src/common/scope_guard.h
 	src/core.cpp
 	src/core.h
 	src/defines.h

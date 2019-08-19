@@ -18,6 +18,7 @@
 #include "project.h"
 #include "defines.h"
 #include "common/filefinder.h"
+#include "common/scope_guard.h"
 #include "data.h"
 #include "inireader.h"
 #include "reader_util.h"
@@ -86,7 +87,11 @@ std::shared_ptr<Project> Project::load(const QString& path) {
 bool Project::loadDatabaseAndMapTree() {
 	// FIXME: Should assign to private members when liblcf doesn't use global DB and Tree anymore
 	// TODO: Error reporting
-	Data::Clear();
+	ScopeGuard clear_on_return([]() {
+		// wipe global variable, makes it easier to find
+		// bugs by accidentally reading from Data::*
+		Data::Clear();
+	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
 		if (!LDB_Reader::Load(findFile(RM_DB).toStdString(), encoding().toStdString())) {
@@ -106,8 +111,9 @@ bool Project::loadDatabaseAndMapTree() {
 		}
 	}
 
-	m_db = &Data::data;
-	m_treeMap = &Data::treemap;
+	// Copy db and treemap
+	m_db.reset(new RPG::Database(Data::data));
+	m_treeMap.reset(new RPG::TreeMap(Data::treemap));
 
 	return true;
 }
@@ -141,6 +147,8 @@ bool Project::saveMap(RPG::Map& map, int index) {
 		// New Map file
 		mapFile = file;
 	}
+
+	LMU_Reader::PrepareSave(map);
 
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
 		return LMU_Reader::SaveXml(mapFile.toStdString(), map);
@@ -200,6 +208,13 @@ RPG::TreeMap& Project::treeMap() const {
 }
 
 bool Project::saveDatabase() {
+	LDB_Reader::PrepareSave(*m_db);
+
+	Data::data = *m_db;
+	ScopeGuard clear_on_return([]() {
+		Data::Clear();
+	});
+
 	if (projectType() == FileFinder::ProjectType::Legacy) {
 		if (!LDB_Reader::Save(findFile(RM_DB).toStdString(), encoding().toStdString())) {
 			return false;
@@ -214,6 +229,11 @@ bool Project::saveDatabase() {
 }
 
 bool Project::saveTreeMap() {
+	Data::treemap = *m_treeMap;
+	ScopeGuard clear_on_return([]() {
+		Data::Clear();
+	});
+
 	if (projectType() == FileFinder::ProjectType::Legacy) {
 		if (!LMT_Reader::Save(findFile(RM_MT).toStdString(), encoding().toStdString())) {
 			return false;
