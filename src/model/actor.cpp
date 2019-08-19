@@ -16,9 +16,52 @@
  */
 
 #include "actor.h"
+#include "rpg_item.h"
+#include "reader_util.h"
 
-Actor::Actor(RPG::Actor& actor) : actor(actor) {
+#include "common/sortfilter_proxy_models.h"
 
+#include <QSortFilterProxyModel>
+
+Actor::Actor(RPG::Actor& actor, Project& project) :
+	actor(actor), project(project) {
+
+}
+
+bool Actor::IsItemUsable(const RPG::Item& item) const {
+	int query_idx = actor.ID - 1;
+	auto* query_set = &item.actor_set;
+	/*TODO if (Player::IsRPG2k3() && Data::system.equipment_setting == RPG::System::EquipmentSetting_class) {
+		auto* cls = GetClass();
+
+		// Class index. If there's no class, in the "class_set" it's equal to 0. The first class is 1, not 0
+		query_idx = cls ? cls->ID : 0;
+		query_set = &item->class_set;
+	}*/
+
+	// If the actor or class ID is out of range this is an optimization in the ldb file
+	// (all actors or classes missing can equip the item)
+	if (query_set->size() <= (unsigned)(query_idx)) {
+		return true;
+	}
+
+	return query_set->at(query_idx);
+}
+
+QSortFilterProxyModel* Actor::CreateEquipmentFilter(RPG::Item::Type type) {
+	std::vector<int> indices;
+
+	for (size_t i = 0; i < project.database().items.size(); ++i) {
+		const RPG::Item& item = *ReaderUtil::GetElement(project.database().items, i + 1);
+
+		if (item.type != type || !IsItemUsable(item)) {
+			continue;
+		}
+
+		indices.push_back(i + 1);
+	}
+
+	return new SortFilterProxyModelIndexFilter(indices);
 }
 
 RPG::Actor& Actor::data() {

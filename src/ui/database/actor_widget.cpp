@@ -19,8 +19,10 @@
 #include "ui_actor_widget.h"
 #include <QTimer>
 #include <QGraphicsOpacityEffect>
+#include <QSortFilterProxyModel>
 
 #include "common/widget_helper.h"
+#include "model/actor.h"
 
 ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -127,7 +129,7 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	}
 
 	for (auto& uis : {
-			ui->comboInitialWeapon,
+
 			ui->comboInitialShield,
 			ui->comboInitialArmor,
 			ui->comboInitialHelmet,
@@ -135,10 +137,13 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 		WidgetHelper::connect<int16_t>(this, uis, true);
 	}
 
+	WidgetHelper::connect<int16_t>(this, ui->comboInitialWeapon);
+
 	WidgetHelper::connect(this, ui->groupCritChance);
 
 	WidgetHelper::connect<int32_t>(this, ui->comboUnarmedAnimation);
 
+	weaponModel = ui->comboInitialWeapon->model();
 }
 
 void ActorWidget::setData(RPG::Actor* actor) {
@@ -172,6 +177,14 @@ void ActorWidget::UpdateModels()
 		ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.states.size(); i++)
 		ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
+
+
+
+	ui->comboInitialWeapon->addItem(tr("<none>"));
+	for (unsigned int i = 0; i < m_data.items.size(); i++)
+		ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str());
+
+
 
 	on_currentActorChanged(m_currentActor);
 }
@@ -243,7 +256,7 @@ void ActorWidget::ResetExpText(lcf::rpg::Actor* actor) {
 
 void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
-	m_currentActor = nullptr;
+	m_currentActor = actor;
 
 	ResetExpText(actor);
 
@@ -264,7 +277,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		ui->comboInitialArmor->clear();
 		ui->comboInitialHelmet->clear();
 		ui->comboInitialMisc->clear();
-		ui->comboInitialWeapon->clear();
+		//ui->comboInitialWeapon->clear();
 		ui->comboInitialShield->clear();
 		ui->comboProfession->setCurrentIndex(0);
 		ui->comboUnarmedAnimation->setCurrentIndex(0);
@@ -292,7 +305,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	WidgetHelper::setProperty(ui->spinCritChance, actor->critical_hit_chance);
 	WidgetHelper::setProperty(ui->groupCritChance, actor->critical_hit);
 	WidgetHelper::setProperty(ui->comboUnarmedAnimation, actor->unarmed_animation);
-	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id, true);
+	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id);
 	WidgetHelper::setProperty(ui->comboInitialShield, actor->initial_equipment.shield_id, true);
 	WidgetHelper::setProperty(ui->comboInitialHelmet, actor->initial_equipment.helmet_id, true);
 	WidgetHelper::setProperty(ui->comboInitialArmor, actor->initial_equipment.armor_id, true);
@@ -307,17 +320,24 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		ui->comboInitialMisc
 	};
 
+
+	auto filter = Actor(*m_currentActor, *core().project()).CreateEquipmentFilter(RPG::Item::Type_weapon);
+	filter->setParent(this);
+	ui->comboInitialWeapon->setModel(filter);
+	filter->setSourceModel(weaponModel);
+	filter->invalidate();
+
 	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
 	ui->comboInitialArmor->clear();
 	ui->comboInitialHelmet->clear();
 	ui->comboInitialMisc->clear();
 	ui->comboInitialShield->clear();
-	ui->comboInitialWeapon->clear();
+	//ui->comboInitialWeapon->clear();
 	ui->comboInitialArmor->addItem(tr("<none>"), 0);
 	ui->comboInitialHelmet->addItem(tr("<none>"), 0);
 	ui->comboInitialMisc->addItem(tr("<none>"), 0);
 	ui->comboInitialShield->addItem(tr("<none>"), 0);
-	ui->comboInitialWeapon->addItem(tr("<none>"), 0);
+	//ui->comboInitialWeapon->addItem(tr("<none>"), 0);
 	for (size_t i = 0; i < m_data.items.size(); i++)
 	{
 		/* Check if hero can use item*/
@@ -351,10 +371,11 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 				ui->comboInitialShield->setCurrentIndex(ui->comboInitialShield->count()-1);
 			break;
 		case lcf::rpg::Item::Type_weapon:
-			ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
+			break;
+			/*ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
 			if (actor->initial_equipment.weapon_id == m_data.items[i].ID)
 				ui->comboInitialWeapon->setCurrentIndex(ui->comboInitialWeapon->count()-1);
-			break;
+			break;*/
 		}
 	}
 	ui->comboProfession->setCurrentIndex(actor->class_id);
@@ -409,8 +430,6 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	m_agyItem->setData(actor->parameters.agility);
 
 	this->setEnabled(true);
-
-	m_currentActor = actor;
 }
 
 void ActorWidget::on_pushApplyProfession_clicked()

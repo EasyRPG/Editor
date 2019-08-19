@@ -17,33 +17,22 @@
 
 #pragma once
 
-#include "project.h"
-#include "rpg_actor.h"
+/* This file implements various general purpose QSortFilterProxyModels */
 
-class QSortFilterProxyModel;
+#include <vector>
+
+#include <QModelIndex>
+#include <QSortFilterProxyModel>
 
 /**
- * A thin wrapper around RPG::Actor
+ * Filters by a list of indices
  */
-class Actor
-{
+class SortFilterProxyModelIndexFilter : public QSortFilterProxyModel {
 public:
-	Actor(RPG::Actor& actor, Project& project);
-
-	bool IsItemUsable(const RPG::Item& item) const;
-
-	/**
-	 * Create a SortFilterProxy which only contains items of a specific type
-	 * and who the actor can equip.
-	 * @param type Equipment type
-	 * @return QSortFilterProxyModel
-	 */
-	QSortFilterProxyModel* CreateEquipmentFilter(RPG::Item::Type type);
-
-	RPG::Actor& data();
+	SortFilterProxyModelIndexFilter(const std::vector<int>& indices);
+	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
 private:
-	RPG::Actor& actor;
-	Project& project;
+	std::vector<int> indices;
 };
 

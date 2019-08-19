@@ -75,5 +75,7 @@ private:
 
 	lcf::rpg::Actor *m_currentActor;
 	lcf::rpg::Database &m_data;
+
+	QAbstractItemModel* weaponModel;
 };
 

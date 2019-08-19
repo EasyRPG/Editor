@@ -15,35 +15,16 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "sortfilter_proxy_models.h"
 
-#include "project.h"
-#include "rpg_actor.h"
+SortFilterProxyModelIndexFilter::SortFilterProxyModelIndexFilter(const std::vector<int>& indices) :
+		QSortFilterProxyModel() {
+	this->indices = indices;
+	std::sort(this->indices.begin(), this->indices.end());
+}
 
-class QSortFilterProxyModel;
+bool SortFilterProxyModelIndexFilter::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const {
+	Q_UNUSED(sourceParent)
 
-/**
- * A thin wrapper around RPG::Actor
- */
-class Actor
-{
-public:
-	Actor(RPG::Actor& actor, Project& project);
-
-	bool IsItemUsable(const RPG::Item& item) const;
-
-	/**
-	 * Create a SortFilterProxy which only contains items of a specific type
-	 * and who the actor can equip.
-	 * @param type Equipment type
-	 * @return QSortFilterProxyModel
-	 */
-	QSortFilterProxyModel* CreateEquipmentFilter(RPG::Item::Type type);
-
-	RPG::Actor& data();
-
-private:
-	RPG::Actor& actor;
-	Project& project;
-};
-
+	return std::binary_search(this->indices.begin(), this->indices.end(), sourceRow);
+}
