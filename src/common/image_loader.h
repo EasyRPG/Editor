@@ -17,38 +17,9 @@
 
 #pragma once
 
-#include <QDialog>
-#include "model/project.h"
+#include <QPixmap>
+#include <QString>
 
-namespace Ui {
-class OpenProjectDialog;
+namespace ImageLoader {
+	QPixmap Load(const QString& path);
 }
-
-class OpenProjectDialog : public QDialog
-{
-	Q_OBJECT
-
-public:
-	explicit OpenProjectDialog(QWidget *parent = nullptr);
-	~OpenProjectDialog();
-
-	void setDefaultDir(const QString& n_defDir);
-	QString getDefaultDir();
-
-	std::shared_ptr<Project> getProject();
-
-private slots:
-	void on_toolProjectPath_clicked();
-
-	void on_tableProjects_cellDoubleClicked(int row, int column);
-
-	void on_tableProjects_itemSelectionChanged();
-
-private:
-	Ui::OpenProjectDialog *ui;
-	QString m_defaultDir;
-	bool removeDir(const QString &dirName);
-	void refreshProjectList();
-	Project::ProjectList prjList;
-};
-

@@ -17,6 +17,7 @@
 
 #include "charset_item.h"
 #include "core.h"
+#include "common/image_loader.h"
 
 CharSetItem::CharSetItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
@@ -31,11 +32,11 @@ CharSetItem::CharSetItem(const QPixmap pix) :
 
 void CharSetItem::setBasePix(const QString &n_pixName)
 {
-	m_pix.reset(new QPixmap(mCore->filePath(CHARSET,n_pixName)));
-	if (m_pix->isNull())
-		m_pix.reset(new QPixmap(mCore->rtpPath(CHARSET,n_pixName)));
-	if (m_pix->isNull())
-		m_pix.reset(mCore->createDummyPixmap(288,256));
+	m_pix = ImageLoader::Load(core().project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image));
+	if (!m_pix)
+		m_pix = ImageLoader::Load(core().rtpPath(CHARSET, n_pixName));
+	if (!m_pix)
+		m_pix = core().createDummyPixmap(288,256);
 	updatePix();
 }
 
@@ -73,7 +74,7 @@ void CharSetItem::setFrame(int frame)
 
 void CharSetItem::updatePix()
 {
-	if (m_pix->isNull())
+	if (!m_pix)
 		return;
 	if (m_index == -1)
 	{
@@ -83,7 +84,7 @@ void CharSetItem::updatePix()
 		{
 			int src_x = (index%4)*72 + m_frame * 24;
 			int src_y = (index/4)*128 + m_facing * 32;
-			p.drawPixmap((index%4)*24, (index/4)*32, 24, 32, m_pix->copy(src_x,src_y,24,32));
+			p.drawPixmap((index%4)*24, (index/4)*32, 24, 32, m_pix.copy(src_x,src_y,24,32));
 		}
 		p.end();
 		this->setPixmap(n_pix);
@@ -92,7 +93,7 @@ void CharSetItem::updatePix()
 	{
 		int x = (m_index%4)*72 + m_frame * 24;
 		int y = (m_index/4)*128 + m_facing * 32;
-		this->setPixmap(m_pix->copy(x,y,24,32));
+		this->setPixmap(m_pix.copy(x,y,24,32));
 	}
 }
 

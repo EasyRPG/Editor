@@ -42,7 +42,7 @@ public:
 
 	void LoadLastProject();
 	void LoadProject(QString foldername);
-	void ImportProject(QString p_path, QString d_folder, bool convert_xyz);
+	void ImportProject(const QDir& src_dir, QDir& target_dir, bool convert_xyz);
 
 	MapScene *currentScene();
 	void openScene(int mapID);
@@ -119,7 +119,7 @@ private slots:
 
 	void on_actionRevert_Map_triggered();
 
-	void on_treeMap_itemSelectionChanged();
+	void on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
 
 	void on_actionNew_Map_triggered();
 
@@ -151,7 +151,6 @@ private:
 	ResourceManagerDialog *dlg_resource;
 	DatabaseDialog *dlg_db;
 	QSettings m_settings;
-	QSettings *m_projSett;
 	PaletteScene *m_paletteScene;
 	QMap<int,QGraphicsView*> m_views;
 	QMap<int,QTreeWidgetItem*> m_treeItems;

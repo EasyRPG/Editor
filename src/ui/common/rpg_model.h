@@ -19,7 +19,8 @@
 
 #include <QObject>
 #include <QAbstractItemModel>
-#include <data.h>
+#include "core.h"
+#include "data.h"
 
 template <class DATA>
 class RpgModel : public QAbstractListModel
@@ -65,7 +66,7 @@ QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
 
 
 #define VARSTRUCT(STRUCTNAME, VARNAME) \
-	namespace detail { struct STRUCTNAME { decltype(Data::VARNAME) operator()() const { return Data::VARNAME; } }; } \
+	namespace detail { struct STRUCTNAME { decltype(core().project()->database().VARNAME) operator()() const { return core().project()->database().VARNAME; } }; } \
 	using  STRUCTNAME##RpgModel = RpgModel<detail::STRUCTNAME>;
 
 VARSTRUCT(Actor, actors)

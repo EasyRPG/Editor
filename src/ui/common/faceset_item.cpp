@@ -26,9 +26,9 @@ FaceSetItem::FaceSetItem(const QPixmap pix) :
 
 void FaceSetItem::setBasePix(const QString &n_pixName)
 {
-	m_pix = QPixmap(mCore->filePath(FACESET,n_pixName));
-	if (m_pix.isNull())
-		m_pix = QPixmap(mCore->rtpPath(FACESET,n_pixName));
+	m_pix = QPixmap(core().project()->findFile(FACESET, n_pixName, FileFinder::FileType::Image));
+	if (!m_pix)
+		m_pix = QPixmap(core().rtpPath(FACESET,n_pixName));
 	updatePix();
 }
 
@@ -66,7 +66,7 @@ void FaceSetItem::setFrame(int frame)
 
 void FaceSetItem::updatePix()
 {
-	if (m_pix.isNull())
+	if (!m_pix)
 		return;
 	if (m_index == -1)
 	{

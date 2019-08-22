@@ -15,6 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core.h"
 #include "database_dialog.h"
 #include "ui_database_dialog.h"
 #include <QPushButton>
@@ -24,10 +25,10 @@
 
 DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::DatabaseDialog)
+	ui(new Ui::DatabaseDialog),
+	m_data(core().project()->database())
 {
 	ui->setupUi(this);
-	m_data = Data::data;
 	m_currentActor = nullptr;
 	on_currentActorChanged(nullptr);
 	Old_PageActors = new ActorWidget(m_data, this);
@@ -68,10 +69,10 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->tabOld_Pages->setCurrentWidget(Old_PageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
 	/* Fill Characters list */
-	for (unsigned int i = 0; i < Data::actors.size(); i++)
+	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
 		ui->listNew_Character->addItem(QString("%1:%2")
 								   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-								   .arg(Data::actors[i].name.c_str()));
+								   .arg(core().project()->database().actors[i].name.c_str()));
 }
 
 DatabaseDialog::~DatabaseDialog()
@@ -161,8 +162,7 @@ void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 		case QDialogButtonBox::Apply:
 		case QDialogButtonBox::Ok:
 			LDB_Reader::PrepareSave(m_data);
-			Data::data = m_data;
-			LDB_Reader::SaveXml(mCore->filePath(ROOT,EASY_DB).toStdString());
+			core().project()->saveDatabase();
 		break;
 		default:
 			// shouldn't happen

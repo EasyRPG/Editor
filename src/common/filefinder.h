@@ -17,38 +17,35 @@
 
 #pragma once
 
-#include <QDialog>
-#include "model/project.h"
+#include <QDir>
 
-namespace Ui {
-class OpenProjectDialog;
-}
+namespace FileFinder {
+	enum class FileType {
+		Default,
+		Image,
+		Sound,
+		Music,
+		Video,
+		Font
+	};
 
-class OpenProjectDialog : public QDialog
-{
-	Q_OBJECT
+	enum class ProjectType {
+		None,
+		/** EasyRPG project */
+		EasyRpg,
+		/** Legacy (RPG Maker 2k/2k3) project */
+		Legacy
+	};
 
-public:
-	explicit OpenProjectDialog(QWidget *parent = nullptr);
-	~OpenProjectDialog();
+	QString Find(const QDir& directory, const QString& filename, FileType type = FileType::Default);
+	QString Find(const QDir& baseDir, const QString& subDir, const QString& filename, FileType type = FileType::Default);
 
-	void setDefaultDir(const QString& n_defDir);
-	QString getDefaultDir();
+	ProjectType GetProjectType(const QDir& directory);
 
-	std::shared_ptr<Project> getProject();
+	bool IsRPG2kProject(const QDir& directory);
 
-private slots:
-	void on_toolProjectPath_clicked();
+	bool IsEasyRpgProject(const QDir& directory);
 
-	void on_tableProjects_cellDoubleClicked(int row, int column);
-
-	void on_tableProjects_itemSelectionChanged();
-
-private:
-	Ui::OpenProjectDialog *ui;
-	QString m_defaultDir;
-	bool removeDir(const QString &dirName);
-	void refreshProjectList();
-	Project::ProjectList prjList;
+	QString CombinePath(const QString& path1, const QString& path2);
 };
 

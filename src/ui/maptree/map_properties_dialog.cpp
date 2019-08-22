@@ -29,7 +29,7 @@ MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWid
 	ui->setupUi(this);
 
 	for (int terrain = 0; terrain < 162; terrain++)
-		m_generatorLowerLayer.push_back(mCore->translate(terrain, UP+DOWN+LEFT+RIGHT));
+		m_generatorLowerLayer.push_back(core().translate(terrain, UP+DOWN+LEFT+RIGHT));
 	for (short tile_id = 10000; tile_id < 10144; tile_id++)
 		m_generatorUpperLayer.push_back(tile_id);
 
@@ -47,8 +47,8 @@ MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWid
 	ui->lineName->setText(QString::fromStdString(info.name));
 	ui->lineBGMname->setText(QString::fromStdString(info.music.name));
 	ui->lineBackdropName->setText(QString::fromStdString(info.background_name));
-	for (int i = 0; i < static_cast<int>(Data::chipsets.size()); i++)
-		ui->comboTileset->addItem(QString::fromStdString(Data::chipsets[static_cast<size_t>(i)].name), i+1);
+	for (int i = 0; i < static_cast<int>(core().project()->database().chipsets.size()); i++)
+		ui->comboTileset->addItem(QString::fromStdString(core().project()->database().chipsets[static_cast<size_t>(i)].name), i+1);
 	ui->comboTileset->setCurrentIndex(map.chipset_id-1);
 	ui->comboWrapping->setCurrentIndex(map.scroll_type);
 	ui->spinDungeonRoomHeight->setValue(map.generator_height);
@@ -89,7 +89,7 @@ MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWid
 	for (int i = static_cast<int>(info.encounters.size()) - 1; i >= 0; i--)
 	{
 		QTableWidgetItem * item = new QTableWidgetItem();
-		item->setData(Qt::DisplayRole, QString::fromStdString(Data::troops[static_cast<size_t>(info.encounters[static_cast<size_t>(i)].troop_id)-1].name));
+		item->setData(Qt::DisplayRole, QString::fromStdString(core().project()->database().troops[static_cast<size_t>(info.encounters[static_cast<size_t>(i)].troop_id)-1].name));
 		item->setData(Qt::UserRole, info.encounters[static_cast<size_t>(i)].troop_id);
 		ui->tableEncounters->insertRow(0);
 		ui->tableEncounters->setItem(0,0,item);
@@ -123,74 +123,74 @@ MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWid
 	{
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[0], QRect(0,0,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[0], QRect(0,0,32,32));
+	core().endPainting();
 	m_ceilingItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[1], QRect(0,0,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[1], QRect(0,0,32,32));
+	core().endPainting();
 	m_lowerWallItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[2], QRect(0,0,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[2], QRect(0,0,32,32));
+	core().endPainting();
 	m_upperWallItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[3], QRect(0,0,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[3], QRect(0,0,32,32));
+	core().endPainting();
 	m_floorAItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[4], QRect(0,0,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[4], QRect(0,0,32,32));
+	core().endPainting();
 	m_floorBItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[5], QRect(0,0,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[5], QRect(0,0,32,32));
+	core().endPainting();
 	m_floorCItem->setPixmap(pix);
 
 	pix = QPixmap(64, 64);
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[6], QRect(0,0,32,32));
-	mCore->renderTile(map.generator_tile_ids[7], QRect(32,0,32,32));
-	mCore->renderTile(map.generator_tile_ids[8], QRect(0,32,32,32));
-	mCore->renderTile(map.generator_tile_ids[9], QRect(32,32,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[6], QRect(0,0,32,32));
+	core().renderTile(map.generator_tile_ids[7], QRect(32,0,32,32));
+	core().renderTile(map.generator_tile_ids[8], QRect(0,32,32,32));
+	core().renderTile(map.generator_tile_ids[9], QRect(32,32,32,32));
+	core().endPainting();
 	m_ObstacleAItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[10], QRect(0,0,32,32));
-	mCore->renderTile(map.generator_tile_ids[11], QRect(32,0,32,32));
-	mCore->renderTile(map.generator_tile_ids[12], QRect(0,32,32,32));
-	mCore->renderTile(map.generator_tile_ids[13], QRect(32,32,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[10], QRect(0,0,32,32));
+	core().renderTile(map.generator_tile_ids[11], QRect(32,0,32,32));
+	core().renderTile(map.generator_tile_ids[12], QRect(0,32,32,32));
+	core().renderTile(map.generator_tile_ids[13], QRect(32,32,32,32));
+	core().endPainting();
 	m_ObstacleBItem->setPixmap(pix);
 
 	pix.fill();
-	mCore->beginPainting(pix);
-	mCore->renderTile(map.generator_tile_ids[14], QRect(0,0,32,32));
-	mCore->renderTile(map.generator_tile_ids[15], QRect(32,0,32,32));
-	mCore->renderTile(map.generator_tile_ids[16], QRect(0,32,32,32));
-	mCore->renderTile(map.generator_tile_ids[17], QRect(32,32,32,32));
-	mCore->endPainting();
+	core().beginPainting(pix);
+	core().renderTile(map.generator_tile_ids[14], QRect(0,0,32,32));
+	core().renderTile(map.generator_tile_ids[15], QRect(32,0,32,32));
+	core().renderTile(map.generator_tile_ids[16], QRect(0,32,32,32));
+	core().renderTile(map.generator_tile_ids[17], QRect(32,32,32,32));
+	core().endPainting();
 	m_ObstacleCItem->setPixmap(pix);
 	}
 	if (map.parallax_flag)
 	{
-		pix = QPixmap(mCore->filePath(PANORAMA,QString::fromStdString(map.parallax_name)));
-		if (pix.isNull())
-			pix = QPixmap(mCore->rtpPath(PANORAMA,QString::fromStdString(map.parallax_name)));
+		pix = QPixmap(core().project()->findFile(PANORAMA, QString::fromStdString(map.parallax_name), FileFinder::FileType::Image));
+		if (!pix)
+			pix = QPixmap(core().rtpPath(PANORAMA,QString::fromStdString(map.parallax_name)));
 		m_panoramaItem->setPixmap(pix);
 	}
 
