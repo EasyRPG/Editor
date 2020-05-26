@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
+#include <lcf/data.h>
 
 namespace Ui {
 class BattleScreenWidget;
@@ -29,11 +29,11 @@ class BattleScreenWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit BattleScreenWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit BattleScreenWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~BattleScreenWidget();
 
 private:
 	Ui::BattleScreenWidget *ui;
-	RPG::Database &m_data;
+	lcf::rpg::Database &m_data;
 };
 

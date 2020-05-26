@@ -26,8 +26,8 @@
 #include <QMenu>
 #include <QUndoStack>
 #include <memory>
-#include <rpg_map.h>
-#include <rpg_mapinfo.h>
+#include <lcf/rpg/map.h>
+#include <lcf/rpg/mapinfo.h>
 #include "core.h"
 
 class MapScene : public QGraphicsScene
@@ -47,8 +47,8 @@ public:
 	int id() const;
 	int chipsetId() const;
 	void setLayerData(Core::Layer layer, std::vector<short> data);
-	void setEventData(int id, const RPG::Event &data);
-	QMap<int, RPG::Event *> *mapEvents();
+	void setEventData(int id, const lcf::rpg::Event &data);
+	QMap<int, lcf::rpg::Event *> *mapEvents();
 	void editMapProperties();
 
 signals:
@@ -117,8 +117,8 @@ private:
 	QGraphicsItemGroup* m_lines;
 	QGraphicsRectItem* m_selectionTile;
 	QUndoStack *m_undoStack;
-	std::unique_ptr<RPG::Map> m_map;
-	RPG::MapInfo n_mapInfo; //To store unsaved changes
+	std::unique_ptr<lcf::rpg::Map> m_map;
+	lcf::rpg::MapInfo n_mapInfo; //To store unsaved changes
 	std::vector<short> m_lower;
 	std::vector<short> m_upper;
 	float m_scale;

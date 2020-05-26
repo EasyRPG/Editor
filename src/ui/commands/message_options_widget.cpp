@@ -18,7 +18,7 @@
 #include "message_options_widget.h"
 #include "ui_message_options_widget.h"
 
-MessageOptionsWidget::MessageOptionsWidget(QWidget *parent, RPG::EventCommand &command) :
+MessageOptionsWidget::MessageOptionsWidget(QWidget *parent, lcf::rpg::EventCommand &command) :
 	QDialog(parent),
 	ui(new Ui::MessageOptionsWidget),
 	command(command)

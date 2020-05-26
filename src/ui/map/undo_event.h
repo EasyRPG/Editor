@@ -18,19 +18,19 @@
 #pragma once
 
 #include <QUndoCommand>
-#include <rpg_event.h>
+#include <lcf/rpg/event.h>
 #include "map_scene.h"
 
 class UndoEvent : public QUndoCommand
 {
 public:
-	explicit UndoEvent(RPG::Event data,
+	explicit UndoEvent(lcf::rpg::Event data,
 						MapScene *scene,
 						QUndoCommand *parent = nullptr);
 	void undo();
 
 private:
-	RPG::Event m_data;
+	lcf::rpg::Event m_data;
 	MapScene* m_scene;
 };
 

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class FaceGraphicsWidget;
@@ -29,7 +29,7 @@ class FaceGraphicsWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit FaceGraphicsWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit FaceGraphicsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~FaceGraphicsWidget();
 
 private slots:
@@ -37,6 +37,6 @@ private slots:
 
 private:
 	Ui::FaceGraphicsWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 

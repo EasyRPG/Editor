@@ -19,7 +19,7 @@
 
 #include <QDialog>
 #include <memory>
-#include <rpg_map.h>
+#include <lcf/rpg/map.h>
 #include <vector>
 
 namespace Ui {
@@ -47,12 +47,12 @@ private slots:
 	void on_list_result_doubleClicked(const QModelIndex &index);
 
 private:
-	std::shared_ptr<RPG::Map> loadMap(int mapID);
+	std::shared_ptr<lcf::rpg::Map> loadMap(int mapID);
 
 	Ui::SearchDialog *ui;
-	using command_info = std::tuple<int, int, int, int, const RPG::EventCommand&>; // map id, event id, page index, line, event command
+	using command_info = std::tuple<int, int, int, int, const lcf::rpg::EventCommand&>; // map id, event id, page index, line, event command
 	std::vector<command_info> objectData;
-	std::vector<std::shared_ptr<RPG::Map>> map_cache;
+	std::vector<std::shared_ptr<lcf::rpg::Map>> map_cache;
 	bool useCache;
 	void showResults(const std::vector<command_info>& results);
 };

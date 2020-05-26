@@ -17,7 +17,7 @@
 
 #include "undo_event.h"
 
-UndoEvent::UndoEvent(RPG::Event data,
+UndoEvent::UndoEvent(lcf::rpg::Event data,
 					   MapScene *scene,
 					   QUndoCommand *parent) :
 QUndoCommand(parent),

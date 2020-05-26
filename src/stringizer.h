@@ -18,10 +18,10 @@
 #pragma once
 
 #include <QString>
-#include "rpg_eventcommand.h"
+#include <lcf/rpg/eventcommand.h>
 
 namespace Stringizer {
-	QString stringize(const RPG::EventCommand& com);
+	QString stringize(const lcf::rpg::EventCommand& com);
 
 	// Common stringize operations
 	QString varName(int id);

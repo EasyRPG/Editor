@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
+#include <lcf/data.h>
 
 namespace Ui {
 class ChipSetWidget;
@@ -29,11 +29,11 @@ class ChipSetWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ChipSetWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit ChipSetWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~ChipSetWidget();
 
 private:
 	Ui::ChipSetWidget *ui;
-	RPG::Database &m_data;
+	lcf::rpg::Database &m_data;
 };
 

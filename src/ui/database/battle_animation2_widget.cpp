@@ -18,7 +18,7 @@
 #include "battle_animation2_widget.h"
 #include "ui_battle_animation2_widget.h"
 
-BattleAnimation2Widget::BattleAnimation2Widget(RPG::Database &database, QWidget *parent) :
+BattleAnimation2Widget::BattleAnimation2Widget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::BattleAnimation2Widget),
 	m_data(database)

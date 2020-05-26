@@ -19,7 +19,7 @@
 #include "ui_event_page_widget.h"
 #include <QDialogButtonBox>
 #include <QMessageBox>
-#include <data.h>
+#include <lcf/data.h>
 #include "ui/common/charset_picker_dialog.h"
 #include "core.h"
 #include "stringizer.h"
@@ -62,12 +62,12 @@ EventPageWidget::~EventPageWidget()
 	delete m_charaItem;
 	delete ui;
 }
-RPG::EventPage *EventPageWidget::eventPage() const
+lcf::rpg::EventPage *EventPageWidget::eventPage() const
 {
 	return m_eventPage;
 }
 
-void EventPageWidget::setEventPage(RPG::EventPage *eventPage)
+void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 {
 	m_eventPage = eventPage;
 	ui->checkSwitchA->setChecked(eventPage->condition.flags.switch_a);
@@ -100,22 +100,25 @@ void EventPageWidget::setEventPage(RPG::EventPage *eventPage)
 	QTreeWidgetItem *parent = nullptr;
 	for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
 	{
-		const RPG::EventCommand& command = m_eventPage->event_commands[i];
+		const lcf::rpg::EventCommand& command = m_eventPage->event_commands[i];
+		using Cmd = lcf::rpg::EventCommand::Code;
+		auto code = static_cast<Cmd>(command.code);
+
 		QTreeWidgetItem *item = new QTreeWidgetItem({Stringizer::stringize(command),
 													 QString::number(m_codeGen)});
 		item->setToolTip(0, tr("Line") + ": " + QString::number(m_codeGen+1));
 		item->setData(0, Qt::UserRole, QVariant::fromValue(static_cast<void*>(&m_eventPage->event_commands[i])));
 
-		if (command.code == Cmd::ShowChoiceOption && command.parameters[0] != 0)
+		if (code == Cmd::ShowChoiceOption && command.parameters[0] != 0)
 			parent = parent->parent();
-		if (command.code == Cmd::ShowChoiceEnd)
+		if (code == Cmd::ShowChoiceEnd)
 		{
 			parent = parent->parent()->parent();
 			continue;
 		}
 		if (parent)
 		{
-			switch (command.code)
+			switch (code)
 			{
 			case (Cmd::ShowChoiceEnd):
 			case (Cmd::EndBranch):
@@ -130,7 +133,7 @@ void EventPageWidget::setEventPage(RPG::EventPage *eventPage)
 		}
 		else
 			ui->treeCommands->addTopLevelItem(item);
-		switch (command.code)
+		switch (code)
 		{
 		case (Cmd::ShowChoice):
 		case (Cmd::ConditionalBranch):
@@ -404,24 +407,23 @@ void EventPageWidget::updateGraphic()
 
 void EventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 {
-	using namespace RPG;
-	auto &cmd = *static_cast<EventCommand*>(index.data(Qt::UserRole).value<void*>());
-
-
+	auto &cmd = *static_cast<lcf::rpg::EventCommand*>(index.data(Qt::UserRole).value<void*>());
+	
 	QDialog *dialog = nullptr;
-	switch (cmd.code)
+	using Cmd = lcf::rpg::EventCommand::Code;	
+	switch (static_cast<Cmd>(cmd.code))
 	{
-		case EventCommand::Code::ChangeGold: dialog = new ChangeMoneyWidgetWidget(this, cmd); break;
-		case EventCommand::Code::ChangeItems: dialog = new ChangeItemWidget(this, cmd); break;
-		case EventCommand::Code::ChangePartyMembers: dialog = new ChangePartyWidget(this, cmd); break;
-		case EventCommand::Code::ChangeExp: dialog = new ChangeExperienceWidget(this, cmd); break;
-		case EventCommand::Code::ChangeFaceGraphic: dialog = new FaceGraphicsWidget(this, cmd); break;
-		case EventCommand::Code::InputNumber: dialog = new InputNumberWidget(this, cmd); break;
-		case EventCommand::Code::MessageOptions: dialog = new MessageOptionsWidget(this, cmd); break;
-		case EventCommand::Code::ShowChoice: dialog = new ShowChoicesWidget(this, cmd); break;
-		case EventCommand::Code::ShowMessage: dialog = new ShowMessageWidget(this, cmd); break;
-		case EventCommand::Code::ControlSwitches: dialog = new SwitchOperationsWidget(this, cmd); break;
-		case EventCommand::Code::ControlVars: dialog = new VariableOperationsWidget(this, cmd); break;
+		case Cmd::ChangeGold: dialog = new ChangeMoneyWidgetWidget(this, cmd); break;
+		case Cmd::ChangeItems: dialog = new ChangeItemWidget(this, cmd); break;
+		case Cmd::ChangePartyMembers: dialog = new ChangePartyWidget(this, cmd); break;
+		case Cmd::ChangeExp: dialog = new ChangeExperienceWidget(this, cmd); break;
+		case Cmd::ChangeFaceGraphic: dialog = new FaceGraphicsWidget(this, cmd); break;
+		case Cmd::InputNumber: dialog = new InputNumberWidget(this, cmd); break;
+		case Cmd::MessageOptions: dialog = new MessageOptionsWidget(this, cmd); break;
+		case Cmd::ShowChoice: dialog = new ShowChoicesWidget(this, cmd); break;
+		case Cmd::ShowMessage: dialog = new ShowMessageWidget(this, cmd); break;
+		case Cmd::ControlSwitches: dialog = new SwitchOperationsWidget(this, cmd); break;
+		case Cmd::ControlVars: dialog = new VariableOperationsWidget(this, cmd); break;
 	}
 
 

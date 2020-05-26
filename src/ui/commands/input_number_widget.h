@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class InputNumberWidget;
@@ -29,7 +29,7 @@ class InputNumberWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit InputNumberWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit InputNumberWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~InputNumberWidget();
 
 private slots:
@@ -37,6 +37,6 @@ private slots:
 
 private:
 	Ui::InputNumberWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 

@@ -19,7 +19,7 @@
 
 #include <QDialog>
 #include <QTableWidgetItem>
-#include <rpg_testbattler.h>
+#include <lcf/rpg/testbattler.h>
 
 namespace Ui {
 class RunGameDialog;
@@ -47,6 +47,6 @@ private:
 	void UpdateModels();
 
 	Ui::RunGameDialog *ui;
-	std::vector<RPG::TestBattler> battletest_data;
+	std::vector<lcf::rpg::TestBattler> battletest_data;
 };
 

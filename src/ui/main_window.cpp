@@ -38,13 +38,13 @@
 #include <sstream>
 #include <iomanip>
 #include "core.h"
-#include "lmu_reader.h"
-#include "lmt_reader.h"
-#include "ldb_reader.h"
-#include "inireader.h"
-#include "rpg_map.h"
-#include "rpg_mapinfo.h"
-#include "data.h"
+#include <lcf/lmu/reader.h>
+#include <lcf/lmt/reader.h>
+#include <lcf/ldb/reader.h>
+#include <lcf/inireader.h>
+#include <lcf/rpg/map.h>
+#include <lcf/rpg/mapinfo.h>
+#include <lcf/data.h>
 #include "model/project.h"
 
 Q_DECLARE_METATYPE(QList<int>)
@@ -194,7 +194,7 @@ void MainWindow::LoadProject(QString foldername)
 	root->setData(1, Qt::DisplayRole, 0);
 	root->setData(0,Qt::DisplayRole,  core().project()->gameTitle());
 	root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
-	RPG::TreeMap maps = core().project()->treeMap();
+	lcf::rpg::TreeMap maps = core().project()->treeMap();
 	ui->treeMap->addTopLevelItem(root);
 	m_treeItems.clear();
 	m_treeItems[0] = root;
@@ -211,7 +211,7 @@ void MainWindow::LoadProject(QString foldername)
 	for (unsigned int i = 1; i < (maps.tree_order.size()); i++)
 	{
 		int id = maps.tree_order[i];
-		RPG::MapInfo info;
+		lcf::rpg::MapInfo info;
 		for (unsigned int j = 0; j < maps.maps.size(); j++)
 			if (id == maps.maps[j].ID)
 			{
@@ -271,16 +271,16 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 	}
 
 	// Load all maps
-	RPG::TreeMap& maps = prj->treeMap();
+	lcf::rpg::TreeMap& maps = prj->treeMap();
 	QProgressDialog progress("Processing Maps...", "", 0, 0, this);
 	progress.setMaximum(static_cast<int>(maps.maps.size()));
 	progress.setWindowModality(Qt::WindowModal);
 
-	std::vector<std::tuple<int, std::unique_ptr<RPG::Map>>> loaded_maps;
+	std::vector<std::tuple<int, std::unique_ptr<lcf::rpg::Map>>> loaded_maps;
 
 	for (size_t i = 1; i < maps.maps.size(); i++) {
 		progress.setValue(static_cast<int>(i));
-		if (maps.maps[i].type == RPG::TreeMap::MapType_area)
+		if (maps.maps[i].type == lcf::rpg::TreeMap::MapType_area)
 			continue;
 		loaded_maps.push_back(std::make_tuple(maps.maps[i].ID, prj->loadMap(maps.maps[i].ID)));
 	}
@@ -384,7 +384,7 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 	for (unsigned int i = 0; i < maps.maps.size(); i++)
 	{
 		int id = maps.tree_order[i];
-		RPG::MapInfo info;
+		lcf::rpg::MapInfo info;
 		for (unsigned int j = 0; j < maps.maps.size(); j++)
 			if (id == maps.maps[j].ID)
 			{
@@ -620,7 +620,7 @@ void MainWindow::on_action_New_Project_triggered() {
 		root->setData(1, Qt::DisplayRole, 0);
 		root->setData(0,Qt::DisplayRole,  core().project()->gameTitle());
 		root->setIcon(0,QIcon(":/icons/share/old_folder.png"));
-		RPG::TreeMap maps = core().project()->treeMap();
+		lcf::rpg::TreeMap maps = core().project()->treeMap();
 		ui->treeMap->addTopLevelItem(root);
 		m_treeItems.clear();
 		m_treeItems[0] = root;
@@ -637,7 +637,7 @@ void MainWindow::on_action_New_Project_triggered() {
 		for (unsigned int i = 0; i < maps.maps.size(); i++)
 		{
 			int id = maps.tree_order[i];
-			RPG::MapInfo info;
+			lcf::rpg::MapInfo info;
 			for (unsigned int j = 1; j < maps.maps.size(); j++)
 				if (id == maps.maps[j].ID)
 				{
@@ -1100,8 +1100,8 @@ void MainWindow::on_actionNew_Map_triggered()
 		return;
 	}
 
-	std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(template_file.toStdString());
-	RPG::MapInfo info;
+	std::unique_ptr<lcf::rpg::Map> map = lcf::LMU_Reader::LoadXml(template_file.toStdString());
+	lcf::rpg::MapInfo info;
 
 	// Find first free map id
 	for (int i = 1;;++i)
@@ -1117,11 +1117,11 @@ void MainWindow::on_actionNew_Map_triggered()
 	info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	if (info.parent_map == 0)
 	{
-		info.music_type = RPG::MapInfo::MusicType_event;
-		info.background_type = RPG::MapInfo::BGMType_terrain;
-		info.teleport = RPG::MapInfo::TriState_allow;
-		info.escape = RPG::MapInfo::TriState_allow;
-		info.save = RPG::MapInfo::TriState_allow;
+		info.music_type = lcf::rpg::MapInfo::MusicType_event;
+		info.background_type = lcf::rpg::MapInfo::BGMType_terrain;
+		info.teleport = lcf::rpg::MapInfo::TriState_allow;
+		info.escape = lcf::rpg::MapInfo::TriState_allow;
+		info.save = lcf::rpg::MapInfo::TriState_allow;
 	}
 
 	core().project()->treeMap().maps.push_back(info);
@@ -1146,7 +1146,7 @@ void MainWindow::on_actionNew_Map_triggered()
 	core().project()->saveTreeMap();
 	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
-	LMU_Reader::SaveXml(path.toStdString(), *map);
+	lcf::LMU_Reader::SaveXml(path.toStdString(), *map);
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
@@ -1162,8 +1162,8 @@ void MainWindow::on_actionPaste_Map_triggered()
 		return;
 	}
 
-	std::unique_ptr<RPG::Map> map = LMU_Reader::LoadXml(m_copiedMap.toStdString());
-	RPG::MapInfo info;
+	std::unique_ptr<lcf::rpg::Map> map = lcf::LMU_Reader::LoadXml(m_copiedMap.toStdString());
+	lcf::rpg::MapInfo info;
 	for (size_t i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
 		if (core().project()->treeMap().maps[i].ID == info.ID)
@@ -1187,16 +1187,16 @@ void MainWindow::on_actionPaste_Map_triggered()
 	info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	if (info.parent_map == 0)
 	{
-		if (info.music_type == RPG::MapInfo::MusicType_parent)
-			info.music_type = RPG::MapInfo::MusicType_event;
-		if (info.background_type == RPG::MapInfo::BGMType_parent)
-			info.background_type = RPG::MapInfo::BGMType_terrain;
-		if (info.teleport == RPG::MapInfo::TriState_parent)
-			info.teleport = RPG::MapInfo::TriState_allow;
-		if (info.escape == RPG::MapInfo::TriState_parent)
-			info.escape = RPG::MapInfo::TriState_allow;
-		if (info.save == RPG::MapInfo::TriState_parent)
-			info.save = RPG::MapInfo::TriState_allow;
+		if (info.music_type == lcf::rpg::MapInfo::MusicType_parent)
+			info.music_type = lcf::rpg::MapInfo::MusicType_event;
+		if (info.background_type == lcf::rpg::MapInfo::BGMType_parent)
+			info.background_type = lcf::rpg::MapInfo::BGMType_terrain;
+		if (info.teleport == lcf::rpg::MapInfo::TriState_parent)
+			info.teleport = lcf::rpg::MapInfo::TriState_allow;
+		if (info.escape == lcf::rpg::MapInfo::TriState_parent)
+			info.escape = lcf::rpg::MapInfo::TriState_allow;
+		if (info.save == lcf::rpg::MapInfo::TriState_parent)
+			info.save = lcf::rpg::MapInfo::TriState_allow;
 	}
 
 	core().project()->treeMap().maps.push_back(info);
@@ -1221,7 +1221,7 @@ void MainWindow::on_actionPaste_Map_triggered()
 	core().project()->saveTreeMap();
 	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
-	LMU_Reader::SaveXml(path.toStdString(), *map);
+	lcf::LMU_Reader::SaveXml(path.toStdString(), *map);
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 

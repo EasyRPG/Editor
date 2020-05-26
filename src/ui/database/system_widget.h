@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
+#include <lcf/data.h>
 
 namespace Ui {
 class SystemWidget;
@@ -29,11 +29,11 @@ class SystemWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit SystemWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit SystemWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~SystemWidget();
 
 private:
 	Ui::SystemWidget *ui;
-	RPG::Database &m_data;
+	lcf::rpg::Database &m_data;
 };
 

@@ -22,7 +22,7 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QDebug>
-#include "data.h"
+#include <lcf/data.h>
 #include "ui/map/map_scene.h"
 #include "common/image_loader.h"
 
@@ -693,7 +693,7 @@ void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 	m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
 }
 
-void Core::renderEvent(const RPG::Event& event, const QRect &dest_rect)
+void Core::renderEvent(const lcf::rpg::Event& event, const QRect &dest_rect)
 {
 	if (event.pages.empty())
 		return;
@@ -833,31 +833,31 @@ void Core::setSelection(std::vector<short> n_sel, int n_w, int n_h)
 	}
 }
 
-RPG::Event *Core::currentMapEvent(int eventID)
+lcf::rpg::Event *Core::currentMapEvent(int eventID)
 {
-	RPG::Event *event = nullptr;
+	lcf::rpg::Event *event = nullptr;
 	if (m_currentMapEvents)
 		event = m_currentMapEvents->value(eventID);
 	if (!event)
 	{
-		event = new RPG::Event();
+		event = new lcf::rpg::Event();
 		event->name = "<?>";
 	}
 	return event;
 }
 
-void Core::setCurrentMapEvents(QMap<int, RPG::Event *> *events)
+void Core::setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events)
 {
 	m_currentMapEvents = events;
 
 	m_eventCache.clear();
-	for (QMap<int, RPG::Event*>::iterator it = events->begin(); it != events->end(); ++it)
+	for (QMap<int, lcf::rpg::Event*>::iterator it = events->begin(); it != events->end(); ++it)
 	{
-		RPG::Event* ev = it.value();
+		lcf::rpg::Event* ev = it.value();
 		if (ev->pages.empty())
 			continue;
 
-		RPG::EventPage& evp = ev->pages[0];
+		lcf::rpg::EventPage& evp = ev->pages[0];
 		if (evp.character_name.empty())
 			continue;
 

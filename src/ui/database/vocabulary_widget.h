@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
+#include <lcf/data.h>
 
 namespace Ui {
 class VocabularyWidget;
@@ -28,9 +28,9 @@ class VocabularyWidget : public QWidget
 {
 	Q_OBJECT
 
-	RPG::Terms *terms;
+	lcf::rpg::Terms *terms;
 public:
-	explicit VocabularyWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit VocabularyWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~VocabularyWidget();
 private slots:
 	void on_lineEdit_34_textChanged(const QString &arg1);
@@ -136,7 +136,7 @@ private slots:
 
 private:
 	Ui::VocabularyWidget *ui;
-	RPG::Database &m_data;
+	lcf::rpg::Database &m_data;
 
 };
 

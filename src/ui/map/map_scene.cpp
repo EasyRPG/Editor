@@ -23,7 +23,7 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <QStatusBar>
-#include "rpg_event.h"
+#include <lcf/rpg/event.h>
 #include <iomanip>
 #include <sstream>
 #include "core.h"
@@ -33,9 +33,9 @@
 #include "ui/main_window.h"
 #include "undo_draw.h"
 #include "undo_event.h"
-#include <data.h>
-#include <lmu_reader.h>
-#include <lmt_reader.h>
+#include <lcf/data.h>
+#include <lcf/lmu/reader.h>
+#include <lcf/lmt/reader.h>
 
 MapScene::MapScene(int id, QGraphicsView *view, QObject *parent) :
 	QGraphicsScene(parent)
@@ -200,16 +200,16 @@ void MapScene::setLayerData(Core::Layer layer, std::vector<short> data)
 	redrawLayer(layer);
 }
 
-void MapScene::setEventData(int id, const RPG::Event &data)
+void MapScene::setEventData(int id, const lcf::rpg::Event &data)
 {
 	for (unsigned int i = 0; i < m_map->events.size(); i++)
 		if (m_map->events[i].ID == id)
 			m_map->events[i] = data;
 }
 
-QMap<int, RPG::Event*> *MapScene::mapEvents()
+QMap<int, lcf::rpg::Event*> *MapScene::mapEvents()
 {
-	QMap<int, RPG::Event*> *events = new QMap<int, RPG::Event*>();
+	QMap<int, lcf::rpg::Event*> *events = new QMap<int, lcf::rpg::Event*>();
 	for (unsigned int i = 0; i < m_map->events.size(); i++)
 		events->insert(m_map->events[i].ID, &m_map->events[i]);
 	return events;
@@ -312,7 +312,7 @@ void MapScene::Save()
 	core().project()->saveTreeMap();
 	QString file = QString("Map%1.emu")
 			.arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
-	LMU_Reader::PrepareSave(*m_map);
+	lcf::LMU_Reader::PrepareSave(*m_map);
 	core().project()->saveMap(*m_map, n_mapInfo.ID);
 	m_undoStack->clear();
 	emit mapSaved();
@@ -364,7 +364,7 @@ void MapScene::undo()
 void MapScene::on_actionNewEvent()
 {
 	// Find first free id
-	std::vector<RPG::Event>::iterator ev;
+	std::vector<lcf::rpg::Event>::iterator ev;
 	int id = 1;
 	for (;;++id)
 	{
@@ -379,12 +379,12 @@ void MapScene::on_actionNewEvent()
 			break;
 	}
 
-	RPG::Event event;
+	lcf::rpg::Event event;
 	event.ID = id;
 	event.name = QString("EV%1").arg(QString::number(id), 4, QLatin1Char('0')).toStdString();
 	event.x = cur_x;
 	event.y = cur_y;
-	event.pages.push_back(RPG::EventPage());
+	event.pages.push_back(lcf::rpg::EventPage());
 
 	int result = EventDialog::edit(m_view, &event);
 	if (result != QDialogButtonBox::Cancel)
@@ -397,7 +397,7 @@ void MapScene::on_actionNewEvent()
 
 void MapScene::on_actionDeleteEvent()
 {
-	std::vector<RPG::Event>::iterator ev;
+	std::vector<lcf::rpg::Event>::iterator ev;
 	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
 		if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
 			break;
@@ -539,7 +539,7 @@ void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 	if (core().layer() == Core::EVENT)
 	{
 		// Show events on current tile
-		for (const RPG::Event& evt : m_map->events)
+		for (const lcf::rpg::Event& evt : m_map->events)
 		{
 			if (_index(cur_x,cur_y) == _index(evt.x,evt.y))
 			{
@@ -584,12 +584,12 @@ void MapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 	Q_UNUSED(event)
 	if (core().layer() != Core::EVENT)
 		return;
-	std::vector<RPG::Event>::iterator ev;
+	std::vector<lcf::rpg::Event>::iterator ev;
 	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
 	{
 		if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
 		{
-			RPG::Event backup = *ev;
+			lcf::rpg::Event backup = *ev;
 			int result = EventDialog::edit(m_view, &(*ev));
 			if (result != QDialogButtonBox::Cancel)
 			{

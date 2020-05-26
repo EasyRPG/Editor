@@ -18,12 +18,11 @@
 #pragma once
 
 #include <QWidget>
-#include <rpg_eventpage.h>
+#include <lcf/rpg/eventpage.h>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsOpacityEffect>
 #include <QGraphicsScene>
-#include <rpg_eventcommand.h>
-#include <command_codes.h>
+#include <lcf/rpg/eventcommand.h>
 #include "ui/common/charset_item.h"
 #include "ui/other/splash_dialog.h"
 #include <QProgressBar>
@@ -41,8 +40,8 @@ public:
 	explicit EventPageWidget(QWidget *parent = nullptr);
 	~EventPageWidget();
 
-	RPG::EventPage *eventPage() const;
-	void setEventPage(RPG::EventPage *eventPage);
+	lcf::rpg::EventPage *eventPage() const;
+	void setEventPage(lcf::rpg::EventPage *eventPage);
 
 private slots:
 	void on_comboMoveType_currentIndexChanged(int index);
@@ -100,7 +99,7 @@ private:
 	void updateGraphic();
 
 	Ui::QEventWidget *ui;
-	RPG::EventPage *m_eventPage;
+	lcf::rpg::EventPage *m_eventPage;
 	QGraphicsPixmapItem *m_tileItem;
 	CharSetItem *m_charaItem;
 	QGraphicsScene *m_scene;

@@ -18,7 +18,7 @@
 #include "change_item_widget.h"
 #include "ui_change_item_widget.h"
 
-ChangeItemWidget::ChangeItemWidget(QWidget *parent, RPG::EventCommand &cmd) :
+ChangeItemWidget::ChangeItemWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::ChangeItemWidget),
 	cmd(cmd)

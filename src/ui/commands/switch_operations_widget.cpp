@@ -18,7 +18,7 @@
 #include "switch_operations_widget.h"
 #include "ui_switch_operations_widget.h"
 
-SwitchOperationsWidget::SwitchOperationsWidget(QWidget *parent, RPG::EventCommand &cmd) :
+SwitchOperationsWidget::SwitchOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::SwitchOperationsWidget),
 	cmd(cmd)

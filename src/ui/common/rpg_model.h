@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QAbstractItemModel>
 #include "core.h"
-#include "data.h"
+#include <lcf/data.h>
 
 template <class DATA>
 class RpgModel : public QAbstractListModel

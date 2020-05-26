@@ -18,8 +18,8 @@
 #pragma once
 
 #include <QDialog>
-#include <data.h>
-#include <rpg_actor.h>
+#include <lcf/data.h>
+#include <lcf/rpg/actor.h>
 #include <QDialogButtonBox>
 #include "actor_widget.h"
 #include "class_widget.h"
@@ -53,9 +53,9 @@ public:
 	~DatabaseDialog();
 
 signals:
-	void currentActorChanged(RPG::Actor *actor);
+	void currentActorChanged(lcf::rpg::Actor *actor);
 public slots:
-	void on_currentActorChanged(RPG::Actor *actor);
+	void on_currentActorChanged(lcf::rpg::Actor *actor);
 	void on_buttonBox_clicked(QAbstractButton *button);
 
 private slots:
@@ -91,7 +91,7 @@ private:
 	SystemWidget *Old_PageSystem;
 	System2Widget *Old_PageSystem2;
 	CommonEventWidget *Old_PageCommonevents;
-	RPG::Database& m_data;
-	RPG::Actor *m_currentActor;
+	lcf::rpg::Database& m_data;
+	lcf::rpg::Actor *m_currentActor;
 };
 

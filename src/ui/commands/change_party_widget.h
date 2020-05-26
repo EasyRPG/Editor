@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class ChangePartyWidget;
@@ -29,7 +29,7 @@ class ChangePartyWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ChangePartyWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit ChangePartyWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~ChangePartyWidget();
 
 private slots:
@@ -37,6 +37,6 @@ private slots:
 
 private:
 	Ui::ChangePartyWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 

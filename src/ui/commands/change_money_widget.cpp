@@ -18,7 +18,7 @@
 #include "change_money_widget.h"
 #include "ui_change_money_widget.h"
 
-ChangeMoneyWidgetWidget::ChangeMoneyWidgetWidget(QWidget *parent, RPG::EventCommand &cmd) :
+ChangeMoneyWidgetWidget::ChangeMoneyWidgetWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::ChangeMoneyWidgetWidget),
 	cmd(cmd)
