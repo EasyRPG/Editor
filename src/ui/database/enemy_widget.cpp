@@ -18,7 +18,7 @@
 #include "enemy_widget.h"
 #include "ui_enemy_widget.h"
 
-EnemyWidget::EnemyWidget(RPG::Database &database, QWidget *parent) :
+EnemyWidget::EnemyWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::EnemyWidget),
 	m_data(database)

@@ -20,8 +20,8 @@
 #include <QDialog>
 #include <QGraphicsPixmapItem>
 #include <QTableWidgetItem>
-#include <rpg_mapinfo.h>
-#include <rpg_map.h>
+#include <lcf/rpg/mapinfo.h>
+#include <lcf/rpg/map.h>
 #include "ui/common/encounter_delegate.h"
 
 namespace Ui {
@@ -33,7 +33,7 @@ class MapPropertiesDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWidget *parent = nullptr);
+	explicit MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent = nullptr);
 	~MapPropertiesDialog();
 
 private slots:
@@ -69,8 +69,8 @@ private:
 
 	QEncounterDelegate *m_encounterDelegate;
 
-	RPG::MapInfo &m_info;
-	RPG::Map &m_map;
+	lcf::rpg::MapInfo &m_info;
+	lcf::rpg::Map &m_map;
 
 	std::vector<short> m_generatorLowerLayer;
 	std::vector<short> m_generatorUpperLayer;

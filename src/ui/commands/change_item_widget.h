@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class ChangeItemWidget;
@@ -29,7 +29,7 @@ class ChangeItemWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ChangeItemWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit ChangeItemWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~ChangeItemWidget();
 
 private slots:
@@ -37,6 +37,6 @@ private slots:
 
 private:
 	Ui::ChangeItemWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 

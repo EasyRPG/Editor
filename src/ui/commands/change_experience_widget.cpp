@@ -18,7 +18,7 @@
 #include "change_experience_widget.h"
 #include "ui_change_experience_widget.h"
 
-ChangeExperienceWidget::ChangeExperienceWidget(QWidget *parent, RPG::EventCommand &cmd) :
+ChangeExperienceWidget::ChangeExperienceWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::ChangeExperienceWidget),
 	cmd(cmd)

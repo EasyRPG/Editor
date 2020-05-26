@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class ShowChoicesWidget;
@@ -29,13 +29,13 @@ class ShowChoicesWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ShowChoicesWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit ShowChoicesWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~ShowChoicesWidget();
 
 private slots:
 
 private:
 	Ui::ShowChoicesWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 

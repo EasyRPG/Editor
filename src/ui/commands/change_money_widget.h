@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_commonevent.h>
+#include <lcf/rpg/commonevent.h>
 
 namespace Ui {
 class ChangeMoneyWidgetWidget;
@@ -29,7 +29,7 @@ class ChangeMoneyWidgetWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ChangeMoneyWidgetWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit ChangeMoneyWidgetWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~ChangeMoneyWidgetWidget();
 
 private slots:
@@ -37,6 +37,6 @@ private slots:
 
 private:
 	Ui::ChangeMoneyWidgetWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 

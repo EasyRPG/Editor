@@ -18,7 +18,7 @@
 #include "input_number_widget.h"
 #include "ui_input_number_widget.h"
 
-InputNumberWidget::InputNumberWidget(QWidget *parent, RPG::EventCommand &cmd) :
+InputNumberWidget::InputNumberWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::InputNumberWidget),
 	cmd(cmd)

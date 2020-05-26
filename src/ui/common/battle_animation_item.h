@@ -19,7 +19,7 @@
 
 #include <QGraphicsPixmapItem>
 #include "core.h"
-#include "rpg_battleranimation.h"
+#include <lcf/rpg/battleranimation.h>
 
 class BattleAnimationItem : public QObject, public QGraphicsPixmapItem
 {
@@ -32,7 +32,7 @@ public:
 
 	explicit BattleAnimationItem(const QPixmap pix = QPixmap());
 
-	void setDemoAnimation(const RPG::BattlerAnimation &demoAnimation);
+	void setDemoAnimation(const lcf::rpg::BattlerAnimation &demoAnimation);
 
 	void setBasePix(Type type, const QString &pixName);
 
@@ -59,6 +59,6 @@ private:
 	int m_frame;
 	bool m_demo;
 	int m_demoIndex;
-	RPG::BattlerAnimation m_demoAnimation;
+	lcf::rpg::BattlerAnimation m_demoAnimation;
 };
 

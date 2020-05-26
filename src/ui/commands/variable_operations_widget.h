@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class VariableOperationsWidget;
@@ -29,14 +29,14 @@ class VariableOperationsWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit VariableOperationsWidget(QWidget *parent, RPG::EventCommand &cmd);
+	explicit VariableOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
 	~VariableOperationsWidget();
 
 private slots:
 
 private:
 	Ui::VariableOperationsWidget *ui;
-	RPG::EventCommand &cmd;
+	lcf::rpg::EventCommand &cmd;
 };
 
 

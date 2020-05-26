@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_eventcommand.h>
+#include <lcf/rpg/eventcommand.h>
 
 namespace Ui {
 class ShowMessageWidget;
@@ -29,11 +29,11 @@ class ShowMessageWidget : public QDialog
 	Q_OBJECT
 
 public:
-	explicit ShowMessageWidget(QWidget *parent, RPG::EventCommand &command);
+	explicit ShowMessageWidget(QWidget *parent, lcf::rpg::EventCommand &command);
 	~ShowMessageWidget();
 
 private:
 	Ui::ShowMessageWidget *ui;
-	RPG::EventCommand &command;
+	lcf::rpg::EventCommand &command;
 };
 

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
+#include <lcf/data.h>
 
 namespace Ui {
 class EnemyGroupWidget;
@@ -29,11 +29,11 @@ class EnemyGroupWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit EnemyGroupWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~EnemyGroupWidget();
 
 private:
 	Ui::EnemyGroupWidget *ui;
-	RPG::Database &m_data;
+	lcf::rpg::Database &m_data;
 };
 

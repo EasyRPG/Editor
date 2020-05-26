@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QDialog>
-#include <rpg_event.h>
+#include <lcf/rpg/event.h>
 
 namespace Ui {
 class EventDialog;
@@ -32,13 +32,13 @@ public:
 	explicit EventDialog(QWidget *parent = nullptr);
 	~EventDialog();
 
-	static int edit(QWidget *parent, RPG::Event *event);
+	static int edit(QWidget *parent, lcf::rpg::Event *event);
 
-	static bool equalEvents(const RPG::Event &e1,
-							const RPG::Event &e2);
+	static bool equalEvents(const lcf::rpg::Event &e1,
+							const lcf::rpg::Event &e2);
 
-	RPG::Event getEvent() const;
-	void setEvent(RPG::Event *event);
+	lcf::rpg::Event getEvent() const;
+	void setEvent(lcf::rpg::Event *event);
 
 private slots:
 	void apply();
@@ -47,8 +47,8 @@ private slots:
 
 private:
 	Ui::EventDialog *ui;
-	RPG::Event m_event;
-	RPG::Event r_event;
-	RPG::Event a_event;
+	lcf::rpg::Event m_event;
+	lcf::rpg::Event r_event;
+	lcf::rpg::Event a_event;
 	int lst_result;
 };

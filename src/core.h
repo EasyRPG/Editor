@@ -28,8 +28,8 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QListWidget>
-#include "rpg_map.h"
-#include "rpg_chipset.h"
+#include <lcf/rpg/map.h>
+#include <lcf/rpg/chipset.h>
 #include "ui/other/run_game_dialog.h"
 #include "model/project.h"
 
@@ -78,7 +78,7 @@ public:
 
 	void beginPainting(QPixmap &dest);
 	void renderTile(const short &tile_id, const QRect &dest_rect);
-	void renderEvent(const RPG::Event& event, const QRect &dest_rect);
+	void renderEvent(const lcf::rpg::Event& event, const QRect &dest_rect);
 	void endPainting();
 
 	QColor keycolor();
@@ -107,8 +107,8 @@ public:
 	int selHeight();
 	void setSelection(std::vector<short> n_sel, int n_w, int n_h);
 
-	RPG::Event *currentMapEvent(int eventID);
-	void setCurrentMapEvents(QMap<int, RPG::Event *> *events);
+	lcf::rpg::Event *currentMapEvent(int eventID);
+	void setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events);
 
 	void runGame();
 	void runGameHere(int map_id, int x, int y);
@@ -125,8 +125,8 @@ signals:
 	void chipsetChanged();
 
 private:
-	RPG::Map *m_map;
-	RPG::Chipset m_chipset;
+	lcf::rpg::Map *m_map;
+	lcf::rpg::Chipset m_chipset;
 	int m_tileSize;
 	QPainter m_painter;
 	QString m_defDir;
@@ -138,7 +138,7 @@ private:
 	QMap<int, QPixmap> m_tileCache;
 	QMap<int, QPixmap> m_eventCache;
 	QMap<int, short> m_dictionary;
-	QMap<int, RPG::Map> m_maps;
+	QMap<int, lcf::rpg::Map> m_maps;
 	QMap<int, QWidget*> m_mapTabs;
 	std::vector<short> m_lowerSel;
 	std::vector<short> m_upperSel;
@@ -148,7 +148,7 @@ private:
 	int m_upperSelW;
 	int m_upperSelH;
 	static Core *core_instance;
-	QMap<int, RPG::Event*> *m_currentMapEvents;
+	QMap<int, lcf::rpg::Event*> *m_currentMapEvents;
 	RunGameDialog *m_runGameDialog;
 	std::shared_ptr<Project> m_project;
 };

@@ -18,7 +18,7 @@
 #include "show_message_widget.h"
 #include "ui_show_message_widget.h"
 
-ShowMessageWidget::ShowMessageWidget(QWidget *parent, RPG::EventCommand &command) :
+ShowMessageWidget::ShowMessageWidget(QWidget *parent, lcf::rpg::EventCommand &command) :
 	QDialog(parent),
 	ui(new Ui::ShowMessageWidget),
 	command(command)

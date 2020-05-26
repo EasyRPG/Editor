@@ -17,7 +17,7 @@
 
 #include "core.h"
 #include "encounter_delegate.h"
-#include <data.h>
+#include <lcf/data.h>
 
 QEncounterDelegate::QEncounterDelegate(QObject *parent) :
 	QItemDelegate(parent)

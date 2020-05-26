@@ -17,10 +17,10 @@
 
 #include "map_properties_dialog.h"
 #include "ui_map_properties_dialog.h"
-#include <data.h>
+#include <lcf/data.h>
 #include "core.h"
 
-MapPropertiesDialog::MapPropertiesDialog(RPG::MapInfo &info, RPG::Map &map, QWidget *parent) :
+MapPropertiesDialog::MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::MapPropertiesDialog),
 	m_info(info),

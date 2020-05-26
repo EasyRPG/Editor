@@ -43,7 +43,7 @@ EventDialog::~EventDialog()
 	delete ui;
 }
 
-int EventDialog::edit(QWidget *parent, RPG::Event *event)
+int EventDialog::edit(QWidget *parent, lcf::rpg::Event *event)
 {
 	EventDialog dlg(parent);
 	dlg.setEvent(event);
@@ -53,7 +53,7 @@ int EventDialog::edit(QWidget *parent, RPG::Event *event)
 	return dlg.lst_result;
 }
 
-bool EventDialog::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
+bool EventDialog::equalEvents(const lcf::rpg::Event &e1, const lcf::rpg::Event &e2)
 {
 #define chk(property) if (e1.property != e2.property) return false
 	if (e1.ID != e2.ID) return false; //Prevents warning
@@ -117,7 +117,7 @@ bool EventDialog::equalEvents(const RPG::Event &e1, const RPG::Event &e2)
 #undef chk
 }
 
-RPG::Event EventDialog::getEvent() const
+lcf::rpg::Event EventDialog::getEvent() const
 {
 	switch(lst_result)
 	{
@@ -129,7 +129,7 @@ RPG::Event EventDialog::getEvent() const
 	return r_event;
 }
 
-void EventDialog::setEvent(RPG::Event *event)
+void EventDialog::setEvent(lcf::rpg::Event *event)
 {
 	m_event = *event;
 	r_event = *event;

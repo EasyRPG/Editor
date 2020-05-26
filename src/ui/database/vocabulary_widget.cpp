@@ -18,7 +18,7 @@
 #include "vocabulary_widget.h"
 #include "ui_vocabulary_widget.h"
 
-VocabularyWidget::VocabularyWidget(RPG::Database &database, QWidget *parent) :
+VocabularyWidget::VocabularyWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::VocabularyWidget),
 	m_data(database)

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
+#include <lcf/data.h>
 
 namespace Ui {
 class BattleAnimation2Widget;
@@ -29,11 +29,11 @@ class BattleAnimation2Widget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit BattleAnimation2Widget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit BattleAnimation2Widget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~BattleAnimation2Widget();
 
 private:
 	Ui::BattleAnimation2Widget *ui;
-	RPG::Database &m_data;
+	lcf::rpg::Database &m_data;
 };
 

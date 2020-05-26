@@ -18,7 +18,7 @@
 #include "state_widget.h"
 #include "ui_state_widget.h"
 
-StateWidget::StateWidget(RPG::Database &database, QWidget *parent) :
+StateWidget::StateWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::StateWidget),
 	m_data(database)

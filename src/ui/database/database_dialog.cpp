@@ -21,7 +21,7 @@
 #include <QPushButton>
 #include <QInputDialog>
 #include <QDialogButtonBox>
-#include "ldb_reader.h"
+#include <lcf/ldb/reader.h>
 
 DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	QDialog(parent),
@@ -80,7 +80,7 @@ DatabaseDialog::~DatabaseDialog()
 	delete ui;
 }
 
-void DatabaseDialog::on_currentActorChanged(RPG::Actor *actor)
+void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
 	m_currentActor = actor;
 	if (actor == nullptr){
@@ -161,7 +161,7 @@ void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 		// Standard buttons:
 		case QDialogButtonBox::Apply:
 		case QDialogButtonBox::Ok:
-			LDB_Reader::PrepareSave(m_data);
+			lcf::LDB_Reader::PrepareSave(m_data);
 			core().project()->saveDatabase();
 		break;
 		default:

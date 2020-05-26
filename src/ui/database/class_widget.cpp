@@ -19,7 +19,7 @@
 #include "ui_class_widget.h"
 #include <QTimer>
 
-ClassWidget::ClassWidget(RPG::Database &database, QWidget *parent) :
+ClassWidget::ClassWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ClassWidget),
 	m_data(database)
@@ -58,7 +58,7 @@ void ClassWidget::UpdateModels()
 	on_currentClassChanged(m_currentClass);
 }
 
-void ClassWidget::on_currentClassChanged(RPG::Class *_class)
+void ClassWidget::on_currentClassChanged(lcf::rpg::Class *_class)
 {
 	/* TODO: Update Widgets */
 	m_currentClass = _class;

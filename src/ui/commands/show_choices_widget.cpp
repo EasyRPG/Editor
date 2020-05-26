@@ -18,7 +18,7 @@
 #include "show_choices_widget.h"
 #include "ui_show_choices_widget.h"
 
-ShowChoicesWidget::ShowChoicesWidget(QWidget *parent, RPG::EventCommand &cmd) :
+ShowChoicesWidget::ShowChoicesWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::ShowChoicesWidget),
 	cmd(cmd)

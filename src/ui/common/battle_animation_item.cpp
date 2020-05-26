@@ -26,7 +26,7 @@ BattleAnimationItem::BattleAnimationItem(const QPixmap pix) :
 	connect(this, SIGNAL(demoAdvance()), this, SLOT(on_demoAdvance()));
 }
 
-void BattleAnimationItem::setDemoAnimation(const RPG::BattlerAnimation &demoAnimation)
+void BattleAnimationItem::setDemoAnimation(const lcf::rpg::BattlerAnimation &demoAnimation)
 {
 	m_demo = true;
 	m_index = 0;
@@ -102,7 +102,7 @@ void BattleAnimationItem::on_demoAdvance()
 	m_demoIndex++;
 	if (m_demoIndex > 11)
 		m_demoIndex = 0;
-	RPG::BattlerAnimationExtension anim = m_demoAnimation.base_data[static_cast<size_t>(m_demoIndex)];
+	lcf::rpg::BattlerAnimationExtension anim = m_demoAnimation.base_data[static_cast<size_t>(m_demoIndex)];
 	setBasePix(Battler, QString::fromStdString(anim.battler_name));
 	m_index = anim.battler_index;
 	updatePix();

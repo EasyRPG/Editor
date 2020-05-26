@@ -21,9 +21,8 @@
 #include "core.h"
 #include "stringizer.h"
 
-#include <command_codes.h>
-#include <data.h>
-#include <lmu_reader.h>
+#include <lcf/data.h>
+#include <lcf/lmu/reader.h>
 #include <functional>
 #include <vector>
 #include <tuple>
@@ -75,7 +74,7 @@ void SearchDialog::enableCache(bool enable)
 	useCache = enable;
 
 	if (enable)
-		map_cache = std::vector<std::shared_ptr<RPG::Map>>(core().project()->treeMap().maps.size());
+		map_cache = std::vector<std::shared_ptr<lcf::rpg::Map>>(core().project()->treeMap().maps.size());
 	else
 		map_cache.clear();
 
@@ -90,8 +89,8 @@ void SearchDialog::on_button_search_clicked()
 	sl << "Map" << "Event" << "Event Page" << "Sourceline" << "Action";
 	ui->list_result->setHorizontalHeaderLabels(sl);
 
-	std::function<bool(const RPG::EventCommand&)> search_predicate;
-	auto map_searcher = [&search_predicate](int mapID, const RPG::Map& map) {
+	std::function<bool(const lcf::rpg::EventCommand&)> search_predicate;
+	auto map_searcher = [&search_predicate](int mapID, const lcf::rpg::Map& map) {
 		std::vector<command_info> res;
 		for (auto& e : map.events)
 			for (auto& p : e.pages)
@@ -104,7 +103,7 @@ void SearchDialog::on_button_search_clicked()
 
 		return res;
 	};
-	auto common_searcher = [&search_predicate](const std::vector<RPG::CommonEvent> events) {
+	auto common_searcher = [&search_predicate](const std::vector<lcf::rpg::CommonEvent> events) {
 		std::vector<command_info> res;
 		for (auto& e : events)
 			for (size_t line = 0; line < e.event_commands.size(); line++)
@@ -117,13 +116,15 @@ void SearchDialog::on_button_search_clicked()
 		return res;
 	};
 
+	using Cmd = lcf::rpg::EventCommand::Code;
+
 	if (ui->radio_variable->isChecked())
 	{
 		int varID = ui->combo_variable->currentData().toInt();
 
-		search_predicate = [varID](const RPG::EventCommand& com)
+		search_predicate = [varID](const lcf::rpg::EventCommand& com)
 		{
-			switch (com.code)
+			switch (static_cast<Cmd>(com.code))
 			{
 				case Cmd::InputNumber:
 					return com.parameters[1] == varID;
@@ -183,9 +184,9 @@ void SearchDialog::on_button_search_clicked()
 	{
 		int switchID = ui->combo_switch->currentData().toInt();
 
-		search_predicate = [switchID](const RPG::EventCommand& com)
+		search_predicate = [switchID](const lcf::rpg::EventCommand& com)
 		{
-			switch(com.code)
+			switch (static_cast<Cmd>(com.code))
 			{
 				case Cmd::ControlSwitches:
 					return (com.parameters[0] != 2 && com.parameters[1] == switchID) ||
@@ -201,9 +202,9 @@ void SearchDialog::on_button_search_clicked()
 	{
 		int itemID = ui->combo_item->currentData().toInt();
 
-		search_predicate = [itemID](const RPG::EventCommand& com)
+		search_predicate = [itemID](const lcf::rpg::EventCommand& com)
 		{
-			switch (com.code)
+			switch (static_cast<Cmd>(com.code))
 			{
 				case Cmd::ChangeItems:
 					return com.parameters[2] == itemID;
@@ -268,11 +269,11 @@ void SearchDialog::on_list_result_doubleClicked(const QModelIndex &index)
 	par->currentScene()->centerOnTile(event->x, event->y);
 }
 
-std::shared_ptr<RPG::Map> SearchDialog::loadMap(int mapID)
+std::shared_ptr<lcf::rpg::Map> SearchDialog::loadMap(int mapID)
 {
 	if (!(useCache && map_cache[static_cast<size_t>(mapID)]))
 	{
-		const std::shared_ptr<RPG::Map> res_map{core().project()->loadMap(mapID)};
+		const std::shared_ptr<lcf::rpg::Map> res_map{core().project()->loadMap(mapID)};
 
 		if (useCache)
 			map_cache[static_cast<size_t>(mapID)] = res_map;
@@ -287,7 +288,7 @@ void SearchDialog::showResults(const std::vector<command_info>& results) {
 	for (auto &r : results)
 	{
 		int mapID, eventID, eventPage,	sourceLine;
-		const RPG::EventCommand& command = std::get<4>(r);
+		const lcf::rpg::EventCommand& command = std::get<4>(r);
 		std::tie(mapID, eventID, eventPage, sourceLine, std::ignore) = r;
 
 		auto mm = mapID;

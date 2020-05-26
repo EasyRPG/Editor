@@ -17,7 +17,7 @@
 
 #include <QObject>
 #include "stringizer.h"
-#include <data.h>
+#include <lcf/data.h>
 #include "core.h"
 
 namespace
@@ -92,19 +92,19 @@ namespace
 	}
 
 	// Stringizers
-	QString stringizeCallCommonEvent(const RPG::EventCommand& com)
+	QString stringizeCallCommonEvent(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Call Common Event") + ": " + Stringizer::commonEventName(com.parameters[0]);
 	}
 
-	QString stringizeForceFlee(const RPG::EventCommand& com)
+	QString stringizeForceFlee(const lcf::rpg::EventCommand& com)
 	{
 		Q_UNUSED(com)
 		// TODO
 		return tr("Force Flee");
 	}
 
-	QString stringizeEnableCombo(const RPG::EventCommand& com)
+	QString stringizeEnableCombo(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Enable Combo") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
@@ -112,14 +112,14 @@ namespace
 			+ Stringizer::battleCommandName(com.parameters[1]);
 	}
 
-	QString stringizeChangeClass(const RPG::EventCommand& com)
+	QString stringizeChangeClass(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Class") + ": "
 			+ Stringizer::heroName(com.parameters[1]) + ", "
 			+ Stringizer::className(com.parameters[2]);
 	}
 
-	QString stringizeChangeBattleCommands(const RPG::EventCommand& com)
+	QString stringizeChangeBattleCommands(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Battle Commands") + ": "
 			+ Stringizer::heroName(com.parameters[1]) + ", "
@@ -127,12 +127,12 @@ namespace
 			+ Stringizer::battleCommandName(com.parameters[4]);
 	}
 
-	QString stringizeShowMessage(const RPG::EventCommand& com)
+	QString stringizeShowMessage(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Message") + ":\n	" + QString::fromStdString(com.string);
 	}
 
-	QString stringizeMessageOptions(const RPG::EventCommand& com)
+	QString stringizeMessageOptions(const lcf::rpg::EventCommand& com)
 	{
 		QString position;
 		switch (com.parameters[1])
@@ -153,7 +153,7 @@ namespace
 			+ tr(com.parameters[3] ? "Continue Processes" : "Halt Processes");
 	}
 
-	QString stringizeChangeFaceGraphic(const RPG::EventCommand& com)
+	QString stringizeChangeFaceGraphic(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Face Graphic") + ": "
 			+ QString::fromStdString(com.string) + ", "
@@ -162,19 +162,19 @@ namespace
 			+ (com.parameters[2] ? ", " + tr("Flipped") : "");
 	}
 
-	QString stringizeShowChoice(const RPG::EventCommand& com)
+	QString stringizeShowChoice(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Choice") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeInputNumber(const RPG::EventCommand& com)
+	QString stringizeInputNumber(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Input Number") + ": "
 			+ tr("%1 Digits").arg(QString::number(com.parameters[0])) + ", "
 			+ variable(com.parameters[1]);
 	}
 
-	QString stringizeControlSwitches(const RPG::EventCommand& com)
+	QString stringizeControlSwitches(const lcf::rpg::EventCommand& com)
 	{
 		QString switches, operation;
 		switch (com.parameters[0])
@@ -208,7 +208,7 @@ namespace
 		return tr("Control Switches") + ": " + switches + " " + operation;
 	}
 
-	QString stringizeControlVars(const RPG::EventCommand& com)
+	QString stringizeControlVars(const lcf::rpg::EventCommand& com)
 	{
 		QString variables, operation, operand;
 		switch (com.parameters[0])
@@ -356,7 +356,7 @@ namespace
 
 	}
 
-	QString stringizeTimerOperation(const RPG::EventCommand& com)
+	QString stringizeTimerOperation(const lcf::rpg::EventCommand& com)
 	{
 		QString command = tr("Timer %1 Operation").arg(com.parameters.size() <= 5 ? 1 : com.parameters[5]+1);
 
@@ -375,14 +375,14 @@ namespace
 		}
 	}
 
-	QString stringizeChangeGold(const RPG::EventCommand& com)
+	QString stringizeChangeGold(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Gold") + ": "
 			+ (com.parameters[0] ? "-" : "+")
 			+ valueOrVariable(com.parameters[1], com.parameters[2]);
 	}
 
-	QString stringizeChangeItems(const RPG::EventCommand& com)
+	QString stringizeChangeItems(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Items") + ": "
 			+ (com.parameters[0] ? "-" : "+") + " "
@@ -391,7 +391,7 @@ namespace
 								 : Stringizer::itemName(com.parameters[2]));
 	}
 
-	QString stringizeChangePartyMembers(const RPG::EventCommand& com)
+	QString stringizeChangePartyMembers(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Party Members") + ": "
 			+ tr(com.parameters[0] ? "Remove" : "Add") + " "
@@ -399,7 +399,7 @@ namespace
 								 : Stringizer::heroName(com.parameters[2]));
 	}
 
-	QString stringizeChangeExp(const RPG::EventCommand& com)
+	QString stringizeChangeExp(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Exp") + ": "
 			+ heroes(com.parameters[0], com.parameters[1]) + ", "
@@ -407,7 +407,7 @@ namespace
 			+ valueOrVariable(com.parameters[3], com.parameters[4]);
 	}
 
-	QString stringizeChangeLevel(const RPG::EventCommand& com)
+	QString stringizeChangeLevel(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Level") + ": "
 			+ heroes(com.parameters[0], com.parameters[1])+ ", "
@@ -415,7 +415,7 @@ namespace
 			+ valueOrVariable(com.parameters[3], com.parameters[4]);
 	}
 
-	QString stringizeChangeParameters(const RPG::EventCommand& com)
+	QString stringizeChangeParameters(const lcf::rpg::EventCommand& com)
 	{
 		QString parameter;
 		switch (com.parameters[3])
@@ -443,7 +443,7 @@ namespace
 			+ valueOrVariable(com.parameters[4], com.parameters[5]);
 	}
 
-	QString stringizeChangeSkills(const RPG::EventCommand& com)
+	QString stringizeChangeSkills(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Skills") + ": "
 			+ heroes(com.parameters[0], com.parameters[1])+ ", "
@@ -452,7 +452,7 @@ namespace
 								 : Stringizer::skillName(com.parameters[4]));
 	}
 
-	QString stringizeChangeEquipment(const RPG::EventCommand& com)
+	QString stringizeChangeEquipment(const lcf::rpg::EventCommand& com)
 	{
 		QString item, action;
 		if (com.parameters[2])
@@ -488,7 +488,7 @@ namespace
 				+ action + " " + item;
 	}
 
-	QString stringizeChangeHP(const RPG::EventCommand& com)
+	QString stringizeChangeHP(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change HP") + ": "
 			+ heroes(com.parameters[0], com.parameters[1])+ ", "
@@ -496,7 +496,7 @@ namespace
 			+ valueOrVariable(com.parameters[3], com.parameters[4]);
 	}
 
-	QString stringizeChangeSP(const RPG::EventCommand& com)
+	QString stringizeChangeSP(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change SP") + ": "
 			+ heroes(com.parameters[0], com.parameters[1])+ ", "
@@ -504,7 +504,7 @@ namespace
 			+ valueOrVariable(com.parameters[3], com.parameters[4]);
 	}
 
-	QString stringizeChangeCondition(const RPG::EventCommand& com)
+	QString stringizeChangeCondition(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Condition") + ": "
 			+ heroes(com.parameters[0], com.parameters[1])+ ", "
@@ -512,33 +512,33 @@ namespace
 			+ Stringizer::stateName(com.parameters[3]);
 	}
 
-	QString stringizeFullHeal(const RPG::EventCommand& com)
+	QString stringizeFullHeal(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Full Heal") + ": "
 			+ heroes(com.parameters[0], com.parameters[1]);
 	}
 
-	QString stringizeSimulatedAttack(const RPG::EventCommand& com)
+	QString stringizeSimulatedAttack(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Simulated Attack") + ": "
 			+ heroes(com.parameters[0], com.parameters[1]);
 	}
 
-	QString stringizeChangeHeroName(const RPG::EventCommand& com)
+	QString stringizeChangeHeroName(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Hero Name") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + " -> "
 			+ QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangeHeroTitle(const RPG::EventCommand& com)
+	QString stringizeChangeHeroTitle(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Hero Title") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
 			+ QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangeSpriteAssociation(const RPG::EventCommand& com)
+	QString stringizeChangeSpriteAssociation(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Sprite Association") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
@@ -546,7 +546,7 @@ namespace
 			+ QString::number(com.parameters[1]);
 	}
 
-	QString stringizeChangeActorFace(const RPG::EventCommand& com)
+	QString stringizeChangeActorFace(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Actor Face") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
@@ -554,7 +554,7 @@ namespace
 			+ QString::number(com.parameters[1]);
 	}
 
-	QString stringizeChangeVehicleGraphic(const RPG::EventCommand& com)
+	QString stringizeChangeVehicleGraphic(const lcf::rpg::EventCommand& com)
 	{
 		QString vehicle = tr(
 			com.parameters[0] == 0 ? "Boat" :
@@ -566,7 +566,7 @@ namespace
 			+ QString::number(com.parameters[1]);
 	}
 
-	QString stringizeChangeSystemBGM(const RPG::EventCommand& com)
+	QString stringizeChangeSystemBGM(const lcf::rpg::EventCommand& com)
 	{
 		static const std::vector<QString> bgm_contexts =
 			{
@@ -588,7 +588,7 @@ namespace
 			+ QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangeSystemSFX(const RPG::EventCommand& com)
+	QString stringizeChangeSystemSFX(const lcf::rpg::EventCommand& com)
 	{
 		static const std::vector<QString> system_sfx =
 			{
@@ -614,26 +614,26 @@ namespace
 			+ QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangeSystemGraphics(const RPG::EventCommand& com)
+	QString stringizeChangeSystemGraphics(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change System Graphics") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangeScreenTransitions(const RPG::EventCommand& com)
+	QString stringizeChangeScreenTransitions(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Screen Transitions") + ": "
 			+ (com.parameters[0] ? Stringizer::showTransitionName(com.parameters[1])
 								 : Stringizer::eraseTransitionName(com.parameters[1]));
 	}
 
-	QString stringizeEnemyEncounter(const RPG::EventCommand& com)
+	QString stringizeEnemyEncounter(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Enemy Encounter") + ": "
 			+ (com.parameters[0] ? tr("Troop") + " " + variable(com.parameters[1])
 								 : Stringizer::troopName(com.parameters[1]));
 	}
 
-	QString stringizeOpenShop(const RPG::EventCommand& com)
+	QString stringizeOpenShop(const lcf::rpg::EventCommand& com)
 	{
 		QString buysell;
 		switch (com.parameters[0])
@@ -650,17 +650,17 @@ namespace
 		return tr("Open Shop") + ": " + buysell;
 	}
 
-	QString stringizeShowInn(const RPG::EventCommand& com)
+	QString stringizeShowInn(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Inn") + ": " + tr("Price") + " " + QString::number(com.parameters[1]);
 	}
 
-	QString stringizeEnterHeroName(const RPG::EventCommand& com)
+	QString stringizeEnterHeroName(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Enter Hero Name") + ": " + Stringizer::heroName(com.parameters[0]);
 	}
 
-	QString stringizeTeleport(const RPG::EventCommand& com)
+	QString stringizeTeleport(const lcf::rpg::EventCommand& com)
 	{
 		QString direction;
 		if (com.parameters[3] < 0 || com.parameters[3] > 3)
@@ -675,7 +675,7 @@ namespace
 			+ direction;
 	}
 
-	QString stringizeMemorizeLocation(const RPG::EventCommand& com)
+	QString stringizeMemorizeLocation(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Memorize Location") + ": "
 			+ variable(com.parameters[0]) + ", "
@@ -683,7 +683,7 @@ namespace
 			+ variable(com.parameters[2]);
 	}
 
-	QString stringizeRecallToLocation(const RPG::EventCommand& com)
+	QString stringizeRecallToLocation(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Recall To Location") + ": "
 			+ variable(com.parameters[0]) + ", ("
@@ -691,7 +691,7 @@ namespace
 			+ variable(com.parameters[2]) + ")";
 	}
 
-	QString stringizeSetVehicleLocation(const RPG::EventCommand& com)
+	QString stringizeSetVehicleLocation(const lcf::rpg::EventCommand& com)
 	{
 		QString vehicle = tr(
 			com.parameters[0] == 0 ? "Boat" :
@@ -709,7 +709,7 @@ namespace
 				+ QString::number(com.parameters[2]) + ")";
 	}
 
-	QString stringizeChangeEventLocation(const RPG::EventCommand& com)
+	QString stringizeChangeEventLocation(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Event Location") + ": "
 			+ characterName(com.parameters[0]) + ", "
@@ -717,14 +717,14 @@ namespace
 			+ valueOrVariable(com.parameters[1], com.parameters[3]) + ")";
 	}
 
-	QString stringizeTradeEventLocations(const RPG::EventCommand& com)
+	QString stringizeTradeEventLocations(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Trade Event Locations") + ": "
 			+ characterName(com.parameters[0]) + ", "
 			+ characterName(com.parameters[1]);
 	}
 
-	QString stringizeStoreTerrainID(const RPG::EventCommand& com)
+	QString stringizeStoreTerrainID(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Store Terrain ID") + ": "
 			+ "(" + valueOrVariable(com.parameters[0], com.parameters[1]) + ","
@@ -732,7 +732,7 @@ namespace
 			+ variable(com.parameters[3]);
 	}
 
-	QString stringizeStoreEventID(const RPG::EventCommand& com)
+	QString stringizeStoreEventID(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Store Event ID") + ": "
 			+ "(" + valueOrVariable(com.parameters[0], com.parameters[1]) + ","
@@ -740,17 +740,17 @@ namespace
 			+ variable(com.parameters[3]);
 	}
 
-	QString stringizeEraseScreen(const RPG::EventCommand& com)
+	QString stringizeEraseScreen(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Erase Screen") + ": " + Stringizer::eraseTransitionName(com.parameters[0]);
 	}
 
-	QString stringizeShowScreen(const RPG::EventCommand& com)
+	QString stringizeShowScreen(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Screen") + ": " + Stringizer::showTransitionName(com.parameters[0]);
 	}
 
-	QString stringizeTintScreen(const RPG::EventCommand& com)
+	QString stringizeTintScreen(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Tint Screen") + ": ("
 			+ "R" + QString::number(com.parameters[0]) + ","
@@ -761,7 +761,7 @@ namespace
 			+ (com.parameters[5] ? tr("(Wait)") : "");
 	}
 
-	QString stringizeFlashScreen(const RPG::EventCommand& com)
+	QString stringizeFlashScreen(const lcf::rpg::EventCommand& com)
 	{
 		if (com.parameters.size() > 6)
 		{
@@ -780,7 +780,7 @@ namespace
 			+ (com.parameters[5] ? tr("(Wait)") : "");
 	}
 
-	QString stringizeShakeScreen(const RPG::EventCommand& com)
+	QString stringizeShakeScreen(const lcf::rpg::EventCommand& com)
 	{
 		if (com.parameters.size() > 4)
 		{
@@ -797,7 +797,7 @@ namespace
 			+ (com.parameters[5] ? tr("(Wait)") : "");
 	}
 
-	QString stringizePanScreen(const RPG::EventCommand& com)
+	QString stringizePanScreen(const lcf::rpg::EventCommand& com)
 	{
 		switch (com.parameters[0])
 		{
@@ -818,7 +818,7 @@ namespace
 		}
 	}
 
-	QString stringizeWeatherEffects(const RPG::EventCommand& com)
+	QString stringizeWeatherEffects(const lcf::rpg::EventCommand& com)
 	{
 		QString type, strength;
 		switch (com.parameters[0])
@@ -851,14 +851,14 @@ namespace
 		return tr("Weather Effects") + ": " + type + ", " + strength;
 	}
 
-	QString stringizeShowPicture(const RPG::EventCommand& com)
+	QString stringizeShowPicture(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Picture") + ": "
 			+ QString::number(com.parameters[0]) + ", "
 			+ QString::fromStdString(com.string);
 	}
 
-	QString stringizeMovePicture(const RPG::EventCommand& com)
+	QString stringizeMovePicture(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Move Picture") + ": "
 			+ QString::number(com.parameters[0]) + ", ("
@@ -868,12 +868,12 @@ namespace
 			+ (com.parameters[15] ? tr("(Wait)") : "");
 	}
 
-	QString stringizeErasePicture(const RPG::EventCommand& com)
+	QString stringizeErasePicture(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Erase Picture") + ": " + QString::number(com.parameters[0]);
 	}
 
-	QString stringizeShowBattleAnimation(const RPG::EventCommand& com)
+	QString stringizeShowBattleAnimation(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Battle Animation") + ": "
 			+ Stringizer::animationName(com.parameters[0]) + ", "
@@ -881,13 +881,13 @@ namespace
 			+ (com.parameters[2] ? tr("(Wait)") : "");
 	}
 
-	QString stringizeSpriteTransparency(const RPG::EventCommand& com)
+	QString stringizeSpriteTransparency(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Sprite Transparency") + ": "
 			+ tr(com.parameters[0] ? "Opaque" : "Transparent");
 	}
 
-	QString stringizeFlashSprite(const RPG::EventCommand& com)
+	QString stringizeFlashSprite(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Flash Sprite") + ": "
 			+ characterName(com.parameters[0]) + ", "
@@ -895,7 +895,7 @@ namespace
 			+ tr(com.parameters[6] ? "(Wait)" : "");
 	}
 
-	QString stringizeMoveEvent(const RPG::EventCommand& com)
+	QString stringizeMoveEvent(const lcf::rpg::EventCommand& com)
 	{
 		QString movements;
 		for (size_t i = 4; i < 8 && i < com.parameters.size(); ++i)
@@ -905,7 +905,7 @@ namespace
 		return tr("Move Event") + ": " + characterName(com.parameters[0]) + movements;
 	}
 
-	QString stringizeWait(const RPG::EventCommand& com)
+	QString stringizeWait(const lcf::rpg::EventCommand& com)
 	{
 		if (com.parameters.size() <= 1 ||
 			(com.parameters.size() > 1 && com.parameters[1] == 0)) {
@@ -915,49 +915,49 @@ namespace
 		}
 	}
 
-	QString stringizePlayBGM(const RPG::EventCommand& com)
+	QString stringizePlayBGM(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Play BGM") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeFadeOutBGM(const RPG::EventCommand& com)
+	QString stringizeFadeOutBGM(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Fade Out BGM") + ": " + QString::number(com.parameters[0] / 1000) + "s";
 	}
 
-	QString stringizePlaySound(const RPG::EventCommand& com)
+	QString stringizePlaySound(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Play Sound") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizePlayMovie(const RPG::EventCommand& com)
+	QString stringizePlayMovie(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Play Movie") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeKeyInputProc(const RPG::EventCommand& com)
+	QString stringizeKeyInputProc(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Key Input Proc") + ": " + variable(com.parameters[0]);
 	}
 
-	QString stringizeChangeMapTileset(const RPG::EventCommand& com)
+	QString stringizeChangeMapTileset(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Map Tileset") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangePBG(const RPG::EventCommand& com)
+	QString stringizeChangePBG(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change PBG") + ": " + QString::fromStdString(com.string)
 			+ (com.parameters[0] ? ", " + tr("Horz Scroll") : "")
 			+ (com.parameters[1] ? ", " + tr("Vert Scroll") : "");
 	}
 
-	QString stringizeChangeEncounterRate(const RPG::EventCommand& com)
+	QString stringizeChangeEncounterRate(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Encounter Rate") + ": " + QString::number(com.parameters[0]);
 	}
 
-	QString stringizeTileSubstitution(const RPG::EventCommand& com)
+	QString stringizeTileSubstitution(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Tile Substitution") + ": "
 			+ tr(com.parameters[0] ? "Upper Layer" : "Lower Layer") + ", "
@@ -965,7 +965,7 @@ namespace
 			+ QString::number(com.parameters[2]);
 	}
 
-	QString stringizeTeleportTargets(const RPG::EventCommand& com)
+	QString stringizeTeleportTargets(const lcf::rpg::EventCommand& com)
 	{
 		if (com.parameters[1])
 			return tr("Teleport Targets") + ": "
@@ -977,13 +977,13 @@ namespace
 				+ QString::number(com.parameters[3]) + ")";
 	}
 
-	QString stringizeChangeTeleportAccess(const RPG::EventCommand& com)
+	QString stringizeChangeTeleportAccess(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Teleport Access") + ": "
 			+ tr(com.parameters[0] ? "Allow" : "Forbid");
 	}
 
-	QString stringizeEscapeTarget(const RPG::EventCommand& com)
+	QString stringizeEscapeTarget(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Escape Target") + ": "
 			+ map(com.parameters[0]) + " ("
@@ -991,25 +991,25 @@ namespace
 			+ QString::number(com.parameters[2]) + ")";
 	}
 
-	QString stringizeChangeEscapeAccess(const RPG::EventCommand& com)
+	QString stringizeChangeEscapeAccess(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Escape Access") + ": "
 			+ tr(com.parameters[0] ? "Allow" : "Forbid");
 	}
 
-	QString stringizeChangeSaveAccess(const RPG::EventCommand& com)
+	QString stringizeChangeSaveAccess(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Save Access") + ": "
 			+ tr(com.parameters[0] ? "Allow" : "Forbid");
 	}
 
-	QString stringizeChangeMainMenuAccess(const RPG::EventCommand& com)
+	QString stringizeChangeMainMenuAccess(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Main Menu Access") + ": "
 			+ tr(com.parameters[0] ? "Allow" : "Forbid");
 	}
 
-	QString stringizeConditionalBranch(const RPG::EventCommand& com)
+	QString stringizeConditionalBranch(const lcf::rpg::EventCommand& com)
 	{
 		QString condition;
 		switch(com.parameters[0]) {
@@ -1112,17 +1112,17 @@ namespace
 		return tr("Branch if") + " " + condition;
 	}
 
-	QString stringizeLabel(const RPG::EventCommand& com)
+	QString stringizeLabel(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Label") + ": " + QString::number(com.parameters[0]);
 	}
 
-	QString stringizeJumpToLabel(const RPG::EventCommand& com)
+	QString stringizeJumpToLabel(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Jump To Label") + ": " + QString::number(com.parameters[0]);
 	}
 
-	QString stringizeCallEvent(const RPG::EventCommand& com)
+	QString stringizeCallEvent(const lcf::rpg::EventCommand& com)
 	{
 		QString event;
 		switch (com.parameters[0])
@@ -1142,67 +1142,67 @@ namespace
 		return tr("Call Event") + ": " + event;
 	}
 
-	QString stringizeComment(const RPG::EventCommand& com)
+	QString stringizeComment(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Comment") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeChangeMonsterHP(const RPG::EventCommand& com)
+	QString stringizeChangeMonsterHP(const lcf::rpg::EventCommand& com)
 	{
 		Q_UNUSED(com)
 		// TODO
 		return "ChangeMonsterHP";
 	}
 
-	QString stringizeChangeMonsterMP(const RPG::EventCommand& com)
+	QString stringizeChangeMonsterMP(const lcf::rpg::EventCommand& com)
 	{
 		Q_UNUSED(com)
 		// TODO
 		return "ChangeMonsterMP";
 	}
 
-	QString stringizeChangeMonsterCondition(const RPG::EventCommand& com)
+	QString stringizeChangeMonsterCondition(const lcf::rpg::EventCommand& com)
 	{
 		Q_UNUSED(com)
 		// TODO
 		return "ChangeMonsterCondition";
 	}
 
-	QString stringizeShowHiddenMonster(const RPG::EventCommand& com)
+	QString stringizeShowHiddenMonster(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Show Hidden Monster") + ": " + QString::number(com.parameters[0]);
 	}
 
-	QString stringizeChangeBattleBG(const RPG::EventCommand& com)
+	QString stringizeChangeBattleBG(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Battle BG") + ": " + QString::fromStdString(com.string);
 	}
 
-	QString stringizeShowBattleAnimation_B(const RPG::EventCommand& com)
+	QString stringizeShowBattleAnimation_B(const lcf::rpg::EventCommand& com)
 	{
 		Q_UNUSED(com)
 		// TODO
 		return "ShowBattleAnimation_B";
 	}
 
-	QString stringizeConditionalBranch_B(const RPG::EventCommand& com)
+	QString stringizeConditionalBranch_B(const lcf::rpg::EventCommand& com)
 	{
 		Q_UNUSED(com)
 		// TODO
 		return "ConditionalBranch_B";
 	}
 
-	QString stringizeShowMessage_2(const RPG::EventCommand& com)
+	QString stringizeShowMessage_2(const lcf::rpg::EventCommand& com)
 	{
 		return "	" + QString::fromStdString(com.string);
 	}
 
-	QString stringizeShowChoiceOption(const RPG::EventCommand& com)
+	QString stringizeShowChoiceOption(const lcf::rpg::EventCommand& com)
 	{
 		return com.string.empty() ? tr("Cancel") : "[" + QString::fromStdString(com.string) + "]";
 	}
 
-	QString stringizeComment_2(const RPG::EventCommand& com)
+	QString stringizeComment_2(const lcf::rpg::EventCommand& com)
 	{
 		return "	" + QString::fromStdString(com.string);
 	}
@@ -1336,8 +1336,8 @@ namespace Stringizer
 
 	QString moveCommand(int id)
 	{
-		using C = RPG::MoveCommand::Code;
-		switch (id)
+		using C = lcf::rpg::MoveCommand::Code;
+		switch (static_cast<C>(id))
 		{
 		case C::move_up:					 return tr("Move Up");
 		case C::move_right:					 return tr("Move Right");
@@ -1448,10 +1448,10 @@ namespace Stringizer
 			return show_transitions[static_cast<size_t>(id)];
 	}
 
-	QString stringize(const RPG::EventCommand& com)
+	QString stringize(const lcf::rpg::EventCommand& com)
 	{
-		using C = RPG::EventCommand::Code;
-		switch (com.code)
+		using C = lcf::rpg::EventCommand::Code;
+		switch (static_cast<C>(com.code))
 		{
 		case C::END:					 return "";
 		case C::CallCommonEvent:		 return stringizeCallCommonEvent(com);

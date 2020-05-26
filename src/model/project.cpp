@@ -19,12 +19,12 @@
 #include "defines.h"
 #include "common/filefinder.h"
 #include "common/scope_guard.h"
-#include "data.h"
-#include "inireader.h"
-#include "reader_util.h"
-#include "ldb_reader.h"
-#include "lmu_reader.h"
-#include "lmt_reader.h"
+#include <lcf/data.h>
+#include <lcf/inireader.h>
+#include <lcf/reader_util.h>
+#include <lcf/ldb/reader.h>
+#include <lcf/lmu/reader.h>
+#include <lcf/lmt/reader.h>
 #include <QDir>
 
 Project::ProjectList Project::enumerate(const QDir& path) {
@@ -66,18 +66,18 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 	}
 
 	if (!cfg.isNull()) {
-		INIReader ini(cfg.toStdString());
+		lcf::INIReader ini(cfg.toStdString());
 		std::string title = ini.GetString("RPG_RT", GAMETITLE, "Untitled");
 
 		if (project_type == FileFinder::ProjectType::Legacy) {
 			// Check for game encoding
 			std::string enc = ini.GetString("EasyRPG", "Encoding", "");
 			if (enc.empty()) {
-				enc = ReaderUtil::DetectEncoding(title);
+				enc = lcf::ReaderUtil::DetectEncoding(title);
 			}
 
 			p->setEncoding(QString::fromStdString(enc));
-			title = ReaderUtil::Recode(title, enc);
+			title = lcf::ReaderUtil::Recode(title, enc);
 		}
 
 		p->setGameTitle(QString::fromStdString(title));
@@ -93,36 +93,36 @@ bool Project::loadDatabaseAndMapTree() {
 	// TODO: Error reporting
 	ScopeGuard clear_on_return([]() {
 		// wipe global variable, makes it easier to find
-		// bugs by accidentally reading from Data::*
-		Data::Clear();
+		// bugs by accidentally reading from lcf::Data::*
+		lcf::Data::Clear();
 	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!LDB_Reader::Load(findFile(RM_DB).toStdString(), encoding().toStdString())) {
+		if (!lcf::LDB_Reader::Load(findFile(RM_DB).toStdString(), encoding().toStdString())) {
 			return false;
 		}
-		if (!LMT_Reader::Load(findFile(RM_MT).toStdString(), encoding().toStdString())) {
-			Data::Clear();
+		if (!lcf::LMT_Reader::Load(findFile(RM_MT).toStdString(), encoding().toStdString())) {
+			lcf::Data::Clear();
 			return false;
 		}
 	} else {
-		if (!LDB_Reader::LoadXml(findFile(EASY_DB).toStdString())) {
+		if (!lcf::LDB_Reader::LoadXml(findFile(EASY_DB).toStdString())) {
 			return false;
 		}
-		if (!LMT_Reader::LoadXml(findFile(EASY_MT).toStdString())) {
-			Data::Clear();
+		if (!lcf::LMT_Reader::LoadXml(findFile(EASY_MT).toStdString())) {
+			lcf::Data::Clear();
 			return false;
 		}
 	}
 
 	// Copy db and treemap
-	m_db.reset(new RPG::Database(Data::data));
-	m_treeMap.reset(new RPG::TreeMap(Data::treemap));
+	m_db.reset(new lcf::rpg::Database(lcf::Data::data));
+	m_treeMap.reset(new lcf::rpg::TreeMap(lcf::Data::treemap));
 
 	return true;
 }
 
-std::unique_ptr<RPG::Map> Project::loadMap(int index) {
+std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) {
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")
@@ -134,13 +134,13 @@ std::unique_ptr<RPG::Map> Project::loadMap(int index) {
 	}
 
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
-		return LMU_Reader::LoadXml(mapFile.toStdString());
+		return lcf::LMU_Reader::LoadXml(mapFile.toStdString());
 	} else {
-		return LMU_Reader::Load(mapFile.toStdString(), encoding().toStdString());
+		return lcf::LMU_Reader::Load(mapFile.toStdString(), encoding().toStdString());
 	}
 }
 
-bool Project::saveMap(RPG::Map& map, int index, bool incSavecount) {
+bool Project::saveMap(lcf::rpg::Map& map, int index, bool incSavecount) {
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")
@@ -148,13 +148,13 @@ bool Project::saveMap(RPG::Map& map, int index, bool incSavecount) {
 	QString mapFile = findFileOrDefault(file);
 
 	if (incSavecount) {
-		LMU_Reader::PrepareSave(map);
+		lcf::LMU_Reader::PrepareSave(map);
 	}
 
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
-		return LMU_Reader::SaveXml(mapFile.toStdString(), map);
+		return lcf::LMU_Reader::SaveXml(mapFile.toStdString(), map);
 	} else {
-		return LMU_Reader::Save(mapFile.toStdString(), map, encoding().toStdString());
+		return lcf::LMU_Reader::Save(mapFile.toStdString(), map, encoding().toStdString());
 	}
 }
 
@@ -208,32 +208,32 @@ void Project::setProjectType(FileFinder::ProjectType projectType) {
 	m_projectType = projectType;
 }
 
-RPG::Database& Project::database() const {
+lcf::rpg::Database& Project::database() const {
 	assert(m_db);
 	return *m_db;
 }
 
-RPG::TreeMap& Project::treeMap() const {
+lcf::rpg::TreeMap& Project::treeMap() const {
 	assert(m_treeMap);
 	return *m_treeMap;
 }
 
 bool Project::saveDatabase(bool inc_savecount) {
 	if (inc_savecount) {
-		LDB_Reader::PrepareSave(*m_db);
+		lcf::LDB_Reader::PrepareSave(*m_db);
 	}
 
-	Data::data = *m_db;
+	lcf::Data::data = *m_db;
 	ScopeGuard clear_on_return([]() {
-		Data::Clear();
+		lcf::Data::Clear();
 	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!LDB_Reader::Save(findFileOrDefault(RM_DB).toStdString(), encoding().toStdString())) {
+		if (!lcf::LDB_Reader::Save(findFileOrDefault(RM_DB).toStdString(), encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!LDB_Reader::SaveXml(findFileOrDefault(EASY_DB).toStdString())) {
+		if (!lcf::LDB_Reader::SaveXml(findFileOrDefault(EASY_DB).toStdString())) {
 			return false;
 		}
 	}
@@ -242,17 +242,17 @@ bool Project::saveDatabase(bool inc_savecount) {
 }
 
 bool Project::saveTreeMap() {
-	Data::treemap = *m_treeMap;
+	lcf::Data::treemap = *m_treeMap;
 	ScopeGuard clear_on_return([]() {
-		Data::Clear();
+		lcf::Data::Clear();
 	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), encoding().toStdString())) {
+		if (!lcf::LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString())) {
+		if (!lcf::LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString())) {
 			return false;
 		}
 	}

@@ -18,8 +18,8 @@
 #pragma once
 
 #include <QWidget>
-#include <data.h>
-#include <rpg_actor.h>
+#include <lcf/data.h>
+#include <lcf/rpg/actor.h>
 #include <QDialogButtonBox>
 #include "ui/common/charset_item.h"
 #include "ui/common/faceset_item.h"
@@ -37,11 +37,11 @@ class ActorWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ActorWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit ActorWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~ActorWidget();
 
 public slots:
-	void on_currentActorChanged(RPG::Actor *actor);
+	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
 	void on_listCharacters_currentRowChanged(int currentRow);
@@ -68,7 +68,7 @@ private slots:
 	void on_pushApplyProfession_clicked();
 
 signals:
-	void currentActorChanged(RPG::Actor *actor);
+	void currentActorChanged(lcf::rpg::Actor *actor);
 
 protected:
 	void resizeEvent(QResizeEvent * event);
@@ -77,7 +77,7 @@ private:
 	Ui::ActorWidget *ui;
 
 	void UpdateModels();
-	void ResetExpText(RPG::Actor* actor);
+	void ResetExpText(lcf::rpg::Actor* actor);
 
 	CharSetItem *m_charaItem;
 	FaceSetItem *m_faceItem;
@@ -90,7 +90,7 @@ private:
 	CurveItem *m_agyItem;
 	std::vector<short> m_dummyCurve;
 
-	RPG::Actor *m_currentActor;
-	RPG::Database &m_data;
+	lcf::rpg::Actor *m_currentActor;
+	lcf::rpg::Database &m_data;
 };
 

@@ -24,9 +24,9 @@
 #include <memory>
 
 #include "common/filefinder.h"
-#include "rpg_database.h"
-#include "rpg_map.h"
-#include "rpg_treemap.h"
+#include <lcf/rpg/database.h>
+#include <lcf/rpg/map.h>
+#include <lcf/rpg/treemap.h>
 
 class Project {
 public:
@@ -38,8 +38,8 @@ public:
 	static std::shared_ptr<Project> load(const QDir& path);
 
 	bool loadDatabaseAndMapTree();
-	std::unique_ptr<RPG::Map> loadMap(int index);
-	bool saveMap(RPG::Map& map, int index, bool incSavecount = true);
+	std::unique_ptr<lcf::rpg::Map> loadMap(int index);
+	bool saveMap(lcf::rpg::Map& map, int index, bool incSavecount = true);
 
 	void relocate(const QDir& newDir, FileFinder::ProjectType newProjectType);
 
@@ -65,8 +65,8 @@ public:
 	FileFinder::ProjectType projectType() const;
 	void setProjectType(FileFinder::ProjectType projectType);
 
-	RPG::Database& database() const;
-	RPG::TreeMap& treeMap() const;
+	lcf::rpg::Database& database() const;
+	lcf::rpg::TreeMap& treeMap() const;
 
 	bool saveDatabase(bool incSavecount = true);
 	bool saveTreeMap();
@@ -78,6 +78,6 @@ private:
 	std::shared_ptr<QSettings> m_projectSettings;
 	QString m_gameTitle;
 
-	std::unique_ptr<RPG::Database> m_db;
-	std::unique_ptr<RPG::TreeMap> m_treeMap;
+	std::unique_ptr<lcf::rpg::Database> m_db;
+	std::unique_ptr<lcf::rpg::TreeMap> m_treeMap;
 };

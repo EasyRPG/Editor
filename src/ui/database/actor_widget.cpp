@@ -20,7 +20,7 @@
 #include <QTimer>
 #include <QGraphicsOpacityEffect>
 
-ActorWidget::ActorWidget(RPG::Database &database, QWidget *parent) :
+ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ActorWidget),
 	m_data(database)
@@ -318,7 +318,7 @@ void ActorWidget::on_pushSetFace_clicked()
 	}
 }
 
-void ActorWidget::ResetExpText(RPG::Actor* actor) {
+void ActorWidget::ResetExpText(lcf::rpg::Actor* actor) {
 	int base = 0;
 	int inflation = 0;
 	int correction = 0;
@@ -333,7 +333,7 @@ void ActorWidget::ResetExpText(RPG::Actor* actor) {
 	ui->labelExpCurve->setText(buf);
 }
 
-void ActorWidget::on_currentActorChanged(RPG::Actor *actor)
+void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
 	m_currentActor = nullptr;
 
@@ -432,27 +432,27 @@ void ActorWidget::on_currentActorChanged(RPG::Actor *actor)
 
 		switch (m_data.items[i].type)
 		{
-		case RPG::Item::Type_armor:
+		case lcf::rpg::Item::Type_armor:
 			ui->comboInitialArmor->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
 			if (actor->initial_equipment.armor_id == m_data.items[i].ID)
 				ui->comboInitialArmor->setCurrentIndex(ui->comboInitialArmor->count()-1);
 			break;
-		case RPG::Item::Type_helmet:
+		case lcf::rpg::Item::Type_helmet:
 			ui->comboInitialHelmet->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
 			if (actor->initial_equipment.helmet_id == m_data.items[i].ID)
 				ui->comboInitialHelmet->setCurrentIndex(ui->comboInitialHelmet->count()-1);
 			break;
-		case RPG::Item::Type_accessory:
+		case lcf::rpg::Item::Type_accessory:
 			ui->comboInitialMisc->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
 			if (actor->initial_equipment.accessory_id == m_data.items[i].ID)
 				ui->comboInitialMisc->setCurrentIndex(ui->comboInitialMisc->count()-1);
 			break;
-		case RPG::Item::Type_shield:
+		case lcf::rpg::Item::Type_shield:
 			ui->comboInitialShield->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
 			if (actor->initial_equipment.shield_id == m_data.items[i].ID)
 				ui->comboInitialShield->setCurrentIndex(ui->comboInitialShield->count()-1);
 			break;
-		case RPG::Item::Type_weapon:
+		case lcf::rpg::Item::Type_weapon:
 			ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
 			if (actor->initial_equipment.weapon_id == m_data.items[i].ID)
 				ui->comboInitialWeapon->setCurrentIndex(ui->comboInitialWeapon->count()-1);
@@ -569,9 +569,9 @@ void ActorWidget::on_pushApplyProfession_clicked()
 	if (!m_currentActor)
 		return;
 
-	const RPG::Class &n_class = m_data.classes[static_cast<size_t>(ui->comboProfession->currentIndex())];
+	const lcf::rpg::Class &n_class = m_data.classes[static_cast<size_t>(ui->comboProfession->currentIndex())];
 	/* Disconnect widgets */
-	RPG::Actor *actor = m_currentActor;
+	lcf::rpg::Actor *actor = m_currentActor;
 	m_currentActor = nullptr;
 	/* /Disconnect widgets */
 	actor->class_id = ui->comboProfession->currentIndex();

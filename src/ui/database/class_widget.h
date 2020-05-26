@@ -18,8 +18,8 @@
 #pragma once
 
 #include <QWidget>
-#include <rpg_database.h>
-#include <rpg_class.h>
+#include <lcf/rpg/database.h>
+#include <lcf/rpg/class.h>
 #include "ui/common/battle_animation_item.h"
 
 namespace Ui {
@@ -31,23 +31,23 @@ class ClassWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ClassWidget(RPG::Database &database, QWidget *parent = nullptr);
+	explicit ClassWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~ClassWidget();
 
 	void UpdateModels();
 
 public slots:
-	void on_currentClassChanged(RPG::Class *_class);
+	void on_currentClassChanged(lcf::rpg::Class *_class);
 
 signals:
-	void currentClassChanged(RPG::Class *_class);
+	void currentClassChanged(lcf::rpg::Class *_class);
 
 private:
 	Ui::ClassWidget *ui;
 
 	BattleAnimationItem *m_battlerItem;
 
-	RPG::Class *m_currentClass;
-	RPG::Database &m_data;
+	lcf::rpg::Class *m_currentClass;
+	lcf::rpg::Database &m_data;
 };
 

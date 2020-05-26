@@ -18,7 +18,7 @@
 #include "change_party_widget.h"
 #include "ui_change_party_widget.h"
 
-ChangePartyWidget::ChangePartyWidget(QWidget *parent, RPG::EventCommand &cmd) :
+ChangePartyWidget::ChangePartyWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
 	QDialog(parent),
 	ui(new Ui::ChangePartyWidget),
 	cmd(cmd)
