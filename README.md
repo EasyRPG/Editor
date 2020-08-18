@@ -50,7 +50,7 @@ Step-by-step instructions:
     cmake . # generate Makefile
     make    # compile the executable
 
-    
+
 ## Running EasyRPG Editor
 
 Run the generated executable in the "bin" folder.
@@ -70,8 +70,12 @@ Available options:
 EasyRPG Editor is free software available under the GPLv3 license.
 See the file [COPYING] for license conditions.
 
+The files in resources/icons are Breeze icons or derivates licensed under
+LGPLv3.
+See the file [COPYING-ICONS] for license conditions.
 
 [liblcf]: https://github.com/EasyRPG/liblcf
 [Qt]: https://www.qt.io
 [#easyrpg at irc.freenode.net]: https://kiwiirc.com/nextclient/#ircs://irc.freenode.net/#easyrpg?nick=rpgguest??
 [COPYING]: COPYING
+[COPYING-ICONS]: licenses/COPYING-ICONS

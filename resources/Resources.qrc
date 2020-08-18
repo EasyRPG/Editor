@@ -1,0 +1,89 @@
+<RCC>
+    <qresource prefix="/">
+        <file>app/easyrpg.png</file>
+        <file>app/editor.ico</file>
+        <file>app/logo.svg</file>
+    </qresource>
+    <qresource prefix="/bright">
+        <file alias="audio">icons/bright/audio.svg</file>
+        <file alias="code">icons/bright/code.svg</file>
+        <file alias="database">icons/bright/database.svg</file>
+        <file alias="draw-circle">icons/bright/draw-circle.svg</file>
+        <file alias="draw-fill">icons/bright/draw-fill.svg</file>
+        <file alias="draw-pen">icons/bright/draw-pen.svg</file>
+        <file alias="draw-rectangle">icons/bright/draw-rectangle.svg</file>
+        <file alias="edit-copy">icons/bright/edit-copy.svg</file>
+        <file alias="edit-cut">icons/bright/edit-cut.svg</file>
+        <file alias="edit-delete">icons/bright/edit-delete.svg</file>
+        <file alias="edit-find">icons/bright/edit-find.svg</file>
+        <file alias="edit-paste">icons/bright/edit-paste.svg</file>
+        <file alias="edit-redo">icons/bright/edit-redo.svg</file>
+        <file alias="edit-undo">icons/bright/edit-undo.svg</file>
+        <file alias="exit">icons/bright/exit.svg</file>
+        <file alias="folder">icons/bright/folder.svg</file>
+        <file alias="fullscreen">icons/bright/fullscreen.svg</file>
+        <file alias="gamedisk-create">icons/bright/gamedisk-create.svg</file>
+        <file alias="help-about">icons/bright/help-about.svg</file>
+        <file alias="layer-event">icons/bright/layer-event.svg</file>
+        <file alias="layer-high">icons/bright/layer-high.svg</file>
+        <file alias="layer-low">icons/bright/layer-low.svg</file>
+        <file alias="new">icons/bright/new.svg</file>
+        <file alias="palette">icons/bright/palette.svg</file>
+        <file alias="play">icons/bright/play.svg</file>
+        <file alias="project-close">icons/bright/project-close.svg</file>
+        <file alias="project-new">icons/bright/project-new.svg</file>
+        <file alias="project-open">icons/bright/project-open.svg</file>
+        <file alias="properties">icons/bright/properties.svg</file>
+        <file alias="resources">icons/bright/resources.svg</file>
+        <file alias="revert">icons/bright/revert.svg</file>
+        <file alias="save">icons/bright/save.svg</file>
+        <file alias="select">icons/bright/select.svg</file>
+        <file alias="show-title">icons/bright/show-title.svg</file>
+        <file alias="tree">icons/bright/tree.svg</file>
+        <file alias="zoom-in">icons/bright/zoom-in.svg</file>
+        <file alias="zoom-original">icons/bright/zoom-original.svg</file>
+        <file alias="zoom-out">icons/bright/zoom-out.svg</file>
+        <file alias="zoom">icons/bright/zoom.svg</file>
+    </qresource>
+    <qresource prefix="/dark">
+        <file alias="audio">icons/dark/audio.svg</file>
+        <file alias="code">icons/dark/code.svg</file>
+        <file alias="database">icons/dark/database.svg</file>
+        <file alias="draw-circle">icons/dark/draw-circle.svg</file>
+        <file alias="draw-fill">icons/dark/draw-fill.svg</file>
+        <file alias="draw-pen">icons/dark/draw-pen.svg</file>
+        <file alias="draw-rectangle">icons/dark/draw-rectangle.svg</file>
+        <file alias="edit-copy">icons/dark/edit-copy.svg</file>
+        <file alias="edit-cut">icons/dark/edit-cut.svg</file>
+        <file alias="edit-delete">icons/dark/edit-delete.svg</file>
+        <file alias="edit-find">icons/dark/edit-find.svg</file>
+        <file alias="edit-paste">icons/dark/edit-paste.svg</file>
+        <file alias="edit-redo">icons/dark/edit-redo.svg</file>
+        <file alias="edit-undo">icons/dark/edit-undo.svg</file>
+        <file alias="exit">icons/dark/exit.svg</file>
+        <file alias="folder">icons/dark/folder.svg</file>
+        <file alias="fullscreen">icons/dark/fullscreen.svg</file>
+        <file alias="gamedisk-create">icons/dark/gamedisk-create.svg</file>
+        <file alias="help-about">icons/dark/help-about.svg</file>
+        <file alias="layer-event">icons/dark/layer-event.svg</file>
+        <file alias="layer-high">icons/dark/layer-high.svg</file>
+        <file alias="layer-low">icons/dark/layer-low.svg</file>
+        <file alias="new">icons/dark/new.svg</file>
+        <file alias="palette">icons/dark/palette.svg</file>
+        <file alias="play">icons/dark/play.svg</file>
+        <file alias="project-close">icons/dark/project-close.svg</file>
+        <file alias="project-new">icons/dark/project-new.svg</file>
+        <file alias="project-open">icons/dark/project-open.svg</file>
+        <file alias="properties">icons/dark/properties.svg</file>
+        <file alias="resources">icons/dark/resources.svg</file>
+        <file alias="revert">icons/dark/revert.svg</file>
+        <file alias="save">icons/dark/save.svg</file>
+        <file alias="select">icons/dark/select.svg</file>
+        <file alias="show-title">icons/dark/show-title.svg</file>
+        <file alias="tree">icons/dark/tree.svg</file>
+        <file alias="zoom-in">icons/dark/zoom-in.svg</file>
+        <file alias="zoom-original">icons/dark/zoom-original.svg</file>
+        <file alias="zoom-out">icons/dark/zoom-out.svg</file>
+        <file alias="zoom">icons/dark/zoom.svg</file>
+    </qresource>
+</RCC>
