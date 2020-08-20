@@ -16,22 +16,22 @@
  */
 
 #include "actor.h"
-#include "rpg_item.h"
-#include "reader_util.h"
+#include <lcf/rpg/item.h>
+#include <lcf/reader_util.h>
 
 #include "common/sortfilter_proxy_models.h"
 
 #include <QSortFilterProxyModel>
 
-Actor::Actor(RPG::Actor& actor, Project& project) :
+Actor::Actor(lcf::rpg::Actor& actor, Project& project) :
 	actor(actor), project(project) {
 
 }
 
-bool Actor::IsItemUsable(const RPG::Item& item) const {
+bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
 	int query_idx = actor.ID - 1;
 	auto* query_set = &item.actor_set;
-	/*TODO if (Player::IsRPG2k3() && Data::system.equipment_setting == RPG::System::EquipmentSetting_class) {
+	/*TODO if (Player::IsRPG2k3() && Data::system.equipment_setting == lcf::rpg::System::EquipmentSetting_class) {
 		auto* cls = GetClass();
 
 		// Class index. If there's no class, in the "class_set" it's equal to 0. The first class is 1, not 0
@@ -48,11 +48,11 @@ bool Actor::IsItemUsable(const RPG::Item& item) const {
 	return query_set->at(query_idx);
 }
 
-QSortFilterProxyModel* Actor::CreateEquipmentFilter(RPG::Item::Type type) {
+QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 	std::vector<int> indices;
 
 	for (size_t i = 0; i < project.database().items.size(); ++i) {
-		const RPG::Item& item = *ReaderUtil::GetElement(project.database().items, i + 1);
+		const lcf::rpg::Item& item = *lcf::ReaderUtil::GetElement(project.database().items, i + 1);
 
 		if (item.type != type || !IsItemUsable(item)) {
 			continue;
@@ -64,6 +64,6 @@ QSortFilterProxyModel* Actor::CreateEquipmentFilter(RPG::Item::Type type) {
 	return new SortFilterProxyModelIndexFilter(indices);
 }
 
-RPG::Actor& Actor::data() {
+lcf::rpg::Actor& Actor::data() {
 	return actor;
 }

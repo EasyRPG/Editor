@@ -31,7 +31,7 @@ EnemyWidget::~EnemyWidget()
 	delete ui;
 }
 
-void EnemyWidget::setData(RPG::Enemy* enemy)
+void EnemyWidget::setData(lcf::rpg::Enemy* enemy)
 {
 
 }

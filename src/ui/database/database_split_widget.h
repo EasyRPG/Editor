@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include "rpg_database.h"
+#include <lcf/rpg/database.h>
 #include "ui/common/rpg_model.h"
 #include "actor_widget.h"
 #include "attribute_widget.h"
@@ -33,6 +33,8 @@
 #include "skill_widget.h"
 #include "state_widget.h"
 #include "terrain_widget.h"
+#include "ui_database_split_widget.h"
+#include "model/list_model.h"
 
 namespace Ui {
 class DatabaseSplitWidget;
@@ -54,27 +56,32 @@ protected:
 template<class T, class U>
 class DatabaseSplitWidget : public DatabaseSplitWidgetBase {
 public:
-	explicit DatabaseSplitWidget(RPG::Database& database, std::vector<T>& data, QWidget *parent = nullptr);
+	explicit DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget *parent = nullptr);
 
-	QWidget* listWidget();
-	U* contentWidget();
+	QWidget* listWidget() {
+		return ui->list;
+	}
+	U* contentWidget() {
+		return m_contentWidget;
+	}
 
 private:
-	RPG::Database& db;
+	lcf::rpg::Database& db;
 
 	U* m_contentWidget;
 };
 
-template class DatabaseSplitWidget<RPG::Actor, ActorWidget>;
-template class DatabaseSplitWidget<RPG::Class, ClassWidget>;
-template class DatabaseSplitWidget<RPG::Skill, SkillWidget>;
-template class DatabaseSplitWidget<RPG::Item, ItemWidget>;
-template class DatabaseSplitWidget<RPG::Enemy, EnemyWidget>;
-template class DatabaseSplitWidget<RPG::Troop, EnemyGroupWidget>;
-template class DatabaseSplitWidget<RPG::Attribute, AttributeWidget>;
-template class DatabaseSplitWidget<RPG::State, StateWidget>;
-template class DatabaseSplitWidget<RPG::Animation, BattleAnimationWidget>;
-template class DatabaseSplitWidget<RPG::BattlerAnimation, BattleAnimation2Widget>;
-template class DatabaseSplitWidget<RPG::Terrain, TerrainWidget>;
-template class DatabaseSplitWidget<RPG::Chipset, ChipSetWidget>;
-template class DatabaseSplitWidget<RPG::CommonEvent, CommonEventWidget>;
+template<class T, class U>
+inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget* parent) :
+		db(database), DatabaseSplitWidgetBase(parent)
+{
+	m_contentWidget = new U(db, this);
+	ui->list->setModel(new ListModel<T>(data));
+	ui->splitter->addWidget(m_contentWidget);
+	ui->splitter->setStretchFactor(0, 1);
+	ui->splitter->setStretchFactor(1, 4);
+
+	connect(ui->list, &QListView::activated, this, [&](const QModelIndex &index) {
+		m_contentWidget->setData(&data[index.row()]);
+	});
+}

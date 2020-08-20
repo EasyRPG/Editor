@@ -32,7 +32,7 @@ public:
 	explicit SkillWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~SkillWidget();
 
-	void setData(RPG::Skill* skill);
+	void setData(lcf::rpg::Skill* skill);
 
 private:
 	Ui::SkillWidget *ui;

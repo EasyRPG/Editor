@@ -32,7 +32,7 @@ public:
 	explicit CommonEventWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~CommonEventWidget();
 
-	void setData(RPG::CommonEvent* common_event);
+	void setData(lcf::rpg::CommonEvent* common_event);
 
 private:
 	Ui::CommonEventWidget *ui;

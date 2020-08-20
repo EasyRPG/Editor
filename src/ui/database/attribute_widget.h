@@ -32,7 +32,7 @@ public:
 	explicit AttributeWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~AttributeWidget();
 
-	void setData(RPG::Attribute* attribute);
+	void setData(lcf::rpg::Attribute* attribute);
 
 private:
 	Ui::AttributeWidget *ui;

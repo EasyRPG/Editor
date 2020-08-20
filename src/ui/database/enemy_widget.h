@@ -32,7 +32,7 @@ public:
 	explicit EnemyWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~EnemyWidget();
 
-	void setData(RPG::Enemy* enemy);
+	void setData(lcf::rpg::Enemy* enemy);
 
 private:
 	Ui::EnemyWidget *ui;

@@ -32,7 +32,7 @@ public:
 	explicit StateWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~StateWidget();
 
-	void setData(RPG::State* state);
+	void setData(lcf::rpg::State* state);
 
 private:
 	Ui::StateWidget *ui;

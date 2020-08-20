@@ -18,19 +18,19 @@
 #pragma once
 
 #include "project.h"
-#include "rpg_actor.h"
+#include <lcf/rpg/actor.h>
 
 class QSortFilterProxyModel;
 
 /**
- * A thin wrapper around RPG::Actor
+ * A thin wrapper around lcf::rpg::Actor
  */
 class Actor
 {
 public:
-	Actor(RPG::Actor& actor, Project& project);
+	Actor(lcf::rpg::Actor& actor, Project& project);
 
-	bool IsItemUsable(const RPG::Item& item) const;
+	bool IsItemUsable(const lcf::rpg::Item& item) const;
 
 	/**
 	 * Create a SortFilterProxy which only contains items of a specific type
@@ -38,12 +38,12 @@ public:
 	 * @param type Equipment type
 	 * @return QSortFilterProxyModel
 	 */
-	QSortFilterProxyModel* CreateEquipmentFilter(RPG::Item::Type type);
+	QSortFilterProxyModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
 
-	RPG::Actor& data();
+	lcf::rpg::Actor& data();
 
 private:
-	RPG::Actor& actor;
+	lcf::rpg::Actor& actor;
 	Project& project;
 };
 

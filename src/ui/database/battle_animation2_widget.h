@@ -32,7 +32,7 @@ public:
 	explicit BattleAnimation2Widget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~BattleAnimation2Widget();
 
-	void setData(RPG::BattlerAnimation* battler_anim);
+	void setData(lcf::rpg::BattlerAnimation* battler_anim);
 
 private:
 	Ui::BattleAnimation2Widget *ui;

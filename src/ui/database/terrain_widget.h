@@ -32,7 +32,7 @@ public:
 	explicit TerrainWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~TerrainWidget();
 
-	void setData(RPG::Terrain* terrain);
+	void setData(lcf::rpg::Terrain* terrain);
 
 private:
 	Ui::TerrainWidget *ui;

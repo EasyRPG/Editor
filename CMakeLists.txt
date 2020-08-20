@@ -207,6 +207,19 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	"${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
+# Add autogen include dirs to include path, otherwise the includes are not found
+# when used in the header (via https://stackoverflow.com/q/44746308/)
+get_property(_isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(_isMultiConfig)
+	set(AUTOGEN_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_autogen/include_$<CONFIG>)
+else()
+	set(AUTOGEN_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_autogen/include)
+endif()
+
+target_include_directories(${PROJECT_NAME} INTERFACE
+	$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
+)
+
 # Qt Magic
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	AUTOMOC ON

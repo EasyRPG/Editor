@@ -39,8 +39,10 @@
 #include "system2_widget.h"
 #include "common_event_widget.h"
 #include "core.h"
-#include "database_split_widget.h"
 #include "ui/common/rpg_model.h"
+
+template<class T, class U>
+class DatabaseSplitWidget;
 
 namespace Ui {
 class DatabaseDialog;
@@ -75,24 +77,23 @@ private slots:
 private:
 	Ui::DatabaseDialog *ui;
 
-	DatabaseSplitWidget<RPG::Actor, ActorWidget> *pageActors;
-	DatabaseSplitWidget<RPG::Class, ClassWidget> *pageClasses;
-	DatabaseSplitWidget<RPG::Skill, SkillWidget> *pageSkills;
-	DatabaseSplitWidget<RPG::Item, ItemWidget> *pageItems;
-	DatabaseSplitWidget<RPG::Enemy, EnemyWidget> *pageEnemies;
-	DatabaseSplitWidget<RPG::Troop, EnemyGroupWidget> *pageEnemyGroups;
-	DatabaseSplitWidget<RPG::Attribute, AttributeWidget> *pageAttributes;
-	DatabaseSplitWidget<RPG::State, StateWidget> *pageStates;
-	DatabaseSplitWidget<RPG::Animation, BattleAnimationWidget> *pageBattleAnimations;
-	DatabaseSplitWidget<RPG::BattlerAnimation, BattleAnimation2Widget> *pageBattleAnimations2;
+	DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget> *pageActors;
+	DatabaseSplitWidget<lcf::rpg::Class, ClassWidget> *pageClasses;
+	DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget> *pageSkills;
+	DatabaseSplitWidget<lcf::rpg::Item, ItemWidget> *pageItems;
+	DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget> *pageEnemies;
+	DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget> *pageEnemyGroups;
+	DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget> *pageAttributes;
+	DatabaseSplitWidget<lcf::rpg::State, StateWidget> *pageStates;
+	DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget> *pageBattleAnimations;
+	DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget> *pageBattleAnimations2;
 	BattleScreenWidget *pageBattleScreen;
-	DatabaseSplitWidget<RPG::Terrain, TerrainWidget> *pageTerrain;
-	DatabaseSplitWidget<RPG::Chipset, ChipSetWidget> *pageChipset;
+	DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget> *pageTerrain;
+	DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget> *pageChipset;
 	VocabularyWidget *pageVocabulary;
 	SystemWidget *pageSystem;
 	System2Widget *pageSystem2;
-	DatabaseSplitWidget<RPG::CommonEvent, CommonEventWidget> *pageCommonevents;
+	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
 	lcf::rpg::Database& m_data;
-	lcf::rpg::Actor *m_currentActor;
 };
 

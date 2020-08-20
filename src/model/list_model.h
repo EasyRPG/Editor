@@ -21,19 +21,19 @@
 #include "core.h"
 #include "common/filefinder.h"
 #include "common/image_loader.h"
-#include "rpg_database.h"
+#include <lcf/rpg/database.h>
 #include "ui/common/faceset_item.h"
 
 template <class T>
 QPixmap preview(const T& item) {
-	if constexpr (std::is_same<T,RPG::Actor>::value) {
+	if constexpr (std::is_same<T,lcf::rpg::Actor>::value) {
 		QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", QString::fromStdString(item.face_name), FileFinder::FileType::Image));
 
 		int x = (item.face_index % 4) * 48;
 		int y = (item.face_index / 4) * 48;
 
 		return faceSet.copy(x, y, 48, 48);
-	} else if constexpr (std::is_same<T,RPG::Enemy>::value) {
+	} else if constexpr (std::is_same<T,lcf::rpg::Enemy>::value) {
 		QPixmap monster = ImageLoader::Load(core().project()->findFile("Monster", QString::fromStdString(item.battler_name), FileFinder::FileType::Image));
 		if (!monster) {
 			return QPixmap(48, 48);

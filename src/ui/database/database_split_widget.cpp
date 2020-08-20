@@ -17,7 +17,6 @@
 
 #include "database_split_widget.h"
 #include "ui_database_split_widget.h"
-#include "model/list_model.h"
 
 DatabaseSplitWidgetBase::DatabaseSplitWidgetBase(QWidget* parent) :
 	QWidget(parent),
@@ -29,29 +28,4 @@ DatabaseSplitWidgetBase::DatabaseSplitWidgetBase(QWidget* parent) :
 DatabaseSplitWidgetBase::~DatabaseSplitWidgetBase()
 {
 	delete ui;
-}
-
-template<class T, class U>
-DatabaseSplitWidget<T, U>::DatabaseSplitWidget(RPG::Database& database, std::vector<T>& data, QWidget* parent) :
-	db(database), DatabaseSplitWidgetBase(parent)
-{
-	m_contentWidget = new U(db, this);
-	ui->list->setModel(new ListModel<T>(data));
-	ui->splitter->addWidget(m_contentWidget);
-	ui->splitter->setStretchFactor(0, 1);
-	ui->splitter->setStretchFactor(1, 4);
-
-	connect(ui->list, &QListView::activated, this, [&](const QModelIndex &index) {
-		m_contentWidget->setData(&data[index.row()]);
-	});
-}
-
-template<class T, class U>
-QWidget* DatabaseSplitWidget<T, U>::listWidget() {
-	return ui->list;
-}
-
-template<class T, class U>
-U* DatabaseSplitWidget<T, U>::contentWidget() {
-	return m_contentWidget;
 }

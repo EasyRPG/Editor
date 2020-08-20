@@ -146,7 +146,7 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	weaponModel = ui->comboInitialWeapon->model();
 }
 
-void ActorWidget::setData(RPG::Actor* actor) {
+void ActorWidget::setData(lcf::rpg::Actor* actor) {
 	on_currentActorChanged(actor);
 }
 
@@ -321,7 +321,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	};
 
 
-	auto filter = Actor(*m_currentActor, *core().project()).CreateEquipmentFilter(RPG::Item::Type_weapon);
+	auto filter = Actor(*m_currentActor, *core().project()).CreateEquipmentFilter(lcf::rpg::Item::Type_weapon);
 	filter->setParent(this);
 	ui->comboInitialWeapon->setModel(filter);
 	filter->setSourceModel(weaponModel);

@@ -31,7 +31,7 @@ ItemWidget::~ItemWidget()
 	delete ui;
 }
 
-void ItemWidget::setData(RPG::Item* item)
+void ItemWidget::setData(lcf::rpg::Item* item)
 {
 
 }

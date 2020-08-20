@@ -22,6 +22,7 @@
 #include <QInputDialog>
 #include <QDialogButtonBox>
 #include <lcf/ldb/reader.h>
+#include "database_split_widget.h"
 
 DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	QDialog(parent),
@@ -29,23 +30,22 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	m_data(core().project()->database())
 {
 	ui->setupUi(this);
-	m_currentActor = nullptr;
 	on_currentActorChanged(nullptr);
 
-	pageActors = new DatabaseSplitWidget<RPG::Actor, ActorWidget>(m_data, m_data.actors, this);
-	pageClasses = new DatabaseSplitWidget<RPG::Class, ClassWidget>(m_data, m_data.classes, this);
-	pageSkills = new DatabaseSplitWidget<RPG::Skill, SkillWidget>(m_data, m_data.skills, this);
-	pageItems = new DatabaseSplitWidget<RPG::Item, ItemWidget>(m_data, m_data.items, this);
-	pageEnemies = new DatabaseSplitWidget<RPG::Enemy, EnemyWidget>(m_data, m_data.enemies, this);
-	pageEnemyGroups = new DatabaseSplitWidget<RPG::Troop, EnemyGroupWidget>(m_data, m_data.troops, this);
-	pageAttributes = new DatabaseSplitWidget<RPG::Attribute, AttributeWidget>(m_data, m_data.attributes, this);
-	pageStates = new DatabaseSplitWidget<RPG::State, StateWidget>(m_data, m_data.states, this);
-	pageBattleAnimations = new DatabaseSplitWidget<RPG::Animation, BattleAnimationWidget>(m_data, m_data.animations, this);
-	pageBattleAnimations2 = new DatabaseSplitWidget<RPG::BattlerAnimation, BattleAnimation2Widget>(m_data, m_data.battleranimations, this);
+	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget>(m_data, m_data.actors, this);
+	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class, ClassWidget>(m_data, m_data.classes, this);
+	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget>(m_data, m_data.skills, this);
+	pageItems = new DatabaseSplitWidget<lcf::rpg::Item, ItemWidget>(m_data, m_data.items, this);
+	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget>(m_data, m_data.enemies, this);
+	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget>(m_data, m_data.troops, this);
+	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget>(m_data, m_data.attributes, this);
+	pageStates = new DatabaseSplitWidget<lcf::rpg::State, StateWidget>(m_data, m_data.states, this);
+	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget>(m_data, m_data.animations, this);
+	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget>(m_data, m_data.battleranimations, this);
 	pageBattleScreen = new BattleScreenWidget(core().project()->database(), this);
-	pageTerrain = new DatabaseSplitWidget<RPG::Terrain, TerrainWidget>(m_data, m_data.terrains, this);
-	pageChipset = new DatabaseSplitWidget<RPG::Chipset, ChipSetWidget>(m_data, m_data.chipsets, this);
-	pageCommonevents = new DatabaseSplitWidget<RPG::CommonEvent, CommonEventWidget>(m_data, m_data.commonevents, this);
+	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_data, m_data.terrains, this);
+	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_data, m_data.chipsets, this);
+	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_data, m_data.commonevents, this);
 
 	pageVocabulary= new VocabularyWidget(m_data, this);
 	pageSystem = new SystemWidget(m_data, this);
@@ -84,6 +84,7 @@ DatabaseDialog::~DatabaseDialog()
 
 void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
+#if 0
 	m_currentActor = actor;
 	if (actor == nullptr){
 		/* Clear Table */
@@ -143,6 +144,7 @@ void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 	/* Enable Table */
 	ui->tableNew_CharacterProperties->setEnabled(true);
+#endif
 }
 
 void DatabaseDialog::on_tabOld_Pages_currentChanged(int index)
