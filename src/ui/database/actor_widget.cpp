@@ -23,6 +23,7 @@
 
 #include "common/widget_helper.h"
 #include "model/actor.h"
+#include "model/list_model.h"
 
 ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -129,21 +130,19 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	}
 
 	for (auto& uis : {
-
+			ui->comboInitialWeapon,
 			ui->comboInitialShield,
 			ui->comboInitialArmor,
 			ui->comboInitialHelmet,
 			ui->comboInitialMisc }) {
 		WidgetHelper::connect<int16_t>(this, uis, true);
+		uis->setModel(new ListModel(database.items));
 	}
-
-	WidgetHelper::connect<int16_t>(this, ui->comboInitialWeapon);
 
 	WidgetHelper::connect(this, ui->groupCritChance);
 
 	WidgetHelper::connect<int32_t>(this, ui->comboUnarmedAnimation);
-
-	weaponModel = ui->comboInitialWeapon->model();
+	ui->comboUnarmedAnimation->setModel(new ListModel(database.animations));
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {
@@ -160,7 +159,6 @@ void ActorWidget::UpdateModels()
 	/* Clear */
 	ui->comboBattleset->clear();
 	ui->comboProfession->clear();
-	ui->comboUnarmedAnimation->clear();
 	ui->listAttributeRanks->clear();
 	ui->listStatusRanks->clear();
 	/* Fill */
@@ -170,21 +168,10 @@ void ActorWidget::UpdateModels()
 	ui->comboProfession->addItem(tr("<none>"));
 	for (unsigned int i = 0; i < m_data.classes.size(); i++)
 		ui->comboProfession->addItem(m_data.classes[i].name.c_str());
-	ui->comboUnarmedAnimation->addItem(tr("<none>"));
-	for (unsigned int i = 0; i < m_data.animations.size(); i++)
-		ui->comboUnarmedAnimation->addItem(m_data.animations[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.attributes.size(); i++)
 		ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.states.size(); i++)
 		ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
-
-
-
-	ui->comboInitialWeapon->addItem(tr("<none>"));
-	for (unsigned int i = 0; i < m_data.items.size(); i++)
-		ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str());
-
-
 
 	on_currentActorChanged(m_currentActor);
 }
@@ -277,7 +264,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		ui->comboInitialArmor->clear();
 		ui->comboInitialHelmet->clear();
 		ui->comboInitialMisc->clear();
-		//ui->comboInitialWeapon->clear();
+		ui->comboInitialWeapon->clear();
 		ui->comboInitialShield->clear();
 		ui->comboProfession->setCurrentIndex(0);
 		ui->comboUnarmedAnimation->setCurrentIndex(0);
@@ -305,79 +292,33 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	WidgetHelper::setProperty(ui->spinCritChance, actor->critical_hit_chance);
 	WidgetHelper::setProperty(ui->groupCritChance, actor->critical_hit);
 	WidgetHelper::setProperty(ui->comboUnarmedAnimation, actor->unarmed_animation);
-	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id);
+	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id, true);
 	WidgetHelper::setProperty(ui->comboInitialShield, actor->initial_equipment.shield_id, true);
 	WidgetHelper::setProperty(ui->comboInitialHelmet, actor->initial_equipment.helmet_id, true);
 	WidgetHelper::setProperty(ui->comboInitialArmor, actor->initial_equipment.armor_id, true);
 	WidgetHelper::setProperty(ui->comboInitialMisc, actor->initial_equipment.accessory_id, true);
 
-	// Prevent event calling on filtered comboboxes before the filter is correctly configured
-	SignalBlocker s {
-		ui->comboInitialWeapon,
-		ui->comboInitialShield,
-		ui->comboInitialHelmet,
-		ui->comboInitialArmor,
-		ui->comboInitialMisc
-	};
+	std::array<std::tuple<QComboBox*, lcf::rpg::Item::Type>, 5> vals {{
+		{ ui->comboInitialWeapon, lcf::rpg::Item::Type_weapon },
+		{ ui->comboInitialShield, lcf::rpg::Item::Type_shield },
+		{ ui->comboInitialArmor, lcf::rpg::Item::Type_armor },
+		{ ui->comboInitialHelmet, lcf::rpg::Item::Type_helmet },
+		{ ui->comboInitialMisc, lcf::rpg::Item::Type_accessory }
+	}};
 
+	for (auto& [uis, type] : vals)  {
+		// Prevent event calling on filtered comboboxes before the filter is correctly configured
+		SignalBlocker s(uis);
 
-	auto filter = Actor(*m_currentActor, *core().project()).CreateEquipmentFilter(lcf::rpg::Item::Type_weapon);
-	filter->setParent(this);
-	ui->comboInitialWeapon->setModel(filter);
-	filter->setSourceModel(weaponModel);
-	filter->invalidate();
+		auto filter = Actor(*m_currentActor, *core().project()).CreateEquipmentFilter(type);
+		filter->setParent(this);
+		filter->setSourceModel(uis->model());
+		uis->setModel(filter);
+		filter->invalidate();
+	}
 
 	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
-	ui->comboInitialArmor->clear();
-	ui->comboInitialHelmet->clear();
-	ui->comboInitialMisc->clear();
-	ui->comboInitialShield->clear();
-	//ui->comboInitialWeapon->clear();
-	ui->comboInitialArmor->addItem(tr("<none>"), 0);
-	ui->comboInitialHelmet->addItem(tr("<none>"), 0);
-	ui->comboInitialMisc->addItem(tr("<none>"), 0);
-	ui->comboInitialShield->addItem(tr("<none>"), 0);
-	//ui->comboInitialWeapon->addItem(tr("<none>"), 0);
-	for (size_t i = 0; i < m_data.items.size(); i++)
-	{
-		/* Check if hero can use item*/
-		if (actor->ID <= static_cast<int>(m_data.items[i].actor_set.size()) &&
-				!m_data.items[i].actor_set[static_cast<size_t>(actor->ID)-1])
-			if (actor->class_id <= 0 ||
-					(actor->class_id >= static_cast<int>(m_data.items[i].class_set.size()) &&
-					 ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[static_cast<size_t>(actor->class_id)-1]))))
-				continue;
 
-		switch (m_data.items[i].type)
-		{
-		case lcf::rpg::Item::Type_armor:
-			ui->comboInitialArmor->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.armor_id == m_data.items[i].ID)
-				ui->comboInitialArmor->setCurrentIndex(ui->comboInitialArmor->count()-1);
-			break;
-		case lcf::rpg::Item::Type_helmet:
-			ui->comboInitialHelmet->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.helmet_id == m_data.items[i].ID)
-				ui->comboInitialHelmet->setCurrentIndex(ui->comboInitialHelmet->count()-1);
-			break;
-		case lcf::rpg::Item::Type_accessory:
-			ui->comboInitialMisc->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.accessory_id == m_data.items[i].ID)
-				ui->comboInitialMisc->setCurrentIndex(ui->comboInitialMisc->count()-1);
-			break;
-		case lcf::rpg::Item::Type_shield:
-			ui->comboInitialShield->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.shield_id == m_data.items[i].ID)
-				ui->comboInitialShield->setCurrentIndex(ui->comboInitialShield->count()-1);
-			break;
-		case lcf::rpg::Item::Type_weapon:
-			break;
-			/*ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.weapon_id == m_data.items[i].ID)
-				ui->comboInitialWeapon->setCurrentIndex(ui->comboInitialWeapon->count()-1);
-			break;*/
-		}
-	}
 	ui->comboProfession->setCurrentIndex(actor->class_id);
 	ui->tableSkills->setRowCount(0);
 	for (int i = 0; i < static_cast<int>(actor->skills.size()); i++){

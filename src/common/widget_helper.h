@@ -76,7 +76,7 @@ namespace WidgetHelper {
 			data.obj() = static_cast<T>(spinBox->value());
 		};
 
-		parent->connect(spinBox, qOverload<int>(&QSpinBox::valueChanged), parent, callback);
+		QWidget::connect(spinBox, qOverload<int>(&QSpinBox::valueChanged), parent, callback);
 	}
 
 	template<typename T>
@@ -95,7 +95,7 @@ namespace WidgetHelper {
 			}
 		};
 
-		parent->connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
+		QWidget::connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
 	}
 
 	void setProperty(QLineEdit* widget, std::string& data);

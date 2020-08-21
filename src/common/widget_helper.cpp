@@ -36,7 +36,7 @@ void WidgetHelper::connect(QWidget* parent, QLineEdit* lineEdit) {
 		data.obj() = lineEdit->text().toStdString();
 	};
 
-	parent->connect(lineEdit, &QLineEdit::textChanged, parent, callback);
+	QWidget::connect(lineEdit, &QLineEdit::textChanged, parent, callback);
 }
 
 void WidgetHelper::connect(QWidget* parent, QCheckBox* checkBox) {
@@ -50,7 +50,7 @@ void WidgetHelper::connect(QWidget* parent, QCheckBox* checkBox) {
 		data.obj() = checkBox->isChecked();
 	};
 
-	parent->connect(checkBox, &QCheckBox::stateChanged, parent, callback);
+	QWidget::connect(checkBox, &QCheckBox::stateChanged, parent, callback);
 }
 
 void WidgetHelper::connect(QWidget* parent, QGroupBox* groupBox) {
@@ -64,7 +64,7 @@ void WidgetHelper::connect(QWidget* parent, QGroupBox* groupBox) {
 		data.obj() = groupBox->isChecked();
 	};
 
-	parent->connect(groupBox, &QGroupBox::toggled, parent, callback);
+	QWidget::connect(groupBox, &QGroupBox::toggled, parent, callback);
 }
 
 void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {

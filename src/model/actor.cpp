@@ -58,7 +58,7 @@ QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 			continue;
 		}
 
-		indices.push_back(i + 1);
+		indices.push_back(i);
 	}
 
 	return new SortFilterProxyModelIndexFilter(indices);
