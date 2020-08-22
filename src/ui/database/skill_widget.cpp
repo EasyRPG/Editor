@@ -30,3 +30,8 @@ SkillWidget::~SkillWidget()
 {
 	delete ui;
 }
+
+void SkillWidget::setData(lcf::rpg::Skill* skill)
+{
+
+}

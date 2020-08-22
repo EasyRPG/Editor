@@ -30,3 +30,8 @@ BattleAnimationWidget::~BattleAnimationWidget()
 {
 	delete ui;
 }
+
+void BattleAnimationWidget::setData(lcf::rpg::Animation* anim)
+{
+
+}

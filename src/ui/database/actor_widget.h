@@ -38,33 +38,16 @@ class ActorWidget : public QWidget
 
 public:
 	explicit ActorWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	void setData(lcf::rpg::Actor* actor);
 	~ActorWidget();
 
 public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_listCharacters_currentRowChanged(int currentRow);
-	void on_lineName_textChanged(const QString &arg1);
-	void on_lineTitle_textChanged(const QString &arg1);
-	void on_checkTranslucent_toggled(bool checked);
-	void on_checkDualWeapon_toggled(bool checked);
-	void on_checkAI_toggled(bool checked);
-	void on_checkFixedEquip_toggled(bool checked);
-	void on_checkStrongDefense_toggled(bool checked);
-	void on_spinMinLv_valueChanged(int arg1);
-	void on_spinMaxLv_valueChanged(int arg1);
-	void on_groupCritChance_toggled(bool on);
-	void on_comboInitialWeapon_currentIndexChanged(int index);
-	void on_comboInitialShield_currentIndexChanged(int index);
-	void on_comboInitialArmor_currentIndexChanged(int index);
-	void on_comboInitialHelmet_currentIndexChanged(int index);
-	void on_comboInitialMisc_currentIndexChanged(int index);
-	void on_comboUnarmedAnimation_currentIndexChanged(int index);
 	void on_pushSetCharset_clicked();
 	void on_pushSetFace_clicked();
 	void on_comboBattleset_currentIndexChanged(int index);
-	void on_spinCritChance_valueChanged(int arg1);
 	void on_pushApplyProfession_clicked();
 
 signals:

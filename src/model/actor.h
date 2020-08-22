@@ -15,23 +15,35 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "attribute_widget.h"
-#include "ui_attribute_widget.h"
+#pragma once
 
-AttributeWidget::AttributeWidget(lcf::rpg::Database &database, QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::AttributeWidget),
-	m_data(database)
+#include "project.h"
+#include <lcf/rpg/actor.h>
+
+class QSortFilterProxyModel;
+
+/**
+ * A thin wrapper around lcf::rpg::Actor
+ */
+class Actor
 {
-	ui->setupUi(this);
-}
+public:
+	Actor(lcf::rpg::Actor& actor, Project& project);
 
-AttributeWidget::~AttributeWidget()
-{
-	delete ui;
-}
+	bool IsItemUsable(const lcf::rpg::Item& item) const;
 
-void AttributeWidget::setData(lcf::rpg::Attribute* attribute)
-{
+	/**
+	 * Create a SortFilterProxy which only contains items of a specific type
+	 * and who the actor can equip.
+	 * @param type Equipment type
+	 * @return QSortFilterProxyModel
+	 */
+	QSortFilterProxyModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
 
-}
+	lcf::rpg::Actor& data();
+
+private:
+	lcf::rpg::Actor& actor;
+	Project& project;
+};
+

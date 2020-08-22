@@ -15,23 +15,17 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "attribute_widget.h"
-#include "ui_attribute_widget.h"
+#include "database_split_widget.h"
+#include "ui_database_split_widget.h"
 
-AttributeWidget::AttributeWidget(lcf::rpg::Database &database, QWidget *parent) :
+DatabaseSplitWidgetBase::DatabaseSplitWidgetBase(QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::AttributeWidget),
-	m_data(database)
+	ui(new Ui::DatabaseSplitWidget)
 {
 	ui->setupUi(this);
 }
 
-AttributeWidget::~AttributeWidget()
+DatabaseSplitWidgetBase::~DatabaseSplitWidgetBase()
 {
 	delete ui;
-}
-
-void AttributeWidget::setData(lcf::rpg::Attribute* attribute)
-{
-
 }

@@ -22,6 +22,7 @@
 #include <QInputDialog>
 #include <QDialogButtonBox>
 #include <lcf/ldb/reader.h>
+#include "database_split_widget.h"
 
 DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	QDialog(parent),
@@ -29,44 +30,45 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	m_data(core().project()->database())
 {
 	ui->setupUi(this);
-	m_currentActor = nullptr;
 	on_currentActorChanged(nullptr);
-	Old_PageActors = new ActorWidget(m_data, this);
-	Old_PageClasses = new ClassWidget(m_data, this);
-	Old_PageSkills= new SkillWidget(m_data, this);
-	Old_PageItems=new ItemWidget(m_data, this);
-	Old_PageEnemies=new EnemyWidget(m_data, this);
-	Old_PageEnemyGroup= new EnemyGroupWidget(m_data, this);
-	Old_PageAttributes=new AttributeWidget(m_data, this);
-	Old_PageHeroStatus=new StateWidget(m_data, this);
-	Old_PageBattleAnimation=new BattleAnimationWidget(m_data, this);
-	Old_PageBattleAnimation2=new BattleAnimation2Widget(m_data, this);
-	Old_PageBatleScreen=new BattleScreenWidget(m_data, this);
-	Old_PageTerrain=new TerrainWidget(m_data, this);
-	Old_PageChipset= new ChipSetWidget(m_data, this);
-	Old_PageVocabulary= new VocabularyWidget(m_data, this);
-	Old_PageSystem= new SystemWidget(m_data, this);
-	Old_PageSystem2= new System2Widget(m_data, this);
-	Old_PageCommonevents= new CommonEventWidget(m_data, this);
-	ui->tabOld_Pages->insertTab(0, Old_PageActors, tr("Characters"));
-	ui->tabOld_Pages->insertTab(1, Old_PageClasses, tr("Professions"));
-	ui->tabOld_Pages->insertTab(2, Old_PageSkills, tr("Skills"));
-	ui->tabOld_Pages->insertTab(3, Old_PageItems, tr("Items"));
-	ui->tabOld_Pages->insertTab(4, Old_PageEnemies, tr("Enemys"));
-	ui->tabOld_Pages->insertTab(5, Old_PageEnemyGroup, tr("EnemyGroup"));
-	ui->tabOld_Pages->insertTab(6, Old_PageAttributes, tr("Attributes"));
-	ui->tabOld_Pages->insertTab(7, Old_PageHeroStatus, tr("Hero Status"));
-	ui->tabOld_Pages->insertTab(8, Old_PageBattleAnimation, tr("Battle Animation"));
-	ui->tabOld_Pages->insertTab(9, Old_PageBattleAnimation2, tr("Battle Animation 2"));
-	ui->tabOld_Pages->insertTab(10, Old_PageBatleScreen, tr("Battle screen"));
-	ui->tabOld_Pages->insertTab(11, Old_PageTerrain, tr("Terrain"));
-	ui->tabOld_Pages->insertTab(12, Old_PageChipset, tr("Chipset"));
-	ui->tabOld_Pages->insertTab(13, Old_PageVocabulary, tr("Vocuabulary"));
-	ui->tabOld_Pages->insertTab(14, Old_PageSystem, tr("System"));
-	ui->tabOld_Pages->insertTab(15, Old_PageSystem2, tr("System"));
-	ui->tabOld_Pages->insertTab(16, Old_PageCommonevents, tr("Common events"));
 
-	ui->tabOld_Pages->setCurrentWidget(Old_PageActors);
+	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget>(m_data, m_data.actors, this);
+	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class, ClassWidget>(m_data, m_data.classes, this);
+	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget>(m_data, m_data.skills, this);
+	pageItems = new DatabaseSplitWidget<lcf::rpg::Item, ItemWidget>(m_data, m_data.items, this);
+	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget>(m_data, m_data.enemies, this);
+	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget>(m_data, m_data.troops, this);
+	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget>(m_data, m_data.attributes, this);
+	pageStates = new DatabaseSplitWidget<lcf::rpg::State, StateWidget>(m_data, m_data.states, this);
+	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget>(m_data, m_data.animations, this);
+	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget>(m_data, m_data.battleranimations, this);
+	pageBattleScreen = new BattleScreenWidget(core().project()->database(), this);
+	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_data, m_data.terrains, this);
+	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_data, m_data.chipsets, this);
+	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_data, m_data.commonevents, this);
+
+	pageVocabulary= new VocabularyWidget(m_data, this);
+	pageSystem = new SystemWidget(m_data, this);
+	pageSystem2  = new System2Widget(m_data, this);
+	ui->tabOld_Pages->insertTab(0, pageActors, tr("Characters"));
+	ui->tabOld_Pages->insertTab(1, pageClasses, tr("Professions"));
+	ui->tabOld_Pages->insertTab(2, pageSkills, tr("Skills"));
+	ui->tabOld_Pages->insertTab(3, pageItems, tr("Items"));
+	ui->tabOld_Pages->insertTab(4, pageEnemies, tr("Enemys"));
+	ui->tabOld_Pages->insertTab(5, pageEnemyGroups, tr("EnemyGroup"));
+	ui->tabOld_Pages->insertTab(6, pageAttributes, tr("Attributes"));
+	ui->tabOld_Pages->insertTab(7, pageStates, tr("Hero Status"));
+	ui->tabOld_Pages->insertTab(8, pageBattleAnimations, tr("Battle Animation"));
+	ui->tabOld_Pages->insertTab(9, pageBattleAnimations2, tr("Battle Animation 2"));
+	ui->tabOld_Pages->insertTab(10, pageBattleScreen, tr("Battle screen"));
+	ui->tabOld_Pages->insertTab(11, pageTerrain, tr("Terrain"));
+	ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
+	ui->tabOld_Pages->insertTab(13, pageVocabulary, tr("Vocabulary"));
+	ui->tabOld_Pages->insertTab(14, pageSystem, tr("System"));
+	ui->tabOld_Pages->insertTab(15, pageSystem2, tr("System"));
+	ui->tabOld_Pages->insertTab(16, pageCommonevents, tr("Common events"));
+
+	ui->tabOld_Pages->setCurrentWidget(pageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
 	/* Fill Characters list */
 	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
@@ -82,6 +84,7 @@ DatabaseDialog::~DatabaseDialog()
 
 void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
+#if 0
 	m_currentActor = actor;
 	if (actor == nullptr){
 		/* Clear Table */
@@ -141,6 +144,7 @@ void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 	/* Enable Table */
 	ui->tableNew_CharacterProperties->setEnabled(true);
+#endif
 }
 
 void DatabaseDialog::on_tabOld_Pages_currentChanged(int index)

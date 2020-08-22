@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.9)
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
@@ -14,12 +14,20 @@ add_library(${PROJECT_NAME} STATIC
 	src/common/image_loader.cpp
 	src/common/image_loader.h
 	src/common/scope_guard.h
+	src/common/signal_blocker.h
+	src/common/sortfilter_proxy_models.cpp
+	src/common/sortfilter_proxy_models.h
+	src/common/widget_helper.cpp
+	src/common/widget_helper.h
 	src/core.cpp
 	src/core.h
 	src/defines.h
 	src/gamecharacter.cpp
 	src/gamecharacter.h
 	src/main.cpp
+	src/model/actor.cpp
+	src/model/actor.h
+	src/model/list_model.h
 	src/model/project.cpp
 	src/model/project.h
 	src/stringizer.cpp
@@ -116,6 +124,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/database_dialog.cpp
 	src/ui/database/database_dialog.h
 	src/ui/database/database_dialog.ui
+	src/ui/database/database_split_widget.cpp
+	src/ui/database/database_split_widget.h
+	src/ui/database/database_split_widget.ui
 	src/ui/database/enemy_group_widget.cpp
 	src/ui/database/enemy_group_widget.h
 	src/ui/database/enemy_group_widget.ui
@@ -194,6 +205,19 @@ add_library(${PROJECT_NAME} STATIC
 # Include directories
 target_include_directories(${PROJECT_NAME} PUBLIC
 	"${CMAKE_CURRENT_SOURCE_DIR}/src"
+)
+
+# Add autogen include dirs to include path, otherwise the includes are not found
+# when used in the header (via https://stackoverflow.com/q/44746308/)
+get_property(_isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(_isMultiConfig)
+	set(AUTOGEN_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_autogen/include_$<CONFIG>)
+else()
+	set(AUTOGEN_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_autogen/include)
+endif()
+
+target_include_directories(${PROJECT_NAME} INTERFACE
+	$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
 )
 
 # Qt Magic

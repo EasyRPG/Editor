@@ -19,6 +19,11 @@
 #include "ui_actor_widget.h"
 #include <QTimer>
 #include <QGraphicsOpacityEffect>
+#include <QSortFilterProxyModel>
+
+#include "common/widget_helper.h"
+#include "model/actor.h"
+#include "model/list_model.h"
 
 ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -96,8 +101,6 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
 	timer->start(200);
 	UpdateModels();
-	if (ui->listCharacters->count())
-		ui->listCharacters->setCurrentRow(0);
 
 	if (database.system.ldb_id != 2003) {
 		for (int i = 0; i < ui->gridBattleSet->count(); ++i) {
@@ -105,6 +108,45 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 		}
 		ui->groupBoxClass->hide();
 	}
+
+	for (auto& uis : { ui->lineName, ui->lineTitle }) {
+		WidgetHelper::connect(this, uis);
+	}
+
+	for (auto& uis : {
+			ui->checkAI,
+			ui->checkDualWeapon,
+			ui->checkFixedEquip,
+			ui->checkStrongDefense,
+			ui->checkTranslucent }) {
+		WidgetHelper::connect(this, uis);
+	}
+
+	for (auto& uis : {
+			ui->spinMinLv,
+			ui->spinMaxLv,
+			ui->spinCritChance }) {
+		WidgetHelper::connect<int32_t>(this, uis);
+	}
+
+	for (auto& uis : {
+			ui->comboInitialWeapon,
+			ui->comboInitialShield,
+			ui->comboInitialArmor,
+			ui->comboInitialHelmet,
+			ui->comboInitialMisc }) {
+		WidgetHelper::connect<int16_t>(this, uis, true);
+		uis->setModel(new ListModel(database.items));
+	}
+
+	WidgetHelper::connect(this, ui->groupCritChance);
+
+	WidgetHelper::connect<int32_t>(this, ui->comboUnarmedAnimation);
+	ui->comboUnarmedAnimation->setModel(new ListModel(database.animations));
+}
+
+void ActorWidget::setData(lcf::rpg::Actor* actor) {
+	on_currentActorChanged(actor);
 }
 
 ActorWidget::~ActorWidget()
@@ -115,10 +157,8 @@ ActorWidget::~ActorWidget()
 void ActorWidget::UpdateModels()
 {
 	/* Clear */
-	ui->listCharacters->clear();
 	ui->comboBattleset->clear();
 	ui->comboProfession->clear();
-	ui->comboUnarmedAnimation->clear();
 	ui->listAttributeRanks->clear();
 	ui->listStatusRanks->clear();
 	/* Fill */
@@ -128,56 +168,12 @@ void ActorWidget::UpdateModels()
 	ui->comboProfession->addItem(tr("<none>"));
 	for (unsigned int i = 0; i < m_data.classes.size(); i++)
 		ui->comboProfession->addItem(m_data.classes[i].name.c_str());
-	ui->comboUnarmedAnimation->addItem(tr("<none>"));
-	for (unsigned int i = 0; i < m_data.animations.size(); i++)
-		ui->comboUnarmedAnimation->addItem(m_data.animations[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.attributes.size(); i++)
 		ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < m_data.states.size(); i++)
 		ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
-	for (unsigned int i = 0; i < m_data.actors.size(); i++)
-		ui->listCharacters->addItem(QString("%1: %2")
-							   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-							   .arg(m_data.actors[i].name.c_str()));
 
 	on_currentActorChanged(m_currentActor);
-}
-
-
-void ActorWidget::on_lineName_textChanged(const QString &arg1)
-{
-	if (!m_currentActor || m_currentActor->name == arg1.toStdString())
-		return;
-	m_currentActor->name = arg1.toStdString();
-	ui->listCharacters->currentItem()->setText(QString("%1:%2") .arg(QString::number(m_currentActor->ID),4,QLatin1Char('0')) .arg(arg1));
-}
-
-void ActorWidget::on_lineTitle_textChanged(const QString &arg1)
-{
-	if (!m_currentActor || m_currentActor->title == arg1.toStdString())
-		return;
-	m_currentActor->title = arg1.toStdString();
-}
-
-void ActorWidget::on_spinMinLv_valueChanged(int arg1)
-{
-	if (!m_currentActor || m_currentActor->initial_level == arg1)
-		return;
-	m_currentActor->initial_level = arg1;
-}
-
-void ActorWidget::on_spinMaxLv_valueChanged(int arg1)
-{
-	if (!m_currentActor || m_currentActor->final_level == arg1)
-		return;
-	m_currentActor->final_level = arg1;
-}
-
-void ActorWidget::on_groupCritChance_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->critical_hit == checked)
-		return;
-	m_currentActor->critical_hit = checked;
 }
 
 void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
@@ -191,94 +187,6 @@ void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
 		m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(index) - 1]);
-}
-
-void ActorWidget::on_checkDualWeapon_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->two_weapon == checked)
-		return;
-	m_currentActor->two_weapon = checked;
-}
-
-void ActorWidget::on_checkAI_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->auto_battle == checked)
-		return;
-	m_currentActor->auto_battle = checked;
-}
-
-void ActorWidget::on_checkFixedEquip_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->lock_equipment == checked)
-		return;
-	m_currentActor->lock_equipment = checked;
-}
-
-void ActorWidget::on_checkStrongDefense_toggled(bool checked)
-{
-	if (!m_currentActor || m_currentActor->super_guard == checked)
-	{
-		return;
-	}
-	m_currentActor->super_guard = checked;
-}
-
-void ActorWidget::on_spinCritChance_valueChanged(int arg1)
-{
-	if (!m_currentActor || m_currentActor->critical_hit_chance == 1)
-		return;
-	m_currentActor->critical_hit_chance = arg1;
-}
-
-void ActorWidget::on_comboInitialWeapon_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.weapon_id == ui->comboInitialWeapon->itemData(index))
-		return;
-	m_currentActor->initial_equipment.weapon_id = static_cast<short>(ui->comboInitialWeapon->itemData(index).toInt());
-}
-
-void ActorWidget::on_comboInitialShield_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.shield_id == ui->comboInitialShield->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.shield_id = static_cast<short>(ui->comboInitialShield->itemData(index).toInt());
-}
-void ActorWidget::on_comboInitialArmor_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.armor_id == ui->comboInitialArmor->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.armor_id = static_cast<short>(ui->comboInitialArmor->itemData(index).toInt());
-}
-void ActorWidget::on_comboInitialHelmet_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.helmet_id == ui->comboInitialHelmet->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.helmet_id = static_cast<short>(ui->comboInitialHelmet->itemData(index).toInt());
-}
-void ActorWidget::on_comboInitialMisc_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->initial_equipment.accessory_id == ui->comboInitialMisc->itemData(index).toInt())
-		return;
-	m_currentActor->initial_equipment.accessory_id = static_cast<short>(ui->comboInitialMisc->itemData(index).toInt());
-}
-
-void ActorWidget::on_comboUnarmedAnimation_currentIndexChanged(int index)
-{
-	if(index < 0) return;
-	if(!m_currentActor) return;
-	if(m_currentActor->unarmed_animation == index)
-		return;
-	m_currentActor->unarmed_animation = index;
 }
 
 void ActorWidget::on_pushSetCharset_clicked()
@@ -335,11 +243,11 @@ void ActorWidget::ResetExpText(lcf::rpg::Actor* actor) {
 
 void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
-	m_currentActor = nullptr;
+	m_currentActor = actor;
 
 	ResetExpText(actor);
 
-	if (actor == nullptr){
+	if (actor == nullptr) {
 		/* Clear widgets */
 		ui->lineName->clear();
 		ui->lineTitle->clear();
@@ -367,100 +275,51 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 			ui->listAttributeRanks->item(i)->setIcon(QIcon());
 		for (int i = 0; i < ui->listStatusRanks->count(); i++)
 			ui->listStatusRanks->item(i)->setIcon(QIcon());
-		/* Disable widgets */
-		ui->lineName->setEnabled(false);
-		ui->lineTitle->setEnabled(false);
-		ui->spinMaxLv->setEnabled(false);
-		ui->spinMinLv->setEnabled(false);
-		ui->checkAI->setEnabled(false);
-		ui->checkDualWeapon->setEnabled(false);
-		ui->checkFixedEquip->setEnabled(false);
-		ui->checkStrongDefense->setEnabled(false);
-		ui->checkTranslucent->setEnabled(false);
-		ui->groupCritChance->setEnabled(false);
-		ui->comboBattleset->setEnabled(false);
-		ui->comboInitialArmor->setEnabled(false);
-		ui->comboInitialHelmet->setEnabled(false);
-		ui->comboInitialMisc->setEnabled(false);
-		ui->comboInitialWeapon->setEnabled(false);
-		ui->comboInitialShield->setEnabled(false);
-		ui->comboProfession->setEnabled(false);
-		ui->comboUnarmedAnimation->setEnabled(false);
-		ui->tableSkills->setEnabled(false);
-		ui->listAttributeRanks->setEnabled(false);
-		ui->listStatusRanks->setEnabled(false);
-		ui->pushApplyProfession->setEnabled(false);
-		ui->pushExpCurveEdit->setEnabled(false);
-		ui->pushSetCharset->setEnabled(false);
-		ui->pushSetFace->setEnabled(false);
-		ui->pushEditCustom->setEnabled(false);
+
+		this->setEnabled(false);
 		return;
 	}
 
-	/* Fill widgets data */
-	ui->lineName->setText(actor->name.c_str());
-	ui->lineTitle->setText(actor->title.c_str());
-	ui->spinCritChance->setValue(actor->critical_hit_chance);
-	ui->spinMaxLv->setValue(actor->final_level);
-	ui->spinMinLv->setValue(actor->initial_level);
-	ui->checkAI->setChecked(actor->auto_battle);
-	ui->checkDualWeapon->setChecked(actor->two_weapon);
-	ui->checkFixedEquip->setChecked(actor->lock_equipment);
-	ui->checkStrongDefense->setChecked(actor->super_guard);
-	ui->checkTranslucent->setChecked(actor->transparent);
-	ui->groupCritChance->setChecked(actor->critical_hit);
-	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
-	ui->comboInitialArmor->clear();
-	ui->comboInitialHelmet->clear();
-	ui->comboInitialMisc->clear();
-	ui->comboInitialShield->clear();
-	ui->comboInitialWeapon->clear();
-	ui->comboInitialArmor->addItem(tr("<none>"), 0);
-	ui->comboInitialHelmet->addItem(tr("<none>"), 0);
-	ui->comboInitialMisc->addItem(tr("<none>"), 0);
-	ui->comboInitialShield->addItem(tr("<none>"), 0);
-	ui->comboInitialWeapon->addItem(tr("<none>"), 0);
-	for (size_t i = 0; i < m_data.items.size(); i++)
-	{
-		/* Check if hero can use item*/
-		if (actor->ID <= static_cast<int>(m_data.items[i].actor_set.size()) &&
-				!m_data.items[i].actor_set[static_cast<size_t>(actor->ID)-1])
-			if (actor->class_id <= 0 ||
-					(actor->class_id >= static_cast<int>(m_data.items[i].class_set.size()) &&
-					 ((m_data.items[i].class_set.size()>0) &&(!m_data.items[i].class_set[static_cast<size_t>(actor->class_id)-1]))))
-				continue;
+	WidgetHelper::setProperty(ui->lineName, actor->name);
+	WidgetHelper::setProperty(ui->lineTitle, actor->title);
+	WidgetHelper::setProperty(ui->checkAI, actor->auto_battle);
+	WidgetHelper::setProperty(ui->checkDualWeapon, actor->two_weapon);
+	WidgetHelper::setProperty(ui->checkFixedEquip, actor->lock_equipment);
+	WidgetHelper::setProperty(ui->checkStrongDefense, actor->super_guard);
+	WidgetHelper::setProperty(ui->checkTranslucent, actor->transparent);
+	WidgetHelper::setProperty(ui->spinMinLv, actor->initial_level);
+	WidgetHelper::setProperty(ui->spinMaxLv, actor->final_level);
+	WidgetHelper::setProperty(ui->spinCritChance, actor->critical_hit_chance);
+	WidgetHelper::setProperty(ui->groupCritChance, actor->critical_hit);
+	WidgetHelper::setProperty(ui->comboUnarmedAnimation, actor->unarmed_animation);
+	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id, true);
+	WidgetHelper::setProperty(ui->comboInitialShield, actor->initial_equipment.shield_id, true);
+	WidgetHelper::setProperty(ui->comboInitialHelmet, actor->initial_equipment.helmet_id, true);
+	WidgetHelper::setProperty(ui->comboInitialArmor, actor->initial_equipment.armor_id, true);
+	WidgetHelper::setProperty(ui->comboInitialMisc, actor->initial_equipment.accessory_id, true);
 
-		switch (m_data.items[i].type)
-		{
-		case lcf::rpg::Item::Type_armor:
-			ui->comboInitialArmor->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.armor_id == m_data.items[i].ID)
-				ui->comboInitialArmor->setCurrentIndex(ui->comboInitialArmor->count()-1);
-			break;
-		case lcf::rpg::Item::Type_helmet:
-			ui->comboInitialHelmet->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.helmet_id == m_data.items[i].ID)
-				ui->comboInitialHelmet->setCurrentIndex(ui->comboInitialHelmet->count()-1);
-			break;
-		case lcf::rpg::Item::Type_accessory:
-			ui->comboInitialMisc->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.accessory_id == m_data.items[i].ID)
-				ui->comboInitialMisc->setCurrentIndex(ui->comboInitialMisc->count()-1);
-			break;
-		case lcf::rpg::Item::Type_shield:
-			ui->comboInitialShield->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.shield_id == m_data.items[i].ID)
-				ui->comboInitialShield->setCurrentIndex(ui->comboInitialShield->count()-1);
-			break;
-		case lcf::rpg::Item::Type_weapon:
-			ui->comboInitialWeapon->addItem(m_data.items[i].name.c_str(), m_data.items[i].ID);
-			if (actor->initial_equipment.weapon_id == m_data.items[i].ID)
-				ui->comboInitialWeapon->setCurrentIndex(ui->comboInitialWeapon->count()-1);
-			break;
-		}
+	std::array<std::tuple<QComboBox*, lcf::rpg::Item::Type>, 5> vals {{
+		{ ui->comboInitialWeapon, lcf::rpg::Item::Type_weapon },
+		{ ui->comboInitialShield, lcf::rpg::Item::Type_shield },
+		{ ui->comboInitialArmor, lcf::rpg::Item::Type_armor },
+		{ ui->comboInitialHelmet, lcf::rpg::Item::Type_helmet },
+		{ ui->comboInitialMisc, lcf::rpg::Item::Type_accessory }
+	}};
+
+	for (auto& [uis, type] : vals)  {
+		// Prevent event calling on filtered comboboxes before the filter is correctly configured
+		SignalBlocker s(uis);
+
+		auto filter = Actor(*m_currentActor, *core().project()).CreateEquipmentFilter(type);
+		filter->setParent(this);
+		filter->setSourceModel(uis->model());
+		uis->setModel(filter);
+		filter->invalidate();
 	}
+
+	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
+
 	ui->comboProfession->setCurrentIndex(actor->class_id);
-	ui->comboUnarmedAnimation->setCurrentIndex(actor->unarmed_animation);
 	ui->tableSkills->setRowCount(0);
 	for (int i = 0; i < static_cast<int>(actor->skills.size()); i++){
 		ui->tableSkills->insertRow(i);
@@ -511,57 +370,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	m_intItem->setData(actor->parameters.spirit);
 	m_agyItem->setData(actor->parameters.agility);
 
-	/* Enable widgets */
-	ui->lineName->setEnabled(true);
-	ui->lineTitle->setEnabled(true);
-	ui->spinMaxLv->setEnabled(true);
-	ui->spinMinLv->setEnabled(true);
-	ui->checkAI->setEnabled(true);
-	ui->checkDualWeapon->setEnabled(true);
-	ui->checkFixedEquip->setEnabled(true);
-	ui->checkStrongDefense->setEnabled(true);
-	ui->checkTranslucent->setEnabled(true);
-	ui->groupCritChance->setEnabled(true);
-	ui->comboBattleset->setEnabled(true);
-	ui->comboInitialArmor->setEnabled(true);
-	ui->comboInitialHelmet->setEnabled(true);
-	ui->comboInitialMisc->setEnabled(true);
-	ui->comboInitialWeapon->setEnabled(true);
-	ui->comboInitialShield->setEnabled(true);
-	ui->comboProfession->setEnabled(true);
-	ui->comboUnarmedAnimation->setEnabled(true);
-	ui->tableSkills->setEnabled(true);
-	ui->listAttributeRanks->setEnabled(true);
-	ui->listStatusRanks->setEnabled(true);
-	ui->pushApplyProfession->setEnabled(true);
-	ui->pushExpCurveEdit->setEnabled(true);
-	ui->pushSetCharset->setEnabled(true);
-	ui->pushSetFace->setEnabled(true);
-	ui->pushEditCustom->setEnabled(true);
-
-	m_currentActor = actor;
-}
-
-void ActorWidget::on_listCharacters_currentRowChanged(int currentRow)
-{
-	if (currentRow < 0 || currentRow >= static_cast<int>(m_data.actors.size()))
-	{
-		on_currentActorChanged(nullptr);
-		emit currentActorChanged(nullptr);
-		return; //invalid
-	}
-
-	on_currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
-	emit currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
-}
-
-void ActorWidget::on_checkTranslucent_toggled(bool checked)
-{
-	if (!m_currentActor)
-		return;
-
-	m_currentActor->transparent = checked;
-	m_charaItem->graphicsEffect()->setEnabled(checked);
+	this->setEnabled(true);
 }
 
 void ActorWidget::on_pushApplyProfession_clicked()

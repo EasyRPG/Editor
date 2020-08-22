@@ -39,6 +39,10 @@
 #include "system2_widget.h"
 #include "common_event_widget.h"
 #include "core.h"
+#include "ui/common/rpg_model.h"
+
+template<class T, class U>
+class DatabaseSplitWidget;
 
 namespace Ui {
 class DatabaseDialog;
@@ -73,25 +77,23 @@ private slots:
 private:
 	Ui::DatabaseDialog *ui;
 
-	ActorWidget *Old_PageActors;
-	ClassWidget *Old_PageClasses;
-
-	SkillWidget *Old_PageSkills;
-	ItemWidget *Old_PageItems;
-	EnemyWidget *Old_PageEnemies;
-	EnemyGroupWidget *Old_PageEnemyGroup;
-	AttributeWidget *Old_PageAttributes;
-	StateWidget *Old_PageHeroStatus;
-	BattleAnimationWidget *Old_PageBattleAnimation;
-	BattleAnimation2Widget *Old_PageBattleAnimation2;
-	BattleScreenWidget *Old_PageBatleScreen;
-	TerrainWidget *Old_PageTerrain;
-	ChipSetWidget *Old_PageChipset;
-	VocabularyWidget *Old_PageVocabulary;
-	SystemWidget *Old_PageSystem;
-	System2Widget *Old_PageSystem2;
-	CommonEventWidget *Old_PageCommonevents;
+	DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget> *pageActors;
+	DatabaseSplitWidget<lcf::rpg::Class, ClassWidget> *pageClasses;
+	DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget> *pageSkills;
+	DatabaseSplitWidget<lcf::rpg::Item, ItemWidget> *pageItems;
+	DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget> *pageEnemies;
+	DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget> *pageEnemyGroups;
+	DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget> *pageAttributes;
+	DatabaseSplitWidget<lcf::rpg::State, StateWidget> *pageStates;
+	DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget> *pageBattleAnimations;
+	DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget> *pageBattleAnimations2;
+	BattleScreenWidget *pageBattleScreen;
+	DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget> *pageTerrain;
+	DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget> *pageChipset;
+	VocabularyWidget *pageVocabulary;
+	SystemWidget *pageSystem;
+	System2Widget *pageSystem2;
+	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
 	lcf::rpg::Database& m_data;
-	lcf::rpg::Actor *m_currentActor;
 };
 

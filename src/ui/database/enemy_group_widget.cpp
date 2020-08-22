@@ -30,3 +30,8 @@ EnemyGroupWidget::~EnemyGroupWidget()
 {
 	delete ui;
 }
+
+void EnemyGroupWidget::setData(lcf::rpg::Troop* troop)
+{
+
+}

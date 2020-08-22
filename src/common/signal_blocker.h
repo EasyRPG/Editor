@@ -15,23 +15,29 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "attribute_widget.h"
-#include "ui_attribute_widget.h"
+#pragma once
 
-AttributeWidget::AttributeWidget(lcf::rpg::Database &database, QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::AttributeWidget),
-	m_data(database)
-{
-	ui->setupUi(this);
-}
+#include <QWidget>
 
-AttributeWidget::~AttributeWidget()
-{
-	delete ui;
-}
+class SignalBlocker {
+public:
+	SignalBlocker(QWidget* item) {
+		items = {item};
+	}
 
-void AttributeWidget::setData(lcf::rpg::Attribute* attribute)
-{
+	SignalBlocker(std::initializer_list<QWidget*> items) {
+		for (auto& item : items) {
+			item->blockSignals(true);
+		}
+		this->items = items;
+	}
 
-}
+	~SignalBlocker() {
+		for (auto& item : items) {
+			item->blockSignals(false);
+		}
+	}
+
+private:
+	std::vector<QWidget*> items;
+};

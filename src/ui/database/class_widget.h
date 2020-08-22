@@ -33,6 +33,7 @@ class ClassWidget : public QWidget
 public:
 	explicit ClassWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~ClassWidget();
+	void setData(lcf::rpg::Class* cls);
 
 	void UpdateModels();
 

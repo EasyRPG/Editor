@@ -32,6 +32,8 @@ public:
 	explicit TerrainWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~TerrainWidget();
 
+	void setData(lcf::rpg::Terrain* terrain);
+
 private:
 	Ui::TerrainWidget *ui;
 	lcf::rpg::Database &m_data;

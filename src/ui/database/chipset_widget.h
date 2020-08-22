@@ -32,6 +32,8 @@ public:
 	explicit ChipSetWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~ChipSetWidget();
 
+	void setData(lcf::rpg::Chipset* chipset);
+
 private:
 	Ui::ChipSetWidget *ui;
 	lcf::rpg::Database &m_data;

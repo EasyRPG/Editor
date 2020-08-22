@@ -15,23 +15,16 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "attribute_widget.h"
-#include "ui_attribute_widget.h"
+#include "sortfilter_proxy_models.h"
 
-AttributeWidget::AttributeWidget(lcf::rpg::Database &database, QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::AttributeWidget),
-	m_data(database)
-{
-	ui->setupUi(this);
+SortFilterProxyModelIndexFilter::SortFilterProxyModelIndexFilter(const std::vector<int>& indices) :
+		QSortFilterProxyModel() {
+	this->indices = indices;
+	std::sort(this->indices.begin(), this->indices.end());
 }
 
-AttributeWidget::~AttributeWidget()
-{
-	delete ui;
-}
+bool SortFilterProxyModelIndexFilter::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const {
+	Q_UNUSED(sourceParent)
 
-void AttributeWidget::setData(lcf::rpg::Attribute* attribute)
-{
-
+	return std::binary_search(this->indices.begin(), this->indices.end(), sourceRow);
 }
