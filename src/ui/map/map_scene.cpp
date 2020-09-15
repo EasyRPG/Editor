@@ -27,6 +27,7 @@
 #include <iomanip>
 #include <sstream>
 #include "core.h"
+#include "common/dbstring.h"
 #include "ui/event/event_dialog.h"
 #include "ui/other/run_game_dialog.h"
 #include "ui/maptree/map_properties_dialog.h"
@@ -167,7 +168,7 @@ float MapScene::scale() const
 
 QString MapScene::mapName() const
 {
-	return QString::fromStdString(n_mapInfo.name);
+	return ToQString(n_mapInfo.name);
 }
 
 bool MapScene::isModified() const
@@ -381,7 +382,7 @@ void MapScene::on_actionNewEvent()
 
 	lcf::rpg::Event event;
 	event.ID = id;
-	event.name = QString("EV%1").arg(QString::number(id), 4, QLatin1Char('0')).toStdString();
+	event.name = ToDBString(QString("EV%1").arg(QString::number(id), 4, QLatin1Char('0')));
 	event.x = cur_x;
 	event.y = cur_y;
 	event.pages.push_back(lcf::rpg::EventPage());

@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QPushButton>
 #include "core.h"
+#include "common/dbstring.h"
 
 faceset_picker_dialog::faceset_picker_dialog(QWidget *parent, bool tile_pick) :
 	QDialog(parent),
@@ -91,23 +92,22 @@ void faceset_picker_dialog::setFrame(int frame)
 	m_chara->setFrame(frame);
 }
 
-std::string faceset_picker_dialog::name()
+QString faceset_picker_dialog::name()
 {
 	QString name = ui->listRes->currentItem()->text();
 	if (name.contains("*"))
 		name = "";
-	return name.toStdString();
+	return name;
 }
 
-void faceset_picker_dialog::setName(std::string name)
+void faceset_picker_dialog::setName(QString name)
 {
-	if (name.empty() && ui->listRes->count() > 0)
+	if (name.isEmpty() && ui->listRes->count() > 0)
 	{
 		ui->listRes->setCurrentRow(0);
 		return;
 	}
-	QList<QListWidgetItem*> items = ui->listRes->findItems(QString::fromStdString(name),
-															Qt::MatchFixedString);
+	QList<QListWidgetItem*> items = ui->listRes->findItems(name, Qt::MatchFixedString);
 	if (!items.empty())
 		ui->listRes->setCurrentItem(items[0]);
 }

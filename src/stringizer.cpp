@@ -16,6 +16,7 @@
  */
 
 #include <QObject>
+#include "common/dbstring.h"
 #include "stringizer.h"
 #include <lcf/data.h>
 #include "core.h"
@@ -129,7 +130,7 @@ namespace
 
 	QString stringizeShowMessage(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Show Message") + ":\n	" + QString::fromStdString(com.string);
+		return tr("Show Message") + ":\n	" + ToQString(com.string);
 	}
 
 	QString stringizeMessageOptions(const lcf::rpg::EventCommand& com)
@@ -156,7 +157,7 @@ namespace
 	QString stringizeChangeFaceGraphic(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Face Graphic") + ": "
-			+ QString::fromStdString(com.string) + ", "
+			+ ToQString(com.string) + ", "
 			+ QString::number(com.parameters[0]) + ", "
 			+ tr(com.parameters[1] ? "Left" : "Right")
 			+ (com.parameters[2] ? ", " + tr("Flipped") : "");
@@ -164,7 +165,7 @@ namespace
 
 	QString stringizeShowChoice(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Show Choice") + ": " + QString::fromStdString(com.string);
+		return tr("Show Choice") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeInputNumber(const lcf::rpg::EventCommand& com)
@@ -528,21 +529,21 @@ namespace
 	{
 		return tr("Change Hero Name") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + " -> "
-			+ QString::fromStdString(com.string);
+			+ ToQString(com.string);
 	}
 
 	QString stringizeChangeHeroTitle(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Hero Title") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
-			+ QString::fromStdString(com.string);
+			+ ToQString(com.string);
 	}
 
 	QString stringizeChangeSpriteAssociation(const lcf::rpg::EventCommand& com)
 	{
 		return tr("Change Sprite Association") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
-			+ QString::fromStdString(com.string) + "-"
+			+ ToQString(com.string) + "-"
 			+ QString::number(com.parameters[1]);
 	}
 
@@ -550,7 +551,7 @@ namespace
 	{
 		return tr("Change Actor Face") + ": "
 			+ Stringizer::heroName(com.parameters[0]) + ", "
-			+ QString::fromStdString(com.string) + "-"
+			+ ToQString(com.string) + "-"
 			+ QString::number(com.parameters[1]);
 	}
 
@@ -562,7 +563,7 @@ namespace
 			com.parameters[0] == 2 ? "Airship" : "Unknown");
 		return tr("Change Vehicle Graphic") + ": "
 			+ vehicle + ", "
-			+ QString::fromStdString(com.string) + "-"
+			+ ToQString(com.string) + "-"
 			+ QString::number(com.parameters[1]);
 	}
 
@@ -585,7 +586,7 @@ namespace
 		else
 			context = bgm_contexts[static_cast<size_t>(com.parameters[0])];
 		return tr("Change System BGM") + ": " + context + ", "
-			+ QString::fromStdString(com.string);
+			+ ToQString(com.string);
 	}
 
 	QString stringizeChangeSystemSFX(const lcf::rpg::EventCommand& com)
@@ -611,12 +612,12 @@ namespace
 		else
 			sfx = system_sfx[static_cast<size_t>(com.parameters[0])];
 		return tr("Change System SFX") + ": " + sfx + ", "
-			+ QString::fromStdString(com.string);
+			+ ToQString(com.string);
 	}
 
 	QString stringizeChangeSystemGraphics(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Change System Graphics") + ": " + QString::fromStdString(com.string);
+		return tr("Change System Graphics") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeChangeScreenTransitions(const lcf::rpg::EventCommand& com)
@@ -855,7 +856,7 @@ namespace
 	{
 		return tr("Show Picture") + ": "
 			+ QString::number(com.parameters[0]) + ", "
-			+ QString::fromStdString(com.string);
+			+ ToQString(com.string);
 	}
 
 	QString stringizeMovePicture(const lcf::rpg::EventCommand& com)
@@ -917,7 +918,7 @@ namespace
 
 	QString stringizePlayBGM(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Play BGM") + ": " + QString::fromStdString(com.string);
+		return tr("Play BGM") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeFadeOutBGM(const lcf::rpg::EventCommand& com)
@@ -927,12 +928,12 @@ namespace
 
 	QString stringizePlaySound(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Play Sound") + ": " + QString::fromStdString(com.string);
+		return tr("Play Sound") + ": " + ToQString(com.string);
 	}
 
 	QString stringizePlayMovie(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Play Movie") + ": " + QString::fromStdString(com.string);
+		return tr("Play Movie") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeKeyInputProc(const lcf::rpg::EventCommand& com)
@@ -942,12 +943,12 @@ namespace
 
 	QString stringizeChangeMapTileset(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Change Map Tileset") + ": " + QString::fromStdString(com.string);
+		return tr("Change Map Tileset") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeChangePBG(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Change PBG") + ": " + QString::fromStdString(com.string)
+		return tr("Change PBG") + ": " + ToQString(com.string)
 			+ (com.parameters[0] ? ", " + tr("Horz Scroll") : "")
 			+ (com.parameters[1] ? ", " + tr("Vert Scroll") : "");
 	}
@@ -1061,7 +1062,7 @@ namespace
 					condition += tr("In the Party");
 					break;
 				case 1: // Name
-					condition += tr("Name is %1").arg(QString::fromStdString(com.string));
+					condition += tr("Name is %1").arg(ToQString(com.string));
 					break;
 				case 2: // Higher or equal level
 					condition += tr("Level at least %1").arg(QString::number(com.parameters[3]));
@@ -1144,7 +1145,7 @@ namespace
 
 	QString stringizeComment(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Comment") + ": " + QString::fromStdString(com.string);
+		return tr("Comment") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeChangeMonsterHP(const lcf::rpg::EventCommand& com)
@@ -1175,7 +1176,7 @@ namespace
 
 	QString stringizeChangeBattleBG(const lcf::rpg::EventCommand& com)
 	{
-		return tr("Change Battle BG") + ": " + QString::fromStdString(com.string);
+		return tr("Change Battle BG") + ": " + ToQString(com.string);
 	}
 
 	QString stringizeShowBattleAnimation_B(const lcf::rpg::EventCommand& com)
@@ -1194,17 +1195,17 @@ namespace
 
 	QString stringizeShowMessage_2(const lcf::rpg::EventCommand& com)
 	{
-		return "	" + QString::fromStdString(com.string);
+		return "	" + ToQString(com.string);
 	}
 
 	QString stringizeShowChoiceOption(const lcf::rpg::EventCommand& com)
 	{
-		return com.string.empty() ? tr("Cancel") : "[" + QString::fromStdString(com.string) + "]";
+		return com.string.empty() ? tr("Cancel") : "[" + ToQString(com.string) + "]";
 	}
 
 	QString stringizeComment_2(const lcf::rpg::EventCommand& com)
 	{
-		return "	" + QString::fromStdString(com.string);
+		return "	" + ToQString(com.string);
 	}
 }
 
@@ -1214,56 +1215,56 @@ namespace Stringizer
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().variables.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().variables[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().variables[static_cast<size_t>(id)-1].name);
 	}
 
 	QString switchName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().switches.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().switches[static_cast<size_t>(id) - 1].name);
+		return ToQString(core().project()->database().switches[static_cast<size_t>(id) - 1].name);
 	}
 
 	QString itemName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().items.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().items[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().items[static_cast<size_t>(id)-1].name);
 	}
 
 	QString heroName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().actors.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().actors[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().actors[static_cast<size_t>(id)-1].name);
 	}
 
 	QString className(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().classes.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().classes[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().classes[static_cast<size_t>(id)-1].name);
 	}
 
 	QString stateName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().states.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().states[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().states[static_cast<size_t>(id)-1].name);
 	}
 
 	QString skillName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().skills.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().skills[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().skills[static_cast<size_t>(id)-1].name);
 	}
 
 	QString battleCommandName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().battlecommands.commands.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().battlecommands.commands[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().battlecommands.commands[static_cast<size_t>(id)-1].name);
 	}
 
 
@@ -1271,41 +1272,41 @@ namespace Stringizer
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().animations.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().animations[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().animations[static_cast<size_t>(id)-1].name);
 	}
 	QString conditionName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().states.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().states[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().states[static_cast<size_t>(id)-1].name);
 	}
 
 	QString eventName(int id)
 	{
 		if (!core().currentMapEvent(id))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().currentMapEvent(id)->name);
+		return ToQString(core().currentMapEvent(id)->name);
 	}
 
 	QString commonEventName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().commonevents.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().commonevents[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().commonevents[static_cast<size_t>(id)-1].name);
 	}
 
 	QString troopName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().troops.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().troops[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().troops[static_cast<size_t>(id)-1].name);
 	}
 
 	QString terrainName(int id)
 	{
 		if (id < 1 || id > static_cast<int>(core().project()->database().terrains.size()))
 			return QString("<%1?>").arg(id);
-		return QString::fromStdString(core().project()->database().terrains[static_cast<size_t>(id)-1].name);
+		return ToQString(core().project()->database().terrains[static_cast<size_t>(id)-1].name);
 	}
 
 	QString mapName(int id)
@@ -1314,7 +1315,7 @@ namespace Stringizer
 			return QString("<%1?>").arg(id);
 		for (unsigned i = 0; i < core().project()->treeMap().maps.size(); i++)
 			if (core().project()->treeMap().maps[i].ID == id)
-				return QString::fromStdString(core().project()->treeMap().maps[i].name);
+				return ToQString(core().project()->treeMap().maps[i].name);
 		return QString("<NotFound:%1?>").arg(id);
 	}
 

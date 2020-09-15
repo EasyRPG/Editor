@@ -33,6 +33,7 @@ public:
 	explicit VocabularyWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
 	~VocabularyWidget();
 private slots:
+#if 0
 	void on_lineEdit_34_textChanged(const QString &arg1);
 	void on_lineEdit_35_textChanged(const QString &arg1);
 	void on_lineEdit_36_textChanged(const QString &arg1);
@@ -131,7 +132,7 @@ private slots:
 	void on_lineEdit_122_textChanged(const QString &arg1);
 	void on_lineEdit_123_textChanged(const QString &arg1);
 	void on_lineEdit_125_textChanged(const QString &arg1);
-
+#endif
 
 
 private:

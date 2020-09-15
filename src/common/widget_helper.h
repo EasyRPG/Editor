@@ -58,6 +58,7 @@ Q_DECLARE_METATYPE(LcfObjectHolder<uint16_t>)
 Q_DECLARE_METATYPE(LcfObjectHolder<int32_t>)
 Q_DECLARE_METATYPE(LcfObjectHolder<uint32_t>)
 Q_DECLARE_METATYPE(LcfObjectHolder<double>)
+Q_DECLARE_METATYPE(LcfObjectHolder<lcf::DBString>)
 
 namespace WidgetHelper {
 	void connect(QWidget* parent, QLineEdit* lineEdit);
@@ -99,6 +100,7 @@ namespace WidgetHelper {
 	}
 
 	void setProperty(QLineEdit* widget, std::string& data);
+	void setProperty(QLineEdit* widget, lcf::DBString& data);
 	void setProperty(QCheckBox* widget, bool& data);
 	void setProperty(QGroupBox* widget, bool& data);
 

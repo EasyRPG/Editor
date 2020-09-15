@@ -16,6 +16,7 @@
  */
 
 #include "core.h"
+#include "common/dbstring.h"
 #include "run_game_dialog.h"
 #include "ui_run_game_dialog.h"
 #include "ui/database/actor_delegate.h"
@@ -97,7 +98,7 @@ void RunGameDialog::UpdateModels()
 	{
 		if (core().project()->treeMap().maps[i].type == 1)
 		{
-			ui->comboMapId->addItem(QString::fromStdString(core().project()->treeMap().maps[i].name),
+			ui->comboMapId->addItem(ToQString(core().project()->treeMap().maps[i].name),
 									core().project()->treeMap().maps[i].ID);
 		}
 	}
@@ -106,7 +107,7 @@ void RunGameDialog::UpdateModels()
 	ui->comboTroop->clear();
 	ui->comboTroop->addItem(tr("<Test Troop>"));
 	for (size_t i = 1; i < core().project()->database().troops.size(); i++)
-		ui->comboTroop->addItem(QString::fromStdString(core().project()->database().troops[i].name));
+		ui->comboTroop->addItem(ToQString(core().project()->database().troops[i].name));
 
 	bool auto_placement = static_cast<bool>(core().project()->database().battlecommands.placement);
 	ui->groupPartyFormation->setEnabled(auto_placement);
@@ -119,7 +120,7 @@ void RunGameDialog::UpdateModels()
 
 	ui->comboCustomFormation->clear();
 	for (size_t i = 0; i < core().project()->database().terrains.size(); i++)
-		ui->comboCustomFormation->addItem(QString::fromStdString(core().project()->database().terrains[i].name));
+		ui->comboCustomFormation->addItem(ToQString(core().project()->database().terrains[i].name));
 
 	battletest_data = core().project()->database().system.battletest_data;
 	for (size_t i = 0; i < battletest_data.size(); i++)

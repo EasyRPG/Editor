@@ -24,6 +24,8 @@
 #include "core.h"
 #include "stringizer.h"
 #include "ui/commands/all_commands.h"
+#include "common/dbstring.h"
+
 
 EventPageWidget::EventPageWidget(QWidget *parent) :
 	QWidget(parent),
@@ -32,9 +34,9 @@ EventPageWidget::EventPageWidget(QWidget *parent) :
 {
 	ui->setupUi(this);
 	for (unsigned int i = 0; i < core().project()->database().items.size(); i++)
-		ui->comboItem->addItem(QString::fromStdString(core().project()->database().items[i].name));
+		ui->comboItem->addItem(ToQString(core().project()->database().items[i].name));
 	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
-		ui->comboHero->addItem(QString::fromStdString(core().project()->database().actors[i].name));
+		ui->comboHero->addItem(ToQString(core().project()->database().actors[i].name));
 	m_charaItem = new CharSetItem();
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
@@ -168,7 +170,7 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 QString formatSwitchCondition(int switchId) {
 	if (switchId >= 1 && switchId <= static_cast<int>(core().project()->database().switches.size())) {
 		return QString("%1: %2").arg(switchId)
-				.arg(QString::fromStdString
+				.arg(ToQString
 					 (core().project()->database().switches[static_cast<size_t>(switchId) - 1].name));
 	}
 	else {
@@ -212,7 +214,7 @@ void EventPageWidget::on_checkVar_toggled(bool checked)
 		int varId = m_eventPage->condition.variable_id;
 		if (varId >= 1 && varId <= static_cast<int>(core().project()->database().variables.size())) {
 			ui->lineVar->setText(QString("%1: %2").arg(varId)
-				.arg(QString::fromStdString
+				.arg(ToQString
 					 (core().project()->database().variables[static_cast<size_t>(varId) - 1].name)));
 		}
 		else {
@@ -362,14 +364,14 @@ void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 void EventPageWidget::on_pushSetSprite_clicked()
 {
 	CharSetPickerDialog dlg(this, true);
-	dlg.setName(m_eventPage->character_name);
+	dlg.setName(ToQString(m_eventPage->character_name));
 	dlg.setFrame(m_eventPage->character_pattern);
 	dlg.setFacing(m_eventPage->character_direction);
 	dlg.setIndex(m_eventPage->character_index);
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_eventPage->character_name = dlg.name();
+		m_eventPage->character_name = ToDBString(dlg.name());
 		m_eventPage->character_pattern = dlg.frame();
 		m_eventPage->character_direction = dlg.facing();
 		m_eventPage->character_index = dlg.index();
@@ -395,7 +397,7 @@ void EventPageWidget::updateGraphic()
 	}
 	else
 	{
-		m_charaItem->setBasePix(QString::fromStdString(m_eventPage->character_name));
+		m_charaItem->setBasePix(ToQString(m_eventPage->character_name));
 		m_charaItem->setIndex(m_eventPage->character_index);
 		m_charaItem->setFrame(m_eventPage->character_pattern);
 		m_charaItem->setFacing(m_eventPage->character_direction);
@@ -408,9 +410,9 @@ void EventPageWidget::updateGraphic()
 void EventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
 {
 	auto &cmd = *static_cast<lcf::rpg::EventCommand*>(index.data(Qt::UserRole).value<void*>());
-	
+
 	QDialog *dialog = nullptr;
-	using Cmd = lcf::rpg::EventCommand::Code;	
+	using Cmd = lcf::rpg::EventCommand::Code;
 	switch (static_cast<Cmd>(cmd.code))
 	{
 		case Cmd::ChangeGold: dialog = new ChangeMoneyWidgetWidget(this, cmd); break;

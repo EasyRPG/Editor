@@ -19,6 +19,7 @@
 #include "ui_search_dialog.h"
 #include "ui/main_window.h"
 #include "core.h"
+#include "common/dbstring.h"
 #include "stringizer.h"
 
 #include <lcf/data.h>
@@ -60,13 +61,13 @@ void SearchDialog::updateUI()
 	const QString format("%1: %2");
 
 	for (auto &v : core().project()->database().variables)
-		ui->combo_variable->addItem(format.arg(QString::number(v.ID), QString::fromStdString(v.name)), v.ID);
+		ui->combo_variable->addItem(format.arg(QString::number(v.ID), ToQString(v.name)), v.ID);
 	for (auto &s : core().project()->database().switches)
-		ui->combo_switch->addItem(format.arg(QString::number(s.ID), QString::fromStdString(s.name)), s.ID);
+		ui->combo_switch->addItem(format.arg(QString::number(s.ID), ToQString(s.name)), s.ID);
 	for (auto &i : core().project()->database().items)
-		ui->combo_item->addItem(format.arg(QString::number(i.ID), QString::fromStdString(i.name)), i.ID);
+		ui->combo_item->addItem(format.arg(QString::number(i.ID), ToQString(i.name)), i.ID);
 	for (auto &e : core().project()->database().commonevents)
-		ui->combo_eventname->addItem(format.arg(QString::number(e.ID), QString::fromStdString(e.name)), e.ID);
+		ui->combo_eventname->addItem(format.arg(QString::number(e.ID), ToQString(e.name)), e.ID);
 }
 
 void SearchDialog::enableCache(bool enable)
@@ -302,7 +303,7 @@ void SearchDialog::showResults(const std::vector<command_info>& results) {
 			do
 			{
 				auto& mapinfo = core().project()->treeMap().maps[static_cast<size_t>(mm)];
-				maps_rev << QString::fromStdString(mapinfo.name);
+				maps_rev << ToQString(mapinfo.name);
 				mm = mapinfo.parent_map;
 			} while (mm != 0);
 		}

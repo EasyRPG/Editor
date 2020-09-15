@@ -15,13 +15,14 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "common/dbstring.h"
 #include "defines.h"
 #include "filefinder.h"
 
 QString FileFinder::Find(const QDir& dir, const QString& filename, FileType type) {
 	auto fn = [&](std::initializer_list<std::string> exts) -> QString {
 		for (const std::string& ext: exts) {
-			QString file_to_find = filename + QString::fromStdString(ext);
+			QString file_to_find = filename + ToQString(ext);
 			const auto& list = dir.entryList(QDir::Files);
 			for (const QString& item: list) {
 				if (item.compare(file_to_find, Qt::CaseInsensitive) == 0) {

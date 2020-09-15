@@ -16,6 +16,7 @@
  */
 
 #include "battle_animation_item.h"
+#include "common/dbstring.h"
 
 BattleAnimationItem::BattleAnimationItem(const QPixmap pix) :
 	QGraphicsPixmapItem(pix)
@@ -103,7 +104,7 @@ void BattleAnimationItem::on_demoAdvance()
 	if (m_demoIndex > 11)
 		m_demoIndex = 0;
 	lcf::rpg::BattlerAnimationExtension anim = m_demoAnimation.base_data[static_cast<size_t>(m_demoIndex)];
-	setBasePix(Battler, QString::fromStdString(anim.battler_name));
+	setBasePix(Battler, ToQString(anim.battler_name));
 	m_index = anim.battler_index;
 	updatePix();
 }

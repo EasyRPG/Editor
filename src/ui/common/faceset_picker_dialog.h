@@ -42,8 +42,8 @@ public:
 	int facing();
 	void setFacing(int facing);
 
-	std::string name();
-	void setName(std::string name);
+	QString name();
+	void setName(QString name);
 
 	void setAnimated(bool animated);
 

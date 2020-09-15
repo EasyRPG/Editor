@@ -21,6 +21,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QSortFilterProxyModel>
 
+#include "common/dbstring.h"
 #include "common/widget_helper.h"
 #include "model/actor.h"
 #include "model/list_model.h"
@@ -195,16 +196,16 @@ void ActorWidget::on_pushSetCharset_clicked()
 		return;
 
 	CharSetPickerDialog dlg(this, false);
-	dlg.setName(m_currentActor->character_name);
+	dlg.setName(ToQString(m_currentActor->character_name));
 	dlg.setIndex(m_currentActor->character_index);
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_currentActor->character_name = dlg.name();
+		m_currentActor->character_name = ToDBString(dlg.name());
 		m_currentActor->character_index = dlg.index();
 
 		m_charaItem->setVisible(true);
-		m_charaItem->setBasePix(m_currentActor->character_name.c_str());
+		m_charaItem->setBasePix(ToQString(m_currentActor->character_name));
 		m_charaItem->setIndex(m_currentActor->character_index);
 	}
 }
@@ -212,15 +213,15 @@ void ActorWidget::on_pushSetCharset_clicked()
 void ActorWidget::on_pushSetFace_clicked()
 {
 	faceset_picker_dialog dlg(this, true);
-	dlg.setName(m_currentActor->face_name);
+	dlg.setName(ToQString(m_currentActor->face_name));
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_currentActor->face_name = dlg.name();
+		m_currentActor->face_name = ToDBString(dlg.name());
 		m_currentActor->face_index = dlg.index();
 
 		m_faceItem->setVisible(true);
-		m_faceItem->setBasePix(m_currentActor->face_name.c_str());
+		m_faceItem->setBasePix(ToQString(m_currentActor->face_name));
 		m_faceItem->setIndex(m_currentActor->face_index);
 
 	}

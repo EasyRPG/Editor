@@ -25,7 +25,7 @@ VocabularyWidget::VocabularyWidget(lcf::rpg::Database &database, QWidget *parent
 {
 	ui->setupUi(this);
 	terms=&m_data.terms;
-
+#if 0
 	ui->lineEdit_34->setText(terms->encounter.c_str());
 	ui->lineEdit_35->setText(terms->special_combat.c_str());
 	ui->lineEdit_36->setText(terms->miss.c_str());
@@ -124,14 +124,14 @@ VocabularyWidget::VocabularyWidget(lcf::rpg::Database &database, QWidget *parent
 	ui->lineEdit_120->setText(terms->file.c_str());
 	ui->lineEdit_123->setText(terms->yes.c_str());
 	ui->lineEdit_125->setText(terms->no.c_str());
-
+#endif
 }
 
 VocabularyWidget::~VocabularyWidget()
 {
 	delete ui;
 }
-
+#if 0
 void VocabularyWidget::on_lineEdit_textChanged(const QString &arg1)
 {
 	if ( terms->item_recieved == arg1.toStdString())
@@ -730,3 +730,4 @@ void VocabularyWidget::on_lineEdit_125_textChanged(const QString &arg1)
 terms->no= arg1.toStdString();
 }
 
+#endif

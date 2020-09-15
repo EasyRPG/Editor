@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Source Files
 add_library(${PROJECT_NAME} STATIC
+	src/common/dbstring.h
 	src/common/filefinder.cpp
 	src/common/filefinder.h
 	src/common/image_loader.cpp

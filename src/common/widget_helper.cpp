@@ -19,11 +19,8 @@
 #include <QLineEdit>
 #include <QGroupBox>
 
+#include "common/dbstring.h"
 #include "widget_helper.h"
-
-namespace {
-
-}
 
 void WidgetHelper::connect(QWidget* parent, QLineEdit* lineEdit) {
 	auto callback = [=](){
@@ -73,7 +70,16 @@ void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
 	v.setValue(oh);
 	widget->setProperty("ee_data", v);
 	SignalBlocker s(widget);
-	widget->setText(QString::fromStdString(data));
+	widget->setText(ToQString(data));
+}
+
+void WidgetHelper::setProperty(QLineEdit* widget, lcf::DBString& data) {
+        QVariant v;
+        LcfObjectHolder oh(data);
+        v.setValue(oh);
+        widget->setProperty("ee_data", v);
+        SignalBlocker s(widget);
+        widget->setText(ToQString(data));
 }
 
 void WidgetHelper::setProperty(QCheckBox* widget, bool& data) {
