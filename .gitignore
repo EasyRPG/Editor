@@ -2,7 +2,6 @@
 /*.user
 /*.user.*
 *.o
-/Makefile
 /moc_*
 /qrc_*
 /ui_*
@@ -11,11 +10,10 @@ easyrpg-editor
 /libs/liblcf/*
 /debug
 /release
-Makefile.Debug
-Makefile.Release
+Makefile*
 .qmake.stash
-/libs/liblcf
 /.project
+*_autogen/
 /bin/templates/Player.exe
 /bin/*.app
 /bin/*.dll
@@ -28,14 +26,24 @@ Makefile.Release
 /bin/*.exp
 /bin/*.res
 /bin/platforms
+*.cbp
+
+# liblcf
+lib/liblcf
 
 # CMake
 /bin/EasyRPG_Editor
-/libs/*.a
+*.a
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 *automoc.cpp
+.cmake/
+cmake-build-*/
+
+# Ninja
+*.ninja
+.ninja*
 
 # CLion
 .idea

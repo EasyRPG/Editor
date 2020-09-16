@@ -245,11 +245,38 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(ZLIB REQUIRED)
-find_package(liblcf REQUIRED)
+# liblcf
+option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
+set(EDITOR_BUILD_LIBLCF_GIT "https://github.com/EasyRPG/liblcf.git" CACHE STRING "Git repository of liblcf to clone when building liblcf. Requires EDITOR_BUILD_LIBLCF=ON.")
+
+if(EDITOR_BUILD_LIBLCF)
+	# liblcf is built as part of this cmake file
+	set(LIBLCF_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/liblcf")
+	if(NOT EXISTS ${LIBLCF_PATH})
+		find_package(Git REQUIRED)
+		execute_process(COMMAND ${GIT_EXECUTABLE} clone "--depth=1"
+			"${EDITOR_BUILD_LIBLCF_GIT}"
+			"${LIBLCF_PATH}")
+	endif()
+	list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/liblcf/builds/cmake/Modules")
+
+	option(BUILD_SHARED_LIBS "Not used. Supresses CMP0077 in liblcf" ON)
+
+	# Always build static liblcf
+	function(add_liblcf)
+		set(BUILD_SHARED_LIBS OFF)
+		add_subdirectory(${LIBLCF_PATH})
+	endfunction()
+	add_liblcf()
+	target_link_libraries(${PROJECT_NAME} lcf)
+else()
+	# Use system package
+	find_package(liblcf REQUIRED)
+	target_link_libraries(${PROJECT_NAME} liblcf::liblcf)
+endif()
 
 # Libraries
 target_link_libraries(${PROJECT_NAME}
-	liblcf::liblcf
 	ZLIB::ZLIB
 	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia
 )
