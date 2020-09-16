@@ -18,16 +18,22 @@
 #include "event_commands_widget.h"
 #include "stringizer.h"
 #include "ui/commands/all_commands.h"
+#include "ui/event/event_raw_widget.h"
 #include <iostream>
-#include <QtWidgets/QMessageBox>
+#include <QMenu>
+#include <QAction>
 #include <memory>
+
 
 EventCommandsWidget::EventCommandsWidget(QWidget* parent) :
 	QTreeWidget(parent)
 {
 	setHeaderHidden(true);
 
-	connect(this, &QTreeWidget::itemDoubleClicked, this, &EventCommandsWidget::doubleClicked);
+	setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(this, &QTreeWidget::itemDoubleClicked, this, &EventCommandsWidget::editEvent);
+	connect(this, &QTreeWidget::customContextMenuRequested, this, &EventCommandsWidget::showContextMenu);
 }
 
 void EventCommandsWidget::setData(lcf::rpg::CommonEvent* event) {
@@ -90,7 +96,7 @@ void EventCommandsWidget::setDataInternal(T* event) {
 	expandAll();
 }
 
-void EventCommandsWidget::doubleClicked(QTreeWidgetItem* item, int column) {
+void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 	assert(column == 0);
 
 	using Cmd = lcf::rpg::EventCommand::Code;
@@ -110,15 +116,37 @@ void EventCommandsWidget::doubleClicked(QTreeWidgetItem* item, int column) {
 		case Cmd::ShowMessage: dialog = std::make_unique<ShowMessageWidget>(this, cmd); break;
 		case Cmd::ControlSwitches: dialog = std::make_unique<SwitchOperationsWidget>(this, cmd); break;
 		case Cmd::ControlVars: dialog = std::make_unique<VariableOperationsWidget>(this, cmd); break;
-		default: break;
-	}
-
-	if (!dialog) {
-		QMessageBox::warning(this, "", "This command is not implemented yet.");
-		return;
+		default: editRawEvent(item, column, true); return;
 	}
 
 	dialog->exec();
 
 	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
+}
+
+void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool show_warning) {
+	assert(column == 0);
+
+	auto& cmd = *static_cast<lcf::rpg::EventCommand*>(item->data(column, Qt::UserRole).value<void*>());
+	std::unique_ptr<QDialog> dialog = std::make_unique<EventRawWidget>(this, cmd, show_warning);
+
+	dialog->exec();
+	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
+}
+
+void EventCommandsWidget::showContextMenu(const QPoint& pos) {
+	auto* item = this->itemAt(pos);
+
+	auto* editAct = new QAction("Edit...", this);
+	auto* editRawAct = new QAction("Edit raw...", this);
+
+	connect(editAct, &QAction::triggered, this, [&]{ editEvent(item, 0); });
+	connect(editRawAct, &QAction::triggered, this, [&]{ editRawEvent(item, 0, false); });
+
+	QMenu menu(this);
+	menu.addAction(editAct);
+	menu.addAction(editRawAct);
+
+	QPoint pt(pos);
+	menu.exec(mapToGlobal(pos));
 }

@@ -17,30 +17,27 @@
 
 #pragma once
 
-#include <QTreeWidget>
-#include <lcf/rpg/commonevent.h>
-#include <lcf/rpg/trooppage.h>
-#include <lcf/rpg/eventpage.h>
+#include <QDialog>
+#include <lcf/rpg/eventcommand.h>
 
-class EventCommandsWidget : public QTreeWidget
+namespace Ui {
+	class QEventRawWidget;
+}
+
+class EventRawWidget : public QDialog
 {
 	Q_OBJECT
 
 public:
-	explicit EventCommandsWidget(QWidget *parent = nullptr);
-
-	void setData(lcf::rpg::CommonEvent* event);
-	void setData(lcf::rpg::TroopPage* event);
-	void setData(lcf::rpg::EventPage* event);
-
-private:
-	template<typename T>
-	void setDataInternal(T* event);
-	std::vector<lcf::rpg::EventCommand>	* m_commands = nullptr;
-
-	void editRawEvent(QTreeWidgetItem* item, int column, bool show_warning);
+	explicit EventRawWidget(QWidget *parent, lcf::rpg::EventCommand& event, bool show_warning = true);
+	~EventRawWidget() override;
 
 private slots:
-	void editEvent(QTreeWidgetItem* item, int column);
-	void showContextMenu(const QPoint& pos);
+	void on_QEventRawWidget_accepted();
+	void on_buttonAddNum_clicked();
+
+private:
+	Ui::QEventRawWidget *ui;
+	lcf::rpg::EventCommand& orig;
+	lcf::rpg::EventCommand cmd;
 };

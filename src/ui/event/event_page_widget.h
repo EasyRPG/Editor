@@ -38,7 +38,7 @@ class EventPageWidget : public QWidget
 
 public:
 	explicit EventPageWidget(QWidget *parent = nullptr);
-	~EventPageWidget();
+	~EventPageWidget() override;
 
 	lcf::rpg::EventPage *eventPage() const;
 	void setEventPage(lcf::rpg::EventPage *eventPage);

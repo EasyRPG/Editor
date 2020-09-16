@@ -167,6 +167,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/event/event_page_widget.cpp
 	src/ui/event/event_page_widget.h
 	src/ui/event/event_page_widget.ui
+	src/ui/event/event_raw_widget.cpp
+	src/ui/event/event_raw_widget.h
+	src/ui/event/event_raw_widget.ui
 	src/ui/main_window.cpp
 	src/ui/main_window.h
 	src/ui/main_window.ui
