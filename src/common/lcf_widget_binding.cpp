@@ -20,23 +20,23 @@
 #include <QGroupBox>
 
 #include "common/dbstring.h"
-#include "widget_helper.h"
+#include "lcf_widget_binding.h"
 
-void WidgetHelper::connect(QWidget* parent, QLineEdit* lineEdit) {
+void LcfWidgetBinding::connect(QWidget* parent, QLineEdit* lineEdit) {
 	auto callback = [=](){
 		QVariant variant = lineEdit->property("ee_data");
 		if (variant.isNull()) {
 			return;
 		}
 
-		auto data = variant.value<LcfObjectHolder<std::string>>();
-		data.obj() = lineEdit->text().toStdString();
+		auto data = variant.value<LcfObjectHolder<lcf::DBString>>();
+		data.obj() = ToDBString(lineEdit->text());
 	};
 
 	QWidget::connect(lineEdit, &QLineEdit::textChanged, parent, callback);
 }
 
-void WidgetHelper::connect(QWidget* parent, QCheckBox* checkBox) {
+void LcfWidgetBinding::connect(QWidget* parent, QCheckBox* checkBox) {
 	auto callback = [=](){
 		QVariant variant = checkBox->property("ee_data");
 		if (variant.isNull()) {
@@ -50,7 +50,7 @@ void WidgetHelper::connect(QWidget* parent, QCheckBox* checkBox) {
 	QWidget::connect(checkBox, &QCheckBox::stateChanged, parent, callback);
 }
 
-void WidgetHelper::connect(QWidget* parent, QGroupBox* groupBox) {
+void LcfWidgetBinding::connect(QWidget* parent, QGroupBox* groupBox) {
 	auto callback = [=](){
 		QVariant variant = groupBox->property("ee_data");
 		if (variant.isNull()) {
@@ -64,16 +64,7 @@ void WidgetHelper::connect(QWidget* parent, QGroupBox* groupBox) {
 	QWidget::connect(groupBox, &QGroupBox::toggled, parent, callback);
 }
 
-void WidgetHelper::setProperty(QLineEdit* widget, std::string& data) {
-	QVariant v;
-	LcfObjectHolder oh(data);
-	v.setValue(oh);
-	widget->setProperty("ee_data", v);
-	SignalBlocker s(widget);
-	widget->setText(ToQString(data));
-}
-
-void WidgetHelper::setProperty(QLineEdit* widget, lcf::DBString& data) {
+void LcfWidgetBinding::bind(QLineEdit* widget, lcf::DBString& data) {
         QVariant v;
         LcfObjectHolder oh(data);
         v.setValue(oh);
@@ -82,7 +73,7 @@ void WidgetHelper::setProperty(QLineEdit* widget, lcf::DBString& data) {
         widget->setText(ToQString(data));
 }
 
-void WidgetHelper::setProperty(QCheckBox* widget, bool& data) {
+void LcfWidgetBinding::bind(QCheckBox* widget, bool& data) {
 	QVariant v;
 	LcfObjectHolder oh(data);
 	v.setValue(oh);
@@ -91,7 +82,7 @@ void WidgetHelper::setProperty(QCheckBox* widget, bool& data) {
 	widget->setChecked(data);
 }
 
-void WidgetHelper::setProperty(QGroupBox* widget, bool& data) {
+void LcfWidgetBinding::bind(QGroupBox* widget, bool& data) {
 	QVariant v;
 	LcfObjectHolder oh(data);
 	v.setValue(oh);

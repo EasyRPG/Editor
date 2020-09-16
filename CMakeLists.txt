@@ -15,12 +15,12 @@ add_library(${PROJECT_NAME} STATIC
 	src/common/filefinder.h
 	src/common/image_loader.cpp
 	src/common/image_loader.h
+	src/common/lcf_widget_binding.cpp
+	src/common/lcf_widget_binding.h
 	src/common/scope_guard.h
 	src/common/signal_blocker.h
 	src/common/sortfilter_proxy_models.cpp
 	src/common/sortfilter_proxy_models.h
-	src/common/widget_helper.cpp
-	src/common/widget_helper.h
 	src/core.cpp
 	src/core.h
 	src/defines.h
