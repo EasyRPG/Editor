@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <string_view>
 #include <lcf/dbstring.h>
 #include <QString>
 #include <QStringView>
@@ -26,7 +25,7 @@ inline QString ToQString(const std::string& s) {
 	return QString::fromStdString(s);
 }
 
-inline QString ToQString(std::string_view s) {
+inline QString ToQString(lcf::StringView s) {
 	return QString::fromUtf8(s.data(), s.size());
 }
 
