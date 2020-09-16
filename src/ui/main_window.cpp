@@ -698,20 +698,17 @@ QGraphicsView *MainWindow::getView(int id)
 	QGraphicsView* view = m_views[id];
 	if (!view)
 	{
-		//create
 		view = new QGraphicsView(this);
 		m_views[id] = view;
 		view->setTransformationAnchor(QGraphicsView::NoAnchor);
-		std::string mapName;
-		for (unsigned int i = 0; i < core().project()->treeMap().maps.size();i++)
-			if (core().project()->treeMap().maps[i].ID == id)
-			{
-				mapName = core().project()->treeMap().maps[i].name;
+		QString mapName;
+		for (auto & map : core().project()->treeMap().maps) {
+			if (map.ID == id) {
+				mapName = ToQString(map.name);
 				break;
 			}
-		ui->tabMap->addTab(view,
-						   QIcon(":/icons/share/old_map.png"),
-						   ToQString(mapName));
+		}
+		ui->tabMap->addTab(view, QIcon(":/icons/share/old_map.png"), mapName);
 		view->setScene(new MapScene(id, view, this));
 		connect(getScene(id),
 				SIGNAL(mapChanged()),
