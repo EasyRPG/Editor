@@ -15,29 +15,27 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "battle_page_widget.h"
+#include "ui_battle_page_widget.h"
 
-#include <QWidget>
-#include <lcf/data.h>
-
-namespace Ui {
-class EnemyGroupWidget;
+BattlePageWidget::BattlePageWidget(QWidget *parent) :
+	QWidget(parent),
+	ui(new Ui::BattlePageWidget)
+{
+	ui->setupUi(this);
 }
 
-class EnemyGroupWidget : public QWidget
+BattlePageWidget::~BattlePageWidget()
 {
-	Q_OBJECT
+	delete ui;
+}
 
-public:
-	explicit EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~EnemyGroupWidget() override;
+lcf::rpg::TroopPage* BattlePageWidget::eventPage() const {
+	return m_eventPage;
+}
 
-	void setData(lcf::rpg::Troop* troop);
+void BattlePageWidget::setEventPage(lcf::rpg::TroopPage* eventPage) {
+	m_eventPage = eventPage;
 
-private:
-	Ui::EnemyGroupWidget *ui;
-	lcf::rpg::Database &m_data;
-	lcf::rpg::Troop m_dummy;
-	lcf::rpg::Troop* m_current = nullptr;
-};
-
+	ui->commands->setData(eventPage);
+}

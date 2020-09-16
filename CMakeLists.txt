@@ -156,6 +156,11 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/vocabulary_widget.cpp
 	src/ui/database/vocabulary_widget.h
 	src/ui/database/vocabulary_widget.ui
+	src/ui/event/battle_page_widget.cpp
+	src/ui/event/battle_page_widget.h
+	src/ui/event/battle_page_widget.ui
+	src/ui/event/event_commands_widget.cpp
+	src/ui/event/event_commands_widget.h
 	src/ui/event/event_dialog.cpp
 	src/ui/event/event_dialog.h
 	src/ui/event/event_dialog.ui

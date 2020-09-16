@@ -17,27 +17,29 @@
 
 #pragma once
 
-#include <QWidget>
-#include <lcf/data.h>
+#include <QTreeWidget>
+#include <lcf/rpg/commonevent.h>
+#include <lcf/rpg/trooppage.h>
+#include <lcf/rpg/eventpage.h>
 
-namespace Ui {
-class EnemyGroupWidget;
-}
-
-class EnemyGroupWidget : public QWidget
+class EventCommandsWidget : public QTreeWidget
 {
 	Q_OBJECT
 
 public:
-	explicit EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~EnemyGroupWidget() override;
+	explicit EventCommandsWidget(QWidget *parent = nullptr);
 
-	void setData(lcf::rpg::Troop* troop);
+	void setData(lcf::rpg::CommonEvent* event);
+	void setData(lcf::rpg::TroopPage* event);
+	void setData(lcf::rpg::EventPage* event);
 
 private:
-	Ui::EnemyGroupWidget *ui;
-	lcf::rpg::Database &m_data;
-	lcf::rpg::Troop m_dummy;
-	lcf::rpg::Troop* m_current = nullptr;
+	template<typename T>
+	void setDataInternal(T* event);
+	std::vector<lcf::rpg::EventCommand>	* m_commands = nullptr;
+
+private slots:
+	void doubleClicked(QTreeWidgetItem* item, int column);
+
 };
 

@@ -92,18 +92,15 @@ private slots:
 
 	void on_pushSetSprite_clicked();
 
-	void on_treeCommands_doubleClicked(const QModelIndex &index);
-
 private:
 
 	void updateGraphic();
 
 	Ui::QEventWidget *ui;
-	lcf::rpg::EventPage *m_eventPage;
-	QGraphicsPixmapItem *m_tileItem;
-	CharSetItem *m_charaItem;
-	QGraphicsScene *m_scene;
-	QGraphicsOpacityEffect *m_effect;
-	int m_codeGen;
+	lcf::rpg::EventPage *m_eventPage = nullptr;
+	QGraphicsPixmapItem *m_tileItem = nullptr;
+	CharSetItem *m_charaItem = nullptr;
+	QGraphicsScene *m_scene = nullptr;
+	QGraphicsOpacityEffect *m_effect = nullptr;
 };
 

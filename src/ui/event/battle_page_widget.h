@@ -18,26 +18,24 @@
 #pragma once
 
 #include <QWidget>
-#include <lcf/data.h>
+#include <lcf/rpg/trooppage.h>
 
 namespace Ui {
-class EnemyGroupWidget;
+class BattlePageWidget;
 }
 
-class EnemyGroupWidget : public QWidget
+class BattlePageWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~EnemyGroupWidget() override;
+	explicit BattlePageWidget(QWidget *parent = nullptr);
+	~BattlePageWidget() override;
 
-	void setData(lcf::rpg::Troop* troop);
+	lcf::rpg::TroopPage* eventPage() const;
+	void setEventPage(lcf::rpg::TroopPage *eventPage);
 
 private:
-	Ui::EnemyGroupWidget *ui;
-	lcf::rpg::Database &m_data;
-	lcf::rpg::Troop m_dummy;
-	lcf::rpg::Troop* m_current = nullptr;
+	Ui::BattlePageWidget* ui;
+	lcf::rpg::TroopPage*m_eventPage = nullptr;
 };
-

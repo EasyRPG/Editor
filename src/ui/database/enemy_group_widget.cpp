@@ -16,7 +16,9 @@
  */
 
 #include "enemy_group_widget.h"
+#include "ui/event/battle_page_widget.h"
 #include "ui_enemy_group_widget.h"
+#include "ui/event/event_page_widget.h"
 
 EnemyGroupWidget::EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -26,12 +28,20 @@ EnemyGroupWidget::EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent
 	ui->setupUi(this);
 }
 
-EnemyGroupWidget::~EnemyGroupWidget()
-{
+EnemyGroupWidget::~EnemyGroupWidget() {
 	delete ui;
 }
 
-void EnemyGroupWidget::setData(lcf::rpg::Troop* troop)
-{
+void EnemyGroupWidget::setData(lcf::rpg::Troop* troop) {
+	m_current = troop ? troop : &m_dummy;
 
+	ui->tabCommands->clear();
+	for (auto& page : troop->pages) {
+		// FIXME: The CommandWidget must be wrapped in another widget that provides the conditions
+		auto* tab = new BattlePageWidget(this);
+		tab->setEventPage(&page);
+		ui->tabCommands->addTab(tab, QString::number(page.ID));
+	}
+
+	this->setEnabled(m_current != nullptr);
 }

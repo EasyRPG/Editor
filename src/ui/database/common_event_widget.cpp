@@ -37,12 +37,14 @@ CommonEventWidget::~CommonEventWidget()
 }
 
 void CommonEventWidget::setData(lcf::rpg::CommonEvent* common_event) {
-	m_current = common_event ? common_event : &dummy;
+	m_current = common_event ? common_event : &m_dummy;
 
 	LcfWidgetBinding::bind(ui->lineName, m_current->name);
 	LcfWidgetBinding::bind(ui->comboTrigger, m_current->trigger);
 	LcfWidgetBinding::bind(ui->groupSwitch, m_current->switch_flag);
 	LcfWidgetBinding::bind(ui->comboSwitch, m_current->switch_id);
+
+	ui->commands->setData(m_current);
 
 	this->setEnabled(common_event != nullptr);
 }

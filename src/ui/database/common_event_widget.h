@@ -38,6 +38,6 @@ private:
 	Ui::CommonEventWidget *ui;
 	lcf::rpg::Database &m_data;
 	lcf::rpg::CommonEvent *m_current = nullptr;
-	lcf::rpg::CommonEvent dummy;
+	lcf::rpg::CommonEvent m_dummy;
 };
 
