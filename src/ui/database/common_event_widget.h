@@ -30,12 +30,14 @@ class CommonEventWidget : public QWidget
 
 public:
 	explicit CommonEventWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~CommonEventWidget();
+	~CommonEventWidget() override;
 
 	void setData(lcf::rpg::CommonEvent* common_event);
 
 private:
 	Ui::CommonEventWidget *ui;
 	lcf::rpg::Database &m_data;
+	lcf::rpg::CommonEvent *m_current = nullptr;
+	lcf::rpg::CommonEvent dummy;
 };
 

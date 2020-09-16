@@ -17,6 +17,7 @@
 
 #include "common_event_widget.h"
 #include "ui_common_event_widget.h"
+#include "src/common/lcf_widget_binding.h"
 
 CommonEventWidget::CommonEventWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -24,6 +25,10 @@ CommonEventWidget::CommonEventWidget(lcf::rpg::Database &database, QWidget *pare
 	m_data(database)
 {
 	ui->setupUi(this);
+
+	LcfWidgetBinding::connect(this, ui->lineName);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboTrigger);
+	LcfWidgetBinding::connect(this, ui->groupSwitch);
 }
 
 CommonEventWidget::~CommonEventWidget()
@@ -31,7 +36,13 @@ CommonEventWidget::~CommonEventWidget()
 	delete ui;
 }
 
-void CommonEventWidget::setData(lcf::rpg::CommonEvent* common_event)
-{
+void CommonEventWidget::setData(lcf::rpg::CommonEvent* common_event) {
+	m_current = common_event ? common_event : &dummy;
 
+	LcfWidgetBinding::bind(ui->lineName, m_current->name);
+	LcfWidgetBinding::bind(ui->comboTrigger, m_current->trigger);
+	LcfWidgetBinding::bind(ui->groupSwitch, m_current->switch_flag);
+	LcfWidgetBinding::bind(ui->comboSwitch, m_current->switch_id);
+
+	this->setEnabled(common_event != nullptr);
 }
