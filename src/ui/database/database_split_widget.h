@@ -90,7 +90,7 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 
 	list.setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(&list, &QListView::activated, this, [&](const QModelIndex &index) {
+	connect(list.selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &index) {
 		m_contentWidget->setData(&data[index.row()]);
 	});
 
