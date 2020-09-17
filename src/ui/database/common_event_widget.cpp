@@ -29,6 +29,7 @@ CommonEventWidget::CommonEventWidget(lcf::rpg::Database &database, QWidget *pare
 	LcfWidgetBinding::connect(this, ui->lineName);
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboTrigger);
 	LcfWidgetBinding::connect(this, ui->groupSwitch);
+	ui->comboSwitch->makeModel(database, database.switches);
 }
 
 CommonEventWidget::~CommonEventWidget()

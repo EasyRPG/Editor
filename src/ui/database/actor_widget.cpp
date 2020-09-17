@@ -24,7 +24,6 @@
 #include "common/dbstring.h"
 #include "common/lcf_widget_binding.h"
 #include "model/actor.h"
-#include "model/list_model.h"
 
 ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -137,11 +136,13 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 			ui->comboInitialHelmet,
 			ui->comboInitialMisc }) {
 		LcfWidgetBinding::connect<int16_t>(this, uis->comboBox(), true);
+		uis->makeModel(database, database.items);
 	}
 
 	LcfWidgetBinding::connect(this, ui->groupCritChance);
 
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation->comboBox());
+	ui->comboUnarmedAnimation->makeModel(database, database.animations);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {

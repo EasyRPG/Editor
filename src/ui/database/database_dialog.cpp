@@ -44,7 +44,7 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	pageStates = new DatabaseSplitWidget<lcf::rpg::State, StateWidget>(m_dataCopy, m_dataCopy.states, this);
 	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget>(m_dataCopy, m_dataCopy.animations, this);
 	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget>(m_dataCopy, m_dataCopy.battleranimations, this);
-	pageBattleScreen = new BattleScreenWidget(core().project()->database(), this);
+	pageBattleScreen = new BattleScreenWidget(m_dataCopy, this);
 	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_dataCopy, m_dataCopy.terrains, this);
 	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_dataCopy, m_dataCopy.chipsets, this);
 	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_dataCopy, m_dataCopy.commonevents, this);

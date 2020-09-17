@@ -31,12 +31,11 @@
 #include "ui/database/item_widget.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
 
-template <class MODEL>
+template <class T>
 class RpgComboBox : public QWidget
 {
 public:
-	RpgComboBox(QWidget *parent, QAbstractItemModel *model = new MODEL());
-	virtual ~RpgComboBox() {}
+	RpgComboBox(QWidget *parent, QAbstractItemModel *model = nullptr);
 
 	QComboBox* comboBox() {
 		return m_comboBox;
@@ -60,13 +59,30 @@ public:
 		m_comboBox->setItemText(index, text);
 	}
 
+	void makeModel(lcf::rpg::Database& db, std::vector<T>& data) {
+		m_database = &db;
+		m_data = &data;
+		auto* model = new RpgModel<T>(data);
+
+		m_comboBox->setModel(model);
+		m_comboBox->setEditable(true);
+
+		QCompleter *comp = new QCompleter(model, this);
+		comp->setCaseSensitivity(Qt::CaseInsensitive);
+		comp->setFilterMode(Qt::MatchContains);
+		comp->setCompletionMode(QCompleter::PopupCompletion);
+		m_comboBox->setCompleter(comp);
+	}
+
 private:
 	QComboBox* m_comboBox;
 	QPushButton* m_editButton;
+	lcf::rpg::Database* m_database = nullptr;
+	std::vector<T>* m_data = nullptr;
 };
 
-template <class MODEL>
-RpgComboBox<MODEL>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
+template <class T>
+RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 	QWidget(parent)
 {
 	m_comboBox = new QComboBox(this);
@@ -81,57 +97,34 @@ RpgComboBox<MODEL>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 	m_editButton->setSizePolicy(policy);
 
 	m_comboBox->setModel(model);
-	m_comboBox->setEditable(true);
-
-	QCompleter *comp = new QCompleter(model, this);
-	comp->setCaseSensitivity(Qt::CaseInsensitive);
-	comp->setFilterMode(Qt::MatchContains);
-	comp->setCompletionMode(QCompleter::PopupCompletion);
-	m_comboBox->setCompleter(comp);
 
 	connect(m_comboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
 
 	});
 
 	connect(m_editButton, &QPushButton::pressed, [&] {
-		auto type = typename MODEL::typestruct()();
-
-		QVariant data = m_comboBox->currentData();
-		// FIXME: Integrate EditDialog better
-		/*EditDialog<decltype(type)> edit(this, type);
-
-		edit.exec();*/
-		// FIXME: Bad. The database must be forwarded from the parent to reflect the current edit state
-		auto db = core().project()->database();
-
-		// FIXME: Super ugly
-		if constexpr (std::is_same_v<std::vector<lcf::rpg::Actor>, decltype(type)>) {
-			auto* d = reinterpret_cast<lcf::rpg::Actor*>(data.data());
-			auto* w = new WidgetAsDialogWrapper<ActorWidget, lcf::rpg::Actor>(db, *d, this);
-			w->show();
-		} else if constexpr (std::is_same_v<std::vector<lcf::rpg::Item>, decltype(type)>) {
-			auto* d = reinterpret_cast<lcf::rpg::Item*>(data.data());
-			auto* w = new WidgetAsDialogWrapper<ItemWidget, lcf::rpg::Item>(db, *d, this);
-			w->show();
-		} else {
-			QMessageBox::warning(this, "Edit not supported", "Editing not supported (yet)");
+		int id = m_comboBox->currentData().toInt();
+		if (id == 0) {
+			return;
 		}
+
+		editModel<T>(*m_database, (*m_data)[id - 1], this);
 	});
 }
 
-using ActorRpgComboBox = RpgComboBox<ActorRpgModel>;
-using SkillRpgComboBox = RpgComboBox<SkillRpgModel>;
-using ItemRpgComboBox = RpgComboBox<ItemRpgModel>;
-using EnemyRpgComboBox = RpgComboBox<EnemyRpgModel>;
-using TroopRpgComboBox = RpgComboBox<TroopRpgModel>;
-using TerrainRpgComboBox = RpgComboBox<TerrainRpgModel>;
-using AttributeRpgComboBox = RpgComboBox<AttributeRpgModel>;
-using StateRpgComboBox = RpgComboBox<StateRpgModel>;
-using AnimationRpgComboBox = RpgComboBox<AnimationRpgModel>;
-using ChipsetRpgComboBox = RpgComboBox<ChipsetRpgModel>;
-using CommonEventRpgComboBox = RpgComboBox<CommonEventRpgModel>;
-using ClassRpgComboBox = RpgComboBox<ClassRpgModel>;
-using BattlerAnimationRpgComboBox = RpgComboBox<BattlerAnimationRpgModel>;
-using SwitchRpgComboBox = RpgComboBox<SwitchRpgModel>;
-using VariableRpgComboBox = RpgComboBox<VariableRpgModel>;
+using ActorRpgComboBox = RpgComboBox<lcf::rpg::Actor>;
+using SkillRpgComboBox = RpgComboBox<lcf::rpg::Skill>;
+using ItemRpgComboBox = RpgComboBox<lcf::rpg::Item>;
+using EnemyRpgComboBox = RpgComboBox<lcf::rpg::Enemy>;
+using TroopRpgComboBox = RpgComboBox<lcf::rpg::Troop>;
+using TerrainRpgComboBox = RpgComboBox<lcf::rpg::Terrain>;
+using AttributeRpgComboBox = RpgComboBox<lcf::rpg::Attribute>;
+using StateRpgComboBox = RpgComboBox<lcf::rpg::State>;
+using AnimationRpgComboBox = RpgComboBox<lcf::rpg::Animation>;
+using ChipsetRpgComboBox = RpgComboBox<lcf::rpg::Chipset>;
+using CommonEventRpgComboBox = RpgComboBox<lcf::rpg::CommonEvent>;
+using ClassRpgComboBox = RpgComboBox<lcf::rpg::Class>;
+using BattlerAnimationRpgComboBox = RpgComboBox<lcf::rpg::BattlerAnimation>;
+using SwitchRpgComboBox = RpgComboBox<lcf::rpg::Switch>;
+using VariableRpgComboBox = RpgComboBox<lcf::rpg::Variable>;
 

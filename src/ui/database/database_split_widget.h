@@ -37,7 +37,7 @@
 #include "state_widget.h"
 #include "terrain_widget.h"
 #include "ui_database_split_widget.h"
-#include "model/list_model.h"
+#include "ui/common/rpg_model.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
 
 namespace Ui {
@@ -82,7 +82,7 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 	m_contentWidget = new U(db, this);
 	QListView& list = *ui->list;
 
-	list.setModel(new ListModel<T>(data));
+	list.setModel(new RpgModel<T>(data));
 	ui->splitter->addWidget(m_contentWidget);
 	ui->splitter->setStretchFactor(0, 1);
 	ui->splitter->setStretchFactor(1, 4);
@@ -102,9 +102,7 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 		auto* editAct = new QAction("Edit...", &list);
 
 		connect(editAct, &QAction::triggered, &list, [&]{
-			auto* w = new WidgetAsDialogWrapper<U,T>(database, data[index.row()], this);
-			// FIXME: Is non-modal but still on-top of the parent
-			w->show();
+			editModel<T>(database, data[index.row()], this);
 		});
 
 		QMenu menu(&list);

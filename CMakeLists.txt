@@ -29,7 +29,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/main.cpp
 	src/model/actor.cpp
 	src/model/actor.h
-	src/model/list_model.h
 	src/model/project.cpp
 	src/model/project.h
 	src/stringizer.cpp
