@@ -95,5 +95,6 @@ private:
 	System2Widget *pageSystem2;
 	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
 	lcf::rpg::Database& m_data;
+	lcf::rpg::Database m_dataCopy;
 };
 
