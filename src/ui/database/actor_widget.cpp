@@ -261,14 +261,9 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	LcfWidgetBinding::bind(ui->spinCritChance, actor->critical_hit_chance);
 	LcfWidgetBinding::bind(ui->groupCritChance, actor->critical_hit);
 	LcfWidgetBinding::bind(ui->comboUnarmedAnimation, actor->unarmed_animation);
-	LcfWidgetBinding::bind(ui->comboInitialWeapon, actor->initial_equipment.weapon_id);
-	LcfWidgetBinding::bind(ui->comboInitialShield, actor->initial_equipment.shield_id);
-	LcfWidgetBinding::bind(ui->comboInitialHelmet, actor->initial_equipment.helmet_id);
-	LcfWidgetBinding::bind(ui->comboInitialArmor, actor->initial_equipment.armor_id);
-	LcfWidgetBinding::bind(ui->comboInitialMisc, actor->initial_equipment.accessory_id);
 
 	auto equipFilter = [&](auto& cbox, auto type) {
-		SignalBlocker s(cbox);
+		SignalBlocker s(cbox->comboBox());
 		cbox->setFilter(Actor(*m_currentActor, m_data).CreateEquipmentFilter(type));
 	};
 
@@ -277,6 +272,12 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	equipFilter(ui->comboInitialArmor, lcf::rpg::Item::Type_armor);
 	equipFilter(ui->comboInitialHelmet, lcf::rpg::Item::Type_helmet);
 	equipFilter(ui->comboInitialMisc, lcf::rpg::Item::Type_accessory);
+
+	LcfWidgetBinding::bind(ui->comboInitialWeapon, actor->initial_equipment.weapon_id);
+	LcfWidgetBinding::bind(ui->comboInitialShield, actor->initial_equipment.shield_id);
+	LcfWidgetBinding::bind(ui->comboInitialHelmet, actor->initial_equipment.helmet_id);
+	LcfWidgetBinding::bind(ui->comboInitialArmor, actor->initial_equipment.armor_id);
+	LcfWidgetBinding::bind(ui->comboInitialMisc, actor->initial_equipment.accessory_id);
 
 	ui->comboBattleset->setCurrentIndex(actor->battler_animation);
 

@@ -105,11 +105,11 @@ RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 	policy.setHorizontalPolicy(QSizePolicy::Maximum);
 	m_editButton->setSizePolicy(policy);
 
-	m_comboBox->setModel(model);
+	if (model) {
+		m_comboBox->setModel(model);
+	}
 
-	connect(m_comboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
-
-	});
+	//connect(m_comboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {}
 
 	connect(m_editButton, &QPushButton::pressed, [&] {
 		int id = m_comboBox->currentData().toInt();

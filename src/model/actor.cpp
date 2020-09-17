@@ -51,9 +51,7 @@ bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
 QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 	std::vector<int> indices;
 
-	for (size_t i = 0; i < database.items.size(); ++i) {
-		const lcf::rpg::Item& item = *lcf::ReaderUtil::GetElement(database.items, i + 1);
-
+	for (const auto& item : database.items) {
 		if (item.type != type || !IsItemUsable(item)) {
 			continue;
 		}
@@ -61,7 +59,7 @@ QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 		indices.push_back(item.ID);
 	}
 
-	return new SortFilterProxyModelIndexFilter(indices);
+	return new SortFilterProxyModelIdFilter(indices);
 }
 
 lcf::rpg::Actor& Actor::data() {
