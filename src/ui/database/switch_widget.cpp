@@ -15,28 +15,28 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "switch_widget.h"
+#include "ui_switch_widget.h"
+#include "src/common/lcf_widget_binding.h"
 
-#include <lcf/rpg/database.h>
-#include <lcf/rpg/switch.h>
-#include "rpg_base.h"
-
-/**
- * A thin wrapper around lcf::rpg::Switch
- */
-class Switch : public RpgBase
+SwitchWidget::SwitchWidget(lcf::rpg::Database &database, QWidget *parent) :
+	QWidget(parent),
+	ui(new Ui::SwitchWidget), m_database(database)
 {
-public:
-	Switch(lcf::rpg::Switch& data, lcf::rpg::Database& database);
+	ui->setupUi(this);
 
-	lcf::rpg::Switch& data();
+	LcfWidgetBinding::connect(this, ui->lineName);
+}
 
-	QPixmap preview() override;
+SwitchWidget::~SwitchWidget()
+{
+	delete ui;
+}
 
-	QDialog* edit(QWidget* parent = nullptr) override;
+void SwitchWidget::setData(lcf::rpg::Switch* sw) {
+	m_current = sw ? sw : &m_dummy;
 
-private:
-	lcf::rpg::Switch& m_data;
-	lcf::rpg::Database& database;
-};
+	LcfWidgetBinding::bind(ui->lineName, m_current->name);
 
+	this->setEnabled(sw != nullptr);
+}

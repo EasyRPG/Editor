@@ -17,26 +17,26 @@
 
 #pragma once
 
+#include <QWidget>
 #include <lcf/rpg/database.h>
-#include <lcf/rpg/switch.h>
-#include "rpg_base.h"
 
-/**
- * A thin wrapper around lcf::rpg::Switch
- */
-class Switch : public RpgBase
+namespace Ui {
+class VariableWidget;
+}
+
+class VariableWidget : public QWidget
 {
+	Q_OBJECT
+
 public:
-	Switch(lcf::rpg::Switch& data, lcf::rpg::Database& database);
+	explicit VariableWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	~VariableWidget() override;
 
-	lcf::rpg::Switch& data();
-
-	QPixmap preview() override;
-
-	QDialog* edit(QWidget* parent = nullptr) override;
+	void setData(lcf::rpg::Variable* var);
 
 private:
-	lcf::rpg::Switch& m_data;
-	lcf::rpg::Database& database;
+	Ui::VariableWidget *ui;
+	lcf::rpg::Database &m_database;
+	lcf::rpg::Variable *m_current = nullptr;
+	lcf::rpg::Variable m_dummy;
 };
-

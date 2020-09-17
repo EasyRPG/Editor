@@ -175,6 +175,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/state_widget.cpp
 	src/ui/database/state_widget.h
 	src/ui/database/state_widget.ui
+	src/ui/database/switch_widget.cpp
+	src/ui/database/switch_widget.h
+	src/ui/database/switch_widget.ui
 	src/ui/database/system2_widget.cpp
 	src/ui/database/system2_widget.h
 	src/ui/database/system2_widget.ui
@@ -184,6 +187,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/terrain_widget.cpp
 	src/ui/database/terrain_widget.h
 	src/ui/database/terrain_widget.ui
+	src/ui/database/variable_widget.cpp
+	src/ui/database/variable_widget.h
+	src/ui/database/variable_widget.ui
 	src/ui/database/vocabulary_widget.cpp
 	src/ui/database/vocabulary_widget.h
 	src/ui/database/vocabulary_widget.ui

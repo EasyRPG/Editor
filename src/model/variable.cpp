@@ -16,7 +16,7 @@
  */
 
 #include "variable.h"
-//#include "ui/database/variable_widget.h"
+#include "ui/database/variable_widget.h"
 
 Variable::Variable(lcf::rpg::Variable& data, lcf::rpg::Database& database) :
 	m_data(data), database(database) {
@@ -26,7 +26,7 @@ Variable::Variable(lcf::rpg::Variable& data, lcf::rpg::Database& database) :
 lcf::rpg::Variable& Variable::data() {
 	return m_data;
 }
-/*
+
 QPixmap Variable::preview() {
 	return QPixmap();
 }
@@ -34,4 +34,3 @@ QPixmap Variable::preview() {
 QDialog* Variable::edit(QWidget *parent) {
 	return new WidgetAsDialogWrapper<VariableWidget, lcf::rpg::Variable>(database, m_data, parent);
 }
-*/

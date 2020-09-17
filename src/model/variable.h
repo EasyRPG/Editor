@@ -31,9 +31,9 @@ public:
 
 	lcf::rpg::Variable& data();
 
-	/*QPixmap preview() override;
+	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;*/
+	QDialog* edit(QWidget* parent = nullptr) override;
 
 private:
 	lcf::rpg::Variable& m_data;

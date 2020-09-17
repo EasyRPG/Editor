@@ -48,6 +48,8 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_dataCopy, m_dataCopy.terrains, this);
 	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_dataCopy, m_dataCopy.chipsets, this);
 	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_dataCopy, m_dataCopy.commonevents, this);
+	pageSwitches = new DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget>(m_dataCopy, m_dataCopy.switches, this);
+	pageVariables = new DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget>(m_dataCopy, m_dataCopy.variables, this);
 
 	pageVocabulary= new VocabularyWidget(m_dataCopy, this);
 	pageSystem = new SystemWidget(m_dataCopy, this);
@@ -69,6 +71,8 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->tabOld_Pages->insertTab(14, pageSystem, tr("System"));
 	ui->tabOld_Pages->insertTab(15, pageSystem2, tr("System"));
 	ui->tabOld_Pages->insertTab(16, pageCommonevents, tr("Common events"));
+	ui->tabOld_Pages->insertTab(17, pageSwitches, tr("Switches"));
+	ui->tabOld_Pages->insertTab(19, pageVariables, tr("Variables"));
 
 	ui->tabOld_Pages->setCurrentWidget(pageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
