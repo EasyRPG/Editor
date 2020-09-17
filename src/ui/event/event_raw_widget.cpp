@@ -19,27 +19,34 @@
 #include "ui_event_raw_widget.h"
 #include "common/lcf_widget_binding.h"
 
-EventRawWidget::EventRawWidget(QWidget* parent, lcf::rpg::EventCommand& event, bool show_warning) :
-	QDialog(parent),
-	ui(new Ui::QEventRawWidget),
-	orig(event)
+EventRawWidget::EventRawWidget(QWidget* parent) :
+	QWidget(parent),
+	ui(new Ui::EventRawWidget)
 {
 	ui->setupUi(this);
-
-	ui->labelWarn->setHidden(!show_warning);
-
-	cmd = event;
 
 	ui->buttonAddNum->setHidden(true); // FIXME: Not implemented
 
 	LcfWidgetBinding::connect(this, ui->lineString);
 	LcfWidgetBinding::connect<int32_t>(this, ui->spinCode);
+}
 
-	LcfWidgetBinding::bind(ui->lineString, cmd.string);
-	LcfWidgetBinding::bind(ui->spinCode, cmd.code);
+EventRawWidget::~EventRawWidget() {
+	delete ui;
+}
 
-	for (size_t i = 0; i < cmd.parameters.size(); ++i) {
-		auto& param = cmd.parameters[i];
+void EventRawWidget::on_buttonAddNum_clicked() {
+
+}
+
+void EventRawWidget::setData(lcf::rpg::EventCommand* cmd) {
+	this->cmd = cmd;
+
+	LcfWidgetBinding::bind(ui->lineString, cmd->string);
+	LcfWidgetBinding::bind(ui->spinCode, cmd->code);
+
+	for (size_t i = 0; i < cmd->parameters.size(); ++i) {
+		auto& param = cmd->parameters[i];
 
 		auto label = new QLabel(this);
 		label->setText(QString("%1:").arg(i+1));
@@ -62,14 +69,6 @@ EventRawWidget::EventRawWidget(QWidget* parent, lcf::rpg::EventCommand& event, b
 	}
 }
 
-EventRawWidget::~EventRawWidget() {
-	delete ui;
-}
-
-void EventRawWidget::on_QEventRawWidget_accepted() {
-	orig = cmd;
-}
-
-void EventRawWidget::on_buttonAddNum_clicked() {
-
+void EventRawWidget::setShowWarning(bool show) {
+	ui->labelWarn->setHidden(!show);
 }

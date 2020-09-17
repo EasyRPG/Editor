@@ -17,27 +17,30 @@
 
 #pragma once
 
-#include <QDialog>
+#include <QWidget>
 #include <lcf/rpg/eventcommand.h>
+#include <lcf/rpg/database.h>
 
 namespace Ui {
-	class QEventRawWidget;
+	class EventRawWidget;
 }
 
-class EventRawWidget : public QDialog
+class EventRawWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit EventRawWidget(QWidget *parent, lcf::rpg::EventCommand& event, bool show_warning = true);
+	explicit EventRawWidget(QWidget *parent);
 	~EventRawWidget() override;
 
+	void setData(lcf::rpg::EventCommand* cmd);
+
+	void setShowWarning(bool show);
+
 private slots:
-	void on_QEventRawWidget_accepted();
 	void on_buttonAddNum_clicked();
 
 private:
-	Ui::QEventRawWidget *ui;
-	lcf::rpg::EventCommand& orig;
-	lcf::rpg::EventCommand cmd;
+	Ui::EventRawWidget* ui;
+	lcf::rpg::EventCommand* cmd = nullptr;
 };

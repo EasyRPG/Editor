@@ -19,6 +19,7 @@
 #include "stringizer.h"
 #include "ui/commands/all_commands.h"
 #include "ui/event/event_raw_widget.h"
+#include "ui/common/widget_as_dialog_wrapper.h"
 #include <iostream>
 #include <QMenu>
 #include <QAction>
@@ -128,7 +129,12 @@ void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool s
 	assert(column == 0);
 
 	auto& cmd = *static_cast<lcf::rpg::EventCommand*>(item->data(column, Qt::UserRole).value<void*>());
-	std::unique_ptr<QDialog> dialog = std::make_unique<EventRawWidget>(this, cmd, show_warning);
+
+	auto* wrapper = new WidgetAsDialogWrapper<EventRawWidget, lcf::rpg::EventCommand>(cmd, this);
+	wrapper->widget()->setShowWarning(false);
+
+	std::unique_ptr<QDialog> dialog;
+	dialog.reset(wrapper);
 
 	dialog->exec();
 	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
@@ -136,6 +142,9 @@ void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool s
 
 void EventCommandsWidget::showContextMenu(const QPoint& pos) {
 	auto* item = this->itemAt(pos);
+	if (!item) {
+		return;
+	}
 
 	auto* editAct = new QAction("Edit...", this);
 	auto* editRawAct = new QAction("Edit raw...", this);
@@ -147,6 +156,5 @@ void EventCommandsWidget::showContextMenu(const QPoint& pos) {
 	menu.addAction(editAct);
 	menu.addAction(editRawAct);
 
-	QPoint pt(pos);
 	menu.exec(mapToGlobal(pos));
 }
