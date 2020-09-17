@@ -27,6 +27,7 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include "rpg_model.h"
+#include "model/rpg_factory.h"
 #include "edit_dialog.h"
 #include "ui/database/actor_widget.h"
 #include "ui/database/item_widget.h"
@@ -63,7 +64,7 @@ public:
 	void makeModel(lcf::rpg::Database& db, std::vector<T>& data) {
 		m_database = &db;
 		m_data = &data;
-		m_model = new RpgModel<T>(data);
+		m_model = new RpgModel<T>(db, data);
 
 		m_comboBox->setModel(m_model);
 		m_comboBox->setEditable(true);
@@ -116,8 +117,7 @@ RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 		if (id == 0) {
 			return;
 		}
-
-		editModel<T>(*m_database, (*m_data)[id - 1], this);
+		RpgFactory::Create((*m_data)[id - 1], *m_database).edit(this)->show();
 	});
 }
 

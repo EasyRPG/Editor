@@ -21,6 +21,7 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QAbstractButton>
+#include <lcf/rpg/fwd.h>
 
 /**
  * Wraps a Widget inside a Dialog and applies the forwarded data when OK or Apply

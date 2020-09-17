@@ -29,8 +29,39 @@ add_library(${PROJECT_NAME} STATIC
 	src/main.cpp
 	src/model/actor.cpp
 	src/model/actor.h
+	src/model/animation.cpp
+	src/model/animation.h
+	src/model/attribute.cpp
+	src/model/attribute.h
+	src/model/battleranimation.cpp
+	src/model/battleranimation.h
+	src/model/chipset.cpp
+	src/model/chipset.h
+	src/model/class.cpp
+	src/model/class.h
+	src/model/commonevent.cpp
+	src/model/commonevent.h
+	src/model/enemy.cpp
+	src/model/enemy.h
+	src/model/item.cpp
+	src/model/item.h
 	src/model/project.cpp
 	src/model/project.h
+	src/model/rpg_base.cpp
+	src/model/rpg_base.h
+	src/model/rpg_factory.h
+	src/model/skill.cpp
+	src/model/skill.h
+	src/model/state.cpp
+	src/model/state.h
+	src/model/switch.cpp
+	src/model/switch.h
+	src/model/terrain.cpp
+	src/model/terrain.h
+	src/model/troop.cpp
+	src/model/troop.h
+	src/model/variable.cpp
+	src/model/variable.h
 	src/stringizer.cpp
 	src/stringizer.h
 	src/ui/commands/all_commands.h

@@ -18,37 +18,25 @@
 #pragma once
 
 #include <lcf/rpg/database.h>
-#include <lcf/rpg/actor.h>
+#include <lcf/rpg/switch.h>
 #include "rpg_base.h"
 
-class QSortFilterProxyModel;
-
 /**
- * A thin wrapper around lcf::rpg::Actor
+ * A thin wrapper around lcf::rpg::Switch
  */
-class Actor : public RpgBase
+class Switch : public RpgBase
 {
 public:
-	Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database);
+	Switch(lcf::rpg::Switch& data, lcf::rpg::Database& database);
 
-	bool IsItemUsable(const lcf::rpg::Item& item) const;
+	lcf::rpg::Switch& data();
 
-	/**
-	 * Create a SortFilterProxy which only contains items of a specific type
-	 * and who the actor can equip.
-	 * @param type Equipment type
-	 * @return QSortFilterProxyModel
-	 */
-	QSortFilterProxyModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
+/*	QPixmap preview() override;
 
-	lcf::rpg::Actor& data();
-
-	QPixmap preview() override;
-
-	QDialog* edit(QWidget* parent = nullptr) override;
+	QDialog* edit(QWidget* parent = nullptr) override;*/
 
 private:
-	lcf::rpg::Actor& actor;
+	lcf::rpg::Switch& m_data;
 	lcf::rpg::Database& database;
 };
 

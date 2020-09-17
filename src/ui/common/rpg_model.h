@@ -26,54 +26,23 @@
 #include "common/dbstring.h"
 #include "common/filefinder.h"
 #include "common/image_loader.h"
+#include "model/rpg_factory.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
 #include "ui/common/faceset_item.h"
 #include "ui/database/actor_widget.h"
 #include "ui/database/item_widget.h"
 
 template <class T>
-QPixmap previewModel(const T& item) {
-	if constexpr (std::is_same_v<T,lcf::rpg::Actor>) {
-		QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", ToQString(item.face_name), FileFinder::FileType::Image));
-
-		int x = (item.face_index % 4) * 48;
-		int y = (item.face_index / 4) * 48;
-
-		return faceSet.copy(x, y, 48, 48);
-	} else if constexpr (std::is_same_v<T,lcf::rpg::Enemy>) {
-		QPixmap monster = ImageLoader::Load(core().project()->findFile("Monster", ToQString(item.battler_name), FileFinder::FileType::Image));
-		if (!monster) {
-			return QPixmap(48, 48);
-		}
-		monster.scaled(48, 48, Qt::AspectRatioMode::KeepAspectRatio);
-	}
-
-	return QPixmap();
-}
-
-template <class T>
-void editModel(lcf::rpg::Database& db, T& obj, QWidget* parent) {
-	if constexpr (std::is_same_v<lcf::rpg::Actor, T>) {
-		auto* w = new WidgetAsDialogWrapper<ActorWidget, T>(db, obj, parent);
-		w->show();
-	} else if constexpr (std::is_same_v<lcf::rpg::Item, T>) {
-		auto* w = new WidgetAsDialogWrapper<ItemWidget, T>(db, obj, parent);
-		w->show();
-	} else {
-		QMessageBox::warning(parent, "Edit not supported", "Editing not supported (yet)");
-	}
-}
-
-template <class T>
 class RpgModel : public QAbstractListModel
 {
 public:
-	RpgModel(std::vector<T>& data, QObject *parent = nullptr) :
-			QAbstractListModel(parent), m_data(data) {}
+	RpgModel(lcf::rpg::Database& db, std::vector<T>& data, QObject *parent = nullptr) :
+			QAbstractListModel(parent), m_database(db), m_data(data) {}
 	int rowCount(const QModelIndex& = QModelIndex()) const override { return m_data.size(); }
 	QVariant data(const QModelIndex &index, int role) const override;
 
 private:
+	lcf::rpg::Database& m_database;
 	std::vector<T>& m_data;
 };
 
@@ -86,7 +55,7 @@ QVariant RpgModel<T>::data(const QModelIndex &index, int role) const
 		auto data = m_data[index.row()];
 		return QString("%1: %2").arg(data.ID, 4, 10, QChar('0')).arg(ToQString(data.name));
 	} else if (role == Qt::DecorationRole) {
-		return previewModel<T>(m_data[index.row()]);
+		return RpgFactory::Create(m_data[index.row()], m_database).preview();
 	} else if (role == Qt::UserRole) {
 		return m_data[index.row()].ID;
 	}
