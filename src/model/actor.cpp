@@ -23,8 +23,8 @@
 
 #include <QSortFilterProxyModel>
 
-Actor::Actor(lcf::rpg::Actor& actor, Project& project) :
-	actor(actor), project(project) {
+Actor::Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database) :
+	actor(actor), database(database) {
 
 }
 
@@ -51,14 +51,14 @@ bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
 QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 	std::vector<int> indices;
 
-	for (size_t i = 0; i < project.database().items.size(); ++i) {
-		const lcf::rpg::Item& item = *lcf::ReaderUtil::GetElement(project.database().items, i + 1);
+	for (size_t i = 0; i < database.items.size(); ++i) {
+		const lcf::rpg::Item& item = *lcf::ReaderUtil::GetElement(database.items, i + 1);
 
 		if (item.type != type || !IsItemUsable(item)) {
 			continue;
 		}
 
-		indices.push_back(i);
+		indices.push_back(item.ID);
 	}
 
 	return new SortFilterProxyModelIndexFilter(indices);

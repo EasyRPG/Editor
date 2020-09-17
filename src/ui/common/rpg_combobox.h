@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QComboBox>
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 #include <QCompleter>
 #include <QPushButton>
 #include <functional>
@@ -62,16 +63,23 @@ public:
 	void makeModel(lcf::rpg::Database& db, std::vector<T>& data) {
 		m_database = &db;
 		m_data = &data;
-		auto* model = new RpgModel<T>(data);
+		m_model = new RpgModel<T>(data);
 
-		m_comboBox->setModel(model);
+		m_comboBox->setModel(m_model);
 		m_comboBox->setEditable(true);
 
-		QCompleter *comp = new QCompleter(model, this);
+		QCompleter *comp = new QCompleter(m_model, this);
 		comp->setCaseSensitivity(Qt::CaseInsensitive);
 		comp->setFilterMode(Qt::MatchContains);
 		comp->setCompletionMode(QCompleter::PopupCompletion);
 		m_comboBox->setCompleter(comp);
+	}
+
+	void setFilter(QSortFilterProxyModel* filter) {
+		filter->setParent(this);
+		filter->setSourceModel(m_model);
+		m_comboBox->setModel(filter);
+		filter->invalidate();
 	}
 
 private:
@@ -79,6 +87,7 @@ private:
 	QPushButton* m_editButton;
 	lcf::rpg::Database* m_database = nullptr;
 	std::vector<T>* m_data = nullptr;
+	RpgModel<T>* m_model = nullptr;
 };
 
 template <class T>

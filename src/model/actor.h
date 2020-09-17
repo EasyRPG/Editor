@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "project.h"
+#include <lcf/rpg/database.h>
 #include <lcf/rpg/actor.h>
 
 class QSortFilterProxyModel;
@@ -28,7 +28,7 @@ class QSortFilterProxyModel;
 class Actor
 {
 public:
-	Actor(lcf::rpg::Actor& actor, Project& project);
+	Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database);
 
 	bool IsItemUsable(const lcf::rpg::Item& item) const;
 
@@ -44,6 +44,6 @@ public:
 
 private:
 	lcf::rpg::Actor& actor;
-	Project& project;
+	lcf::rpg::Database& database;
 };
 
