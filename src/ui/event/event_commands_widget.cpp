@@ -131,7 +131,7 @@ void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool s
 	auto& cmd = *static_cast<lcf::rpg::EventCommand*>(item->data(column, Qt::UserRole).value<void*>());
 
 	auto* wrapper = new WidgetAsDialogWrapper<EventRawWidget, lcf::rpg::EventCommand>(cmd, this);
-	wrapper->widget()->setShowWarning(false);
+	wrapper->widget()->setShowWarning(show_warning);
 
 	std::unique_ptr<QDialog> dialog;
 	dialog.reset(wrapper);
