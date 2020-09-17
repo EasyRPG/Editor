@@ -58,7 +58,7 @@ QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
 	}
 	else if (role == Qt::UserRole)
 		if (index.row() > 0)
-			return _data[index.row()-1].ID;
+			return QVariant::fromValue(_data[index.row()-1]);
 
 	return QVariant();
 }
@@ -68,7 +68,8 @@ QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
 
 #define VARSTRUCT(STRUCTNAME, VARNAME) \
 	namespace detail { struct STRUCTNAME { decltype(core().project()->database().VARNAME) operator()() const { return core().project()->database().VARNAME; } }; } \
-	using  STRUCTNAME##RpgModel = RpgModel<detail::STRUCTNAME>;
+	using  STRUCTNAME##RpgModel = RpgModel<detail::STRUCTNAME>; \
+	Q_DECLARE_METATYPE(lcf::rpg::STRUCTNAME)
 
 VARSTRUCT(Actor, actors)
 VARSTRUCT(Skill, skills)

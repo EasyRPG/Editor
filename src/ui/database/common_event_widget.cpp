@@ -42,7 +42,7 @@ void CommonEventWidget::setData(lcf::rpg::CommonEvent* common_event) {
 	LcfWidgetBinding::bind(ui->lineName, m_current->name);
 	LcfWidgetBinding::bind(ui->comboTrigger, m_current->trigger);
 	LcfWidgetBinding::bind(ui->groupSwitch, m_current->switch_flag);
-	LcfWidgetBinding::bind(ui->comboSwitch, m_current->switch_id);
+	LcfWidgetBinding::bind(ui->comboSwitch->comboBox(), m_current->switch_id);
 
 	ui->commands->setData(m_current);
 

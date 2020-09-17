@@ -21,43 +21,102 @@
 #include <QComboBox>
 #include <QAbstractItemModel>
 #include <QCompleter>
+#include <QPushButton>
 #include <functional>
+#include <QHBoxLayout>
+#include <QMessageBox>
 #include "rpg_model.h"
 #include "edit_dialog.h"
-
+#include "ui/database/actor_widget.h"
+#include "ui/database/item_widget.h"
+#include "ui/common/widget_as_dialog_wrapper.h"
 
 template <class MODEL>
-class RpgComboBox : public QComboBox
+class RpgComboBox : public QWidget
 {
 public:
 	RpgComboBox(QWidget *parent, QAbstractItemModel *model = new MODEL());
 	virtual ~RpgComboBox() {}
+
+	QComboBox* comboBox() {
+		return m_comboBox;
+	}
+
+	// The member "setEditable" is missing on purpose. Don't set it in the UI!
+
+	void setCurrentIndex(int index) {
+		m_comboBox->setCurrentIndex(index);
+	}
+
+	int currentIndex() const {
+		return m_comboBox->currentIndex();
+	}
+
+	void addItem(QString s) {
+		m_comboBox->addItem(s);
+	}
+
+	void setItemText(int index, const QString& text) {
+		m_comboBox->setItemText(index, text);
+	}
+
+private:
+	QComboBox* m_comboBox;
+	QPushButton* m_editButton;
 };
 
 template <class MODEL>
 RpgComboBox<MODEL>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
-	QComboBox(parent)
+	QWidget(parent)
 {
-	setModel(model);
-	setEditable(true);
+	m_comboBox = new QComboBox(this);
+	m_editButton = new QPushButton("...", this);
+
+	auto* layout = new QHBoxLayout(this);
+	layout->addWidget(m_comboBox);
+	layout->addWidget(m_editButton);
+
+	QSizePolicy policy;
+	policy.setHorizontalPolicy(QSizePolicy::Maximum);
+	m_editButton->setSizePolicy(policy);
+
+	m_comboBox->setModel(model);
+	m_comboBox->setEditable(true);
 
 	QCompleter *comp = new QCompleter(model, this);
 	comp->setCaseSensitivity(Qt::CaseInsensitive);
 	comp->setFilterMode(Qt::MatchContains);
 	comp->setCompletionMode(QCompleter::PopupCompletion);
-	setCompleter(comp);
+	m_comboBox->setCompleter(comp);
 
+	connect(m_comboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
 
-	connect(this, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {
-		if (index == 0)
-		{
-			auto type = typename MODEL::typestruct()();
-			EditDialog<decltype(type)> edit(this, type);
-
-			edit.exec();
-		}
 	});
 
+	connect(m_editButton, &QPushButton::pressed, [&] {
+		auto type = typename MODEL::typestruct()();
+
+		QVariant data = m_comboBox->currentData();
+		// FIXME: Integrate EditDialog better
+		/*EditDialog<decltype(type)> edit(this, type);
+
+		edit.exec();*/
+		// FIXME: Bad. The database must be forwarded from the parent to reflect the current edit state
+		auto db = core().project()->database();
+
+		// FIXME: Super ugly
+		if constexpr (std::is_same_v<std::vector<lcf::rpg::Actor>, decltype(type)>) {
+			auto* d = reinterpret_cast<lcf::rpg::Actor*>(data.data());
+			auto* w = new WidgetAsDialogWrapper<ActorWidget, lcf::rpg::Actor>(db, *d, this);
+			w->show();
+		} else if constexpr (std::is_same_v<std::vector<lcf::rpg::Item>, decltype(type)>) {
+			auto* d = reinterpret_cast<lcf::rpg::Item*>(data.data());
+			auto* w = new WidgetAsDialogWrapper<ItemWidget, lcf::rpg::Item>(db, *d, this);
+			w->show();
+		} else {
+			QMessageBox::warning(this, "Edit not supported", "Editing not supported (yet)");
+		}
+	});
 }
 
 using ActorRpgComboBox = RpgComboBox<ActorRpgModel>;
