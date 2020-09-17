@@ -52,7 +52,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboSwitchB">
+         <widget class="SwitchRpgComboBox" name="comboSwitchB">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -163,7 +163,7 @@
          </widget>
         </item>
         <item>
-         <widget class="VariableRpgComboBox" name="comboItem">
+         <widget class="ItemRpgComboBox" name="comboItem">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -678,6 +678,11 @@
   </customwidget>
   <customwidget>
    <class>ActorRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>ui/common/rpg_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ItemRpgComboBox</class>
    <extends>QComboBox</extends>
    <header>ui/common/rpg_combobox.h</header>
   </customwidget>

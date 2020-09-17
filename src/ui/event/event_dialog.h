@@ -19,6 +19,7 @@
 
 #include <QDialog>
 #include <lcf/rpg/event.h>
+#include <lcf/rpg/database.h>
 
 namespace Ui {
 class EventDialog;
@@ -29,16 +30,16 @@ class EventDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit EventDialog(QWidget *parent = nullptr);
+	explicit EventDialog(lcf::rpg::Database& database, QWidget *parent = nullptr);
 	~EventDialog();
 
-	static int edit(QWidget *parent, lcf::rpg::Event *event);
+	static int edit(QWidget *parent, lcf::rpg::Event& event, lcf::rpg::Database& database);
 
 	static bool equalEvents(const lcf::rpg::Event &e1,
 							const lcf::rpg::Event &e2);
 
 	lcf::rpg::Event getEvent() const;
-	void setEvent(lcf::rpg::Event *event);
+	void setEvent(lcf::rpg::Event& event);
 
 private slots:
 	void apply();
@@ -51,4 +52,5 @@ private:
 	lcf::rpg::Event r_event;
 	lcf::rpg::Event a_event;
 	int lst_result;
+	lcf::rpg::Database& m_database;
 };
