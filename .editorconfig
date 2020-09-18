@@ -1,0 +1,32 @@
+# https://editorconfig.org
+
+root = true
+
+[*]
+indent_style = tab
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+indent_style = space
+indent_size = 4
+
+[*.sh]
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+[*.svg]
+indent_style = space
+indent_size = 2
+
+[*.qrc]
+indent_style = space
+indent_size = 4
+
+[*.ui]
+indent_style = space
+indent_size = 1
