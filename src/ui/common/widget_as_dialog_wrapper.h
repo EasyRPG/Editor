@@ -29,11 +29,11 @@
  * @tparam WIDGET Type of the managed widget
  * @tparam DATA Data forwarded to the widget
  */
-template<class WIDGET, typename DATA>
+template<typename WIDGET, typename DATA>
 class WidgetAsDialogWrapper : public QDialog {
 
 public:
-	explicit WidgetAsDialogWrapper<WIDGET>(lcf::rpg::Database& db, DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
+	explicit WidgetAsDialogWrapper(lcf::rpg::Database& db, DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
 		dataCopy = data;
 
 		wrappedWidget = new WIDGET(db, this);
@@ -42,7 +42,7 @@ public:
 		init();
 	}
 
-	explicit WidgetAsDialogWrapper<WIDGET>(DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
+	explicit WidgetAsDialogWrapper(DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
 		dataCopy = data;
 
 		wrappedWidget = new WIDGET(this);
