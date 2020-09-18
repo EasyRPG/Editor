@@ -14,7 +14,7 @@
    <string>EasyRPG Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resources.qrc">
+   <iconset>
     <normaloff>:/icons/share/old_easyrpg.png</normaloff>:/icons/share/old_easyrpg.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -40,66 +40,55 @@
      <x>0</x>
      <y>0</y>
      <width>802</width>
-     <height>21</height>
+     <height>36</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuGame">
     <property name="title">
      <string>Game &amp;Project</string>
     </property>
-    <addaction name="action_New_Project"/>
-    <addaction name="action_Open_Project"/>
-    <addaction name="actionImport_Project"/>
-    <addaction name="action_Close_Project"/>
+    <addaction name="actionProjectNew"/>
+    <addaction name="actionProjectOpen"/>
+    <addaction name="actionProjectImport"/>
+    <addaction name="actionProjectClose"/>
     <addaction name="separator"/>
-    <addaction name="actionCreate_Game_Disk"/>
+    <addaction name="actionGameDiskCreate"/>
     <addaction name="separator"/>
-    <addaction name="action_Quit"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuMaps">
     <property name="title">
      <string>Maps</string>
     </property>
-    <widget class="QMenu" name="menuEdition_Mode">
-     <property name="title">
-      <string>Edition &amp;Mode</string>
-     </property>
-     <addaction name="action_Lower_Layer"/>
-     <addaction name="action_Upper_Layer"/>
-     <addaction name="action_Events"/>
-    </widget>
-    <widget class="QMenu" name="menuZoom">
-     <property name="title">
-      <string>&amp;Zoom</string>
-     </property>
-     <addaction name="actionScale_1_1"/>
-     <addaction name="actionZoomIn"/>
-     <addaction name="actionZoomOut"/>
-    </widget>
-    <addaction name="action_Save_Map"/>
-    <addaction name="actionRevert_Map"/>
+    <addaction name="actionMapSave"/>
+    <addaction name="actionMapRevert"/>
     <addaction name="separator"/>
-    <addaction name="menuEdition_Mode"/>
-    <addaction name="menuZoom"/>
+    <addaction name="actionLayerLower"/>
+    <addaction name="actionLayerUpper"/>
+    <addaction name="actionLayerEvents"/>
+    <addaction name="separator"/>
+    <addaction name="actionZoom100"/>
+    <addaction name="actionZoomIn"/>
+    <addaction name="actionZoomOut"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionData_Base"/>
-    <addaction name="actionResource_Manager"/>
+    <addaction name="actionDatabase"/>
+    <addaction name="actionResourceManager"/>
     <addaction name="actionJukebox"/>
     <addaction name="actionSearch"/>
-    <addaction name="action_Script_Editor"/>
+    <addaction name="actionScriptEditor"/>
    </widget>
    <widget class="QMenu" name="menuGame2">
     <property name="title">
      <string>Game</string>
     </property>
-    <addaction name="action_Play_Test"/>
+    <addaction name="actionPlayTest"/>
     <addaction name="separator"/>
-    <addaction name="action_Full_Screen"/>
-    <addaction name="action_Title_Background"/>
+    <addaction name="actionFullScreenToggle"/>
+    <addaction name="actionTitleBackgroundToggle"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -108,21 +97,21 @@
     <addaction name="actionContents"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
-    <addaction name="actionAbout_Qt"/>
+    <addaction name="actionAboutQt"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="actionPalette"/>
-    <addaction name="actionMap_Tree"/>
+    <addaction name="actionPaletteToggle"/>
+    <addaction name="actionMapTreeToggle"/>
    </widget>
    <widget class="QMenu" name="menuDebug">
     <property name="title">
      <string>Debug</string>
     </property>
-    <addaction name="actionRtp_Path"/>
-    <addaction name="actionEnable_Caching"/>
+    <addaction name="actionDebugRtpPath"/>
+    <addaction name="actionDebugEnableCaching"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuMaps"/>
@@ -145,37 +134,37 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="action_New_Project"/>
-   <addaction name="action_Open_Project"/>
-   <addaction name="actionImport_Project"/>
-   <addaction name="action_Close_Project"/>
+   <addaction name="actionProjectNew"/>
+   <addaction name="actionProjectOpen"/>
+   <addaction name="actionProjectImport"/>
+   <addaction name="actionProjectClose"/>
    <addaction name="separator"/>
-   <addaction name="actionCreate_Game_Disk"/>
+   <addaction name="actionGameDiskCreate"/>
    <addaction name="separator"/>
-   <addaction name="action_Save_Map"/>
-   <addaction name="actionRevert_Map"/>
-   <addaction name="actionMap_Properties"/>
+   <addaction name="actionMapSave"/>
+   <addaction name="actionMapRevert"/>
+   <addaction name="actionMapProperties"/>
    <addaction name="separator"/>
-   <addaction name="action_Lower_Layer"/>
-   <addaction name="action_Upper_Layer"/>
-   <addaction name="action_Events"/>
+   <addaction name="actionLayerLower"/>
+   <addaction name="actionLayerUpper"/>
+   <addaction name="actionLayerEvents"/>
    <addaction name="separator"/>
    <addaction name="actionZoomIn"/>
    <addaction name="actionZoomOut"/>
-   <addaction name="actionScale_1_1"/>
+   <addaction name="actionZoom100"/>
    <addaction name="separator"/>
-   <addaction name="actionPalette"/>
-   <addaction name="actionMap_Tree"/>
+   <addaction name="actionPaletteToggle"/>
+   <addaction name="actionMapTreeToggle"/>
    <addaction name="actionJukebox"/>
    <addaction name="separator"/>
-   <addaction name="actionData_Base"/>
-   <addaction name="action_Script_Editor"/>
-   <addaction name="actionResource_Manager"/>
+   <addaction name="actionDatabase"/>
+   <addaction name="actionScriptEditor"/>
+   <addaction name="actionResourceManager"/>
    <addaction name="actionSearch"/>
    <addaction name="separator"/>
-   <addaction name="action_Play_Test"/>
-   <addaction name="action_Full_Screen"/>
-   <addaction name="action_Title_Background"/>
+   <addaction name="actionPlayTest"/>
+   <addaction name="actionFullScreenToggle"/>
+   <addaction name="actionTitleBackgroundToggle"/>
    <addaction name="separator"/>
    <addaction name="actionContents"/>
    <addaction name="separator"/>
@@ -337,10 +326,10 @@
    <addaction name="actionUndo"/>
    <addaction name="separator"/>
    <addaction name="actionZoom"/>
-   <addaction name="actionDraw"/>
-   <addaction name="actionRectangle"/>
-   <addaction name="actionCircle"/>
-   <addaction name="actionFill"/>
+   <addaction name="actionDrawPen"/>
+   <addaction name="actionDrawRectangle"/>
+   <addaction name="actionDrawCircle"/>
+   <addaction name="actionDrawFill"/>
   </widget>
   <widget class="QToolBar" name="toolBar2">
    <property name="windowTitle">
@@ -355,18 +344,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNew_Map"/>
+   <addaction name="actionMapNew"/>
    <addaction name="separator"/>
-   <addaction name="actionCopy_Map"/>
-   <addaction name="actionPaste_Map"/>
+   <addaction name="actionMapCopy"/>
+   <addaction name="actionMapPaste"/>
    <addaction name="separator"/>
-   <addaction name="actionDelete_Map"/>
+   <addaction name="actionMapDelete"/>
   </widget>
-  <action name="action_Open_Project">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_open.png</normaloff>:/icons/share/old_open.png</iconset>
-   </property>
+  <action name="actionProjectOpen">
    <property name="text">
     <string>&amp;Open Project</string>
    </property>
@@ -377,11 +362,7 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="action_New_Project">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_new.png</normaloff>:/icons/share/old_new.png</iconset>
-   </property>
+  <action name="actionProjectNew">
    <property name="text">
     <string>&amp;New Project</string>
    </property>
@@ -392,11 +373,7 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="action_Close_Project">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_close.png</normaloff>:/icons/share/old_close.png</iconset>
-   </property>
+  <action name="actionProjectClose">
    <property name="text">
     <string>&amp;Close Project</string>
    </property>
@@ -407,11 +384,7 @@
     <string>Ctrl+X</string>
    </property>
   </action>
-  <action name="actionCreate_Game_Disk">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_create_game_disk.png</normaloff>:/icons/share/old_create_game_disk.png</iconset>
-   </property>
+  <action name="actionGameDiskCreate">
    <property name="text">
     <string>Create Game &amp;Disk</string>
    </property>
@@ -419,11 +392,7 @@
     <string>Generate game installation executable</string>
    </property>
   </action>
-  <action name="action_Quit">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_quit.png</normaloff>:/icons/share/old_quit.png</iconset>
-   </property>
+  <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
    </property>
@@ -431,11 +400,7 @@
     <string>Quit EasyRPG</string>
    </property>
   </action>
-  <action name="action_Save_Map">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_save_all.png</normaloff>:/icons/share/old_save_all.png</iconset>
-   </property>
+  <action name="actionMapSave">
    <property name="text">
     <string>&amp;Save Map</string>
    </property>
@@ -449,11 +414,7 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionRevert_Map">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
-   </property>
+  <action name="actionMapRevert">
    <property name="text">
     <string>&amp;Revert Map</string>
    </property>
@@ -467,13 +428,9 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="action_Lower_Layer">
+  <action name="actionLayerLower">
    <property name="checkable">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_lower_layer.png</normaloff>:/icons/share/old_lower_layer.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Lower Layer</string>
@@ -485,13 +442,9 @@
     <string>F5</string>
    </property>
   </action>
-  <action name="action_Upper_Layer">
+  <action name="actionLayerUpper">
    <property name="checkable">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_upper_layer.png</normaloff>:/icons/share/old_upper_layer.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Upper Layer</string>
@@ -503,13 +456,9 @@
     <string>F6</string>
    </property>
   </action>
-  <action name="action_Events">
+  <action name="actionLayerEvents">
    <property name="checkable">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_event_layer.png</normaloff>:/icons/share/old_event_layer.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Events</string>
@@ -521,11 +470,7 @@
     <string>F7</string>
    </property>
   </action>
-  <action name="actionScale_1_1">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_11_scale.png</normaloff>:/icons/share/old_11_scale.png</iconset>
-   </property>
+  <action name="actionZoom100">
    <property name="text">
     <string>&amp;Zoom 100%</string>
    </property>
@@ -537,10 +482,6 @@
    </property>
   </action>
   <action name="actionZoomIn">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
-   </property>
    <property name="text">
     <string>Zoom &amp;In</string>
    </property>
@@ -555,10 +496,6 @@
    </property>
   </action>
   <action name="actionZoomOut">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
-   </property>
    <property name="text">
     <string>Zoom &amp;Out</string>
    </property>
@@ -572,26 +509,18 @@
     <string>-</string>
    </property>
   </action>
-  <action name="actionData_Base">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_database.png</normaloff>:/icons/share/old_database.png</iconset>
-   </property>
+  <action name="actionDatabase">
    <property name="text">
-    <string>Data Base</string>
+    <string>Database</string>
    </property>
    <property name="statusTip">
-    <string>Open Data Base editor</string>
+    <string>Open Database editor</string>
    </property>
    <property name="shortcut">
     <string>F8</string>
    </property>
   </action>
-  <action name="actionResource_Manager">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_resources.png</normaloff>:/icons/share/old_resources.png</iconset>
-   </property>
+  <action name="actionResourceManager">
    <property name="text">
     <string>Resource Manager</string>
    </property>
@@ -600,10 +529,6 @@
    </property>
   </action>
   <action name="actionJukebox">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_music.png</normaloff>:/icons/share/old_music.png</iconset>
-   </property>
    <property name="text">
     <string>Jukebox</string>
    </property>
@@ -612,10 +537,6 @@
    </property>
   </action>
   <action name="actionSearch">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_search.png</normaloff>:/icons/share/old_search.png</iconset>
-   </property>
    <property name="text">
     <string>Search</string>
    </property>
@@ -623,11 +544,7 @@
     <string>Search inside your Game Project</string>
    </property>
   </action>
-  <action name="action_Play_Test">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_playtest.png</normaloff>:/icons/share/old_playtest.png</iconset>
-   </property>
+  <action name="actionPlayTest">
    <property name="text">
     <string>&amp;Play Test</string>
    </property>
@@ -638,13 +555,9 @@
     <string>F4</string>
    </property>
   </action>
-  <action name="action_Full_Screen">
+  <action name="actionFullScreenToggle">
    <property name="checkable">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_fullscreen.png</normaloff>:/icons/share/old_fullscreen.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Full Screen</string>
@@ -653,26 +566,18 @@
     <string>Test game in fullscreen mode</string>
    </property>
   </action>
-  <action name="action_Title_Background">
+  <action name="actionTitleBackgroundToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_title.png</normaloff>:/icons/share/old_title.png</iconset>
-   </property>
    <property name="text">
-    <string>&amp;Title Background</string>
+    <string>Show &amp;Title Background</string>
    </property>
    <property name="statusTip">
     <string>Show title screen's background on Play Test</string>
    </property>
   </action>
   <action name="actionContents">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_help.png</normaloff>:/icons/share/old_help.png</iconset>
-   </property>
    <property name="text">
     <string>&amp;Contents</string>
    </property>
@@ -688,7 +593,7 @@
     <string>About EasyRPG</string>
    </property>
   </action>
-  <action name="actionAbout_Qt">
+  <action name="actionAboutQt">
    <property name="text">
     <string>About &amp;Qt</string>
    </property>
@@ -696,28 +601,23 @@
     <string>About Qt</string>
    </property>
   </action>
-  <action name="action_Script_Editor">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_script_editor.png</normaloff>:/icons/share/old_script_editor.png</iconset>
-   </property>
+  <action name="actionScriptEditor">
    <property name="text">
     <string>&amp;Script Editor</string>
    </property>
    <property name="statusTip">
     <string>Open Script Editor</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
   </action>
-  <action name="actionPalette">
+  <action name="actionPaletteToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="checked">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_palette.png</normaloff>:/icons/share/old_palette.png</iconset>
    </property>
    <property name="text">
     <string>Palette</string>
@@ -726,16 +626,12 @@
     <string>Show/Hide palette window</string>
    </property>
   </action>
-  <action name="actionMap_Tree">
+  <action name="actionMapTreeToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="checked">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_map.png</normaloff>:/icons/share/old_map.png</iconset>
    </property>
    <property name="text">
     <string>Map Tree</string>
@@ -746,7 +642,7 @@
   </action>
   <action name="actionUndo">
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_revert.png</normaloff>:/icons/share/old_revert.png</iconset>
    </property>
    <property name="text">
@@ -764,7 +660,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_zoom.png</normaloff>:/icons/share/old_zoom.png</iconset>
    </property>
    <property name="text">
@@ -777,12 +673,12 @@
     <string>1</string>
    </property>
   </action>
-  <action name="actionDraw">
+  <action name="actionDrawPen">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_pen.png</normaloff>:/icons/share/old_pen.png</iconset>
    </property>
    <property name="text">
@@ -795,12 +691,12 @@
     <string>2</string>
    </property>
   </action>
-  <action name="actionRectangle">
+  <action name="actionDrawRectangle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_rectangle.png</normaloff>:/icons/share/old_rectangle.png</iconset>
    </property>
    <property name="text">
@@ -813,12 +709,12 @@
     <string>3</string>
    </property>
   </action>
-  <action name="actionCircle">
+  <action name="actionDrawCircle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_circle.png</normaloff>:/icons/share/old_circle.png</iconset>
    </property>
    <property name="text">
@@ -831,12 +727,12 @@
     <string>4</string>
    </property>
   </action>
-  <action name="actionFill">
+  <action name="actionDrawFill">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_fill.png</normaloff>:/icons/share/old_fill.png</iconset>
    </property>
    <property name="text">
@@ -849,20 +745,15 @@
     <string>5</string>
    </property>
   </action>
-  <action name="actionImport_Project">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_import.png</normaloff>:/icons/share/old_import.png</iconset>
-   </property>
+  <action name="actionProjectImport">
    <property name="text">
     <string>&amp;Import Project</string>
    </property>
-  </action>
-  <action name="actionRtp_Path">
-   <property name="icon">
-    <iconset resource="Resources.qrc">
-     <normaloff>:/icons/share/old_open.png</normaloff>:/icons/share/old_open.png</iconset>
+   <property name="visible">
+    <bool>false</bool>
    </property>
+  </action>
+  <action name="actionDebugRtpPath">
    <property name="text">
     <string>Rtp Path</string>
    </property>
@@ -870,9 +761,9 @@
     <string>warning!: this feature will be disabled once OpenRTP is released</string>
    </property>
   </action>
-  <action name="actionMap_Properties">
+  <action name="actionMapProperties">
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_edit.png</normaloff>:/icons/share/old_edit.png</iconset>
    </property>
    <property name="text">
@@ -882,9 +773,9 @@
     <string>Edit map properties</string>
    </property>
   </action>
-  <action name="actionNew_Map">
+  <action name="actionMapNew">
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_new_map.png</normaloff>:/icons/share/old_new_map.png</iconset>
    </property>
    <property name="text">
@@ -894,9 +785,9 @@
     <string>Create a new map and add it as children of the current map.</string>
    </property>
   </action>
-  <action name="actionCopy_Map">
+  <action name="actionMapCopy">
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_copy_map.png</normaloff>:/icons/share/old_copy_map.png</iconset>
    </property>
    <property name="text">
@@ -906,9 +797,9 @@
     <string>Copy selected map.</string>
    </property>
   </action>
-  <action name="actionPaste_Map">
+  <action name="actionMapPaste">
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_paste_map.png</normaloff>:/icons/share/old_paste_map.png</iconset>
    </property>
    <property name="text">
@@ -918,9 +809,9 @@
     <string>Paste current copied map as children of the selected map.</string>
    </property>
   </action>
-  <action name="actionDelete_Map">
+  <action name="actionMapDelete">
    <property name="icon">
-    <iconset resource="Resources.qrc">
+    <iconset>
      <normaloff>:/icons/share/old_delete_map.png</normaloff>:/icons/share/old_delete_map.png</iconset>
    </property>
    <property name="text">
@@ -930,7 +821,7 @@
     <string>Delete selected map.</string>
    </property>
   </action>
-  <action name="actionEnable_Caching">
+  <action name="actionDebugEnableCaching">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -946,8 +837,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="Resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

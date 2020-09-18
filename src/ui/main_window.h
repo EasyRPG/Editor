@@ -49,37 +49,37 @@ public:
 	void selectTile(int x, int y);
 
 private slots:
-	void on_action_Quit_triggered();
-
-	void on_actionPalette_triggered(bool checked);
-
-	void on_actionMap_Tree_triggered(bool checked);
-
-	void on_actionResource_Manager_triggered();
-
-	void on_actionData_Base_triggered();
-
 	void update_actions();
 
-	void on_action_New_Project_triggered();
+	void on_actionQuit_triggered();
 
-	void on_action_Close_Project_triggered();
+	void on_actionPaletteToggle_triggered(bool checked);
 
-	void on_action_Open_Project_triggered();
+	void on_actionMapTreeToggle_triggered(bool checked);
+
+	void on_actionResourceManager_triggered();
+
+	void on_actionDatabase_triggered();
+
+	void on_actionProjectNew_triggered();
+
+	void on_actionProjectClose_triggered();
+
+	void on_actionProjectOpen_triggered();
 
 	void on_actionJukebox_triggered(bool disconnect = false);
 
-	void on_action_Lower_Layer_triggered();
+	void on_actionLayerLower_triggered();
 
-	void on_action_Upper_Layer_triggered();
+	void on_actionLayerUpper_triggered();
 
-	void on_action_Events_triggered();
+	void on_actionLayerEvents_triggered();
 
 	void on_actionZoomIn_triggered();
 
 	void on_actionZoomOut_triggered();
 
-	void on_actionScale_1_1_triggered();
+	void on_actionZoom100_triggered();
 
 	void on_treeMap_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
@@ -87,19 +87,19 @@ private slots:
 
 	void on_tabMap_currentChanged(int index);
 
-	void on_actionImport_Project_triggered();
+	void on_actionProjectImport_triggered();
 
-	void on_actionRtp_Path_triggered();
+	void on_actionDebugRtpPath_triggered();
 
 	void on_actionZoom_triggered();
 
-	void on_actionDraw_triggered();
+	void on_actionDrawPen_triggered();
 
-	void on_actionRectangle_triggered();
+	void on_actionDrawRectangle_triggered();
 
-	void on_actionCircle_triggered();
+	void on_actionDrawCircle_triggered();
 
-	void on_actionFill_triggered();
+	void on_actionDrawFill_triggered();
 
 	void updateLayerActions();
 
@@ -107,7 +107,7 @@ private slots:
 
 	void updateSearchUI();
 
-	void on_action_Play_Test_triggered();
+	void on_actionPlayTest_triggered();
 
 	void on_mapChanged();
 
@@ -115,27 +115,28 @@ private slots:
 
 	void on_actionUndo_triggered();
 
-	void on_action_Save_Map_triggered();
+	void on_actionMapSave_triggered();
 
-	void on_actionRevert_Map_triggered();
+	void on_actionMapRevert_triggered();
 
 	void on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
 
-	void on_actionNew_Map_triggered();
+	void on_actionMapNew_triggered();
 
-	void on_actionCopy_Map_triggered();
+	void on_actionMapCopy_triggered();
 
-	void on_actionPaste_Map_triggered();
+	void on_actionMapPaste_triggered();
 
-	void on_actionDelete_Map_triggered();
+	void on_actionMapDelete_triggered();
 
-	void on_actionMap_Properties_triggered();
+	void on_actionMapProperties_triggered();
 
 	void on_actionSearch_triggered();
 
-	void on_actionEnable_Caching_toggled(bool checked);
+	void on_actionDebugEnableCaching_toggled(bool checked);
 
 private:
+	void refreshIcons();
 	void closeEvent(QCloseEvent *event);
 	bool saveAll();
 	bool removeDir(const QString & dirName, const QString &root);
