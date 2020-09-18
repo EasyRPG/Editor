@@ -23,6 +23,7 @@
 #include "ui/maptree/map_properties_dialog.h"
 #include "main_window.h"
 #include "ui_main_window.h"
+#include "common/dbstring.h"
 #include <QImage>
 #include <QToolBar>
 #include <QCloseEvent>
@@ -203,7 +204,7 @@ void MainWindow::LoadProject(QString foldername)
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem();
 		item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
-		item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
+		item->setData(0,Qt::DisplayRole,ToQString(maps.maps[i].name));
 		item->setIcon(0, QIcon(":/icons/share/old_map.png"));
 		m_treeItems[maps.maps[i].ID] = item;
 	}
@@ -376,7 +377,7 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem();
 		item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
-		item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
+		item->setData(0,Qt::DisplayRole,ToQString(maps.maps[i].name));
 		item->setIcon(0, QIcon(":/icons/share/old_map.png"));
 		m_treeItems[maps.maps[i].ID] = item;
 	}
@@ -601,7 +602,7 @@ void MainWindow::on_action_New_Project_triggered() {
 		m_settings.setValue(CURRENT_PROJECT_KEY, core().project()->projectDir().absolutePath());
 
 		/* Map tree */
-		core().project()->treeMap().maps[0].name = core().project()->gameTitle().toStdString();
+		core().project()->treeMap().maps[0].name = ToDBString(core().project()->gameTitle());
 		core().project()->saveTreeMap();
 
 		/*m_projSett = new QSettings(core().project()->findFile(ROOT, EASY_CFG),
@@ -629,7 +630,7 @@ void MainWindow::on_action_New_Project_triggered() {
 		{
 			QTreeWidgetItem *item = new QTreeWidgetItem();
 			item->setData(1,Qt::DisplayRole,maps.maps[i].ID);
-			item->setData(0,Qt::DisplayRole,QString::fromStdString(maps.maps[i].name));
+			item->setData(0,Qt::DisplayRole,ToQString(maps.maps[i].name));
 			item->setIcon(0, QIcon(":/icons/share/old_map.png"));
 			m_treeItems[maps.maps[i].ID] = item;
 		}
@@ -697,20 +698,17 @@ QGraphicsView *MainWindow::getView(int id)
 	QGraphicsView* view = m_views[id];
 	if (!view)
 	{
-		//create
 		view = new QGraphicsView(this);
 		m_views[id] = view;
 		view->setTransformationAnchor(QGraphicsView::NoAnchor);
-		std::string mapName;
-		for (unsigned int i = 0; i < core().project()->treeMap().maps.size();i++)
-			if (core().project()->treeMap().maps[i].ID == id)
-			{
-				mapName = core().project()->treeMap().maps[i].name;
+		QString mapName;
+		for (auto & map : core().project()->treeMap().maps) {
+			if (map.ID == id) {
+				mapName = ToQString(map.name);
 				break;
 			}
-		ui->tabMap->addTab(view,
-						   QIcon(":/icons/share/old_map.png"),
-						   QString::fromStdString(mapName));
+		}
+		ui->tabMap->addTab(view, QIcon(":/icons/share/old_map.png"), mapName);
 		view->setScene(new MapScene(id, view, this));
 		connect(getScene(id),
 				SIGNAL(mapChanged()),
@@ -1109,7 +1107,7 @@ void MainWindow::on_actionNew_Map_triggered()
 		if (!m_treeItems.contains(i))
 		{
 			info.ID = i;
-			info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
+			info.name = ToDBString(tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')));
 			break;
 		}
 	}
@@ -1127,7 +1125,7 @@ void MainWindow::on_actionNew_Map_triggered()
 	core().project()->treeMap().maps.push_back(info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
-	item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
+	item->setData(0,Qt::DisplayRole,ToQString(info.name));
 	item->setIcon(0, QIcon(":/icons/share/old_map.png"));
 	m_treeItems[info.ID] = item;
 	m_treeItems[info.parent_map]->addChild(item);
@@ -1179,7 +1177,7 @@ void MainWindow::on_actionPaste_Map_triggered()
 		if (!m_treeItems.contains(i))
 		{
 			info.ID = i;
-			info.name = tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')).toStdString();
+			info.name = ToDBString(tr("MAP%1").arg(QString::number(i),4, QLatin1Char('0')));
 			break;
 		}
 	}
@@ -1202,7 +1200,7 @@ void MainWindow::on_actionPaste_Map_triggered()
 	core().project()->treeMap().maps.push_back(info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
-	item->setData(0,Qt::DisplayRole,QString::fromStdString(info.name));
+	item->setData(0,Qt::DisplayRole,ToQString(info.name));
 	item->setIcon(0, QIcon(":/icons/share/old_map.png"));
 	m_treeItems[info.ID] = item;
 	m_treeItems[info.parent_map]->addChild(item);

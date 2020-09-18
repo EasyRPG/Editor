@@ -122,7 +122,7 @@ private:
 	std::vector<short> m_lower;
 	std::vector<short> m_upper;
 	float m_scale;
-	bool m_init;
+	bool m_init = false;
 	int s_tileSize;
 	int cur_x;
 	int cur_y;
@@ -134,6 +134,6 @@ private:
 	bool m_drawing;
 	bool m_cancelled;
 	bool m_selecting;
-	bool m_userInteraction;
+	bool m_userInteraction = false;
 };
 

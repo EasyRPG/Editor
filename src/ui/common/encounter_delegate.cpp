@@ -16,6 +16,7 @@
  */
 
 #include "core.h"
+#include "common/dbstring.h"
 #include "encounter_delegate.h"
 #include <lcf/data.h>
 
@@ -31,7 +32,7 @@ QWidget *QEncounterDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 	Q_UNUSED(option)
 	QComboBox *editor = new QComboBox(parent);
 	for (size_t i = 0; i < core().project()->database().troops.size(); i++)
-		editor->addItem(QString::fromStdString(core().project()->database().troops[i].name));
+		editor->addItem(ToQString(core().project()->database().troops[i].name));
 	return editor;
 }
 
@@ -45,7 +46,7 @@ void QEncounterDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 {
 	int id = static_cast<QComboBox*>(editor)->currentIndex() + 1;
 	model->setData(index, id, Qt::UserRole);
-	model->setData(index, QString::fromStdString(core().project()->database().troops[static_cast<size_t>(id)-1].name));
+	model->setData(index, ToQString(core().project()->database().troops[static_cast<size_t>(id)-1].name));
 }
 
 void QEncounterDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const

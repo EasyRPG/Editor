@@ -45,7 +45,7 @@ bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
 		return true;
 	}
 
-	return query_set->at(query_idx);
+	return (*query_set)[query_idx];
 }
 
 QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {

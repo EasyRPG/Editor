@@ -21,6 +21,8 @@
 #include <QSettings>
 #include "event_page_widget.h"
 #include "core.h"
+#include "common/dbstring.h"
+
 
 EventDialog::EventDialog(QWidget *parent) :
 	QDialog(parent),
@@ -133,7 +135,7 @@ void EventDialog::setEvent(lcf::rpg::Event *event)
 {
 	m_event = *event;
 	r_event = *event;
-	ui->lineName->setText(QString::fromStdString(m_event.name));
+	ui->lineName->setText(ToQString(m_event.name));
 	this->setWindowTitle(QString("EV: %1").arg(m_event.ID));
 	ui->tabEventPages->clear();
 	for (unsigned int i = 0; i < m_event.pages.size(); i++)

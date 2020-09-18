@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QAbstractItemModel>
 #include "core.h"
+#include "common/dbstring.h"
 #include <lcf/data.h>
 
 template <class DATA>
@@ -52,7 +53,7 @@ QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
 		else
 		{
 			auto data = _data[index.row()-1];
-			return QString("%1: %2").arg(data.ID).arg(QString::fromStdString(data.name));
+			return QString("%1: %2").arg(data.ID).arg(ToQString(data.name));
 		}
 	}
 	else if (role == Qt::UserRole)

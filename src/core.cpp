@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <lcf/data.h>
 #include "ui/map/map_scene.h"
+#include "common/dbstring.h"
 #include "common/image_loader.h"
 
 //define static member
@@ -121,7 +122,7 @@ void Core::LoadChipset(int n_chipsetid)
 		return;
 	}
 
-	const QString chipset_name = QString::fromStdString(m_chipset.chipset_name);
+	const QString chipset_name = ToQString(m_chipset.chipset_name);
 	QPixmap o_chipset = ImageLoader::Load(project()->findFile(CHIPSET, chipset_name, FileFinder::FileType::Image));
 	if (!o_chipset)
 		o_chipset = ImageLoader::Load(rtpPath(CHIPSET, chipset_name));
@@ -861,7 +862,7 @@ void Core::setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events)
 		if (evp.character_name.empty())
 			continue;
 
-		QString char_name = QString::fromStdString(evp.character_name);
+		QString char_name = ToQString(evp.character_name);
 
 		QPixmap charset(ImageLoader::Load(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
 		if (!charset)

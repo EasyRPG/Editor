@@ -33,7 +33,7 @@ class QGroupBox;
 template<class T>
 class LcfObjectHolder : QObject {
 public:
-	LcfObjectHolder() {}
+	LcfObjectHolder() = default;
 
 	LcfObjectHolder(T& obj) : m_obj(&obj) {}
 
@@ -58,8 +58,9 @@ Q_DECLARE_METATYPE(LcfObjectHolder<uint16_t>)
 Q_DECLARE_METATYPE(LcfObjectHolder<int32_t>)
 Q_DECLARE_METATYPE(LcfObjectHolder<uint32_t>)
 Q_DECLARE_METATYPE(LcfObjectHolder<double>)
+Q_DECLARE_METATYPE(LcfObjectHolder<lcf::DBString>)
 
-namespace WidgetHelper {
+namespace LcfWidgetBinding {
 	void connect(QWidget* parent, QLineEdit* lineEdit);
 	void connect(QWidget* parent, QCheckBox* checkBox);
 	void connect(QWidget* parent, QGroupBox* groupBox);
@@ -98,12 +99,12 @@ namespace WidgetHelper {
 		QWidget::connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
 	}
 
-	void setProperty(QLineEdit* widget, std::string& data);
-	void setProperty(QCheckBox* widget, bool& data);
-	void setProperty(QGroupBox* widget, bool& data);
+	void bind(QLineEdit* widget, lcf::DBString& data);
+	void bind(QCheckBox* widget, bool& data);
+	void bind(QGroupBox* widget, bool& data);
 
 	template<typename T>
-	void setProperty(QSpinBox* widget, T& data) {
+	void bind(QSpinBox* widget, T& data) {
 		QVariant v;
 		LcfObjectHolder oh(data);
 		v.setValue(oh);
@@ -113,7 +114,7 @@ namespace WidgetHelper {
 	}
 
 	template<typename T>
-	void setProperty(QComboBox* widget, T& data, bool has_user_role = false) {
+	void bind(QComboBox* widget, T& data, bool has_user_role = false) {
 		QVariant v;
 		LcfObjectHolder oh(data);
 		v.setValue(oh);

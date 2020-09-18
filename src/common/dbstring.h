@@ -17,26 +17,22 @@
 
 #pragma once
 
-#include <QWidget>
-#include <lcf/data.h>
+#include <lcf/dbstring.h>
+#include <QString>
+#include <QStringView>
 
-// FIXME: This currently lists all terms. Should be filtered by engine
-
-namespace Ui {
-class VocabularyWidget;
+inline QString ToQString(const std::string& s) {
+	return QString::fromStdString(s);
 }
 
-class VocabularyWidget : public QWidget
-{
-	Q_OBJECT
+inline QString ToQString(lcf::StringView s) {
+	return QString::fromUtf8(s.data(), s.size());
+}
 
-public:
-	explicit VocabularyWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~VocabularyWidget() override;
+inline QString ToQString(const lcf::DBString& s) {
+	return QString::fromUtf8(s.c_str(), s.size());
+}
 
-private:
-	Ui::VocabularyWidget *ui;
-	lcf::rpg::Database &m_data;
-	lcf::rpg::Terms* terms = nullptr;
-};
-
+inline lcf::DBString ToDBString(const QString& s) {
+	return lcf::DBString(s.toStdString());
+}

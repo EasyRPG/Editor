@@ -21,7 +21,8 @@
 #include <QGraphicsOpacityEffect>
 #include <QSortFilterProxyModel>
 
-#include "common/widget_helper.h"
+#include "common/dbstring.h"
+#include "common/lcf_widget_binding.h"
 #include "model/actor.h"
 #include "model/list_model.h"
 
@@ -110,7 +111,7 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 	}
 
 	for (auto& uis : { ui->lineName, ui->lineTitle }) {
-		WidgetHelper::connect(this, uis);
+		LcfWidgetBinding::connect(this, uis);
 	}
 
 	for (auto& uis : {
@@ -119,14 +120,14 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 			ui->checkFixedEquip,
 			ui->checkStrongDefense,
 			ui->checkTranslucent }) {
-		WidgetHelper::connect(this, uis);
+		LcfWidgetBinding::connect(this, uis);
 	}
 
 	for (auto& uis : {
 			ui->spinMinLv,
 			ui->spinMaxLv,
 			ui->spinCritChance }) {
-		WidgetHelper::connect<int32_t>(this, uis);
+		LcfWidgetBinding::connect<int32_t>(this, uis);
 	}
 
 	for (auto& uis : {
@@ -135,13 +136,13 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 			ui->comboInitialArmor,
 			ui->comboInitialHelmet,
 			ui->comboInitialMisc }) {
-		WidgetHelper::connect<int16_t>(this, uis, true);
+		LcfWidgetBinding::connect<int16_t>(this, uis, true);
 		uis->setModel(new ListModel(database.items));
 	}
 
-	WidgetHelper::connect(this, ui->groupCritChance);
+	LcfWidgetBinding::connect(this, ui->groupCritChance);
 
-	WidgetHelper::connect<int32_t>(this, ui->comboUnarmedAnimation);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation);
 	ui->comboUnarmedAnimation->setModel(new ListModel(database.animations));
 }
 
@@ -195,16 +196,16 @@ void ActorWidget::on_pushSetCharset_clicked()
 		return;
 
 	CharSetPickerDialog dlg(this, false);
-	dlg.setName(m_currentActor->character_name);
+	dlg.setName(ToQString(m_currentActor->character_name));
 	dlg.setIndex(m_currentActor->character_index);
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_currentActor->character_name = dlg.name();
+		m_currentActor->character_name = ToDBString(dlg.name());
 		m_currentActor->character_index = dlg.index();
 
 		m_charaItem->setVisible(true);
-		m_charaItem->setBasePix(m_currentActor->character_name.c_str());
+		m_charaItem->setBasePix(ToQString(m_currentActor->character_name));
 		m_charaItem->setIndex(m_currentActor->character_index);
 	}
 }
@@ -212,15 +213,15 @@ void ActorWidget::on_pushSetCharset_clicked()
 void ActorWidget::on_pushSetFace_clicked()
 {
 	faceset_picker_dialog dlg(this, true);
-	dlg.setName(m_currentActor->face_name);
+	dlg.setName(ToQString(m_currentActor->face_name));
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_currentActor->face_name = dlg.name();
+		m_currentActor->face_name = ToDBString(dlg.name());
 		m_currentActor->face_index = dlg.index();
 
 		m_faceItem->setVisible(true);
-		m_faceItem->setBasePix(m_currentActor->face_name.c_str());
+		m_faceItem->setBasePix(ToQString(m_currentActor->face_name));
 		m_faceItem->setIndex(m_currentActor->face_index);
 
 	}
@@ -243,60 +244,30 @@ void ActorWidget::ResetExpText(lcf::rpg::Actor* actor) {
 
 void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 {
+	if (!actor) {
+		actor = &dummy;
+	}
 	m_currentActor = actor;
 
 	ResetExpText(actor);
 
-	if (actor == nullptr) {
-		/* Clear widgets */
-		ui->lineName->clear();
-		ui->lineTitle->clear();
-		ui->spinCritChance->setValue(30);
-		ui->spinMaxLv->setValue(1);
-		ui->spinMinLv->setValue(1);
-		ui->checkAI->setChecked(false);
-		ui->checkDualWeapon->setChecked(false);
-		ui->checkFixedEquip->setChecked(false);
-		ui->checkStrongDefense->setChecked(false);
-		ui->checkTranslucent->setChecked(false);
-		ui->groupCritChance->setChecked(false);
-		ui->comboBattleset->setCurrentIndex(0);
-		ui->comboInitialArmor->clear();
-		ui->comboInitialHelmet->clear();
-		ui->comboInitialMisc->clear();
-		ui->comboInitialWeapon->clear();
-		ui->comboInitialShield->clear();
-		ui->comboProfession->setCurrentIndex(0);
-		ui->comboUnarmedAnimation->setCurrentIndex(0);
-		ui->tableSkills->setRowCount(0);
-		m_charaItem->setVisible(false);
-		m_faceItem->setVisible(false);
-		for (int i = 0; i < ui->listAttributeRanks->count(); i++)
-			ui->listAttributeRanks->item(i)->setIcon(QIcon());
-		for (int i = 0; i < ui->listStatusRanks->count(); i++)
-			ui->listStatusRanks->item(i)->setIcon(QIcon());
-
-		this->setEnabled(false);
-		return;
-	}
-
-	WidgetHelper::setProperty(ui->lineName, actor->name);
-	WidgetHelper::setProperty(ui->lineTitle, actor->title);
-	WidgetHelper::setProperty(ui->checkAI, actor->auto_battle);
-	WidgetHelper::setProperty(ui->checkDualWeapon, actor->two_weapon);
-	WidgetHelper::setProperty(ui->checkFixedEquip, actor->lock_equipment);
-	WidgetHelper::setProperty(ui->checkStrongDefense, actor->super_guard);
-	WidgetHelper::setProperty(ui->checkTranslucent, actor->transparent);
-	WidgetHelper::setProperty(ui->spinMinLv, actor->initial_level);
-	WidgetHelper::setProperty(ui->spinMaxLv, actor->final_level);
-	WidgetHelper::setProperty(ui->spinCritChance, actor->critical_hit_chance);
-	WidgetHelper::setProperty(ui->groupCritChance, actor->critical_hit);
-	WidgetHelper::setProperty(ui->comboUnarmedAnimation, actor->unarmed_animation);
-	WidgetHelper::setProperty(ui->comboInitialWeapon, actor->initial_equipment.weapon_id, true);
-	WidgetHelper::setProperty(ui->comboInitialShield, actor->initial_equipment.shield_id, true);
-	WidgetHelper::setProperty(ui->comboInitialHelmet, actor->initial_equipment.helmet_id, true);
-	WidgetHelper::setProperty(ui->comboInitialArmor, actor->initial_equipment.armor_id, true);
-	WidgetHelper::setProperty(ui->comboInitialMisc, actor->initial_equipment.accessory_id, true);
+	LcfWidgetBinding::bind(ui->lineName, actor->name);
+	LcfWidgetBinding::bind(ui->lineTitle, actor->title);
+	LcfWidgetBinding::bind(ui->checkAI, actor->auto_battle);
+	LcfWidgetBinding::bind(ui->checkDualWeapon, actor->two_weapon);
+	LcfWidgetBinding::bind(ui->checkFixedEquip, actor->lock_equipment);
+	LcfWidgetBinding::bind(ui->checkStrongDefense, actor->super_guard);
+	LcfWidgetBinding::bind(ui->checkTranslucent, actor->transparent);
+	LcfWidgetBinding::bind(ui->spinMinLv, actor->initial_level);
+	LcfWidgetBinding::bind(ui->spinMaxLv, actor->final_level);
+	LcfWidgetBinding::bind(ui->spinCritChance, actor->critical_hit_chance);
+	LcfWidgetBinding::bind(ui->groupCritChance, actor->critical_hit);
+	LcfWidgetBinding::bind(ui->comboUnarmedAnimation, actor->unarmed_animation);
+	LcfWidgetBinding::bind(ui->comboInitialWeapon, actor->initial_equipment.weapon_id, true);
+	LcfWidgetBinding::bind(ui->comboInitialShield, actor->initial_equipment.shield_id, true);
+	LcfWidgetBinding::bind(ui->comboInitialHelmet, actor->initial_equipment.helmet_id, true);
+	LcfWidgetBinding::bind(ui->comboInitialArmor, actor->initial_equipment.armor_id, true);
+	LcfWidgetBinding::bind(ui->comboInitialMisc, actor->initial_equipment.accessory_id, true);
 
 	std::array<std::tuple<QComboBox*, lcf::rpg::Item::Type>, 5> vals {{
 		{ ui->comboInitialWeapon, lcf::rpg::Item::Type_weapon },
@@ -370,7 +341,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	m_intItem->setData(actor->parameters.spirit);
 	m_agyItem->setData(actor->parameters.agility);
 
-	this->setEnabled(true);
+	this->setEnabled(actor != &dummy);
 }
 
 void ActorWidget::on_pushApplyProfession_clicked()

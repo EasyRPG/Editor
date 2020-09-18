@@ -7,2387 +7,1900 @@
     <x>0</x>
     <y>0</y>
     <width>753</width>
-    <height>559</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTabWidget" name="tabWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>731</width>
-     <height>521</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>1</number>
-   </property>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Page 1</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_126">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>491</width>
-       <height>471</height>
-      </rect>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget_2">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="title">
-      <string>Battle Messages</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_127">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Message at the beginiig of each Battle</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_34">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
+       <string>Generic</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QGroupBox" name="groupBox_12">
+           <property name="title">
+            <string>Title Options</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_13">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_108">
+              <property name="text">
+               <string>New Game:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="new_game"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_109">
+              <property name="text">
+               <string>Continue:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="load_game"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_110">
+              <property name="text">
+               <string>Exit:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="exit_game"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_13">
+           <property name="title">
+            <string>Menu Options</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_11">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_114">
+              <property name="text">
+               <string>Equipment:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="menu_equipment"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_115">
+              <property name="text">
+               <string>Status:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="status"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_117">
+              <property name="text">
+               <string>Order:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="order"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_129">
+              <property name="text">
+               <string>Save:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="menu_save"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_128">
+              <property name="text">
+               <string>Quit:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="menu_quit"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_118">
+              <property name="text">
+               <string>Enable Wait:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="wait_on"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_119">
+              <property name="text">
+               <string>Disable Wait:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="wait_off"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <widget class="QGroupBox" name="groupBox_14">
+           <property name="title">
+            <string>Menu/Battle Options (Shared)</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_14">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_111">
+              <property name="text">
+               <string>Items:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="command_item"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_120">
+              <property name="text">
+               <string>Skills:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="command_skill"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_121">
+              <property name="text">
+               <string>Change Row:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="row"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_10">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_128">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Inititative Message</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_35">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Generic (2)</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_12">
+         <item>
+          <widget class="QGroupBox" name="groupBox_9">
+           <property name="title">
+            <string>Statistics</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_15">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_79">
+              <property name="text">
+               <string>HP:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="health_points"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_80">
+              <property name="text">
+               <string>MP:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="spirit_points"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_81">
+              <property name="text">
+               <string>Level:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="level"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_82">
+              <property name="text">
+               <string>Attack:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="attack"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_83">
+              <property name="text">
+               <string>Defense:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="defense"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_84">
+              <property name="text">
+               <string>Mind:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="spirit"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_85">
+              <property name="text">
+               <string>Agility:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="agility"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_10">
+           <property name="title">
+            <string>Yes/No</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_21">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_125">
+              <property name="text">
+               <string>Yes:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="yes"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_123">
+              <property name="text">
+               <string>No:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="no"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_12">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
+          <widget class="QGroupBox" name="groupBox_16">
+           <property name="title">
+            <string>Statistics (Abbreviations)</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_16">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_100">
+              <property name="text">
+               <string>HP:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="hp_short"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_101">
+              <property name="text">
+               <string>MP:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="sp_short"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_102">
+              <property name="text">
+               <string>Level:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lvl_short"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_103">
+              <property name="text">
+               <string>Experience:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="exp_short"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_94">
+              <property name="text">
+               <string>Gold:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="gold">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_15">
+           <property name="title">
+            <string>Equipment</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_12">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_86">
+              <property name="text">
+               <string>Weapon:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="weapon"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_87">
+              <property name="text">
+               <string>Shield:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="shield"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_88">
+              <property name="text">
+               <string>Armor:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="armor"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_89">
+              <property name="text">
+               <string>Helmet:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="helmet"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_93">
+              <property name="text">
+               <string>Accessory:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="accessory"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_13">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_129">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Miss Mesage</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_36">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_8">
+      <attribute name="title">
+       <string>Generic (3)</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_14">
+         <item>
+          <widget class="QGroupBox" name="groupBox_18">
+           <property name="title">
+            <string>Other</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_22">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_95">
+              <property name="text">
+               <string>Normal Status:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="normal_status"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_97">
+              <property name="text">
+               <string>MP Cost:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="sp_cost"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_127">
+              <property name="text">
+               <string>Currency:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEdit_98"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_98">
+              <property name="text">
+               <string>Level Up:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="level_up"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_96">
+              <property name="text">
+               <string>New Skill:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="skill_learned"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_14">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QFormLayout" name="formLayout_23">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_130">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Escape Failiure Message</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_37">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Shop</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>Shop Type A</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_5">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_34">
+              <property name="text">
+               <string>Greeting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="shop_greeting1"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_36">
+              <property name="text">
+               <string>Regreeting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="shop_regreeting1"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_38">
+              <property name="text">
+               <string>Buy:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="shop_buy1"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_39">
+              <property name="text">
+               <string>Sell:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="shop_sell1"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_40">
+              <property name="text">
+               <string>Leave:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="shop_leave1"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_41">
+              <property name="text">
+               <string>Purchasing:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="shop_buy_select1"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_42">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="shop_buy_number1"/>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_43">
+              <property name="text">
+               <string>Purchase Done:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="shop_purchased1"/>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_44">
+              <property name="text">
+               <string>Selling:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="shop_sell_select1"/>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_45">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="shop_sell_number1"/>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_46">
+              <property name="text">
+               <string>Sold:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="shop_sold1"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>Shop Type B</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_6">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_47">
+              <property name="text">
+               <string>Greeting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="shop_greeting2"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_48">
+              <property name="text">
+               <string>Regreeting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="shop_regreeting2"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_49">
+              <property name="text">
+               <string>Buy:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="shop_buy2"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_50">
+              <property name="text">
+               <string>Sell:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="shop_sell2"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_51">
+              <property name="text">
+               <string>Leave:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="shop_leave2"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_52">
+              <property name="text">
+               <string>Purchasing:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="shop_buy_select2"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_53">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="shop_buy_number2"/>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_54">
+              <property name="text">
+               <string>Purchase Done:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="shop_purchased2"/>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_55">
+              <property name="text">
+               <string>Selling:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="shop_sell_select2"/>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_56">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="shop_sell_number2"/>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_57">
+              <property name="text">
+               <string>Sold:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="shop_sold2"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_131">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>210</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Victory Message</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_38">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>Shop (2)</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="title">
+            <string>Shop Type C</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_7">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_58">
+              <property name="text">
+               <string>Greeting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="shop_greeting3"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_59">
+              <property name="text">
+               <string>Regreeting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="shop_regreeting3"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_60">
+              <property name="text">
+               <string>Buy:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="shop_buy3"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_61">
+              <property name="text">
+               <string>Sell:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="shop_sell3"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_62">
+              <property name="text">
+               <string>Leave:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="shop_leave3"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_63">
+              <property name="text">
+               <string>Purchasing:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="shop_buy_select3"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_64">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="shop_buy_number3"/>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_65">
+              <property name="text">
+               <string>Purchase Done:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="shop_purchased3"/>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_66">
+              <property name="text">
+               <string>Selling:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="shop_sell_select3"/>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_67">
+              <property name="text">
+               <string>Amount:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="shop_sell_number3"/>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_68">
+              <property name="text">
+               <string>Sold:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="shop_sold3"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_4" native="true">
+         <layout class="QFormLayout" name="formLayout_26">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_133">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_132">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>260</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Defeat Message</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_39">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_10">
+      <attribute name="title">
+       <string>Inn</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QGroupBox" name="groupBox_6">
+           <property name="title">
+            <string>Inn Type A</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_9">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_69">
+              <property name="text">
+               <string>Greeting (Line 1):</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLineEdit" name="inn_a_greeting_1"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_130">
+                <property name="text">
+                 <string>(X) (Unit)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="inn_a_greeting_2"/>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_70">
+              <property name="text">
+               <string>Greeting (Line 2):</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="inn_a_greeting_3"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_71">
+              <property name="text">
+               <string>Stay:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="inn_a_accept"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_72">
+              <property name="text">
+               <string>Don't Stay:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="inn_a_cancel"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_7">
+           <property name="title">
+            <string>Inn Type B</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_8">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_73">
+              <property name="text">
+               <string>Greeting (Line 1):</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLineEdit" name="inn_b_greeting_1"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_131">
+                <property name="text">
+                 <string>(X) (Unit)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="inn_b_greeting_2"/>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_74">
+              <property name="text">
+               <string>Greeting (Line 2):</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="inn_b_greeting_3"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_75">
+              <property name="text">
+               <string>Stay:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="inn_b_accept"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_76">
+              <property name="text">
+               <string>Don't Stay:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="inn_b_cancel"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_8">
+           <property name="title">
+            <string>Shop Attributes</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_10">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_77">
+              <property name="text">
+               <string>Items owned:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="possessed_items"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_78">
+              <property name="text">
+               <string>Equipped:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="equipped_items"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_3" native="true">
+         <layout class="QFormLayout" name="formLayout_25">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_132">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_133">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>310</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Exparience Gain Message</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_40">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string>Save/Load/Exit</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QGroupBox" name="groupBox_17">
+           <property name="title">
+            <string>Save/Load</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_19">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_124">
+              <property name="text">
+               <string>Save Name:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="file"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_116">
+              <property name="text">
+               <string>Save Select:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="save_game_message"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_113">
+              <property name="text">
+               <string>Load Select:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="load_game_message"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_19">
+           <property name="title">
+            <string>Exit</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_20">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_122">
+              <property name="text">
+               <string>Message:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="exit_game_message"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_11">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_18" native="true">
+         <layout class="QFormLayout" name="formLayout_17">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_126">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_134">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Money Found</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_41">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>101</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_42">
-       <property name="geometry">
-        <rect>
-         <x>250</x>
-         <y>20</y>
-         <width>201</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Battle (1)</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Actor/Enemy</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Basic Attack:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="attacking"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Defending:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="defending"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Skill A failed:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="skill_failure_a"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Skill B failed:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="skill_failure_b"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Skill C failed:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="skill_failure_c"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Dodged:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="dodge"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>HP/MP Recovery:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="hp_recovery"/>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>Attribute up:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="parameter_increase"/>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Attribute down:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="parameter_decrease"/>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Resistance up:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="resistance_increase"/>
+            </item>
+            <item row="10" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Resistance down:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="resistance_decrease"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_15">
+         <item>
+          <widget class="QGroupBox" name="groupBox_11">
+           <property name="title">
+            <string>Battle Options</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_18">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_106">
+              <property name="text">
+               <string>Fight:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="battle_fight"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_107">
+              <property name="text">
+               <string>Auto Battle:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="battle_auto"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_112">
+              <property name="text">
+               <string>Escape:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="battle_escape"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_104">
+              <property name="text">
+               <string>Attack:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="command_attack"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_105">
+              <property name="text">
+               <string>Defend:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="command_defend"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_135">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>410</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Item Discovery</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>20</y>
-         <width>291</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Battle (2)</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QGroupBox" name="groupBox1">
+           <property name="title">
+            <string>Actor</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Critical Hit:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="actor_critical"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Took Damage:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="actor_damaged"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Took No Damage:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="actor_undamaged"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>Absorbed:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="actor_hp_absorbed"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Escaped:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="escape_success"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>Escape failed:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="escape_failure"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Use Item:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="use_item"/>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
+            <string>Enemy</string>
+           </property>
+           <layout class="QFormLayout" name="formLayout_4">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>Critical Hit:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="enemy_critical"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_20">
+              <property name="text">
+               <string>Took Damage:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="enemy_damaged"/>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_23">
+              <property name="text">
+               <string>Took No Damage:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="enemy_undamaged"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_29">
+              <property name="text">
+               <string>Absorbed:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="enemy_hp_absorbed"/>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>Escaped:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="enemy_escape"/>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>Encounter:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="encounter"/>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_25">
+              <property name="text">
+               <string>Waiting:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="observing"/>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>Charging:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="focus"/>
+            </item>
+            <item row="8" column="0">
+             <widget class="QLabel" name="label_27">
+              <property name="text">
+               <string>Self Destruct:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="autodestruction">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_28">
+              <property name="text">
+               <string>Transform:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="enemy_transform">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_8">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_9">
+      <attribute name="title">
+       <string>Battle (3)</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="groupBox_20">
+         <property name="title">
+          <string>State</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_91">
+            <property name="text">
+             <string>Battle Start:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="battle_start"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_92">
+            <property name="text">
+             <string>Miss:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="miss"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_33">
+            <property name="text">
+             <string>Preemptive:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="special_combat"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_30">
+            <property name="text">
+             <string>Victory:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="victory"/>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>Defeat:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="defeat"/>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_32">
+            <property name="text">
+             <string>Receive Exp:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="exp_received"/>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_37">
+            <property name="text">
+             <string>Receive Gold:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLineEdit" name="gold_recieved_a"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_99">
+              <property name="text">
+               <string>(X) (Unit)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="gold_recieved_b"/>
+            </item>
+           </layout>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_35">
+            <property name="text">
+             <string>Receive Item:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="item_recieved"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_15">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>584</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_2" native="true">
+         <layout class="QFormLayout" name="formLayout_24">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_90">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
-   </widget>
-   <widget class="QWidget" name="tab_2">
-    <attribute name="title">
-     <string>Page 2</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_136">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>491</width>
-       <height>471</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Level Up Messages</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_137">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Level Up</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_43">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_138">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Skill Lerned</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_44">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>441</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_139">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_140">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_141">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>210</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_142">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>260</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_143">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>310</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_144">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_145">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>410</y>
-        <width>461</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_3">
-    <attribute name="title">
-     <string>Page 3</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_146">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>341</width>
-       <height>471</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Message Shop Type A</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_147">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Grettings</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_45">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_148">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>After One transaction</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_46">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_149">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_47">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_150">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing an Item to buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_48">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_151">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>210</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing how may items to buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_49">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_152">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>260</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Buy Transaction Completed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_50">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_153">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>310</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing Item to sell</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_51">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_154">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing how many items to sell</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_52">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_155">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>410</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Sell transaction completed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_53">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_156">
-     <property name="geometry">
-      <rect>
-       <x>360</x>
-       <y>10</y>
-       <width>341</width>
-       <height>471</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Message Shop Type B</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_157">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Grettings</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_54">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_158">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>After One transaction</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_55">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_159">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_56">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_160">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing an Item to buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_57">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_161">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>210</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing how may items to buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_58">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_162">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>260</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Buy Transaction Completed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_59">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_163">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>310</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing Item to sell</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_60">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_164">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing how many items to sell</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_61">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_165">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>410</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Sell transaction completed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_62">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_4">
-    <attribute name="title">
-     <string>Page 4</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_166">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>341</width>
-       <height>471</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Message Shop Type C</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_167">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Grettings</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_63">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_168">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>After One transaction</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_64">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_169">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_65">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_170">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing an Item to buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_66">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_171">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>210</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing how may items to buy</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_67">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_172">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>260</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Buy Transaction Completed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_68">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_173">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>310</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing Item to sell</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_69">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_174">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing how many items to sell</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_70">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_175">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>410</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Sell transaction completed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_71">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_176">
-     <property name="geometry">
-      <rect>
-       <x>360</x>
-       <y>10</y>
-       <width>341</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Message for inn tye A</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_177">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Cost</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_72">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>101</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_76">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>20</y>
-         <width>91</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_21">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>20</y>
-         <width>91</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>(X currensy)</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_178">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Stay question ?</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_73">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_179">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>131</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Accept</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_74">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>111</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_180">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>110</y>
-        <width>131</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Decline</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_75">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>111</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_181">
-     <property name="geometry">
-      <rect>
-       <x>360</x>
-       <y>190</y>
-       <width>341</width>
-       <height>171</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Message for inn tye B</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_182">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Cost</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_77">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>101</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_78">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>20</y>
-         <width>91</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_22">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>20</y>
-         <width>91</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>(X currensy)</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_183">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>321</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Stay question ?</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_79">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>301</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_184">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>131</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Accept</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_80">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>111</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_185">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>110</y>
-        <width>131</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Decline</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_81">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>111</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_186">
-     <property name="geometry">
-      <rect>
-       <x>360</x>
-       <y>370</y>
-       <width>341</width>
-       <height>71</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Other String</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_188">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>131</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Items Possesed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_84">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>111</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_189">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>10</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Item Equiped</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_85">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_190">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>10</y>
-        <width>91</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Currency</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_86">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>71</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_5">
-    <attribute name="title">
-     <string>Page 5</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_187">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>241</width>
-       <height>471</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Statics and Equipment</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_191">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>HP</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_82">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_192">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>420</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Agility</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_83">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_193">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>370</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Intelligence</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_87">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_194">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Defense</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_88">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_195">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>270</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Attack</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_89">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_196">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Level</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_90">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_197">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>220</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>MP Consumed</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_91">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_198">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>170</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Normal Status</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_92">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_199">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>120</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>MP</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_93">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_208">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>320</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Armor</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_102">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_201">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>220</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Weapon</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_95">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_203">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>20</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Level Short form</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_97">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_204">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>370</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Helmet</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_98">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_207">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>270</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Shield</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_101">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_202">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>70</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>HP Short Form</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_96">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_206">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>120</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>MP short Form</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_100">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_205">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>170</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Experience</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_99">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_200">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>420</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Accesory</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_94">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_209">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>20</y>
-       <width>441</width>
-       <height>231</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Commands</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_210">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Fight</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_103">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_211">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Auto Fight</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_104">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_212">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>120</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Escape</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_105">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_213">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>170</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Item</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_106">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_217">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>120</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Save</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_110">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_216">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>70</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Equip</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_109">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_215">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>170</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Quit</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_108">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_214">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>20</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Skill</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_107">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_221">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>20</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Status</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_114">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_218">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>70</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Road</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_111">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_220">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>120</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Order</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_113">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_219">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>170</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Wait on</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_112">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_225">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>170</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Wait off</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_118">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_224">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>120</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>End Game</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_117">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_222">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>20</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>New Game</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_115">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_223">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>70</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Load Game</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_116">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_226">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>260</y>
-       <width>441</width>
-       <height>221</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>Save and quit messages</string>
-     </property>
-     <widget class="QGroupBox" name="groupBox_227">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>381</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing of a save slot</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_119">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>351</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_228">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>160</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>File</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_120">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_229">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>381</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Chossing what slot to load</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_121">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>351</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_230">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>381</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Confirm quit</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_122">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>351</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_231">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>160</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Yes</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_123">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_232">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>160</y>
-        <width>101</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>No</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_125">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>81</width>
-         <height>22</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-   </widget>
-  </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

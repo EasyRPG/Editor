@@ -73,6 +73,7 @@ private:
 	CurveItem *m_agyItem;
 	std::vector<short> m_dummyCurve;
 
+	lcf::rpg::Actor dummy;
 	lcf::rpg::Actor *m_currentActor;
 	lcf::rpg::Database &m_data;
 };

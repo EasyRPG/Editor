@@ -19,6 +19,7 @@
 #include "ui_map_properties_dialog.h"
 #include <lcf/data.h>
 #include "core.h"
+#include "common/dbstring.h"
 
 MapPropertiesDialog::MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent) :
 	QDialog(parent),
@@ -44,11 +45,11 @@ MapPropertiesDialog::MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map 
 	m_ObstacleBItem = new QGraphicsPixmapItem();
 	m_ObstacleCItem = new QGraphicsPixmapItem();
 
-	ui->lineName->setText(QString::fromStdString(info.name));
-	ui->lineBGMname->setText(QString::fromStdString(info.music.name));
-	ui->lineBackdropName->setText(QString::fromStdString(info.background_name));
+	ui->lineName->setText(ToQString(info.name));
+	ui->lineBGMname->setText(ToQString(info.music.name));
+	ui->lineBackdropName->setText(ToQString(info.background_name));
 	for (int i = 0; i < static_cast<int>(core().project()->database().chipsets.size()); i++)
-		ui->comboTileset->addItem(QString::fromStdString(core().project()->database().chipsets[static_cast<size_t>(i)].name), i+1);
+		ui->comboTileset->addItem(ToQString(core().project()->database().chipsets[static_cast<size_t>(i)].name), i+1);
 	ui->comboTileset->setCurrentIndex(map.chipset_id-1);
 	ui->comboWrapping->setCurrentIndex(map.scroll_type);
 	ui->spinDungeonRoomHeight->setValue(map.generator_height);
@@ -89,7 +90,7 @@ MapPropertiesDialog::MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map 
 	for (int i = static_cast<int>(info.encounters.size()) - 1; i >= 0; i--)
 	{
 		QTableWidgetItem * item = new QTableWidgetItem();
-		item->setData(Qt::DisplayRole, QString::fromStdString(core().project()->database().troops[static_cast<size_t>(info.encounters[static_cast<size_t>(i)].troop_id)-1].name));
+		item->setData(Qt::DisplayRole, ToQString(core().project()->database().troops[static_cast<size_t>(info.encounters[static_cast<size_t>(i)].troop_id)-1].name));
 		item->setData(Qt::UserRole, info.encounters[static_cast<size_t>(i)].troop_id);
 		ui->tableEncounters->insertRow(0);
 		ui->tableEncounters->setItem(0,0,item);
@@ -188,9 +189,9 @@ MapPropertiesDialog::MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map 
 	}
 	if (map.parallax_flag)
 	{
-		pix = QPixmap(core().project()->findFile(PANORAMA, QString::fromStdString(map.parallax_name), FileFinder::FileType::Image));
+		pix = QPixmap(core().project()->findFile(PANORAMA, ToQString(map.parallax_name), FileFinder::FileType::Image));
 		if (!pix)
-			pix = QPixmap(core().rtpPath(PANORAMA,QString::fromStdString(map.parallax_name)));
+			pix = QPixmap(core().rtpPath(PANORAMA,ToQString(map.parallax_name)));
 		m_panoramaItem->setPixmap(pix);
 	}
 

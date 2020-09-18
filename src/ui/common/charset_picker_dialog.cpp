@@ -20,6 +20,8 @@
 #include <QDir>
 #include <QPushButton>
 #include "core.h"
+#include "common/dbstring.h"
+
 
 CharSetPickerDialog::CharSetPickerDialog(QWidget *parent, bool tile_pick) :
 	QDialog(parent),
@@ -129,22 +131,21 @@ void CharSetPickerDialog::setFacing(int facing)
 	updateFacing();
 }
 
-std::string CharSetPickerDialog::name()
+QString CharSetPickerDialog::name()
 {
 	if (m_tilePick && ui->listRes->currentRow() == 0)
 		return "";
-	return ui->listRes->currentItem()->text().toStdString();
+	return ui->listRes->currentItem()->text();
 }
 
-void CharSetPickerDialog::setName(std::string name)
+void CharSetPickerDialog::setName(QString name)
 {
-	if (m_tilePick && name.empty())
+	if (m_tilePick && name.isEmpty())
 	{
 		ui->listRes->setCurrentRow(0);
 		return;
 	}
-	QList<QListWidgetItem*> items = ui->listRes->findItems(QString::fromStdString(name),
-															Qt::MatchFixedString);
+	QList<QListWidgetItem*> items = ui->listRes->findItems(name, Qt::MatchFixedString);
 	ui->listRes->setCurrentItem(items.empty() ? ui->listRes->item(0) : items[0]);
 }
 

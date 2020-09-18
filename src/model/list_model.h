@@ -19,6 +19,7 @@
 #include <QPixmap>
 
 #include "core.h"
+#include "common/dbstring.h"
 #include "common/filefinder.h"
 #include "common/image_loader.h"
 #include <lcf/rpg/database.h>
@@ -27,14 +28,14 @@
 template <class T>
 QPixmap preview(const T& item) {
 	if constexpr (std::is_same<T,lcf::rpg::Actor>::value) {
-		QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", QString::fromStdString(item.face_name), FileFinder::FileType::Image));
+		QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", ToQString(item.face_name), FileFinder::FileType::Image));
 
 		int x = (item.face_index % 4) * 48;
 		int y = (item.face_index / 4) * 48;
 
 		return faceSet.copy(x, y, 48, 48);
 	} else if constexpr (std::is_same<T,lcf::rpg::Enemy>::value) {
-		QPixmap monster = ImageLoader::Load(core().project()->findFile("Monster", QString::fromStdString(item.battler_name), FileFinder::FileType::Image));
+		QPixmap monster = ImageLoader::Load(core().project()->findFile("Monster", ToQString(item.battler_name), FileFinder::FileType::Image));
 		if (!monster) {
 			return QPixmap(48, 48);
 		}
@@ -65,7 +66,7 @@ QVariant ListModel<T>::data(const QModelIndex &index, int role) const
 		return QVariant();
 	} else if (role == Qt::DisplayRole || role == Qt::EditRole) {
 		auto data = m_data[index.row()];
-		return QString("%1: %2").arg(data.ID, 4, 10, QChar('0')).arg(QString::fromStdString(data.name));
+		return QString("%1: %2").arg(data.ID, 4, 10, QChar('0')).arg(ToQString(data.name));
 	} else if (role == Qt::DecorationRole) {
 		return preview<T>(m_data[index.row()]);
 	} else if (role == Qt::UserRole) {
