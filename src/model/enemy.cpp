@@ -29,7 +29,7 @@ lcf::rpg::Enemy& EnemyModel::data() {
 }
 
 QPixmap EnemyModel::preview() {
-	QPixmap monster = ImageLoader::Load(core().project()->findFile("Monster", ToQString(data().battler_name), FileFinder::FileType::Image));
+	QPixmap monster = ImageLoader::Load(m_project.project().findFile("Monster", ToQString(data().battler_name), FileFinder::FileType::Image));
 	if (!monster) {
 		return QPixmap(48, 48);
 	}

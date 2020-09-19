@@ -48,6 +48,7 @@ EventDialog::~EventDialog()
 
 int EventDialog::edit(QWidget *parent, lcf::rpg::Event& event, ProjectData& project)
 {
+	// FIXME: Use WidgetAsDialogWrapper instead of this function
 	EventDialog dlg(project, parent);
 	dlg.setEvent(event);
 	dlg.exec();

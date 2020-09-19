@@ -22,12 +22,10 @@
 #include <lcf/rpg/map.h>
 #include <vector>
 
+class ProjectData;
+
 namespace Ui {
 	class SearchDialog;
-}
-
-namespace RPG {
-	class EventCommand;
 }
 
 class SearchDialog : public QDialog
@@ -35,7 +33,7 @@ class SearchDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit SearchDialog(QWidget *parent = nullptr);
+	explicit SearchDialog(ProjectData& project, QWidget *parent = nullptr);
 	~SearchDialog();
 
 	void updateUI();
@@ -55,5 +53,6 @@ private:
 	std::vector<std::shared_ptr<lcf::rpg::Map>> map_cache;
 	bool useCache;
 	void showResults(const std::vector<command_info>& results);
+	ProjectData& m_project;
 };
 

@@ -125,7 +125,7 @@ bool Project::loadDatabaseAndMapTree() {
 	return true;
 }
 
-std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) {
+std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) const {
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")

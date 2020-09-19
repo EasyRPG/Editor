@@ -111,22 +111,6 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 	m_eventPage->move_type = index;
 }
 
-/**
- * @brief Formats the text for the switch condition’s selector
- * @param switchId ID of the switch to format, 1-based
- * @return Formatted text
- */
-QString formatSwitchCondition(int switchId) {
-	if (switchId >= 1 && switchId <= static_cast<int>(core().project()->database().switches.size())) {
-		return QString("%1: %2").arg(switchId)
-				.arg(ToQString
-					 (core().project()->database().switches[static_cast<size_t>(switchId) - 1].name));
-	}
-	else {
-		return QString("%1: ???").arg(switchId);
-	}
-}
-
 void EventPageWidget::on_checkSwitchA_toggled(bool checked)
 {
 	if (!m_eventPage)

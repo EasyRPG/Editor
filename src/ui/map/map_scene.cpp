@@ -38,8 +38,8 @@
 #include <lcf/lmu/reader.h>
 #include <lcf/lmt/reader.h>
 
-MapScene::MapScene(int id, QGraphicsView *view, QObject *parent) :
-	QGraphicsScene(parent)
+MapScene::MapScene(ProjectData& project, int id, QGraphicsView *view, QObject *parent) :
+	QGraphicsScene(parent), m_project(project)
 {
 	m_init = false;
 	m_view = view;
@@ -47,10 +47,11 @@ MapScene::MapScene(int id, QGraphicsView *view, QObject *parent) :
 	m_undoStack = new QUndoStack(this);
 	m_selectionTile = new QGraphicsRectItem(QRectF(QRect(0,32,32,32)));
 	m_selecting = false;
-	for (unsigned int i = 1; i < core().project()->treeMap().maps.size(); i++)
-		if (core().project()->treeMap().maps[i].ID == id)
+	const auto& treeMap = project.treeMap();
+	for (unsigned int i = 1; i < treeMap.maps.size(); i++)
+		if (treeMap.maps[i].ID == id)
 		{
-			n_mapInfo = core().project()->treeMap().maps[i];
+			n_mapInfo = treeMap.maps[i];
 			break;
 		}
 	m_eventMenu = new QMenu(m_view);
@@ -218,7 +219,7 @@ QMap<int, lcf::rpg::Event*> *MapScene::mapEvents()
 
 void MapScene::editMapProperties()
 {
-	MapPropertiesDialog dlg(n_mapInfo, *m_map, m_view);
+	MapPropertiesDialog dlg(m_project, n_mapInfo, *m_map, m_view);
 	dlg.exec();
 }
 
@@ -304,16 +305,19 @@ void MapScene::Save()
 	if (!isModified())
 		return;
 
-	for (unsigned int i = 1; i < core().project()->treeMap().maps.size(); i++)
-		if (core().project()->treeMap().maps[i].ID == n_mapInfo.ID)
+	auto& treeMap = m_project.treeMap();
+	for (unsigned int i = 1; i < treeMap.maps.size(); i++)
+		if (treeMap.maps[i].ID == n_mapInfo.ID)
 		{
-			core().project()->treeMap().maps[i] = n_mapInfo; //Apply info changes
+			treeMap.maps[i] = n_mapInfo; //Apply info changes
 			break;
 		}
+	// FIXME: ProjectData.Project is Const
 	core().project()->saveTreeMap();
 	QString file = QString("Map%1.emu")
 			.arg(QString::number(n_mapInfo.ID), 4, QLatin1Char('0'));
 	lcf::LMU_Reader::PrepareSave(*m_map);
+	// FIXME: ProjectData.Project is Const
 	core().project()->saveMap(*m_map, n_mapInfo.ID);
 	m_undoStack->clear();
 	emit mapSaved();
@@ -321,14 +325,16 @@ void MapScene::Save()
 
 void MapScene::Load()
 {
-	for (unsigned int i = 1; i < core().project()->treeMap().maps.size(); i++)
-		if (core().project()->treeMap().maps[i].ID == n_mapInfo.ID)
+	// FIXME: Many calls to core()
+	const auto& treeMap = m_project.treeMap();
+	for (unsigned int i = 1; i < treeMap.maps.size(); i++)
+		if (treeMap.maps[i].ID == n_mapInfo.ID)
 		{
-			n_mapInfo = core().project()->treeMap().maps[i]; //Revert info changes
+			n_mapInfo = treeMap.maps[i]; //Revert info changes
 			break;
 		}
 
-	m_map = core().project()->loadMap(n_mapInfo.ID);
+	m_map = m_project.project().loadMap(n_mapInfo.ID);
 	m_lower =  m_map->lower_layer;
 	m_upper =  m_map->upper_layer;
 	if(m_map->parallax_flag)
@@ -387,7 +393,7 @@ void MapScene::on_actionNewEvent()
 	event.y = cur_y;
 	event.pages.push_back(lcf::rpg::EventPage());
 
-	int result = EventDialog::edit(m_view, event, core().project()->projectData());
+	int result = EventDialog::edit(m_view, event, m_project);
 	if (result != QDialogButtonBox::Cancel)
 	{
 		m_map->events.push_back(event);
@@ -418,9 +424,10 @@ void MapScene::on_actionRunHere()
 
 void MapScene::on_actionSetStartPosition()
 {
-	core().project()->treeMap().start.party_map_id = this->id();
-	core().project()->treeMap().start.party_x = lst_x;
-	core().project()->treeMap().start.party_y = lst_y;
+	auto& treeMap = m_project.treeMap();
+	treeMap.start.party_map_id = this->id();
+	treeMap.start.party_x = lst_x;
+	treeMap.start.party_y = lst_y;
 }
 
 void MapScene::on_user_interaction()
@@ -591,7 +598,7 @@ void MapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 		if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
 		{
 			lcf::rpg::Event backup = *ev;
-			int result = EventDialog::edit(m_view, *ev, core().project()->projectData());
+			int result = EventDialog::edit(m_view, *ev, m_project);
 			if (result != QDialogButtonBox::Cancel)
 			{
 				m_undoStack->push(new UndoEvent(backup, this));

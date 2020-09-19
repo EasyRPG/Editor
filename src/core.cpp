@@ -110,10 +110,10 @@ void Core::LoadChipset(int n_chipsetid)
 {
 	if (n_chipsetid == m_chipset.ID)
 		return;
-	for (unsigned int i = 0; i < core().project()->database().chipsets.size();i++)
-		if (core().project()->database().chipsets[i].ID == n_chipsetid)
+	for (auto & chipset : project()->database().chipsets)
+		if (chipset.ID == n_chipsetid)
 		{
-			m_chipset = core().project()->database().chipsets[i];
+			m_chipset = chipset;
 			break;
 		}
 	if (m_chipset.ID == 0)
@@ -652,21 +652,21 @@ void Core::setDefDir(const QString &defDir)
 void Core::runGame()
 {
 	if (!m_runGameDialog)
-		m_runGameDialog = new RunGameDialog();
+		m_runGameDialog = new RunGameDialog(project()->projectData());
 	m_runGameDialog->exec();
 }
 
 void Core::runGameHere(int map_id, int x, int y)
 {
 	if (!m_runGameDialog)
-		m_runGameDialog = new RunGameDialog();
+		m_runGameDialog = new RunGameDialog(project()->projectData());
 	m_runGameDialog->runHere(map_id, x, y);
 }
 
 void Core::runBattleTest(int troop_id)
 {
 	if (!m_runGameDialog)
-		m_runGameDialog = new RunGameDialog();
+		m_runGameDialog = new RunGameDialog(project()->projectData());
 	//Set parametters
 	m_runGameDialog->runBattle(troop_id);
 }

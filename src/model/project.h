@@ -39,7 +39,7 @@ public:
 	static std::shared_ptr<Project> load(const QDir& path);
 
 	bool loadDatabaseAndMapTree();
-	std::unique_ptr<lcf::rpg::Map> loadMap(int index);
+	std::unique_ptr<lcf::rpg::Map> loadMap(int index) const;
 	bool saveMap(lcf::rpg::Map& map, int index, bool incSavecount = true);
 
 	void relocate(const QDir& newDir, FileFinder::ProjectType newProjectType);

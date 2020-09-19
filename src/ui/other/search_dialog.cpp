@@ -30,9 +30,9 @@
 #include <QMessageBox>
 #include <QCompleter>
 
-SearchDialog::SearchDialog(QWidget *parent) :
+SearchDialog::SearchDialog(ProjectData& project, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::SearchDialog)
+	ui(new Ui::SearchDialog), m_project(project)
 {
 	ui->setupUi(this);
 
@@ -58,15 +58,17 @@ SearchDialog::~SearchDialog()
 
 void SearchDialog::updateUI()
 {
+	const auto& database = m_project.database();
+	
 	const QString format("%1: %2");
 
-	for (auto &v : core().project()->database().variables)
+	for (auto &v : database.variables)
 		ui->combo_variable->addItem(format.arg(QString::number(v.ID), ToQString(v.name)), v.ID);
-	for (auto &s : core().project()->database().switches)
+	for (auto &s : database.switches)
 		ui->combo_switch->addItem(format.arg(QString::number(s.ID), ToQString(s.name)), s.ID);
-	for (auto &i : core().project()->database().items)
+	for (auto &i : database.items)
 		ui->combo_item->addItem(format.arg(QString::number(i.ID), ToQString(i.name)), i.ID);
-	for (auto &e : core().project()->database().commonevents)
+	for (auto &e : database.commonevents)
 		ui->combo_eventname->addItem(format.arg(QString::number(e.ID), ToQString(e.name)), e.ID);
 }
 
@@ -75,7 +77,7 @@ void SearchDialog::enableCache(bool enable)
 	useCache = enable;
 
 	if (enable)
-		map_cache = std::vector<std::shared_ptr<lcf::rpg::Map>>(core().project()->treeMap().maps.size());
+		map_cache = std::vector<std::shared_ptr<lcf::rpg::Map>>(m_project.treeMap().maps.size());
 	else
 		map_cache.clear();
 
@@ -241,13 +243,13 @@ void SearchDialog::on_button_search_clicked()
 	}
 	else if (ui->scope_events->isChecked())
 	{
-		showResults(common_searcher(core().project()->database().commonevents));
+		showResults(common_searcher(m_project.project().database().commonevents));
 	}
 	else // if (ui->scope_project->isChecked())
 	{
-		for (auto &map : core().project()->treeMap().maps)
+		for (auto &map : m_project.treeMap().maps)
 		{
-			ui->label_status->setText(QString("Parsing Map %1 / %2").arg(QString::number(map.ID + 1), QString::number(core().project()->treeMap().maps.size())));
+			ui->label_status->setText(QString("Parsing Map %1 / %2").arg(QString::number(map.ID + 1), QString::number(m_project.treeMap().maps.size())));
 			QApplication::processEvents(); //FIXME: can this be done better?!
 
 			auto mapp = loadMap(map.ID);
@@ -274,7 +276,7 @@ std::shared_ptr<lcf::rpg::Map> SearchDialog::loadMap(int mapID)
 {
 	if (!(useCache && map_cache[static_cast<size_t>(mapID)]))
 	{
-		const std::shared_ptr<lcf::rpg::Map> res_map{core().project()->loadMap(mapID)};
+		const std::shared_ptr<lcf::rpg::Map> res_map{m_project.project().loadMap(mapID)};
 
 		if (useCache)
 			map_cache[static_cast<size_t>(mapID)] = res_map;
@@ -302,7 +304,7 @@ void SearchDialog::showResults(const std::vector<command_info>& results) {
 		{
 			do
 			{
-				auto& mapinfo = core().project()->treeMap().maps[static_cast<size_t>(mm)];
+				auto& mapinfo = m_project.treeMap().maps[static_cast<size_t>(mm)];
 				maps_rev << ToQString(mapinfo.name);
 				mm = mapinfo.parent_map;
 			} while (mm != 0);

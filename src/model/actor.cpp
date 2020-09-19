@@ -30,7 +30,7 @@ lcf::rpg::Actor& ActorModel::data() {
 }
 
 QPixmap ActorModel::preview() {
-	QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", ToQString(m_data.face_name), FileFinder::FileType::Image));
+	QPixmap faceSet = ImageLoader::Load(m_project.project().findFile("FaceSet", ToQString(m_data.face_name), FileFinder::FileType::Image));
 
 	int x = (m_data.face_index % 4) * 48;
 	int y = (m_data.face_index / 4) * 48;

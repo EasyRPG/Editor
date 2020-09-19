@@ -108,7 +108,7 @@ static void associateFileTypes(const QStringList &fileTypes)
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
-	searchdialog(new SearchDialog(this))
+	searchdialog(new SearchDialog(core().project()->projectData(), this))
 {
 	ui->setupUi(this);
 	refreshIcons();
@@ -687,7 +687,7 @@ QGraphicsView *MainWindow::getView(int id)
 			}
 		}
 		ui->tabMap->addTab(view, QIcon(":/icons/share/old_map.png"), mapName);
-		view->setScene(new MapScene(id, view, this));
+		view->setScene(new MapScene(core().project()->projectData(), id, view, this));
 		connect(getScene(id),
 				SIGNAL(mapChanged()),
 				this,
