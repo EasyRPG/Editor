@@ -53,6 +53,7 @@ public:
 	 */
 	QString findFileOrDefault(const QString& filename);
 
+	QString detectEncoding();
 	QString encoding() const;
 	void setEncoding(const QString& encoding);
 

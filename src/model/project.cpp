@@ -26,6 +26,8 @@
 #include <lcf/lmu/reader.h>
 #include <lcf/lmt/reader.h>
 #include <QDir>
+#include <memory>
+#include <fstream>
 
 Project::ProjectList Project::enumerate(const QDir& path) {
 	ProjectList prj_list;
@@ -73,6 +75,9 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 			// Check for game encoding
 			std::string enc = ini.GetString("EasyRPG", "Encoding", "");
 			if (enc.empty()) {
+				// Only use the title for encoding detection
+				// This is called for all games in the "Open Project" list
+				// Upon project load a smarter detection is used
 				enc = lcf::ReaderUtil::DetectEncoding(title);
 			}
 
@@ -86,8 +91,6 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 	return p;
 }
 
-
-
 bool Project::loadDatabaseAndMapTree() {
 	// FIXME: Should assign to private members when liblcf doesn't use global DB and Tree anymore
 	// TODO: Error reporting
@@ -98,6 +101,7 @@ bool Project::loadDatabaseAndMapTree() {
 	});
 
 	if (projectType() == FileFinder::ProjectType::Legacy) {
+		detectEncoding();
 		if (!lcf::LDB_Reader::Load(findFile(RM_DB).toStdString(), encoding().toStdString())) {
 			return false;
 		}
@@ -116,8 +120,8 @@ bool Project::loadDatabaseAndMapTree() {
 	}
 
 	// Copy db and treemap
-	m_db.reset(new lcf::rpg::Database(lcf::Data::data));
-	m_treeMap.reset(new lcf::rpg::TreeMap(lcf::Data::treemap));
+	m_db = std::make_unique<lcf::rpg::Database>(lcf::Data::data);
+	m_treeMap = std::make_unique<lcf::rpg::TreeMap>(lcf::Data::treemap);
 
 	return true;
 }
@@ -174,6 +178,38 @@ QString Project::findFile(const QString& dir, const QString& filename, FileFinde
 QString Project::findFileOrDefault(const QString& filename) {
 	QString found = findFile(filename);
 	return found.isEmpty() ? FileFinder::CombinePath(projectDir().absolutePath(), filename) : found;
+}
+
+QString Project::detectEncoding() {
+	if (projectType() == FileFinder::ProjectType::EasyRpg) {
+		setEncoding("utf-8");
+		return encoding();
+	}
+
+	auto cfg = findFile(RM_INI);
+	std::string enc;
+	std::string title;
+	if (!cfg.isNull()) {
+		lcf::INIReader ini(cfg.toStdString());
+		title = ini.GetString("RPG_RT", GAMETITLE, "Untitled");
+		enc = ini.GetString("EasyRPG", "Encoding", "");
+	}
+
+	if (enc.empty()) {
+		std::ifstream i(findFile(RM_DB).toStdString(), std::ios::binary);
+		if (i) {
+			std::string dbenc = lcf::ReaderUtil::DetectEncoding(i);
+			lcf::Encoder encoder(dbenc);
+			if (encoder.IsOk()) {
+				enc = dbenc;
+			}
+		}
+	}
+
+	setEncoding(QString::fromStdString(enc));
+	setGameTitle(QString::fromStdString(lcf::ReaderUtil::Recode(title, enc)));
+
+	return encoding();
 }
 
 QString Project::encoding() const {
