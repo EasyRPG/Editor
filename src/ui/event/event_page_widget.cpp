@@ -25,18 +25,15 @@
 #include "stringizer.h"
 #include "ui/commands/all_commands.h"
 #include "common/dbstring.h"
+#include "common/lcf_widget_binding.h"
 
-
-EventPageWidget::EventPageWidget(QWidget *parent) :
+EventPageWidget::EventPageWidget(lcf::rpg::Database& database, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::QEventWidget),
-	m_eventPage(nullptr)
+	m_database(database)
 {
 	ui->setupUi(this);
-	for (unsigned int i = 0; i < core().project()->database().items.size(); i++)
-		ui->comboItem->addItem(ToQString(core().project()->database().items[i].name));
-	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
-		ui->comboHero->addItem(ToQString(core().project()->database().actors[i].name));
+
 	m_charaItem = new CharSetItem();
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
@@ -53,9 +50,13 @@ EventPageWidget::EventPageWidget(QWidget *parent) :
 	m_scene->addItem(m_tileItem);
 	m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 	ui->graphicsSprite->setScene(m_scene);
-	ui->treeCommands->hideColumn(1);
-	ui->treeCommands->header()->hide();
-	ui->treeCommands->setMouseTracking(true);
+
+	ui->comboSwitchA->makeModel(database, database.switches);
+	ui->comboSwitchB->makeModel(database, database.switches);
+	ui->comboVariable->makeModel(database, database.variables);
+	ui->comboItem->makeModel(database, database.items);
+	ui->comboHero->makeModel(database, database.actors);
+
 }
 
 EventPageWidget::~EventPageWidget()
@@ -98,60 +99,8 @@ void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 	m_effect->setEnabled(m_eventPage->translucent);
 	updateGraphic();
 
-	m_codeGen = 0;
-	QTreeWidgetItem *parent = nullptr;
-	for (unsigned int i = 0; i < m_eventPage->event_commands.size(); i++)
-	{
-		const lcf::rpg::EventCommand& command = m_eventPage->event_commands[i];
-		using Cmd = lcf::rpg::EventCommand::Code;
-		auto code = static_cast<Cmd>(command.code);
-
-		QTreeWidgetItem *item = new QTreeWidgetItem({Stringizer::stringize(command),
-													 QString::number(m_codeGen)});
-		item->setToolTip(0, tr("Line") + ": " + QString::number(m_codeGen+1));
-		item->setData(0, Qt::UserRole, QVariant::fromValue(static_cast<void*>(&m_eventPage->event_commands[i])));
-
-		if (code == Cmd::ShowChoiceOption && command.parameters[0] != 0)
-			parent = parent->parent();
-		if (code == Cmd::ShowChoiceEnd)
-		{
-			parent = parent->parent()->parent();
-			continue;
-		}
-		if (parent)
-		{
-			switch (code)
-			{
-			case (Cmd::ShowChoiceEnd):
-			case (Cmd::EndBranch):
-			case (Cmd::EndLoop):
-			case (Cmd::EndBranch_B):
-				parent = parent->parent();
-			}
-			if (!parent)
-				ui->treeCommands->addTopLevelItem(item);
-			else
-				parent->addChild(item);
-		}
-		else
-			ui->treeCommands->addTopLevelItem(item);
-		switch (code)
-		{
-		case (Cmd::ShowChoice):
-		case (Cmd::ConditionalBranch):
-		case (Cmd::Loop):
-		case (Cmd::ConditionalBranch_B):
-		case (Cmd::ShowChoiceOption):
-		case (Cmd::ElseBranch):
-		case (Cmd::ElseBranch_B):
-			parent = item;
-			break;
-		}
-		m_codeGen++;
-	}
-	ui->treeCommands->expandAll();
+	ui->commands->setData(eventPage);
 }
-
 
 void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 {
@@ -184,10 +133,10 @@ void EventPageWidget::on_checkSwitchA_toggled(bool checked)
 		return;
 	if (checked) {
 		int switchId = m_eventPage->condition.switch_a_id-1;
-		ui->lineSwitchA->setText(formatSwitchCondition(switchId));
+		//ui->lineSwitchA->setText(formatSwitchCondition(switchId));
 	}
 	else {
-		ui->lineSwitchA->setText("");
+		//ui->lineSwitchA->setText("");
 	}
 	m_eventPage->condition.flags.switch_a = checked;
 }
@@ -198,10 +147,10 @@ void EventPageWidget::on_checkSwitchB_toggled(bool checked)
 		return;
 	if (checked) {
 		int switchId = m_eventPage->condition.switch_b_id-1;
-		ui->lineSwitchB->setText(formatSwitchCondition(switchId));
+		//ui->lineSwitchB->setText(formatSwitchCondition(switchId));
 	}
 	else {
-		ui->lineSwitchB->setText("");
+		//ui->lineSwitchB->setText("");
 	}
 	m_eventPage->condition.flags.switch_b = checked;
 }
@@ -210,7 +159,7 @@ void EventPageWidget::on_checkVar_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
-	if (checked) {
+	/*if (checked) {
 		int varId = m_eventPage->condition.variable_id;
 		if (varId >= 1 && varId <= static_cast<int>(core().project()->database().variables.size())) {
 			ui->lineVar->setText(QString("%1: %2").arg(varId)
@@ -223,7 +172,7 @@ void EventPageWidget::on_checkVar_toggled(bool checked)
 	}
 	else {
 		ui->lineVar->setText("");
-	}
+	}*/
 	m_eventPage->condition.flags.variable = checked;
 }
 
@@ -379,8 +328,6 @@ void EventPageWidget::on_pushSetSprite_clicked()
 	}
 }
 
-
-
 void EventPageWidget::updateGraphic()
 {
 	if (m_eventPage->character_name.empty())
@@ -405,38 +352,4 @@ void EventPageWidget::updateGraphic()
 		m_charaItem->setVisible(true);
 		m_scene->setSceneRect(0,0,48,64);
 	}
-}
-
-void EventPageWidget::on_treeCommands_doubleClicked(const QModelIndex &index)
-{
-	auto &cmd = *static_cast<lcf::rpg::EventCommand*>(index.data(Qt::UserRole).value<void*>());
-
-	QDialog *dialog = nullptr;
-	using Cmd = lcf::rpg::EventCommand::Code;
-	switch (static_cast<Cmd>(cmd.code))
-	{
-		case Cmd::ChangeGold: dialog = new ChangeMoneyWidgetWidget(this, cmd); break;
-		case Cmd::ChangeItems: dialog = new ChangeItemWidget(this, cmd); break;
-		case Cmd::ChangePartyMembers: dialog = new ChangePartyWidget(this, cmd); break;
-		case Cmd::ChangeExp: dialog = new ChangeExperienceWidget(this, cmd); break;
-		case Cmd::ChangeFaceGraphic: dialog = new FaceGraphicsWidget(this, cmd); break;
-		case Cmd::InputNumber: dialog = new InputNumberWidget(this, cmd); break;
-		case Cmd::MessageOptions: dialog = new MessageOptionsWidget(this, cmd); break;
-		case Cmd::ShowChoice: dialog = new ShowChoicesWidget(this, cmd); break;
-		case Cmd::ShowMessage: dialog = new ShowMessageWidget(this, cmd); break;
-		case Cmd::ControlSwitches: dialog = new SwitchOperationsWidget(this, cmd); break;
-		case Cmd::ControlVars: dialog = new VariableOperationsWidget(this, cmd); break;
-	}
-
-
-	if (!dialog)
-	{
-		QMessageBox::warning(this, "", "This command is not implemented yet.");
-		return;
-	}
-
-	dialog->exec();
-	delete dialog;
-
-	ui->treeCommands->currentItem()->setData(0, Qt::DisplayRole, Stringizer::stringize(cmd));
 }

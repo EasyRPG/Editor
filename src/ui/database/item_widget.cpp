@@ -17,6 +17,7 @@
 
 #include "item_widget.h"
 #include "ui_item_widget.h"
+#include "common/lcf_widget_binding.h"
 
 ItemWidget::ItemWidget(lcf::rpg::Database &database, QWidget *parent) :
 	QWidget(parent),
@@ -24,6 +25,10 @@ ItemWidget::ItemWidget(lcf::rpg::Database &database, QWidget *parent) :
 	m_data(database)
 {
 	ui->setupUi(this);
+
+	LcfWidgetBinding::connect(this, ui->lineName);
+	LcfWidgetBinding::connect<decltype(lcf::rpg::Item::price)>(this, ui->spinPrice);
+	LcfWidgetBinding::connect(this, ui->lineDescription);
 }
 
 ItemWidget::~ItemWidget()
@@ -33,5 +38,9 @@ ItemWidget::~ItemWidget()
 
 void ItemWidget::setData(lcf::rpg::Item* item)
 {
+	m_current = item ? item : &m_dummy;
 
+	LcfWidgetBinding::bind(ui->lineName, m_current->name);
+	LcfWidgetBinding::bind(ui->spinPrice, m_current->price);
+	LcfWidgetBinding::bind(ui->lineDescription, m_current->description);
 }

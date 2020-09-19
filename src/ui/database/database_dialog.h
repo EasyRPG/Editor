@@ -38,6 +38,8 @@
 #include "system_widget.h"
 #include "system2_widget.h"
 #include "common_event_widget.h"
+#include "switch_widget.h"
+#include "variable_widget.h"
 #include "core.h"
 #include "ui/common/rpg_model.h"
 
@@ -94,6 +96,9 @@ private:
 	SystemWidget *pageSystem;
 	System2Widget *pageSystem2;
 	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
+	DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget> *pageSwitches;
+	DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget> *pageVariables;
 	lcf::rpg::Database& m_data;
+	lcf::rpg::Database m_dataCopy;
 };
 

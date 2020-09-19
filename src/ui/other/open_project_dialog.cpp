@@ -33,6 +33,7 @@ OpenProjectDialog::OpenProjectDialog(QWidget *parent) :
 	setModal(true);
 	ui->setupUi(this);
 	ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	ui->tableProjects->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 OpenProjectDialog::~OpenProjectDialog()

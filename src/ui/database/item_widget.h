@@ -30,12 +30,14 @@ class ItemWidget : public QWidget
 
 public:
 	explicit ItemWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~ItemWidget();
+	~ItemWidget() override;
 
 	void setData(lcf::rpg::Item* item);
 
 private:
 	Ui::ItemWidget *ui;
 	lcf::rpg::Database &m_data;
+	lcf::rpg::Item *m_current = nullptr;
+	lcf::rpg::Item m_dummy;
 };
 

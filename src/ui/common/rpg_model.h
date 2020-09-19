@@ -17,75 +17,48 @@
 
 #pragma once
 
-#include <QObject>
-#include <QAbstractItemModel>
+#include <QAbstractListModel>
+#include <QPixmap>
+#include <QMessageBox>
+
+#include <lcf/rpg/database.h>
 #include "core.h"
 #include "common/dbstring.h"
-#include <lcf/data.h>
+#include "common/filefinder.h"
+#include "common/image_loader.h"
+#include "model/rpg_factory.h"
+#include "ui/common/widget_as_dialog_wrapper.h"
+#include "ui/common/faceset_item.h"
+#include "ui/database/actor_widget.h"
+#include "ui/database/item_widget.h"
 
-template <class DATA>
+template <class T>
 class RpgModel : public QAbstractListModel
 {
 public:
-	RpgModel(QObject *parent = nullptr) : QAbstractListModel(parent), _data(DATA()()) {}
-	virtual ~RpgModel() {}
-	virtual int rowCount(const QModelIndex & = QModelIndex()) const override { return _data.size(); }
-	virtual QVariant data(const QModelIndex &index, int role) const override;
-
-	typedef decltype(DATA()()) type;
-	typedef DATA typestruct;
+	RpgModel(lcf::rpg::Database& db, std::vector<T>& data, QObject *parent = nullptr) :
+			QAbstractListModel(parent), m_database(db), m_data(data) {}
+	int rowCount(const QModelIndex& = QModelIndex()) const override { return m_data.size(); }
+	QVariant data(const QModelIndex &index, int role) const override;
 
 private:
-	decltype(DATA()()) _data;
+	lcf::rpg::Database& m_database;
+	std::vector<T>& m_data;
 };
 
-template <class DATA>
-QVariant RpgModel<DATA>::data(const QModelIndex &index, int role) const
+template <class T>
+QVariant RpgModel<T>::data(const QModelIndex &index, int role) const
 {
-	if (!index.isValid())
+	if (!index.isValid()) {
 		return QVariant();
-	else if (role == Qt::DisplayRole || role == Qt::EditRole)
-	{
-		if (index.row() == 0)
-		{
-			return QString("=== EDIT ===");
-		}
-		else
-		{
-			auto data = _data[index.row()-1];
-			return QString("%1: %2").arg(data.ID).arg(ToQString(data.name));
-		}
+	} else if (role == Qt::DisplayRole || role == Qt::EditRole) {
+		auto data = m_data[index.row()];
+		return QString("%1: %2").arg(data.ID, 4, 10, QChar('0')).arg(ToQString(data.name));
+	} else if (role == Qt::DecorationRole) {
+		return RpgFactory::Create(m_data[index.row()], m_database).preview();
+	} else if (role == Qt::UserRole) {
+		return m_data[index.row()].ID;
 	}
-	else if (role == Qt::UserRole)
-		if (index.row() > 0)
-			return _data[index.row()-1].ID;
 
 	return QVariant();
 }
-
-
-
-
-#define VARSTRUCT(STRUCTNAME, VARNAME) \
-	namespace detail { struct STRUCTNAME { decltype(core().project()->database().VARNAME) operator()() const { return core().project()->database().VARNAME; } }; } \
-	using  STRUCTNAME##RpgModel = RpgModel<detail::STRUCTNAME>;
-
-VARSTRUCT(Actor, actors)
-VARSTRUCT(Skill, skills)
-VARSTRUCT(Item, items)
-VARSTRUCT(Enemy, enemies)
-VARSTRUCT(Troop, troops)
-VARSTRUCT(Terrain, terrains)
-VARSTRUCT(Attribute, attributes)
-VARSTRUCT(State, states)
-VARSTRUCT(Animation, animations)
-VARSTRUCT(Chipset, chipsets)
-VARSTRUCT(CommonEvent, commonevents)
-//BattleCommands ?!
-VARSTRUCT(Class, classes)
-VARSTRUCT(BattlerAnimation, battleranimations)
-VARSTRUCT(Switch, switches)
-VARSTRUCT(Variable, variables)
-
-#undef VARSTRUCT
-

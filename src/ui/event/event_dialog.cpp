@@ -24,9 +24,10 @@
 #include "common/dbstring.h"
 
 
-EventDialog::EventDialog(QWidget *parent) :
+EventDialog::EventDialog(lcf::rpg::Database& database, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::EventDialog)
+	ui(new Ui::EventDialog),
+	m_database(database)
 {
 	ui->setupUi(this);
 	lst_result = QDialogButtonBox::Cancel;
@@ -45,13 +46,13 @@ EventDialog::~EventDialog()
 	delete ui;
 }
 
-int EventDialog::edit(QWidget *parent, lcf::rpg::Event *event)
+int EventDialog::edit(QWidget *parent, lcf::rpg::Event& event, lcf::rpg::Database& database)
 {
-	EventDialog dlg(parent);
+	EventDialog dlg(database, parent);
 	dlg.setEvent(event);
 	dlg.exec();
 	if (dlg.lst_result != QDialogButtonBox::Cancel)
-		*event = dlg.getEvent();
+		event = dlg.getEvent();
 	return dlg.lst_result;
 }
 
@@ -131,16 +132,16 @@ lcf::rpg::Event EventDialog::getEvent() const
 	return r_event;
 }
 
-void EventDialog::setEvent(lcf::rpg::Event *event)
+void EventDialog::setEvent(lcf::rpg::Event& event)
 {
-	m_event = *event;
-	r_event = *event;
+	m_event = event;
+	r_event = event;
 	ui->lineName->setText(ToQString(m_event.name));
 	this->setWindowTitle(QString("EV: %1").arg(m_event.ID));
 	ui->tabEventPages->clear();
 	for (unsigned int i = 0; i < m_event.pages.size(); i++)
 	{
-		EventPageWidget *tab = new EventPageWidget(this);
+		EventPageWidget *tab = new EventPageWidget(m_database, this);
 		tab->setEventPage(&(m_event.pages[i]));
 		ui->tabEventPages->addTab(tab,QString::number(i+1));
 	}

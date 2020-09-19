@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>639</width>
-    <height>484</height>
+    <width>949</width>
+    <height>812</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,19 +42,22 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="lineSwitchA">
-          <property name="enabled">
-           <bool>false</bool>
+         <widget class="SwitchRpgComboBox" name="comboSwitchA">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QToolButton" name="toolSwitchA">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>...</string>
+        <item row="1" column="1">
+         <widget class="SwitchRpgComboBox" name="comboSwitchB">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </item>
@@ -62,23 +65,6 @@
          <widget class="QCheckBox" name="checkSwitchB">
           <property name="text">
            <string>Switch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="lineSwitchB">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QToolButton" name="toolSwitchB">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>...</string>
           </property>
          </widget>
         </item>
@@ -90,19 +76,12 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineVar">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QToolButton" name="toolVar">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>...</string>
+         <widget class="VariableRpgComboBox" name="comboVariable">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </item>
@@ -184,12 +163,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboItem">
+         <widget class="ItemRpgComboBox" name="comboItem">
           <property name="enabled">
            <bool>false</bool>
           </property>
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>1</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -208,12 +187,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboHero">
+         <widget class="ActorRpgComboBox" name="comboHero">
           <property name="enabled">
            <bool>false</bool>
           </property>
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>1</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -302,21 +281,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_11">
       <item>
-       <widget class="QTreeWidget" name="treeCommands">
-        <property name="textElideMode">
-         <enum>Qt::ElideNone</enum>
-        </property>
-        <column>
-         <property name="text">
-          <string>Command</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Id</string>
-         </property>
-        </column>
-       </widget>
+       <widget class="EventCommandsWidget" name="commands" native="true"/>
       </item>
      </layout>
     </widget>
@@ -694,104 +659,36 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>EventCommandsWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/event/event_commands_widget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SwitchRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>ui/common/rpg_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VariableRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>ui/common/rpg_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ActorRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>ui/common/rpg_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ItemRpgComboBox</class>
+   <extends>QComboBox</extends>
+   <header>ui/common/rpg_combobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>checkSwitchA</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineSwitchA</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>36</x>
-     <y>35</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>128</x>
-     <y>35</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkSwitchB</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineSwitchB</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>54</x>
-     <y>52</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>125</x>
-     <y>59</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkVar</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineVar</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>34</x>
-     <y>79</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>137</x>
-     <y>86</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkVar</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>toolVar</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>61</x>
-     <y>84</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>292</x>
-     <y>89</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkSwitchB</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>toolSwitchB</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>61</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>62</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkSwitchA</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>toolSwitchA</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>59</x>
-     <y>34</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>293</x>
-     <y>34</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>checkVar</sender>
    <signal>toggled(bool)</signal>

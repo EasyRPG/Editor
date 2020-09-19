@@ -17,14 +17,15 @@
 
 #include "sortfilter_proxy_models.h"
 
-SortFilterProxyModelIndexFilter::SortFilterProxyModelIndexFilter(const std::vector<int>& indices) :
+SortFilterProxyModelIdFilter::SortFilterProxyModelIdFilter(const std::vector<int>& indices) :
 		QSortFilterProxyModel() {
 	this->indices = indices;
 	std::sort(this->indices.begin(), this->indices.end());
 }
 
-bool SortFilterProxyModelIndexFilter::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const {
-	Q_UNUSED(sourceParent)
+bool SortFilterProxyModelIdFilter::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const {
+	QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
+	int val = sourceModel()->data(index, Qt::UserRole).toInt();
 
-	return std::binary_search(this->indices.begin(), this->indices.end(), sourceRow);
+	return std::binary_search(this->indices.begin(), this->indices.end(), val);
 }

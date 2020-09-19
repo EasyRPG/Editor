@@ -18,6 +18,9 @@
 #pragma once
 
 #include <QWidget>
+#include <QPoint>
+#include <QAction>
+#include <QMenu>
 #include <lcf/rpg/database.h>
 #include "ui/common/rpg_model.h"
 #include "actor_widget.h"
@@ -34,7 +37,9 @@
 #include "state_widget.h"
 #include "terrain_widget.h"
 #include "ui_database_split_widget.h"
-#include "model/list_model.h"
+#include "ui/common/rpg_model.h"
+#include "ui/common/widget_as_dialog_wrapper.h"
+#include "model/rpg_base.h"
 
 namespace Ui {
 class DatabaseSplitWidget;
@@ -58,7 +63,7 @@ class DatabaseSplitWidget : public DatabaseSplitWidgetBase {
 public:
 	explicit DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget *parent = nullptr);
 
-	QWidget* listWidget() {
+	QListView* listWidget() {
 		return ui->list;
 	}
 	U* contentWidget() {
@@ -76,12 +81,35 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 		db(database), DatabaseSplitWidgetBase(parent)
 {
 	m_contentWidget = new U(db, this);
-	ui->list->setModel(new ListModel<T>(data));
+	QListView& list = *ui->list;
+
+	list.setModel(new RpgModel<T>(database, data));
 	ui->splitter->addWidget(m_contentWidget);
 	ui->splitter->setStretchFactor(0, 1);
 	ui->splitter->setStretchFactor(1, 4);
 
-	connect(ui->list, &QListView::activated, this, [&](const QModelIndex &index) {
+	list.setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(list.selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &index) {
 		m_contentWidget->setData(&data[index.row()]);
 	});
+
+	connect(&list, &QListView::customContextMenuRequested, this, [&](const QPoint& pos) {
+		QModelIndex index = list.indexAt(pos);
+		if (index.row() == -1) {
+			return;
+		}
+
+		auto* editAct = new QAction("Edit...", &list);
+
+		connect(editAct, &QAction::triggered, &list, [&]{
+			RpgFactory::Create(data[index.row()], database).edit(this)->show();
+		});
+
+		QMenu menu(&list);
+		menu.addAction(editAct);
+
+		menu.exec(mapToGlobal(pos));
+	});
+
 }

@@ -30,12 +30,14 @@ class EnemyGroupWidget : public QWidget
 
 public:
 	explicit EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
-	~EnemyGroupWidget();
+	~EnemyGroupWidget() override;
 
 	void setData(lcf::rpg::Troop* troop);
 
 private:
 	Ui::EnemyGroupWidget *ui;
 	lcf::rpg::Database &m_data;
+	lcf::rpg::Troop m_dummy;
+	lcf::rpg::Troop* m_current = nullptr;
 };
 

@@ -17,15 +17,30 @@
 
 #include "actor.h"
 #include <lcf/rpg/item.h>
-#include <lcf/reader_util.h>
-
+#include "ui/database/actor_widget.h"
+#include "common/dbstring.h"
 #include "common/sortfilter_proxy_models.h"
 
-#include <QSortFilterProxyModel>
+Actor::Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database) :
+	actor(actor), database(database) {
 
-Actor::Actor(lcf::rpg::Actor& actor, Project& project) :
-	actor(actor), project(project) {
+}
 
+lcf::rpg::Actor& Actor::data() {
+	return actor;
+}
+
+QPixmap Actor::preview() {
+	QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", ToQString(actor.face_name), FileFinder::FileType::Image));
+
+	int x = (actor.face_index % 4) * 48;
+	int y = (actor.face_index / 4) * 48;
+
+	return faceSet.copy(x, y, 48, 48);
+}
+
+QDialog* Actor::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<ActorWidget, lcf::rpg::Actor>(database, actor, parent);
 }
 
 bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
@@ -51,19 +66,13 @@ bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
 QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 	std::vector<int> indices;
 
-	for (size_t i = 0; i < project.database().items.size(); ++i) {
-		const lcf::rpg::Item& item = *lcf::ReaderUtil::GetElement(project.database().items, i + 1);
-
+	for (const auto& item : database.items) {
 		if (item.type != type || !IsItemUsable(item)) {
 			continue;
 		}
 
-		indices.push_back(i);
+		indices.push_back(item.ID);
 	}
 
-	return new SortFilterProxyModelIndexFilter(indices);
-}
-
-lcf::rpg::Actor& Actor::data() {
-	return actor;
+	return new SortFilterProxyModelIdFilter(indices);
 }

@@ -23,6 +23,7 @@ class SignalBlocker {
 public:
 	SignalBlocker(QWidget* item) {
 		items = {item};
+		item->blockSignals(true);
 	}
 
 	SignalBlocker(std::initializer_list<QWidget*> items) {

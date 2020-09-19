@@ -23,6 +23,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QGraphicsScene>
 #include <lcf/rpg/eventcommand.h>
+#include <lcf/rpg/database.h>
 #include "ui/common/charset_item.h"
 #include "ui/other/splash_dialog.h"
 #include <QProgressBar>
@@ -37,8 +38,8 @@ class EventPageWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit EventPageWidget(QWidget *parent = nullptr);
-	~EventPageWidget();
+	explicit EventPageWidget(lcf::rpg::Database& database, QWidget *parent = nullptr);
+	~EventPageWidget() override;
 
 	lcf::rpg::EventPage *eventPage() const;
 	void setEventPage(lcf::rpg::EventPage *eventPage);
@@ -92,18 +93,16 @@ private slots:
 
 	void on_pushSetSprite_clicked();
 
-	void on_treeCommands_doubleClicked(const QModelIndex &index);
-
 private:
 
 	void updateGraphic();
 
 	Ui::QEventWidget *ui;
-	lcf::rpg::EventPage *m_eventPage;
-	QGraphicsPixmapItem *m_tileItem;
-	CharSetItem *m_charaItem;
-	QGraphicsScene *m_scene;
-	QGraphicsOpacityEffect *m_effect;
-	int m_codeGen;
+	lcf::rpg::Database& m_database;
+	lcf::rpg::EventPage *m_eventPage = nullptr;
+	QGraphicsPixmapItem *m_tileItem = nullptr;
+	CharSetItem *m_charaItem = nullptr;
+	QGraphicsScene *m_scene = nullptr;
+	QGraphicsOpacityEffect *m_effect = nullptr;
 };
 

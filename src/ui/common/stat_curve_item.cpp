@@ -53,7 +53,7 @@ void CurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	painter->fillRect(r, Qt::black);
 	painter->setBrush(QBrush(m_color));
 	painter->drawPolygon(QPolygonF(p));
-	painter->setPen(QPen(m_color.light()));
+	painter->setPen(QPen(m_color.lighter()));
 	painter->drawPoints(p);
 }
 

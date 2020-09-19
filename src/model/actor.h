@@ -17,18 +17,19 @@
 
 #pragma once
 
-#include "project.h"
+#include <lcf/rpg/database.h>
 #include <lcf/rpg/actor.h>
+#include "rpg_base.h"
 
 class QSortFilterProxyModel;
 
 /**
  * A thin wrapper around lcf::rpg::Actor
  */
-class Actor
+class Actor : public RpgBase
 {
 public:
-	Actor(lcf::rpg::Actor& actor, Project& project);
+	Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database);
 
 	bool IsItemUsable(const lcf::rpg::Item& item) const;
 
@@ -42,8 +43,12 @@ public:
 
 	lcf::rpg::Actor& data();
 
+	QPixmap preview() override;
+
+	QDialog* edit(QWidget* parent = nullptr) override;
+
 private:
 	lcf::rpg::Actor& actor;
-	Project& project;
+	lcf::rpg::Database& database;
 };
 

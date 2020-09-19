@@ -25,11 +25,11 @@
 #include <QSortFilterProxyModel>
 
 /**
- * Filters by a list of indices
+ * Filters by a list of Lcf IDs
  */
-class SortFilterProxyModelIndexFilter : public QSortFilterProxyModel {
+class SortFilterProxyModelIdFilter : public QSortFilterProxyModel {
 public:
-	SortFilterProxyModelIndexFilter(const std::vector<int>& indices);
+	SortFilterProxyModelIdFilter(const std::vector<int>& indices);
 	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
 private:

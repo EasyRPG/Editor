@@ -28,6 +28,7 @@ class QGroupBox;
 #include <QVariant>
 #include <string>
 
+#include "ui/common/rpg_combobox.h"
 #include "signal_blocker.h"
 
 template<class T>
@@ -81,7 +82,7 @@ namespace LcfWidgetBinding {
 	}
 
 	template<typename T>
-	void connect(QWidget* parent, QComboBox* comboBox, bool has_user_role = false) {
+	void connect(QWidget* parent, QComboBox* comboBox) {
 		auto callback = [=](){
 			QVariant variant = comboBox->property("ee_data");
 			if (variant.isNull()) {
@@ -89,14 +90,25 @@ namespace LcfWidgetBinding {
 			}
 
 			auto data = variant.value<LcfObjectHolder<T>>();
-			if (has_user_role) {
-				data.obj() = static_cast<T>(comboBox->itemData(comboBox->currentIndex()).toInt());
-			} else {
-				data.obj() = static_cast<T>(comboBox->currentIndex());
-			}
+			data.obj() = static_cast<T>(comboBox->currentIndex());
 		};
 
 		QWidget::connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
+	}
+
+	template<typename T, typename U>
+	void connect(QWidget* parent, RpgComboBox<U>* comboBox) {
+		auto callback = [=](){
+			QVariant variant = comboBox->property("ee_data");
+			if (variant.isNull()) {
+				return;
+			}
+
+			auto data = variant.value<LcfObjectHolder<T>>();
+			data.obj() = static_cast<T>(comboBox->comboBox()->currentData().toInt());
+		};
+
+		QWidget::connect(comboBox->comboBox(), qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
 	}
 
 	void bind(QLineEdit* widget, lcf::DBString& data);
@@ -114,16 +126,24 @@ namespace LcfWidgetBinding {
 	}
 
 	template<typename T>
-	void bind(QComboBox* widget, T& data, bool has_user_role = false) {
+	void bind(QComboBox* widget, T& data) {
 		QVariant v;
 		LcfObjectHolder oh(data);
 		v.setValue(oh);
 		widget->setProperty("ee_data", v);
-		if (!has_user_role) {
-			// a user role means that the data is filtered, direct mapping not possible.
-			// caller is responsible for setting the proper index
-			SignalBlocker s(widget);
-			widget->setCurrentIndex(data);
-		}
+
+		SignalBlocker s(widget);
+		widget->setCurrentIndex(widget->findData(data));
+	}
+
+	template<typename T, typename U>
+	void bind(RpgComboBox<U>* widget, T& data) {
+		QVariant v;
+		LcfObjectHolder oh(data);
+		v.setValue(oh);
+		widget->setProperty("ee_data", v);
+
+		SignalBlocker s(widget->comboBox());
+		widget->setCurrentIndex(widget->comboBox()->findData(data));
 	}
 }

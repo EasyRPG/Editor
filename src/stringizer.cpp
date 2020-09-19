@@ -1577,7 +1577,7 @@ namespace Stringizer
 		case C::Comment_2:				 return stringizeComment_2(com);
 		case C::ElseBranch_B:			 return tr("Else");
 		case C::EndBranch_B:			 return tr("End");
-		default:						 return tr("Unknown Command");
+		default:						 return tr(QString("Unknown Command %1").arg(com.code).toUtf8());
 		}
 	}
 }

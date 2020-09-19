@@ -32,24 +32,28 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->setupUi(this);
 	on_currentActorChanged(nullptr);
 
-	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget>(m_data, m_data.actors, this);
-	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class, ClassWidget>(m_data, m_data.classes, this);
-	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget>(m_data, m_data.skills, this);
-	pageItems = new DatabaseSplitWidget<lcf::rpg::Item, ItemWidget>(m_data, m_data.items, this);
-	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget>(m_data, m_data.enemies, this);
-	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget>(m_data, m_data.troops, this);
-	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget>(m_data, m_data.attributes, this);
-	pageStates = new DatabaseSplitWidget<lcf::rpg::State, StateWidget>(m_data, m_data.states, this);
-	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget>(m_data, m_data.animations, this);
-	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget>(m_data, m_data.battleranimations, this);
-	pageBattleScreen = new BattleScreenWidget(core().project()->database(), this);
-	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_data, m_data.terrains, this);
-	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_data, m_data.chipsets, this);
-	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_data, m_data.commonevents, this);
+	m_dataCopy = m_data;
 
-	pageVocabulary= new VocabularyWidget(m_data, this);
-	pageSystem = new SystemWidget(m_data, this);
-	pageSystem2  = new System2Widget(m_data, this);
+	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget>(m_dataCopy, m_dataCopy.actors, this);
+	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class, ClassWidget>(m_dataCopy, m_dataCopy.classes, this);
+	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget>(m_dataCopy, m_dataCopy.skills, this);
+	pageItems = new DatabaseSplitWidget<lcf::rpg::Item, ItemWidget>(m_dataCopy, m_dataCopy.items, this);
+	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget>(m_dataCopy, m_dataCopy.enemies, this);
+	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget>(m_dataCopy, m_dataCopy.troops, this);
+	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget>(m_dataCopy, m_dataCopy.attributes, this);
+	pageStates = new DatabaseSplitWidget<lcf::rpg::State, StateWidget>(m_dataCopy, m_dataCopy.states, this);
+	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget>(m_dataCopy, m_dataCopy.animations, this);
+	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget>(m_dataCopy, m_dataCopy.battleranimations, this);
+	pageBattleScreen = new BattleScreenWidget(m_dataCopy, this);
+	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_dataCopy, m_dataCopy.terrains, this);
+	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_dataCopy, m_dataCopy.chipsets, this);
+	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_dataCopy, m_dataCopy.commonevents, this);
+	pageSwitches = new DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget>(m_dataCopy, m_dataCopy.switches, this);
+	pageVariables = new DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget>(m_dataCopy, m_dataCopy.variables, this);
+
+	pageVocabulary= new VocabularyWidget(m_dataCopy, this);
+	pageSystem = new SystemWidget(m_dataCopy, this);
+	pageSystem2  = new System2Widget(m_dataCopy, this);
 	ui->tabOld_Pages->insertTab(0, pageActors, tr("Characters"));
 	ui->tabOld_Pages->insertTab(1, pageClasses, tr("Professions"));
 	ui->tabOld_Pages->insertTab(2, pageSkills, tr("Skills"));
@@ -67,6 +71,8 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->tabOld_Pages->insertTab(14, pageSystem, tr("System"));
 	ui->tabOld_Pages->insertTab(15, pageSystem2, tr("System"));
 	ui->tabOld_Pages->insertTab(16, pageCommonevents, tr("Common events"));
+	ui->tabOld_Pages->insertTab(17, pageSwitches, tr("Switches"));
+	ui->tabOld_Pages->insertTab(19, pageVariables, tr("Variables"));
 
 	ui->tabOld_Pages->setCurrentWidget(pageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
@@ -109,9 +115,9 @@ void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 	ui->tableNew_CharacterProperties->item(8,1)->setText(actor->auto_battle ? yes :no);
 	ui->tableNew_CharacterProperties->item(9,1)->setText(actor->super_guard ? yes :no);
 	ui->tableNew_CharacterProperties->item(10,1)->setText(actor->class_id < 1 ? tr("<none>") :
-														  actor->class_id >= static_cast<int>(m_data.classes.size()) ?
+														  actor->class_id >= static_cast<int>(m_dataCopy.classes.size()) ?
 														  tr("<%1?>").arg(actor->class_id) :
-														  m_data.classes[static_cast<size_t>(actor->class_id)-1].name.c_str());
+														  m_dataCopy.classes[static_cast<size_t>(actor->class_id)-1].name.c_str());
 	ui->tableNew_CharacterProperties->item(11,1)->setText(QString("%1[%2]")
 														  .arg(actor->face_name.c_str())
 														  .arg(actor->face_index));
@@ -120,9 +126,9 @@ void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
 														  .arg(actor->character_index)
 														  .arg(actor->transparent ? " [Transparent]" : ""));
 	ui->tableNew_CharacterProperties->item(13,1)->setText(actor->battler_animation < 1 ? tr("<none>") :
-														  actor->battler_animation >= static_cast<int>(m_data.battleranimations.size()) ?
+														  actor->battler_animation >= static_cast<int>(m_dataCopy.battleranimations.size()) ?
 														  tr("<%1?>").arg(actor->battler_animation) :
-														  m_data.battleranimations[static_cast<size_t>(actor->battler_animation) - 1].name.c_str());
+														  m_dataCopy.battleranimations[static_cast<size_t>(actor->battler_animation) - 1].name.c_str());
 
 	/* TODO: fill the following information */
 	ui->tableNew_CharacterProperties->item(14,1)->setText("Click to Edit");
@@ -164,9 +170,11 @@ void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 	{
 		// Standard buttons:
 		case QDialogButtonBox::Apply:
-		case QDialogButtonBox::Ok:
+		case QDialogButtonBox::Ok: {
+			m_data = m_dataCopy;
 			lcf::LDB_Reader::PrepareSave(m_data);
 			core().project()->saveDatabase();
+		}
 		break;
 		default:
 			// shouldn't happen
@@ -186,13 +194,13 @@ void DatabaseDialog::on_lineNew_CharacterFilter_textChanged(const QString &arg1)
 
 void DatabaseDialog::on_listNew_Character_currentRowChanged(int currentRow)
 {
-	if (currentRow < 0 || currentRow >= static_cast<int>(m_data.actors.size()))
+	if (currentRow < 0 || currentRow >= static_cast<int>(m_dataCopy.actors.size()))
 	{
 		on_currentActorChanged(nullptr);
 		emit currentActorChanged(nullptr);
 		return; //invalid
 	}
 
-	on_currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
-	emit currentActorChanged(&m_data.actors[static_cast<size_t>(currentRow)]);
+	on_currentActorChanged(&m_dataCopy.actors[static_cast<size_t>(currentRow)]);
+	emit currentActorChanged(&m_dataCopy.actors[static_cast<size_t>(currentRow)]);
 }

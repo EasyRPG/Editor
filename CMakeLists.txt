@@ -29,9 +29,39 @@ add_library(${PROJECT_NAME} STATIC
 	src/main.cpp
 	src/model/actor.cpp
 	src/model/actor.h
-	src/model/list_model.h
+	src/model/animation.cpp
+	src/model/animation.h
+	src/model/attribute.cpp
+	src/model/attribute.h
+	src/model/battleranimation.cpp
+	src/model/battleranimation.h
+	src/model/chipset.cpp
+	src/model/chipset.h
+	src/model/class.cpp
+	src/model/class.h
+	src/model/commonevent.cpp
+	src/model/commonevent.h
+	src/model/enemy.cpp
+	src/model/enemy.h
+	src/model/item.cpp
+	src/model/item.h
 	src/model/project.cpp
 	src/model/project.h
+	src/model/rpg_base.cpp
+	src/model/rpg_base.h
+	src/model/rpg_factory.h
+	src/model/skill.cpp
+	src/model/skill.h
+	src/model/state.cpp
+	src/model/state.h
+	src/model/switch.cpp
+	src/model/switch.h
+	src/model/terrain.cpp
+	src/model/terrain.h
+	src/model/troop.cpp
+	src/model/troop.h
+	src/model/variable.cpp
+	src/model/variable.h
 	src/stringizer.cpp
 	src/stringizer.h
 	src/ui/commands/all_commands.h
@@ -97,6 +127,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/rpg_model.h
 	src/ui/common/stat_curve_item.cpp
 	src/ui/common/stat_curve_item.h
+	src/ui/common/widget_as_dialog_wrapper.h
 	src/ui/database/actor_delegate.cpp
 	src/ui/database/actor_delegate.h
 	src/ui/database/actor_widget.cpp
@@ -144,6 +175,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/state_widget.cpp
 	src/ui/database/state_widget.h
 	src/ui/database/state_widget.ui
+	src/ui/database/switch_widget.cpp
+	src/ui/database/switch_widget.h
+	src/ui/database/switch_widget.ui
 	src/ui/database/system2_widget.cpp
 	src/ui/database/system2_widget.h
 	src/ui/database/system2_widget.ui
@@ -153,15 +187,26 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/database/terrain_widget.cpp
 	src/ui/database/terrain_widget.h
 	src/ui/database/terrain_widget.ui
+	src/ui/database/variable_widget.cpp
+	src/ui/database/variable_widget.h
+	src/ui/database/variable_widget.ui
 	src/ui/database/vocabulary_widget.cpp
 	src/ui/database/vocabulary_widget.h
 	src/ui/database/vocabulary_widget.ui
+	src/ui/event/battle_page_widget.cpp
+	src/ui/event/battle_page_widget.h
+	src/ui/event/battle_page_widget.ui
+	src/ui/event/event_commands_widget.cpp
+	src/ui/event/event_commands_widget.h
 	src/ui/event/event_dialog.cpp
 	src/ui/event/event_dialog.h
 	src/ui/event/event_dialog.ui
 	src/ui/event/event_page_widget.cpp
 	src/ui/event/event_page_widget.h
 	src/ui/event/event_page_widget.ui
+	src/ui/event/event_raw_widget.cpp
+	src/ui/event/event_raw_widget.h
+	src/ui/event/event_raw_widget.ui
 	src/ui/main_window.cpp
 	src/ui/main_window.h
 	src/ui/main_window.ui
@@ -240,11 +285,38 @@ find_package(Qt5Core REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(ZLIB REQUIRED)
-find_package(liblcf REQUIRED)
+# liblcf
+option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
+set(EDITOR_BUILD_LIBLCF_GIT "https://github.com/EasyRPG/liblcf.git" CACHE STRING "Git repository of liblcf to clone when building liblcf. Requires EDITOR_BUILD_LIBLCF=ON.")
+
+if(EDITOR_BUILD_LIBLCF)
+	# liblcf is built as part of this cmake file
+	set(LIBLCF_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/liblcf")
+	if(NOT EXISTS ${LIBLCF_PATH})
+		find_package(Git REQUIRED)
+		execute_process(COMMAND ${GIT_EXECUTABLE} clone "--depth=1"
+			"${EDITOR_BUILD_LIBLCF_GIT}"
+			"${LIBLCF_PATH}")
+	endif()
+	list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/liblcf/builds/cmake/Modules")
+
+	option(BUILD_SHARED_LIBS "Not used. Supresses CMP0077 in liblcf" ON)
+
+	# Always build static liblcf
+	function(add_liblcf)
+		set(BUILD_SHARED_LIBS OFF)
+		add_subdirectory(${LIBLCF_PATH})
+	endfunction()
+	add_liblcf()
+	target_link_libraries(${PROJECT_NAME} lcf)
+else()
+	# Use system package
+	find_package(liblcf REQUIRED)
+	target_link_libraries(${PROJECT_NAME} liblcf::liblcf)
+endif()
 
 # Libraries
 target_link_libraries(${PROJECT_NAME}
-	liblcf::liblcf
 	ZLIB::ZLIB
 	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia
 )
