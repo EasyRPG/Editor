@@ -111,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	searchdialog(new SearchDialog(this))
 {
 	ui->setupUi(this);
+	refreshIcons();
+
 	// Hide map ids
 	ui->treeMap->hideColumn(1);
 	// Created hardcoded toolbar for palette window.
@@ -141,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	update_actions();
 	core().setRtpDir(m_settings.value(RTP_KEY, QString()).toString());
 	if (core().rtpPath("").isEmpty())
-		on_actionRtp_Path_triggered();
+		on_actionDebugRtpPath_triggered();
 	core().setDefDir(m_settings.value(DEFAULT_DIR_KEY,
 										qApp->applicationDirPath()).toString());
 	updateLayerActions();
@@ -340,7 +342,7 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 
 			box.exec();
 
-			on_action_Close_Project_triggered();
+			on_actionProjectClose_triggered();
 			return;
 		}
 		if (convert_xyz && info.dir().dirName() != MUSIC && info.dir().dirName() != SOUND)
@@ -444,14 +446,14 @@ bool MainWindow::convertXYZtoPNG(QFile &xyz_file, QString out_path)
 	return image.save(out_path, "PNG");
 }
 
-void MainWindow::on_action_Quit_triggered()
+void MainWindow::on_actionQuit_triggered()
 {
 	saveAll();
 //	  this->on_actionJukebox_triggered(true);
 	qApp->quit();
 }
 
-void MainWindow::on_actionPalette_triggered(bool checked)
+void MainWindow::on_actionPaletteToggle_triggered(bool checked)
 {
 	if (checked)
 		ui->dockPalette->show();
@@ -459,7 +461,7 @@ void MainWindow::on_actionPalette_triggered(bool checked)
 		ui->dockPalette->hide();
 }
 
-void MainWindow::on_actionMap_Tree_triggered(bool checked)
+void MainWindow::on_actionMapTreeToggle_triggered(bool checked)
 {
 	if (checked)
 		ui->dockMapTree->show();
@@ -467,12 +469,12 @@ void MainWindow::on_actionMap_Tree_triggered(bool checked)
 		ui->dockMapTree->hide();
 }
 
-void MainWindow::on_actionResource_Manager_triggered()
+void MainWindow::on_actionResourceManager_triggered()
 {
 	dlg_resource->show();
 }
 
-void MainWindow::on_actionData_Base_triggered()
+void MainWindow::on_actionDatabase_triggered()
 {
 	if (dlg_db)
 		delete dlg_db;
@@ -483,71 +485,47 @@ void MainWindow::on_actionData_Base_triggered()
 
 void MainWindow::update_actions()
 {
-	if (!core().project()){
-		ui->actionCircle->setEnabled(false);
-		ui->actionCreate_Game_Disk->setEnabled(false);
-		ui->actionData_Base->setEnabled(false);
-		ui->actionDraw->setEnabled(false);
-		ui->actionFill->setEnabled(false);
-		ui->actionImport_Project->setEnabled(true);
-		ui->actionRectangle->setEnabled(false);
-		ui->actionResource_Manager->setEnabled(false);
-		ui->actionRevert_Map->setEnabled(false);
-		ui->actionScale_1_1->setEnabled(false);
-		ui->actionZoomIn->setEnabled(false);
-		ui->actionZoomOut->setEnabled(false);
-		ui->actionSearch->setEnabled(false);
-		ui->actionUndo->setEnabled(false);
-		ui->actionZoom->setEnabled(false);
-		ui->action_Close_Project->setEnabled(false);
-		ui->action_Events->setEnabled(false);
-		ui->action_Full_Screen->setEnabled(false);
-		ui->action_Lower_Layer->setEnabled(false);
-		ui->action_New_Project->setEnabled(true);
-		ui->action_Open_Project->setEnabled(true);
-		ui->action_Play_Test->setEnabled(false);
-		ui->action_Save_Map->setEnabled(false);
-		ui->action_Script_Editor->setEnabled(false);
-		ui->action_Title_Background->setEnabled(false);
-		ui->action_Upper_Layer->setEnabled(false);
-		ui->actionNew_Map->setEnabled(false);
-		ui->actionMap_Properties->setEnabled(false);
-		ui->actionCopy_Map->setEnabled(false);
-		ui->actionPaste_Map->setEnabled(false);
-		ui->actionDelete_Map->setEnabled(false);
-	} else {
-		ui->actionCircle->setEnabled(true);
-		ui->actionCreate_Game_Disk->setEnabled(true);
-		ui->actionData_Base->setEnabled(true);
-		ui->actionDraw->setEnabled(true);
-		ui->actionFill->setEnabled(true);
-		ui->actionImport_Project->setEnabled(false);
-		ui->actionRectangle->setEnabled(true);
-		ui->actionResource_Manager->setEnabled(true);
-		ui->actionScale_1_1->setEnabled(true);
-		ui->actionZoomIn->setEnabled(true);
-		ui->actionZoomOut->setEnabled(true);
-		ui->actionSearch->setEnabled(true);
-		ui->actionZoom->setEnabled(true);
-		ui->action_Close_Project->setEnabled(true);
-		ui->action_Events->setEnabled(true);
-		ui->action_Full_Screen->setEnabled(true);
-		ui->action_Lower_Layer->setEnabled(true);
-		ui->action_New_Project->setEnabled(false);
-		ui->action_Open_Project->setEnabled(false);
-		ui->action_Play_Test->setEnabled(true);
-		ui->action_Script_Editor->setEnabled(true);
-		ui->action_Title_Background->setEnabled(true);
-		ui->action_Upper_Layer->setEnabled(true);
-		ui->actionNew_Map->setEnabled(true);
-		ui->actionMap_Properties->setEnabled(ui->tabMap->count());
-		ui->actionCopy_Map->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
-		ui->actionPaste_Map->setEnabled(!m_copiedMap.isEmpty());
-		ui->actionDelete_Map->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
-	}
+	bool has_project = core().project() != nullptr;
+
+	ui->actionDrawCircle->setEnabled(has_project);
+	ui->actionGameDiskCreate->setEnabled(has_project);
+	ui->actionDatabase->setEnabled(has_project);
+	ui->actionDrawPen->setEnabled(has_project);
+	ui->actionDrawFill->setEnabled(has_project);
+	ui->actionProjectImport->setEnabled(!has_project);
+	ui->actionDrawRectangle->setEnabled(has_project);
+	ui->actionResourceManager->setEnabled(has_project);
+	ui->actionZoom100->setEnabled(has_project);
+	ui->actionMapRevert->setEnabled(has_project);
+	ui->actionZoomIn->setEnabled(has_project);
+	ui->actionZoomOut->setEnabled(has_project);
+	ui->actionSearch->setEnabled(has_project);
+	ui->actionUndo->setEnabled(has_project);
+	ui->actionZoom->setEnabled(has_project);
+	ui->actionProjectClose->setEnabled(has_project);
+	ui->actionLayerEvents->setEnabled(has_project);
+	ui->actionFullScreenToggle->setEnabled(has_project);
+	ui->actionLayerLower->setEnabled(has_project);
+	ui->actionLayerUpper->setEnabled(has_project);
+	ui->actionProjectNew->setEnabled(!has_project);
+	ui->actionProjectOpen->setEnabled(!has_project);
+	ui->actionPlayTest->setEnabled(has_project);
+	ui->actionMapSave->setEnabled(has_project);
+	ui->actionScriptEditor->setEnabled(has_project);
+	ui->actionTitleBackgroundToggle->setEnabled(has_project);
+	ui->actionMapNew->setEnabled(has_project);
+	ui->actionMapProperties->setEnabled(has_project);
+	ui->actionMapCopy->setEnabled(has_project);
+	ui->actionMapPaste->setEnabled(has_project);
+	ui->actionMapDelete->setEnabled(has_project);
+
+	ui->actionMapProperties->setEnabled(ui->tabMap->count());
+	ui->actionMapCopy->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
+	ui->actionMapPaste->setEnabled(!m_copiedMap.isEmpty());
+	ui->actionMapDelete->setEnabled(ui->treeMap->currentItem() && ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt() != 0);
 }
 
-void MainWindow::on_action_New_Project_triggered() {
+void MainWindow::on_actionProjectNew_triggered() {
 	NewProjectDialog dlg(this);
 	dlg.setDefDir(core().defDir());
 	dlg.exec();
@@ -771,21 +749,21 @@ void MainWindow::removeView(int id)
 
 void MainWindow::updateLayerActions()
 {
-	ui->action_Lower_Layer->setChecked(core().layer() == Core::LOWER);
-	ui->action_Upper_Layer->setChecked(core().layer() == Core::UPPER);
-	ui->action_Events->setChecked(core().layer() == Core::EVENT);
+	ui->actionLayerLower->setChecked(core().layer() == Core::LOWER);
+	ui->actionLayerUpper->setChecked(core().layer() == Core::UPPER);
+	ui->actionLayerEvents->setChecked(core().layer() == Core::EVENT);
 }
 
 void MainWindow::updateToolActions()
 {
 	ui->actionZoom->setChecked(core().tool() == Core::ZOOM);
-	ui->actionDraw->setChecked(core().tool() == Core::PENCIL);
-	ui->actionRectangle->setChecked(core().tool() == Core::RECTANGLE);
-	ui->actionCircle->setChecked(core().tool() == Core::CIRCLE);
-	ui->actionFill->setChecked(core().tool() == Core::FILL);
+	ui->actionDrawPen->setChecked(core().tool() == Core::PENCIL);
+	ui->actionDrawRectangle->setChecked(core().tool() == Core::RECTANGLE);
+	ui->actionDrawCircle->setChecked(core().tool() == Core::CIRCLE);
+	ui->actionDrawFill->setChecked(core().tool() == Core::FILL);
 }
 
-void MainWindow::on_action_Close_Project_triggered()
+void MainWindow::on_actionProjectClose_triggered()
 {
 	m_settings.setValue(CURRENT_PROJECT_KEY, QString());
 	ui->treeMap->clear();
@@ -798,7 +776,7 @@ void MainWindow::on_action_Close_Project_triggered()
 	setWindowTitle("EasyRPG Editor");
 }
 
-void MainWindow::on_action_Open_Project_triggered()
+void MainWindow::on_actionProjectOpen_triggered()
 {
 	OpenProjectDialog dlg(this);
 	dlg.setDefaultDir(core().defDir());
@@ -824,19 +802,19 @@ void MainWindow::on_actionJukebox_triggered(bool disconnect)
 	}
 }
 
-void MainWindow::on_action_Lower_Layer_triggered()
+void MainWindow::on_actionLayerLower_triggered()
 {
 	core().setLayer(Core::LOWER);
 	updateLayerActions();
 }
 
-void MainWindow::on_action_Upper_Layer_triggered()
+void MainWindow::on_actionLayerUpper_triggered()
 {
 	core().setLayer(Core::UPPER);
 	updateLayerActions();
 }
 
-void MainWindow::on_action_Events_triggered()
+void MainWindow::on_actionLayerEvents_triggered()
 {
 	core().setLayer(Core::EVENT);
 	updateLayerActions();
@@ -854,7 +832,7 @@ void MainWindow::on_actionZoomOut_triggered()
 		currentScene()->setScale(currentScene()->scale()/2);
 }
 
-void MainWindow::on_actionScale_1_1_triggered()
+void MainWindow::on_actionZoom100_triggered()
 {
 	currentScene()->setScale(1.0);
 }
@@ -910,12 +888,12 @@ void MainWindow::on_tabMap_currentChanged(int index)
 		core().LoadChipset(currentScene()->chipsetId());
 		core().setCurrentMapEvents(currentScene()->mapEvents());
 		ui->actionUndo->setEnabled(currentScene()->isModified());
-		ui->action_Save_Map->setEnabled(currentScene()->isModified());
-		ui->actionRevert_Map->setEnabled(currentScene()->isModified());
+		ui->actionMapSave->setEnabled(currentScene()->isModified());
+		ui->actionMapRevert->setEnabled(currentScene()->isModified());
 	}
 }
 
-void MainWindow::on_actionImport_Project_triggered()
+void MainWindow::on_actionProjectImport_triggered()
 {
 	ImportProjectDialog dlg(this);
 	dlg.setDefDir(core().defDir());
@@ -948,7 +926,7 @@ void MainWindow::on_actionImport_Project_triggered()
 	update_actions();
 }
 
-void MainWindow::on_actionRtp_Path_triggered()
+void MainWindow::on_actionDebugRtpPath_triggered()
 {
 	RtpPathDialog dlg(this);
 }
@@ -958,43 +936,43 @@ void MainWindow::on_actionZoom_triggered()
 	core().setTool(Core::ZOOM);
 }
 
-void MainWindow::on_actionDraw_triggered()
+void MainWindow::on_actionDrawPen_triggered()
 {
 	core().setTool(Core::PENCIL);
 }
 
-void MainWindow::on_actionRectangle_triggered()
+void MainWindow::on_actionDrawRectangle_triggered()
 {
 	core().setTool(Core::RECTANGLE);
 }
 
-void MainWindow::on_actionCircle_triggered()
+void MainWindow::on_actionDrawCircle_triggered()
 {
 	core().setTool(Core::CIRCLE);
 }
 
-void MainWindow::on_actionFill_triggered()
+void MainWindow::on_actionDrawFill_triggered()
 {
 	core().setTool(Core::FILL);
 }
 
-void MainWindow::on_action_Play_Test_triggered()
+void MainWindow::on_actionPlayTest_triggered()
 {
 	core().runGame();
 }
 
 void MainWindow::on_mapChanged()
 {
-	ui->actionRevert_Map->setEnabled(true);
-	ui->action_Save_Map->setEnabled(true);
+	ui->actionMapRevert->setEnabled(true);
+	ui->actionMapSave->setEnabled(true);
 	ui->actionUndo->setEnabled(true);
 	ui->tabMap->setTabText(ui->tabMap->currentIndex(), currentScene()->mapName()+" *");
 }
 
 void MainWindow::on_mapUnchanged()
 {
-	ui->actionRevert_Map->setEnabled(false);
-	ui->action_Save_Map->setEnabled(false);
+	ui->actionMapRevert->setEnabled(false);
+	ui->actionMapSave->setEnabled(false);
 	ui->actionUndo->setEnabled(false);
 	ui->tabMap->setTabText(ui->tabMap->currentIndex(), currentScene()->mapName());
 }
@@ -1047,13 +1025,13 @@ bool MainWindow::saveAll()
 	return true;
 }
 
-void MainWindow::on_action_Save_Map_triggered()
+void MainWindow::on_actionMapSave_triggered()
 {
 	if(currentScene())
 		currentScene()->Save();
 }
 
-void MainWindow::on_actionRevert_Map_triggered()
+void MainWindow::on_actionMapRevert_triggered()
 {
 	if (currentScene())
 		currentScene()->Load();
@@ -1066,26 +1044,25 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 
 	if (!current)
 	{
-		ui->actionCopy_Map->setEnabled(false);
-		ui->actionDelete_Map->setEnabled(false);
+		ui->actionMapCopy->setEnabled(false);
+		ui->actionMapDelete->setEnabled(false);
 		return;
 	}
-	ui->actionCopy_Map->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
-	ui->actionDelete_Map->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
+	ui->actionMapCopy->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
+	ui->actionMapDelete->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
 	core().project()->treeMap().active_node = current->data(1,Qt::DisplayRole).toInt() != 0;
 }
 
-void MainWindow::on_actionCopy_Map_triggered()
+void MainWindow::on_actionMapCopy_triggered()
 {
 	m_copiedMap = core().project()->findFile("Map%1.emu");
 	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
 								  4, QLatin1Char('0'));
-	ui->actionPaste_Map->setEnabled(true);
-	return;
+	ui->actionMapPaste->setEnabled(true);
 }
 
 
-void MainWindow::on_actionNew_Map_triggered()
+void MainWindow::on_actionMapNew_triggered()
 {
 	QString template_file = qApp->applicationDirPath()+"/templates/Map0001.emu";
 	QFileInfo f(template_file);
@@ -1148,7 +1125,7 @@ void MainWindow::on_actionNew_Map_triggered()
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
-void MainWindow::on_actionPaste_Map_triggered()
+void MainWindow::on_actionMapPaste_triggered()
 {
 	QFileInfo f(m_copiedMap);
 
@@ -1223,7 +1200,7 @@ void MainWindow::on_actionPaste_Map_triggered()
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
-void MainWindow::on_actionDelete_Map_triggered()
+void MainWindow::on_actionMapDelete_triggered()
 {
 	removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
 
@@ -1273,7 +1250,7 @@ void MainWindow::removeMap(const int id)
 	m_treeItems.remove(id);
 }
 
-void MainWindow::on_actionMap_Properties_triggered()
+void MainWindow::on_actionMapProperties_triggered()
 {
 	if (!currentScene())
 		return;
@@ -1307,7 +1284,65 @@ void MainWindow::selectTile(int x, int y)
 	}
 }
 
-void MainWindow::on_actionEnable_Caching_toggled(bool checked)
+void MainWindow::on_actionDebugEnableCaching_toggled(bool checked)
 {
 	searchdialog->enableCache(checked);
+}
+
+void MainWindow::refreshIcons() {
+	auto set = [this](auto& action, const auto& icon) {
+		QString theme = palette().color(QWidget::backgroundRole()).lightness() >= 128 ? ":/bright" : ":/dark";
+		return action->setIcon(QIcon(theme + "/" + icon));
+	};
+
+	// File
+	set(ui->actionProjectNew, "project-new");
+	set(ui->actionProjectOpen, "project-open");
+	set(ui->actionProjectClose, "project-close");
+	set(ui->actionQuit, "exit");
+
+	// Map
+	set(ui->actionMapProperties, "properties");
+	set(ui->actionMapSave, "save");
+	set(ui->actionMapRevert, "revert");
+	set(ui->actionLayerEvents, "layer-event");
+	set(ui->actionLayerUpper, "layer-high");
+	set(ui->actionLayerLower, "layer-low");
+	set(ui->actionZoom100, "zoom-original");
+	set(ui->actionZoomIn, "zoom-in");
+	set(ui->actionZoomOut, "zoom-out");
+	set(ui->actionPaletteToggle, "palette");
+	set(ui->actionMapTreeToggle, "tree");
+
+	// Tilemap
+	set(ui->actionDrawPen, "draw-pen");
+	set(ui->actionDrawCircle, "draw-circle");
+	set(ui->actionDrawRectangle, "draw-rectangle");
+	set(ui->actionDrawFill, "draw-fill");
+	set(ui->actionUndo, "edit-undo");
+	set(ui->actionZoom, "zoom");
+
+	// Map Tree
+	set(ui->actionMapNew, "new");
+	set(ui->actionMapCopy, "edit-copy");
+	set(ui->actionMapPaste, "edit-paste");
+	set(ui->actionMapDelete, "edit-delete");
+
+	// Tools
+	set(ui->actionDatabase, "database");
+	set(ui->actionJukebox, "audio");
+	set(ui->actionResourceManager, "resources");
+	set(ui->actionSearch, "edit-find");
+
+	// Other
+	set(ui->actionGameDiskCreate, "gamedisk-create");
+	set(ui->actionScriptEditor, "code");
+
+	// Game
+	set(ui->actionPlayTest, "play");
+	set(ui->actionFullScreenToggle, "fullscreen");
+	set(ui->actionTitleBackgroundToggle, "show-title");
+
+	// Help
+	set(ui->actionContents, "help-about");
 }

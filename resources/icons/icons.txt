@@ -1,0 +1,49 @@
+Breeze icons used:
+
+project-new: project-development-new-template
+project-open: project-open
+project-import:
+project-close: project-development-close
+gamedisk-create: based on archive-insert
+exit: application-exit
+save: document-save
+revert: view-refresh
+properties: configure
+layer-low: based on layer-visible-on
+layer-high: based on layer-visible-on
+layer-event: based on layer-visible-on
+zoom-out: zoom-out
+zoom-in: zoom-in
+zoom-reset: zoom-original
+
+palette: draw-brush
+tree: view-list-tree
+audio: folder-sound
+
+database: network-server-database
+resources: view-preview
+code: code-context
+play: media-playback-start
+fullscreen: view-fullscreen
+show-title: user-desktop
+help-about: help-about
+
+select: select-rectangular
+draw-pen: draw-freehand
+draw-rectangle: draw-rectangle
+draw-circle: draw-circle
+draw-fill: fill-color
+zoom: zoom
+
+folder: document-open
+
+new: document-new
+
+edit-cut: edit-cut
+edit-copy: edit-copy
+edit-paste: edit-paste
+edit-undo: edit-undo
+edit-redo: edit-redo
+edit-delete: edit-delete
+edit-find: edit-find
+
