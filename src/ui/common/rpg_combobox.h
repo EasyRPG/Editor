@@ -61,10 +61,10 @@ public:
 		m_comboBox->setItemText(index, text);
 	}
 
-	void makeModel(lcf::rpg::Database& db, std::vector<T>& data) {
-		m_database = &db;
+	void makeModel(ProjectData& project, std::vector<T>& data) {
+		m_project = &project;
 		m_data = &data;
-		m_model = new RpgModel<T>(db, data);
+		m_model = new RpgModel<T>(project, data);
 
 		m_comboBox->setModel(m_model);
 		m_comboBox->setEditable(true);
@@ -86,7 +86,7 @@ public:
 private:
 	QComboBox* m_comboBox;
 	QPushButton* m_editButton;
-	lcf::rpg::Database* m_database = nullptr;
+	ProjectData* m_project = nullptr;
 	std::vector<T>* m_data = nullptr;
 	RpgModel<T>* m_model = nullptr;
 };
@@ -117,7 +117,7 @@ RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 		if (id == 0) {
 			return;
 		}
-		RpgFactory::Create((*m_data)[id - 1], *m_database).edit(this)->show();
+		RpgFactory::Create(*m_project, (*m_data)[id - 1]).edit(this)->show();
 	});
 }
 

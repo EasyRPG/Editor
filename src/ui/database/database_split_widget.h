@@ -61,7 +61,7 @@ protected:
 template<class T, class U>
 class DatabaseSplitWidget : public DatabaseSplitWidgetBase {
 public:
-	explicit DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget *parent = nullptr);
+	explicit DatabaseSplitWidget(ProjectData& project, std::vector<T>& data, QWidget *parent = nullptr);
 
 	QListView* listWidget() {
 		return ui->list;
@@ -71,19 +71,19 @@ public:
 	}
 
 private:
-	lcf::rpg::Database& db;
+	ProjectData& m_project;
 
 	U* m_contentWidget;
 };
 
 template<class T, class U>
-inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget* parent) :
-		db(database), DatabaseSplitWidgetBase(parent)
+inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(ProjectData& project, std::vector<T>& data, QWidget* parent) :
+		m_project(project), DatabaseSplitWidgetBase(parent)
 {
-	m_contentWidget = new U(db, this);
+	m_contentWidget = new U(m_project, this);
 	QListView& list = *ui->list;
 
-	list.setModel(new RpgModel<T>(database, data));
+	list.setModel(new RpgModel<T>(project, data));
 	ui->splitter->addWidget(m_contentWidget);
 	ui->splitter->setStretchFactor(0, 1);
 	ui->splitter->setStretchFactor(1, 4);
@@ -103,7 +103,7 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 		auto* editAct = new QAction("Edit...", &list);
 
 		connect(editAct, &QAction::triggered, &list, [&]{
-			RpgFactory::Create(data[index.row()], database).edit(this)->show();
+			RpgFactory::Create(project, data[index.row()]).edit(this)->show();
 		});
 
 		QMenu menu(&list);

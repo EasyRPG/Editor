@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::Attribute
  */
-class Attribute : public RpgBase
+class AttributeModel : public RpgBase
 {
 public:
-	Attribute(lcf::rpg::Attribute& data, lcf::rpg::Database& database);
+	AttributeModel(ProjectData& project, lcf::rpg::Attribute& data);
 
 	lcf::rpg::Attribute& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::Attribute& m_data;
-	lcf::rpg::Database& database;
 };
 

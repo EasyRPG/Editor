@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::Variable
  */
-class Variable : public RpgBase
+class VariableModel : public RpgBase
 {
 public:
-	Variable(lcf::rpg::Variable& data, lcf::rpg::Database& database);
+	VariableModel(ProjectData& project, lcf::rpg::Variable& data);
 
 	lcf::rpg::Variable& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::Variable& m_data;
-	lcf::rpg::Database& database;
 };
 

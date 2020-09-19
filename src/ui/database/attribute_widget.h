@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class AttributeWidget;
 }
@@ -29,13 +31,13 @@ class AttributeWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit AttributeWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit AttributeWidget(ProjectData& project, QWidget *parent = nullptr);
 	~AttributeWidget();
 
 	void setData(lcf::rpg::Attribute* attribute);
 
 private:
 	Ui::AttributeWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

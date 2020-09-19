@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::Chipset
  */
-class Chipset : public RpgBase
+class ChipsetModel : public RpgBase
 {
 public:
-	Chipset(lcf::rpg::Chipset& data, lcf::rpg::Database& database);
+	ChipsetModel(ProjectData& project, lcf::rpg::Chipset& data);
 
 	lcf::rpg::Chipset& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::Chipset& m_data;
-	lcf::rpg::Database& database;
 };
 

@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class SystemWidget;
 }
@@ -29,11 +31,11 @@ class SystemWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit SystemWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit SystemWidget(ProjectData& project, QWidget *parent = nullptr);
 	~SystemWidget();
 
 private:
 	Ui::SystemWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

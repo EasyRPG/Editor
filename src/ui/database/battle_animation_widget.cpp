@@ -18,10 +18,10 @@
 #include "battle_animation_widget.h"
 #include "ui_battle_animation_widget.h"
 
-BattleAnimationWidget::BattleAnimationWidget(lcf::rpg::Database &database, QWidget *parent) :
+BattleAnimationWidget::BattleAnimationWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::BattleAnimationWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

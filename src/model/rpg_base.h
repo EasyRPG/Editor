@@ -26,6 +26,8 @@
 
 class RpgBase {
 public:
+	explicit RpgBase(ProjectData& project);
+
 	virtual QPixmap preview() {
 		return QPixmap();
 	}
@@ -33,4 +35,7 @@ public:
 	virtual QDialog* edit(QWidget* parent = nullptr) {
 		return new QMessageBox(QMessageBox::Warning, "Not Supported", "Editing not supported (yet)", QMessageBox::Ok, parent);
 	}
+
+protected:
+	ProjectData& m_project;
 };

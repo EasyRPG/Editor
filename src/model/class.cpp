@@ -18,19 +18,19 @@
 #include "class.h"
 #include "ui/database/class_widget.h"
 
-Class::Class(lcf::rpg::Class& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+ClassModel::ClassModel(ProjectData& project, lcf::rpg::Class& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Class& Class::data() {
+lcf::rpg::Class& ClassModel::data() {
 	return m_data;
 }
 
-QPixmap Class::preview() {
+QPixmap ClassModel::preview() {
 	return QPixmap();
 }
 
-QDialog* Class::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ClassWidget, lcf::rpg::Class>(database, m_data, parent);
+QDialog* ClassModel::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<ClassWidget, lcf::rpg::Class>(m_project, m_data, parent);
 }

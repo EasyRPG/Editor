@@ -45,6 +45,7 @@
 
 template<class T, class U>
 class DatabaseSplitWidget;
+class ProjectData;
 
 namespace Ui {
 class DatabaseDialog;
@@ -55,7 +56,7 @@ class DatabaseDialog : public QDialog
 	Q_OBJECT
 	
 public:
-	explicit DatabaseDialog(QWidget *parent = nullptr);
+	explicit DatabaseDialog(ProjectData& project, QWidget *parent = nullptr);
 	~DatabaseDialog();
 
 signals:
@@ -98,7 +99,7 @@ private:
 	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
 	DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget> *pageSwitches;
 	DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget> *pageVariables;
-	lcf::rpg::Database& m_data;
-	lcf::rpg::Database m_dataCopy;
+	ProjectData& m_project;
+	ProjectData m_projectDataCopy;
 };
 

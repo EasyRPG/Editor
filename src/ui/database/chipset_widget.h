@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class ChipSetWidget;
 }
@@ -29,13 +31,13 @@ class ChipSetWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ChipSetWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit ChipSetWidget(ProjectData& project, QWidget *parent = nullptr);
 	~ChipSetWidget();
 
 	void setData(lcf::rpg::Chipset* chipset);
 
 private:
 	Ui::ChipSetWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

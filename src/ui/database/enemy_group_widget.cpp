@@ -20,10 +20,10 @@
 #include "ui_enemy_group_widget.h"
 #include "ui/event/event_page_widget.h"
 
-EnemyGroupWidget::EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent) :
+EnemyGroupWidget::EnemyGroupWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::EnemyGroupWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

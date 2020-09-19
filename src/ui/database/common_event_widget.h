@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class CommonEventWidget;
 }
@@ -29,14 +31,14 @@ class CommonEventWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit CommonEventWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit CommonEventWidget(ProjectData& project, QWidget *parent = nullptr);
 	~CommonEventWidget() override;
 
 	void setData(lcf::rpg::CommonEvent* common_event);
 
 private:
 	Ui::CommonEventWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 	lcf::rpg::CommonEvent *m_current = nullptr;
 	lcf::rpg::CommonEvent m_dummy;
 };

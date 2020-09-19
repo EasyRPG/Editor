@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class BattleAnimationWidget;
 }
@@ -29,13 +31,13 @@ class BattleAnimationWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit BattleAnimationWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit BattleAnimationWidget(ProjectData& project, QWidget *parent = nullptr);
 	~BattleAnimationWidget();
 
 	void setData(lcf::rpg::Animation* anim);
 
 private:
 	Ui::BattleAnimationWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

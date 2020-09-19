@@ -15,22 +15,13 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commonevent.h"
-#include "ui/database/common_event_widget.h"
+#include "project_data.h"
 
-CommonEventModel::CommonEventModel(ProjectData& project, lcf::rpg::CommonEvent& data) :
-	RpgBase(project), m_data(data) {
+ProjectData::ProjectData(Project& project) : m_project(&project) {
 
 }
 
-lcf::rpg::CommonEvent& CommonEventModel::data() {
-	return m_data;
-}
+ProjectData::ProjectData(Project& project, lcf::rpg::Database database, lcf::rpg::TreeMap treeMap) :
+	m_project(&project), m_database(std::move(database)), m_treemap(std::move(treeMap)) {
 
-QPixmap CommonEventModel::preview() {
-	return QPixmap();
-}
-
-QDialog* CommonEventModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<CommonEventWidget, lcf::rpg::CommonEvent>(m_project, m_data, parent);
 }

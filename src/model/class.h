@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::Class
  */
-class Class : public RpgBase
+class ClassModel : public RpgBase
 {
 public:
-	Class(lcf::rpg::Class& data, lcf::rpg::Database& database);
+	ClassModel(ProjectData& project, lcf::rpg::Class& data);
 
 	lcf::rpg::Class& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::Class& m_data;
-	lcf::rpg::Database& database;
 };
 

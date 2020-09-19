@@ -478,7 +478,7 @@ void MainWindow::on_actionDatabase_triggered()
 {
 	if (dlg_db)
 		delete dlg_db;
-	dlg_db = new DatabaseDialog(this);
+	dlg_db = new DatabaseDialog(core().project()->projectData(), this);
 	dlg_db->setModal(true);
 	dlg_db->exec();
 }

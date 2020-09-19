@@ -36,13 +36,13 @@ template <class T>
 class RpgModel : public QAbstractListModel
 {
 public:
-	RpgModel(lcf::rpg::Database& db, std::vector<T>& data, QObject *parent = nullptr) :
-			QAbstractListModel(parent), m_database(db), m_data(data) {}
+	RpgModel(ProjectData& project, std::vector<T>& data, QObject *parent = nullptr) :
+			QAbstractListModel(parent), m_project(project), m_data(data) {}
 	int rowCount(const QModelIndex& = QModelIndex()) const override { return m_data.size(); }
 	QVariant data(const QModelIndex &index, int role) const override;
 
 private:
-	lcf::rpg::Database& m_database;
+	ProjectData& m_project;
 	std::vector<T>& m_data;
 };
 
@@ -55,7 +55,7 @@ QVariant RpgModel<T>::data(const QModelIndex &index, int role) const
 		auto data = m_data[index.row()];
 		return QString("%1: %2").arg(data.ID, 4, 10, QChar('0')).arg(ToQString(data.name));
 	} else if (role == Qt::DecorationRole) {
-		return RpgFactory::Create(m_data[index.row()], m_database).preview();
+		return RpgFactory::Create(m_project, m_data[index.row()]).preview();
 	} else if (role == Qt::UserRole) {
 		return m_data[index.row()].ID;
 	}

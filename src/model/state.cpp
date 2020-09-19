@@ -18,19 +18,19 @@
 #include "state.h"
 #include "ui/database/state_widget.h"
 
-State::State(lcf::rpg::State& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+StateModel::StateModel(ProjectData& project, lcf::rpg::State& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::State& State::data() {
+lcf::rpg::State& StateModel::data() {
 	return m_data;
 }
 
-QPixmap State::preview() {
+QPixmap StateModel::preview() {
 	return QPixmap();
 }
 
-QDialog* State::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<StateWidget, lcf::rpg::State>(database, m_data, parent);
+QDialog* StateModel::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<StateWidget, lcf::rpg::State>(m_project, m_data, parent);
 }

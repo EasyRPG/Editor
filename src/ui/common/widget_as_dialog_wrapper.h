@@ -22,6 +22,7 @@
 #include <QDialogButtonBox>
 #include <QAbstractButton>
 #include <lcf/rpg/fwd.h>
+#include "model/project.h"
 
 /**
  * Wraps a Widget inside a Dialog and applies the forwarded data when OK or Apply
@@ -33,10 +34,10 @@ template<typename WIDGET, typename DATA>
 class WidgetAsDialogWrapper : public QDialog {
 
 public:
-	explicit WidgetAsDialogWrapper(lcf::rpg::Database& db, DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
+	explicit WidgetAsDialogWrapper(ProjectData& project, DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
 		dataCopy = data;
 
-		wrappedWidget = new WIDGET(db, this);
+		wrappedWidget = new WIDGET(project, this);
 		wrappedWidget->setData(&dataCopy);
 
 		init();

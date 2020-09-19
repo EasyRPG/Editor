@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::State
  */
-class State : public RpgBase
+class StateModel : public RpgBase
 {
 public:
-	State(lcf::rpg::State& data, lcf::rpg::Database& database);
+	StateModel(ProjectData& project, lcf::rpg::State& data);
 
 	lcf::rpg::State& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::State& m_data;
-	lcf::rpg::Database& database;
 };
 

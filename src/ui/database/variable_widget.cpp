@@ -19,9 +19,9 @@
 #include "ui_variable_widget.h"
 #include "src/common/lcf_widget_binding.h"
 
-VariableWidget::VariableWidget(lcf::rpg::Database &database, QWidget *parent) :
+VariableWidget::VariableWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::VariableWidget), m_database(database)
+	ui(new Ui::VariableWidget), m_project(project)
 {
 	ui->setupUi(this);
 

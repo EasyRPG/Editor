@@ -21,30 +21,29 @@
 #include "common/dbstring.h"
 #include "common/sortfilter_proxy_models.h"
 
-Actor::Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database) :
-	actor(actor), database(database) {
-
+ActorModel::ActorModel(ProjectData& project, lcf::rpg::Actor& data) :
+	RpgBase(project), m_data(data) {
 }
 
-lcf::rpg::Actor& Actor::data() {
-	return actor;
+lcf::rpg::Actor& ActorModel::data() {
+	return m_data;
 }
 
-QPixmap Actor::preview() {
-	QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", ToQString(actor.face_name), FileFinder::FileType::Image));
+QPixmap ActorModel::preview() {
+	QPixmap faceSet = ImageLoader::Load(core().project()->findFile("FaceSet", ToQString(m_data.face_name), FileFinder::FileType::Image));
 
-	int x = (actor.face_index % 4) * 48;
-	int y = (actor.face_index / 4) * 48;
+	int x = (m_data.face_index % 4) * 48;
+	int y = (m_data.face_index / 4) * 48;
 
 	return faceSet.copy(x, y, 48, 48);
 }
 
-QDialog* Actor::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ActorWidget, lcf::rpg::Actor>(database, actor, parent);
+QDialog* ActorModel::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<ActorWidget, lcf::rpg::Actor>(m_project, m_data, parent);
 }
 
-bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
-	int query_idx = actor.ID - 1;
+bool ActorModel::IsItemUsable(const lcf::rpg::Item& item) const {
+	int query_idx = m_data.ID - 1;
 	auto* query_set = &item.actor_set;
 	/*TODO if (Player::IsRPG2k3() && Data::system.equipment_setting == lcf::rpg::System::EquipmentSetting_class) {
 		auto* cls = GetClass();
@@ -63,10 +62,10 @@ bool Actor::IsItemUsable(const lcf::rpg::Item& item) const {
 	return (*query_set)[query_idx];
 }
 
-QSortFilterProxyModel* Actor::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
+QSortFilterProxyModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
 	std::vector<int> indices;
 
-	for (const auto& item : database.items) {
+	for (const auto& item : m_project.database().items) {
 		if (item.type != type || !IsItemUsable(item)) {
 			continue;
 		}

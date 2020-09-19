@@ -19,10 +19,10 @@
 #include "ui_item_widget.h"
 #include "common/lcf_widget_binding.h"
 
-ItemWidget::ItemWidget(lcf::rpg::Database &database, QWidget *parent) :
+ItemWidget::ItemWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ItemWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 

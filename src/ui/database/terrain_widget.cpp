@@ -18,10 +18,10 @@
 #include "terrain_widget.h"
 #include "ui_terrain_widget.h"
 
-TerrainWidget::TerrainWidget(lcf::rpg::Database &database, QWidget *parent) :
+TerrainWidget::TerrainWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::TerrainWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

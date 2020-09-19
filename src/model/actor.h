@@ -26,10 +26,10 @@ class QSortFilterProxyModel;
 /**
  * A thin wrapper around lcf::rpg::Actor
  */
-class Actor : public RpgBase
+class ActorModel : public RpgBase
 {
 public:
-	Actor(lcf::rpg::Actor& actor, lcf::rpg::Database& database);
+	ActorModel(ProjectData& project, lcf::rpg::Actor& data);
 
 	bool IsItemUsable(const lcf::rpg::Item& item) const;
 
@@ -48,7 +48,6 @@ public:
 	QDialog* edit(QWidget* parent = nullptr) override;
 
 private:
-	lcf::rpg::Actor& actor;
-	lcf::rpg::Database& database;
+	lcf::rpg::Actor& m_data;
 };
 

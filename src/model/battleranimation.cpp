@@ -18,19 +18,19 @@
 #include "battleranimation.h"
 #include "ui/database/battle_animation2_widget.h"
 
-BattlerAnimation::BattlerAnimation(lcf::rpg::BattlerAnimation& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+BattlerAnimationModel::BattlerAnimationModel(ProjectData& project, lcf::rpg::BattlerAnimation& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::BattlerAnimation& BattlerAnimation::data() {
+lcf::rpg::BattlerAnimation& BattlerAnimationModel::data() {
 	return m_data;
 }
 
-QPixmap BattlerAnimation::preview() {
+QPixmap BattlerAnimationModel::preview() {
 	return QPixmap();
 }
 
-QDialog* BattlerAnimation::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<BattleAnimation2Widget, lcf::rpg::BattlerAnimation>(database, m_data, parent);
+QDialog* BattlerAnimationModel::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<BattleAnimation2Widget, lcf::rpg::BattlerAnimation>(m_project, m_data, parent);
 }

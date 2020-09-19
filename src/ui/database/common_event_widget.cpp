@@ -19,17 +19,17 @@
 #include "ui_common_event_widget.h"
 #include "src/common/lcf_widget_binding.h"
 
-CommonEventWidget::CommonEventWidget(lcf::rpg::Database &database, QWidget *parent) :
+CommonEventWidget::CommonEventWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::CommonEventWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 
 	LcfWidgetBinding::connect(this, ui->lineName);
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboTrigger);
 	LcfWidgetBinding::connect(this, ui->groupSwitch);
-	ui->comboSwitch->makeModel(database, database.switches);
+	ui->comboSwitch->makeModel(project, project.database().switches);
 }
 
 CommonEventWidget::~CommonEventWidget()

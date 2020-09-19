@@ -47,6 +47,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/model/item.h
 	src/model/project.cpp
 	src/model/project.h
+	src/model/project_data.cpp
+	src/model/project_data.h
 	src/model/rpg_base.cpp
 	src/model/rpg_base.h
 	src/model/rpg_factory.h

@@ -18,19 +18,19 @@
 #include "switch.h"
 #include "ui/database/switch_widget.h"
 
-Switch::Switch(lcf::rpg::Switch& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+SwitchModel::SwitchModel(ProjectData& project, lcf::rpg::Switch& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Switch& Switch::data() {
+lcf::rpg::Switch& SwitchModel::data() {
 	return m_data;
 }
 
-QPixmap Switch::preview() {
+QPixmap SwitchModel::preview() {
 	return QPixmap();
 }
 
-QDialog* Switch::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<SwitchWidget, lcf::rpg::Switch>(database, m_data, parent);
+QDialog* SwitchModel::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<SwitchWidget, lcf::rpg::Switch>(m_project, m_data, parent);
 }

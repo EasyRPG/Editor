@@ -18,10 +18,10 @@
 #include "state_widget.h"
 #include "ui_state_widget.h"
 
-StateWidget::StateWidget(lcf::rpg::Database &database, QWidget *parent) :
+StateWidget::StateWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::StateWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

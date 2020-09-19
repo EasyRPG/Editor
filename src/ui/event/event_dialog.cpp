@@ -24,10 +24,10 @@
 #include "common/dbstring.h"
 
 
-EventDialog::EventDialog(lcf::rpg::Database& database, QWidget *parent) :
+EventDialog::EventDialog(ProjectData& project, QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::EventDialog),
-	m_database(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 	lst_result = QDialogButtonBox::Cancel;
@@ -46,9 +46,9 @@ EventDialog::~EventDialog()
 	delete ui;
 }
 
-int EventDialog::edit(QWidget *parent, lcf::rpg::Event& event, lcf::rpg::Database& database)
+int EventDialog::edit(QWidget *parent, lcf::rpg::Event& event, ProjectData& project)
 {
-	EventDialog dlg(database, parent);
+	EventDialog dlg(project, parent);
 	dlg.setEvent(event);
 	dlg.exec();
 	if (dlg.lst_result != QDialogButtonBox::Cancel)
@@ -141,7 +141,7 @@ void EventDialog::setEvent(lcf::rpg::Event& event)
 	ui->tabEventPages->clear();
 	for (unsigned int i = 0; i < m_event.pages.size(); i++)
 	{
-		EventPageWidget *tab = new EventPageWidget(m_database, this);
+		EventPageWidget *tab = new EventPageWidget(m_project, this);
 		tab->setEventPage(&(m_event.pages[i]));
 		ui->tabEventPages->addTab(tab,QString::number(i+1));
 	}

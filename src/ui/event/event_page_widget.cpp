@@ -27,10 +27,10 @@
 #include "common/dbstring.h"
 #include "common/lcf_widget_binding.h"
 
-EventPageWidget::EventPageWidget(lcf::rpg::Database& database, QWidget *parent) :
+EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::QEventWidget),
-	m_database(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 
@@ -51,12 +51,12 @@ EventPageWidget::EventPageWidget(lcf::rpg::Database& database, QWidget *parent) 
 	m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 	ui->graphicsSprite->setScene(m_scene);
 
-	ui->comboSwitchA->makeModel(database, database.switches);
-	ui->comboSwitchB->makeModel(database, database.switches);
-	ui->comboVariable->makeModel(database, database.variables);
-	ui->comboItem->makeModel(database, database.items);
-	ui->comboHero->makeModel(database, database.actors);
-
+	auto& database = project.database();
+	ui->comboSwitchA->makeModel(project, database.switches);
+	ui->comboSwitchB->makeModel(project, database.switches);
+	ui->comboVariable->makeModel(project, database.variables);
+	ui->comboItem->makeModel(project, database.items);
+	ui->comboHero->makeModel(project, database.actors);
 }
 
 EventPageWidget::~EventPageWidget()

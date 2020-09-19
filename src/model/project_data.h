@@ -15,22 +15,43 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "commonevent.h"
-#include "ui/database/common_event_widget.h"
+#pragma once
 
-CommonEventModel::CommonEventModel(ProjectData& project, lcf::rpg::CommonEvent& data) :
-	RpgBase(project), m_data(data) {
+#include <lcf/rpg/database.h>
+#include <lcf/rpg/treemap.h>
 
-}
+class Project;
 
-lcf::rpg::CommonEvent& CommonEventModel::data() {
-	return m_data;
-}
+class ProjectData {
+public:
+	ProjectData() = default;
+	explicit ProjectData(Project& project);
+	ProjectData(Project& project, lcf::rpg::Database database, lcf::rpg::TreeMap treemap);
 
-QPixmap CommonEventModel::preview() {
-	return QPixmap();
-}
+	lcf::rpg::Database& database() {
+		return m_database;
+	}
 
-QDialog* CommonEventModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<CommonEventWidget, lcf::rpg::CommonEvent>(m_project, m_data, parent);
-}
+	const lcf::rpg::Database& database() const {
+		return m_database;
+	}
+
+	lcf::rpg::TreeMap& treeMap() {
+		return m_treemap;
+	}
+
+	const lcf::rpg::TreeMap& treeMap() const {
+		return m_treemap;
+	}
+
+	const Project& project() const {
+		return *m_project;
+	}
+
+private:
+	Project* m_project = nullptr;
+	lcf::rpg::Database m_database;
+	lcf::rpg::TreeMap m_treemap;
+};
+
+

@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::Skill
  */
-class Skill : public RpgBase
+class SkillModel : public RpgBase
 {
 public:
-	Skill(lcf::rpg::Skill& data, lcf::rpg::Database& database);
+	SkillModel(ProjectData& project, lcf::rpg::Skill& data);
 
 	lcf::rpg::Skill& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::Skill& m_data;
-	lcf::rpg::Database& database;
 };
 

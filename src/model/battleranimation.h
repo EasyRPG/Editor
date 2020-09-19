@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::BattlerAnimation
  */
-class BattlerAnimation : public RpgBase
+class BattlerAnimationModel : public RpgBase
 {
 public:
-	BattlerAnimation(lcf::rpg::BattlerAnimation& data, lcf::rpg::Database& database);
+	BattlerAnimationModel(ProjectData& project, lcf::rpg::BattlerAnimation& data);
 
 	lcf::rpg::BattlerAnimation& data();
 
@@ -37,6 +37,5 @@ public:
 
 private:
 	lcf::rpg::BattlerAnimation& m_data;
-	lcf::rpg::Database& database;
 };
 

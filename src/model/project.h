@@ -24,6 +24,7 @@
 #include <memory>
 
 #include "common/filefinder.h"
+#include "project_data.h"
 #include <lcf/rpg/database.h>
 #include <lcf/rpg/map.h>
 #include <lcf/rpg/treemap.h>
@@ -66,8 +67,13 @@ public:
 	FileFinder::ProjectType projectType() const;
 	void setProjectType(FileFinder::ProjectType projectType);
 
-	lcf::rpg::Database& database() const;
-	lcf::rpg::TreeMap& treeMap() const;
+	lcf::rpg::Database& database();
+	const lcf::rpg::Database& database() const;
+	lcf::rpg::TreeMap& treeMap();
+	const lcf::rpg::TreeMap& treeMap() const;
+
+	ProjectData& projectData();
+	const ProjectData& projectData() const;
 
 	bool saveDatabase(bool incSavecount = true);
 	bool saveTreeMap();
@@ -78,7 +84,5 @@ private:
 	QDir m_projectDir;
 	std::shared_ptr<QSettings> m_projectSettings;
 	QString m_gameTitle;
-
-	std::unique_ptr<lcf::rpg::Database> m_db;
-	std::unique_ptr<lcf::rpg::TreeMap> m_treeMap;
+	ProjectData m_data;
 };

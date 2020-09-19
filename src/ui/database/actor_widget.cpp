@@ -25,16 +25,18 @@
 #include "common/lcf_widget_binding.h"
 #include "model/actor.h"
 
-ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
+ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ActorWidget),
-	m_data(database)
+	m_project(project)
 {
+	auto& database = project.database();
+
 	const auto kMaxLevel = database.system.ldb_id == 2003 ? 99 : 50;
 	const auto kMaxHp = database.system.ldb_id == 2003 ? 9999 : 999;
 	ui->setupUi(this);
 
-	m_currentActor = nullptr;
+	m_current = nullptr;
 
 	ui->spinMaxLv->setMaximum(kMaxLevel);
 
@@ -136,13 +138,13 @@ ActorWidget::ActorWidget(lcf::rpg::Database &database, QWidget *parent) :
 			ui->comboInitialHelmet,
 			ui->comboInitialMisc }) {
 		LcfWidgetBinding::connect<int16_t>(this, uis);
-		uis->makeModel(database, database.items);
+		uis->makeModel(project, database.items);
 	}
 
 	LcfWidgetBinding::connect(this, ui->groupCritChance);
 
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation);
-	ui->comboUnarmedAnimation->makeModel(database, database.animations);
+	ui->comboUnarmedAnimation->makeModel(project, database.animations);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {
@@ -156,71 +158,75 @@ ActorWidget::~ActorWidget()
 
 void ActorWidget::UpdateModels()
 {
+	auto& database = m_project.database();
+
 	/* Clear */
 	ui->comboBattleset->clear();
 	ui->listAttributeRanks->clear();
 	ui->listStatusRanks->clear();
 	/* Fill */
 	ui->comboBattleset->addItem(tr("<none>"));
-	for (unsigned int i = 0; i < m_data.battleranimations.size(); i++)
-		ui->comboBattleset->addItem(m_data.battleranimations[i].name.c_str());
+	for (unsigned int i = 0; i < database.battleranimations.size(); i++)
+		ui->comboBattleset->addItem(database.battleranimations[i].name.c_str());
 	ui->comboProfession->addItem(tr("<none>"));
-	for (unsigned int i = 0; i < m_data.classes.size(); i++)
-		ui->comboProfession->addItem(m_data.classes[i].name.c_str());
-	for (unsigned int i = 0; i < m_data.attributes.size(); i++)
-		ui->listAttributeRanks->addItem(m_data.attributes[i].name.c_str());
-	for (unsigned int i = 0; i < m_data.states.size(); i++)
-		ui->listStatusRanks->addItem(m_data.states[i].name.c_str());
+	for (unsigned int i = 0; i < database.classes.size(); i++)
+		ui->comboProfession->addItem(database.classes[i].name.c_str());
+	for (unsigned int i = 0; i < database.attributes.size(); i++)
+		ui->listAttributeRanks->addItem(database.attributes[i].name.c_str());
+	for (unsigned int i = 0; i < database.states.size(); i++)
+		ui->listStatusRanks->addItem(database.states[i].name.c_str());
 
-	on_currentActorChanged(m_currentActor);
+	on_currentActorChanged(m_current);
 }
 
 void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 {
-	if (!m_currentActor)
+	if (!m_current)
 		return;
 
-	m_currentActor->battler_animation = index;
+	m_current->battler_animation = index;
 
-	if (index <= 0 || index >= static_cast<int>(m_data.battleranimations.size()))
+	auto& database = m_project.database();
+
+	if (index <= 0 || index >= static_cast<int>(database.battleranimations.size()))
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
-		m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(index) - 1]);
+		m_battlerItem->setDemoAnimation(database.battleranimations[static_cast<size_t>(index) - 1]);
 }
 
 void ActorWidget::on_pushSetCharset_clicked()
 {
-	if (!m_currentActor)
+	if (!m_current)
 		return;
 
 	CharSetPickerDialog dlg(this, false);
-	dlg.setName(ToQString(m_currentActor->character_name));
-	dlg.setIndex(m_currentActor->character_index);
+	dlg.setName(ToQString(m_current->character_name));
+	dlg.setIndex(m_current->character_index);
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_currentActor->character_name = ToDBString(dlg.name());
-		m_currentActor->character_index = dlg.index();
+		m_current->character_name = ToDBString(dlg.name());
+		m_current->character_index = dlg.index();
 
 		m_charaItem->setVisible(true);
-		m_charaItem->setBasePix(ToQString(m_currentActor->character_name));
-		m_charaItem->setIndex(m_currentActor->character_index);
+		m_charaItem->setBasePix(ToQString(m_current->character_name));
+		m_charaItem->setIndex(m_current->character_index);
 	}
 }
 
 void ActorWidget::on_pushSetFace_clicked()
 {
 	faceset_picker_dialog dlg(this, true);
-	dlg.setName(ToQString(m_currentActor->face_name));
+	dlg.setName(ToQString(m_current->face_name));
 	dlg.exec();
 	if (dlg.result() == QDialogButtonBox::Ok)
 	{
-		m_currentActor->face_name = ToDBString(dlg.name());
-		m_currentActor->face_index = dlg.index();
+		m_current->face_name = ToDBString(dlg.name());
+		m_current->face_index = dlg.index();
 
 		m_faceItem->setVisible(true);
-		m_faceItem->setBasePix(ToQString(m_currentActor->face_name));
-		m_faceItem->setIndex(m_currentActor->face_index);
+		m_faceItem->setBasePix(ToQString(m_current->face_name));
+		m_faceItem->setIndex(m_current->face_index);
 
 	}
 }
@@ -245,7 +251,9 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	if (!actor) {
 		actor = &dummy;
 	}
-	m_currentActor = actor;
+	m_current = actor;
+
+	auto& database = m_project.database();
 
 	ResetExpText(actor);
 
@@ -264,7 +272,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 	auto equipFilter = [&](auto& cbox, auto type) {
 		SignalBlocker s(cbox->comboBox());
-		cbox->setFilter(Actor(*m_currentActor, m_data).CreateEquipmentFilter(type));
+		cbox->setFilter(ActorModel(m_project, *m_current).CreateEquipmentFilter(type));
 	};
 
 	equipFilter(ui->comboInitialWeapon, lcf::rpg::Item::Type_weapon);
@@ -290,8 +298,8 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		ui->tableSkills->item(i, 0)->setText(QString::number(actor->skills[static_cast<size_t>(i)].level));
 		// TODO: move getSkillName to Core
 		QString name = QString("<%1?>").arg(actor->skills[static_cast<size_t>(i)].skill_id);
-		if (actor->skills[static_cast<size_t>(i)].skill_id < static_cast<int>(m_data.skills.size()))
-			name = m_data.skills[static_cast<size_t>(actor->skills[static_cast<size_t>(i)].skill_id)-1].name.c_str();
+		if (actor->skills[static_cast<size_t>(i)].skill_id < static_cast<int>(database.skills.size()))
+			name = database.skills[static_cast<size_t>(actor->skills[static_cast<size_t>(i)].skill_id)-1].name.c_str();
 		// TODO/
 		ui->tableSkills->item(i, 1)->setText(name);
 	}
@@ -320,10 +328,10 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	m_faceItem->setIndex(actor->face_index);
 
 	if (actor->battler_animation <= 0 ||
-			actor->battler_animation >= static_cast<int>(m_data.battleranimations.size()))
+			actor->battler_animation >= static_cast<int>(database.battleranimations.size()))
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
-		m_battlerItem->setDemoAnimation(m_data.battleranimations[static_cast<size_t>(actor->battler_animation)-1]);
+		m_battlerItem->setDemoAnimation(database.battleranimations[static_cast<size_t>(actor->battler_animation)-1]);
 
 	m_hpItem->setData(actor->parameters.maxhp);
 	m_mpItem->setData(actor->parameters.maxsp);
@@ -337,13 +345,13 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 void ActorWidget::on_pushApplyProfession_clicked()
 {
-	if (!m_currentActor)
+	if (!m_current)
 		return;
 
-	const lcf::rpg::Class &n_class = m_data.classes[static_cast<size_t>(ui->comboProfession->currentIndex())];
+	const lcf::rpg::Class &n_class = m_project.database().classes[static_cast<size_t>(ui->comboProfession->currentIndex())];
 	/* Disconnect widgets */
-	lcf::rpg::Actor *actor = m_currentActor;
-	m_currentActor = nullptr;
+	lcf::rpg::Actor *actor = m_current;
+	m_current = nullptr;
 	/* /Disconnect widgets */
 	actor->class_id = ui->comboProfession->currentIndex();
 	actor->attribute_ranks = n_class.attribute_ranks;

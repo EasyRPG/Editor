@@ -18,19 +18,19 @@
 #include "animation.h"
 #include "ui/database/battle_animation_widget.h"
 
-Animation::Animation(lcf::rpg::Animation& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+AnimationModel::AnimationModel(ProjectData& project, lcf::rpg::Animation& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Animation& Animation::data() {
+lcf::rpg::Animation& AnimationModel::data() {
 	return m_data;
 }
 
-QPixmap Animation::preview() {
+QPixmap AnimationModel::preview() {
 	return QPixmap();
 }
 
-QDialog* Animation::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<BattleAnimationWidget, lcf::rpg::Animation>(database, m_data, parent);
+QDialog* AnimationModel::edit(QWidget *parent) {
+	return new WidgetAsDialogWrapper<BattleAnimationWidget, lcf::rpg::Animation>(m_project, m_data, parent);
 }

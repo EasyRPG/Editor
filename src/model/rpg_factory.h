@@ -32,42 +32,66 @@
 #include "battleranimation.h"
 #include "switch.h"
 #include "variable.h"
+#include "project_data.h"
 
 namespace RpgFactory {
-	template<typename T>
-	static auto Create(T& data, lcf::rpg::Database& database) {
-		if constexpr (std::is_same_v<lcf::rpg::Actor, T>) {
-			return Actor(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Skill, T>) {
-			return Skill(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Enemy, T>) {
-			return Enemy(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Item, T>) {
-			return Item(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Troop, T>) {
-			return Troop(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Terrain, T>) {
-			return Terrain(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Attribute, T>) {
-			return Attribute(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::State, T>) {
-			return State(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Animation, T>) {
-			return Animation(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Chipset, T>) {
-			return Chipset(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::CommonEvent, T>) {
-			return CommonEvent(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Class, T>) {
-			return Class(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::BattlerAnimation, T>) {
-			return BattlerAnimation(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Switch, T>) {
-			return Switch(data, database);
-		} else if constexpr (std::is_same_v<lcf::rpg::Variable, T>) {
-			return Variable(data, database);
-		}
+	inline ActorModel Create(ProjectData &project, lcf::rpg::Actor &data) {
+		return ActorModel(project, data);
+	}
 
-		assert(false);
+	inline SkillModel Create(ProjectData &project, lcf::rpg::Skill &data) {
+		return SkillModel(project, data);
+	}
+
+	inline EnemyModel Create(ProjectData &project, lcf::rpg::Enemy &data) {
+		return EnemyModel(project, data);
+	}
+
+	inline ItemModel Create(ProjectData &project, lcf::rpg::Item &data) {
+		return ItemModel(project, data);
+	}
+
+	inline TroopModel Create(ProjectData &project, lcf::rpg::Troop &data) {
+		return TroopModel(project, data);
+	}
+
+	inline TerrainModel Create(ProjectData &project, lcf::rpg::Terrain &data) {
+		return TerrainModel(project, data);
+	}
+
+	inline AttributeModel Create(ProjectData &project, lcf::rpg::Attribute &data) {
+		return AttributeModel(project, data);
+	}
+
+	inline StateModel Create(ProjectData &project, lcf::rpg::State &data) {
+		return StateModel(project, data);
+	}
+
+	inline AnimationModel Create(ProjectData &project, lcf::rpg::Animation &data) {
+		return AnimationModel(project, data);
+	}
+
+	inline ChipsetModel Create(ProjectData &project, lcf::rpg::Chipset &data) {
+		return ChipsetModel(project, data);
+	}
+
+	inline CommonEventModel Create(ProjectData &project, lcf::rpg::CommonEvent &data) {
+		return CommonEventModel(project, data);
+	}
+
+	inline ClassModel Create(ProjectData &project, lcf::rpg::Class &data) {
+		return ClassModel(project, data);
+	}
+
+	inline BattlerAnimationModel Create(ProjectData &project, lcf::rpg::BattlerAnimation &data) {
+		return BattlerAnimationModel(project, data);
+	}
+
+	inline SwitchModel Create(ProjectData &project, lcf::rpg::Switch &data) {
+		return SwitchModel(project, data);
+	}
+
+	inline VariableModel Create(ProjectData &project, lcf::rpg::Variable &data) {
+		return VariableModel(project, data);
 	}
 }

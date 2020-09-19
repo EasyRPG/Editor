@@ -22,6 +22,8 @@
 #include <lcf/rpg/class.h>
 #include "ui/common/battle_animation_item.h"
 
+class ProjectData;
+
 namespace Ui {
 class ClassWidget;
 }
@@ -31,7 +33,7 @@ class ClassWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ClassWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit ClassWidget(ProjectData& project, QWidget *parent = nullptr);
 	~ClassWidget();
 	void setData(lcf::rpg::Class* cls);
 
@@ -49,6 +51,6 @@ private:
 	BattleAnimationItem *m_battlerItem;
 
 	lcf::rpg::Class *m_currentClass;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

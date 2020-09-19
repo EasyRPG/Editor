@@ -18,10 +18,10 @@
 #include "skill_widget.h"
 #include "ui_skill_widget.h"
 
-SkillWidget::SkillWidget(lcf::rpg::Database &database, QWidget *parent) :
+SkillWidget::SkillWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::SkillWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

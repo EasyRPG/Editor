@@ -24,10 +24,10 @@
 /**
  * A thin wrapper around lcf::rpg::Troop
  */
-class Troop : public RpgBase
+class TroopModel : public RpgBase
 {
 public:
-	Troop(lcf::rpg::Troop& data, lcf::rpg::Database& database);
+	TroopModel(ProjectData& project, lcf::rpg::Troop& data);
 
 
 	lcf::rpg::Troop& data();
@@ -38,6 +38,5 @@ public:
 
 private:
 	lcf::rpg::Troop& m_data;
-	lcf::rpg::Database& database;
 };
 

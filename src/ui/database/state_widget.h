@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class StateWidget;
 }
@@ -29,13 +31,13 @@ class StateWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit StateWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit StateWidget(ProjectData& project, QWidget *parent = nullptr);
 	~StateWidget();
 
 	void setData(lcf::rpg::State* state);
 
 private:
 	Ui::StateWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

@@ -19,10 +19,10 @@
 #include "ui_class_widget.h"
 #include <QTimer>
 
-ClassWidget::ClassWidget(lcf::rpg::Database &database, QWidget *parent) :
+ClassWidget::ClassWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ClassWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 
