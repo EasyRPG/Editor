@@ -99,7 +99,7 @@ void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 	m_effect->setEnabled(m_eventPage->translucent);
 	updateGraphic();
 
-	ui->commands->setData(eventPage);
+	ui->commands->setData(m_project, eventPage);
 }
 
 void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)

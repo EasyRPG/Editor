@@ -37,21 +37,22 @@ EventCommandsWidget::EventCommandsWidget(QWidget* parent) :
 	connect(this, &QTreeWidget::customContextMenuRequested, this, &EventCommandsWidget::showContextMenu);
 }
 
-void EventCommandsWidget::setData(lcf::rpg::CommonEvent* event) {
-	setDataInternal(event);
+void EventCommandsWidget::setData(ProjectData& project, lcf::rpg::CommonEvent* event) {
+	setDataInternal(project, event);
 }
 
-void EventCommandsWidget::setData(lcf::rpg::TroopPage* event) {
-	setDataInternal(event);
+void EventCommandsWidget::setData(ProjectData& project, lcf::rpg::TroopPage* event) {
+	setDataInternal(project, event);
 }
 
-void EventCommandsWidget::setData(lcf::rpg::EventPage* event) {
-	setDataInternal(event);
+void EventCommandsWidget::setData(ProjectData& project, lcf::rpg::EventPage* event) {
+	setDataInternal(project, event);
 }
 
 template<typename T>
-void EventCommandsWidget::setDataInternal(T* event) {
+void EventCommandsWidget::setDataInternal(ProjectData& project, T* event) {
 	assert(event);
+	m_project = &project;
 	m_commands = &event->event_commands;
 	clear();
 
@@ -130,7 +131,7 @@ void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool s
 
 	auto& cmd = *static_cast<lcf::rpg::EventCommand*>(item->data(column, Qt::UserRole).value<void*>());
 
-	auto* wrapper = new WidgetAsDialogWrapper<EventRawWidget, lcf::rpg::EventCommand>(cmd, this);
+	auto* wrapper = new WidgetAsDialogWrapper<EventRawWidget, lcf::rpg::EventCommand>(*m_project, cmd, this);
 	wrapper->widget()->setShowWarning(show_warning);
 
 	std::unique_ptr<QDialog> dialog;

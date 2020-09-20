@@ -34,8 +34,8 @@ lcf::rpg::TroopPage* BattlePageWidget::eventPage() const {
 	return m_eventPage;
 }
 
-void BattlePageWidget::setEventPage(lcf::rpg::TroopPage* eventPage) {
+void BattlePageWidget::setEventPage(ProjectData& project, lcf::rpg::TroopPage* eventPage) {
 	m_eventPage = eventPage;
 
-	ui->commands->setData(eventPage);
+	ui->commands->setData(project, eventPage);
 }

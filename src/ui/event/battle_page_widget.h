@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/rpg/trooppage.h>
 
+class ProjectData;
+
 namespace Ui {
 class BattlePageWidget;
 }
@@ -33,7 +35,7 @@ public:
 	~BattlePageWidget() override;
 
 	lcf::rpg::TroopPage* eventPage() const;
-	void setEventPage(lcf::rpg::TroopPage *eventPage);
+	void setEventPage(ProjectData& project, lcf::rpg::TroopPage *eventPage);
 
 private:
 	Ui::BattlePageWidget* ui;
