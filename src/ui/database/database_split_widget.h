@@ -28,7 +28,21 @@
 #include "ui/common/widget_as_dialog_wrapper.h"
 #include "model/rpg_base.h"
 #include "model/rpg_reflect.h"
-
+#include "actor_widget.h"
+#include "attribute_widget.h"
+#include "battle_animation2_widget.h"
+#include "battle_animation_widget.h"
+#include "chipset_widget.h"
+#include "class_widget.h"
+#include "common_event_widget.h"
+#include "enemy_group_widget.h"
+#include "enemy_widget.h"
+#include "item_widget.h"
+#include "skill_widget.h"
+#include "state_widget.h"
+#include "terrain_widget.h"
+#include "variable_widget.h"
+#include "switch_widget.h"
 
 namespace Ui {
 class DatabaseSplitWidget;
@@ -53,6 +67,7 @@ public:
 	using widget_type = typename RpgReflect<LCF>::widget_type;
 
 	explicit DatabaseSplitWidget(ProjectData& project, QWidget* parent = nullptr);
+	DatabaseSplitWidget(ProjectData& project, std::vector<LCF>& data, QWidget* parent = nullptr);
 
 	QListView* listWidget() {
 		return ui->list;
@@ -60,6 +75,7 @@ public:
 	widget_type* contentWidget() {
 		return m_contentWidget;
 	}
+	void setModel(QAbstractItemModel* model);
 
 private:
 	ProjectData& m_project;
@@ -68,12 +84,12 @@ private:
 };
 
 template<class LCF>
-inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, QWidget* parent) :
+inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, std::vector<LCF>& data, QWidget* parent) :
 		m_project(project), DatabaseSplitWidgetBase(parent)
 {
 	m_contentWidget = new typename RpgReflect<LCF>::widget_type(m_project, this);
 	QListView& list = *ui->list;
-	list.setModel(new RpgModel<LCF>(project, parent));
+	list.setModel(new RpgModel<LCF>(project, data, parent));
 	ui->splitter->addWidget(m_contentWidget);
 	ui->splitter->setStretchFactor(0, 1);
 	ui->splitter->setStretchFactor(1, 4);
@@ -96,8 +112,10 @@ inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, QWidg
 		auto* editAct = new QAction("Edit...", &list);
 
 		connect(editAct, &QAction::triggered, &list, [&]{
-			typename RpgReflect<LCF>::model_type(project, *list.model()->data(
-					index, ModelData::ModelDataObject).value<LCF*>()).edit(this)->show();
+			auto* d = new WidgetAsDialogWrapper<typename RpgReflect<LCF>::widget_type, LCF>
+			        (m_project, *list.model()->data(index, ModelData::ModelDataObject)
+							.value<LCF*>(), this);
+			d->show();
 		});
 
 		QMenu menu(&list);
@@ -106,4 +124,20 @@ inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, QWidg
 		menu.exec(mapToGlobal(pos));
 	});
 
+}
+
+template<class LCF>
+inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, QWidget* parent) :
+	DatabaseSplitWidget(project, RpgReflect<LCF>::items(project.database()), parent)
+{
+}
+
+template<class LCF>
+void DatabaseSplitWidget<LCF>::setModel(QAbstractItemModel *model) {
+	listWidget()->setModel(model);
+	connect(listWidget()->selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &index) {
+		// Based on the list index update the data of the content widget
+		m_contentWidget->setData(
+				listWidget()->model()->data(index, ModelData::ModelDataObject).template value<LCF*>());
+	});
 }

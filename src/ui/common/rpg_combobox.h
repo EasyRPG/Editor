@@ -29,9 +29,9 @@
 #include "rpg_model.h"
 #include "model/rpg_reflect.h"
 #include "edit_dialog.h"
-#include "ui/database/actor_widget.h"
-#include "ui/database/item_widget.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
+#include "ui/common/widget_as_dialog_model_wrapper.h"
+#include "ui/database/database_split_widget.h"
 
 class RpgComboBoxBase : public QWidget {
 	Q_OBJECT
@@ -39,7 +39,11 @@ public:
 	explicit RpgComboBoxBase(QWidget *parent = nullptr) : QWidget(parent) {}
 
 public slots:
+	virtual void indexChanged(int) {};
 
+	void connect(QDialog* diag) {
+		QObject::connect(diag, SIGNAL(valueSelected(int)), this, SLOT(indexChanged(int)));
+	}
 };
 
 template <typename LCF>
@@ -89,17 +93,23 @@ public:
 		filter->setSourceModel(m_model);
 		m_comboBox->setModel(filter);
 		filter->invalidate();
+		m_filter = filter;
 	}
+
+	void indexChanged(int index) override {
+		m_comboBox->setCurrentIndex(index);
+	};
 
 private:
 	QComboBox* m_comboBox;
 	QPushButton* m_editButton;
 	ProjectData* m_project = nullptr;
 	RpgModel<LCF>* m_model = nullptr;
+	QSortFilterProxyModel* m_filter = nullptr;
 };
 
-template <class T>
-RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
+template <class LCF>
+RpgComboBox<LCF>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 	RpgComboBoxBase(parent)
 {
 	m_comboBox = new QComboBox(this);
@@ -117,14 +127,20 @@ RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 		m_comboBox->setModel(model);
 	}
 
-	//connect(m_comboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&](int index) {}
-
-	connect(m_editButton, &QPushButton::pressed, [&] {
+	QObject::connect(m_editButton, &QPushButton::pressed, [&] {
 		int id = m_comboBox->currentData().toInt();
 		if (id == 0) {
 			return;
 		}
-		RpgFactory::Create(*m_project, (*m_data)[id - 1]).edit(this)->show();
+
+		// FIXME: This copies the entire project, kinda slow
+		// The reassigning of the model alters the index, remember it
+		auto idx = m_comboBox->currentIndex();
+		auto* dialog = new WidgetAsDialogModelWrapper<LCF>(
+				*m_project, m_filter, m_comboBox->currentIndex(), this);
+		m_comboBox->setCurrentIndex(idx);
+		connect(dialog);
+		dialog->exec();
 	});
 }
 

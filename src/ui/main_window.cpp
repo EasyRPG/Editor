@@ -107,8 +107,7 @@ static void associateFileTypes(const QStringList &fileTypes)
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
-	ui(new Ui::MainWindow),
-	searchdialog(new SearchDialog(core().project()->projectData(), this))
+	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
 	refreshIcons();
@@ -183,6 +182,8 @@ void MainWindow::LoadProject(QString foldername)
 	}
 
 	core().project() = prj;
+
+	searchdialog = new SearchDialog(core().project()->projectData(), this);
 
 	//m_projSett = new QSettings(core().project()->findFile(ROOT, EASY_CFG), QSettings::IniFormat, this);
 	//QString title = m_projSett->value(GAMETITLE, "Untitled").toString();

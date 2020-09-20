@@ -27,10 +27,6 @@
 #include "common/filefinder.h"
 #include "common/image_loader.h"
 #include "model/rpg_reflect.h"
-#include "ui/common/widget_as_dialog_wrapper.h"
-#include "ui/common/faceset_item.h"
-#include "ui/database/actor_widget.h"
-#include "ui/database/item_widget.h"
 
 template<typename LCF>
 class RpgModel : public QAbstractListModel {
@@ -43,6 +39,9 @@ public:
 			QAbstractListModel(parent), m_project(project), m_data(data) {}
 	int rowCount(const QModelIndex& = QModelIndex()) const override { return m_data.size(); }
 	QVariant data(const QModelIndex &index, int role) const override;
+	std::vector<LCF>& lcfData() const {
+		return m_data;
+	}
 
 private:
 	ProjectData& m_project;
