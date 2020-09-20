@@ -34,6 +34,22 @@
 #include "variable.h"
 #include "project_data.h"
 
+Q_DECLARE_METATYPE(lcf::rpg::Actor*)
+Q_DECLARE_METATYPE(lcf::rpg::Skill*)
+Q_DECLARE_METATYPE(lcf::rpg::Enemy*)
+Q_DECLARE_METATYPE(lcf::rpg::Item*)
+Q_DECLARE_METATYPE(lcf::rpg::Troop*)
+Q_DECLARE_METATYPE(lcf::rpg::Terrain*)
+Q_DECLARE_METATYPE(lcf::rpg::Attribute*)
+Q_DECLARE_METATYPE(lcf::rpg::State*)
+Q_DECLARE_METATYPE(lcf::rpg::Animation*)
+Q_DECLARE_METATYPE(lcf::rpg::Chipset*)
+Q_DECLARE_METATYPE(lcf::rpg::CommonEvent*)
+Q_DECLARE_METATYPE(lcf::rpg::Class*)
+Q_DECLARE_METATYPE(lcf::rpg::BattlerAnimation*)
+Q_DECLARE_METATYPE(lcf::rpg::Switch*)
+Q_DECLARE_METATYPE(lcf::rpg::Variable*)
+
 namespace RpgFactory {
 	inline ActorModel Create(ProjectData &project, lcf::rpg::Actor &data) {
 		return ActorModel(project, data);
