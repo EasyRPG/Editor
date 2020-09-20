@@ -30,7 +30,3 @@ lcf::rpg::Terrain& TerrainModel::data() {
 QPixmap TerrainModel::preview() {
 	return QPixmap();
 }
-
-QDialog* TerrainModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<TerrainWidget, lcf::rpg::Terrain>(m_project, m_data, parent);
-}

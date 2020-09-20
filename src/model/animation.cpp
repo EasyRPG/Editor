@@ -30,7 +30,3 @@ lcf::rpg::Animation& AnimationModel::data() {
 QPixmap AnimationModel::preview() {
 	return QPixmap();
 }
-
-QDialog* AnimationModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<BattleAnimationWidget, lcf::rpg::Animation>(m_project, m_data, parent);
-}

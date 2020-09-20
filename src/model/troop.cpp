@@ -30,7 +30,3 @@ lcf::rpg::Troop& TroopModel::data() {
 QPixmap TroopModel::preview() {
 	return QPixmap();
 }
-
-QDialog* TroopModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<EnemyGroupWidget, lcf::rpg::Troop>(m_project, m_data, parent);
-}

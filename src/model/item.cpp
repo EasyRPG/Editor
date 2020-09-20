@@ -30,7 +30,3 @@ lcf::rpg::Item& ItemModel::data() {
 QPixmap ItemModel::preview() {
 	return QPixmap();
 }
-
-QDialog* ItemModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ItemWidget, lcf::rpg::Item>(m_project, m_data, parent);
-}

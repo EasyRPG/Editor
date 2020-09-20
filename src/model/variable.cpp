@@ -30,7 +30,3 @@ lcf::rpg::Variable& VariableModel::data() {
 QPixmap VariableModel::preview() {
 	return QPixmap();
 }
-
-QDialog* VariableModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<VariableWidget, lcf::rpg::Variable>(m_project, m_data, parent);
-}

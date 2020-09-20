@@ -20,7 +20,6 @@
 #include <QPixmap>
 #include <QMessageBox>
 #include "common/image_loader.h"
-#include "ui/common/widget_as_dialog_wrapper.h"
 #include "project.h"
 #include "core.h"
 
@@ -30,10 +29,6 @@ public:
 
 	virtual QPixmap preview() {
 		return QPixmap();
-	}
-
-	virtual QDialog* edit(QWidget* parent = nullptr) {
-		return new QMessageBox(QMessageBox::Warning, "Not Supported", "Editing not supported (yet)", QMessageBox::Ok, parent);
 	}
 
 protected:

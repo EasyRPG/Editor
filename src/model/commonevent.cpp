@@ -30,7 +30,3 @@ lcf::rpg::CommonEvent& CommonEventModel::data() {
 QPixmap CommonEventModel::preview() {
 	return QPixmap();
 }
-
-QDialog* CommonEventModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<CommonEventWidget, lcf::rpg::CommonEvent>(m_project, m_data, parent);
-}

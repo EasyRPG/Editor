@@ -30,7 +30,3 @@ lcf::rpg::Class& ClassModel::data() {
 QPixmap ClassModel::preview() {
 	return QPixmap();
 }
-
-QDialog* ClassModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ClassWidget, lcf::rpg::Class>(m_project, m_data, parent);
-}

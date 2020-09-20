@@ -38,10 +38,6 @@ QPixmap ActorModel::preview() {
 	return faceSet.copy(x, y, 48, 48);
 }
 
-QDialog* ActorModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ActorWidget, lcf::rpg::Actor>(m_project, m_data, parent);
-}
-
 bool ActorModel::IsItemUsable(const lcf::rpg::Item& item) const {
 	int query_idx = m_data.ID - 1;
 	auto* query_set = &item.actor_set;

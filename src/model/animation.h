@@ -33,8 +33,6 @@ public:
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::Animation& m_data;
 };

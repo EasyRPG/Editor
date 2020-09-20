@@ -30,7 +30,3 @@ lcf::rpg::State& StateModel::data() {
 QPixmap StateModel::preview() {
 	return QPixmap();
 }
-
-QDialog* StateModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<StateWidget, lcf::rpg::State>(m_project, m_data, parent);
-}

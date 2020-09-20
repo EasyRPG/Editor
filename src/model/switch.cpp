@@ -30,7 +30,3 @@ lcf::rpg::Switch& SwitchModel::data() {
 QPixmap SwitchModel::preview() {
 	return QPixmap();
 }
-
-QDialog* SwitchModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<SwitchWidget, lcf::rpg::Switch>(m_project, m_data, parent);
-}

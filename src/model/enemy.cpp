@@ -35,7 +35,3 @@ QPixmap EnemyModel::preview() {
 	}
 	return monster.scaled(48, 48, Qt::AspectRatioMode::KeepAspectRatio);
 }
-
-QDialog* EnemyModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<EnemyWidget, lcf::rpg::Enemy>(m_project, m_data, parent);
-}

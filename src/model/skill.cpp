@@ -30,7 +30,3 @@ lcf::rpg::Skill& SkillModel::data() {
 QPixmap SkillModel::preview() {
 	return QPixmap();
 }
-
-QDialog* SkillModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<SkillWidget, lcf::rpg::Skill>(m_project, m_data, parent);
-}

@@ -18,6 +18,7 @@
 #include "attribute.h"
 #include "ui/database/attribute_widget.h"
 
+
 AttributeModel::AttributeModel(ProjectData& project, lcf::rpg::Attribute& data) :
 	RpgBase(project), m_data(data) {
 
@@ -29,8 +30,4 @@ lcf::rpg::Attribute& AttributeModel::data() {
 
 QPixmap AttributeModel::preview() {
 	return QPixmap();
-}
-
-QDialog* AttributeModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<AttributeWidget, lcf::rpg::Attribute>(m_project, m_data, parent);
 }

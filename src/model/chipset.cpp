@@ -30,7 +30,3 @@ lcf::rpg::Chipset& ChipsetModel::data() {
 QPixmap ChipsetModel::preview() {
 	return QPixmap();
 }
-
-QDialog* ChipsetModel::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ChipSetWidget, lcf::rpg::Chipset>(m_project, m_data, parent);
-}
