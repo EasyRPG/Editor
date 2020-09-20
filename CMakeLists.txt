@@ -51,7 +51,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/model/project_data.h
 	src/model/rpg_base.cpp
 	src/model/rpg_base.h
-	src/model/rpg_factory.h
+	src/model/rpg_reflect.h
 	src/model/skill.cpp
 	src/model/skill.h
 	src/model/state.cpp

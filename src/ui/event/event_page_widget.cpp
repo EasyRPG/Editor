@@ -52,11 +52,11 @@ EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 	ui->graphicsSprite->setScene(m_scene);
 
 	auto& database = project.database();
-	ui->comboSwitchA->makeModel(project, database.switches);
-	ui->comboSwitchB->makeModel(project, database.switches);
-	ui->comboVariable->makeModel(project, database.variables);
-	ui->comboItem->makeModel(project, database.items);
-	ui->comboHero->makeModel(project, database.actors);
+	ui->comboSwitchA->makeModel(project);
+	ui->comboSwitchB->makeModel(project);
+	ui->comboVariable->makeModel(project);
+	ui->comboItem->makeModel(project);
+	ui->comboHero->makeModel(project);
 }
 
 EventPageWidget::~EventPageWidget()

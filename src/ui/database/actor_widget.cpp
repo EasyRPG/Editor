@@ -138,13 +138,13 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 			ui->comboInitialHelmet,
 			ui->comboInitialMisc }) {
 		LcfWidgetBinding::connect<int16_t>(this, uis);
-		uis->makeModel(project, database.items);
+		uis->makeModel(project);
 	}
 
 	LcfWidgetBinding::connect(this, ui->groupCritChance);
 
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation);
-	ui->comboUnarmedAnimation->makeModel(project, database.animations);
+	ui->comboUnarmedAnimation->makeModel(project);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {

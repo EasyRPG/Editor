@@ -27,14 +27,23 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include "rpg_model.h"
-#include "model/rpg_factory.h"
+#include "model/rpg_reflect.h"
 #include "edit_dialog.h"
 #include "ui/database/actor_widget.h"
 #include "ui/database/item_widget.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
 
-template <class T>
-class RpgComboBox : public QWidget
+class RpgComboBoxBase : public QWidget {
+	Q_OBJECT
+public:
+	explicit RpgComboBoxBase(QWidget *parent = nullptr) : QWidget(parent) {}
+
+public slots:
+
+};
+
+template <typename LCF>
+class RpgComboBox : public RpgComboBoxBase
 {
 public:
 	RpgComboBox(QWidget *parent, QAbstractItemModel *model = nullptr);
@@ -61,10 +70,9 @@ public:
 		m_comboBox->setItemText(index, text);
 	}
 
-	void makeModel(ProjectData& project, std::vector<T>& data) {
+	void makeModel(ProjectData& project) {
 		m_project = &project;
-		m_data = &data;
-		m_model = new RpgModel<T>(project, data);
+		m_model = new RpgModel<LCF>(project);
 
 		m_comboBox->setModel(m_model);
 		m_comboBox->setEditable(true);
@@ -87,13 +95,12 @@ private:
 	QComboBox* m_comboBox;
 	QPushButton* m_editButton;
 	ProjectData* m_project = nullptr;
-	std::vector<T>* m_data = nullptr;
-	RpgModel<T>* m_model = nullptr;
+	RpgModel<LCF>* m_model = nullptr;
 };
 
 template <class T>
 RpgComboBox<T>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
-	QWidget(parent)
+	RpgComboBoxBase(parent)
 {
 	m_comboBox = new QComboBox(this);
 	m_editButton = new QPushButton("...", this);

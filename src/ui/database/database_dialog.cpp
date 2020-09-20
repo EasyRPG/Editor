@@ -35,22 +35,23 @@ DatabaseDialog::DatabaseDialog(ProjectData& project, QWidget *parent) :
 	m_projectDataCopy = project;
 	auto& database = m_projectDataCopy.database();
 
-	pageActors = new DatabaseSplitWidget<ActorWidget>(m_projectDataCopy, this);
-	pageClasses = new DatabaseSplitWidget<ClassWidget>(m_projectDataCopy, this);
-	pageSkills = new DatabaseSplitWidget<SkillWidget>(m_projectDataCopy, this);
-	pageItems = new DatabaseSplitWidget<ItemWidget>(m_projectDataCopy, this);
-	pageEnemies = new DatabaseSplitWidget<EnemyWidget>(m_projectDataCopy, this);
-	pageEnemyGroups = new DatabaseSplitWidget<EnemyGroupWidget>(m_projectDataCopy, this);
-	pageAttributes = new DatabaseSplitWidget<AttributeWidget>(m_projectDataCopy, this);
-	pageStates = new DatabaseSplitWidget<StateWidget>(m_projectDataCopy, this);
-	pageBattleAnimations = new DatabaseSplitWidget<BattleAnimationWidget>(m_projectDataCopy, this);
-	pageBattleAnimations2 = new DatabaseSplitWidget<BattleAnimation2Widget>(m_projectDataCopy, this);
+	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor>(m_projectDataCopy, this);
+	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class>(m_projectDataCopy, this);
+	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill>(m_projectDataCopy, this);
+	pageItems = new DatabaseSplitWidget<lcf::rpg::Item>(m_projectDataCopy, this);
+	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy>(m_projectDataCopy, this);
+	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop>(m_projectDataCopy, this);
+	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute>(m_projectDataCopy, this);
+	pageStates = new DatabaseSplitWidget<lcf::rpg::State>(m_projectDataCopy, this);
+	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation>(m_projectDataCopy, this);
+	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation>(m_projectDataCopy, this);
 	pageBattleScreen = new BattleScreenWidget(m_projectDataCopy, this);
-	pageTerrain = new DatabaseSplitWidget<TerrainWidget>(m_projectDataCopy, this);
-	pageChipset = new DatabaseSplitWidget<ChipSetWidget>(m_projectDataCopy, this);
-	pageCommonevents = new DatabaseSplitWidget<CommonEventWidget>(m_projectDataCopy, this);
-	pageSwitches = new DatabaseSplitWidget<SwitchWidget>(m_projectDataCopy, this);
-	pageVariables = new DatabaseSplitWidget<VariableWidget>(m_projectDataCopy, this);
+	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain>(m_projectDataCopy, this);
+	// FIXME: This fails to compile pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset>(m_projectDataCopy, this);
+	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent>(m_projectDataCopy, this);
+	pageSwitches = new DatabaseSplitWidget<lcf::rpg::Switch>(m_projectDataCopy, this);
+	pageVariables = new DatabaseSplitWidget<lcf::rpg::Variable>(m_projectDataCopy, this);
+
 	pageVocabulary = new VocabularyWidget(m_projectDataCopy, this);
 	pageSystem = new SystemWidget(m_projectDataCopy, this);
 	pageSystem2  = new System2Widget(m_projectDataCopy, this);
@@ -66,7 +67,7 @@ DatabaseDialog::DatabaseDialog(ProjectData& project, QWidget *parent) :
 	ui->tabOld_Pages->insertTab(9, pageBattleAnimations2, tr("Battle Animation 2"));
 	ui->tabOld_Pages->insertTab(10, pageBattleScreen, tr("Battle screen"));
 	ui->tabOld_Pages->insertTab(11, pageTerrain, tr("Terrain"));
-	ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
+	// FIXME ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
 	ui->tabOld_Pages->insertTab(13, pageVocabulary, tr("Vocabulary"));
 	ui->tabOld_Pages->insertTab(14, pageSystem, tr("System"));
 	ui->tabOld_Pages->insertTab(15, pageSystem2, tr("System"));

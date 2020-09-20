@@ -27,6 +27,7 @@
 #include "ui/common/rpg_model.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
 #include "model/rpg_base.h"
+#include "model/rpg_reflect.h"
 
 
 namespace Ui {
@@ -46,31 +47,33 @@ protected:
 };
 
 // Qt MOC limitation: Can't mix Q_OBJECT and template
-template<class WIDGET>
+template<class LCF>
 class DatabaseSplitWidget : public DatabaseSplitWidgetBase {
 public:
+	using widget_type = typename RpgReflect<LCF>::widget_type;
+
 	explicit DatabaseSplitWidget(ProjectData& project, QWidget* parent = nullptr);
 
 	QListView* listWidget() {
 		return ui->list;
 	}
-	WIDGET* contentWidget() {
+	widget_type* contentWidget() {
 		return m_contentWidget;
 	}
 
 private:
 	ProjectData& m_project;
 
-	WIDGET* m_contentWidget;
+	widget_type* m_contentWidget;
 };
 
-template<class WIDGET>
-inline DatabaseSplitWidget<WIDGET>::DatabaseSplitWidget(ProjectData& project, QWidget* parent) :
+template<class LCF>
+inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, QWidget* parent) :
 		m_project(project), DatabaseSplitWidgetBase(parent)
 {
-	m_contentWidget = new WIDGET(m_project, this);
+	m_contentWidget = new typename RpgReflect<LCF>::widget_type(m_project, this);
 	QListView& list = *ui->list;
-	list.setModel(RpgModelFactory::Create<typename WIDGET::value_type>(project, parent));
+	list.setModel(new RpgModel<LCF>(project, parent));
 	ui->splitter->addWidget(m_contentWidget);
 	ui->splitter->setStretchFactor(0, 1);
 	ui->splitter->setStretchFactor(1, 4);
@@ -78,7 +81,10 @@ inline DatabaseSplitWidget<WIDGET>::DatabaseSplitWidget(ProjectData& project, QW
 	list.setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(list.selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &index) {
-		m_contentWidget->setData(list.model()->data(index, ModelData::ModelDataObject).value<typename WIDGET::value_type*>());
+		// Based on the list index update the data of the content widget
+		m_contentWidget->setData(
+				list.model()->data(index, ModelData::ModelDataObject)
+				.value<LCF*>());
 	});
 
 	connect(&list, &QListView::customContextMenuRequested, this, [&](const QPoint& pos) {
@@ -90,7 +96,8 @@ inline DatabaseSplitWidget<WIDGET>::DatabaseSplitWidget(ProjectData& project, QW
 		auto* editAct = new QAction("Edit...", &list);
 
 		connect(editAct, &QAction::triggered, &list, [&]{
-			RpgFactory::Create(project, *list.model()->data(index, ModelData::ModelDataObject).value<typename WIDGET::value_type*>()).edit(this)->show();
+			typename RpgReflect<LCF>::model_type(project, *list.model()->data(
+					index, ModelData::ModelDataObject).value<LCF*>()).edit(this)->show();
 		});
 
 		QMenu menu(&list);

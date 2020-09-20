@@ -43,7 +43,7 @@
 #include "core.h"
 #include "ui/common/rpg_model.h"
 
-template<class WIDGET>
+template<class LCF>
 class DatabaseSplitWidget;
 class ProjectData;
 
@@ -80,25 +80,25 @@ private slots:
 private:
 	Ui::DatabaseDialog *ui;
 
-	DatabaseSplitWidget<ActorWidget>* pageActors;
-	DatabaseSplitWidget<ClassWidget>* pageClasses;
-	DatabaseSplitWidget<SkillWidget>* pageSkills;
-	DatabaseSplitWidget<ItemWidget>* pageItems;
-	DatabaseSplitWidget<EnemyWidget>* pageEnemies;
-	DatabaseSplitWidget<EnemyGroupWidget>* pageEnemyGroups;
-	DatabaseSplitWidget<AttributeWidget>* pageAttributes;
-	DatabaseSplitWidget<StateWidget>* pageStates;
-	DatabaseSplitWidget<BattleAnimationWidget>* pageBattleAnimations;
-	DatabaseSplitWidget<BattleAnimation2Widget>* pageBattleAnimations2;
+	DatabaseSplitWidget<lcf::rpg::Actor>* pageActors;
+	DatabaseSplitWidget<lcf::rpg::Class>* pageClasses;
+	DatabaseSplitWidget<lcf::rpg::Skill>* pageSkills;
+	DatabaseSplitWidget<lcf::rpg::Item>* pageItems;
+	DatabaseSplitWidget<lcf::rpg::Enemy>* pageEnemies;
+	DatabaseSplitWidget<lcf::rpg::Troop>* pageEnemyGroups;
+	DatabaseSplitWidget<lcf::rpg::Attribute>* pageAttributes;
+	DatabaseSplitWidget<lcf::rpg::State>* pageStates;
+	DatabaseSplitWidget<lcf::rpg::Animation>* pageBattleAnimations;
+	DatabaseSplitWidget<lcf::rpg::BattlerAnimation>* pageBattleAnimations2;
 	BattleScreenWidget* pageBattleScreen;
-	DatabaseSplitWidget<TerrainWidget>* pageTerrain;
-	DatabaseSplitWidget<ChipSetWidget>* pageChipset;
+	DatabaseSplitWidget<lcf::rpg::Terrain>* pageTerrain;
+	DatabaseSplitWidget<lcf::rpg::Chipset>* pageChipset;
 	VocabularyWidget* pageVocabulary;
 	SystemWidget* pageSystem;
 	System2Widget* pageSystem2;
-	DatabaseSplitWidget<CommonEventWidget>* pageCommonevents;
-	DatabaseSplitWidget<SwitchWidget>* pageSwitches;
-	DatabaseSplitWidget<VariableWidget>* pageVariables;
+	DatabaseSplitWidget<lcf::rpg::CommonEvent>* pageCommonevents;
+	DatabaseSplitWidget<lcf::rpg::Switch>* pageSwitches;
+	DatabaseSplitWidget<lcf::rpg::Variable>* pageVariables;
 	ProjectData& m_project;
 	ProjectData m_projectDataCopy;
 };
