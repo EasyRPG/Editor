@@ -33,6 +33,8 @@ class ClassWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Class;
+
 	explicit ClassWidget(ProjectData& project, QWidget *parent = nullptr);
 	~ClassWidget();
 	void setData(lcf::rpg::Class* cls);

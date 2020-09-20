@@ -31,6 +31,8 @@ class ChipSetWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Chipset;
+
 	explicit ChipSetWidget(ProjectData& project, QWidget *parent = nullptr);
 	~ChipSetWidget();
 

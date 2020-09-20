@@ -37,9 +37,8 @@ void EnemyGroupWidget::setData(lcf::rpg::Troop* troop) {
 
 	ui->tabCommands->clear();
 	for (auto& page : troop->pages) {
-		// FIXME: The CommandWidget must be wrapped in another widget that provides the conditions
 		auto* tab = new BattlePageWidget(this);
-		tab->setEventPage(&page);
+		tab->setEventPage(m_project, &page);
 		ui->tabCommands->addTab(tab, QString::number(page.ID));
 	}
 

@@ -31,6 +31,8 @@ class TerrainWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Terrain;
+
 	explicit TerrainWidget(ProjectData& project, QWidget *parent = nullptr);
 	~TerrainWidget();
 

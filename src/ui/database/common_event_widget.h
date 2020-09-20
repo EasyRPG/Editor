@@ -31,6 +31,8 @@ class CommonEventWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::CommonEvent;
+
 	explicit CommonEventWidget(ProjectData& project, QWidget *parent = nullptr);
 	~CommonEventWidget() override;
 

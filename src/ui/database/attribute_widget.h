@@ -31,6 +31,8 @@ class AttributeWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Attribute;
+
 	explicit AttributeWidget(ProjectData& project, QWidget *parent = nullptr);
 	~AttributeWidget();
 

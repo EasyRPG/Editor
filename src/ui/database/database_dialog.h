@@ -43,7 +43,7 @@
 #include "core.h"
 #include "ui/common/rpg_model.h"
 
-template<class T, class U>
+template<class WIDGET>
 class DatabaseSplitWidget;
 class ProjectData;
 
@@ -80,25 +80,25 @@ private slots:
 private:
 	Ui::DatabaseDialog *ui;
 
-	DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget> *pageActors;
-	DatabaseSplitWidget<lcf::rpg::Class, ClassWidget> *pageClasses;
-	DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget> *pageSkills;
-	DatabaseSplitWidget<lcf::rpg::Item, ItemWidget> *pageItems;
-	DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget> *pageEnemies;
-	DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget> *pageEnemyGroups;
-	DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget> *pageAttributes;
-	DatabaseSplitWidget<lcf::rpg::State, StateWidget> *pageStates;
-	DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget> *pageBattleAnimations;
-	DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget> *pageBattleAnimations2;
-	BattleScreenWidget *pageBattleScreen;
-	DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget> *pageTerrain;
-	DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget> *pageChipset;
-	VocabularyWidget *pageVocabulary;
-	SystemWidget *pageSystem;
-	System2Widget *pageSystem2;
-	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
-	DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget> *pageSwitches;
-	DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget> *pageVariables;
+	DatabaseSplitWidget<ActorWidget>* pageActors;
+	DatabaseSplitWidget<ClassWidget>* pageClasses;
+	DatabaseSplitWidget<SkillWidget>* pageSkills;
+	DatabaseSplitWidget<ItemWidget>* pageItems;
+	DatabaseSplitWidget<EnemyWidget>* pageEnemies;
+	DatabaseSplitWidget<EnemyGroupWidget>* pageEnemyGroups;
+	DatabaseSplitWidget<AttributeWidget>* pageAttributes;
+	DatabaseSplitWidget<StateWidget>* pageStates;
+	DatabaseSplitWidget<BattleAnimationWidget>* pageBattleAnimations;
+	DatabaseSplitWidget<BattleAnimation2Widget>* pageBattleAnimations2;
+	BattleScreenWidget* pageBattleScreen;
+	DatabaseSplitWidget<TerrainWidget>* pageTerrain;
+	DatabaseSplitWidget<ChipSetWidget>* pageChipset;
+	VocabularyWidget* pageVocabulary;
+	SystemWidget* pageSystem;
+	System2Widget* pageSystem2;
+	DatabaseSplitWidget<CommonEventWidget>* pageCommonevents;
+	DatabaseSplitWidget<SwitchWidget>* pageSwitches;
+	DatabaseSplitWidget<VariableWidget>* pageVariables;
 	ProjectData& m_project;
 	ProjectData m_projectDataCopy;
 };

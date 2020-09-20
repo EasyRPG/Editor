@@ -31,6 +31,8 @@ class EnemyWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Enemy;
+
 	explicit EnemyWidget(ProjectData& project, QWidget *parent = nullptr);
 	~EnemyWidget();
 

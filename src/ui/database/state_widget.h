@@ -31,6 +31,8 @@ class StateWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::State;
+
 	explicit StateWidget(ProjectData& project, QWidget *parent = nullptr);
 	~StateWidget();
 

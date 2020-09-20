@@ -31,6 +31,8 @@ class ItemWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Item;
+
 	explicit ItemWidget(ProjectData& project, QWidget *parent = nullptr);
 	~ItemWidget() override;
 

@@ -32,9 +32,8 @@
 #include "ui/database/actor_widget.h"
 #include "ui/database/item_widget.h"
 
-template <class T>
-class RpgModel : public QAbstractListModel
-{
+template<typename T>
+class RpgModel : public QAbstractListModel {
 public:
 	RpgModel(ProjectData& project, std::vector<T>& data, QObject *parent = nullptr) :
 			QAbstractListModel(parent), m_project(project), m_data(data) {}
@@ -46,9 +45,13 @@ private:
 	std::vector<T>& m_data;
 };
 
-template <class T>
-QVariant RpgModel<T>::data(const QModelIndex &index, int role) const
-{
+enum ModelData {
+	ModelDataId = Qt::UserRole,
+	ModelDataObject
+};
+
+template<class T>
+QVariant RpgModel<T>::data(const QModelIndex &index, int role) const {
 	if (!index.isValid()) {
 		return QVariant();
 	} else if (role == Qt::DisplayRole || role == Qt::EditRole) {
@@ -58,6 +61,8 @@ QVariant RpgModel<T>::data(const QModelIndex &index, int role) const
 		return RpgFactory::Create(m_project, m_data[index.row()]).preview();
 	} else if (role == Qt::UserRole) {
 		return m_data[index.row()].ID;
+	} else if (role == ModelDataObject) {
+		return QVariant::fromValue(&m_data[index.row()]);
 	}
 
 	return QVariant();

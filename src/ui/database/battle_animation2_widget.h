@@ -31,6 +31,8 @@ class BattleAnimation2Widget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::BattlerAnimation;
+
 	explicit BattleAnimation2Widget(ProjectData& project, QWidget *parent = nullptr);
 	~BattleAnimation2Widget();
 

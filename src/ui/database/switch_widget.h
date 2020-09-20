@@ -31,6 +31,8 @@ class SwitchWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Switch;
+
 	explicit SwitchWidget(ProjectData& project, QWidget *parent = nullptr);
 	~SwitchWidget() override;
 

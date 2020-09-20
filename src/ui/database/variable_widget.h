@@ -31,6 +31,8 @@ class VariableWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Variable;
+
 	explicit VariableWidget(ProjectData& project, QWidget *parent = nullptr);
 	~VariableWidget() override;
 

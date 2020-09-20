@@ -31,6 +31,8 @@ class SkillWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Skill;
+
 	explicit SkillWidget(ProjectData& project, QWidget *parent = nullptr);
 	~SkillWidget();
 

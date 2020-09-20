@@ -39,6 +39,8 @@ class ActorWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Actor;
+
 	explicit ActorWidget(ProjectData& project, QWidget *parent = nullptr);
 	void setData(lcf::rpg::Actor* actor);
 	~ActorWidget();

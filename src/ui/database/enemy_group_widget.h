@@ -31,6 +31,8 @@ class EnemyGroupWidget : public QWidget
 	Q_OBJECT
 
 public:
+	using value_type = lcf::rpg::Troop;
+
 	explicit EnemyGroupWidget(ProjectData& project, QWidget *parent = nullptr);
 	~EnemyGroupWidget() override;
 
