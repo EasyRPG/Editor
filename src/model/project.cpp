@@ -173,6 +173,14 @@ QString Project::findFileOrDefault(const QString& filename) {
 	return found.isEmpty() ? FileFinder::CombinePath(projectDir().absolutePath(), filename) : found;
 }
 
+QString Project::findDirectory(const QString& dir) const {
+	return FileFinder::Find(projectDir().absolutePath(), dir, FileFinder::FileType::Default, QDir::Dirs);
+}
+
+QString Project::findDirectory(const QString& baseDir, const QString& dir) const {
+	return FileFinder::Find(projectDir().absolutePath(), baseDir, dir, FileFinder::FileType::Default, QDir::Dirs);
+}
+
 QString Project::detectEncoding() {
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
 		setEncoding("utf-8");

@@ -15,26 +15,26 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "picker_faceset_widget.h"
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+void PickerFacesetWidget::draw(QGraphicsScene* scene) {
+	QRect rect = {
+		(m_index % 4) * 48,
+		m_index / 4 * 48,
+		48,
+		48
+	};
 
-class RpgBase {
-public:
-	explicit RpgBase(ProjectData& project);
+	QPen selPen(Qt::white);
+	selPen.setWidth(2);
 
-	virtual QPixmap preview() {
-		return QPixmap();
-	}
+	scene->addRect(rect, selPen);
+}
 
-	ProjectData& project() const {
-		return m_project;
-	}
-
-protected:
-	ProjectData& m_project;
-};
+void PickerFacesetWidget::clicked(const QPointF& pos) {
+	int x = static_cast<int>(pos.x() / 48);
+	int y = static_cast<int>(pos.y() / 48);
+	m_index = y * 4 + x;
+}

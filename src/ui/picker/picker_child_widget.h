@@ -17,24 +17,15 @@
 
 #pragma once
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+#include <QWidget>
 
-class RpgBase {
+class QGraphicsScene;
+
+class PickerChildWidget : public QWidget {
+	Q_OBJECT
 public:
-	explicit RpgBase(ProjectData& project);
+	explicit PickerChildWidget(QWidget* parent) : QWidget(parent) {}
 
-	virtual QPixmap preview() {
-		return QPixmap();
-	}
-
-	ProjectData& project() const {
-		return m_project;
-	}
-
-protected:
-	ProjectData& m_project;
+	virtual void clicked(const QPointF&) {}
+	virtual void draw(QGraphicsScene*) {}
 };

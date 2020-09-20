@@ -17,8 +17,10 @@
 
 #pragma once
 
+#include <QGraphicsItem>
 #include <lcf/rpg/database.h>
 #include <lcf/rpg/actor.h>
+#include "project.h"
 #include "rpg_base.h"
 
 class QSortFilterProxyModel;
@@ -42,6 +44,10 @@ public:
 	QSortFilterProxyModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
 
 	lcf::rpg::Actor& data();
+
+	const lcf::rpg::Actor& data() const;
+
+	QGraphicsItem* face() const;
 
 	QPixmap preview() override;
 

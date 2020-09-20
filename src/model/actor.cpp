@@ -38,6 +38,10 @@ QPixmap ActorModel::preview() {
 	return faceSet.copy(x, y, 48, 48);
 }
 
+const lcf::rpg::Actor& ActorModel::data() const {
+        return m_data;
+}
+
 bool ActorModel::IsItemUsable(const lcf::rpg::Item& item) const {
 	int query_idx = m_data.ID - 1;
 	auto* query_set = &item.actor_set;
@@ -70,4 +74,40 @@ QSortFilterProxyModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type ty
 	}
 
 	return new SortFilterProxyModelIdFilter(indices);
+}
+
+class FaceSetGraphicsItem : public QGraphicsItem {
+public:
+	FaceSetGraphicsItem(const ActorModel& actor) : m_actor(actor.data()), m_project(actor.project().project()) {}
+
+	QRect faceRect() const {
+		return {
+				(m_actor.face_index % 4) * 48,
+				m_actor.face_index / 4 * 48,
+				48,
+				48
+		};
+	}
+
+	QRectF boundingRect() const override {
+		return {0., 0., 48., 48.};
+	}
+
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override {
+		if (ToQString(m_actor.face_name) != face_name) {
+			face_name = ToQString(m_actor.face_name);
+			graphic = ImageLoader::Load(m_project.findFile("FaceSet", ToQString(m_actor.face_name), FileFinder::FileType::Image));
+		}
+		painter->drawPixmap(boundingRect(), graphic, faceRect());
+	}
+
+private:
+	const lcf::rpg::Actor& m_actor;
+	const Project& m_project;
+	QPixmap graphic;
+	QString face_name;
+};
+
+QGraphicsItem* ActorModel::face() const {
+	return new FaceSetGraphicsItem(*this);
 }

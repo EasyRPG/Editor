@@ -30,8 +30,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/core.cpp
 	src/core.h
 	src/defines.h
-	src/gamecharacter.cpp
-	src/gamecharacter.h
 	src/main.cpp
 	src/model/actor.cpp
 	src/model/actor.h
@@ -296,6 +294,14 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/other/splash_dialog.ui
 	src/ui/other/volumebutton.cpp
 	src/ui/other/volumebutton.h
+	src/ui/picker/picker_child_widget.h
+	src/ui/picker/picker_faceset_widget.cpp
+	src/ui/picker/picker_faceset_widget.h
+	src/ui/picker/picker_dialog.cpp
+	src/ui/picker/picker_dialog.h
+	src/ui/picker/picker_dialog.ui
+	src/ui/viewer/scene.cpp
+	src/ui/viewer/scene.h
 )
 
 # Include directories

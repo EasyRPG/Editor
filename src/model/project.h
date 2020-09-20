@@ -54,6 +54,9 @@ public:
 	 */
 	QString findFileOrDefault(const QString& filename);
 
+	QString findDirectory(const QString& dir) const;
+	QString findDirectory(const QString& baseDir, const QString& dir) const;
+
 	QString detectEncoding();
 	QString encoding() const;
 	void setEncoding(const QString& encoding);

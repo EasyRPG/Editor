@@ -17,24 +17,41 @@
 
 #pragma once
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#include <QGraphicsView>
+#include <QPainter>
+#include "model/actor.h"
+#include "ui/picker/picker_dialog.h"
 
-class RpgBase {
+class ViewBase : public QGraphicsView {
+	Q_OBJECT
+
 public:
-	explicit RpgBase(ProjectData& project);
+	explicit ViewBase(QWidget* parent) : QGraphicsView(parent) {}
 
-	virtual QPixmap preview() {
-		return QPixmap();
-	}
+	void setItem(QGraphicsItem* item);
 
-	ProjectData& project() const {
-		return m_project;
-	}
+signals:
+	void clicked(const QPointF&);
 
 protected:
-	ProjectData& m_project;
+	void mousePressEvent(QMouseEvent* event) override;
+
+private:
+	QGraphicsItem* m_item = nullptr;
+};
+
+class FaceSetGraphicsView : public ViewBase {
+	Q_OBJECT
+
+public:
+	explicit FaceSetGraphicsView(QWidget* parent = nullptr) : ViewBase(parent) {
+		setScene(new QGraphicsScene(this));
+		scale(2., 2.);
+	}
+
+	void refresh(const ActorModel& model) {
+		setItem(model.face());
+	}
 };

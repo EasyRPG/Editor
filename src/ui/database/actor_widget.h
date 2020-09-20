@@ -26,6 +26,7 @@
 #include "ui/common/faceset_picker_dialog.h"
 #include "ui/common/battle_animation_item.h"
 #include "ui/common/stat_curve_item.h"
+#include "model/actor.h"
 
 class ProjectData;
 
@@ -48,10 +49,10 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_pushSetCharset_clicked();
-	void on_pushSetFace_clicked();
 	void on_comboBattleset_currentIndexChanged(int index);
 	void on_pushApplyProfession_clicked();
+
+	void faceSetClicked();
 
 signals:
 	void currentActorChanged(lcf::rpg::Actor *actor);
@@ -66,7 +67,7 @@ private:
 	void ResetExpText(lcf::rpg::Actor* actor);
 
 	CharSetItem *m_charaItem;
-	FaceSetItem *m_faceItem;
+	//FaceSetItem *m_faceItem;
 	BattleAnimationItem *m_battlerItem;
 	CurveItem *m_hpItem;
 	CurveItem *m_mpItem;

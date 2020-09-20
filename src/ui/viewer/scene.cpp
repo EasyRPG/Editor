@@ -15,26 +15,24 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "scene.h"
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
-
-class RpgBase {
-public:
-	explicit RpgBase(ProjectData& project);
-
-	virtual QPixmap preview() {
-		return QPixmap();
+void ViewBase::mousePressEvent(QMouseEvent* event) {
+	if (event->button() == Qt::LeftButton && m_item) {
+		const auto& p = mapToScene(event->pos());
+		if (m_item->boundingRect().contains(p)) {
+			emit clicked(event->localPos());
+		}
 	}
+	QGraphicsView::mousePressEvent(event);
+}
 
-	ProjectData& project() const {
-		return m_project;
+void ViewBase::setItem(QGraphicsItem* item) {
+	m_item = item;
+	scene()->clear();
+	if (!item) {
+		return;
 	}
-
-protected:
-	ProjectData& m_project;
-};
+	scene()->addItem(item);
+	scene()->setSceneRect(item->boundingRect());
+}

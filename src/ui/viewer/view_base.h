@@ -17,24 +17,12 @@
 
 #pragma once
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#include <QGraphicsView>
+#include <QPainter>
 
-class RpgBase {
+class ViewBase : public QGraphicsView {
 public:
-	explicit RpgBase(ProjectData& project);
-
-	virtual QPixmap preview() {
-		return QPixmap();
-	}
-
-	ProjectData& project() const {
-		return m_project;
-	}
-
-protected:
-	ProjectData& m_project;
+	explicit ViewBase(QWidget* parent) : QGraphicsView(parent) {}
 };
