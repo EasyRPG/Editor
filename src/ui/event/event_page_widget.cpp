@@ -27,10 +27,10 @@
 #include "common/dbstring.h"
 #include "common/lcf_widget_binding.h"
 
-EventPageWidget::EventPageWidget(lcf::rpg::Database& database, QWidget *parent) :
+EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::QEventWidget),
-	m_database(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 
@@ -51,12 +51,12 @@ EventPageWidget::EventPageWidget(lcf::rpg::Database& database, QWidget *parent) 
 	m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 	ui->graphicsSprite->setScene(m_scene);
 
-	ui->comboSwitchA->makeModel(database, database.switches);
-	ui->comboSwitchB->makeModel(database, database.switches);
-	ui->comboVariable->makeModel(database, database.variables);
-	ui->comboItem->makeModel(database, database.items);
-	ui->comboHero->makeModel(database, database.actors);
-
+	auto& database = project.database();
+	ui->comboSwitchA->makeModel(project);
+	ui->comboSwitchB->makeModel(project);
+	ui->comboVariable->makeModel(project);
+	ui->comboItem->makeModel(project);
+	ui->comboHero->makeModel(project);
 }
 
 EventPageWidget::~EventPageWidget()
@@ -99,7 +99,7 @@ void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 	m_effect->setEnabled(m_eventPage->translucent);
 	updateGraphic();
 
-	ui->commands->setData(eventPage);
+	ui->commands->setData(m_project, eventPage);
 }
 
 void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
@@ -109,22 +109,6 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 	ui->label->setEnabled(index != 0);
 	ui->comboMoveSpeed->setEnabled(index != 0);
 	m_eventPage->move_type = index;
-}
-
-/**
- * @brief Formats the text for the switch condition’s selector
- * @param switchId ID of the switch to format, 1-based
- * @return Formatted text
- */
-QString formatSwitchCondition(int switchId) {
-	if (switchId >= 1 && switchId <= static_cast<int>(core().project()->database().switches.size())) {
-		return QString("%1: %2").arg(switchId)
-				.arg(ToQString
-					 (core().project()->database().switches[static_cast<size_t>(switchId) - 1].name));
-	}
-	else {
-		return QString("%1: ???").arg(switchId);
-	}
 }
 
 void EventPageWidget::on_checkSwitchA_toggled(bool checked)

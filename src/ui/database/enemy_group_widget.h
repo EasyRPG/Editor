@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class EnemyGroupWidget;
 }
@@ -29,14 +31,16 @@ class EnemyGroupWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit EnemyGroupWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Troop;
+
+	explicit EnemyGroupWidget(ProjectData& project, QWidget *parent = nullptr);
 	~EnemyGroupWidget() override;
 
 	void setData(lcf::rpg::Troop* troop);
 
 private:
 	Ui::EnemyGroupWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 	lcf::rpg::Troop m_dummy;
 	lcf::rpg::Troop* m_current = nullptr;
 };

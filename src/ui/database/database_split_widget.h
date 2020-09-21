@@ -23,6 +23,11 @@
 #include <QMenu>
 #include <lcf/rpg/database.h>
 #include "ui/common/rpg_model.h"
+#include "ui_database_split_widget.h"
+#include "ui/common/rpg_model.h"
+#include "ui/common/widget_as_dialog_wrapper.h"
+#include "model/rpg_base.h"
+#include "model/rpg_reflect.h"
 #include "actor_widget.h"
 #include "attribute_widget.h"
 #include "battle_animation2_widget.h"
@@ -36,10 +41,8 @@
 #include "skill_widget.h"
 #include "state_widget.h"
 #include "terrain_widget.h"
-#include "ui_database_split_widget.h"
-#include "ui/common/rpg_model.h"
-#include "ui/common/widget_as_dialog_wrapper.h"
-#include "model/rpg_base.h"
+#include "variable_widget.h"
+#include "switch_widget.h"
 
 namespace Ui {
 class DatabaseSplitWidget;
@@ -51,39 +54,42 @@ class DatabaseSplitWidgetBase : public QWidget
 
 public:
 	explicit DatabaseSplitWidgetBase(QWidget *parent = nullptr);
-	virtual ~DatabaseSplitWidgetBase();
+	~DatabaseSplitWidgetBase() override;
 
 protected:
 	Ui::DatabaseSplitWidget *ui;
 };
 
 // Qt MOC limitation: Can't mix Q_OBJECT and template
-template<class T, class U>
+template<class LCF>
 class DatabaseSplitWidget : public DatabaseSplitWidgetBase {
 public:
-	explicit DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget *parent = nullptr);
+	using widget_type = typename RpgReflect<LCF>::widget_type;
+
+	explicit DatabaseSplitWidget(ProjectData& project, QWidget* parent = nullptr);
+	DatabaseSplitWidget(ProjectData& project, std::vector<LCF>& data, QWidget* parent = nullptr);
 
 	QListView* listWidget() {
 		return ui->list;
 	}
-	U* contentWidget() {
+	widget_type* contentWidget() {
 		return m_contentWidget;
 	}
+	void setModel(QAbstractItemModel* model);
 
 private:
-	lcf::rpg::Database& db;
+	ProjectData& m_project;
 
-	U* m_contentWidget;
+	widget_type* m_contentWidget;
 };
 
-template<class T, class U>
-inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& database, std::vector<T>& data, QWidget* parent) :
-		db(database), DatabaseSplitWidgetBase(parent)
+template<class LCF>
+inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, std::vector<LCF>& data, QWidget* parent) :
+		m_project(project), DatabaseSplitWidgetBase(parent)
 {
-	m_contentWidget = new U(db, this);
+	m_contentWidget = new typename RpgReflect<LCF>::widget_type(m_project, this);
 	QListView& list = *ui->list;
-
-	list.setModel(new RpgModel<T>(database, data));
+	list.setModel(new RpgModel<LCF>(project, data, parent));
 	ui->splitter->addWidget(m_contentWidget);
 	ui->splitter->setStretchFactor(0, 1);
 	ui->splitter->setStretchFactor(1, 4);
@@ -91,7 +97,10 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 	list.setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(list.selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &index) {
-		m_contentWidget->setData(&data[index.row()]);
+		// Based on the list index update the data of the content widget
+		m_contentWidget->setData(
+				list.model()->data(index, ModelData::ModelDataObject)
+				.value<LCF*>());
 	});
 
 	connect(&list, &QListView::customContextMenuRequested, this, [&](const QPoint& pos) {
@@ -103,7 +112,10 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 		auto* editAct = new QAction("Edit...", &list);
 
 		connect(editAct, &QAction::triggered, &list, [&]{
-			RpgFactory::Create(data[index.row()], database).edit(this)->show();
+			auto* d = new WidgetAsDialogWrapper<typename RpgReflect<LCF>::widget_type, LCF>
+			        (m_project, *list.model()->data(index, ModelData::ModelDataObject)
+							.value<LCF*>(), this);
+			d->show();
 		});
 
 		QMenu menu(&list);
@@ -112,4 +124,20 @@ inline DatabaseSplitWidget<T, U>::DatabaseSplitWidget(lcf::rpg::Database& databa
 		menu.exec(mapToGlobal(pos));
 	});
 
+}
+
+template<class LCF>
+inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, QWidget* parent) :
+	DatabaseSplitWidget(project, RpgReflect<LCF>::items(project.database()), parent)
+{
+}
+
+template<class LCF>
+void DatabaseSplitWidget<LCF>::setModel(QAbstractItemModel *model) {
+	listWidget()->setModel(model);
+	connect(listWidget()->selectionModel(), &QItemSelectionModel::currentChanged, this, [&](const QModelIndex &index) {
+		// Based on the list index update the data of the content widget
+		m_contentWidget->setData(
+				listWidget()->model()->data(index, ModelData::ModelDataObject).template value<LCF*>());
+	});
 }

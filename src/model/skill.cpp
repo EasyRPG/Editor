@@ -18,19 +18,15 @@
 #include "skill.h"
 #include "ui/database/skill_widget.h"
 
-Skill::Skill(lcf::rpg::Skill& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+SkillModel::SkillModel(ProjectData& project, lcf::rpg::Skill& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Skill& Skill::data() {
+lcf::rpg::Skill& SkillModel::data() {
 	return m_data;
 }
 
-QPixmap Skill::preview() {
+QPixmap SkillModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Skill::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<SkillWidget, lcf::rpg::Skill>(database, m_data, parent);
 }

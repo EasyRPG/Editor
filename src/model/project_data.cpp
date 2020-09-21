@@ -15,25 +15,13 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "project_data.h"
 
-#include <lcf/rpg/database.h>
-#include <lcf/rpg/class.h>
-#include "rpg_base.h"
+ProjectData::ProjectData(Project& project) : m_project(&project) {
 
-/**
- * A thin wrapper around lcf::rpg::Class
- */
-class ClassModel : public RpgBase
-{
-public:
-	ClassModel(ProjectData& project, lcf::rpg::Class& data);
+}
 
-	lcf::rpg::Class& data();
+ProjectData::ProjectData(Project& project, lcf::rpg::Database database, lcf::rpg::TreeMap treeMap) :
+	m_project(&project), m_database(std::move(database)), m_treemap(std::move(treeMap)) {
 
-	QPixmap preview() override;
-
-private:
-	lcf::rpg::Class& m_data;
-};
-
+}

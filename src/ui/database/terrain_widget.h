@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class TerrainWidget;
 }
@@ -29,13 +31,15 @@ class TerrainWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit TerrainWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Terrain;
+
+	explicit TerrainWidget(ProjectData& project, QWidget *parent = nullptr);
 	~TerrainWidget();
 
 	void setData(lcf::rpg::Terrain* terrain);
 
 private:
 	Ui::TerrainWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

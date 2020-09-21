@@ -28,6 +28,8 @@
 #include "ui/common/battle_animation_item.h"
 #include "ui/common/stat_curve_item.h"
 
+class ProjectData;
+
 namespace Ui {
 class ActorWidget;
 }
@@ -37,7 +39,9 @@ class ActorWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ActorWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Actor;
+
+	explicit ActorWidget(ProjectData& project, QWidget *parent = nullptr);
 	void setData(lcf::rpg::Actor* actor);
 	~ActorWidget();
 
@@ -74,7 +78,7 @@ private:
 	std::vector<short> m_dummyCurve;
 
 	lcf::rpg::Actor dummy;
-	lcf::rpg::Actor *m_currentActor;
-	lcf::rpg::Database &m_data;
+	lcf::rpg::Actor *m_current;
+	ProjectData& m_project;
 };
 

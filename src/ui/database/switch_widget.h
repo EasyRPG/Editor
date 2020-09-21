@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/rpg/database.h>
 
+class ProjectData;
+
 namespace Ui {
 class SwitchWidget;
 }
@@ -29,14 +31,16 @@ class SwitchWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit SwitchWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Switch;
+
+	explicit SwitchWidget(ProjectData& project, QWidget *parent = nullptr);
 	~SwitchWidget() override;
 
 	void setData(lcf::rpg::Switch* sw);
 
 private:
 	Ui::SwitchWidget *ui;
-	lcf::rpg::Database &m_database;
+	ProjectData& m_project;
 	lcf::rpg::Switch *m_current = nullptr;
 	lcf::rpg::Switch m_dummy;
 };

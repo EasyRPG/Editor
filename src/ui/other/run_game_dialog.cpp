@@ -22,9 +22,10 @@
 #include "ui/database/actor_delegate.h"
 #include <lcf/data.h>
 
-RunGameDialog::RunGameDialog(QWidget *parent) :
+RunGameDialog::RunGameDialog(ProjectData& project, QWidget *parent) :
 	QDialog(parent),
-	ui(new Ui::RunGameDialog)
+	ui(new Ui::RunGameDialog),
+	m_project(project)
 {
 	ui->setupUi(this);
 
@@ -93,23 +94,25 @@ void RunGameDialog::on_comboMode_currentIndexChanged(int index)
 void RunGameDialog::UpdateModels()
 {
 	// Maps
+	auto& tree = m_project.treeMap();
 	ui->comboMapId->clear();
-	for (size_t i = 1; i < core().project()->treeMap().maps.size(); i++)
+	for (size_t i = 1; i < tree.maps.size(); i++)
 	{
-		if (core().project()->treeMap().maps[i].type == 1)
+		if (tree.maps[i].type == 1)
 		{
-			ui->comboMapId->addItem(ToQString(core().project()->treeMap().maps[i].name),
-									core().project()->treeMap().maps[i].ID);
+			ui->comboMapId->addItem(ToQString(tree.maps[i].name),
+									tree.maps[i].ID);
 		}
 	}
 
 	// Troops
+	auto& database = m_project.database();
 	ui->comboTroop->clear();
 	ui->comboTroop->addItem(tr("<Test Troop>"));
-	for (size_t i = 1; i < core().project()->database().troops.size(); i++)
-		ui->comboTroop->addItem(ToQString(core().project()->database().troops[i].name));
+	for (size_t i = 1; i < database.troops.size(); i++)
+		ui->comboTroop->addItem(ToQString(database.troops[i].name));
 
-	bool auto_placement = static_cast<bool>(core().project()->database().battlecommands.placement);
+	bool auto_placement = static_cast<bool>(database.battlecommands.placement);
 	ui->groupPartyFormation->setEnabled(auto_placement);
 	ui->comboBattleCondition->clear();
 	QStringList conditions;
@@ -119,10 +122,10 @@ void RunGameDialog::UpdateModels()
 	ui->comboBattleCondition->addItems(conditions);
 
 	ui->comboCustomFormation->clear();
-	for (size_t i = 0; i < core().project()->database().terrains.size(); i++)
-		ui->comboCustomFormation->addItem(ToQString(core().project()->database().terrains[i].name));
+	for (size_t i = 0; i < database.terrains.size(); i++)
+		ui->comboCustomFormation->addItem(ToQString(database.terrains[i].name));
 
-	battletest_data = core().project()->database().system.battletest_data;
+	battletest_data = database.system.battletest_data;
 	for (size_t i = 0; i < battletest_data.size(); i++)
 		ui->tableInitialParty->item(static_cast<int>(i),0)->setData(Qt::UserRole, battletest_data[i].actor_id);
 }

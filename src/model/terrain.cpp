@@ -18,19 +18,15 @@
 #include "terrain.h"
 #include "ui/database/terrain_widget.h"
 
-Terrain::Terrain(lcf::rpg::Terrain& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+TerrainModel::TerrainModel(ProjectData& project, lcf::rpg::Terrain& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Terrain& Terrain::data() {
+lcf::rpg::Terrain& TerrainModel::data() {
 	return m_data;
 }
 
-QPixmap Terrain::preview() {
+QPixmap TerrainModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Terrain::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<TerrainWidget, lcf::rpg::Terrain>(database, m_data, parent);
 }

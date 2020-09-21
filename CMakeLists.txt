@@ -47,9 +47,11 @@ add_library(${PROJECT_NAME} STATIC
 	src/model/item.h
 	src/model/project.cpp
 	src/model/project.h
+	src/model/project_data.cpp
+	src/model/project_data.h
 	src/model/rpg_base.cpp
 	src/model/rpg_base.h
-	src/model/rpg_factory.h
+	src/model/rpg_reflect.h
 	src/model/skill.cpp
 	src/model/skill.h
 	src/model/state.cpp
@@ -127,6 +129,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/rpg_model.h
 	src/ui/common/stat_curve_item.cpp
 	src/ui/common/stat_curve_item.h
+	src/ui/common/widget_as_dialog_model_wrapper.h
 	src/ui/common/widget_as_dialog_wrapper.h
 	src/ui/database/actor_delegate.cpp
 	src/ui/database/actor_delegate.h

@@ -18,10 +18,10 @@
 #include "system2_widget.h"
 #include "ui_system2_widget.h"
 
-System2Widget::System2Widget(lcf::rpg::Database &database, QWidget *parent) :
+System2Widget::System2Widget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::System2Widget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

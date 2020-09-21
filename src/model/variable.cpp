@@ -18,19 +18,15 @@
 #include "variable.h"
 #include "ui/database/variable_widget.h"
 
-Variable::Variable(lcf::rpg::Variable& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+VariableModel::VariableModel(ProjectData& project, lcf::rpg::Variable& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Variable& Variable::data() {
+lcf::rpg::Variable& VariableModel::data() {
 	return m_data;
 }
 
-QPixmap Variable::preview() {
+QPixmap VariableModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Variable::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<VariableWidget, lcf::rpg::Variable>(database, m_data, parent);
 }

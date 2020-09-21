@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class EnemyWidget;
 }
@@ -29,13 +31,15 @@ class EnemyWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit EnemyWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Enemy;
+
+	explicit EnemyWidget(ProjectData& project, QWidget *parent = nullptr);
 	~EnemyWidget();
 
 	void setData(lcf::rpg::Enemy* enemy);
 
 private:
 	Ui::EnemyWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

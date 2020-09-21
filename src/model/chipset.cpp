@@ -18,19 +18,15 @@
 #include "chipset.h"
 #include "ui/database/chipset_widget.h"
 
-Chipset::Chipset(lcf::rpg::Chipset& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+ChipsetModel::ChipsetModel(ProjectData& project, lcf::rpg::Chipset& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Chipset& Chipset::data() {
+lcf::rpg::Chipset& ChipsetModel::data() {
 	return m_data;
 }
 
-QPixmap Chipset::preview() {
+QPixmap ChipsetModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Chipset::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ChipSetWidget, lcf::rpg::Chipset>(database, m_data, parent);
 }

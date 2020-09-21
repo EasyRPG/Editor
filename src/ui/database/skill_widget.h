@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class SkillWidget;
 }
@@ -29,13 +31,15 @@ class SkillWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit SkillWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Skill;
+
+	explicit SkillWidget(ProjectData& project, QWidget *parent = nullptr);
 	~SkillWidget();
 
 	void setData(lcf::rpg::Skill* skill);
 
 private:
 	Ui::SkillWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 

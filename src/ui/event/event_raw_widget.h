@@ -21,6 +21,8 @@
 #include <lcf/rpg/eventcommand.h>
 #include <lcf/rpg/database.h>
 
+class ProjectData;
+
 namespace Ui {
 	class EventRawWidget;
 }
@@ -30,7 +32,7 @@ class EventRawWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit EventRawWidget(QWidget *parent);
+	EventRawWidget(ProjectData& project, QWidget *parent);
 	~EventRawWidget() override;
 
 	void setData(lcf::rpg::EventCommand* cmd);
@@ -41,6 +43,7 @@ private slots:
 	void on_buttonAddNum_clicked();
 
 private:
+	ProjectData& m_project;
 	Ui::EventRawWidget* ui;
 	lcf::rpg::EventCommand* cmd = nullptr;
 };

@@ -24,19 +24,16 @@
 /**
  * A thin wrapper around lcf::rpg::Enemy
  */
-class Enemy : public RpgBase
+class EnemyModel : public RpgBase
 {
 public:
-	Enemy(lcf::rpg::Enemy& data, lcf::rpg::Database& database);
+	EnemyModel(ProjectData& project, lcf::rpg::Enemy& data);
 
 	lcf::rpg::Enemy& data();
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::Enemy& m_data;
-	lcf::rpg::Database& database;
 };
 

@@ -18,10 +18,10 @@
 #include "chipset_widget.h"
 #include "ui_chipset_widget.h"
 
-ChipSetWidget::ChipSetWidget(lcf::rpg::Database &database, QWidget *parent) :
+ChipSetWidget::ChipSetWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::ChipSetWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

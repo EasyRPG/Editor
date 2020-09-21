@@ -19,9 +19,9 @@
 #include "ui_switch_widget.h"
 #include "src/common/lcf_widget_binding.h"
 
-SwitchWidget::SwitchWidget(lcf::rpg::Database &database, QWidget *parent) :
+SwitchWidget::SwitchWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::SwitchWidget), m_database(database)
+	ui(new Ui::SwitchWidget), m_project(project)
 {
 	ui->setupUi(this);
 

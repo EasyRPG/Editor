@@ -43,8 +43,9 @@
 #include "core.h"
 #include "ui/common/rpg_model.h"
 
-template<class T, class U>
+template<class LCF>
 class DatabaseSplitWidget;
+class ProjectData;
 
 namespace Ui {
 class DatabaseDialog;
@@ -55,7 +56,7 @@ class DatabaseDialog : public QDialog
 	Q_OBJECT
 	
 public:
-	explicit DatabaseDialog(QWidget *parent = nullptr);
+	explicit DatabaseDialog(ProjectData& project, QWidget *parent = nullptr);
 	~DatabaseDialog();
 
 signals:
@@ -79,26 +80,26 @@ private slots:
 private:
 	Ui::DatabaseDialog *ui;
 
-	DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget> *pageActors;
-	DatabaseSplitWidget<lcf::rpg::Class, ClassWidget> *pageClasses;
-	DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget> *pageSkills;
-	DatabaseSplitWidget<lcf::rpg::Item, ItemWidget> *pageItems;
-	DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget> *pageEnemies;
-	DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget> *pageEnemyGroups;
-	DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget> *pageAttributes;
-	DatabaseSplitWidget<lcf::rpg::State, StateWidget> *pageStates;
-	DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget> *pageBattleAnimations;
-	DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget> *pageBattleAnimations2;
-	BattleScreenWidget *pageBattleScreen;
-	DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget> *pageTerrain;
-	DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget> *pageChipset;
-	VocabularyWidget *pageVocabulary;
-	SystemWidget *pageSystem;
-	System2Widget *pageSystem2;
-	DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget> *pageCommonevents;
-	DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget> *pageSwitches;
-	DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget> *pageVariables;
-	lcf::rpg::Database& m_data;
-	lcf::rpg::Database m_dataCopy;
+	DatabaseSplitWidget<lcf::rpg::Actor>* pageActors;
+	DatabaseSplitWidget<lcf::rpg::Class>* pageClasses;
+	DatabaseSplitWidget<lcf::rpg::Skill>* pageSkills;
+	DatabaseSplitWidget<lcf::rpg::Item>* pageItems;
+	DatabaseSplitWidget<lcf::rpg::Enemy>* pageEnemies;
+	DatabaseSplitWidget<lcf::rpg::Troop>* pageEnemyGroups;
+	DatabaseSplitWidget<lcf::rpg::Attribute>* pageAttributes;
+	DatabaseSplitWidget<lcf::rpg::State>* pageStates;
+	DatabaseSplitWidget<lcf::rpg::Animation>* pageBattleAnimations;
+	DatabaseSplitWidget<lcf::rpg::BattlerAnimation>* pageBattleAnimations2;
+	BattleScreenWidget* pageBattleScreen;
+	DatabaseSplitWidget<lcf::rpg::Terrain>* pageTerrain;
+	DatabaseSplitWidget<lcf::rpg::Chipset>* pageChipset;
+	VocabularyWidget* pageVocabulary;
+	SystemWidget* pageSystem;
+	System2Widget* pageSystem2;
+	DatabaseSplitWidget<lcf::rpg::CommonEvent>* pageCommonevents;
+	DatabaseSplitWidget<lcf::rpg::Switch>* pageSwitches;
+	DatabaseSplitWidget<lcf::rpg::Variable>* pageVariables;
+	ProjectData& m_project;
+	ProjectData m_projectDataCopy;
 };
 

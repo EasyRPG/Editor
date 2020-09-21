@@ -22,6 +22,8 @@
 #include <lcf/rpg/trooppage.h>
 #include <lcf/rpg/eventpage.h>
 
+class ProjectData;
+
 class EventCommandsWidget : public QTreeWidget
 {
 	Q_OBJECT
@@ -29,16 +31,18 @@ class EventCommandsWidget : public QTreeWidget
 public:
 	explicit EventCommandsWidget(QWidget *parent = nullptr);
 
-	void setData(lcf::rpg::CommonEvent* event);
-	void setData(lcf::rpg::TroopPage* event);
-	void setData(lcf::rpg::EventPage* event);
+	void setData(ProjectData& project, lcf::rpg::CommonEvent* event);
+	void setData(ProjectData& project, lcf::rpg::TroopPage* event);
+	void setData(ProjectData& project, lcf::rpg::EventPage* event);
 
 private:
 	template<typename T>
-	void setDataInternal(T* event);
+	void setDataInternal(ProjectData& project, T* event);
 	std::vector<lcf::rpg::EventCommand>	* m_commands = nullptr;
 
 	void editRawEvent(QTreeWidgetItem* item, int column, bool show_warning);
+
+	ProjectData* m_project = nullptr;
 
 private slots:
 	void editEvent(QTreeWidgetItem* item, int column);

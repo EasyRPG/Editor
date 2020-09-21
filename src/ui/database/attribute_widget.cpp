@@ -18,10 +18,10 @@
 #include "attribute_widget.h"
 #include "ui_attribute_widget.h"
 
-AttributeWidget::AttributeWidget(lcf::rpg::Database &database, QWidget *parent) :
+AttributeWidget::AttributeWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::AttributeWidget),
-	m_data(database)
+	m_project(project)
 {
 	ui->setupUi(this);
 }

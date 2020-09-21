@@ -19,23 +19,19 @@
 #include "ui/database/enemy_widget.h"
 #include "common/dbstring.h"
 
-Enemy::Enemy(lcf::rpg::Enemy& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+EnemyModel::EnemyModel(ProjectData& project, lcf::rpg::Enemy& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Enemy& Enemy::data() {
+lcf::rpg::Enemy& EnemyModel::data() {
 	return m_data;
 }
 
-QPixmap Enemy::preview() {
-	QPixmap monster = ImageLoader::Load(core().project()->findFile("Monster", ToQString(data().battler_name), FileFinder::FileType::Image));
+QPixmap EnemyModel::preview() {
+	QPixmap monster = ImageLoader::Load(m_project.project().findFile("Monster", ToQString(data().battler_name), FileFinder::FileType::Image));
 	if (!monster) {
 		return QPixmap(48, 48);
 	}
 	return monster.scaled(48, 48, Qt::AspectRatioMode::KeepAspectRatio);
-}
-
-QDialog* Enemy::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<EnemyWidget, lcf::rpg::Enemy>(database, m_data, parent);
 }

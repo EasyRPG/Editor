@@ -22,15 +22,14 @@
 #include <lcf/context.h>
 #include <iostream>
 
-VocabularyWidget::VocabularyWidget(lcf::rpg::Database &database, QWidget *parent) :
+VocabularyWidget::VocabularyWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::VocabularyWidget),
-	m_data(database)
+	m_project(project), m_terms(project.database().terms)
 {
 	ui->setupUi(this);
-	terms = &m_data.terms;
 
-	lcf::rpg::ForEachString(*terms, [&](auto& val, const lcf::ContextStructBase<lcf::rpg::Terms>& ctx) {
+	lcf::rpg::ForEachString(m_terms, [&](auto& val, const lcf::ContextStructBase<lcf::rpg::Terms>& ctx) {
 		auto* line = this->findChild<QLineEdit*>(ToQString(ctx.name));
 		if (!line) {
 			std::cerr << "BUG: Vocabulary: No widget found for " << ctx.name << "\n";

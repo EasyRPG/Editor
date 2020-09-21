@@ -18,22 +18,40 @@
 #pragma once
 
 #include <lcf/rpg/database.h>
-#include <lcf/rpg/class.h>
-#include "rpg_base.h"
+#include <lcf/rpg/treemap.h>
 
-/**
- * A thin wrapper around lcf::rpg::Class
- */
-class ClassModel : public RpgBase
-{
+class Project;
+
+class ProjectData {
 public:
-	ClassModel(ProjectData& project, lcf::rpg::Class& data);
+	ProjectData() = default;
+	explicit ProjectData(Project& project);
+	ProjectData(Project& project, lcf::rpg::Database database, lcf::rpg::TreeMap treemap);
 
-	lcf::rpg::Class& data();
+	lcf::rpg::Database& database() {
+		return m_database;
+	}
 
-	QPixmap preview() override;
+	const lcf::rpg::Database& database() const {
+		return m_database;
+	}
+
+	lcf::rpg::TreeMap& treeMap() {
+		return m_treemap;
+	}
+
+	const lcf::rpg::TreeMap& treeMap() const {
+		return m_treemap;
+	}
+
+	const Project& project() const {
+		return *m_project;
+	}
 
 private:
-	lcf::rpg::Class& m_data;
+	Project* m_project = nullptr;
+	lcf::rpg::Database m_database;
+	lcf::rpg::TreeMap m_treemap;
 };
+
 

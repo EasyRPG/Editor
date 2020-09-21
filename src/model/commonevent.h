@@ -24,19 +24,16 @@
 /**
  * A thin wrapper around lcf::rpg::CommonEvent
  */
-class CommonEvent : public RpgBase
+class CommonEventModel : public RpgBase
 {
 public:
-	CommonEvent(lcf::rpg::CommonEvent& data, lcf::rpg::Database& database);
+	CommonEventModel(ProjectData& project, lcf::rpg::CommonEvent& data);
 
 	lcf::rpg::CommonEvent& data();
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::CommonEvent& m_data;
-	lcf::rpg::Database& database;
 };
 

@@ -24,19 +24,16 @@
 /**
  * A thin wrapper around lcf::rpg::Item
  */
-class Item : public RpgBase
+class ItemModel : public RpgBase
 {
 public:
-	Item(lcf::rpg::Item& data, lcf::rpg::Database& database);
+	ItemModel(ProjectData& project, lcf::rpg::Item& data);
 
 	lcf::rpg::Item& data();
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::Item& m_data;
-	lcf::rpg::Database& database;
 };
 

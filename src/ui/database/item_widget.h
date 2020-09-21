@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class ItemWidget;
 }
@@ -29,14 +31,16 @@ class ItemWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit ItemWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Item;
+
+	explicit ItemWidget(ProjectData& project, QWidget *parent = nullptr);
 	~ItemWidget() override;
 
 	void setData(lcf::rpg::Item* item);
 
 private:
 	Ui::ItemWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 	lcf::rpg::Item *m_current = nullptr;
 	lcf::rpg::Item m_dummy;
 };

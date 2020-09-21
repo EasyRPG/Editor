@@ -18,19 +18,15 @@
 #include "commonevent.h"
 #include "ui/database/common_event_widget.h"
 
-CommonEvent::CommonEvent(lcf::rpg::CommonEvent& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+CommonEventModel::CommonEventModel(ProjectData& project, lcf::rpg::CommonEvent& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::CommonEvent& CommonEvent::data() {
+lcf::rpg::CommonEvent& CommonEventModel::data() {
 	return m_data;
 }
 
-QPixmap CommonEvent::preview() {
+QPixmap CommonEventModel::preview() {
 	return QPixmap();
-}
-
-QDialog* CommonEvent::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<CommonEventWidget, lcf::rpg::CommonEvent>(database, m_data, parent);
 }

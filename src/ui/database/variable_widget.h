@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/rpg/database.h>
 
+class ProjectData;
+
 namespace Ui {
 class VariableWidget;
 }
@@ -29,14 +31,16 @@ class VariableWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit VariableWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	using value_type = lcf::rpg::Variable;
+
+	explicit VariableWidget(ProjectData& project, QWidget *parent = nullptr);
 	~VariableWidget() override;
 
 	void setData(lcf::rpg::Variable* var);
 
 private:
 	Ui::VariableWidget *ui;
-	lcf::rpg::Database &m_database;
+	ProjectData& m_project;
 	lcf::rpg::Variable *m_current = nullptr;
 	lcf::rpg::Variable m_dummy;
 };

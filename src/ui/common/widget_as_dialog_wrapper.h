@@ -21,50 +21,31 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QAbstractButton>
+#include <QAbstractItemModel>
 #include <lcf/rpg/fwd.h>
+#include "model/project.h"
+#include "ui/database/actor_widget.h"
+#include "ui/database/attribute_widget.h"
+#include "ui/database/battle_animation2_widget.h"
+#include "ui/database/battle_animation_widget.h"
+#include "ui/database/chipset_widget.h"
+#include "ui/database/class_widget.h"
+#include "ui/database/common_event_widget.h"
+#include "ui/database/enemy_group_widget.h"
+#include "ui/database/enemy_widget.h"
+#include "ui/database/item_widget.h"
+#include "ui/database/skill_widget.h"
+#include "ui/database/state_widget.h"
+#include "ui/database/terrain_widget.h"
 
-/**
- * Wraps a Widget inside a Dialog and applies the forwarded data when OK or Apply
- * are pressed
- * @tparam WIDGET Type of the managed widget
- * @tparam DATA Data forwarded to the widget
- */
-template<typename WIDGET, typename DATA>
-class WidgetAsDialogWrapper : public QDialog {
-
+class WidgetAsDialogWrapperBase : public QDialog {
+	Q_OBJECT
 public:
-	explicit WidgetAsDialogWrapper(lcf::rpg::Database& db, DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
-		dataCopy = data;
-
-		wrappedWidget = new WIDGET(db, this);
-		wrappedWidget->setData(&dataCopy);
-
-		init();
-	}
-
-	explicit WidgetAsDialogWrapper(DATA& data, QWidget* parent = nullptr) : QDialog(parent), dataOriginal(data) {
-		dataCopy = data;
-
-		wrappedWidget = new WIDGET(this);
-		wrappedWidget->setData(&dataCopy);
-
-		init();
-	}
-
-	WIDGET* widget() const {
-		return wrappedWidget;
-	}
-
-private:
-	void init() {
+	explicit WidgetAsDialogWrapperBase(QWidget* parent = nullptr) : QDialog(parent) {
 		buttonBox = new QDialogButtonBox(this);
 		buttonBox->setStandardButtons(QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Help);
 
-		auto* verticalLayout = new QVBoxLayout(this);
-		verticalLayout->addWidget(wrappedWidget);
-		verticalLayout->addWidget(buttonBox);
-
-		QObject::connect(buttonBox, &QDialogButtonBox::clicked, this, &WidgetAsDialogWrapper::clicked);
+		QObject::connect(buttonBox, &QDialogButtonBox::clicked, this, &WidgetAsDialogWrapperBase::clicked);
 	}
 
 	void clicked(QAbstractButton* button) {
@@ -92,9 +73,7 @@ private:
 		QDialog::accept();
 	};
 
-	void apply() {
-		dataOriginal = dataCopy;
-	}
+	virtual void apply() {}
 
 	void reject() override {
 		QDialog::reject();
@@ -104,10 +83,46 @@ private:
 		// FIXME: not implemented
 	}
 
-private:
-	WIDGET* wrappedWidget = nullptr;
-	QDialogButtonBox* buttonBox = nullptr;
+signals:
+	void valueSelected(int newValue);
 
+protected:
+	QDialogButtonBox* buttonBox = nullptr;
+};
+
+/**
+ * Wraps a Widget inside a Dialog and applies the forwarded data when OK or Apply
+ * are pressed
+ * @tparam WIDGET Type of the managed widget
+ * @tparam DATA Data forwarded to the widget
+ */
+template<typename WIDGET, typename DATA>
+class WidgetAsDialogWrapper : public WidgetAsDialogWrapperBase {
+public:
+	explicit WidgetAsDialogWrapper(ProjectData& project, DATA& data, QWidget* parent = nullptr) :
+	WidgetAsDialogWrapperBase(parent), dataOriginal(data) {
+		dataCopy = data;
+
+		wrappedWidget = new WIDGET(project, this);
+		wrappedWidget->setData(&dataCopy);
+
+		auto* verticalLayout = new QVBoxLayout(this);
+		verticalLayout->addWidget(wrappedWidget);
+		verticalLayout->addWidget(buttonBox);
+		setLayout(verticalLayout);
+	}
+
+	WIDGET* widget() const {
+		return wrappedWidget;
+	}
+
+private:
+	void apply() override {
+		dataOriginal = dataCopy;
+	}
+
+private:
 	DATA& dataOriginal;
 	DATA dataCopy;
+	WIDGET* wrappedWidget = nullptr;
 };

@@ -30,11 +30,13 @@
 #include <lcf/rpg/mapinfo.h>
 #include "core.h"
 
+class ProjectData;
+
 class MapScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
-	explicit MapScene(int id,QGraphicsView *view, QObject *parent = nullptr);
+	explicit MapScene(ProjectData& project, int id, QGraphicsView *view, QObject *parent = nullptr);
 	~MapScene();
 
 	void Init();
@@ -135,5 +137,6 @@ private:
 	bool m_cancelled;
 	bool m_selecting;
 	bool m_userInteraction = false;
+	ProjectData& m_project;
 };
 

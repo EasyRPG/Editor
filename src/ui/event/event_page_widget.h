@@ -29,6 +29,8 @@
 #include <QProgressBar>
 #include <QLabel>
 
+class ProjectData;
+
 namespace Ui {
 class QEventWidget;
 }
@@ -38,7 +40,7 @@ class EventPageWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit EventPageWidget(lcf::rpg::Database& database, QWidget *parent = nullptr);
+	explicit EventPageWidget(ProjectData& project, QWidget *parent = nullptr);
 	~EventPageWidget() override;
 
 	lcf::rpg::EventPage *eventPage() const;
@@ -98,7 +100,7 @@ private:
 	void updateGraphic();
 
 	Ui::QEventWidget *ui;
-	lcf::rpg::Database& m_database;
+	ProjectData& m_project;
 	lcf::rpg::EventPage *m_eventPage = nullptr;
 	QGraphicsPixmapItem *m_tileItem = nullptr;
 	CharSetItem *m_charaItem = nullptr;

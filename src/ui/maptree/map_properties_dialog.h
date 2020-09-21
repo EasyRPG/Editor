@@ -24,6 +24,8 @@
 #include <lcf/rpg/map.h>
 #include "ui/common/encounter_delegate.h"
 
+class ProjectData;
+
 namespace Ui {
 class MapPropertiesDialog;
 }
@@ -33,7 +35,7 @@ class MapPropertiesDialog : public QDialog
 	Q_OBJECT
 
 public:
-	explicit MapPropertiesDialog(lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent = nullptr);
+	explicit MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent = nullptr);
 	~MapPropertiesDialog();
 
 private slots:
@@ -74,5 +76,7 @@ private:
 
 	std::vector<short> m_generatorLowerLayer;
 	std::vector<short> m_generatorUpperLayer;
+
+	ProjectData& m_project;
 };
 

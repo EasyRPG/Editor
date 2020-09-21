@@ -19,9 +19,9 @@
 #include "ui_event_raw_widget.h"
 #include "common/lcf_widget_binding.h"
 
-EventRawWidget::EventRawWidget(QWidget* parent) :
+EventRawWidget::EventRawWidget(ProjectData& project, QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::EventRawWidget)
+	ui(new Ui::EventRawWidget), m_project(project)
 {
 	ui->setupUi(this);
 

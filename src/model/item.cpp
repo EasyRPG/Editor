@@ -18,19 +18,15 @@
 #include "item.h"
 #include "ui/database/item_widget.h"
 
-Item::Item(lcf::rpg::Item& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+ItemModel::ItemModel(ProjectData& project, lcf::rpg::Item& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Item& Item::data() {
+lcf::rpg::Item& ItemModel::data() {
 	return m_data;
 }
 
-QPixmap Item::preview() {
+QPixmap ItemModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Item::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<ItemWidget, lcf::rpg::Item>(database, m_data, parent);
 }

@@ -18,19 +18,15 @@
 #include "troop.h"
 #include "ui/database/enemy_group_widget.h"
 
-Troop::Troop(lcf::rpg::Troop& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+TroopModel::TroopModel(ProjectData& project, lcf::rpg::Troop& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Troop& Troop::data() {
+lcf::rpg::Troop& TroopModel::data() {
 	return m_data;
 }
 
-QPixmap Troop::preview() {
+QPixmap TroopModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Troop::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<EnemyGroupWidget, lcf::rpg::Troop>(database, m_data, parent);
 }

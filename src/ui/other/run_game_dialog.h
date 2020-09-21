@@ -21,6 +21,8 @@
 #include <QTableWidgetItem>
 #include <lcf/rpg/testbattler.h>
 
+class ProjectData;
+
 namespace Ui {
 class RunGameDialog;
 }
@@ -31,7 +33,7 @@ class RunGameDialog : public QDialog
 
 public:
 
-	explicit RunGameDialog(QWidget *parent = nullptr);
+	explicit RunGameDialog(ProjectData& project, QWidget *parent = nullptr);
 	~RunGameDialog();
 
 	void runHere(int map_id, int x, int y);
@@ -48,5 +50,6 @@ private:
 
 	Ui::RunGameDialog *ui;
 	std::vector<lcf::rpg::TestBattler> battletest_data;
+	ProjectData& m_project;
 };
 

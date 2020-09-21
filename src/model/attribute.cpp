@@ -18,19 +18,16 @@
 #include "attribute.h"
 #include "ui/database/attribute_widget.h"
 
-Attribute::Attribute(lcf::rpg::Attribute& data, lcf::rpg::Database& database) :
-	m_data(data), database(database) {
+
+AttributeModel::AttributeModel(ProjectData& project, lcf::rpg::Attribute& data) :
+	RpgBase(project), m_data(data) {
 
 }
 
-lcf::rpg::Attribute& Attribute::data() {
+lcf::rpg::Attribute& AttributeModel::data() {
 	return m_data;
 }
 
-QPixmap Attribute::preview() {
+QPixmap AttributeModel::preview() {
 	return QPixmap();
-}
-
-QDialog* Attribute::edit(QWidget *parent) {
-	return new WidgetAsDialogWrapper<AttributeWidget, lcf::rpg::Attribute>(database, m_data, parent);
 }

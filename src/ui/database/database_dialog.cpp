@@ -24,36 +24,37 @@
 #include <lcf/ldb/reader.h>
 #include "database_split_widget.h"
 
-DatabaseDialog::DatabaseDialog(QWidget *parent) :
+DatabaseDialog::DatabaseDialog(ProjectData& project, QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::DatabaseDialog),
-	m_data(core().project()->database())
+	m_project(project)
 {
 	ui->setupUi(this);
 	on_currentActorChanged(nullptr);
 
-	m_dataCopy = m_data;
+	m_projectDataCopy = project;
+	auto& database = m_projectDataCopy.database();
 
-	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor, ActorWidget>(m_dataCopy, m_dataCopy.actors, this);
-	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class, ClassWidget>(m_dataCopy, m_dataCopy.classes, this);
-	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill, SkillWidget>(m_dataCopy, m_dataCopy.skills, this);
-	pageItems = new DatabaseSplitWidget<lcf::rpg::Item, ItemWidget>(m_dataCopy, m_dataCopy.items, this);
-	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy, EnemyWidget>(m_dataCopy, m_dataCopy.enemies, this);
-	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop, EnemyGroupWidget>(m_dataCopy, m_dataCopy.troops, this);
-	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute, AttributeWidget>(m_dataCopy, m_dataCopy.attributes, this);
-	pageStates = new DatabaseSplitWidget<lcf::rpg::State, StateWidget>(m_dataCopy, m_dataCopy.states, this);
-	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation, BattleAnimationWidget>(m_dataCopy, m_dataCopy.animations, this);
-	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation, BattleAnimation2Widget>(m_dataCopy, m_dataCopy.battleranimations, this);
-	pageBattleScreen = new BattleScreenWidget(m_dataCopy, this);
-	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain, TerrainWidget>(m_dataCopy, m_dataCopy.terrains, this);
-	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset, ChipSetWidget>(m_dataCopy, m_dataCopy.chipsets, this);
-	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent, CommonEventWidget>(m_dataCopy, m_dataCopy.commonevents, this);
-	pageSwitches = new DatabaseSplitWidget<lcf::rpg::Switch, SwitchWidget>(m_dataCopy, m_dataCopy.switches, this);
-	pageVariables = new DatabaseSplitWidget<lcf::rpg::Variable, VariableWidget>(m_dataCopy, m_dataCopy.variables, this);
+	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor>(m_projectDataCopy, this);
+	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class>(m_projectDataCopy, this);
+	pageSkills = new DatabaseSplitWidget<lcf::rpg::Skill>(m_projectDataCopy, this);
+	pageItems = new DatabaseSplitWidget<lcf::rpg::Item>(m_projectDataCopy, this);
+	pageEnemies = new DatabaseSplitWidget<lcf::rpg::Enemy>(m_projectDataCopy, this);
+	pageEnemyGroups = new DatabaseSplitWidget<lcf::rpg::Troop>(m_projectDataCopy, this);
+	pageAttributes = new DatabaseSplitWidget<lcf::rpg::Attribute>(m_projectDataCopy, this);
+	pageStates = new DatabaseSplitWidget<lcf::rpg::State>(m_projectDataCopy, this);
+	pageBattleAnimations = new DatabaseSplitWidget<lcf::rpg::Animation>(m_projectDataCopy, this);
+	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation>(m_projectDataCopy, this);
+	pageBattleScreen = new BattleScreenWidget(m_projectDataCopy, this);
+	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain>(m_projectDataCopy, this);
+	// FIXME: This fails to compile pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset>(m_projectDataCopy, this);
+	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent>(m_projectDataCopy, this);
+	pageSwitches = new DatabaseSplitWidget<lcf::rpg::Switch>(m_projectDataCopy, this);
+	pageVariables = new DatabaseSplitWidget<lcf::rpg::Variable>(m_projectDataCopy, this);
 
-	pageVocabulary= new VocabularyWidget(m_dataCopy, this);
-	pageSystem = new SystemWidget(m_dataCopy, this);
-	pageSystem2  = new System2Widget(m_dataCopy, this);
+	pageVocabulary = new VocabularyWidget(m_projectDataCopy, this);
+	pageSystem = new SystemWidget(m_projectDataCopy, this);
+	pageSystem2  = new System2Widget(m_projectDataCopy, this);
 	ui->tabOld_Pages->insertTab(0, pageActors, tr("Characters"));
 	ui->tabOld_Pages->insertTab(1, pageClasses, tr("Professions"));
 	ui->tabOld_Pages->insertTab(2, pageSkills, tr("Skills"));
@@ -66,7 +67,7 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 	ui->tabOld_Pages->insertTab(9, pageBattleAnimations2, tr("Battle Animation 2"));
 	ui->tabOld_Pages->insertTab(10, pageBattleScreen, tr("Battle screen"));
 	ui->tabOld_Pages->insertTab(11, pageTerrain, tr("Terrain"));
-	ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
+	// FIXME ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
 	ui->tabOld_Pages->insertTab(13, pageVocabulary, tr("Vocabulary"));
 	ui->tabOld_Pages->insertTab(14, pageSystem, tr("System"));
 	ui->tabOld_Pages->insertTab(15, pageSystem2, tr("System"));
@@ -76,11 +77,6 @@ DatabaseDialog::DatabaseDialog(QWidget *parent) :
 
 	ui->tabOld_Pages->setCurrentWidget(pageActors);
 	ui->stackedStyle->setCurrentWidget(ui->pageOld);
-	/* Fill Characters list */
-	for (unsigned int i = 0; i < core().project()->database().actors.size(); i++)
-		ui->listNew_Character->addItem(QString("%1:%2")
-								   .arg(QString::number(i+1), 4, QLatin1Char('0'))
-								   .arg(core().project()->database().actors[i].name.c_str()));
 }
 
 DatabaseDialog::~DatabaseDialog()
@@ -171,8 +167,8 @@ void DatabaseDialog::on_buttonBox_clicked(QAbstractButton *button)
 		// Standard buttons:
 		case QDialogButtonBox::Apply:
 		case QDialogButtonBox::Ok: {
-			m_data = m_dataCopy;
-			lcf::LDB_Reader::PrepareSave(m_data);
+			m_project = m_projectDataCopy;
+			lcf::LDB_Reader::PrepareSave(m_project.database());
 			core().project()->saveDatabase();
 		}
 		break;
@@ -194,13 +190,15 @@ void DatabaseDialog::on_lineNew_CharacterFilter_textChanged(const QString &arg1)
 
 void DatabaseDialog::on_listNew_Character_currentRowChanged(int currentRow)
 {
-	if (currentRow < 0 || currentRow >= static_cast<int>(m_dataCopy.actors.size()))
+	auto& database = m_projectDataCopy.database();
+
+	if (currentRow < 0 || currentRow >= static_cast<int>(database.actors.size()))
 	{
 		on_currentActorChanged(nullptr);
 		emit currentActorChanged(nullptr);
 		return; //invalid
 	}
 
-	on_currentActorChanged(&m_dataCopy.actors[static_cast<size_t>(currentRow)]);
-	emit currentActorChanged(&m_dataCopy.actors[static_cast<size_t>(currentRow)]);
+	on_currentActorChanged(&database.actors[static_cast<size_t>(currentRow)]);
+	emit currentActorChanged(&database.actors[static_cast<size_t>(currentRow)]);
 }

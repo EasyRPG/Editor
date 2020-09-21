@@ -24,19 +24,16 @@
 /**
  * A thin wrapper around lcf::rpg::Terrain
  */
-class Terrain : public RpgBase
+class TerrainModel : public RpgBase
 {
 public:
-	Terrain(lcf::rpg::Terrain& data, lcf::rpg::Database& database);
+	TerrainModel(ProjectData& project, lcf::rpg::Terrain& data);
 
 	lcf::rpg::Terrain& data();
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::Terrain& m_data;
-	lcf::rpg::Database& database;
 };
 

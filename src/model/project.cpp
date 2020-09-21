@@ -120,13 +120,12 @@ bool Project::loadDatabaseAndMapTree() {
 	}
 
 	// Copy db and treemap
-	m_db = std::make_unique<lcf::rpg::Database>(lcf::Data::data);
-	m_treeMap = std::make_unique<lcf::rpg::TreeMap>(lcf::Data::treemap);
+	m_data = { *this, lcf::Data::data, lcf::Data::treemap };
 
 	return true;
 }
 
-std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) {
+std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) const {
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")
@@ -244,22 +243,36 @@ void Project::setProjectType(FileFinder::ProjectType projectType) {
 	m_projectType = projectType;
 }
 
-lcf::rpg::Database& Project::database() const {
-	assert(m_db);
-	return *m_db;
+ProjectData &Project::projectData() {
+	return m_data;
 }
 
-lcf::rpg::TreeMap& Project::treeMap() const {
-	assert(m_treeMap);
-	return *m_treeMap;
+const ProjectData &Project::projectData() const {
+	return m_data;
+}
+
+lcf::rpg::Database& Project::database() {
+	return m_data.database();
+}
+
+const lcf::rpg::Database& Project::database() const {
+	return m_data.database();
+}
+
+lcf::rpg::TreeMap& Project::treeMap() {
+	return m_data.treeMap();
+}
+
+const lcf::rpg::TreeMap& Project::treeMap() const {
+	return m_data.treeMap();
 }
 
 bool Project::saveDatabase(bool inc_savecount) {
 	if (inc_savecount) {
-		lcf::LDB_Reader::PrepareSave(*m_db);
+		lcf::LDB_Reader::PrepareSave(m_data.database());
 	}
 
-	lcf::Data::data = *m_db;
+	lcf::Data::data = m_data.database();
 	ScopeGuard clear_on_return([]() {
 		lcf::Data::Clear();
 	});
@@ -278,7 +291,7 @@ bool Project::saveDatabase(bool inc_savecount) {
 }
 
 bool Project::saveTreeMap() {
-	lcf::Data::treemap = *m_treeMap;
+	lcf::Data::treemap = m_data.treeMap();
 	ScopeGuard clear_on_return([]() {
 		lcf::Data::Clear();
 	});

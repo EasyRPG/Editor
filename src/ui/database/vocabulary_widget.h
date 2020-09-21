@@ -22,6 +22,8 @@
 
 // FIXME: This currently lists all terms. Should be filtered by engine
 
+class ProjectData;
+
 namespace Ui {
 class VocabularyWidget;
 }
@@ -31,12 +33,12 @@ class VocabularyWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit VocabularyWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit VocabularyWidget(ProjectData& project, QWidget *parent = nullptr);
 	~VocabularyWidget() override;
 
 private:
 	Ui::VocabularyWidget *ui;
-	lcf::rpg::Database &m_data;
-	lcf::rpg::Terms* terms = nullptr;
+	ProjectData& m_project;
+	lcf::rpg::Terms& m_terms;
 };
 

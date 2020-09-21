@@ -24,19 +24,16 @@
 /**
  * A thin wrapper around lcf::rpg::Switch
  */
-class Switch : public RpgBase
+class SwitchModel : public RpgBase
 {
 public:
-	Switch(lcf::rpg::Switch& data, lcf::rpg::Database& database);
+	SwitchModel(ProjectData& project, lcf::rpg::Switch& data);
 
 	lcf::rpg::Switch& data();
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::Switch& m_data;
-	lcf::rpg::Database& database;
 };
 

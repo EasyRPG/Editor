@@ -24,21 +24,16 @@
 /**
  * A thin wrapper around lcf::rpg::Animation
  */
-class Animation : public RpgBase
+class AnimationModel : public RpgBase
 {
 public:
-	Animation(lcf::rpg::Animation& data, lcf::rpg::Database& database);
-
-	bool IsItemUsable(const lcf::rpg::Item& item) const;
+	AnimationModel(ProjectData& project, lcf::rpg::Animation& data);
 
 	lcf::rpg::Animation& data();
 
 	QPixmap preview() override;
 
-	QDialog* edit(QWidget* parent = nullptr) override;
-
 private:
 	lcf::rpg::Animation& m_data;
-	lcf::rpg::Database& database;
 };
 

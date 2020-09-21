@@ -20,6 +20,8 @@
 #include <QWidget>
 #include <lcf/data.h>
 
+class ProjectData;
+
 namespace Ui {
 class BattleScreenWidget;
 }
@@ -29,11 +31,11 @@ class BattleScreenWidget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit BattleScreenWidget(lcf::rpg::Database &database, QWidget *parent = nullptr);
+	explicit BattleScreenWidget(ProjectData& project, QWidget *parent = nullptr);
 	~BattleScreenWidget();
 
 private:
 	Ui::BattleScreenWidget *ui;
-	lcf::rpg::Database &m_data;
+	ProjectData& m_project;
 };
 
