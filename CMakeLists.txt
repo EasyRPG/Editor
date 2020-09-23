@@ -3,6 +3,10 @@ cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
+# Extra CMake Module files
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+include(ConfigureWindows)
+
 # C++17 is required
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -276,11 +280,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	AUTOUIC ON
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-# Extra FindModule files
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
-
-include(ConfigureWindows)
 
 # Dependencies
 find_package(Qt5Widgets REQUIRED)
