@@ -281,6 +281,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# App Icon (for macOS)
+set(${PROJECT_NAME}_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Editor.icns")
+
+# Do not code sign on Macs
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "")
+set(CMAKE_XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.easyrpg.editor")
+
 # Dependencies
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
@@ -317,6 +325,11 @@ else()
 	target_link_libraries(${PROJECT_NAME} liblcf::liblcf)
 endif()
 
+# Find Qt deployment apps
+get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
+find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
+
 # Libraries
 target_link_libraries(${PROJECT_NAME}
 	ZLIB::ZLIB
@@ -325,34 +338,64 @@ target_link_libraries(${PROJECT_NAME}
 
 # Executable
 # Windows: Only open console for Debug builds
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-	add_executable(${PROJECT_NAME}_exe "src/main.cpp")
+if(APPLE)
+	set(EXE_NAME "EasyRPG-Editor.app")
+	set_source_files_properties(${${PROJECT_NAME}_BUNDLE_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+	add_executable("${EXE_NAME}" MACOSX_BUNDLE "src/main.cpp" ${${PROJECT_NAME}_BUNDLE_ICON})
 else()
-	add_executable(${PROJECT_NAME}_exe WIN32 "src/main.cpp")
+	set(EXE_NAME "${PROJECT_NAME}_exe")
+	if(CMAKE_BUILD_TYPE MATCHES "Debug")
+		add_executable(${PROJECT_NAME}_exe "src/main.cpp")
+	else()
+		add_executable(${PROJECT_NAME}_exe WIN32 "src/main.cpp")
+	endif()
 endif()
 
 if(WIN32)
 	set_target_properties(${PROJECT_NAME}_exe PROPERTIES OUTPUT_NAME "Editor")
+elseif(APPLE)
+	set(EXE_OUTPUT_NAME "EasyRPG Editor")
+	set_target_properties("${EXE_NAME}" PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Info.plist.in")
+	set_target_properties("${EXE_NAME}" PROPERTIES OUTPUT_NAME ${EXE_OUTPUT_NAME})
 else()
 	set_target_properties(${PROJECT_NAME}_exe PROPERTIES OUTPUT_NAME "easyrpg-editor")
 endif()
 
-target_link_libraries(${PROJECT_NAME}_exe ${PROJECT_NAME})
+target_link_libraries(${EXE_NAME} ${PROJECT_NAME})
 
 # Qt Magic (Enable resource compiler for exe)
-set_target_properties(${PROJECT_NAME}_exe PROPERTIES
+set_target_properties(${EXE_NAME} PROPERTIES
 	AUTORCC ON
 )
 
 # Add resources
-target_sources(${PROJECT_NAME}_exe PRIVATE "resources/Resources.qrc")
+target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
 
 if(WIN32)
-	target_sources(${PROJECT_NAME}_exe PRIVATE "resources/Resources.rc")
+	target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")
 endif()
 
 # Installation
 include(GNUInstallDirs)
-install(TARGETS ${PROJECT_NAME}_exe
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
+if(APPLE)
+	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
+	# Run macdeployqt
+	install(CODE "
+		execute_process(COMMAND 
+			${MACDEPLOYQT_EXECUTABLE}
+			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\" 
+			-always-overwrite
+		)
+	")
+	# Run cmake fixup_bundle to fix runpath for any non-Qt dylibs and to verify
+	install(CODE "
+		include(BundleUtilities)
+		set(BU_CHMOD_BUNDLE_ITEMS TRUE)
+		fixup_bundle(\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\" \"\" \"\")
+	" COMPONENT RUNTIME)
+else()
+	install(TARGETS ${EXE_NAME}
+		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	)
+endif()
