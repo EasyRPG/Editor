@@ -294,6 +294,7 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Svg REQUIRED)
 find_package(ZLIB REQUIRED)
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
@@ -333,7 +334,8 @@ find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
 # Libraries
 target_link_libraries(${PROJECT_NAME}
 	ZLIB::ZLIB
-	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia
+	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia Qt5::Svg
+	Qt5::QSvgIconPlugin
 )
 
 # Executable
