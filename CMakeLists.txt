@@ -327,9 +327,11 @@ else()
 endif()
 
 # Find Qt deployment apps
-get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
-get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
-find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
+if(APPLE)
+	get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+	get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
+	find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
+endif()
 
 # Libraries
 target_link_libraries(${PROJECT_NAME}
