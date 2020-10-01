@@ -15,9 +15,9 @@ Documentation is available at the documentation wiki: https://wiki.easyrpg.org
 ## Requirements
 
 - [liblcf] for RPG Maker data reading.
-- [Qt] (>= 5.2)
-- Qt multimedia
-
+- [Qt] (>= 5.11)
+- Qt Multimedia
+- Qt SVG
 
 ## Daily builds
 
