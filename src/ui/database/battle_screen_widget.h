@@ -18,7 +18,6 @@
 #pragma once
 
 #include <QWidget>
-#include <lcf/data.h>
 
 class ProjectData;
 

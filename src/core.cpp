@@ -22,7 +22,6 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QDebug>
-#include <lcf/data.h>
 #include "ui/map/map_scene.h"
 #include "common/dbstring.h"
 #include "common/image_loader.h"

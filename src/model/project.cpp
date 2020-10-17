@@ -19,12 +19,12 @@
 #include "defines.h"
 #include "common/filefinder.h"
 #include "common/scope_guard.h"
-#include <lcf/data.h>
 #include <lcf/inireader.h>
 #include <lcf/reader_util.h>
 #include <lcf/ldb/reader.h>
 #include <lcf/lmu/reader.h>
 #include <lcf/lmt/reader.h>
+#include <lcf/encoder.h>
 #include <QDir>
 #include <memory>
 #include <fstream>
@@ -92,35 +92,28 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 }
 
 bool Project::loadDatabaseAndMapTree() {
-	// FIXME: Should assign to private members when liblcf doesn't use global DB and Tree anymore
-	// TODO: Error reporting
-	ScopeGuard clear_on_return([]() {
-		// wipe global variable, makes it easier to find
-		// bugs by accidentally reading from lcf::Data::*
-		lcf::Data::Clear();
-	});
-
 	if (projectType() == FileFinder::ProjectType::Legacy) {
 		detectEncoding();
-		if (!lcf::LDB_Reader::Load(findFile(RM_DB).toStdString(), encoding().toStdString())) {
+		auto db = lcf::LDB_Reader::Load(findFile(RM_DB).toStdString(), encoding().toStdString());
+		if (db == nullptr) {
 			return false;
 		}
-		if (!lcf::LMT_Reader::Load(findFile(RM_MT).toStdString(), encoding().toStdString())) {
-			lcf::Data::Clear();
+		auto treemap = lcf::LMT_Reader::Load(findFile(RM_MT).toStdString(), encoding().toStdString());
+		if (treemap == nullptr) {
 			return false;
 		}
+		m_data = { *this, *db, *treemap };
 	} else {
-		if (!lcf::LDB_Reader::LoadXml(findFile(EASY_DB).toStdString())) {
+		auto db = lcf::LDB_Reader::LoadXml(findFile(EASY_DB).toStdString());
+		if (db == nullptr) {
 			return false;
 		}
-		if (!lcf::LMT_Reader::LoadXml(findFile(EASY_MT).toStdString())) {
-			lcf::Data::Clear();
+		auto treemap = lcf::LMT_Reader::LoadXml(findFile(EASY_MT).toStdString());
+		if (treemap == nullptr) {
 			return false;
 		}
+		m_data = { *this, *db, *treemap };
 	}
-
-	// Copy db and treemap
-	m_data = { *this, lcf::Data::data, lcf::Data::treemap };
 
 	return true;
 }
@@ -144,6 +137,7 @@ std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) const {
 }
 
 bool Project::saveMap(lcf::rpg::Map& map, int index, bool incSavecount) {
+	const bool is2k3 = m_data.database().system.ldb_id == 2003;
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")
@@ -155,9 +149,9 @@ bool Project::saveMap(lcf::rpg::Map& map, int index, bool incSavecount) {
 	}
 
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
-		return lcf::LMU_Reader::SaveXml(mapFile.toStdString(), map);
+		return lcf::LMU_Reader::SaveXml(mapFile.toStdString(), map, is2k3);
 	} else {
-		return lcf::LMU_Reader::Save(mapFile.toStdString(), map, encoding().toStdString());
+		return lcf::LMU_Reader::Save(mapFile.toStdString(), map, is2k3, encoding().toStdString());
 	}
 }
 
@@ -272,17 +266,12 @@ bool Project::saveDatabase(bool inc_savecount) {
 		lcf::LDB_Reader::PrepareSave(m_data.database());
 	}
 
-	lcf::Data::data = m_data.database();
-	ScopeGuard clear_on_return([]() {
-		lcf::Data::Clear();
-	});
-
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!lcf::LDB_Reader::Save(findFileOrDefault(RM_DB).toStdString(), encoding().toStdString())) {
+		if (!lcf::LDB_Reader::Save(findFileOrDefault(RM_DB).toStdString(), m_data.database(), encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!lcf::LDB_Reader::SaveXml(findFileOrDefault(EASY_DB).toStdString())) {
+		if (!lcf::LDB_Reader::SaveXml(findFileOrDefault(EASY_DB).toStdString(), m_data.database())) {
 			return false;
 		}
 	}
@@ -291,17 +280,13 @@ bool Project::saveDatabase(bool inc_savecount) {
 }
 
 bool Project::saveTreeMap() {
-	lcf::Data::treemap = m_data.treeMap();
-	ScopeGuard clear_on_return([]() {
-		lcf::Data::Clear();
-	});
-
+	const bool is2k3 = m_data.database().system.ldb_id == 2003;
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!lcf::LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), encoding().toStdString())) {
+		if (!lcf::LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), m_data.treeMap(), is2k3, encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!lcf::LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString())) {
+		if (!lcf::LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString(), m_data.treeMap(), is2k3)) {
 			return false;
 		}
 	}

@@ -18,7 +18,6 @@
 #pragma once
 
 #include <QDialog>
-#include <lcf/data.h>
 #include <lcf/rpg/actor.h>
 #include <QDialogButtonBox>
 #include "actor_widget.h"

@@ -17,7 +17,6 @@
 
 #include "map_properties_dialog.h"
 #include "ui_map_properties_dialog.h"
-#include <lcf/data.h>
 #include "core.h"
 #include "common/dbstring.h"
 

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <lcf/data.h>
+#include <lcf/rpg/enemy.h>
 
 class ProjectData;
 

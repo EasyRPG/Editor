@@ -19,7 +19,6 @@
 #include "ui_event_page_widget.h"
 #include <QDialogButtonBox>
 #include <QMessageBox>
-#include <lcf/data.h>
 #include "ui/common/charset_picker_dialog.h"
 #include "core.h"
 #include "stringizer.h"

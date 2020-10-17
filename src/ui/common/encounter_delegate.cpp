@@ -18,7 +18,6 @@
 #include "core.h"
 #include "common/dbstring.h"
 #include "encounter_delegate.h"
-#include <lcf/data.h>
 
 QEncounterDelegate::QEncounterDelegate(QObject *parent) :
 	QItemDelegate(parent)

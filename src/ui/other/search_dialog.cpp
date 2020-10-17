@@ -22,7 +22,6 @@
 #include "common/dbstring.h"
 #include "stringizer.h"
 
-#include <lcf/data.h>
 #include <lcf/lmu/reader.h>
 #include <functional>
 #include <vector>
