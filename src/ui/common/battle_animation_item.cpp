@@ -103,9 +103,9 @@ void BattleAnimationItem::on_demoAdvance()
 	m_demoIndex++;
 	if (m_demoIndex > 11)
 		m_demoIndex = 0;
-	lcf::rpg::BattlerAnimationExtension anim = m_demoAnimation.base_data[static_cast<size_t>(m_demoIndex)];
-	setBasePix(Battler, ToQString(anim.battler_name));
-	m_index = anim.battler_index;
+	const auto& pose = m_demoAnimation.poses[static_cast<size_t>(m_demoIndex)];
+	setBasePix(Battler, ToQString(pose.battler_name));
+	m_index = pose.battler_index;
 	updatePix();
 }
 
