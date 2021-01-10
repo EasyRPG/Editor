@@ -137,7 +137,7 @@ std::unique_ptr<lcf::rpg::Map> Project::loadMap(int index) const {
 }
 
 bool Project::saveMap(lcf::rpg::Map& map, int index, bool incSavecount) {
-	const bool is2k3 = m_data.database().system.ldb_id == 2003;
+	auto lcf_engine = lcf::GetEngineVersion(m_data.database());
 	QString ext = projectType() == FileFinder::ProjectType::EasyRpg ? "emu" : "lmu";
 
 	QString file = QString("Map%1.%2")
@@ -149,9 +149,9 @@ bool Project::saveMap(lcf::rpg::Map& map, int index, bool incSavecount) {
 	}
 
 	if (projectType() == FileFinder::ProjectType::EasyRpg) {
-		return lcf::LMU_Reader::SaveXml(mapFile.toStdString(), map, is2k3);
+		return lcf::LMU_Reader::SaveXml(mapFile.toStdString(), map, lcf_engine);
 	} else {
-		return lcf::LMU_Reader::Save(mapFile.toStdString(), map, is2k3, encoding().toStdString());
+		return lcf::LMU_Reader::Save(mapFile.toStdString(), map, lcf_engine, encoding().toStdString());
 	}
 }
 
@@ -280,13 +280,13 @@ bool Project::saveDatabase(bool inc_savecount) {
 }
 
 bool Project::saveTreeMap() {
-	const bool is2k3 = m_data.database().system.ldb_id == 2003;
+	auto lcf_engine = lcf::GetEngineVersion(m_data.database());
 	if (projectType() == FileFinder::ProjectType::Legacy) {
-		if (!lcf::LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), m_data.treeMap(), is2k3, encoding().toStdString())) {
+		if (!lcf::LMT_Reader::Save(findFileOrDefault(RM_MT).toStdString(), m_data.treeMap(), lcf_engine, encoding().toStdString())) {
 			return false;
 		}
 	} else {
-		if (!lcf::LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString(), m_data.treeMap(), is2k3)) {
+		if (!lcf::LMT_Reader::SaveXml(findFileOrDefault(EASY_MT).toStdString(), m_data.treeMap(), lcf_engine)) {
 			return false;
 		}
 	}

@@ -1121,8 +1121,8 @@ void MainWindow::on_actionMapNew_triggered()
 	core().project()->saveTreeMap();
 	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
-	const bool is2k3 = core().project()->database().system.ldb_id == 2003;
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, is2k3);
+	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
+	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
@@ -1197,8 +1197,8 @@ void MainWindow::on_actionMapPaste_triggered()
 	core().project()->saveTreeMap();
 	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
-	const bool is2k3 = core().project()->database().system.ldb_id == 2003;
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, is2k3);
+	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
+	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
