@@ -20,7 +20,6 @@
 #include "run_game_dialog.h"
 #include "ui_run_game_dialog.h"
 #include "ui/database/actor_delegate.h"
-#include <lcf/data.h>
 
 RunGameDialog::RunGameDialog(ProjectData& project, QWidget *parent) :
 	QDialog(parent),

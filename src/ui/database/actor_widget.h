@@ -18,7 +18,6 @@
 #pragma once
 
 #include <QWidget>
-#include <lcf/data.h>
 #include <lcf/rpg/actor.h>
 #include <QDialogButtonBox>
 #include "ui/common/charset_item.h"

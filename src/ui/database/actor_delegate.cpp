@@ -18,7 +18,6 @@
 #include "actor_delegate.h"
 #include "core.h"
 #include "common/dbstring.h"
-#include <lcf/data.h>
 
 ActorDelegate::ActorDelegate(QObject *parent) :
 	QItemDelegate(parent)

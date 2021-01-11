@@ -34,7 +34,6 @@
 #include "ui/main_window.h"
 #include "undo_draw.h"
 #include "undo_event.h"
-#include <lcf/data.h>
 #include <lcf/lmu/reader.h>
 #include <lcf/lmt/reader.h>
 

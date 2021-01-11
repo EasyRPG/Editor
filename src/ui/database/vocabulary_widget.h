@@ -18,7 +18,7 @@
 #pragma once
 
 #include <QWidget>
-#include <lcf/data.h>
+#include <lcf/rpg/terms.h>
 
 // FIXME: This currently lists all terms. Should be filtered by engine
 

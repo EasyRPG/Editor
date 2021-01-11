@@ -45,7 +45,6 @@
 #include <lcf/inireader.h>
 #include <lcf/rpg/map.h>
 #include <lcf/rpg/mapinfo.h>
-#include <lcf/data.h>
 #include "model/project.h"
 
 Q_DECLARE_METATYPE(QList<int>)
@@ -1122,7 +1121,8 @@ void MainWindow::on_actionMapNew_triggered()
 	core().project()->saveTreeMap();
 	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map);
+	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
+	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
@@ -1197,7 +1197,8 @@ void MainWindow::on_actionMapPaste_triggered()
 	core().project()->saveTreeMap();
 	QString path = core().project()->findFile("Map%1.emu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map);
+	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
+	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 

@@ -16,9 +16,9 @@
  */
 
 #include <QObject>
-#include "common/dbstring.h"
 #include "stringizer.h"
-#include <lcf/data.h>
+#include "common/dbstring.h"
+#include <lcf/rpg/eventcommand.h>
 #include "core.h"
 
 namespace
