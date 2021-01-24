@@ -98,14 +98,19 @@ void EventCommandsWidget::setDataInternal(ProjectData& project, T* event) {
 	expandAll();
 }
 
+template<typename T>
+WidgetAsDialogWrapper<T, lcf::rpg::EventCommand>* make_evt_dialog(ProjectData* prj, lcf::rpg::EventCommand& cmd, EventCommandsWidget* self) {
+	return new WidgetAsDialogWrapper<T, lcf::rpg::EventCommand>(*prj, cmd, self);
+}
+
 void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 	assert(column == 0);
 
 	using Cmd = lcf::rpg::EventCommand::Code;
 
 	auto& cmd = *static_cast<lcf::rpg::EventCommand*>(item->data(column, Qt::UserRole).value<void*>());
-	std::unique_ptr<QDialog> dialog;
-
+	QWidget* evt_widget = nullptr;
+/*
 	switch (static_cast<Cmd>(cmd.code))	{
 		case Cmd::ChangeGold: dialog = std::make_unique<ChangeMoneyWidgetWidget>(this, cmd); break;
 		case Cmd::ChangeItems: dialog = std::make_unique<ChangeItemWidget>(this, cmd); break;
@@ -120,8 +125,16 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 		case Cmd::ControlVars: dialog = std::make_unique<VariableOperationsWidget>(this, cmd); break;
 		default: editRawEvent(item, column, true); return;
 	}
+*/
+	std::unique_ptr<QDialog> evt_dialog;
 
-	dialog->exec();
+	switch (static_cast<Cmd>(cmd.code))	{
+		case Cmd::MessageOptions: evt_dialog.reset(make_evt_dialog<MessageOptionsWidget>(m_project, cmd, this)); break;
+		case Cmd::InputNumber: evt_dialog.reset(make_evt_dialog<InputNumberWidget>(m_project, cmd, this)); break;
+		default: editRawEvent(item, column, true); return;
+	}
+
+	evt_dialog->exec();
 
 	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
 }

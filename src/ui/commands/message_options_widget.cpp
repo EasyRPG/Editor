@@ -18,17 +18,23 @@
 #include "message_options_widget.h"
 #include "ui_message_options_widget.h"
 
-MessageOptionsWidget::MessageOptionsWidget(QWidget *parent, lcf::rpg::EventCommand &command) :
-	QDialog(parent),
-	ui(new Ui::MessageOptionsWidget),
-	command(command)
-{
+MessageOptionsWidget::MessageOptionsWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::MessageOptionsWidget) {
+
 	ui->setupUi(this);
 
-	//TODO
+	int i = 0;
+	for (auto& button : { ui->buttonTypeNormal, ui->buttonTypeTransparent }) {
+		ui->groupWindowType_arg0->setId(button, i++);
+	}
+
+	i = 0;
+	for (auto& button : { ui->buttonPositionTop, ui->buttonPositionMiddle, ui->buttonPositionBottom }) {
+		ui->groupWindowPos_arg1->setId(button, i++);
+	}
 }
 
-MessageOptionsWidget::~MessageOptionsWidget()
-{
+MessageOptionsWidget::~MessageOptionsWidget() {
 	delete ui;
 }

@@ -121,7 +121,7 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 			ui->checkFixedEquip,
 			ui->checkStrongDefense,
 			ui->checkTranslucent }) {
-		LcfWidgetBinding::connect(this, uis);
+		LcfWidgetBinding::connect<bool>(this, uis);
 	}
 
 	for (auto& uis : {
@@ -141,7 +141,7 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 		uis->makeModel(project);
 	}
 
-	LcfWidgetBinding::connect(this, ui->groupCritChance);
+	LcfWidgetBinding::connect<bool>(this, ui->groupCritChance);
 
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation);
 	ui->comboUnarmedAnimation->makeModel(project);

@@ -203,6 +203,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/event/battle_page_widget.cpp
 	src/ui/event/battle_page_widget.h
 	src/ui/event/battle_page_widget.ui
+	src/ui/event/event_command_base_widget.cpp
+	src/ui/event/event_command_base_widget.h
 	src/ui/event/event_commands_widget.cpp
 	src/ui/event/event_commands_widget.h
 	src/ui/event/event_dialog.cpp

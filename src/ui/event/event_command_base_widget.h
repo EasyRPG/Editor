@@ -15,30 +15,25 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #pragma once
 
 #include <QWidget>
+#include <lcf/rpg/eventcommand.h>
+#include <lcf/rpg/database.h>
 
-class SignalBlocker {
+
+class ProjectData;
+
+class EventCommandBaseWidget : public QWidget
+{
+	Q_OBJECT
 public:
-	SignalBlocker(QObject* item) {
-		items = {item};
-		item->blockSignals(true);
-	}
+	EventCommandBaseWidget(ProjectData& project, QWidget* parent);
 
-	SignalBlocker(std::initializer_list<QObject*> items) {
-		for (auto& item : items) {
-			item->blockSignals(true);
-		}
-		this->items = items;
-	}
+	void setData(lcf::rpg::EventCommand* cmd);
 
-	~SignalBlocker() {
-		for (auto& item : items) {
-			item->blockSignals(false);
-		}
-	}
-
-private:
-	std::vector<QObject*> items;
+protected:
+	ProjectData& m_project;
+	lcf::rpg::EventCommand* cmd = nullptr;
 };
