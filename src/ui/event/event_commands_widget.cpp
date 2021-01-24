@@ -112,7 +112,10 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 
 	// Commands with no configuration
 	switch (static_cast<Cmd>(cmd.code))	{
+		case Cmd::END:
 		case Cmd::EnterExitVehicle:
+		case Cmd::ProceedWithMovement:
+		case Cmd::HaltAllMovement:
 		case Cmd::MemorizeBGM:
 		case Cmd::PlayMemorizedBGM:
 		case Cmd::OpenSaveMenu:
@@ -128,34 +131,143 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 		case Cmd::ToggleAtbMode:
 		case Cmd::ToggleFullscreen:
 		case Cmd::OpenVideoOptions:
+		case Cmd::TerminateBattle:
+		case Cmd::ShowChoiceOption:
+		case Cmd::ShowChoiceEnd:
+		case Cmd::ElseBranch:
+		case Cmd::EndBranch:
+		case Cmd::EndLoop:
+		case Cmd::EndBattle:
+		case Cmd::EndShop:
+		case Cmd::VictoryHandler:
+		case Cmd::EscapeHandler:
+		case Cmd::DefeatHandler:
+		case Cmd::Transaction:
+		case Cmd::NoTransaction:
+		case Cmd::Stay:
+		case Cmd::NoStay:
+		case Cmd::EndInn:
+		case Cmd::ElseBranch_B:
+		case Cmd::EndBranch_B:
 			return;
 		default:
 			break;
 	}
 
-/*
-	switch (static_cast<Cmd>(cmd.code))	{
-		case Cmd::ChangeGold: dialog = std::make_unique<ChangeMoneyWidgetWidget>(this, cmd); break;
-		case Cmd::ChangeItems: dialog = std::make_unique<ChangeItemWidget>(this, cmd); break;
-		case Cmd::ChangePartyMembers: dialog = std::make_unique<ChangePartyWidget>(this, cmd); break;
-		case Cmd::ChangeExp: dialog = std::make_unique<ChangeExperienceWidget>(this, cmd); break;
-		case Cmd::ChangeFaceGraphic: dialog = std::make_unique<FaceGraphicsWidget>(this, cmd); break;
-		case Cmd::InputNumber: dialog = std::make_unique<InputNumberWidget>(this, cmd); break;
-		case Cmd::MessageOptions: dialog = std::make_unique<MessageOptionsWidget>(this, cmd); break;
-		case Cmd::ShowChoice: dialog = std::make_unique<ShowChoicesWidget>(this, cmd); break;
-		case Cmd::ShowMessage: dialog = std::make_unique<ShowMessageWidget>(this, cmd); break;
-		case Cmd::ControlSwitches: dialog = std::make_unique<SwitchOperationsWidget>(this, cmd); break;
-		case Cmd::ControlVars: dialog = std::make_unique<VariableOperationsWidget>(this, cmd); break;
-		default: editRawEvent(item, column, true); return;
-	}
-*/
 	std::unique_ptr<QDialog> evt_dialog;
 
 	switch (static_cast<Cmd>(cmd.code))	{
+		//case Cmd::CallCommonEvent: evt_dialog.reset(make_evt_dialog<CallCommonEventWidget>(m_project, cmd, this)); break;
+		//case Cmd::ForceFlee: evt_dialog.reset(make_evt_dialog<ForceFleeWidget>(m_project, cmd, this)); break;
+		//case Cmd::EnableCombo: evt_dialog.reset(make_evt_dialog<EnableComboWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeClass: evt_dialog.reset(make_evt_dialog<ChangeClassWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeBattleCommands: evt_dialog.reset(make_evt_dialog<ChangeBattleCommandsWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowMessage: evt_dialog.reset(make_evt_dialog<ShowMessageWidget>(m_project, cmd, this)); break;
 		case Cmd::MessageOptions: evt_dialog.reset(make_evt_dialog<MessageOptionsWidget>(m_project, cmd, this)); break;
-		case Cmd::InputNumber: evt_dialog.reset(make_evt_dialog<InputNumberWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeFaceGraphic: evt_dialog.reset(make_evt_dialog<ChangeFaceGraphicWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowChoice: evt_dialog.reset(make_evt_dialog<ShowChoiceWidget>(m_project, cmd, this)); break;
+		//case Cmd::InputNumber: evt_dialog.reset(make_evt_dialog<InputNumberWidget>(m_project, cmd, this)); break;
+		//case Cmd::ControlSwitches: evt_dialog.reset(make_evt_dialog<ControlSwitchesWidget>(m_project, cmd, this)); break;
+		//case Cmd::ControlVars: evt_dialog.reset(make_evt_dialog<ControlVarsWidget>(m_project, cmd, this)); break;
+		//case Cmd::TimerOperation: evt_dialog.reset(make_evt_dialog<TimerOperationWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeGold: evt_dialog.reset(make_evt_dialog<ChangeGoldWidget>(m_project, cmd, this)); break;
 		case Cmd::ChangeItems: evt_dialog.reset(make_evt_dialog<ChangeItemWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangePartyMembers: evt_dialog.reset(make_evt_dialog<ChangePartyMembersWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeExp: evt_dialog.reset(make_evt_dialog<ChangeExpWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeLevel: evt_dialog.reset(make_evt_dialog<ChangeLevelWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeParameters: evt_dialog.reset(make_evt_dialog<ChangeParametersWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSkills: evt_dialog.reset(make_evt_dialog<ChangeSkillsWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeEquipment: evt_dialog.reset(make_evt_dialog<ChangeEquipmentWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeHP: evt_dialog.reset(make_evt_dialog<ChangeHPWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSP: evt_dialog.reset(make_evt_dialog<ChangeSPWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeCondition: evt_dialog.reset(make_evt_dialog<ChangeConditionWidget>(m_project, cmd, this)); break;
 		case Cmd::FullHeal: evt_dialog.reset(make_evt_dialog<FullHealWidget>(m_project, cmd, this)); break;
+		//case Cmd::SimulatedAttack: evt_dialog.reset(make_evt_dialog<SimulatedAttackWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeHeroName: evt_dialog.reset(make_evt_dialog<ChangeHeroNameWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeHeroTitle: evt_dialog.reset(make_evt_dialog<ChangeHeroTitleWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSpriteAssociation: evt_dialog.reset(make_evt_dialog<ChangeSpriteAssociationWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeActorFace: evt_dialog.reset(make_evt_dialog<ChangeActorFaceWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeVehicleGraphic: evt_dialog.reset(make_evt_dialog<ChangeVehicleGraphicWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSystemBGM: evt_dialog.reset(make_evt_dialog<ChangeSystemBgmWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSystemSFX: evt_dialog.reset(make_evt_dialog<ChangeSystemSfxWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSystemGraphics: evt_dialog.reset(make_evt_dialog<ChangeSystemGraphicsWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeScreenTransitions: evt_dialog.reset(make_evt_dialog<ChangeScreenTransitionsWidget>(m_project, cmd, this)); break;
+		//case Cmd::EnemyEncounter: evt_dialog.reset(make_evt_dialog<EnemyEncounterWidget>(m_project, cmd, this)); break;
+		//case Cmd::OpenShop: evt_dialog.reset(make_evt_dialog<OpenShopWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowInn: evt_dialog.reset(make_evt_dialog<ShowInnWidget>(m_project, cmd, this)); break;
+		//case Cmd::EnterHeroName: evt_dialog.reset(make_evt_dialog<EnterHeroNameWidget>(m_project, cmd, this)); break;
+		//case Cmd::Teleport: evt_dialog.reset(make_evt_dialog<TeleportWidget>(m_project, cmd, this)); break;
+		//case Cmd::MemorizeLocation: evt_dialog.reset(make_evt_dialog<MemorizeLocationWidget>(m_project, cmd, this)); break;
+		//case Cmd::RecallToLocation: evt_dialog.reset(make_evt_dialog<RecallToLocationWidget>(m_project, cmd, this)); break;
+		//case Cmd::EnterExitVehicle: evt_dialog.reset(make_evt_dialog<EnterExitVehicleWidget>(m_project, cmd, this)); break;
+		//case Cmd::SetVehicleLocation: evt_dialog.reset(make_evt_dialog<SetVehicleLocationWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeEventLocation: evt_dialog.reset(make_evt_dialog<ChangeEventLocationWidget>(m_project, cmd, this)); break;
+		//case Cmd::TradeEventLocations: evt_dialog.reset(make_evt_dialog<TradeEventLocationsWidget>(m_project, cmd, this)); break;
+		//case Cmd::StoreTerrainID: evt_dialog.reset(make_evt_dialog<StoreTerrainIdWidget>(m_project, cmd, this)); break;
+		//case Cmd::StoreEventID: evt_dialog.reset(make_evt_dialog<StoreEventIdWidget>(m_project, cmd, this)); break;
+		//case Cmd::EraseScreen: evt_dialog.reset(make_evt_dialog<EraseScreenWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowScreen: evt_dialog.reset(make_evt_dialog<ShowScreenWidget>(m_project, cmd, this)); break;
+		//case Cmd::TintScreen: evt_dialog.reset(make_evt_dialog<TintScreenWidget>(m_project, cmd, this)); break;
+		//case Cmd::FlashScreen: evt_dialog.reset(make_evt_dialog<FlashScreenWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShakeScreen: evt_dialog.reset(make_evt_dialog<ShakeScreenWidget>(m_project, cmd, this)); break;
+		//case Cmd::PanScreen: evt_dialog.reset(make_evt_dialog<PanScreenWidget>(m_project, cmd, this)); break;
+		//case Cmd::WeatherEffects: evt_dialog.reset(make_evt_dialog<WeatherEffectsWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowPicture: evt_dialog.reset(make_evt_dialog<ShowPictureWidget>(m_project, cmd, this)); break;
+		//case Cmd::MovePicture: evt_dialog.reset(make_evt_dialog<MovePictureWidget>(m_project, cmd, this)); break;
+		//case Cmd::ErasePicture: evt_dialog.reset(make_evt_dialog<ErasePictureWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowBattleAnimation: evt_dialog.reset(make_evt_dialog<ShowBattleAnimationWidget>(m_project, cmd, this)); break;
+		//case Cmd::SpriteTransparency: evt_dialog.reset(make_evt_dialog<SpriteTransparencyWidget>(m_project, cmd, this)); break;
+		//case Cmd::FlashSprite: evt_dialog.reset(make_evt_dialog<FlashSpriteWidget>(m_project, cmd, this)); break;
+		//case Cmd::MoveEvent: evt_dialog.reset(make_evt_dialog<MoveEventWidget>(m_project, cmd, this)); break;
+		//case Cmd::Wait: evt_dialog.reset(make_evt_dialog<WaitWidget>(m_project, cmd, this)); break;
+		//case Cmd::PlayBGM: evt_dialog.reset(make_evt_dialog<PlayBgmWidget>(m_project, cmd, this)); break;
+		//case Cmd::FadeOutBGM: evt_dialog.reset(make_evt_dialog<FadeOutBgmWidget>(m_project, cmd, this)); break;
+		//case Cmd::PlaySound: evt_dialog.reset(make_evt_dialog<PlaySoundWidget>(m_project, cmd, this)); break;
+		//case Cmd::PlayMovie: evt_dialog.reset(make_evt_dialog<PlayMovieWidget>(m_project, cmd, this)); break;
+		//case Cmd::KeyInputProc: evt_dialog.reset(make_evt_dialog<KeyInputProcWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeMapTileset: evt_dialog.reset(make_evt_dialog<ChangeMapTilesetWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangePBG: evt_dialog.reset(make_evt_dialog<ChangePBGWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeEncounterRate: evt_dialog.reset(make_evt_dialog<ChangeEncounterRateWidget>(m_project, cmd, this)); break;
+		//case Cmd::TileSubstitution: evt_dialog.reset(make_evt_dialog<TileSubstitutionWidget>(m_project, cmd, this)); break;
+		//case Cmd::TeleportTargets: evt_dialog.reset(make_evt_dialog<TeleportTargetsWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeTeleportAccess: evt_dialog.reset(make_evt_dialog<ChangeTeleportAccessWidget>(m_project, cmd, this)); break;
+		//case Cmd::EscapeTarget: evt_dialog.reset(make_evt_dialog<EscapeTargetWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeEscapeAccess: evt_dialog.reset(make_evt_dialog<ChangeEscapeAccessWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeSaveAccess: evt_dialog.reset(make_evt_dialog<ChangeSaveAccessWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeMainMenuAccess: evt_dialog.reset(make_evt_dialog<ChangeMainMenuAccessWidget>(m_project, cmd, this)); break;
+		//case Cmd::ConditionalBranch: evt_dialog.reset(make_evt_dialog<ConditionalBranchWidget>(m_project, cmd, this)); break;
+		//case Cmd::Label: evt_dialog.reset(make_evt_dialog<LabelWidget>(m_project, cmd, this)); break;
+		//case Cmd::JumpToLabel: evt_dialog.reset(make_evt_dialog<JumpToLabelWidget>(m_project, cmd, this)); break;
+		//case Cmd::CallEvent: evt_dialog.reset(make_evt_dialog<CallEventWidget>(m_project, cmd, this)); break;
+		//case Cmd::Comment: evt_dialog.reset(make_evt_dialog<CommentWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeMonsterHP: evt_dialog.reset(make_evt_dialog<ChangeMonsterHPWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeMonsterMP: evt_dialog.reset(make_evt_dialog<ChangeMonsterMPWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeMonsterCondition: evt_dialog.reset(make_evt_dialog<ChangeMonsterConditionWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowHiddenMonster: evt_dialog.reset(make_evt_dialog<ShowHiddenMonsterWidget>(m_project, cmd, this)); break;
+		//case Cmd::ChangeBattleBG: evt_dialog.reset(make_evt_dialog<ChangeBattleBGWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowBattleAnimation_B: evt_dialog.reset(make_evt_dialog<ShowBattleAnimation_BWidget>(m_project, cmd, this)); break;
+		//case Cmd::ConditionalBranch_B: evt_dialog.reset(make_evt_dialog<ConditionalBranch_BWidget>(m_project, cmd, this)); break;
+		//case Cmd::ShowMessage_2: evt_dialog.reset(make_evt_dialog<ShowMessage_2Widget>(m_project, cmd, this)); break;
+		//case Cmd::Comment_2: evt_dialog.reset(make_evt_dialog<Comment_2Widget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_GetSaveInfo: evt_dialog.reset(make_evt_dialog<Maniac_GetSaveInfoWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_Save: evt_dialog.reset(make_evt_dialog<Maniac_SaveWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_Load: evt_dialog.reset(make_evt_dialog<Maniac_LoadWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_EndLoadProcess: evt_dialog.reset(make_evt_dialog<Maniac_EndLoadProcessWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_GetMousePosition: evt_dialog.reset(make_evt_dialog<Maniac_GetMousePositionWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_SetMousePosition: evt_dialog.reset(make_evt_dialog<Maniac_SetMousePositionWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ShowStringPicture: evt_dialog.reset(make_evt_dialog<Maniac_ShowStringPictureWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_GetPictureInfo: evt_dialog.reset(make_evt_dialog<Maniac_GetPictureInfoWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ControlBattle: evt_dialog.reset(make_evt_dialog<Maniac_ControlBattleWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ControlAtbGauge: evt_dialog.reset(make_evt_dialog<Maniac_ControlAtbGaugeWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ChangeBattleCommandEx: evt_dialog.reset(make_evt_dialog<Maniac_ChangeBattleCommandExWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_GetBattleInfo: evt_dialog.reset(make_evt_dialog<Maniac_GetBattleInfoWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ControlVarArray: evt_dialog.reset(make_evt_dialog<Maniac_ControlVarArrayWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_KeyInputProcEx: evt_dialog.reset(make_evt_dialog<Maniac_KeyInputProcExWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_RewriteMap: evt_dialog.reset(make_evt_dialog<Maniac_RewriteMapWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ControlGlobalSave: evt_dialog.reset(make_evt_dialog<Maniac_ControlGlobalSaveWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_ChangePictureId: evt_dialog.reset(make_evt_dialog<Maniac_ChangePictureIdWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_SetGameOption: evt_dialog.reset(make_evt_dialog<Maniac_SetGameOptionWidget>(m_project, cmd, this)); break;
+		//case Cmd::Maniac_CallCommand: evt_dialog.reset(make_evt_dialog<Maniac_CallCommandWidget>(m_project, cmd, this)); break;
 		default: editRawEvent(item, column, true); return;
 	}
 
