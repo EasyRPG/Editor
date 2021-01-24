@@ -131,6 +131,8 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 	switch (static_cast<Cmd>(cmd.code))	{
 		case Cmd::MessageOptions: evt_dialog.reset(make_evt_dialog<MessageOptionsWidget>(m_project, cmd, this)); break;
 		case Cmd::InputNumber: evt_dialog.reset(make_evt_dialog<InputNumberWidget>(m_project, cmd, this)); break;
+		case Cmd::ChangeItems: evt_dialog.reset(make_evt_dialog<ChangeItemWidget>(m_project, cmd, this)); break;
+		case Cmd::FullHeal: evt_dialog.reset(make_evt_dialog<FullHealWidget>(m_project, cmd, this)); break;
 		default: editRawEvent(item, column, true); return;
 	}
 

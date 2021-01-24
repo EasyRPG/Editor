@@ -20,19 +20,19 @@
 #include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangeItemWidget;
+class FullHealWidget;
 }
 
-class ChangeItemWidget : public EventCommandBaseWidget
+class FullHealWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeItemWidget(ProjectData& project, QWidget *parent);
-	~ChangeItemWidget();
+	explicit FullHealWidget(ProjectData& project, QWidget *parent);
+	~FullHealWidget();
 
 	virtual void setData(lcf::rpg::EventCommand* cmd) override;
 
 private:
-	Ui::ChangeItemWidget *ui;
+	Ui::FullHealWidget* ui;
 };

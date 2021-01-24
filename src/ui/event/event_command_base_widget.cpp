@@ -28,8 +28,6 @@ EventCommandBaseWidget::EventCommandBaseWidget(ProjectData& project, QWidget* pa
 void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 	this->cmd = cmd;
 
-	dumpObjectTree();
-
 	for (auto& widget: findChildren<QLineEdit*>()) {
 		auto idx = widget->objectName().indexOf("_argX");
 		if (idx != -1) {

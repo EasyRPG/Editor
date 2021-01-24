@@ -18,48 +18,25 @@
 #include "change_item_widget.h"
 #include "ui_change_item_widget.h"
 
-ChangeItemWidget::ChangeItemWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
-	QDialog(parent),
-	ui(new Ui::ChangeItemWidget),
-	cmd(cmd)
-{
+ChangeItemWidget::ChangeItemWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::ChangeItemWidget) {
+
 	ui->setupUi(this);
 
-	(cmd.parameters[0] ? ui->op_rem : ui->op_add)->setChecked(true);
-
-	if (cmd.parameters[1] == 0)
-	{
-		ui->item_item->setCurrentIndex(cmd.parameters[2]);
-		ui->item_box_item->setChecked(true);
-	}
-	else
-	{
-		ui->item_variable->setCurrentIndex(cmd.parameters[2]);
-		ui->item_box_variable->setChecked(true);
-	}
-
-	if (cmd.parameters[3] == 0)
-	{
-		ui->amount_amount->setValue(cmd.parameters[4]);
-		ui->amount_box_fix->setChecked(true);
-	}
-	else
-	{
-		ui->amount_variable->setCurrentIndex(cmd.parameters[4]);
-		ui->amount_box_variable->setChecked(true);
+	int i = 0;
+	for (auto& button : { ui->radioOpAdd, ui->radioOpRemove }) {
+		ui->groupOp_arg0->setId(button, i++);
 	}
 }
 
-ChangeItemWidget::~ChangeItemWidget()
-{
+ChangeItemWidget::~ChangeItemWidget() {
 	delete ui;
 }
 
-void ChangeItemWidget::on_ChangeItemWidget_accepted()
-{
-	cmd.parameters[0] = ui->op_rem->isChecked() ? 1 : 0;
-	cmd.parameters[1] = ui->item_box_variable->isChecked() ? 1 : 0;
-	cmd.parameters[2] = ui->item_box_variable->isChecked() ? ui->item_variable->currentIndex() : ui->item_item->currentIndex();
-	cmd.parameters[3] = ui->amount_box_variable->isChecked() ? 1 : 0;
-	cmd.parameters[4] = ui->amount_box_variable->isChecked() ? ui->amount_variable->currentIndex() : ui->amount_amount->value();
+void ChangeItemWidget::setData(lcf::rpg::EventCommand* cmd) {
+	EventCommandBaseWidget::setData(cmd);
+
+	ui->operandAmount->attach(m_project, *cmd, 3, 4);
+	ui->operandItem->attach(m_project, *cmd, 1, 2);
 }

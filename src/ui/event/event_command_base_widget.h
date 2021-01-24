@@ -31,7 +31,7 @@ class EventCommandBaseWidget : public QWidget
 public:
 	EventCommandBaseWidget(ProjectData& project, QWidget* parent);
 
-	void setData(lcf::rpg::EventCommand* cmd);
+	virtual void setData(lcf::rpg::EventCommand* cmd);
 
 protected:
 	ProjectData& m_project;

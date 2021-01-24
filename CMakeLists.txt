@@ -86,6 +86,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
+	src/ui/commands/full_heal_widget.cpp
+	src/ui/commands/full_heal_widget.h
+	src/ui/commands/full_heal_widget.ui
 	src/ui/commands/input_number_widget.cpp
 	src/ui/commands/input_number_widget.h
 	src/ui/commands/input_number_widget.ui
@@ -125,6 +128,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/import_image_dialog.ui
 	src/ui/common/import_item.cpp
 	src/ui/common/import_item.h
+	src/ui/common/operand_widget.cpp
+	src/ui/common/operand_widget.h
 	src/ui/common/palette_scene.cpp
 	src/ui/common/palette_scene.h
 	src/ui/common/picker_scene.cpp

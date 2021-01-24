@@ -15,24 +15,22 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "full_heal_widget.h"
+#include "ui_full_heal_widget.h"
 
-#include "ui/event/event_command_base_widget.h"
-
-namespace Ui {
-class ChangeItemWidget;
+FullHealWidget::FullHealWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::FullHealWidget)
+{
+	ui->setupUi(this);
 }
 
-class ChangeItemWidget : public EventCommandBaseWidget
-{
-	Q_OBJECT
+FullHealWidget::~FullHealWidget() {
+	delete ui;
+}
 
-public:
-	explicit ChangeItemWidget(ProjectData& project, QWidget *parent);
-	~ChangeItemWidget();
+void FullHealWidget::setData(lcf::rpg::EventCommand* cmd) {
+	EventCommandBaseWidget::setData(cmd);
 
-	virtual void setData(lcf::rpg::EventCommand* cmd) override;
-
-private:
-	Ui::ChangeItemWidget *ui;
-};
+	ui->operandParty->attach(m_project, *cmd, 0, 1);
+}
