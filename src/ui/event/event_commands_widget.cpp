@@ -109,7 +109,30 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 	using Cmd = lcf::rpg::EventCommand::Code;
 
 	auto& cmd = *static_cast<lcf::rpg::EventCommand*>(item->data(column, Qt::UserRole).value<void*>());
-	QWidget* evt_widget = nullptr;
+
+	// Commands with no configuration
+	switch (static_cast<Cmd>(cmd.code))	{
+		case Cmd::EnterExitVehicle:
+		case Cmd::MemorizeBGM:
+		case Cmd::PlayMemorizedBGM:
+		case Cmd::OpenSaveMenu:
+		case Cmd::OpenMainMenu:
+		case Cmd::Loop:
+		case Cmd::BreakLoop:
+		case Cmd::EndEventProcessing:
+		case Cmd::EraseEvent:
+		case Cmd::GameOver:
+		case Cmd::ReturntoTitleScreen:
+		case Cmd::OpenLoadMenu:
+		case Cmd::ExitGame:
+		case Cmd::ToggleAtbMode:
+		case Cmd::ToggleFullscreen:
+		case Cmd::OpenVideoOptions:
+			return;
+		default:
+			break;
+	}
+
 /*
 	switch (static_cast<Cmd>(cmd.code))	{
 		case Cmd::ChangeGold: dialog = std::make_unique<ChangeMoneyWidgetWidget>(this, cmd); break;
