@@ -28,9 +28,3 @@ FullHealWidget::FullHealWidget(ProjectData& project, QWidget *parent) :
 FullHealWidget::~FullHealWidget() {
 	delete ui;
 }
-
-void FullHealWidget::setData(lcf::rpg::EventCommand* cmd) {
-	EventCommandBaseWidget::setData(cmd);
-
-	ui->operandParty->attach(m_project, *cmd, 0, 1);
-}

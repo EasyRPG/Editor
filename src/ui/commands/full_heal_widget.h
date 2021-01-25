@@ -31,8 +31,6 @@ public:
 	explicit FullHealWidget(ProjectData& project, QWidget *parent);
 	~FullHealWidget();
 
-	virtual void setData(lcf::rpg::EventCommand* cmd) override;
-
 private:
 	Ui::FullHealWidget* ui;
 };

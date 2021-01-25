@@ -173,8 +173,8 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 		//case Cmd::ChangeGold: evt_dialog.reset(make_evt_dialog<ChangeGoldWidget>(m_project, cmd, this)); break;
 		case Cmd::ChangeItems: evt_dialog.reset(make_evt_dialog<ChangeItemWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangePartyMembers: evt_dialog.reset(make_evt_dialog<ChangePartyMembersWidget>(m_project, cmd, this)); break;
-		//case Cmd::ChangeExp: evt_dialog.reset(make_evt_dialog<ChangeExpWidget>(m_project, cmd, this)); break;
-		//case Cmd::ChangeLevel: evt_dialog.reset(make_evt_dialog<ChangeLevelWidget>(m_project, cmd, this)); break;
+		case Cmd::ChangeExp: evt_dialog.reset(make_evt_dialog<ChangeExperienceWidget>(m_project, cmd, this)); break;
+		case Cmd::ChangeLevel: evt_dialog.reset(make_evt_dialog<ChangeLevelWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeParameters: evt_dialog.reset(make_evt_dialog<ChangeParametersWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeSkills: evt_dialog.reset(make_evt_dialog<ChangeSkillsWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeEquipment: evt_dialog.reset(make_evt_dialog<ChangeEquipmentWidget>(m_project, cmd, this)); break;

@@ -77,6 +77,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/change_item_widget.cpp
 	src/ui/commands/change_item_widget.h
 	src/ui/commands/change_item_widget.ui
+	src/ui/commands/change_level_widget.cpp
+	src/ui/commands/change_level_widget.h
+	src/ui/commands/change_level_widget.ui
 	src/ui/commands/change_money_widget.cpp
 	src/ui/commands/change_money_widget.h
 	src/ui/commands/change_money_widget.ui

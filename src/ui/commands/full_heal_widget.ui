@@ -21,7 +21,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="PartyOperandWidget" name="operandParty" native="true"/>
+       <widget class="PartyOperandWidget" name="operandParty_arg0" native="true"/>
       </item>
      </layout>
     </widget>

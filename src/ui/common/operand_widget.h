@@ -28,20 +28,10 @@ class OperandWidgetBase : public QWidget {
 	Q_OBJECT
 public:
 	explicit OperandWidgetBase(QWidget *parent = nullptr) : QWidget(parent) {}
-/*
-public slots:
-	virtual void indexChanged(int) {};
 
-	void connect(QDialog* diag) {
-		QObject::connect(diag, SIGNAL(valueSelected(int)), this, SLOT(indexChanged(int)));
-	}
-
-protected:
-	QComboBox* m_comboBox;*/
-
-protected:
 	virtual void attach(ProjectData& project, lcf::rpg::EventCommand&, int idx_operand, int idx_value);
 
+protected:
 	ProjectData* m_project = nullptr;
 	lcf::rpg::EventCommand* m_cmd = nullptr;
 

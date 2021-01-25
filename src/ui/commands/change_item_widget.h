@@ -31,8 +31,6 @@ public:
 	explicit ChangeItemWidget(ProjectData& project, QWidget *parent);
 	~ChangeItemWidget();
 
-	virtual void setData(lcf::rpg::EventCommand* cmd) override;
-
 private:
 	Ui::ChangeItemWidget *ui;
 };

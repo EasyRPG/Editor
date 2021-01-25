@@ -16,7 +16,8 @@
  */
 
 #include "event_command_base_widget.h"
-#include <common/lcf_widget_binding.h>
+#include "common/lcf_widget_binding.h"
+#include "ui/common/operand_widget.h"
 #include <QLineEdit>
 #include <QButtonGroup>
 
@@ -92,6 +93,20 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 			} else {
 				LcfWidgetBinding::connect<int32_t>(this, widget);
 				LcfWidgetBinding::bind(widget, *(cmd->parameters.data() + val));
+			}
+		}
+	}
+
+	for (auto& widget: findChildren<OperandWidgetBase*>()) {
+		auto idx = widget->objectName().indexOf("_arg");
+		if (idx != -1) {
+			QString arg = widget->objectName().right(1);
+			int val = arg.toInt(nullptr, 10);
+
+			if (arg == "X") {
+				Q_ASSERT(false && "QComboBox does not support string arg");
+			} else {
+				widget->attach(m_project, *cmd, val, val + 1);
 			}
 		}
 	}
