@@ -27,6 +27,7 @@ class QCheckBox;
 class QSpinBox;
 class ProjectData;
 class RpgComboBoxBase;
+class EventCommandList;
 
 class EventCommandBaseWidget : public QWidget
 {
@@ -35,6 +36,7 @@ public:
 	EventCommandBaseWidget(ProjectData& project, QWidget* parent);
 
 	virtual void setData(lcf::rpg::EventCommand* cmd);
+	virtual void setData(EventCommandList* commands);
 
 	void connectParameterHandler(QButtonGroup* group, int index);
 	void connectParameterHandler(RpgComboBoxBase* combo, int index);
@@ -47,5 +49,6 @@ signals:
 
 protected:
 	ProjectData& m_project;
+	EventCommandList* m_commands = nullptr;
 	lcf::rpg::EventCommand* cmd = nullptr;
 };

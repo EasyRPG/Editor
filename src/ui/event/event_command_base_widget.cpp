@@ -18,6 +18,7 @@
 #include "event_command_base_widget.h"
 #include "common/lcf_widget_binding.h"
 #include "ui/common/operand_widget.h"
+#include "model/event_command_list.h"
 #include <QLineEdit>
 #include <QButtonGroup>
 
@@ -111,6 +112,11 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 			}
 		}
 	}
+}
+
+void EventCommandBaseWidget::setData(EventCommandList* commands) {
+	m_commands = commands;
+	setData(&commands->command());
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int index) {

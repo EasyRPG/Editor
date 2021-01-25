@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
-cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+if(POLICY CMP0091)
+        cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+endif()
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
@@ -47,6 +49,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/model/commonevent.h
 	src/model/enemy.cpp
 	src/model/enemy.h
+	src/model/event_command_list.cpp
+	src/model/event_command_list.h
 	src/model/item.cpp
 	src/model/item.h
 	src/model/project.cpp

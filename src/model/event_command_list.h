@@ -17,25 +17,25 @@
 
 #pragma once
 
-#include "ui/event/event_command_base_widget.h"
+#include <lcf/rpg/eventcommand.h>
+#include <vector>
 
-namespace Ui {
-class ShowMessageWidget;
-}
-
-class ShowMessageWidget : public EventCommandBaseWidget
-{
-	Q_OBJECT
-
+class EventCommandList {
 public:
-	explicit ShowMessageWidget(ProjectData& project, QWidget* parent);
-	~ShowMessageWidget();
+	EventCommandList() {};
+	EventCommandList(std::vector<lcf::rpg::EventCommand>& commands, int current_index);
 
-	void setData(EventCommandList* commands) override;
+	std::vector<lcf::rpg::EventCommand>& commands();
+	const std::vector<lcf::rpg::EventCommand>& commands() const;
 
-	void apply();
+	lcf::rpg::EventCommand& command();
+	const lcf::rpg::EventCommand& command() const;
+
+	size_t size() const;
+
+	int index() const;
 
 private:
-	Ui::ShowMessageWidget *ui;
+	std::vector<lcf::rpg::EventCommand>* m_commands = nullptr;
+	int m_current_index = 0;
 };
-

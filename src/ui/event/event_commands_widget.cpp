@@ -17,6 +17,7 @@
 
 #include "event_commands_widget.h"
 #include "stringizer.h"
+#include "model/event_command_list.h"
 #include "ui/commands/all_commands.h"
 #include "ui/event/event_raw_widget.h"
 #include "ui/common/widget_as_dialog_wrapper.h"
@@ -103,6 +104,11 @@ WidgetAsDialogWrapper<T, lcf::rpg::EventCommand>* make_evt_dialog(ProjectData* p
 	return new WidgetAsDialogWrapper<T, lcf::rpg::EventCommand>(*prj, cmd, self);
 }
 
+template<typename T>
+WidgetAsDialogWrapper<T, EventCommandList>* make_complex_evt_dialog(ProjectData* prj, EventCommandList& commands, EventCommandsWidget* self) {
+	return new WidgetAsDialogWrapper<T, EventCommandList>(*prj, commands, self);
+}
+
 void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 	assert(column == 0);
 
@@ -156,13 +162,15 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 
 	std::unique_ptr<QDialog> evt_dialog;
 
+	EventCommandList evt_lst(*m_commands, item->text(1).toInt());
+
 	switch (static_cast<Cmd>(cmd.code))	{
 		//case Cmd::CallCommonEvent: evt_dialog.reset(make_evt_dialog<CallCommonEventWidget>(m_project, cmd, this)); break;
 		//case Cmd::ForceFlee: evt_dialog.reset(make_evt_dialog<ForceFleeWidget>(m_project, cmd, this)); break;
 		//case Cmd::EnableCombo: evt_dialog.reset(make_evt_dialog<EnableComboWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeClass: evt_dialog.reset(make_evt_dialog<ChangeClassWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeBattleCommands: evt_dialog.reset(make_evt_dialog<ChangeBattleCommandsWidget>(m_project, cmd, this)); break;
-		//case Cmd::ShowMessage: evt_dialog.reset(make_evt_dialog<ShowMessageWidget>(m_project, cmd, this)); break;
+		case Cmd::ShowMessage: evt_dialog.reset(make_complex_evt_dialog<ShowMessageWidget>(m_project, evt_lst, this)); break;
 		case Cmd::MessageOptions: evt_dialog.reset(make_evt_dialog<MessageOptionsWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeFaceGraphic: evt_dialog.reset(make_evt_dialog<ChangeFaceGraphicWidget>(m_project, cmd, this)); break;
 		//case Cmd::ShowChoice: evt_dialog.reset(make_evt_dialog<ShowChoiceWidget>(m_project, cmd, this)); break;
