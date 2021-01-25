@@ -162,7 +162,31 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 
 	std::unique_ptr<QDialog> evt_dialog;
 
-	EventCommandList evt_lst(*m_commands, item->text(1).toInt());
+	int index = item->text(1).toInt();
+
+	// Event commands that need special handling
+	// FIXME: Causes a visual glitch because the wrong item is updated in the Tree
+	switch (static_cast<Cmd>(cmd.code)) {
+		case Cmd::ShowMessage_2: {
+			// Search for a ShowMessage command above and invoke it instead
+			for (int i = index - 1; i >= 0; --i) {
+				auto& cur_cmd = (*m_commands)[i];
+				auto code = static_cast<Cmd>(cur_cmd.code);
+				if (code == Cmd::ShowMessage_2) {
+					continue;
+				} else if (static_cast<Cmd>(cur_cmd.code) == Cmd::ShowMessage) {
+					index = i;
+					cmd = cur_cmd;
+					break;
+				} else {
+					Q_ASSERT(false && "Event list corrupted: ShowMessage_2 without ShowMessage");
+				}
+			}
+		}
+		default: break;
+	}
+
+	EventCommandList evt_lst(*m_commands, index);
 
 	switch (static_cast<Cmd>(cmd.code))	{
 		//case Cmd::CallCommonEvent: evt_dialog.reset(make_evt_dialog<CallCommonEventWidget>(m_project, cmd, this)); break;
@@ -255,7 +279,6 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 		//case Cmd::ChangeBattleBG: evt_dialog.reset(make_evt_dialog<ChangeBattleBGWidget>(m_project, cmd, this)); break;
 		//case Cmd::ShowBattleAnimation_B: evt_dialog.reset(make_evt_dialog<ShowBattleAnimation_BWidget>(m_project, cmd, this)); break;
 		//case Cmd::ConditionalBranch_B: evt_dialog.reset(make_evt_dialog<ConditionalBranch_BWidget>(m_project, cmd, this)); break;
-		//case Cmd::ShowMessage_2: evt_dialog.reset(make_evt_dialog<ShowMessage_2Widget>(m_project, cmd, this)); break;
 		//case Cmd::Comment_2: evt_dialog.reset(make_evt_dialog<Comment_2Widget>(m_project, cmd, this)); break;
 		//case Cmd::Maniac_GetSaveInfo: evt_dialog.reset(make_evt_dialog<Maniac_GetSaveInfoWidget>(m_project, cmd, this)); break;
 		//case Cmd::Maniac_Save: evt_dialog.reset(make_evt_dialog<Maniac_SaveWidget>(m_project, cmd, this)); break;
