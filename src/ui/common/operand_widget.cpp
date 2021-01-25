@@ -17,11 +17,13 @@
 
 #include "operand_widget.h"
 
-void OperandWidgetBase::attach(EventCommandBaseWidget&, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
+void OperandWidgetBase::attach(EventCommandBaseWidget& base, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
 	m_project = &project;
 	m_cmd = &cmd;
 	m_operation.operand = idx_operand;
 	m_operation.value = idx_value;
+
+	connect(&base, &EventCommandBaseWidget::parameterChanged, this, &OperandWidgetBase::parameterChanged);
 }
 
 PartyOperandWidget::PartyOperandWidget(QWidget *parent) :
@@ -63,6 +65,13 @@ void PartyOperandWidget::attach(EventCommandBaseWidget& base_widget, ProjectData
 	base_widget.connectParameterHandler(m_comboVar, idx_value);
 }
 
+void PartyOperandWidget::parameterChanged(int index, int new_value) {
+	if (index == m_operation.operand) {
+		m_comboValue->setEnabled(new_value == 1);
+		m_comboVar->setEnabled(new_value == 2);
+	}
+}
+
 ValueOperandWidget::ValueOperandWidget(QWidget *parent) :
 	OperandWidgetBase(parent)
 {
@@ -94,4 +103,11 @@ void ValueOperandWidget::attach(EventCommandBaseWidget& base_widget, ProjectData
 
 	m_comboVar->makeModel(project);
 	base_widget.connectParameterHandler(m_comboVar, idx_value);
+}
+
+void ValueOperandWidget::parameterChanged(int index, int new_value) {
+	if (index == m_operation.operand) {
+		m_spinValue->setEnabled(new_value == 0);
+		m_comboVar->setEnabled(new_value == 1);
+	}
 }

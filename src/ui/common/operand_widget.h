@@ -35,6 +35,11 @@ public:
 	virtual void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand&, int idx_operand, int idx_value);
 
 protected:
+	virtual void parameterChanged(int index, int new_value) {
+		Q_UNUSED(index);
+		Q_UNUSED(new_value);
+	}
+
 	ProjectData* m_project = nullptr;
 	lcf::rpg::EventCommand* m_cmd = nullptr;
 
@@ -45,8 +50,7 @@ protected:
 };
 
 template <typename LCF>
-class OperandWidget : public OperandWidgetBase
-{
+class OperandWidget : public OperandWidgetBase {
 public:
 	OperandWidget(QWidget *parent);
 
@@ -60,6 +64,13 @@ public:
 
 		m_comboVar->makeModel(project);
 		base_widget.connectParameterHandler(m_comboVar, idx_value);
+	}
+
+	void parameterChanged(int index, int new_value) override {
+		if (index == m_operation.operand) {
+			m_comboValue->setEnabled(new_value == 0);
+			m_comboVar->setEnabled(new_value == 1);
+		}
 	}
 
 private:
@@ -93,12 +104,14 @@ OperandWidget<LCF>::OperandWidget(QWidget *parent) :
 	gridLayout->addWidget(m_comboVar, 1, 1);
 }
 
-class PartyOperandWidget : public OperandWidgetBase
-{
+class PartyOperandWidget : public OperandWidgetBase {
 public:
 	PartyOperandWidget(QWidget *parent);
 
 	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
+
+protected:
+	void parameterChanged(int index, int new_value) override;
 
 private:
 	QButtonGroup* m_buttonGroup = nullptr;
@@ -109,12 +122,14 @@ private:
 	VariableRpgComboBox* m_comboVar = nullptr;
 };
 
-class ValueOperandWidget : public OperandWidgetBase
-{
+class ValueOperandWidget : public OperandWidgetBase {
 public:
 	ValueOperandWidget(QWidget *parent);
 
 	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
+
+protected:
+	void parameterChanged(int index, int new_value) override;
 
 private:
 	QButtonGroup* m_buttonGroup = nullptr;
