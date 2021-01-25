@@ -33,3 +33,9 @@ ChangeExperienceWidget::ChangeExperienceWidget(ProjectData& project, QWidget *pa
 ChangeExperienceWidget::~ChangeExperienceWidget() {
 	delete ui;
 }
+
+void ChangeExperienceWidget::on_EventWidget_parameterChanged(int index, int new_value) {
+	if (index == 2) {
+		ui->check_arg5->setEnabled(new_value == 0);
+	}
+}

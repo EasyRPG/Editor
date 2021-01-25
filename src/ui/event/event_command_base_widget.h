@@ -22,8 +22,11 @@
 #include <lcf/rpg/eventcommand.h>
 #include <lcf/rpg/database.h>
 
-
+class QButtonGroup;
+class QCheckBox;
+class QSpinBox;
 class ProjectData;
+class RpgComboBoxBase;
 
 class EventCommandBaseWidget : public QWidget
 {
@@ -32,6 +35,15 @@ public:
 	EventCommandBaseWidget(ProjectData& project, QWidget* parent);
 
 	virtual void setData(lcf::rpg::EventCommand* cmd);
+
+	void connectParameterHandler(QButtonGroup* group, int index);
+	void connectParameterHandler(RpgComboBoxBase* combo, int index);
+	void connectParameterHandler(QSpinBox* spin, int index);
+	void connectParameterHandler(QCheckBox* combo, int index);
+
+signals:
+	void parameterChanged(int, int);
+	void stringParameterChanged(const QString&);
 
 protected:
 	ProjectData& m_project;

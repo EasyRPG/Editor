@@ -33,4 +33,7 @@ public:
 
 private:
 	Ui::ChangeExperienceWidget *ui;
+
+private slots:
+	void on_EventWidget_parameterChanged(int index, int new_value);
 };

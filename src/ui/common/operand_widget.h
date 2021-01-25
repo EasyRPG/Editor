@@ -18,18 +18,21 @@
 #pragma once
 
 #include "common/lcf_widget_binding.h"
+#include "ui/event/event_command_base_widget.h"
 #include <QWidget>
 #include <QGridLayout>
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QButtonGroup>
 
+class EventCommandBaseWidget;
+
 class OperandWidgetBase : public QWidget {
 	Q_OBJECT
 public:
 	explicit OperandWidgetBase(QWidget *parent = nullptr) : QWidget(parent) {}
 
-	virtual void attach(ProjectData& project, lcf::rpg::EventCommand&, int idx_operand, int idx_value);
+	virtual void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand&, int idx_operand, int idx_value);
 
 protected:
 	ProjectData* m_project = nullptr;
@@ -47,19 +50,16 @@ class OperandWidget : public OperandWidgetBase
 public:
 	OperandWidget(QWidget *parent);
 
-	void attach(ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override {
-		OperandWidgetBase::attach(project, cmd, idx_operand, idx_value);
+	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override {
+		OperandWidgetBase::attach(base_widget, project, cmd, idx_operand, idx_value);
 
-		LcfWidgetBinding::connect<int32_t>(this, m_buttonGroup);
-		LcfWidgetBinding::bind(m_buttonGroup, *(cmd.parameters.data() + idx_operand));
+		base_widget.connectParameterHandler(m_buttonGroup, idx_operand);
 
 		m_comboValue->makeModel(project);
-		LcfWidgetBinding::connect<int32_t>(this, m_comboValue);
-		LcfWidgetBinding::bind(m_comboValue, *(cmd.parameters.data() + idx_value));
+		base_widget.connectParameterHandler(m_comboValue, idx_value);
 
 		m_comboVar->makeModel(project);
-		LcfWidgetBinding::connect<int32_t>(this, m_comboVar);
-		LcfWidgetBinding::bind(m_comboVar, *(cmd.parameters.data() + idx_value));
+		base_widget.connectParameterHandler(m_comboVar, idx_value);
 	}
 
 private:
@@ -98,7 +98,7 @@ class PartyOperandWidget : public OperandWidgetBase
 public:
 	PartyOperandWidget(QWidget *parent);
 
-	void attach(ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
+	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
 
 private:
 	QButtonGroup* m_buttonGroup = nullptr;
@@ -114,7 +114,7 @@ class ValueOperandWidget : public OperandWidgetBase
 public:
 	ValueOperandWidget(QWidget *parent);
 
-	void attach(ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
+	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
 
 private:
 	QButtonGroup* m_buttonGroup = nullptr;

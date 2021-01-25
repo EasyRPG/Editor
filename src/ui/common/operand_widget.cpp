@@ -17,7 +17,7 @@
 
 #include "operand_widget.h"
 
-void OperandWidgetBase::attach(ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
+void OperandWidgetBase::attach(EventCommandBaseWidget&, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
 	m_project = &project;
 	m_cmd = &cmd;
 	m_operation.operand = idx_operand;
@@ -51,19 +51,16 @@ PartyOperandWidget::PartyOperandWidget(QWidget *parent) :
 	gridLayout->addWidget(m_comboVar, 2, 1);
 }
 
-void PartyOperandWidget::attach(ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
-	OperandWidgetBase::attach(project, cmd, idx_operand, idx_value);
+void PartyOperandWidget::attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
+	OperandWidgetBase::attach(base_widget, project, cmd, idx_operand, idx_value);
 
-	LcfWidgetBinding::connect<int32_t>(this, m_buttonGroup);
-	LcfWidgetBinding::bind(m_buttonGroup, *(cmd.parameters.data() + idx_operand));
+	base_widget.connectParameterHandler(m_buttonGroup, idx_operand);
 
 	m_comboValue->makeModel(project);
-	LcfWidgetBinding::connect<int32_t>(this, m_comboValue);
-	LcfWidgetBinding::bind(m_comboValue, *(cmd.parameters.data() + idx_value));
+	base_widget.connectParameterHandler(m_comboValue, idx_value);
 
 	m_comboVar->makeModel(project);
-	LcfWidgetBinding::connect<int32_t>(this, m_comboVar);
-	LcfWidgetBinding::bind(m_comboVar, *(cmd.parameters.data() + idx_value));
+	base_widget.connectParameterHandler(m_comboVar, idx_value);
 }
 
 ValueOperandWidget::ValueOperandWidget(QWidget *parent) :
@@ -88,16 +85,13 @@ ValueOperandWidget::ValueOperandWidget(QWidget *parent) :
 	gridLayout->addWidget(m_comboVar, 1, 1);
 }
 
-void ValueOperandWidget::attach(ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
-	OperandWidgetBase::attach(project, cmd, idx_operand, idx_value);
+void ValueOperandWidget::attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) {
+	OperandWidgetBase::attach(base_widget, project, cmd, idx_operand, idx_value);
 
-	LcfWidgetBinding::connect<int32_t>(this, m_buttonGroup);
-	LcfWidgetBinding::bind(m_buttonGroup, *(cmd.parameters.data() + idx_operand));
+	base_widget.connectParameterHandler(m_buttonGroup, idx_operand);
 
-	LcfWidgetBinding::connect<int32_t>(this, m_spinValue);
-	LcfWidgetBinding::bind(m_spinValue, *(cmd.parameters.data() + idx_value));
+	base_widget.connectParameterHandler(m_spinValue, idx_value);
 
 	m_comboVar->makeModel(project);
-	LcfWidgetBinding::connect<int32_t>(this, m_comboVar);
-	LcfWidgetBinding::bind(m_comboVar, *(cmd.parameters.data() + idx_value));
+	base_widget.connectParameterHandler(m_comboVar, idx_value);
 }
