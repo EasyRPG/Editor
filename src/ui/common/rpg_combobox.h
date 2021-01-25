@@ -38,12 +38,19 @@ class RpgComboBoxBase : public QWidget {
 public:
 	explicit RpgComboBoxBase(QWidget *parent = nullptr) : QWidget(parent) {}
 
+	QComboBox* comboBox() {
+		return m_comboBox;
+	}
+
 public slots:
 	virtual void indexChanged(int) {};
 
 	void connect(QDialog* diag) {
 		QObject::connect(diag, SIGNAL(valueSelected(int)), this, SLOT(indexChanged(int)));
 	}
+
+protected:
+	QComboBox* m_comboBox;
 };
 
 template <typename LCF>
@@ -51,10 +58,6 @@ class RpgComboBox : public RpgComboBoxBase
 {
 public:
 	RpgComboBox(QWidget *parent, QAbstractItemModel *model = nullptr);
-
-	QComboBox* comboBox() {
-		return m_comboBox;
-	}
 
 	// The member "setEditable" is missing on purpose. Don't set it in the UI!
 
@@ -101,7 +104,6 @@ public:
 	};
 
 private:
-	QComboBox* m_comboBox;
 	QPushButton* m_editButton;
 	ProjectData* m_project = nullptr;
 	RpgModel<LCF>* m_model = nullptr;

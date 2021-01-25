@@ -15,21 +15,16 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "change_item_widget.h"
-#include "ui_change_item_widget.h"
+#include "full_heal_widget.h"
+#include "ui_full_heal_widget.h"
 
-ChangeItemWidget::ChangeItemWidget(ProjectData& project, QWidget *parent) :
+FullHealWidget::FullHealWidget(ProjectData& project, QWidget *parent) :
 	EventCommandBaseWidget(project, parent),
-	ui(new Ui::ChangeItemWidget) {
-
+	ui(new Ui::FullHealWidget)
+{
 	ui->setupUi(this);
-
-	int i = 0;
-	for (auto& button : { ui->radioOpAdd, ui->radioOpRemove }) {
-		ui->groupOp_arg0->setId(button, i++);
-	}
 }
 
-ChangeItemWidget::~ChangeItemWidget() {
+FullHealWidget::~FullHealWidget() {
 	delete ui;
 }

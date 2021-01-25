@@ -23,9 +23,12 @@ class QCheckBox;
 class QGroupBox;
 
 #include <QObject>
+#include <QCheckBox>
 #include <QSpinBox>
 #include <QComboBox>
+#include <QGroupBox>
 #include <QVariant>
+#include <QButtonGroup>
 #include <string>
 
 #include "ui/common/rpg_combobox.h"
@@ -63,8 +66,36 @@ Q_DECLARE_METATYPE(LcfObjectHolder<lcf::DBString>)
 
 namespace LcfWidgetBinding {
 	void connect(QWidget* parent, QLineEdit* lineEdit);
-	void connect(QWidget* parent, QCheckBox* checkBox);
-	void connect(QWidget* parent, QGroupBox* groupBox);
+
+	template<typename T>
+	void connect(QWidget* parent, QCheckBox* checkBox) {
+		auto callback = [=](){
+			QVariant variant = checkBox->property("ee_data");
+			if (variant.isNull()) {
+				return;
+			}
+
+			auto data = variant.value<LcfObjectHolder<T>>();
+			data.obj() = static_cast<T>(checkBox->isChecked());
+		};
+
+		QWidget::connect(checkBox, &QCheckBox::stateChanged, parent, callback);
+	}
+
+	template<typename T>
+	void connect(QWidget* parent, QGroupBox* groupBox) {
+		auto callback = [=](){
+			QVariant variant = groupBox->property("ee_data");
+			if (variant.isNull()) {
+				return;
+			}
+
+			auto data = variant.value<LcfObjectHolder<T>>();
+			data.obj() = static_cast<T>(groupBox->isChecked());
+		};
+
+		QWidget::connect(groupBox, &QGroupBox::toggled, parent, callback);
+	}
 
 	template<typename T>
 	void connect(QWidget* parent, QSpinBox* spinBox) {
@@ -96,6 +127,24 @@ namespace LcfWidgetBinding {
 		QWidget::connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);
 	}
 
+	template<typename T>
+	void connect(QWidget* parent, QButtonGroup* buttonGroup) {
+		auto callback = [=](){
+			QVariant variant = buttonGroup->property("ee_data");
+			if (variant.isNull()) {
+				return;
+			}
+
+			auto data = variant.value<LcfObjectHolder<T>>();
+			auto id = buttonGroup->checkedId();
+			Q_ASSERT(id >= 0);
+
+			data.obj() = static_cast<T>(id);
+		};
+
+		QWidget::connect(buttonGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), parent, callback);
+	}
+
 	template<typename T, typename U>
 	void connect(QWidget* parent, RpgComboBox<U>* comboBox) {
 		auto callback = [=](){
@@ -112,7 +161,31 @@ namespace LcfWidgetBinding {
 	}
 
 	void bind(QLineEdit* widget, lcf::DBString& data);
+
+	template<typename T>
+	void bind(QCheckBox* widget, T& data) {
+		QVariant v;
+		LcfObjectHolder oh(data);
+		v.setValue(oh);
+		widget->setProperty("ee_data", v);
+		SignalBlocker s(widget);
+		widget->setChecked(data != 0);
+	}
+
+	template<>
 	void bind(QCheckBox* widget, bool& data);
+
+	template<typename T>
+	void bind(QGroupBox* widget, T& data) {
+		QVariant v;
+		LcfObjectHolder oh(data);
+		v.setValue(oh);
+		widget->setProperty("ee_data", v);
+		SignalBlocker s(widget);
+		widget->setChecked(data != 0);
+	}
+
+	template<>
 	void bind(QGroupBox* widget, bool& data);
 
 	template<typename T>
@@ -145,5 +218,19 @@ namespace LcfWidgetBinding {
 
 		SignalBlocker s(widget->comboBox());
 		widget->setCurrentIndex(widget->comboBox()->findData(data));
+	}
+
+	template<typename T>
+	void bind(QButtonGroup* widget, T& data) {
+		QVariant v;
+		LcfObjectHolder oh(data);
+		v.setValue(oh);
+		widget->setProperty("ee_data", v);
+
+		SignalBlocker s(widget);
+		auto* button = widget->button(data);
+		Q_ASSERT(button && "No button with this ID!");
+
+		button->setChecked(true);
 	}
 }

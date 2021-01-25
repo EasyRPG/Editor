@@ -17,18 +17,40 @@
 
 #include "show_message_widget.h"
 #include "ui_show_message_widget.h"
+#include "common/dbstring.h"
+#include "model/event_command_list.h"
+#include "lcf/rpg/eventcommand.h"
 
-ShowMessageWidget::ShowMessageWidget(QWidget *parent, lcf::rpg::EventCommand &command) :
-	QDialog(parent),
-	ui(new Ui::ShowMessageWidget),
-	command(command)
-{
+ShowMessageWidget::ShowMessageWidget(ProjectData &project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::ShowMessageWidget) {
+
 	ui->setupUi(this);
-
-	//TODO
 }
 
-ShowMessageWidget::~ShowMessageWidget()
-{
+ShowMessageWidget::~ShowMessageWidget() {
 	delete ui;
+}
+
+void ShowMessageWidget::setData(EventCommandList* commands) {
+	EventCommandBaseWidget::setData(commands);
+
+	using Cmd = lcf::rpg::EventCommand::Code;
+
+	ui->message->append(ToQString(cmd->string));
+
+	for (size_t i = commands->index() + 1; i < commands->size(); ++i) {
+		auto& cur_cmd = commands->commands()[i];
+
+		if (static_cast<Cmd>(cur_cmd.code) != Cmd::ShowMessage_2) {
+			break;
+		}
+
+		ui->message->append(ToQString(cur_cmd.string));
+	}
+}
+
+void ShowMessageWidget::apply() {
+	//m_commands->command().string = ToDBString(ui->message->toPlainText());
+	// FIXME: Todo
 }

@@ -15,21 +15,27 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "change_item_widget.h"
-#include "ui_change_item_widget.h"
+#pragma once
 
-ChangeItemWidget::ChangeItemWidget(ProjectData& project, QWidget *parent) :
-	EventCommandBaseWidget(project, parent),
-	ui(new Ui::ChangeItemWidget) {
+#include <lcf/rpg/eventcommand.h>
+#include <vector>
 
-	ui->setupUi(this);
+class EventCommandList {
+public:
+	EventCommandList() {};
+	EventCommandList(std::vector<lcf::rpg::EventCommand>& commands, int current_index);
 
-	int i = 0;
-	for (auto& button : { ui->radioOpAdd, ui->radioOpRemove }) {
-		ui->groupOp_arg0->setId(button, i++);
-	}
-}
+	std::vector<lcf::rpg::EventCommand>& commands();
+	const std::vector<lcf::rpg::EventCommand>& commands() const;
 
-ChangeItemWidget::~ChangeItemWidget() {
-	delete ui;
-}
+	lcf::rpg::EventCommand& command();
+	const lcf::rpg::EventCommand& command() const;
+
+	size_t size() const;
+
+	int index() const;
+
+private:
+	std::vector<lcf::rpg::EventCommand>* m_commands = nullptr;
+	int m_current_index = 0;
+};

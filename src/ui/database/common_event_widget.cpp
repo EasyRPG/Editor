@@ -28,7 +28,7 @@ CommonEventWidget::CommonEventWidget(ProjectData& project, QWidget *parent) :
 
 	LcfWidgetBinding::connect(this, ui->lineName);
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboTrigger);
-	LcfWidgetBinding::connect(this, ui->groupSwitch);
+	LcfWidgetBinding::connect<bool>(this, ui->groupSwitch);
 	ui->comboSwitch->makeModel(project);
 }
 

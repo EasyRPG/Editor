@@ -17,8 +17,10 @@
 
 #include "change_money_widget.h"
 #include "change_item_widget.h"
+#include "change_level_widget.h"
 #include "change_party_widget.h"
 #include "change_experience_widget.h"
+#include "full_heal_widget.h"
 #include "message_options_widget.h"
 #include "face_graphics_widget.h"
 #include "input_number_widget.h"

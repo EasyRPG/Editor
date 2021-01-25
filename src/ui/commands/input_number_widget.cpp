@@ -18,17 +18,15 @@
 #include "input_number_widget.h"
 #include "ui_input_number_widget.h"
 
-InputNumberWidget::InputNumberWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
-	QDialog(parent),
-	ui(new Ui::InputNumberWidget),
-	cmd(cmd)
-{
+InputNumberWidget::InputNumberWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::InputNumberWidget) {
+
 	ui->setupUi(this);
 
-	//TODO
+	ui->comboVariable_arg1->makeModel(project);
 }
 
-InputNumberWidget::~InputNumberWidget()
-{
+InputNumberWidget::~InputNumberWidget() {
 	delete ui;
 }

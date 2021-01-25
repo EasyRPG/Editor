@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
-cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+if(POLICY CMP0091)
+        cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+endif()
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
@@ -47,6 +49,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/model/commonevent.h
 	src/model/enemy.cpp
 	src/model/enemy.h
+	src/model/event_command_list.cpp
+	src/model/event_command_list.h
 	src/model/item.cpp
 	src/model/item.h
 	src/model/project.cpp
@@ -77,6 +81,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/change_item_widget.cpp
 	src/ui/commands/change_item_widget.h
 	src/ui/commands/change_item_widget.ui
+	src/ui/commands/change_level_widget.cpp
+	src/ui/commands/change_level_widget.h
+	src/ui/commands/change_level_widget.ui
 	src/ui/commands/change_money_widget.cpp
 	src/ui/commands/change_money_widget.h
 	src/ui/commands/change_money_widget.ui
@@ -86,6 +93,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
+	src/ui/commands/full_heal_widget.cpp
+	src/ui/commands/full_heal_widget.h
+	src/ui/commands/full_heal_widget.ui
 	src/ui/commands/input_number_widget.cpp
 	src/ui/commands/input_number_widget.h
 	src/ui/commands/input_number_widget.ui
@@ -125,6 +135,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/import_image_dialog.ui
 	src/ui/common/import_item.cpp
 	src/ui/common/import_item.h
+	src/ui/common/operand_widget.cpp
+	src/ui/common/operand_widget.h
 	src/ui/common/palette_scene.cpp
 	src/ui/common/palette_scene.h
 	src/ui/common/picker_scene.cpp
@@ -203,6 +215,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/event/battle_page_widget.cpp
 	src/ui/event/battle_page_widget.h
 	src/ui/event/battle_page_widget.ui
+	src/ui/event/event_command_base_widget.cpp
+	src/ui/event/event_command_base_widget.h
 	src/ui/event/event_commands_widget.cpp
 	src/ui/event/event_commands_widget.h
 	src/ui/event/event_dialog.cpp

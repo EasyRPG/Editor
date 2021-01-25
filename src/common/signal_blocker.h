@@ -21,12 +21,12 @@
 
 class SignalBlocker {
 public:
-	SignalBlocker(QWidget* item) {
+	SignalBlocker(QObject* item) {
 		items = {item};
 		item->blockSignals(true);
 	}
 
-	SignalBlocker(std::initializer_list<QWidget*> items) {
+	SignalBlocker(std::initializer_list<QObject*> items) {
 		for (auto& item : items) {
 			item->blockSignals(true);
 		}
@@ -40,5 +40,5 @@ public:
 	}
 
 private:
-	std::vector<QWidget*> items;
+	std::vector<QObject*> items;
 };

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>InputNumberWidget</class>
- <widget class="QDialog" name="InputNumberWidget">
-  <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+ <widget class="QWidget" name="InputNumberWidget">
+  <property name="modal" stdset="0">
+   <bool>false</bool>
   </property>
   <property name="geometry">
    <rect>
@@ -15,9 +15,6 @@
   </property>
   <property name="windowTitle">
    <string>Input Number</string>
-  </property>
-  <property name="modal">
-   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -36,7 +33,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QSpinBox" name="allowed_digits">
+          <widget class="QSpinBox" name="spinDigits_arg0">
            <property name="showGroupSeparator" stdset="0">
             <bool>false</bool>
            </property>
@@ -61,25 +58,12 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="VariableRpgComboBox" name="variable_box"/>
+          <widget class="VariableRpgComboBox" name="comboVariable_arg1"/>
          </item>
         </layout>
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>false</bool>
-     </property>
     </widget>
    </item>
   </layout>
@@ -92,56 +76,7 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>InputNumberWidget</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>InputNumberWidget</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>helpRequested()</signal>
-   <receiver>InputNumberWidget</receiver>
-   <slot>helpRequest()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>298</x>
-     <y>204</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>298</x>
-     <y>113</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>helpRequest()</slot>
   <slot>textChanged()</slot>

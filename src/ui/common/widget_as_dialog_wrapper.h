@@ -90,6 +90,17 @@ protected:
 	QDialogButtonBox* buttonBox = nullptr;
 };
 
+template <typename T>
+class HasApply {
+private:
+	typedef char YesType[1];
+	typedef char NoType[2];
+	template <typename C> static YesType& test( decltype(&C::apply) ) ;
+	template <typename C> static NoType& test(...);
+public:
+	enum { value = sizeof(test<T>(0)) == sizeof(YesType) };
+};
+
 /**
  * Wraps a Widget inside a Dialog and applies the forwarded data when OK or Apply
  * are pressed
@@ -118,6 +129,10 @@ public:
 
 private:
 	void apply() override {
+		if constexpr (HasApply<WIDGET>::value) {
+			wrappedWidget->apply();
+		}
+
 		dataOriginal = dataCopy;
 	}
 

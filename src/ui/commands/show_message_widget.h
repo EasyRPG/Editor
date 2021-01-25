@@ -17,23 +17,25 @@
 
 #pragma once
 
-#include <QDialog>
-#include <lcf/rpg/eventcommand.h>
+#include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
 class ShowMessageWidget;
 }
 
-class ShowMessageWidget : public QDialog
+class ShowMessageWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ShowMessageWidget(QWidget *parent, lcf::rpg::EventCommand &command);
+	explicit ShowMessageWidget(ProjectData& project, QWidget* parent);
 	~ShowMessageWidget();
+
+	void setData(EventCommandList* commands) override;
+
+	void apply();
 
 private:
 	Ui::ShowMessageWidget *ui;
-	lcf::rpg::EventCommand &command;
 };
 
