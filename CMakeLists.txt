@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 if(POLICY CMP0091)
-        cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+	cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 endif()
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
@@ -111,9 +111,15 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/switch_operations_widget.cpp
 	src/ui/commands/switch_operations_widget.h
 	src/ui/commands/switch_operations_widget.ui
+	src/ui/commands/tint_screen_widget.cpp
+	src/ui/commands/tint_screen_widget.h
+	src/ui/commands/tint_screen_widget.ui
 	src/ui/commands/variable_operations_widget.cpp
 	src/ui/commands/variable_operations_widget.h
 	src/ui/commands/variable_operations_widget.ui
+	src/ui/commands/weather_effects_widget.cpp
+	src/ui/commands/weather_effects_widget.h
+	src/ui/commands/weather_effects_widget.ui
 	src/ui/common/battle_animation_item.cpp
 	src/ui/common/battle_animation_item.h
 	src/ui/common/charset_item.cpp
@@ -400,9 +406,9 @@ if(APPLE)
 	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
 	# Run macdeployqt
 	install(CODE "
-		execute_process(COMMAND 
+		execute_process(COMMAND
 			${MACDEPLOYQT_EXECUTABLE}
-			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\" 
+			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\"
 			-always-overwrite
 		)
 	")

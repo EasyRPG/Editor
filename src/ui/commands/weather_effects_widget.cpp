@@ -15,19 +15,34 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "change_money_widget.h"
-#include "change_item_widget.h"
-#include "change_level_widget.h"
-#include "change_party_widget.h"
-#include "change_experience_widget.h"
-#include "full_heal_widget.h"
-#include "message_options_widget.h"
-#include "face_graphics_widget.h"
-#include "input_number_widget.h"
-#include "message_options_widget.h"
-#include "show_choices_widget.h"
-#include "show_message_widget.h"
-#include "switch_operations_widget.h"
-#include "tint_screen_widget.h"
-#include "variable_operations_widget.h"
 #include "weather_effects_widget.h"
+#include "ui_weather_effects_widget.h"
+
+WeatherEffectsWidget::WeatherEffectsWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::WeatherEffectsWidget) {
+
+	ui->setupUi(this);
+
+	int i = 0;
+	for (auto& button : {
+		ui->radioTypeNo,
+		ui->radioTypeRain,
+		ui->radioTypeSnow,
+		ui->radioTypeFog,
+		ui->radioTypeSand }) {
+			ui->groupType_arg0->setId(button, i++);
+	}
+
+	i = 0;
+	for (auto& button : {
+		ui->radioPowerWeak,
+		ui->radioPowerMedium,
+		ui->radioPowerStrong }) {
+			ui->groupStrength_arg1->setId(button, i++);
+	}
+}
+
+WeatherEffectsWidget::~WeatherEffectsWidget() {
+	delete ui;
+}
