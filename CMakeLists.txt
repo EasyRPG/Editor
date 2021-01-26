@@ -93,6 +93,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
+	src/ui/commands/flash_screen_widget.cpp
+	src/ui/commands/flash_screen_widget.h
+	src/ui/commands/flash_screen_widget.ui
 	src/ui/commands/full_heal_widget.cpp
 	src/ui/commands/full_heal_widget.h
 	src/ui/commands/full_heal_widget.ui
