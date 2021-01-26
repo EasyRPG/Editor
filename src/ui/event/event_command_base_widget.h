@@ -43,6 +43,8 @@ public:
 	void connectParameterHandler(QSpinBox* spin, int index);
 	void connectParameterHandler(QCheckBox* combo, int index);
 
+	void resizeCommandList(int index);
+
 signals:
 	void parameterChanged(int, int);
 	void stringParameterChanged(const QString&);

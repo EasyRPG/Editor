@@ -19,6 +19,7 @@
 #include "common/lcf_widget_binding.h"
 #include "ui/common/operand_widget.h"
 #include "model/event_command_list.h"
+#include <QDebug>
 #include <QLineEdit>
 #include <QButtonGroup>
 
@@ -120,6 +121,8 @@ void EventCommandBaseWidget::setData(EventCommandList* commands) {
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int index) {
+	resizeCommandList(index);
+
 	auto* button = group->button(cmd->parameters[index]);
 	// FIXME: Better fallback
 	Q_ASSERT(button && "No AbstractButton with this parameter value");
@@ -139,6 +142,8 @@ void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int in
 }
 
 void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int index) {
+	resizeCommandList(index);
+
 	connect(combo->comboBox(), QOverload<int>::of(&QComboBox::currentIndexChanged), this,
 		[=](int selected_index){
 		cmd->parameters[index] = selected_index + 1;
@@ -149,6 +154,8 @@ void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index) {
+	resizeCommandList(index);
+
 	connect(spin, qOverload<int>(&QSpinBox::valueChanged), this,
 			[=] (int new_value) {
 		cmd->parameters[index] = new_value;
@@ -159,6 +166,8 @@ void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index) 
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index) {
+	resizeCommandList(index);
+
 	connect(check, qOverload<int>(&QCheckBox::stateChanged), this,
 			[=] (int new_value) {
 		cmd->parameters[index] = new_value;
@@ -166,4 +175,16 @@ void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index
 	});
 
 	check->setChecked(cmd->parameters[index] != 0);
+}
+
+void EventCommandBaseWidget::resizeCommandList(int index) {
+	int size = index + 1;
+
+	if (static_cast<int>(cmd->parameters.size()) < size) {
+		qDebug() << QString("Resize parameter list from %1 to %2")
+					.number(cmd->parameters.size()).number(index);
+		auto new_arr = lcf::DBArray<int32_t>(size);
+		std::copy(cmd->parameters.begin(), cmd->parameters.end(), new_arr.begin());
+		cmd->parameters = new_arr;
+	}
 }

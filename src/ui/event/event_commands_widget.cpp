@@ -240,7 +240,7 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 		//case Cmd::EraseScreen: evt_dialog.reset(make_evt_dialog<EraseScreenWidget>(m_project, cmd, this)); break;
 		//case Cmd::ShowScreen: evt_dialog.reset(make_evt_dialog<ShowScreenWidget>(m_project, cmd, this)); break;
 		case Cmd::TintScreen: evt_dialog.reset(make_evt_dialog<TintScreenWidget>(m_project, cmd, this)); break;
-		//case Cmd::FlashScreen: evt_dialog.reset(make_evt_dialog<FlashScreenWidget>(m_project, cmd, this)); break;
+		case Cmd::FlashScreen: evt_dialog.reset(make_evt_dialog<FlashScreenWidget>(m_project, cmd, this)); break;
 		//case Cmd::ShakeScreen: evt_dialog.reset(make_evt_dialog<ShakeScreenWidget>(m_project, cmd, this)); break;
 		//case Cmd::PanScreen: evt_dialog.reset(make_evt_dialog<PanScreenWidget>(m_project, cmd, this)); break;
 		case Cmd::WeatherEffects: evt_dialog.reset(make_evt_dialog<WeatherEffectsWidget>(m_project, cmd, this)); break;
