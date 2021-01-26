@@ -664,10 +664,13 @@ namespace
 	QString stringizeTeleport(const lcf::rpg::EventCommand& com)
 	{
 		QString direction;
-		if (com.parameters[3] < 0 || com.parameters[3] > 3)
-			direction = tr("Retain Facing");
-		else
-			direction = Stringizer::direction(com.parameters[3]);
+
+		if (com.parameters.size() >= 4) {
+			if (com.parameters[3] < 0 || com.parameters[3] > 3)
+				direction = tr("Retain Facing");
+			else
+				direction = Stringizer::direction(com.parameters[3]);
+		}
 
 		return tr("Teleport") + ": "
 			+ map(com.parameters[0]) + " ("
