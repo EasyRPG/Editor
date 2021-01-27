@@ -72,6 +72,20 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 		}
 	}
 
+	for (auto& widget: findChildren<QSlider*>()) {
+		auto idx = widget->objectName().indexOf("_arg");
+		if (idx != -1) {
+			QString arg = widget->objectName().right(1);
+			int val = arg.toInt(nullptr, 10);
+
+			if (arg == "X") {
+				Q_ASSERT(false && "QSpinBox does not support string arg");
+			} else {
+				connectParameterHandler(widget, val);
+			}
+		}
+	}
+
 	for (auto& widget: findChildren<RpgComboBoxBase*>()) {
 		auto idx = widget->objectName().indexOf("_arg");
 		if (idx != -1) {
@@ -175,6 +189,18 @@ void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index
 	});
 
 	check->setChecked(cmd->parameters[index] != 0);
+}
+
+void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index) {
+	resizeCommandList(index);
+
+	connect(slider, qOverload<int>(&QSlider::valueChanged), this,
+			[=] (int new_value) {
+		cmd->parameters[index] = new_value;
+		emit parameterChanged(index, new_value);
+	});
+
+	slider->setValue(cmd->parameters[index]);
 }
 
 void EventCommandBaseWidget::resizeCommandList(int index) {

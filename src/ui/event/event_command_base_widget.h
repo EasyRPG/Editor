@@ -24,6 +24,7 @@
 
 class QButtonGroup;
 class QCheckBox;
+class QSlider;
 class QSpinBox;
 class ProjectData;
 class RpgComboBoxBase;
@@ -41,7 +42,8 @@ public:
 	void connectParameterHandler(QButtonGroup* group, int index);
 	void connectParameterHandler(RpgComboBoxBase* combo, int index);
 	void connectParameterHandler(QSpinBox* spin, int index);
-	void connectParameterHandler(QCheckBox* combo, int index);
+	void connectParameterHandler(QCheckBox* check, int index);
+	void connectParameterHandler(QSlider* slider, int index);
 
 	void resizeCommandList(int index);
 
