@@ -797,8 +797,8 @@ namespace
 		return tr("Shake Screen") + ": "
 			+ tr("Strength") + QString::number(com.parameters[0]) + ", "
 			+ tr("Speed") + QString::number(com.parameters[1]) + ", "
-			+ tenthSeconds(com.parameters[4]) + " "
-			+ (com.parameters[5] ? tr("(Wait)") : "");
+			+ tenthSeconds(com.parameters[2]) + " "
+			+ (com.parameters[3] ? tr("(Wait)") : "");
 	}
 
 	QString stringizePanScreen(const lcf::rpg::EventCommand& com)
