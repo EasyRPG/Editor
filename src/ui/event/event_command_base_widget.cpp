@@ -18,13 +18,18 @@
 #include "event_command_base_widget.h"
 #include "common/lcf_widget_binding.h"
 #include "ui/common/operand_widget.h"
+#include "ui/common/rpg_slider.h"
+#include "ui/common/rpg_spinbox.h"
 #include "model/event_command_list.h"
+#include <QDebug>
 #include <QLineEdit>
 #include <QButtonGroup>
 
 EventCommandBaseWidget::EventCommandBaseWidget(ProjectData& project, QWidget* parent) :
 	QWidget(parent), m_project(project) {
-	setObjectName("EventWidget");
+
+	connect(this, &EventCommandBaseWidget::parameterChanged, &EventCommandBaseWidget::onParameterChanged);
+	connect(this, &EventCommandBaseWidget::stringParameterChanged, &EventCommandBaseWidget::onStringParameterChanged);
 }
 
 void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
@@ -44,6 +49,8 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 	}
 
 	for (auto& widget: findChildren<QSpinBox*>()) {
+		Q_ASSERT_X(qobject_cast<RpgSpinBox*>(widget), "EventCommand", "SpinBox must be of type RpgSpinBox");
+
 		auto idx = widget->objectName().indexOf("_arg");
 		if (idx != -1) {
 			QString arg = widget->objectName().right(1);
@@ -65,6 +72,22 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 
 			if (arg == "X") {
 				Q_ASSERT(false && "QCheckBox does not support string arg");
+			} else {
+				connectParameterHandler(widget, val);
+			}
+		}
+	}
+
+	for (auto& widget: findChildren<QSlider*>()) {
+		Q_ASSERT_X(qobject_cast<RpgSlider*>(widget), "EventCommand", "Sliders must be of type RpgSlider");
+
+		auto idx = widget->objectName().indexOf("_arg");
+		if (idx != -1) {
+			QString arg = widget->objectName().right(1);
+			int val = arg.toInt(nullptr, 10);
+
+			if (arg == "X") {
+				Q_ASSERT(false && "QSpinBox does not support string arg");
 			} else {
 				connectParameterHandler(widget, val);
 			}
@@ -120,6 +143,8 @@ void EventCommandBaseWidget::setData(EventCommandList* commands) {
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int index) {
+	resizeCommandList(index);
+
 	auto* button = group->button(cmd->parameters[index]);
 	// FIXME: Better fallback
 	Q_ASSERT(button && "No AbstractButton with this parameter value");
@@ -139,6 +164,8 @@ void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int in
 }
 
 void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int index) {
+	resizeCommandList(index);
+
 	connect(combo->comboBox(), QOverload<int>::of(&QComboBox::currentIndexChanged), this,
 		[=](int selected_index){
 		cmd->parameters[index] = selected_index + 1;
@@ -149,6 +176,8 @@ void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index) {
+	resizeCommandList(index);
+
 	connect(spin, qOverload<int>(&QSpinBox::valueChanged), this,
 			[=] (int new_value) {
 		cmd->parameters[index] = new_value;
@@ -159,6 +188,8 @@ void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index) 
 }
 
 void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index) {
+	resizeCommandList(index);
+
 	connect(check, qOverload<int>(&QCheckBox::stateChanged), this,
 			[=] (int new_value) {
 		cmd->parameters[index] = new_value;
@@ -166,4 +197,28 @@ void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index
 	});
 
 	check->setChecked(cmd->parameters[index] != 0);
+}
+
+void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index) {
+	resizeCommandList(index);
+
+	connect(slider, qOverload<int>(&QSlider::valueChanged), this,
+			[=] (int new_value) {
+		cmd->parameters[index] = new_value;
+		emit parameterChanged(index, new_value);
+	});
+
+	slider->setValue(cmd->parameters[index]);
+}
+
+void EventCommandBaseWidget::resizeCommandList(int index) {
+	int size = index + 1;
+
+	if (static_cast<int>(cmd->parameters.size()) < size) {
+		qDebug() << QString("Resize parameter list from %1 to %2")
+					.number(cmd->parameters.size()).number(index);
+		auto new_arr = lcf::DBArray<int32_t>(size);
+		std::copy(cmd->parameters.begin(), cmd->parameters.end(), new_arr.begin());
+		cmd->parameters = new_arr;
+	}
 }

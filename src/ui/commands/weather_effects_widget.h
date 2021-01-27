@@ -20,20 +20,17 @@
 #include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangeExperienceWidget;
+class WeatherEffectsWidget;
 }
 
-class ChangeExperienceWidget : public EventCommandBaseWidget
+class WeatherEffectsWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
-
-public slots:
-	void onParameterChanged(int index, int new_value) override;
+	explicit WeatherEffectsWidget(ProjectData& project, QWidget *parent);
+	~WeatherEffectsWidget();
 
 private:
-	Ui::ChangeExperienceWidget *ui;
+	Ui::WeatherEffectsWidget *ui;
 };

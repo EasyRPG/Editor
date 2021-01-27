@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
+    <width>315</width>
     <height>156</height>
    </rect>
   </property>
@@ -33,7 +33,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QSpinBox" name="spinDigits_arg0">
+          <widget class="RpgSpinBox" name="spinDigits_arg0">
            <property name="showGroupSeparator" stdset="0">
             <bool>false</bool>
            </property>
@@ -73,6 +73,11 @@
    <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
    <header>ui/common/rpg_combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RpgSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>ui/common/rpg_spinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -15,27 +15,34 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "change_experience_widget.h"
-#include "ui_change_experience_widget.h"
+#include "shake_screen_widget.h"
+#include "ui_shake_screen_widget.h"
 
-ChangeExperienceWidget::ChangeExperienceWidget(ProjectData& project, QWidget *parent) :
+ShakeScreenWidget::ShakeScreenWidget(ProjectData& project, QWidget *parent) :
 	EventCommandBaseWidget(project, parent),
-	ui(new Ui::ChangeExperienceWidget) {
+	ui(new Ui::ShakeScreenWidget) {
 
 	ui->setupUi(this);
 
 	int i = 0;
-	for (auto& button : { ui->radioInc, ui->radioDec }) {
-		ui->groupOp_arg2->setId(button, i++);
+	for (auto& button : { ui->radioOnce, ui->radioBegin, ui->radioEnd }) {
+		ui->groupOptions_arg4->setId(button, i++);
 	}
 }
 
-ChangeExperienceWidget::~ChangeExperienceWidget() {
+ShakeScreenWidget::~ShakeScreenWidget() {
 	delete ui;
 }
 
-void ChangeExperienceWidget::onParameterChanged(int index, int new_value) {
-	if (index == 2) {
-		ui->check_arg5->setEnabled(new_value == 0);
+void ShakeScreenWidget::onParameterChanged(int index, int new_value) {
+	// Shake type
+	if (index == 4) {
+		// Wait for Completion only for "Shake Once"
+		ui->checkWait_arg3->setEnabled(new_value == 0);
+		// Duration only for "Shake Once"
+		ui->spinTime_arg2->setEnabled(new_value == 0);
+		// Disable strength and speed for "Stop Shake"
+		ui->groupStrength->setEnabled(new_value != 2);
+		ui->groupSpeed->setEnabled(new_value != 2);
 	}
 }

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 if(POLICY CMP0091)
-        cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+	cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 endif()
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
@@ -93,6 +93,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
+	src/ui/commands/flash_screen_widget.cpp
+	src/ui/commands/flash_screen_widget.h
+	src/ui/commands/flash_screen_widget.ui
 	src/ui/commands/full_heal_widget.cpp
 	src/ui/commands/full_heal_widget.h
 	src/ui/commands/full_heal_widget.ui
@@ -102,6 +105,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/message_options_widget.cpp
 	src/ui/commands/message_options_widget.h
 	src/ui/commands/message_options_widget.ui
+	src/ui/commands/shake_screen_widget.cpp
+	src/ui/commands/shake_screen_widget.h
+	src/ui/commands/shake_screen_widget.ui
 	src/ui/commands/show_choices_widget.cpp
 	src/ui/commands/show_choices_widget.h
 	src/ui/commands/show_choices_widget.ui
@@ -111,9 +117,15 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/switch_operations_widget.cpp
 	src/ui/commands/switch_operations_widget.h
 	src/ui/commands/switch_operations_widget.ui
+	src/ui/commands/tint_screen_widget.cpp
+	src/ui/commands/tint_screen_widget.h
+	src/ui/commands/tint_screen_widget.ui
 	src/ui/commands/variable_operations_widget.cpp
 	src/ui/commands/variable_operations_widget.h
 	src/ui/commands/variable_operations_widget.ui
+	src/ui/commands/weather_effects_widget.cpp
+	src/ui/commands/weather_effects_widget.h
+	src/ui/commands/weather_effects_widget.ui
 	src/ui/common/battle_animation_item.cpp
 	src/ui/common/battle_animation_item.h
 	src/ui/common/charset_item.cpp
@@ -143,6 +155,10 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/picker_scene.h
 	src/ui/common/rpg_combobox.h
 	src/ui/common/rpg_model.h
+	src/ui/common/rpg_slider.cpp
+	src/ui/common/rpg_slider.h
+	src/ui/common/rpg_spinbox.cpp
+	src/ui/common/rpg_spinbox.h
 	src/ui/common/stat_curve_item.cpp
 	src/ui/common/stat_curve_item.h
 	src/ui/common/widget_as_dialog_model_wrapper.h
@@ -400,9 +416,9 @@ if(APPLE)
 	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
 	# Run macdeployqt
 	install(CODE "
-		execute_process(COMMAND 
+		execute_process(COMMAND
 			${MACDEPLOYQT_EXECUTABLE}
-			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\" 
+			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\"
 			-always-overwrite
 		)
 	")

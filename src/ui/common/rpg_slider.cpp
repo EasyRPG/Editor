@@ -15,25 +15,4 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#include "ui/event/event_command_base_widget.h"
-
-namespace Ui {
-class ChangeExperienceWidget;
-}
-
-class ChangeExperienceWidget : public EventCommandBaseWidget
-{
-	Q_OBJECT
-
-public:
-	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
-
-public slots:
-	void onParameterChanged(int index, int new_value) override;
-
-private:
-	Ui::ChangeExperienceWidget *ui;
-};
+#include "rpg_slider.h"

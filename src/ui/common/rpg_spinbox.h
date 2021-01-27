@@ -17,23 +17,11 @@
 
 #pragma once
 
-#include "ui/event/event_command_base_widget.h"
+#include <QSpinBox>
 
-namespace Ui {
-class ChangeExperienceWidget;
-}
-
-class ChangeExperienceWidget : public EventCommandBaseWidget
+class RpgSpinBox : public QSpinBox
 {
 	Q_OBJECT
-
 public:
-	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
-
-public slots:
-	void onParameterChanged(int index, int new_value) override;
-
-private:
-	Ui::ChangeExperienceWidget *ui;
+	explicit RpgSpinBox(QWidget *parent = nullptr) : QSpinBox(parent) {}
 };

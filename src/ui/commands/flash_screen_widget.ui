@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FlashScreenWidget</class>
+ <widget class="QWidget" name="FlashScreenWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>434</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Change item</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Options</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QRadioButton" name="radioOnce">
+          <property name="text">
+           <string>Flash Once</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">groupOptions_arg6</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkWait_arg5">
+          <property name="text">
+           <string>Wait for Completion</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioBegin">
+        <property name="text">
+         <string>Begin Flash</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">groupOptions_arg6</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioEnd">
+        <property name="text">
+         <string>End Flash</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">groupOptions_arg6</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Duration:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="RpgSpinBox" name="spinTime_arg4">
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>x0.1 sec</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupFlashColor">
+     <property name="title">
+      <string>Flash Color</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Red:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="RpgSlider" name="sliderRed">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="RpgSpinBox" name="spinRed_arg0">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Green:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="RpgSlider" name="sliderGreen">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="RpgSpinBox" name="spinGreen_arg1">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Blue:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="RpgSlider" name="sliderBlue">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="RpgSpinBox" name="spinBlue_arg2">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Saturation:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="RpgSlider" name="sliderSat">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="RpgSpinBox" name="spinSat_arg3">
+        <property name="maximum">
+         <number>31</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>13</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RpgSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>ui/common/rpg_spinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RpgSlider</class>
+   <extends>QSlider</extends>
+   <header>ui/common/rpg_slider.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>helpRequested()</slot>
+ </slots>
+ <buttongroups>
+  <buttongroup name="groupOptions_arg6"/>
+ </buttongroups>
+</ui>

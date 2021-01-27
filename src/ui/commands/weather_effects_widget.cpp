@@ -15,25 +15,34 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "weather_effects_widget.h"
+#include "ui_weather_effects_widget.h"
 
-#include "ui/event/event_command_base_widget.h"
+WeatherEffectsWidget::WeatherEffectsWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::WeatherEffectsWidget) {
 
-namespace Ui {
-class ChangeExperienceWidget;
+	ui->setupUi(this);
+
+	int i = 0;
+	for (auto& button : {
+		ui->radioTypeNo,
+		ui->radioTypeRain,
+		ui->radioTypeSnow,
+		ui->radioTypeFog,
+		ui->radioTypeSand }) {
+			ui->groupType_arg0->setId(button, i++);
+	}
+
+	i = 0;
+	for (auto& button : {
+		ui->radioPowerWeak,
+		ui->radioPowerMedium,
+		ui->radioPowerStrong }) {
+			ui->groupStrength_arg1->setId(button, i++);
+	}
 }
 
-class ChangeExperienceWidget : public EventCommandBaseWidget
-{
-	Q_OBJECT
-
-public:
-	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
-
-public slots:
-	void onParameterChanged(int index, int new_value) override;
-
-private:
-	Ui::ChangeExperienceWidget *ui;
-};
+WeatherEffectsWidget::~WeatherEffectsWidget() {
+	delete ui;
+}

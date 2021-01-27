@@ -20,20 +20,17 @@
 #include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangeExperienceWidget;
+class TintScreenWidget;
 }
 
-class ChangeExperienceWidget : public EventCommandBaseWidget
+class TintScreenWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
-
-public slots:
-	void onParameterChanged(int index, int new_value) override;
+	explicit TintScreenWidget(ProjectData& project, QWidget *parent);
+	~TintScreenWidget();
 
 private:
-	Ui::ChangeExperienceWidget *ui;
+	Ui::TintScreenWidget *ui;
 };

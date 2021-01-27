@@ -16,24 +16,10 @@
  */
 
 #pragma once
+#include <QSlider>
 
-#include "ui/event/event_command_base_widget.h"
-
-namespace Ui {
-class ChangeExperienceWidget;
-}
-
-class ChangeExperienceWidget : public EventCommandBaseWidget
-{
+class RpgSlider : public QSlider {
 	Q_OBJECT
-
 public:
-	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
-
-public slots:
-	void onParameterChanged(int index, int new_value) override;
-
-private:
-	Ui::ChangeExperienceWidget *ui;
+	explicit RpgSlider(QWidget *parent = nullptr) : QSlider(parent) {}
 };
