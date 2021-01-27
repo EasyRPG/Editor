@@ -15,21 +15,27 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "change_money_widget.h"
-#include "change_item_widget.h"
-#include "change_level_widget.h"
-#include "change_party_widget.h"
-#include "change_experience_widget.h"
-#include "flash_screen_widget.h"
-#include "full_heal_widget.h"
-#include "message_options_widget.h"
-#include "face_graphics_widget.h"
-#include "input_number_widget.h"
-#include "message_options_widget.h"
 #include "shake_screen_widget.h"
-#include "show_choices_widget.h"
-#include "show_message_widget.h"
-#include "switch_operations_widget.h"
-#include "tint_screen_widget.h"
-#include "variable_operations_widget.h"
-#include "weather_effects_widget.h"
+#include "ui_shake_screen_widget.h"
+
+ShakeScreenWidget::ShakeScreenWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::ShakeScreenWidget) {
+
+	ui->setupUi(this);
+
+	int i = 0;
+	for (auto& button : { ui->radioOnce, ui->radioBegin, ui->radioEnd }) {
+		ui->groupOptions_arg4->setId(button, i++);
+	}
+}
+
+ShakeScreenWidget::~ShakeScreenWidget() {
+	delete ui;
+}
+
+void ShakeScreenWidget::on_EventWidget_parameterChanged(int index, int new_value) {
+	if (index == 2) {
+		//ui->check_arg5->setEnabled(new_value == 0);
+	}
+}

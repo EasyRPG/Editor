@@ -15,21 +15,23 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "change_money_widget.h"
-#include "change_item_widget.h"
-#include "change_level_widget.h"
-#include "change_party_widget.h"
-#include "change_experience_widget.h"
-#include "flash_screen_widget.h"
-#include "full_heal_widget.h"
-#include "message_options_widget.h"
-#include "face_graphics_widget.h"
-#include "input_number_widget.h"
-#include "message_options_widget.h"
-#include "shake_screen_widget.h"
-#include "show_choices_widget.h"
-#include "show_message_widget.h"
-#include "switch_operations_widget.h"
-#include "tint_screen_widget.h"
-#include "variable_operations_widget.h"
-#include "weather_effects_widget.h"
+#pragma once
+
+#include "ui/event/event_command_base_widget.h"
+
+namespace Ui {
+class ShakeScreenWidget;
+}
+
+class ShakeScreenWidget : public EventCommandBaseWidget
+{
+	Q_OBJECT
+
+public:
+	explicit ShakeScreenWidget(ProjectData& project, QWidget *parent);
+	~ShakeScreenWidget();
+
+	void on_EventWidget_parameterChanged(int index, int new_value);
+private:
+	Ui::ShakeScreenWidget *ui;
+};

@@ -105,6 +105,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/message_options_widget.cpp
 	src/ui/commands/message_options_widget.h
 	src/ui/commands/message_options_widget.ui
+	src/ui/commands/shake_screen_widget.cpp
+	src/ui/commands/shake_screen_widget.h
+	src/ui/commands/shake_screen_widget.ui
 	src/ui/commands/show_choices_widget.cpp
 	src/ui/commands/show_choices_widget.h
 	src/ui/commands/show_choices_widget.ui
