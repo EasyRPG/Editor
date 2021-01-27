@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>489</width>
-    <height>263</height>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -105,12 +105,12 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ActorRpgComboBox</class>
+   <class>VariableRpgComboBox</class>
    <extends>QComboBox</extends>
    <header>ui/common/rpg_combobox.h</header>
   </customwidget>
   <customwidget>
-   <class>VariableRpgComboBox</class>
+   <class>ActorRpgComboBox</class>
    <extends>QComboBox</extends>
    <header>ui/common/rpg_combobox.h</header>
   </customwidget>

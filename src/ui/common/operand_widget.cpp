@@ -86,7 +86,7 @@ ValueOperandWidget::ValueOperandWidget(QWidget *parent) :
 	m_buttonGroup->setId(m_radioValue, 0);
 	m_buttonGroup->addButton(m_radioVar);
 	m_buttonGroup->setId(m_radioVar, 1);
-	m_spinValue = new QSpinBox(this);
+	m_spinValue = new RpgSpinBox(this);
 	m_comboVar = new VariableRpgComboBox(this);
 	gridLayout->addWidget(m_radioValue, 0, 0);
 	gridLayout->addWidget(m_spinValue, 0, 1);

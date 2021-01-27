@@ -28,7 +28,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSlider" name="sliderRed">
+       <widget class="RpgSlider" name="sliderRed">
         <property name="maximum">
          <number>200</number>
         </property>
@@ -38,7 +38,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QSpinBox" name="spinRed_arg0">
+       <widget class="RpgSpinBox" name="spinRed_arg0">
         <property name="suffix">
          <string> %</string>
         </property>
@@ -55,7 +55,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSlider" name="sliderGreen">
+       <widget class="RpgSlider" name="sliderGreen">
         <property name="maximum">
          <number>200</number>
         </property>
@@ -65,7 +65,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QSpinBox" name="spinGreen_arg1">
+       <widget class="RpgSpinBox" name="spinGreen_arg1">
         <property name="suffix">
          <string> %</string>
         </property>
@@ -82,7 +82,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QSlider" name="sliderBlue">
+       <widget class="RpgSlider" name="sliderBlue">
         <property name="maximum">
          <number>200</number>
         </property>
@@ -92,7 +92,7 @@
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QSpinBox" name="spinBlue_arg2">
+       <widget class="RpgSpinBox" name="spinBlue_arg2">
         <property name="suffix">
          <string> %</string>
         </property>
@@ -109,7 +109,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSlider" name="sliderSat">
+       <widget class="RpgSlider" name="sliderSat">
         <property name="maximum">
          <number>200</number>
         </property>
@@ -119,7 +119,7 @@
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QSpinBox" name="spinSat_arg3">
+       <widget class="RpgSpinBox" name="spinSat_arg3">
         <property name="suffix">
          <string> %</string>
         </property>
@@ -144,7 +144,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinTime_arg4">
+      <widget class="RpgSpinBox" name="spinTime_arg4">
        <property name="maximum">
         <number>1000</number>
        </property>
@@ -194,6 +194,18 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RpgSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>ui/common/rpg_spinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RpgSlider</class>
+   <extends>QSlider</extends>
+   <header>ui/common/rpg_slider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <slots>

@@ -84,7 +84,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinTime_arg2">
+         <widget class="RpgSpinBox" name="spinTime_arg2">
           <property name="maximum">
            <number>1000</number>
           </property>
@@ -136,7 +136,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSlider" name="sliderStrength_arg0">
+       <widget class="RpgSlider" name="sliderStrength_arg0">
         <property name="maximum">
          <number>8</number>
         </property>
@@ -175,7 +175,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSlider" name="sliderSpeed_arg1">
+       <widget class="RpgSlider" name="sliderSpeed_arg1">
         <property name="maximum">
          <number>8</number>
         </property>
@@ -215,6 +215,18 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RpgSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>ui/common/rpg_spinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RpgSlider</class>
+   <extends>QSlider</extends>
+   <header>ui/common/rpg_slider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <slots>

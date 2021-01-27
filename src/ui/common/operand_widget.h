@@ -19,10 +19,10 @@
 
 #include "common/lcf_widget_binding.h"
 #include "ui/event/event_command_base_widget.h"
+#include "ui/common/rpg_spinbox.h"
 #include <QWidget>
 #include <QGridLayout>
 #include <QRadioButton>
-#include <QSpinBox>
 #include <QButtonGroup>
 
 class EventCommandBaseWidget;
@@ -135,7 +135,7 @@ private:
 	QButtonGroup* m_buttonGroup = nullptr;
 	QRadioButton* m_radioValue = nullptr;
 	QRadioButton* m_radioVar = nullptr;
-	QSpinBox* m_spinValue = nullptr;
+	RpgSpinBox* m_spinValue = nullptr;
 	VariableRpgComboBox* m_comboVar = nullptr;
 };
 

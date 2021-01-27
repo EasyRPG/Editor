@@ -18,6 +18,8 @@
 #include "event_command_base_widget.h"
 #include "common/lcf_widget_binding.h"
 #include "ui/common/operand_widget.h"
+#include "ui/common/rpg_slider.h"
+#include "ui/common/rpg_spinbox.h"
 #include "model/event_command_list.h"
 #include <QDebug>
 #include <QLineEdit>
@@ -45,6 +47,8 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 	}
 
 	for (auto& widget: findChildren<QSpinBox*>()) {
+		Q_ASSERT_X(qobject_cast<RpgSpinBox*>(widget), "EventCommand", "SpinBox must be of type RpgSpinBox");
+
 		auto idx = widget->objectName().indexOf("_arg");
 		if (idx != -1) {
 			QString arg = widget->objectName().right(1);
@@ -73,6 +77,8 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 	}
 
 	for (auto& widget: findChildren<QSlider*>()) {
+		Q_ASSERT_X(qobject_cast<RpgSlider*>(widget), "EventCommand", "Sliders must be of type RpgSlider");
+
 		auto idx = widget->objectName().indexOf("_arg");
 		if (idx != -1) {
 			QString arg = widget->objectName().right(1);

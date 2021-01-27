@@ -155,6 +155,10 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/picker_scene.h
 	src/ui/common/rpg_combobox.h
 	src/ui/common/rpg_model.h
+	src/ui/common/rpg_slider.cpp
+	src/ui/common/rpg_slider.h
+	src/ui/common/rpg_spinbox.cpp
+	src/ui/common/rpg_spinbox.h
 	src/ui/common/stat_curve_item.cpp
 	src/ui/common/stat_curve_item.h
 	src/ui/common/widget_as_dialog_model_wrapper.h
