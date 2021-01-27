@@ -47,7 +47,7 @@ FlashScreenWidget::~FlashScreenWidget() {
 	delete ui;
 }
 
-void FlashScreenWidget::on_EventWidget_parameterChanged(int index, int new_value) {
+void FlashScreenWidget::onParameterChanged(int index, int new_value) {
 	// Flash option
 	if (index == 6) {
 		// Wait for Completion only for "Flash Once"

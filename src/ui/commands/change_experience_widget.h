@@ -31,9 +31,9 @@ public:
 	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
 	~ChangeExperienceWidget();
 
+public slots:
+	void onParameterChanged(int index, int new_value) override;
+
 private:
 	Ui::ChangeExperienceWidget *ui;
-
-private slots:
-	void on_EventWidget_parameterChanged(int index, int new_value);
 };

@@ -31,7 +31,8 @@ public:
 	explicit FlashScreenWidget(ProjectData& project, QWidget *parent);
 	~FlashScreenWidget();
 
-	void on_EventWidget_parameterChanged(int index, int new_value);
+public slots:
+	void onParameterChanged(int index, int new_value) override;
 
 private:
 	Ui::FlashScreenWidget *ui;

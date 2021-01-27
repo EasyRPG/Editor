@@ -47,6 +47,16 @@ public:
 
 	void resizeCommandList(int index);
 
+public slots:
+	virtual void onParameterChanged(int index, int new_value) {
+		Q_UNUSED(index);
+		Q_UNUSED(new_value);
+	}
+
+	virtual void onStringParameterChanged(const QString& new_string) {
+		Q_UNUSED(new_string);
+	}
+
 signals:
 	void parameterChanged(int, int);
 	void stringParameterChanged(const QString&);

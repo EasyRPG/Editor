@@ -34,8 +34,15 @@ ShakeScreenWidget::~ShakeScreenWidget() {
 	delete ui;
 }
 
-void ShakeScreenWidget::on_EventWidget_parameterChanged(int index, int new_value) {
-	if (index == 2) {
-		//ui->check_arg5->setEnabled(new_value == 0);
+void ShakeScreenWidget::onParameterChanged(int index, int new_value) {
+	// Shake type
+	if (index == 4) {
+		// Wait for Completion only for "Shake Once"
+		ui->checkWait_arg3->setEnabled(new_value == 0);
+		// Duration only for "Shake Once"
+		ui->spinTime_arg2->setEnabled(new_value == 0);
+		// Disable strength and speed for "Stop Shake"
+		ui->groupStrength->setEnabled(new_value != 2);
+		ui->groupSpeed->setEnabled(new_value != 2);
 	}
 }

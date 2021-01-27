@@ -31,7 +31,9 @@ public:
 	explicit ShakeScreenWidget(ProjectData& project, QWidget *parent);
 	~ShakeScreenWidget();
 
-	void on_EventWidget_parameterChanged(int index, int new_value);
+public slots:
+	void onParameterChanged(int index, int new_value) override;
+
 private:
 	Ui::ShakeScreenWidget *ui;
 };

@@ -27,7 +27,9 @@
 
 EventCommandBaseWidget::EventCommandBaseWidget(ProjectData& project, QWidget* parent) :
 	QWidget(parent), m_project(project) {
-	setObjectName("EventWidget");
+
+	connect(this, &EventCommandBaseWidget::parameterChanged, &EventCommandBaseWidget::onParameterChanged);
+	connect(this, &EventCommandBaseWidget::stringParameterChanged, &EventCommandBaseWidget::onStringParameterChanged);
 }
 
 void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
