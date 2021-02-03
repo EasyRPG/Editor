@@ -20,6 +20,7 @@
 #include "change_level_widget.h"
 #include "change_party_widget.h"
 #include "change_experience_widget.h"
+#include "enable_disable_widget.h"
 #include "flash_screen_widget.h"
 #include "full_heal_widget.h"
 #include "message_options_widget.h"
