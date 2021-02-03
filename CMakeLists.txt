@@ -90,6 +90,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/change_party_widget.cpp
 	src/ui/commands/change_party_widget.h
 	src/ui/commands/change_party_widget.ui
+	src/ui/commands/enable_disable_widget.cpp
+	src/ui/commands/enable_disable_widget.h
+	src/ui/commands/enable_disable_widget.ui
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
