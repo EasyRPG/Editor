@@ -15,6 +15,8 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "change_actor_name_widget.h"
+#include "change_actor_title_widget.h"
 #include "change_money_widget.h"
 #include "change_item_widget.h"
 #include "change_level_widget.h"
