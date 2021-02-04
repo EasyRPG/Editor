@@ -29,7 +29,7 @@ class ChangeMoneyWidget : public EventCommandBaseWidget
 
 public:
 	explicit ChangeMoneyWidget(ProjectData& project, QWidget *parent);
-	~ChangeMoneyWidget();
+	~ChangeMoneyWidget() override;
 
 private:
 	Ui::ChangeMoneyWidget *ui;

@@ -29,7 +29,7 @@ class EnableDisableWidget : public EventCommandBaseWidget
 
 public:
 	explicit EnableDisableWidget(ProjectData& project, QWidget *parent);
-	~EnableDisableWidget();
+	~EnableDisableWidget() override;
 
 private:
 	Ui::EnableDisableWidget *ui;

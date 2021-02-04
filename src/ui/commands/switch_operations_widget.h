@@ -30,7 +30,7 @@ class SwitchOperationsWidget : public QDialog
 
 public:
 	explicit SwitchOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~SwitchOperationsWidget();
+	~SwitchOperationsWidget() override;
 
 private slots:
 

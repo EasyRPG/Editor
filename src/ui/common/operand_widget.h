@@ -36,8 +36,8 @@ public:
 
 protected:
 	virtual void parameterChanged(int index, int new_value) {
-		Q_UNUSED(index);
-		Q_UNUSED(new_value);
+		Q_UNUSED(index)
+		Q_UNUSED(new_value)
 	}
 
 	ProjectData* m_project = nullptr;

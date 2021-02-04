@@ -30,7 +30,7 @@ class VariableOperationsWidget : public QDialog
 
 public:
 	explicit VariableOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~VariableOperationsWidget();
+	~VariableOperationsWidget() override;
 
 private slots:
 

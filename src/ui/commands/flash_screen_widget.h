@@ -29,7 +29,7 @@ class FlashScreenWidget : public EventCommandBaseWidget
 
 public:
 	explicit FlashScreenWidget(ProjectData& project, QWidget *parent);
-	~FlashScreenWidget();
+	~FlashScreenWidget() override;
 
 public slots:
 	void onParameterChanged(int index, int new_value) override;

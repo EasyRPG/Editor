@@ -215,8 +215,8 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 		//case Cmd::ChangeCondition: evt_dialog.reset(make_evt_dialog<ChangeConditionWidget>(m_project, cmd, this)); break;
 		case Cmd::FullHeal: evt_dialog.reset(make_evt_dialog<FullHealWidget>(m_project, cmd, this)); break;
 		//case Cmd::SimulatedAttack: evt_dialog.reset(make_evt_dialog<SimulatedAttackWidget>(m_project, cmd, this)); break;
-		//case Cmd::ChangeHeroName: evt_dialog.reset(make_evt_dialog<ChangeHeroNameWidget>(m_project, cmd, this)); break;
-		//case Cmd::ChangeHeroTitle: evt_dialog.reset(make_evt_dialog<ChangeHeroTitleWidget>(m_project, cmd, this)); break;
+		case Cmd::ChangeHeroName: evt_dialog.reset(make_evt_dialog<ChangeActorNameWidget>(m_project, cmd, this)); break;
+		case Cmd::ChangeHeroTitle: evt_dialog.reset(make_evt_dialog<ChangeActorTitleWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeSpriteAssociation: evt_dialog.reset(make_evt_dialog<ChangeSpriteAssociationWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeActorFace: evt_dialog.reset(make_evt_dialog<ChangeActorFaceWidget>(m_project, cmd, this)); break;
 		//case Cmd::ChangeVehicleGraphic: evt_dialog.reset(make_evt_dialog<ChangeVehicleGraphicWidget>(m_project, cmd, this)); break;

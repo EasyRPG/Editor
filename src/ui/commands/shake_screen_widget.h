@@ -29,7 +29,7 @@ class ShakeScreenWidget : public EventCommandBaseWidget
 
 public:
 	explicit ShakeScreenWidget(ProjectData& project, QWidget *parent);
-	~ShakeScreenWidget();
+	~ShakeScreenWidget() override;
 
 public slots:
 	void onParameterChanged(int index, int new_value) override;

@@ -29,7 +29,7 @@ class ChangeExperienceWidget : public EventCommandBaseWidget
 
 public:
 	explicit ChangeExperienceWidget(ProjectData& project, QWidget *parent);
-	~ChangeExperienceWidget();
+	~ChangeExperienceWidget() override;
 
 public slots:
 	void onParameterChanged(int index, int new_value) override;

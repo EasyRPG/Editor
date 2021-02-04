@@ -29,11 +29,11 @@ class ChangeLevelWidget : public EventCommandBaseWidget
 
 public:
 	explicit ChangeLevelWidget(ProjectData& project, QWidget *parent);
-	~ChangeLevelWidget();
+	~ChangeLevelWidget() override;
 
 private:
 	Ui::ChangeLevelWidget *ui;
 
-private slots:
-	void on_EventWidget_parameterChanged(int index, int new_value);
+public slots:
+	void onParameterChanged(int index, int new_value) override;
 };

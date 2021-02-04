@@ -29,7 +29,7 @@ class ChangeItemWidget : public EventCommandBaseWidget
 
 public:
 	explicit ChangeItemWidget(ProjectData& project, QWidget *parent);
-	~ChangeItemWidget();
+	~ChangeItemWidget() override;
 
 private:
 	Ui::ChangeItemWidget *ui;

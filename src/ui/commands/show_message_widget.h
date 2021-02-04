@@ -29,7 +29,7 @@ class ShowMessageWidget : public EventCommandBaseWidget
 
 public:
 	explicit ShowMessageWidget(ProjectData& project, QWidget* parent);
-	~ShowMessageWidget();
+	~ShowMessageWidget() override;
 
 	void setData(EventCommandList* commands) override;
 

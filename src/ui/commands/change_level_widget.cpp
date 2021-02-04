@@ -34,7 +34,7 @@ ChangeLevelWidget::~ChangeLevelWidget() {
 	delete ui;
 }
 
-void ChangeLevelWidget::on_EventWidget_parameterChanged(int index, int new_value) {
+void ChangeLevelWidget::onParameterChanged(int index, int new_value) {
 	if (index == 2) {
 		ui->check_arg5->setEnabled(new_value == 0);
 	}

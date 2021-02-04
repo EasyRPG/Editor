@@ -29,7 +29,7 @@ class ChangePartyWidget : public EventCommandBaseWidget
 
 public:
 	explicit ChangePartyWidget(ProjectData& project, QWidget *parent);
-	~ChangePartyWidget();
+	~ChangePartyWidget() override;
 
 private:
 	Ui::ChangePartyWidget *ui;
