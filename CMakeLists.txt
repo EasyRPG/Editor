@@ -126,6 +126,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/switch_operations_widget.cpp
 	src/ui/commands/switch_operations_widget.h
 	src/ui/commands/switch_operations_widget.ui
+	src/ui/commands/timer_operation_widget.cpp
+	src/ui/commands/timer_operation_widget.h
+	src/ui/commands/timer_operation_widget.ui
 	src/ui/commands/tint_screen_widget.cpp
 	src/ui/commands/tint_screen_widget.h
 	src/ui/commands/tint_screen_widget.ui

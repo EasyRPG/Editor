@@ -57,19 +57,27 @@ public:
 	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override {
 		OperandWidgetBase::attach(base_widget, project, cmd, idx_operand, idx_value);
 
-		base_widget.connectParameterHandler(m_buttonGroup, idx_operand);
+		int op = cmd.parameters[idx_operand];
 
 		m_comboValue->makeModel(project);
-		base_widget.connectParameterHandler(m_comboValue, idx_value);
+		base_widget.connectParameterHandler(m_comboValue, idx_value, op == 0);
 
 		m_comboVar->makeModel(project);
-		base_widget.connectParameterHandler(m_comboVar, idx_value);
+		base_widget.connectParameterHandler(m_comboVar, idx_value, op == 1);
+
+		base_widget.connectParameterHandler(m_buttonGroup, idx_operand);
 	}
 
 	void parameterChanged(int index, int new_value) override {
 		if (index == m_operation.operand) {
 			m_comboValue->setEnabled(new_value == 0);
 			m_comboVar->setEnabled(new_value == 1);
+
+			if (new_value == 0) {
+				m_cmd->parameters[m_operation.value] = m_comboValue->comboBox()->currentIndex() + 1;
+			} else if (new_value == 1) {
+				m_cmd->parameters[m_operation.value] = m_comboVar->comboBox()->currentIndex() + 1;
+			}
 		}
 	}
 
@@ -139,6 +147,112 @@ private:
 	VariableRpgComboBox* m_comboVar = nullptr;
 };
 
+class TimerOperandWidget : public OperandWidgetBase {
+public:
+	TimerOperandWidget(QWidget *parent);
+
+	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override;
+
+protected:
+	void parameterChanged(int index, int new_value) override;
+
+private:
+	QButtonGroup* m_buttonGroup = nullptr;
+	QRadioButton* m_radioValue = nullptr;
+	QRadioButton* m_radioVar = nullptr;
+	RpgSpinBox* m_spinMin = nullptr;
+	RpgSpinBox* m_spinSec = nullptr;
+	VariableRpgComboBox* m_comboVar = nullptr;
+};
+
+template <typename LCF>
+class OperationOperandWidget : public OperandWidgetBase {
+public:
+	OperationOperandWidget(QWidget *parent);
+
+	void attach(EventCommandBaseWidget& base_widget, ProjectData& project, lcf::rpg::EventCommand& cmd, int idx_operand, int idx_value) override {
+		OperandWidgetBase::attach(base_widget, project, cmd, idx_operand, idx_value);
+
+		int op = cmd.parameters[idx_operand];
+
+		m_comboValue->makeModel(project);
+		base_widget.connectParameterHandler(m_comboValue, idx_value, op == 0);
+
+		base_widget.connectParameterHandler(m_spinBatchMin, idx_value, op == 1);
+		base_widget.connectParameterHandler(m_spinBatchMax, idx_value + 1, op == 1);
+
+		m_comboVar->makeModel(project);
+		base_widget.connectParameterHandler(m_comboVar, idx_value, op == 2);
+
+		base_widget.connectParameterHandler(m_buttonGroup, idx_operand);
+	}
+
+	void parameterChanged(int index, int new_value) override {
+		if (index == m_operation.operand) {
+			m_comboValue->setEnabled(new_value == 0);
+			m_spinBatchMin->setEnabled(new_value == 1);
+			m_spinBatchMax->setEnabled(new_value == 1);
+			m_comboVar->setEnabled(new_value == 2);
+
+			if (new_value == 0) {
+				m_cmd->parameters[m_operation.value] = m_comboValue->comboBox()->currentIndex() + 1;
+			} else if (new_value == 1) {
+				m_cmd->parameters[m_operation.value] = m_spinBatchMin->value();
+				m_cmd->parameters[m_operation.value + 1] = m_spinBatchMax->value();
+			} else if (new_value == 2) {
+				m_cmd->parameters[m_operation.value] = m_comboVar->comboBox()->currentIndex() + 1;
+			}
+		}
+	}
+
+private:
+	QButtonGroup* m_buttonGroup = nullptr;
+	QRadioButton* m_radioValue = nullptr;
+	QRadioButton* m_radioBatch = nullptr;
+	QRadioButton* m_radioVar = nullptr;
+	RpgComboBox<LCF>* m_comboValue = nullptr;
+	RpgSpinBox* m_spinBatchMin = nullptr;
+	RpgSpinBox* m_spinBatchMax = nullptr;
+	VariableRpgComboBox* m_comboVar = nullptr;
+};
+
+template <class LCF>
+OperationOperandWidget<LCF>::OperationOperandWidget(QWidget *parent) :
+	OperandWidgetBase(parent)
+{
+	auto* gridLayout = new QGridLayout(this);
+
+	m_radioValue = new QRadioButton(this);
+	m_radioValue->setText("Specific:");
+	m_radioBatch = new QRadioButton(this);
+	m_radioBatch->setText("Range:");
+	m_radioVar = new QRadioButton(this);
+	m_radioVar->setText("By Variable:");
+	m_spinBatchMin = new RpgSpinBox(this);
+	m_spinBatchMin->setPrefix("From ");
+	m_spinBatchMax = new RpgSpinBox(this);
+	m_spinBatchMax->setPrefix("To ");
+	m_buttonGroup = new QButtonGroup(this);
+	m_buttonGroup->addButton(m_radioValue);
+	m_buttonGroup->setId(m_radioValue, 0);
+	m_buttonGroup->addButton(m_radioBatch);
+	m_buttonGroup->setId(m_radioBatch, 1);
+	m_buttonGroup->addButton(m_radioVar);
+	m_buttonGroup->setId(m_radioVar, 2);
+	m_comboValue = new RpgComboBox<LCF>(this);
+	m_comboVar = new VariableRpgComboBox(this);
+	gridLayout->addWidget(m_radioValue, 0, 0);
+	gridLayout->addWidget(m_comboValue, 0, 1);
+	gridLayout->addWidget(m_radioBatch, 1, 0);
+	auto* hboxLayout = new QHBoxLayout(this);
+	hboxLayout->addWidget(m_spinBatchMin);
+	hboxLayout->addWidget(m_spinBatchMax);
+	hboxLayout->addSpacing(0);
+	gridLayout->addLayout(hboxLayout, 1, 1);
+	gridLayout->addWidget(m_radioVar, 2, 0);
+	gridLayout->addWidget(m_comboVar, 2, 1);
+}
+
 using ActorOperandWidget = OperandWidget<lcf::rpg::Actor>;
 using SkillOperandWidget = OperandWidget<lcf::rpg::Skill>;
 using ItemOperandWidget = OperandWidget<lcf::rpg::Item>;
@@ -154,3 +268,6 @@ using ClassOperandWidget = OperandWidget<lcf::rpg::Class>;
 using BattlerAnimationOperandWidget = OperandWidget<lcf::rpg::BattlerAnimation>;
 using SwitchOperandWidget = OperandWidget<lcf::rpg::Switch>;
 using VariableOperandWidget = OperandWidget<lcf::rpg::Variable>;
+using SwitchOperationOperandWidget = OperationOperandWidget<lcf::rpg::Switch>;
+using VariableOperationOperandWidget = OperationOperandWidget<lcf::rpg::Variable>;
+

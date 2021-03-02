@@ -33,6 +33,7 @@
 #include "show_choices_widget.h"
 #include "show_message_widget.h"
 #include "switch_operations_widget.h"
+#include "timer_operation_widget.h"
 #include "tint_screen_widget.h"
 #include "variable_operations_widget.h"
 #include "weather_effects_widget.h"

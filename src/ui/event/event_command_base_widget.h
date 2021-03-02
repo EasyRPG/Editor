@@ -39,11 +39,11 @@ public:
 	virtual void setData(lcf::rpg::EventCommand* cmd);
 	virtual void setData(EventCommandList* commands);
 
-	void connectParameterHandler(QButtonGroup* group, int index);
-	void connectParameterHandler(RpgComboBoxBase* combo, int index);
-	void connectParameterHandler(QSpinBox* spin, int index);
-	void connectParameterHandler(QCheckBox* check, int index);
-	void connectParameterHandler(QSlider* slider, int index);
+	void connectParameterHandler(QButtonGroup* group, int index, bool set_value = true);
+	void connectParameterHandler(RpgComboBoxBase* combo, int index, bool set_value = true);
+	void connectParameterHandler(QSpinBox* spin, int index, bool set_value = true);
+	void connectParameterHandler(QCheckBox* check, int index, bool set_value = true);
+	void connectParameterHandler(QSlider* slider, int index, bool set_value = true);
 
 	void resizeCommandList(int index);
 

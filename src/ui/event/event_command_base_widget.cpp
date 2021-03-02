@@ -142,12 +142,12 @@ void EventCommandBaseWidget::setData(EventCommandList* commands) {
 	setData(&commands->command());
 }
 
-void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int index) {
+void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int index, bool set_value) {
 	resizeCommandList(index);
 
 	auto* button = group->button(cmd->parameters[index]);
 	// FIXME: Better fallback
-	Q_ASSERT(button && "No AbstractButton with this parameter value");
+	Q_ASSERT_X(button, "connectParameterHandler", "No AbstractButton with this parameter value");
 
 	connect(group, QOverload<QAbstractButton*, bool>::of(&QButtonGroup::buttonToggled), this,
 		[=](QAbstractButton*, bool checked) {
@@ -160,10 +160,12 @@ void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int in
 		}
 	});
 
-	button->setChecked(true);
+	if (set_value) {
+		button->setChecked(true);
+	}
 }
 
-void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int index) {
+void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int index, bool set_value) {
 	resizeCommandList(index);
 
 	connect(combo->comboBox(), QOverload<int>::of(&QComboBox::currentIndexChanged), this,
@@ -172,10 +174,12 @@ void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int
 		emit parameterChanged(index, selected_index + 1);
 	});
 
-	combo->comboBox()->setCurrentIndex(cmd->parameters[index] - 1);
+	if (set_value) {
+		combo->comboBox()->setCurrentIndex(cmd->parameters[index] - 1);
+	}
 }
 
-void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index) {
+void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index, bool set_value) {
 	resizeCommandList(index);
 
 	connect(spin, qOverload<int>(&QSpinBox::valueChanged), this,
@@ -184,10 +188,12 @@ void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index) 
 		emit parameterChanged(index, new_value);
 	});
 
-	spin->setValue(cmd->parameters[index]);
+	if (set_value) {
+		spin->setValue(cmd->parameters[index]);
+	}
 }
 
-void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index) {
+void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index, bool set_value) {
 	resizeCommandList(index);
 
 	connect(check, qOverload<int>(&QCheckBox::stateChanged), this,
@@ -196,10 +202,12 @@ void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index
 		emit parameterChanged(index, new_value);
 	});
 
-	check->setChecked(cmd->parameters[index] != 0);
+	if (set_value) {
+		check->setChecked(cmd->parameters[index] != 0);
+	}
 }
 
-void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index) {
+void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index, bool set_value) {
 	resizeCommandList(index);
 
 	connect(slider, qOverload<int>(&QSlider::valueChanged), this,
@@ -208,7 +216,9 @@ void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index)
 		emit parameterChanged(index, new_value);
 	});
 
-	slider->setValue(cmd->parameters[index]);
+	if (set_value) {
+		slider->setValue(cmd->parameters[index]);
+	}
 }
 
 void EventCommandBaseWidget::resizeCommandList(int index) {
