@@ -30,7 +30,7 @@ class FaceGraphicsWidget : public QDialog
 
 public:
 	explicit FaceGraphicsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~FaceGraphicsWidget();
+	~FaceGraphicsWidget() override;
 
 private slots:
 

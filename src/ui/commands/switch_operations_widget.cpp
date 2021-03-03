@@ -18,17 +18,18 @@
 #include "switch_operations_widget.h"
 #include "ui_switch_operations_widget.h"
 
-SwitchOperationsWidget::SwitchOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd) :
-	QDialog(parent),
-	ui(new Ui::SwitchOperationsWidget),
-	cmd(cmd)
-{
+SwitchOperationsWidget::SwitchOperationsWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::SwitchOperationsWidget) {
+
 	ui->setupUi(this);
 
-	//TODO
+	int i = 0;
+	for (auto& button : { ui->radioOpOn, ui->radioOpOff, ui->radioOpToggle }) {
+		ui->groupOp_arg3->setId(button, i++);
+	}
 }
 
-SwitchOperationsWidget::~SwitchOperationsWidget()
-{
+SwitchOperationsWidget::~SwitchOperationsWidget() {
 	delete ui;
 }

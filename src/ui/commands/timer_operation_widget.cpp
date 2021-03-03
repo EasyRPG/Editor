@@ -15,19 +15,33 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "variable_operations_widget.h"
-#include "ui_variable_operations_widget.h"
+#include "timer_operation_widget.h"
+#include "ui_timer_operation_widget.h"
 
-VariableOperationsWidget::VariableOperationsWidget(ProjectData& project, QWidget *parent) :
+TimerOperationWidget::TimerOperationWidget(ProjectData& project, QWidget *parent) :
 	EventCommandBaseWidget(project, parent),
-	ui(new Ui::VariableOperationsWidget)
-{
+	ui(new Ui::TimerOperationWidget) {
+
 	ui->setupUi(this);
 
-	//TODO
+	int i = 0;
+	for (auto& button : { ui->radioTimer1, ui->radioTimer2 }) {
+		ui->groupTimer_arg5->setId(button, i++);
+	}
+
+	i = 0;
+	for (auto& button : { ui->radioOpTime, ui->radioOpStart, ui->radioOpEnd }) {
+		ui->groupOp_arg0->setId(button, i++);
+	}
 }
 
-VariableOperationsWidget::~VariableOperationsWidget()
-{
+TimerOperationWidget::~TimerOperationWidget() {
 	delete ui;
+}
+
+void TimerOperationWidget::onParameterChanged(int index, int new_value) {
+	if (index == 0) {
+		ui->groupBoxOperand->setVisible(new_value == 0);
+		ui->groupBoxOptions->setVisible(new_value == 1);
+	}
 }

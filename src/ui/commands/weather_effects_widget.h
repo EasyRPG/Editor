@@ -29,7 +29,7 @@ class WeatherEffectsWidget : public EventCommandBaseWidget
 
 public:
 	explicit WeatherEffectsWidget(ProjectData& project, QWidget *parent);
-	~WeatherEffectsWidget();
+	~WeatherEffectsWidget() override;
 
 private:
 	Ui::WeatherEffectsWidget *ui;

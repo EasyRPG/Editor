@@ -29,7 +29,7 @@ class FullHealWidget : public EventCommandBaseWidget
 
 public:
 	explicit FullHealWidget(ProjectData& project, QWidget *parent);
-	~FullHealWidget();
+	~FullHealWidget() override;
 
 private:
 	Ui::FullHealWidget* ui;

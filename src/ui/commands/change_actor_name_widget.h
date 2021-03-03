@@ -20,17 +20,22 @@
 #include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangePartyWidget;
+class ChangeActorNameWidget;
 }
 
-class ChangePartyWidget : public EventCommandBaseWidget
+class ChangeActorNameWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangePartyWidget(ProjectData& project, QWidget *parent);
-	~ChangePartyWidget() override;
+	explicit ChangeActorNameWidget(ProjectData& project, QWidget *parent);
+	~ChangeActorNameWidget() override;
+
+	void setData(lcf::rpg::EventCommand* cmd) override;
+
+public slots:
+	void onParameterChanged(int index, int new_value) override;
 
 private:
-	Ui::ChangePartyWidget *ui;
+	Ui::ChangeActorNameWidget *ui;
 };

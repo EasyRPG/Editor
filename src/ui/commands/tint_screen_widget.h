@@ -29,7 +29,7 @@ class TintScreenWidget : public EventCommandBaseWidget
 
 public:
 	explicit TintScreenWidget(ProjectData& project, QWidget *parent);
-	~TintScreenWidget();
+	~TintScreenWidget() override;
 
 private:
 	Ui::TintScreenWidget *ui;

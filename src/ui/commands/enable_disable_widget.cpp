@@ -15,22 +15,21 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "enable_disable_widget.h"
+#include "ui_enable_disable_widget.h"
 
-#include "ui/event/event_command_base_widget.h"
+EnableDisableWidget::EnableDisableWidget(ProjectData& project, QWidget *parent) :
+	EventCommandBaseWidget(project, parent),
+	ui(new Ui::EnableDisableWidget) {
 
-namespace Ui {
-class ChangePartyWidget;
+	ui->setupUi(this);
+
+	int i = 0;
+	for (auto& button : { ui->radioForbid, ui->radioAllow }) {
+		ui->group_arg0->setId(button, i++);
+	}
 }
 
-class ChangePartyWidget : public EventCommandBaseWidget
-{
-	Q_OBJECT
-
-public:
-	explicit ChangePartyWidget(ProjectData& project, QWidget *parent);
-	~ChangePartyWidget() override;
-
-private:
-	Ui::ChangePartyWidget *ui;
-};
+EnableDisableWidget::~EnableDisableWidget() {
+	delete ui;
+}

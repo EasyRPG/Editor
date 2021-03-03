@@ -17,26 +17,24 @@
 
 #pragma once
 
-#include <QDialog>
-#include <lcf/rpg/eventcommand.h>
+#include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
 class VariableOperationsWidget;
 }
 
-class VariableOperationsWidget : public QDialog
+class VariableOperationsWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit VariableOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~VariableOperationsWidget();
+	explicit VariableOperationsWidget(ProjectData& project, QWidget *parent);
+	~VariableOperationsWidget() override;
 
 private slots:
 
 private:
 	Ui::VariableOperationsWidget *ui;
-	lcf::rpg::EventCommand &cmd;
 };
 
 

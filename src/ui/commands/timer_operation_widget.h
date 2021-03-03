@@ -20,17 +20,19 @@
 #include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangePartyWidget;
+class TimerOperationWidget;
 }
 
-class ChangePartyWidget : public EventCommandBaseWidget
+class TimerOperationWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangePartyWidget(ProjectData& project, QWidget *parent);
-	~ChangePartyWidget() override;
+	explicit TimerOperationWidget(ProjectData& project, QWidget *parent);
+	~TimerOperationWidget() override;
+
+	void onParameterChanged(int index, int new_value) override;
 
 private:
-	Ui::ChangePartyWidget *ui;
+	Ui::TimerOperationWidget *ui;
 };

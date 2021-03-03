@@ -29,7 +29,7 @@ class MessageOptionsWidget : public EventCommandBaseWidget
 
 public:
 	explicit MessageOptionsWidget(ProjectData& project, QWidget *parent);
-	~MessageOptionsWidget();
+	~MessageOptionsWidget() override;
 
 private:
 	Ui::MessageOptionsWidget *ui;

@@ -17,26 +17,20 @@
 
 #pragma once
 
-#include <QDialog>
-#include <lcf/rpg/commonevent.h>
+#include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangeMoneyWidgetWidget;
+class ChangeMoneyWidget;
 }
 
-class ChangeMoneyWidgetWidget : public QDialog
+class ChangeMoneyWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangeMoneyWidgetWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~ChangeMoneyWidgetWidget();
-
-private slots:
-	void on_ChangeMoneyWidgetWidget_accepted();
+	explicit ChangeMoneyWidget(ProjectData& project, QWidget *parent);
+	~ChangeMoneyWidget() override;
 
 private:
-	Ui::ChangeMoneyWidgetWidget *ui;
-	lcf::rpg::EventCommand &cmd;
+	Ui::ChangeMoneyWidget *ui;
 };
-

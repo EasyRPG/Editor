@@ -20,17 +20,17 @@
 #include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
-class ChangePartyWidget;
+class EnableDisableWidget;
 }
 
-class ChangePartyWidget : public EventCommandBaseWidget
+class EnableDisableWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChangePartyWidget(ProjectData& project, QWidget *parent);
-	~ChangePartyWidget() override;
+	explicit EnableDisableWidget(ProjectData& project, QWidget *parent);
+	~EnableDisableWidget() override;
 
 private:
-	Ui::ChangePartyWidget *ui;
+	Ui::EnableDisableWidget *ui;
 };

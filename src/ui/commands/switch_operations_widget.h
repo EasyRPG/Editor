@@ -17,25 +17,20 @@
 
 #pragma once
 
-#include <QDialog>
-#include <lcf/rpg/eventcommand.h>
+#include "ui/event/event_command_base_widget.h"
 
 namespace Ui {
 class SwitchOperationsWidget;
 }
 
-class SwitchOperationsWidget : public QDialog
+class SwitchOperationsWidget : public EventCommandBaseWidget
 {
 	Q_OBJECT
 
 public:
-	explicit SwitchOperationsWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~SwitchOperationsWidget();
-
-private slots:
+	explicit SwitchOperationsWidget(ProjectData& project, QWidget *parent);
+	~SwitchOperationsWidget() override;
 
 private:
 	Ui::SwitchOperationsWidget *ui;
-	lcf::rpg::EventCommand &cmd;
 };
-

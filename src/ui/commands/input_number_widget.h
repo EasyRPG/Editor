@@ -29,7 +29,7 @@ class InputNumberWidget : public EventCommandBaseWidget
 
 public:
 	explicit InputNumberWidget(ProjectData& project, QWidget *parent);
-	~InputNumberWidget();
+	~InputNumberWidget() override;
 
 private:
 	Ui::InputNumberWidget *ui;

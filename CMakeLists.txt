@@ -75,6 +75,12 @@ add_library(${PROJECT_NAME} STATIC
 	src/stringizer.cpp
 	src/stringizer.h
 	src/ui/commands/all_commands.h
+	src/ui/commands/change_actor_name_widget.cpp
+	src/ui/commands/change_actor_name_widget.h
+	src/ui/commands/change_actor_name_widget.ui
+	src/ui/commands/change_actor_title_widget.cpp
+	src/ui/commands/change_actor_title_widget.h
+	src/ui/commands/change_actor_title_widget.ui
 	src/ui/commands/change_experience_widget.cpp
 	src/ui/commands/change_experience_widget.h
 	src/ui/commands/change_experience_widget.ui
@@ -90,6 +96,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/change_party_widget.cpp
 	src/ui/commands/change_party_widget.h
 	src/ui/commands/change_party_widget.ui
+	src/ui/commands/enable_disable_widget.cpp
+	src/ui/commands/enable_disable_widget.h
+	src/ui/commands/enable_disable_widget.ui
 	src/ui/commands/face_graphics_widget.cpp
 	src/ui/commands/face_graphics_widget.h
 	src/ui/commands/face_graphics_widget.ui
@@ -117,6 +126,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/switch_operations_widget.cpp
 	src/ui/commands/switch_operations_widget.h
 	src/ui/commands/switch_operations_widget.ui
+	src/ui/commands/timer_operation_widget.cpp
+	src/ui/commands/timer_operation_widget.h
+	src/ui/commands/timer_operation_widget.ui
 	src/ui/commands/tint_screen_widget.cpp
 	src/ui/commands/tint_screen_widget.h
 	src/ui/commands/tint_screen_widget.ui

@@ -30,7 +30,7 @@ class ShowChoicesWidget : public QDialog
 
 public:
 	explicit ShowChoicesWidget(QWidget *parent, lcf::rpg::EventCommand &cmd);
-	~ShowChoicesWidget();
+	~ShowChoicesWidget() override;
 
 private slots:
 
