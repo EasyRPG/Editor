@@ -23,6 +23,20 @@
 #include <QPainter>
 
 class ViewBase : public QGraphicsView {
+	Q_OBJECT
+
 public:
 	explicit ViewBase(QWidget* parent) : QGraphicsView(parent) {}
+
+	void setItem(QGraphicsItem* item);
+
+signals:
+	void clicked(const QPointF&);
+
+protected:
+	void mousePressEvent(QMouseEvent* event) override;
+
+private:
+	QGraphicsItem* m_item = nullptr;
 };
+

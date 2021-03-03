@@ -58,7 +58,7 @@
   <customwidget>
    <class>ViewBase</class>
    <extends>QGraphicsView</extends>
-   <header>ui/viewer/scene.h</header>
+   <header>ui/viewer/view_base.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

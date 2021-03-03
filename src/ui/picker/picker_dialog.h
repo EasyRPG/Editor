@@ -36,10 +36,10 @@ class PickerDialog : public QDialog {
 	Q_OBJECT
 
 public:
-	explicit PickerDialog(ProjectData& project, PickerChildWidget* wrappedWidget = nullptr, QWidget *parent = nullptr);
+	explicit PickerDialog(ProjectData& project, FileFinder::FileType file_type = FileFinder::FileType::Default, PickerChildWidget* wrappedWidget = nullptr, QWidget *parent = nullptr);
 	~PickerDialog() override;
 
-	void setDirectoryAndFile(const QString& dir, const QString& initialFile, FileFinder::FileType file_type);
+	void setDirectoryAndFile(const QString& dir, const QString& initialFile);
 
 signals:
 	void fileSelected(QString baseName);
@@ -47,7 +47,6 @@ signals:
 private slots:
 	void on_filesystemView_clicked(const QModelIndex &index);
 	void buttonClicked(QAbstractButton* button);
-	void redraw();
 	void viewClicked(const QPointF& pos);
 
 protected:
@@ -55,8 +54,8 @@ protected:
 
 private:
 	ProjectData& m_project;
-	QPixmap image;
 	QDir m_dir;
 	QFileInfo m_currentFile;
 	QFileSystemModel* m_model = nullptr;
+	FileFinder::FileType m_file_type;
 };

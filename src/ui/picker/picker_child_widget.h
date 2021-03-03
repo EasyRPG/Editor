@@ -19,13 +19,19 @@
 
 #include <QWidget>
 
-class QGraphicsScene;
+class ViewBase;
 
 class PickerChildWidget : public QWidget {
 	Q_OBJECT
 public:
-	explicit PickerChildWidget(QWidget* parent) : QWidget(parent) {}
+	explicit PickerChildWidget(QWidget* parent);
 
 	virtual void clicked(const QPointF&) {}
-	virtual void draw(QGraphicsScene*) {}
+	virtual void fileChanged(const QString&) {}
+	virtual void imageChanged(QPixmap image) {};
+
+	void setView(ViewBase* view);
+
+protected:
+	ViewBase* m_view;
 };

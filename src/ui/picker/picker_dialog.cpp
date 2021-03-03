@@ -25,20 +25,26 @@
 #include <QAbstractButton>
 #include <QDialogButtonBox>
 
-PickerDialog::PickerDialog(ProjectData &project, PickerChildWidget* wrappedWidget, QWidget *parent) :
+PickerDialog::PickerDialog(ProjectData &project, FileFinder::FileType file_type, PickerChildWidget* wrappedWidget, QWidget *parent) :
 		QDialog(parent),
 		ui(new Ui::PickerDialog),
-		m_project(project) {
+		m_project(project),
+		m_file_type(file_type) {
 	ui->setupUi(this);
 	ui->wrappedWidget = wrappedWidget;
 	m_model = new QFileSystemModel(this);
 	m_model->setReadOnly(true);
 
-	QGraphicsScene* scene = new QGraphicsScene(ui->graphicsView);
-	ui->graphicsView->setScene(scene);
-
 	QObject::connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &PickerDialog::buttonClicked);
-	QObject::connect(ui->graphicsView, &ViewBase::clicked, this, &PickerDialog::viewClicked);
+
+	if (file_type == FileFinder::FileType::Image) {
+		QGraphicsScene* scene = new QGraphicsScene(ui->graphicsView);
+		ui->graphicsView->setScene(scene);
+		ui->wrappedWidget->setView(ui->graphicsView);
+		QObject::connect(ui->graphicsView, &ViewBase::clicked, this, &PickerDialog::viewClicked);
+	} else {
+		ui->graphicsView->setVisible(false);
+	}
 }
 
 PickerDialog::~PickerDialog() {
@@ -66,37 +72,34 @@ void PickerDialog::buttonClicked(QAbstractButton* button) {
 	}
 }
 
-void PickerDialog::setDirectoryAndFile(const QString &dir, const QString& initialFile, FileFinder::FileType file_type) {
+void PickerDialog::setDirectoryAndFile(const QString &dir, const QString& initialFile) {
 	m_dir = QDir(dir);
-	// FIXME: A directory FileFinder would be useful here
 	QString path = m_project.project().findDirectory(dir);
-	QString file = m_project.project().findFile(dir, initialFile, file_type);
+	QString file = m_project.project().findFile(dir, initialFile, m_file_type);
 	m_model->setRootPath(path);
 	ui->filesystemView->setModel(m_model);
 	ui->filesystemView->setRootIndex(m_model->index(path));
 	ui->filesystemView->setCurrentIndex(m_model->index(file));
 
 	m_currentFile = file;
-	image = ImageLoader::Load(m_currentFile.absoluteFilePath());
-	redraw();
+
+	ui->wrappedWidget->fileChanged(m_currentFile.absoluteFilePath());
+
+	if (m_file_type == FileFinder::FileType::Image) {
+		QPixmap image = ImageLoader::Load(m_currentFile.absoluteFilePath());
+		ui->wrappedWidget->imageChanged(image);
+	}
 }
 
 void PickerDialog::on_filesystemView_clicked(const QModelIndex &index) {
 	m_currentFile = m_model->fileInfo(index);
-	image = ImageLoader::Load(m_currentFile.absoluteFilePath());
-	redraw();
-}
-
-void PickerDialog::redraw() {
-	QGraphicsScene* scene = ui->graphicsView->scene();
-	auto* pixmap = new QGraphicsPixmapItem(image);
-	ui->graphicsView->setItem(pixmap);
-	if (ui->wrappedWidget) {
-		ui->wrappedWidget->draw(scene);
+	ui->wrappedWidget->fileChanged(m_currentFile.absoluteFilePath());
+	if (m_file_type == FileFinder::FileType::Image) {
+		QPixmap image = ImageLoader::Load(m_currentFile.absoluteFilePath());
+		ui->wrappedWidget->imageChanged(image);
 	}
 }
 
 void PickerDialog::viewClicked(const QPointF& pos) {
 	ui->wrappedWidget->clicked(pos);
-	redraw();
 }

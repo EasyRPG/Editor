@@ -22,20 +22,26 @@
 #include "picker_child_widget.h"
 
 class QGraphicsScene;
+class QGraphicsRectItem;
+class QGraphicsPixmapItem;
 
 class PickerFacesetWidget : public PickerChildWidget {
 	Q_OBJECT
 public:
 	explicit PickerFacesetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
 
-	void draw(QGraphicsScene* scene) override;
-
 	void clicked(const QPointF& pos) override;
+
+	void imageChanged(QPixmap image) override;
 
 	int index() const {
 		return m_index;
 	}
 
 private:
+	void updateRect();
+
 	int m_index;
+	QGraphicsRectItem* m_rect = nullptr;
+	QGraphicsPixmapItem* m_pixmap = nullptr;
 };

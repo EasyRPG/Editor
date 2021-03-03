@@ -15,7 +15,8 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "scene.h"
+#include "view_base.h"
+#include <QMouseEvent>
 
 void ViewBase::mousePressEvent(QMouseEvent* event) {
 	if (event->button() == Qt::LeftButton && m_item) {
@@ -29,10 +30,8 @@ void ViewBase::mousePressEvent(QMouseEvent* event) {
 
 void ViewBase::setItem(QGraphicsItem* item) {
 	m_item = item;
-	scene()->clear();
 	if (!item) {
 		return;
 	}
-	scene()->addItem(item);
 	scene()->setSceneRect(item->boundingRect());
 }

@@ -16,10 +16,38 @@
  */
 
 #include "picker_faceset_widget.h"
+#include "ui/viewer/view_base.h"
 #include <QGraphicsScene>
-#include <QGraphicsView>
 
-void PickerFacesetWidget::draw(QGraphicsScene* scene) {
+void PickerFacesetWidget::clicked(const QPointF& pos) {
+	int x = static_cast<int>(pos.x() / 48);
+	int y = static_cast<int>(pos.y() / 48);
+	m_index = y * 4 + x;
+	updateRect();
+}
+
+void PickerFacesetWidget::imageChanged(QPixmap image) {
+	if (!m_pixmap) {
+		m_pixmap = new QGraphicsPixmapItem(image);
+		m_view->scene()->addItem(m_pixmap);
+	}
+
+	m_pixmap->setPixmap(image);
+	m_view->setItem(m_pixmap);
+	updateRect();
+}
+
+void PickerFacesetWidget::updateRect() {
+	if (!m_rect) {
+		m_rect = new QGraphicsRectItem();
+
+		QPen selPen(Qt::white);
+		selPen.setWidth(2);
+		m_rect->setPen(selPen);
+
+		m_view->scene()->addItem(m_rect);
+	}
+
 	QRect rect = {
 		(m_index % 4) * 48,
 		m_index / 4 * 48,
@@ -27,14 +55,5 @@ void PickerFacesetWidget::draw(QGraphicsScene* scene) {
 		48
 	};
 
-	QPen selPen(Qt::white);
-	selPen.setWidth(2);
-
-	scene->addRect(rect, selPen);
-}
-
-void PickerFacesetWidget::clicked(const QPointF& pos) {
-	int x = static_cast<int>(pos.x() / 48);
-	int y = static_cast<int>(pos.y() / 48);
-	m_index = y * 4 + x;
+	m_rect->setRect(rect);
 }

@@ -294,14 +294,16 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/other/splash_dialog.ui
 	src/ui/other/volumebutton.cpp
 	src/ui/other/volumebutton.h
+	src/ui/picker/picker_child_widget.cpp
 	src/ui/picker/picker_child_widget.h
 	src/ui/picker/picker_faceset_widget.cpp
 	src/ui/picker/picker_faceset_widget.h
 	src/ui/picker/picker_dialog.cpp
 	src/ui/picker/picker_dialog.h
 	src/ui/picker/picker_dialog.ui
-	src/ui/viewer/scene.cpp
-	src/ui/viewer/scene.h
+	src/ui/viewer/faceset_graphics_view.h
+	src/ui/viewer/view_base.cpp
+	src/ui/viewer/view_base.h
 )
 
 # Include directories

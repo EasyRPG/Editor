@@ -342,11 +342,11 @@ void ActorWidget::resizeEvent(QResizeEvent *event)
 
 void ActorWidget::faceSetClicked() {
 	auto* widget = new PickerFacesetWidget(m_current->face_index, this);
-	PickerDialog dialog(m_project, widget, this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
 	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
 		m_current->face_name = ToDBString(baseName);
 		m_current->face_index = widget->index();
 	});
-	dialog.setDirectoryAndFile(FACESET, ToQString(m_current->face_name), FileFinder::FileType::Image);
+	dialog.setDirectoryAndFile(FACESET, ToQString(m_current->face_name));
 	dialog.exec();
 }
