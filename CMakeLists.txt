@@ -163,6 +163,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/picker_scene.h
 	src/ui/common/rpg_combobox.h
 	src/ui/common/rpg_model.h
+	src/ui/common/rpg_audio_lineedit.cpp
+	src/ui/common/rpg_audio_lineedit.h
 	src/ui/common/rpg_slider.cpp
 	src/ui/common/rpg_slider.h
 	src/ui/common/rpg_spinbox.cpp
@@ -290,6 +292,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/other/splash_dialog.ui
 	src/ui/other/volumebutton.cpp
 	src/ui/other/volumebutton.h
+	src/ui/picker/picker_audio_widget.cpp
+	src/ui/picker/picker_audio_widget.h
+	src/ui/picker/picker_audio_widget.ui
 	src/ui/picker/picker_child_widget.cpp
 	src/ui/picker/picker_child_widget.h
 	src/ui/picker/picker_charset_widget.cpp
