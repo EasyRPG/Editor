@@ -18,15 +18,23 @@
 #include "system_widget.h"
 #include "ui_system_widget.h"
 
+#include "src/common/lcf_widget_binding.h"
+
 SystemWidget::SystemWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::SystemWidget),
-	m_project(project)
-{
+	m_project(project) {
 	ui->setupUi(this);
+
+	ui->lineTitleBgm->makeModel(project);
+	ui->lineCursorSound->makeModel(project);
+
+	auto& sys = project.database().system;
+
+	ui->lineTitleBgm->bindMusic(sys.title_music);
+	ui->lineCursorSound->bindSound(sys.cursor_se);
 }
 
-SystemWidget::~SystemWidget()
-{
+SystemWidget::~SystemWidget() {
 	delete ui;
 }
