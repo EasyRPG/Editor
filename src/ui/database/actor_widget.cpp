@@ -43,11 +43,11 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	ui->spinMaxLv->setMaximum(kMaxLevel);
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
-	m_charaItem = new CharSetItem();
+	/*m_charaItem = new CharSetItem();
 	m_charaItem->setSpin(true);
 	m_charaItem->setWalk(true);
 	m_charaItem->setScale(2.0);
-	m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+	m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));*/
 
 	m_battlerItem = new BattleAnimationItem();
 
@@ -61,9 +61,9 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	m_intItem = new CurveItem(Qt::darkBlue, m_dummyCurve);
 	m_agyItem = new CurveItem(Qt::blue, m_dummyCurve);
 
-	ui->graphicsCharset->setScene(new QGraphicsScene(this));
+	/*ui->graphicsCharset->setScene(new QGraphicsScene(this));
 	ui->graphicsCharset->scene()->addItem(m_charaItem);
-	ui->graphicsCharset->scene()->setSceneRect(0,0,48,64);
+	ui->graphicsCharset->scene()->setSceneRect(0,0,48,64);*/
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
 	ui->graphicsBattleset->scene()->addItem(m_battlerItem);
@@ -94,9 +94,10 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	ui->graphicsAgy->scene()->addItem(m_agyItem);
 
 	QTimer *timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
-	connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
-	timer->start(200);
+	//connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
+	//connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
+	QObject::connect(timer, &QTimer::timeout, ui->graphicsCharset->scene(), &QGraphicsScene::advance);
+	timer->start(1000 / 33);
 	UpdateModels();
 
 	/*FIXME if (database.system.ldb_id != 2003) {
@@ -142,6 +143,7 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	ui->comboUnarmedAnimation->makeModel(project);
 
 	QObject::connect(ui->graphicsFaceset, &ViewBase::clicked, this, &ActorWidget::faceSetClicked);
+	QObject::connect(ui->graphicsCharset, &ViewBase::clicked, this, &ActorWidget::charSetClicked);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {
@@ -216,6 +218,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	ResetExpText(actor);
 
 	ui->graphicsFaceset->refresh(ActorModel(m_project, *m_current));
+	ui->graphicsCharset->refresh(ActorModel(m_project, *m_current));
 
 	LcfWidgetBinding::bind(ui->lineName, actor->name);
 	LcfWidgetBinding::bind(ui->lineTitle, actor->title);
@@ -278,10 +281,10 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		else
 			ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg(static_cast<int>(actor->state_ranks[static_cast<size_t>(i)]))));
 	}
-	m_charaItem->setVisible(true);
+	/*m_charaItem->setVisible(true);
 	m_charaItem->setBasePix(actor->character_name.c_str());
 	m_charaItem->setIndex(actor->character_index);
-	m_charaItem->graphicsEffect()->setEnabled(actor->transparent);
+	m_charaItem->graphicsEffect()->setEnabled(actor->transparent);*/
 
 	if (actor->battler_animation <= 0 ||
 			actor->battler_animation >= static_cast<int>(database.battleranimations.size()))
@@ -341,6 +344,17 @@ void ActorWidget::resizeEvent(QResizeEvent *event)
 }
 
 void ActorWidget::faceSetClicked() {
+	auto* widget = new PickerFacesetWidget(m_current->face_index, this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		m_current->face_name = ToDBString(baseName);
+		m_current->face_index = widget->index();
+	});
+	dialog.setDirectoryAndFile(FACESET, ToQString(m_current->face_name));
+	dialog.exec();
+}
+
+void ActorWidget::charSetClicked() {
 	auto* widget = new PickerFacesetWidget(m_current->face_index, this);
 	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
 	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {

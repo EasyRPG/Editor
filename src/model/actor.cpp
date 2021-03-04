@@ -96,7 +96,7 @@ public:
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override {
 		if (ToQString(m_actor.face_name) != face_name) {
 			face_name = ToQString(m_actor.face_name);
-			graphic = ImageLoader::Load(m_project.findFile("FaceSet", ToQString(m_actor.face_name), FileFinder::FileType::Image));
+			graphic = ImageLoader::Load(m_project.findFile(FACESET, ToQString(m_actor.face_name), FileFinder::FileType::Image));
 		}
 		painter->drawPixmap(boundingRect(), graphic, faceRect());
 	}
@@ -110,4 +110,119 @@ private:
 
 QGraphicsItem* ActorModel::face() const {
 	return new FaceSetGraphicsItem(*this);
+}
+
+class CharSetGraphicsItem : public QGraphicsItem {
+public:
+	enum Direction {
+		Direction_up = 0,
+		Direction_right = 1,
+		Direction_down = 2,
+		Direction_left = 3
+	};
+
+	enum Frame {
+		Frame_left = 0,
+		Frame_middle = 1,
+		Frame_right = 2
+	};
+
+	explicit CharSetGraphicsItem(const ActorModel& actor) : m_actor(actor.data()), m_project(actor.project().project()) {}
+
+	void setBasePix(const QString &n_pixName);
+
+	QRectF boundingRect() const override {
+		return {0., 0., 24., 32.};
+	}
+
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override {
+		if (ToQString(m_actor.character_name) != charset_name) {
+			charset_name = ToQString(m_actor.character_name);
+			graphic = ImageLoader::Load(m_project.findFile(CHARSET, ToQString(m_actor.character_name), FileFinder::FileType::Image));
+		}
+
+		int x = (m_index % 4) * 72 + m_frame * 24;
+		int y = (m_index / 4) * 128 + m_facing * 32;
+		painter->drawPixmap(boundingRect(), graphic, QRect(x, y, 24, 32));
+	}
+
+	int index() const {
+		return m_index;
+	}
+
+	void setIndex(int index) {
+		m_index = index;
+	}
+
+	int facing() const {
+		return m_facing;
+	}
+
+	void setFacing(int facing) {
+		m_facing = facing;
+	}
+
+	int frame() const {
+		return m_frame;
+	}
+
+	void setFrame(int frame) {
+		m_frame = frame;
+	}
+
+	bool spin() const {
+		return m_spin;
+	}
+
+	void setSpin(bool spin) {
+		m_spin = spin;
+	}
+
+	bool walk() const {
+		return m_walk;
+	}
+
+	void setWalk(bool walk) {
+		m_walk = walk;
+	}
+
+protected:
+	void advance(int phase) override {
+		static int patterns[4] = {Frame_middle, Frame_right, Frame_middle,Frame_left};
+		if (!phase)	{
+			frame_count++;
+			if (frame_count == 100) {
+				frame_count = 0;
+				if (m_spin)	{
+					m_facing++;
+					if (m_facing > Direction_left)
+						m_facing = Direction_up;
+				}
+			}
+			if (m_walk) {
+				m_frame = patterns[frame_count%4];
+			}
+		} else {
+			update();
+		}
+	}
+
+private:
+	QPixmap m_pix;
+	int frame_count = 0;
+	int m_index = 0;
+	int m_facing = Direction_down;
+	int m_frame = Frame_middle;
+	bool m_spin = true;
+	bool m_walk = true;
+
+private:
+	const lcf::rpg::Actor& m_actor;
+	const Project& m_project;
+	QPixmap graphic;
+	QString charset_name;
+};
+
+QGraphicsItem* ActorModel::character() const {
+	return new CharSetGraphicsItem(*this);
 }

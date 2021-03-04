@@ -467,7 +467,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QGraphicsView" name="graphicsCharset">
+       <widget class="CharSetGraphicsView" name="graphicsCharset">
         <property name="minimumSize">
          <size>
           <width>48</width>
@@ -975,6 +975,11 @@
    <class>FaceSetGraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>ui/viewer/faceset_graphics_view.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CharSetGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>ui/viewer/charset_graphics_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

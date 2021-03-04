@@ -301,6 +301,7 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/picker/picker_dialog.cpp
 	src/ui/picker/picker_dialog.h
 	src/ui/picker/picker_dialog.ui
+	src/ui/viewer/charset_graphics_view.h
 	src/ui/viewer/faceset_graphics_view.h
 	src/ui/viewer/view_base.cpp
 	src/ui/viewer/view_base.h

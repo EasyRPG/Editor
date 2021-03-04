@@ -53,6 +53,7 @@ private slots:
 	void on_pushApplyProfession_clicked();
 
 	void faceSetClicked();
+	void charSetClicked();
 
 signals:
 	void currentActorChanged(lcf::rpg::Actor *actor);
@@ -66,7 +67,7 @@ private:
 	void UpdateModels();
 	void ResetExpText(lcf::rpg::Actor* actor);
 
-	CharSetItem *m_charaItem;
+	//CharSetItem *m_charaItem;
 	//FaceSetItem *m_faceItem;
 	BattleAnimationItem *m_battlerItem;
 	CurveItem *m_hpItem;

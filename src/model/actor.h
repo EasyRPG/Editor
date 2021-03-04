@@ -49,6 +49,8 @@ public:
 
 	QGraphicsItem* face() const;
 
+	QGraphicsItem* character() const;
+
 	QPixmap preview() override;
 
 private:
