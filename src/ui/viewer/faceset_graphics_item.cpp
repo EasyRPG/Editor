@@ -17,78 +17,51 @@
 
 #include "faceset_graphics_item.h"
 #include "core.h"
-#include "src/common/image_loader.h"
+#include "common/image_loader.h"
+#include "common/dbstring.h"
+#include "model/project_data.h"
 
-FaceSetItem::FaceSetItem(const QPixmap pix) :
-	QGraphicsPixmapItem(pix)
-{
-	m_index = -1;
+#include <lcf/rpg/actor.h>
+
+FaceSetGraphicsItem::FaceSetGraphicsItem(ProjectData& project, const QPixmap pix) :
+	QGraphicsItem(), m_project(project), m_image(pix) {
 }
 
-void FaceSetItem::setBasePix(const QString &n_pixName)
-{
-	m_pix = ImageLoader::Load(core().project()->findFile(FACESET, n_pixName, FileFinder::FileType::Image));
-	if (!m_pix)
-		m_pix = QPixmap(core().rtpPath(FACESET,n_pixName));
-	updatePix();
+QRect FaceSetGraphicsItem::faceRect() const {
+	return {
+			(m_index % 4) * 48,
+			m_index / 4 * 48,
+			48,
+			48
+	};
 }
 
-int FaceSetItem::index() const
-{
+QRectF FaceSetGraphicsItem::boundingRect() const {
+	return {0., 0., 48., 48.};
+}
+
+void FaceSetGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) {
+	painter->drawPixmap(boundingRect(), m_image, faceRect());
+}
+
+void FaceSetGraphicsItem::refresh(const lcf::rpg::Actor& actor) {
+	refresh(ToQString(actor.face_name), actor.face_index);
+}
+
+void FaceSetGraphicsItem::refresh(QString filename, int index) {
+	if (m_filename != filename) {
+		m_filename = filename;
+		m_image = ImageLoader::Load(m_project.project().findFile(FACESET, filename, FileFinder::FileType::Image));
+	}
+	setIndex(index);
+	update();
+}
+
+int FaceSetGraphicsItem::index() const {
 	return m_index;
 }
 
-void FaceSetItem::setIndex(int index)
-{
+void FaceSetGraphicsItem::setIndex(int index) {
 	m_index = index;
-	updatePix();
+	update();
 }
-
-int FaceSetItem::facing() const
-{
-	return m_facing;
-}
-
-void FaceSetItem::setFacing(int facing)
-{
-	m_facing = facing;
-	updatePix();
-}
-int FaceSetItem::frame() const
-{
-	return m_frame;
-}
-
-void FaceSetItem::setFrame(int frame)
-{
-	m_frame = frame;
-	updatePix();
-}
-
-void FaceSetItem::updatePix()
-{
-	if (!m_pix)
-		return;
-	if (m_index == -1)
-	{
-		QPixmap n_pix = QPixmap(QSize(192,192));
-		QPainter p(&n_pix);
-		for (int index = 0; index < 16; index++)
-		{
-			int src_x = (index%4)* 48;
-			int src_y = (index/4)* 48;
-			p.drawPixmap((index%4)*48, (index/4)*48, 48, 48, m_pix.copy(src_x,src_y,48,48));
-		}
-		p.end();
-		this->setPixmap(n_pix);
-	}
-	else
-	{
-		int x = (m_index%4)* 48;
-		int y = (m_index/4)* 48;
-		this->setPixmap(m_pix.copy(x,y,48,48));
-	}
-}
-
-
-

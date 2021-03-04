@@ -17,125 +17,104 @@
 
 #include "charset_graphics_item.h"
 #include "core.h"
+#include "common/dbstring.h"
 #include "common/image_loader.h"
 
-CharSetItem::CharSetItem(const QPixmap pix) :
-	QGraphicsPixmapItem(pix)
-{
-	m_index = -1;
-	m_facing = Direction_down;
-	m_frame = Frame_middle;
-	m_walk = false;
-	m_spin = false;
-	frame_count = 0;
+#include <lcf/rpg/actor.h>
+
+CharSetGraphicsItem::CharSetGraphicsItem(ProjectData& project, const QPixmap pix) :
+	QGraphicsItem(), m_project(project), m_image(pix) {}
+
+void setBasePix(const QString &n_pixName);
+
+QRectF CharSetGraphicsItem::boundingRect() const {
+	return {0., 0., 24., 32.};
 }
 
-void CharSetItem::setBasePix(const QString &n_pixName)
-{
-	m_pix = ImageLoader::Load(core().project()->findFile(CHARSET, n_pixName, FileFinder::FileType::Image));
-	if (!m_pix)
-		m_pix = ImageLoader::Load(core().rtpPath(CHARSET, n_pixName));
-	if (!m_pix)
-		m_pix = core().createDummyPixmap(288,256);
-	updatePix();
+void CharSetGraphicsItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) {
+	int x = (m_index % 4) * 72 + m_frame * 24;
+	int y = (m_index / 4) * 128 + m_facing * 32;
+	painter->drawPixmap(boundingRect(), m_image, QRect(x, y, 24, 32));
 }
 
-int CharSetItem::index() const
-{
-	return m_index;
-}
-
-void CharSetItem::setIndex(int index)
-{
-	m_index = index;
-	updatePix();
-}
-
-int CharSetItem::facing() const
-{
-	return m_facing;
-}
-
-void CharSetItem::setFacing(int facing)
-{
-	m_facing = facing;
-	updatePix();
-}
-int CharSetItem::frame() const
-{
-	return m_frame;
-}
-
-void CharSetItem::setFrame(int frame)
-{
-	m_frame = frame;
-	updatePix();
-}
-
-void CharSetItem::updatePix()
-{
-	if (!m_pix)
-		return;
-	if (m_index == -1)
-	{
-		QPixmap n_pix = QPixmap(QSize(96,64));
-		QPainter p(&n_pix);
-		for (int index = 0; index < 8; index++)
-		{
-			int src_x = (index%4)*72 + m_frame * 24;
-			int src_y = (index/4)*128 + m_facing * 32;
-			p.drawPixmap((index%4)*24, (index/4)*32, 24, 32, m_pix.copy(src_x,src_y,24,32));
-		}
-		p.end();
-		this->setPixmap(n_pix);
-	}
-	else
-	{
-		int x = (m_index%4)*72 + m_frame * 24;
-		int y = (m_index/4)*128 + m_facing * 32;
-		this->setPixmap(m_pix.copy(x,y,24,32));
-	}
-}
-
-void CharSetItem::advance(int phase)
-{
+void CharSetGraphicsItem::advance(int phase) {
 	static int patterns[4] = {Frame_middle, Frame_right, Frame_middle,Frame_left};
-	if (!phase)
-	{
-
+	if (!phase)	{
 		frame_count++;
-		if (frame_count == 20)
-		{
+		if (frame_count == 90) {
 			frame_count = 0;
-			if (m_spin)
-			{
+			if (m_spin)	{
 				m_facing++;
 				if (m_facing > Direction_left)
 					m_facing = Direction_up;
 			}
 		}
-		if (m_walk)
-			m_frame = patterns[frame_count%4];
+		if (m_walk) {
+			m_frame = patterns[m_pattern];
+
+			if (frame_count % 6 == 0) {
+				m_pattern = (m_pattern + 1) % 4;
+			}
+		}
+	} else {
+		update();
 	}
-	else
-		updatePix();
 }
-bool CharSetItem::walk() const
-{
+
+void CharSetGraphicsItem::refresh(const lcf::rpg::Actor& actor) {
+	refresh(ToQString(actor.character_name), actor.character_index);
+}
+
+void CharSetGraphicsItem::refresh(QString filename, int index) {
+	if (m_filename != filename) {
+		m_filename = filename;
+		m_image = ImageLoader::Load(m_project.project().findFile(CHARSET, filename, FileFinder::FileType::Image));
+	}
+	setIndex(index);
+	update();
+}
+
+int CharSetGraphicsItem::index() const {
+	return m_index;
+}
+
+void CharSetGraphicsItem::setIndex(int index) {
+	m_index = index;
+	update();
+}
+
+int CharSetGraphicsItem::facing() const {
+	return m_facing;
+}
+
+void CharSetGraphicsItem::setFacing(int facing) {
+	m_facing = facing;
+	update();
+}
+
+int CharSetGraphicsItem::frame() const {
+	return m_frame;
+}
+
+void CharSetGraphicsItem::setFrame(int frame) {
+	m_frame = frame;
+	update();
+}
+
+bool CharSetGraphicsItem::walk() const {
 	return m_walk;
 }
 
-void CharSetItem::setWalk(bool walk)
-{
+void CharSetGraphicsItem::setWalk(bool walk) {
 	m_walk = walk;
+	update();
 }
 
-bool CharSetItem::spin() const
-{
+bool CharSetGraphicsItem::spin() const {
 	return m_spin;
 }
 
-void CharSetItem::setSpin(bool spin)
-{
+void CharSetGraphicsItem::setSpin(bool spin) {
 	m_spin = spin;
+	update();
 }

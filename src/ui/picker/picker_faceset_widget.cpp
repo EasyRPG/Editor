@@ -29,7 +29,6 @@ void PickerFacesetWidget::clicked(const QPointF& pos) {
 void PickerFacesetWidget::imageChanged(QPixmap image) {
 	if (!m_pixmap) {
 		m_pixmap = new QGraphicsPixmapItem(image);
-		m_view->scene()->addItem(m_pixmap);
 	}
 
 	m_pixmap->setPixmap(image);

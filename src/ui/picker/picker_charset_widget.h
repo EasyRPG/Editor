@@ -28,7 +28,7 @@ class QGraphicsPixmapItem;
 class PickerCharsetWidget : public PickerChildWidget {
 	Q_OBJECT
 public:
-	explicit PickerCharsetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
+	PickerCharsetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
 
 	void clicked(const QPointF& pos) override;
 

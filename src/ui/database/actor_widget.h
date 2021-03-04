@@ -65,19 +65,20 @@ private:
 	void UpdateModels();
 	void ResetExpText(lcf::rpg::Actor* actor);
 
-	//CharSetItem *m_charaItem;
-	//FaceSetItem *m_faceItem;
-	BattleAnimationItem *m_battlerItem;
-	CurveItem *m_hpItem;
-	CurveItem *m_mpItem;
-	CurveItem *m_attItem;
-	CurveItem *m_defItem;
-	CurveItem *m_intItem;
-	CurveItem *m_agyItem;
+	CharSetGraphicsItem *m_charsetItem = nullptr;
+	FaceSetGraphicsItem *m_faceItem = nullptr;
+
+	BattleAnimationItem *m_battlerItem = nullptr;
+	CurveItem *m_hpItem = nullptr;
+	CurveItem *m_mpItem = nullptr;
+	CurveItem *m_attItem = nullptr;
+	CurveItem *m_defItem = nullptr;
+	CurveItem *m_intItem = nullptr;
+	CurveItem *m_agyItem = nullptr;
 	std::vector<short> m_dummyCurve;
 
 	lcf::rpg::Actor dummy;
-	lcf::rpg::Actor *m_current;
+	lcf::rpg::Actor *m_current = nullptr;
 	ProjectData& m_project;
 };
 

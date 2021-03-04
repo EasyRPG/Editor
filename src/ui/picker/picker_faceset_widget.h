@@ -28,7 +28,7 @@ class QGraphicsPixmapItem;
 class PickerFacesetWidget : public PickerChildWidget {
 	Q_OBJECT
 public:
-	explicit PickerFacesetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
+	PickerFacesetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
 
 	void clicked(const QPointF& pos) override;
 

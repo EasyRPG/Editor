@@ -38,10 +38,8 @@ PickerDialog::PickerDialog(ProjectData &project, FileFinder::FileType file_type,
 	QObject::connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &PickerDialog::buttonClicked);
 
 	if (file_type == FileFinder::FileType::Image) {
-		QGraphicsScene* scene = new QGraphicsScene(ui->graphicsView);
-		ui->graphicsView->setScene(scene);
 		ui->wrappedWidget->setView(ui->graphicsView);
-		QObject::connect(ui->graphicsView, &RpgGraphicsView::clicked, this, &PickerDialog::viewClicked);
+		QObject::connect(ui->graphicsView, &RpgGraphicsViewBase::clicked, this, &PickerDialog::viewClicked);
 	} else {
 		ui->graphicsView->setVisible(false);
 	}

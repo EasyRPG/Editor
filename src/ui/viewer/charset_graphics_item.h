@@ -19,7 +19,13 @@
 
 #include <QGraphicsPixmapItem>
 
-class CharSetItem : public QGraphicsPixmapItem
+namespace lcf::rpg {
+	class Actor;
+}
+
+class ProjectData;
+
+class CharSetGraphicsItem : public QGraphicsItem
 {
 public:
 	enum Direction {
@@ -35,9 +41,13 @@ public:
 		Frame_right = 2
 	};
 
-	explicit CharSetItem(const QPixmap pix = QPixmap(96,64));
+	explicit CharSetGraphicsItem(ProjectData& project, const QPixmap pix = QPixmap(24, 32));
 
-	void setBasePix(const QString &n_pixName);
+	QRectF boundingRect() const override;
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
+
+	void refresh(const lcf::rpg::Actor& actor);
+	void refresh(QString filename, int index);
 
 	int index() const;
 	void setIndex(int index);
@@ -56,20 +66,18 @@ public:
 	bool walk() const;
 	void setWalk(bool walk);
 
-signals:
-
-public slots:
-
 protected:
-	void advance(int phase);
+	void advance(int phase) override;
 
 private:
-	QPixmap m_pix;
-	int frame_count;
-	int m_index;
-	int m_facing;
-	int m_frame;
-	bool m_spin;
-	bool m_walk;
+	ProjectData& m_project;
+	int frame_count = 0;
+	int m_index = 0;
+	int m_facing = Direction_down;
+	int m_frame = Frame_middle;
+	bool m_spin = false;
+	bool m_walk = false;
+	int m_pattern = 0;
+	QString m_filename;
+	QPixmap m_image;
 };
-

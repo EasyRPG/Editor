@@ -294,10 +294,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/viewer/battle_animation_graphics_item.h
 	src/ui/viewer/charset_graphics_item.cpp
 	src/ui/viewer/charset_graphics_item.h
-	src/ui/viewer/charset_graphics_view.h
 	src/ui/viewer/faceset_graphics_item.cpp
 	src/ui/viewer/faceset_graphics_item.h
-	src/ui/viewer/faceset_graphics_view.h
 	src/ui/viewer/rpg_graphics_view.cpp
 	src/ui/viewer/rpg_graphics_view.h
 	src/ui/viewer/stat_curve_graphics_item.cpp

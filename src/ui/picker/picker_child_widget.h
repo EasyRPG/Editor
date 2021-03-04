@@ -18,8 +18,7 @@
 #pragma once
 
 #include <QWidget>
-
-class RpgGraphicsView;
+#include "ui/viewer/rpg_graphics_view.h"
 
 class PickerChildWidget : public QWidget {
 	Q_OBJECT
@@ -30,8 +29,8 @@ public:
 	virtual void fileChanged(const QString&) {}
 	virtual void imageChanged(QPixmap) {};
 
-	void setView(RpgGraphicsView* view);
+	void setView(PixmapGraphicsView* view);
 
 protected:
-	RpgGraphicsView* m_view;
+	PixmapGraphicsView* m_view;
 };

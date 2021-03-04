@@ -18,6 +18,7 @@
 #include "picker_charset_widget.h"
 #include "ui/viewer/rpg_graphics_view.h"
 #include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 
 void PickerCharsetWidget::clicked(const QPointF& pos) {
 	int x = static_cast<int>(pos.x() / 24);
@@ -28,9 +29,8 @@ void PickerCharsetWidget::clicked(const QPointF& pos) {
 
 void PickerCharsetWidget::imageChanged(QPixmap image) {
 	if (!m_pixmap) {
+		m_view->scale(2.0, 2.0);
 		m_pixmap = new QGraphicsPixmapItem();
-		m_view->scale(2., 2.);
-		m_view->scene()->addItem(m_pixmap);
 	}
 
 	QPixmap new_image(24 * 4, 32 * 2);

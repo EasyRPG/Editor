@@ -19,32 +19,30 @@
 
 #include <QGraphicsPixmapItem>
 
-class FaceSetItem : public QGraphicsPixmapItem
-{
+namespace lcf::rpg {
+	class Actor;
+}
+
+class ProjectData;
+
+class FaceSetGraphicsItem : public QGraphicsItem {
 public:
-	  explicit FaceSetItem(const QPixmap pix = QPixmap(192,192));
+	explicit FaceSetGraphicsItem(ProjectData& m_project, const QPixmap pix = QPixmap(192,192));
 
-		void setBasePix(const QString &n_pixName);
+	QRect faceRect() const;
+	QRectF boundingRect() const override;
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
 
-		int index() const;
-		void setIndex(int index);
+	void refresh(const lcf::rpg::Actor& actor);
+	void refresh(QString filename, int index);
 
-		int facing() const;
-		void setFacing(int facing);
+	int index() const;
+	void setIndex(int index);
 
-		int frame() const;
-		void setFrame(int frame);
-
-		void updatePix();
-
-	signals:
-
-	public slots:
-
-	private:
-		QPixmap m_pix;
-		int m_index;
-		int m_facing;
-		int m_frame;
+private:
+	ProjectData& m_project;
+	int m_index = 0;
+	bool m_flip = false;
+	QString m_filename;
+	QPixmap m_image;
 };
-

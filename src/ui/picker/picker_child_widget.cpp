@@ -22,7 +22,7 @@ PickerChildWidget::PickerChildWidget(QWidget* parent) : QWidget(parent) {
 	// no-op
 }
 
-void PickerChildWidget::setView(RpgGraphicsView* view) {
+void PickerChildWidget::setView(PixmapGraphicsView* view) {
 	assert(view);
 	m_view = view;
 }

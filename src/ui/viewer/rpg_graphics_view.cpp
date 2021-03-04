@@ -18,7 +18,11 @@
 #include "rpg_graphics_view.h"
 #include <QMouseEvent>
 
-void RpgGraphicsView::mousePressEvent(QMouseEvent* event) {
+RpgGraphicsViewBase::RpgGraphicsViewBase(QWidget* parent) : QGraphicsView(parent) {
+	setScene(new QGraphicsScene(this));
+}
+
+void RpgGraphicsViewBase::mousePressEvent(QMouseEvent* event) {
 	if (event->button() == Qt::LeftButton && m_item) {
 		const auto& p = mapToScene(event->pos());
 		if (m_item->boundingRect().contains(p)) {
@@ -26,12 +30,4 @@ void RpgGraphicsView::mousePressEvent(QMouseEvent* event) {
 		}
 	}
 	QGraphicsView::mousePressEvent(event);
-}
-
-void RpgGraphicsView::setItem(QGraphicsItem* item) {
-	m_item = item;
-	if (!item) {
-		return;
-	}
-	scene()->setSceneRect(item->boundingRect());
 }

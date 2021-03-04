@@ -21,14 +21,16 @@
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QPainter>
+#include <type_traits>
 
-class RpgGraphicsView : public QGraphicsView {
+#include "charset_graphics_item.h"
+#include "faceset_graphics_item.h"
+
+class RpgGraphicsViewBase : public QGraphicsView {
 	Q_OBJECT
 
 public:
-        explicit RpgGraphicsView(QWidget* parent) : QGraphicsView(parent) {}
-
-	void setItem(QGraphicsItem* item);
+	explicit RpgGraphicsViewBase(QWidget* parent);
 
 signals:
 	void clicked(const QPointF&);
@@ -36,7 +38,40 @@ signals:
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
 
-private:
 	QGraphicsItem* m_item = nullptr;
 };
 
+template <typename ITEM>
+class RpgGraphicsView : public RpgGraphicsViewBase {
+public:
+	static_assert(
+		std::is_base_of<QGraphicsItem, ITEM>::value,
+		"ITEM must be a QGraphicsItem"
+	);
+
+	explicit RpgGraphicsView(QWidget* parent) : RpgGraphicsViewBase(parent) {}
+
+	ITEM* item() {
+		return reinterpret_cast<ITEM*>(m_item);
+	}
+
+	void setItem(ITEM* item) {
+		if (item != m_item) {
+			scene()->clear();
+			if (item) {
+				scene()->addItem(item);
+			}
+		}
+
+		m_item = item;
+		if (!item) {
+			scene()->setSceneRect(QRectF());
+			return;
+		}
+		scene()->setSceneRect(item->boundingRect());
+	}
+};
+
+using CharSetGraphicsView = RpgGraphicsView<CharSetGraphicsItem>;
+using FaceSetGraphicsView = RpgGraphicsView<FaceSetGraphicsItem>;
+using PixmapGraphicsView = RpgGraphicsView<QGraphicsPixmapItem>;

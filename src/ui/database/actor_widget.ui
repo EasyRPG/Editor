@@ -974,12 +974,12 @@
   <customwidget>
    <class>FaceSetGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>ui/viewer/faceset_graphics_view.h</header>
+   <header>ui/viewer/rpg_graphics_view.h</header>
   </customwidget>
   <customwidget>
    <class>CharSetGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>ui/viewer/charset_graphics_view.h</header>
+   <header>ui/viewer/rpg_graphics_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

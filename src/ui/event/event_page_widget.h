@@ -103,7 +103,7 @@ private:
 	ProjectData& m_project;
 	lcf::rpg::EventPage *m_eventPage = nullptr;
 	QGraphicsPixmapItem *m_tileItem = nullptr;
-	CharSetItem *m_charaItem = nullptr;
+	CharSetGraphicsItem *m_charaItem = nullptr;
 	QGraphicsScene *m_scene = nullptr;
 	QGraphicsOpacityEffect *m_effect = nullptr;
 };
