@@ -141,17 +141,9 @@ public:
 			graphic = ImageLoader::Load(m_project.findFile(CHARSET, ToQString(m_actor.character_name), FileFinder::FileType::Image));
 		}
 
-		int x = (m_index % 4) * 72 + m_frame * 24;
-		int y = (m_index / 4) * 128 + m_facing * 32;
+		int x = (m_actor.character_index % 4) * 72 + m_frame * 24;
+		int y = (m_actor.character_index / 4) * 128 + m_facing * 32;
 		painter->drawPixmap(boundingRect(), graphic, QRect(x, y, 24, 32));
-	}
-
-	int index() const {
-		return m_index;
-	}
-
-	void setIndex(int index) {
-		m_index = index;
 	}
 
 	int facing() const {
@@ -191,7 +183,7 @@ protected:
 		static int patterns[4] = {Frame_middle, Frame_right, Frame_middle,Frame_left};
 		if (!phase)	{
 			frame_count++;
-			if (frame_count == 100) {
+			if (frame_count == 90) {
 				frame_count = 0;
 				if (m_spin)	{
 					m_facing++;
@@ -200,7 +192,11 @@ protected:
 				}
 			}
 			if (m_walk) {
-				m_frame = patterns[frame_count%4];
+				m_frame = patterns[m_pattern];
+
+				if (frame_count % 6 == 0) {
+					m_pattern = (m_pattern + 1) % 4;
+				}
 			}
 		} else {
 			update();
@@ -210,11 +206,11 @@ protected:
 private:
 	QPixmap m_pix;
 	int frame_count = 0;
-	int m_index = 0;
 	int m_facing = Direction_down;
 	int m_frame = Frame_middle;
 	bool m_spin = true;
 	bool m_walk = true;
+	int m_pattern = 0;
 
 private:
 	const lcf::rpg::Actor& m_actor;

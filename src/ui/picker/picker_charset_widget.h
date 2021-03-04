@@ -15,23 +15,33 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "view_base.h"
-#include <QMouseEvent>
+#pragma once
 
-void ViewBase::mousePressEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton && m_item) {
-		const auto& p = mapToScene(event->pos());
-		if (m_item->boundingRect().contains(p)) {
-			emit clicked(p);
-		}
-	}
-	QGraphicsView::mousePressEvent(event);
-}
+#include <QWidget>
+#include <lcf/rpg/actor.h>
+#include "picker_child_widget.h"
 
-void ViewBase::setItem(QGraphicsItem* item) {
-	m_item = item;
-	if (!item) {
-		return;
+class QGraphicsScene;
+class QGraphicsRectItem;
+class QGraphicsPixmapItem;
+
+class PickerCharsetWidget : public PickerChildWidget {
+	Q_OBJECT
+public:
+	explicit PickerCharsetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
+
+	void clicked(const QPointF& pos) override;
+
+	void imageChanged(QPixmap image) override;
+
+	int index() const {
+		return m_index;
 	}
-	scene()->setSceneRect(item->boundingRect());
-}
+
+private:
+	void updateRect();
+
+	int m_index;
+	QGraphicsRectItem* m_rect = nullptr;
+	QGraphicsPixmapItem* m_pixmap = nullptr;
+};

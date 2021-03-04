@@ -25,6 +25,7 @@
 #include "common/lcf_widget_binding.h"
 #include "model/actor.h"
 #include "ui/picker/picker_dialog.h"
+#include "ui/picker/picker_charset_widget.h"
 #include "ui/picker/picker_faceset_widget.h"
 
 ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
@@ -355,12 +356,12 @@ void ActorWidget::faceSetClicked() {
 }
 
 void ActorWidget::charSetClicked() {
-	auto* widget = new PickerFacesetWidget(m_current->face_index, this);
+	auto* widget = new PickerCharsetWidget(m_current->character_index, this);
 	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
 	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
-		m_current->face_name = ToDBString(baseName);
-		m_current->face_index = widget->index();
+		m_current->character_name = ToDBString(baseName);
+		m_current->character_index = widget->index();
 	});
-	dialog.setDirectoryAndFile(FACESET, ToQString(m_current->face_name));
+	dialog.setDirectoryAndFile(CHARSET, ToQString(m_current->character_name));
 	dialog.exec();
 }

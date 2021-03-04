@@ -296,6 +296,8 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/other/volumebutton.h
 	src/ui/picker/picker_child_widget.cpp
 	src/ui/picker/picker_child_widget.h
+	src/ui/picker/picker_charset_widget.cpp
+	src/ui/picker/picker_charset_widget.h
 	src/ui/picker/picker_faceset_widget.cpp
 	src/ui/picker/picker_faceset_widget.h
 	src/ui/picker/picker_dialog.cpp
