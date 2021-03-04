@@ -15,10 +15,10 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "view_base.h"
+#include "rpg_graphics_view.h"
 #include <QMouseEvent>
 
-void ViewBase::mousePressEvent(QMouseEvent* event) {
+void RpgGraphicsView::mousePressEvent(QMouseEvent* event) {
 	if (event->button() == Qt::LeftButton && m_item) {
 		const auto& p = mapToScene(event->pos());
 		if (m_item->boundingRect().contains(p)) {
@@ -28,7 +28,7 @@ void ViewBase::mousePressEvent(QMouseEvent* event) {
 	QGraphicsView::mousePressEvent(event);
 }
 
-void ViewBase::setItem(QGraphicsItem* item) {
+void RpgGraphicsView::setItem(QGraphicsItem* item) {
 	m_item = item;
 	if (!item) {
 		return;

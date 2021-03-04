@@ -19,13 +19,13 @@
 
 #include <QGraphicsScene>
 #include "model/actor.h"
-#include "view_base.h"
+#include "rpg_graphics_view.h"
 
-class CharSetGraphicsView : public ViewBase {
+class CharSetGraphicsView : public RpgGraphicsView {
 	Q_OBJECT
 
 public:
-	explicit CharSetGraphicsView(QWidget* parent = nullptr) : ViewBase(parent) {
+	explicit CharSetGraphicsView(QWidget* parent = nullptr) : RpgGraphicsView(parent) {
 		setScene(new QGraphicsScene(this));
 		scale(2., 2.);
 	}

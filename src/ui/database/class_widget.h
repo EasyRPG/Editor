@@ -20,7 +20,7 @@
 #include <QWidget>
 #include <lcf/rpg/database.h>
 #include <lcf/rpg/class.h>
-#include "ui/common/battle_animation_item.h"
+#include "ui/viewer/battle_animation_graphics_item.h"
 
 class ProjectData;
 

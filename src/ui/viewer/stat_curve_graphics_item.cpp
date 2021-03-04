@@ -15,7 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "stat_curve_item.h"
+#include "stat_curve_graphics_item.h"
 #include "QGraphicsScene"
 
 CurveItem::CurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *parent) :

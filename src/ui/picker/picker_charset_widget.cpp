@@ -16,7 +16,7 @@
  */
 
 #include "picker_charset_widget.h"
-#include "ui/viewer/view_base.h"
+#include "ui/viewer/rpg_graphics_view.h"
 #include <QGraphicsScene>
 
 void PickerCharsetWidget::clicked(const QPointF& pos) {

@@ -16,7 +16,7 @@
  */
 
 #include "picker_faceset_widget.h"
-#include "ui/viewer/view_base.h"
+#include "ui/viewer/rpg_graphics_view.h"
 #include <QGraphicsScene>
 
 void PickerFacesetWidget::clicked(const QPointF& pos) {

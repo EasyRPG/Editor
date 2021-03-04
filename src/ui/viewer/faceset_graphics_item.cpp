@@ -15,7 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "faceset_item.h"
+#include "faceset_graphics_item.h"
 #include "core.h"
 #include "src/common/image_loader.h"
 

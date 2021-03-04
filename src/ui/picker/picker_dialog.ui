@@ -23,7 +23,7 @@
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="ViewBase" name="graphicsView">
+        <widget class="RpgGraphicsView" name="graphicsView">
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
@@ -56,9 +56,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ViewBase</class>
+   <class>RpgGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>ui/viewer/view_base.h</header>
+   <header>ui/viewer/rpg_graphics_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -19,7 +19,6 @@
 #include "ui_event_page_widget.h"
 #include <QDialogButtonBox>
 #include <QMessageBox>
-#include "ui/common/charset_picker_dialog.h"
 #include "core.h"
 #include "stringizer.h"
 #include "ui/commands/all_commands.h"
@@ -295,7 +294,7 @@ void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 
 void EventPageWidget::on_pushSetSprite_clicked()
 {
-	CharSetPickerDialog dlg(this, true);
+	/* FIXME CharSetPickerDialog dlg(this, true);
 	dlg.setName(ToQString(m_eventPage->character_name));
 	dlg.setFrame(m_eventPage->character_pattern);
 	dlg.setFacing(m_eventPage->character_direction);
@@ -308,7 +307,7 @@ void EventPageWidget::on_pushSetSprite_clicked()
 		m_eventPage->character_direction = dlg.facing();
 		m_eventPage->character_index = dlg.index();
 		updateGraphic();
-	}
+	}*/
 }
 
 void EventPageWidget::updateGraphic()

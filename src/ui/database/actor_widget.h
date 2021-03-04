@@ -20,12 +20,10 @@
 #include <QWidget>
 #include <lcf/rpg/actor.h>
 #include <QDialogButtonBox>
-#include "ui/common/charset_item.h"
-#include "ui/common/faceset_item.h"
-#include "ui/common/charset_picker_dialog.h"
-#include "ui/common/faceset_picker_dialog.h"
-#include "ui/common/battle_animation_item.h"
-#include "ui/common/stat_curve_item.h"
+#include "ui/viewer/charset_graphics_item.h"
+#include "ui/viewer/faceset_graphics_item.h"
+#include "ui/viewer/battle_animation_graphics_item.h"
+#include "ui/viewer/stat_curve_graphics_item.h"
 #include "model/actor.h"
 
 class ProjectData;

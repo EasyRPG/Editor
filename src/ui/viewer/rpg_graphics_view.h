@@ -22,11 +22,11 @@
 #include <QGraphicsView>
 #include <QPainter>
 
-class ViewBase : public QGraphicsView {
+class RpgGraphicsView : public QGraphicsView {
 	Q_OBJECT
 
 public:
-	explicit ViewBase(QWidget* parent) : QGraphicsView(parent) {}
+        explicit RpgGraphicsView(QWidget* parent) : QGraphicsView(parent) {}
 
 	void setItem(QGraphicsItem* item);
 

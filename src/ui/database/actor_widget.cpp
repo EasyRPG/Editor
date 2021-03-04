@@ -143,8 +143,8 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation);
 	ui->comboUnarmedAnimation->makeModel(project);
 
-	QObject::connect(ui->graphicsFaceset, &ViewBase::clicked, this, &ActorWidget::faceSetClicked);
-	QObject::connect(ui->graphicsCharset, &ViewBase::clicked, this, &ActorWidget::charSetClicked);
+	QObject::connect(ui->graphicsFaceset, &RpgGraphicsView::clicked, this, &ActorWidget::faceSetClicked);
+	QObject::connect(ui->graphicsCharset, &RpgGraphicsView::clicked, this, &ActorWidget::charSetClicked);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {

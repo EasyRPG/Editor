@@ -136,17 +136,11 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/weather_effects_widget.cpp
 	src/ui/commands/weather_effects_widget.h
 	src/ui/commands/weather_effects_widget.ui
-	src/ui/common/battle_animation_item.cpp
-	src/ui/common/battle_animation_item.h
-	src/ui/common/charset_item.cpp
-	src/ui/common/charset_item.h
 	src/ui/common/edit_dialog.cpp
 	src/ui/common/edit_dialog.h
 	src/ui/common/edit_dialog.ui
 	src/ui/common/encounter_delegate.cpp
 	src/ui/common/encounter_delegate.h
-	src/ui/common/faceset_item.cpp
-	src/ui/common/faceset_item.h
 	src/ui/common/import_image_dialog.cpp
 	src/ui/common/import_image_dialog.h
 	src/ui/common/import_image_dialog.ui
@@ -164,8 +158,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/rpg_slider.h
 	src/ui/common/rpg_spinbox.cpp
 	src/ui/common/rpg_spinbox.h
-	src/ui/common/stat_curve_item.cpp
-	src/ui/common/stat_curve_item.h
 	src/ui/common/widget_as_dialog_model_wrapper.h
 	src/ui/common/widget_as_dialog_wrapper.h
 	src/ui/database/actor_delegate.cpp
@@ -298,10 +290,18 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/picker/picker_dialog.cpp
 	src/ui/picker/picker_dialog.h
 	src/ui/picker/picker_dialog.ui
+	src/ui/viewer/battle_animation_graphics_item.cpp
+	src/ui/viewer/battle_animation_graphics_item.h
+	src/ui/viewer/charset_graphics_item.cpp
+	src/ui/viewer/charset_graphics_item.h
 	src/ui/viewer/charset_graphics_view.h
+	src/ui/viewer/faceset_graphics_item.cpp
+	src/ui/viewer/faceset_graphics_item.h
 	src/ui/viewer/faceset_graphics_view.h
-	src/ui/viewer/view_base.cpp
-	src/ui/viewer/view_base.h
+	src/ui/viewer/rpg_graphics_view.cpp
+	src/ui/viewer/rpg_graphics_view.h
+	src/ui/viewer/stat_curve_graphics_item.cpp
+	src/ui/viewer/stat_curve_graphics_item.h
 )
 
 # Include directories

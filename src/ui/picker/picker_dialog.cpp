@@ -41,7 +41,7 @@ PickerDialog::PickerDialog(ProjectData &project, FileFinder::FileType file_type,
 		QGraphicsScene* scene = new QGraphicsScene(ui->graphicsView);
 		ui->graphicsView->setScene(scene);
 		ui->wrappedWidget->setView(ui->graphicsView);
-		QObject::connect(ui->graphicsView, &ViewBase::clicked, this, &PickerDialog::viewClicked);
+		QObject::connect(ui->graphicsView, &RpgGraphicsView::clicked, this, &PickerDialog::viewClicked);
 	} else {
 		ui->graphicsView->setVisible(false);
 	}

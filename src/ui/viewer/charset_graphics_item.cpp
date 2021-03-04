@@ -15,7 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "charset_item.h"
+#include "charset_graphics_item.h"
 #include "core.h"
 #include "common/image_loader.h"
 

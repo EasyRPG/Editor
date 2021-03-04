@@ -19,7 +19,7 @@
 
 #include <QWidget>
 
-class ViewBase;
+class RpgGraphicsView;
 
 class PickerChildWidget : public QWidget {
 	Q_OBJECT
@@ -28,10 +28,10 @@ public:
 
 	virtual void clicked(const QPointF&) {}
 	virtual void fileChanged(const QString&) {}
-	virtual void imageChanged(QPixmap image) {};
+	virtual void imageChanged(QPixmap) {};
 
-	void setView(ViewBase* view);
+	void setView(RpgGraphicsView* view);
 
 protected:
-	ViewBase* m_view;
+	RpgGraphicsView* m_view;
 };
