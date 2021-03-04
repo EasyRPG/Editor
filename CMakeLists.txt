@@ -140,9 +140,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/battle_animation_item.h
 	src/ui/common/charset_item.cpp
 	src/ui/common/charset_item.h
-	src/ui/common/charset_picker_dialog.cpp
-	src/ui/common/charset_picker_dialog.h
-	src/ui/common/charset_picker_dialog.ui
 	src/ui/common/edit_dialog.cpp
 	src/ui/common/edit_dialog.h
 	src/ui/common/edit_dialog.ui
@@ -150,8 +147,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/encounter_delegate.h
 	src/ui/common/faceset_item.cpp
 	src/ui/common/faceset_item.h
-	src/ui/common/faceset_picker_dialog.cpp
-	src/ui/common/faceset_picker_dialog.h
 	src/ui/common/import_image_dialog.cpp
 	src/ui/common/import_image_dialog.h
 	src/ui/common/import_image_dialog.ui
