@@ -73,6 +73,12 @@ add_library(${PROJECT_NAME} STATIC
 	src/stringizer.cpp
 	src/stringizer.h
 	src/ui/commands/all_commands.h
+	src/ui/commands/change_actor_face_widget.cpp
+	src/ui/commands/change_actor_face_widget.h
+	src/ui/commands/change_actor_face_widget.ui
+	src/ui/commands/change_actor_graphic_widget.cpp
+	src/ui/commands/change_actor_graphic_widget.h
+	src/ui/commands/change_actor_graphic_widget.ui
 	src/ui/commands/change_actor_name_widget.cpp
 	src/ui/commands/change_actor_name_widget.h
 	src/ui/commands/change_actor_name_widget.ui
@@ -94,6 +100,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/change_party_widget.cpp
 	src/ui/commands/change_party_widget.h
 	src/ui/commands/change_party_widget.ui
+	src/ui/commands/change_vehicle_graphic_widget.cpp
+	src/ui/commands/change_vehicle_graphic_widget.h
+	src/ui/commands/change_vehicle_graphic_widget.ui
 	src/ui/commands/enable_disable_widget.cpp
 	src/ui/commands/enable_disable_widget.h
 	src/ui/commands/enable_disable_widget.ui
