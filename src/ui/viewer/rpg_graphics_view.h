@@ -21,6 +21,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QPainter>
+#include <QTimer>
 #include <type_traits>
 
 #include "charset_graphics_item.h"
@@ -32,6 +33,8 @@ class RpgGraphicsViewBase : public QGraphicsView {
 public:
 	explicit RpgGraphicsViewBase(QWidget* parent);
 
+	void enableTimer();
+
 signals:
 	void clicked(const QPointF&);
 
@@ -39,6 +42,7 @@ protected:
 	void mousePressEvent(QMouseEvent* event) override;
 
 	QGraphicsItem* m_item = nullptr;
+	std::unique_ptr<QTimer> m_timer;
 };
 
 template <typename ITEM>

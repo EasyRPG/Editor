@@ -64,5 +64,5 @@ signals:
 protected:
 	ProjectData& m_project;
 	EventCommandList* m_commands = nullptr;
-	lcf::rpg::EventCommand* cmd = nullptr;
+	lcf::rpg::EventCommand* m_cmd = nullptr;
 };

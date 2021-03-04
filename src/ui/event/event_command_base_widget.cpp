@@ -33,7 +33,7 @@ EventCommandBaseWidget::EventCommandBaseWidget(ProjectData& project, QWidget* pa
 }
 
 void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
-	this->cmd = cmd;
+	this->m_cmd = cmd;
 
 	for (auto& widget: findChildren<QLineEdit*>()) {
 		auto idx = widget->objectName().indexOf("_argX");
@@ -145,7 +145,7 @@ void EventCommandBaseWidget::setData(EventCommandList* commands) {
 void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int index, bool set_value) {
 	resizeCommandList(index);
 
-	auto* button = group->button(cmd->parameters[index]);
+	auto* button = group->button(m_cmd->parameters[index]);
 	// FIXME: Better fallback
 	Q_ASSERT_X(button, "connectParameterHandler", "No AbstractButton with this parameter value");
 
@@ -155,7 +155,7 @@ void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int in
 		if (checked) {
 			int id = group->checkedId();
 			Q_ASSERT(id >= 0 && "AbstractButton must have an ID that corresponds to the parameter value");
-			cmd->parameters[index] = id;
+			m_cmd->parameters[index] = id;
 			emit parameterChanged(index, id);
 		}
 	});
@@ -170,12 +170,12 @@ void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int
 
 	connect(combo->comboBox(), QOverload<int>::of(&QComboBox::currentIndexChanged), this,
 		[=](int selected_index){
-		cmd->parameters[index] = selected_index + 1;
+		m_cmd->parameters[index] = selected_index + 1;
 		emit parameterChanged(index, selected_index + 1);
 	});
 
 	if (set_value) {
-		combo->comboBox()->setCurrentIndex(cmd->parameters[index] - 1);
+		combo->comboBox()->setCurrentIndex(m_cmd->parameters[index] - 1);
 	}
 }
 
@@ -184,12 +184,12 @@ void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index, 
 
 	connect(spin, qOverload<int>(&QSpinBox::valueChanged), this,
 			[=] (int new_value) {
-		cmd->parameters[index] = new_value;
+		m_cmd->parameters[index] = new_value;
 		emit parameterChanged(index, new_value);
 	});
 
 	if (set_value) {
-		spin->setValue(cmd->parameters[index]);
+		spin->setValue(m_cmd->parameters[index]);
 	}
 }
 
@@ -198,12 +198,12 @@ void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index
 
 	connect(check, qOverload<int>(&QCheckBox::stateChanged), this,
 			[=] (int new_value) {
-		cmd->parameters[index] = new_value;
+		m_cmd->parameters[index] = new_value;
 		emit parameterChanged(index, new_value);
 	});
 
 	if (set_value) {
-		check->setChecked(cmd->parameters[index] != 0);
+		check->setChecked(m_cmd->parameters[index] != 0);
 	}
 }
 
@@ -212,23 +212,23 @@ void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index,
 
 	connect(slider, qOverload<int>(&QSlider::valueChanged), this,
 			[=] (int new_value) {
-		cmd->parameters[index] = new_value;
+		m_cmd->parameters[index] = new_value;
 		emit parameterChanged(index, new_value);
 	});
 
 	if (set_value) {
-		slider->setValue(cmd->parameters[index]);
+		slider->setValue(m_cmd->parameters[index]);
 	}
 }
 
 void EventCommandBaseWidget::resizeCommandList(int index) {
 	int size = index + 1;
 
-	if (static_cast<int>(cmd->parameters.size()) < size) {
+	if (static_cast<int>(m_cmd->parameters.size()) < size) {
 		qDebug() << QString("Resize parameter list from %1 to %2")
-					.number(cmd->parameters.size()).number(index);
+					.number(m_cmd->parameters.size()).number(index);
 		auto new_arr = lcf::DBArray<int32_t>(size);
-		std::copy(cmd->parameters.begin(), cmd->parameters.end(), new_arr.begin());
-		cmd->parameters = new_arr;
+		std::copy(m_cmd->parameters.begin(), m_cmd->parameters.end(), new_arr.begin());
+		m_cmd->parameters = new_arr;
 	}
 }

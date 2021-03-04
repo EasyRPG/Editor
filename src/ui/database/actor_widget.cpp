@@ -17,7 +17,6 @@
 
 #include "actor_widget.h"
 #include "ui_actor_widget.h"
-#include <QTimer>
 #include <QGraphicsOpacityEffect>
 #include <QSortFilterProxyModel>
 
@@ -136,16 +135,13 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	m_charsetItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
 	ui->graphicsCharset->scale(2.0, 2.0);
 	ui->graphicsCharset->setItem(m_charsetItem);
+	ui->graphicsCharset->enableTimer();
 	QObject::connect(ui->graphicsCharset, &RpgGraphicsViewBase::clicked, this, &ActorWidget::charSetClicked);
 
 	m_faceItem = new FaceSetGraphicsItem(project);
 	ui->graphicsFaceset->scale(2.0, 2.0);
 	ui->graphicsFaceset->setItem(m_faceItem);
 	QObject::connect(ui->graphicsFaceset, &RpgGraphicsViewBase::clicked, this, &ActorWidget::faceSetClicked);
-
-	QTimer *timer = new QTimer(this);
-	QObject::connect(timer, &QTimer::timeout, ui->graphicsCharset->scene(), &QGraphicsScene::advance);
-	timer->start(1000 / 33);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {
