@@ -30,8 +30,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/core.cpp
 	src/core.h
 	src/defines.h
-	src/gamecharacter.cpp
-	src/gamecharacter.h
 	src/main.cpp
 	src/model/actor.cpp
 	src/model/actor.h
@@ -75,6 +73,12 @@ add_library(${PROJECT_NAME} STATIC
 	src/stringizer.cpp
 	src/stringizer.h
 	src/ui/commands/all_commands.h
+	src/ui/commands/change_actor_face_widget.cpp
+	src/ui/commands/change_actor_face_widget.h
+	src/ui/commands/change_actor_face_widget.ui
+	src/ui/commands/change_actor_graphic_widget.cpp
+	src/ui/commands/change_actor_graphic_widget.h
+	src/ui/commands/change_actor_graphic_widget.ui
 	src/ui/commands/change_actor_name_widget.cpp
 	src/ui/commands/change_actor_name_widget.h
 	src/ui/commands/change_actor_name_widget.ui
@@ -96,6 +100,9 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/change_party_widget.cpp
 	src/ui/commands/change_party_widget.h
 	src/ui/commands/change_party_widget.ui
+	src/ui/commands/change_vehicle_graphic_widget.cpp
+	src/ui/commands/change_vehicle_graphic_widget.h
+	src/ui/commands/change_vehicle_graphic_widget.ui
 	src/ui/commands/enable_disable_widget.cpp
 	src/ui/commands/enable_disable_widget.h
 	src/ui/commands/enable_disable_widget.ui
@@ -138,22 +145,11 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/commands/weather_effects_widget.cpp
 	src/ui/commands/weather_effects_widget.h
 	src/ui/commands/weather_effects_widget.ui
-	src/ui/common/battle_animation_item.cpp
-	src/ui/common/battle_animation_item.h
-	src/ui/common/charset_item.cpp
-	src/ui/common/charset_item.h
-	src/ui/common/charset_picker_dialog.cpp
-	src/ui/common/charset_picker_dialog.h
-	src/ui/common/charset_picker_dialog.ui
 	src/ui/common/edit_dialog.cpp
 	src/ui/common/edit_dialog.h
 	src/ui/common/edit_dialog.ui
 	src/ui/common/encounter_delegate.cpp
 	src/ui/common/encounter_delegate.h
-	src/ui/common/faceset_item.cpp
-	src/ui/common/faceset_item.h
-	src/ui/common/faceset_picker_dialog.cpp
-	src/ui/common/faceset_picker_dialog.h
 	src/ui/common/import_image_dialog.cpp
 	src/ui/common/import_image_dialog.h
 	src/ui/common/import_image_dialog.ui
@@ -171,8 +167,6 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/common/rpg_slider.h
 	src/ui/common/rpg_spinbox.cpp
 	src/ui/common/rpg_spinbox.h
-	src/ui/common/stat_curve_item.cpp
-	src/ui/common/stat_curve_item.h
 	src/ui/common/widget_as_dialog_model_wrapper.h
 	src/ui/common/widget_as_dialog_wrapper.h
 	src/ui/database/actor_delegate.cpp
@@ -296,6 +290,25 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/other/splash_dialog.ui
 	src/ui/other/volumebutton.cpp
 	src/ui/other/volumebutton.h
+	src/ui/picker/picker_child_widget.cpp
+	src/ui/picker/picker_child_widget.h
+	src/ui/picker/picker_charset_widget.cpp
+	src/ui/picker/picker_charset_widget.h
+	src/ui/picker/picker_faceset_widget.cpp
+	src/ui/picker/picker_faceset_widget.h
+	src/ui/picker/picker_dialog.cpp
+	src/ui/picker/picker_dialog.h
+	src/ui/picker/picker_dialog.ui
+	src/ui/viewer/battle_animation_graphics_item.cpp
+	src/ui/viewer/battle_animation_graphics_item.h
+	src/ui/viewer/charset_graphics_item.cpp
+	src/ui/viewer/charset_graphics_item.h
+	src/ui/viewer/faceset_graphics_item.cpp
+	src/ui/viewer/faceset_graphics_item.h
+	src/ui/viewer/rpg_graphics_view.cpp
+	src/ui/viewer/rpg_graphics_view.h
+	src/ui/viewer/stat_curve_graphics_item.cpp
+	src/ui/viewer/stat_curve_graphics_item.h
 )
 
 # Include directories

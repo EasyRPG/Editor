@@ -24,7 +24,7 @@
 #include <QGraphicsScene>
 #include <lcf/rpg/eventcommand.h>
 #include <lcf/rpg/database.h>
-#include "ui/common/charset_item.h"
+#include "ui/viewer/charset_graphics_item.h"
 #include "ui/other/splash_dialog.h"
 #include <QProgressBar>
 #include <QLabel>
@@ -103,7 +103,7 @@ private:
 	ProjectData& m_project;
 	lcf::rpg::EventPage *m_eventPage = nullptr;
 	QGraphicsPixmapItem *m_tileItem = nullptr;
-	CharSetItem *m_charaItem = nullptr;
+	CharSetGraphicsItem *m_charaItem = nullptr;
 	QGraphicsScene *m_scene = nullptr;
 	QGraphicsOpacityEffect *m_effect = nullptr;
 };

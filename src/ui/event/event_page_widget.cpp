@@ -19,7 +19,6 @@
 #include "ui_event_page_widget.h"
 #include <QDialogButtonBox>
 #include <QMessageBox>
-#include "ui/common/charset_picker_dialog.h"
 #include "core.h"
 #include "stringizer.h"
 #include "ui/commands/all_commands.h"
@@ -33,7 +32,7 @@ EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	m_charaItem = new CharSetItem();
+	m_charaItem = new CharSetGraphicsItem(project);
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
 	m_effect = new QGraphicsOpacityEffect(this);
@@ -295,7 +294,7 @@ void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 
 void EventPageWidget::on_pushSetSprite_clicked()
 {
-	CharSetPickerDialog dlg(this, true);
+	/* FIXME CharSetPickerDialog dlg(this, true);
 	dlg.setName(ToQString(m_eventPage->character_name));
 	dlg.setFrame(m_eventPage->character_pattern);
 	dlg.setFacing(m_eventPage->character_direction);
@@ -308,7 +307,7 @@ void EventPageWidget::on_pushSetSprite_clicked()
 		m_eventPage->character_direction = dlg.facing();
 		m_eventPage->character_index = dlg.index();
 		updateGraphic();
-	}
+	}*/
 }
 
 void EventPageWidget::updateGraphic()
@@ -327,7 +326,7 @@ void EventPageWidget::updateGraphic()
 	}
 	else
 	{
-		m_charaItem->setBasePix(ToQString(m_eventPage->character_name));
+		// FIXME m_charaItem->setBasePix(ToQString(m_eventPage->character_name));
 		m_charaItem->setIndex(m_eventPage->character_index);
 		m_charaItem->setFrame(m_eventPage->character_pattern);
 		m_charaItem->setFacing(m_eventPage->character_direction);

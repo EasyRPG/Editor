@@ -15,26 +15,14 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "picker_child_widget.h"
+#include <QGraphicsPixmapItem>
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+PickerChildWidget::PickerChildWidget(QWidget* parent) : QWidget(parent) {
+	// no-op
+}
 
-class RpgBase {
-public:
-	explicit RpgBase(ProjectData& project);
-
-	virtual QPixmap preview() {
-		return QPixmap();
-	}
-
-	ProjectData& project() const {
-		return m_project;
-	}
-
-protected:
-	ProjectData& m_project;
-};
+void PickerChildWidget::setView(PixmapGraphicsView* view) {
+	assert(view);
+	m_view = view;
+}

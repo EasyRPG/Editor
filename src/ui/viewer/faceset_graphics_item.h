@@ -17,53 +17,32 @@
 
 #pragma once
 
-#include <QDialog>
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QTimer>
-#include "faceset_item.h"
-#include "picker_scene.h"
+#include <QGraphicsPixmapItem>
 
-namespace Ui {
-class CharSetPickerDialog;
+namespace lcf::rpg {
+	class Actor;
 }
 
-class faceset_picker_dialog: public QDialog
-{
-	Q_OBJECT
+class ProjectData;
 
+class FaceSetGraphicsItem : public QGraphicsItem {
 public:
-	explicit faceset_picker_dialog(QWidget *parent, bool tile_pick);
-	~faceset_picker_dialog();
+	explicit FaceSetGraphicsItem(ProjectData& m_project, const QPixmap pix = QPixmap(192,192));
 
-	int frame();
-	void setFrame(int frame);
+	QRect faceRect() const;
+	QRectF boundingRect() const override;
+	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
 
-	int facing();
-	void setFacing(int facing);
-
-	QString name();
-	void setName(QString name);
-
-	void setAnimated(bool animated);
+	void refresh(const lcf::rpg::Actor& actor);
+	void refresh(QString filename, int index);
 
 	int index() const;
 	void setIndex(int index);
 
-private slots:
-
-	void on_listRes_currentRowChanged(int currentRow);
-
-	void ok();
-
 private:
-
-	Ui::CharSetPickerDialog *ui;
-	PickerScene *m_charaScene;
-	PickerScene *m_tileScene;
-	FaceSetItem *m_chara;
-	QTimer *m_timer;
-	int m_tileIndex;
-	int m_charaIndex;
+	ProjectData& m_project;
+	int m_index = 0;
+	bool m_flip = false;
+	QString m_filename;
+	QPixmap m_image;
 };
-

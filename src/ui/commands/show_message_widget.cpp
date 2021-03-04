@@ -37,7 +37,7 @@ void ShowMessageWidget::setData(EventCommandList* commands) {
 
 	using Cmd = lcf::rpg::EventCommand::Code;
 
-	ui->message->append(ToQString(cmd->string));
+	ui->message->append(ToQString(m_cmd->string));
 
 	for (size_t i = commands->index() + 1; i < commands->size(); ++i) {
 		auto& cur_cmd = commands->commands()[i];

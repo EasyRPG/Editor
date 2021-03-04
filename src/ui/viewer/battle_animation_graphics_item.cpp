@@ -15,7 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "battle_animation_item.h"
+#include "battle_animation_graphics_item.h"
 #include "common/dbstring.h"
 
 BattleAnimationItem::BattleAnimationItem(const QPixmap pix) :

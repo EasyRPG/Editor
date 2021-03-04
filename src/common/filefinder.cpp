@@ -19,11 +19,11 @@
 #include "defines.h"
 #include "filefinder.h"
 
-QString FileFinder::Find(const QDir& dir, const QString& filename, FileType type) {
+QString FileFinder::Find(const QDir& dir, const QString& filename, FileType type, QDir::Filter filter) {
 	auto fn = [&](std::initializer_list<std::string> exts) -> QString {
 		for (const std::string& ext: exts) {
 			QString file_to_find = filename + ToQString(ext);
-			const auto& list = dir.entryList(QDir::Files);
+			const auto& list = dir.entryList(filter);
 			for (const QString& item: list) {
 				if (item.compare(file_to_find, Qt::CaseInsensitive) == 0) {
 					return CombinePath(dir.absolutePath(), item);
@@ -52,9 +52,9 @@ QString FileFinder::Find(const QDir& dir, const QString& filename, FileType type
 	return nullptr;
 }
 
-QString FileFinder::Find(const QDir& baseDir, const QString& subDir, const QString& filename, FileType type) {
+QString FileFinder::Find(const QDir& baseDir, const QString& subDir, const QString& filename, FileType type, QDir::Filter filter) {
 	QString dir = CombinePath(baseDir.absolutePath(), subDir);
-	return Find(dir, filename, type);
+	return Find(dir, filename, type, filter);
 }
 
 FileFinder::ProjectType FileFinder::GetProjectType(const QDir& directory) {

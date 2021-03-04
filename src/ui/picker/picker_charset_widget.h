@@ -17,24 +17,31 @@
 
 #pragma once
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+#include <QWidget>
+#include <lcf/rpg/actor.h>
+#include "picker_child_widget.h"
 
-class RpgBase {
+class QGraphicsScene;
+class QGraphicsRectItem;
+class QGraphicsPixmapItem;
+
+class PickerCharsetWidget : public PickerChildWidget {
+	Q_OBJECT
 public:
-	explicit RpgBase(ProjectData& project);
+	PickerCharsetWidget(int index, QWidget* parent = nullptr) : PickerChildWidget(parent), m_index(index) {}
 
-	virtual QPixmap preview() {
-		return QPixmap();
+	void clicked(const QPointF& pos) override;
+
+	void imageChanged(QPixmap image) override;
+
+	int index() const {
+		return m_index;
 	}
 
-	ProjectData& project() const {
-		return m_project;
-	}
+private:
+	void updateRect();
 
-protected:
-	ProjectData& m_project;
+	int m_index;
+	QGraphicsRectItem* m_rect = nullptr;
+	QGraphicsPixmapItem* m_pixmap = nullptr;
 };

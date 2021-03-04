@@ -17,34 +17,20 @@
 
 #pragma once
 
-#include <QGraphicsPixmapItem>
+#include <QWidget>
+#include "ui/viewer/rpg_graphics_view.h"
 
-class FaceSetItem : public QGraphicsPixmapItem
-{
+class PickerChildWidget : public QWidget {
+	Q_OBJECT
 public:
-	  explicit FaceSetItem(const QPixmap pix = QPixmap(192,192));
+	explicit PickerChildWidget(QWidget* parent);
 
-		void setBasePix(const QString &n_pixName);
+	virtual void clicked(const QPointF&) {}
+	virtual void fileChanged(const QString&) {}
+	virtual void imageChanged(QPixmap) {};
 
-		int index() const;
-		void setIndex(int index);
+	void setView(PixmapGraphicsView* view);
 
-		int facing() const;
-		void setFacing(int facing);
-
-		int frame() const;
-		void setFrame(int frame);
-
-		void updatePix();
-
-	signals:
-
-	public slots:
-
-	private:
-		QPixmap m_pix;
-		int m_index;
-		int m_facing;
-		int m_frame;
+protected:
+	PixmapGraphicsView* m_view;
 };
-

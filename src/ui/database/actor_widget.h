@@ -20,12 +20,11 @@
 #include <QWidget>
 #include <lcf/rpg/actor.h>
 #include <QDialogButtonBox>
-#include "ui/common/charset_item.h"
-#include "ui/common/faceset_item.h"
-#include "ui/common/charset_picker_dialog.h"
-#include "ui/common/faceset_picker_dialog.h"
-#include "ui/common/battle_animation_item.h"
-#include "ui/common/stat_curve_item.h"
+#include "ui/viewer/charset_graphics_item.h"
+#include "ui/viewer/faceset_graphics_item.h"
+#include "ui/viewer/battle_animation_graphics_item.h"
+#include "ui/viewer/stat_curve_graphics_item.h"
+#include "model/actor.h"
 
 class ProjectData;
 
@@ -48,10 +47,11 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
-	void on_pushSetCharset_clicked();
-	void on_pushSetFace_clicked();
 	void on_comboBattleset_currentIndexChanged(int index);
 	void on_pushApplyProfession_clicked();
+
+	void faceSetClicked();
+	void charSetClicked();
 
 signals:
 	void currentActorChanged(lcf::rpg::Actor *actor);
@@ -65,19 +65,20 @@ private:
 	void UpdateModels();
 	void ResetExpText(lcf::rpg::Actor* actor);
 
-	CharSetItem *m_charaItem;
-	FaceSetItem *m_faceItem;
-	BattleAnimationItem *m_battlerItem;
-	CurveItem *m_hpItem;
-	CurveItem *m_mpItem;
-	CurveItem *m_attItem;
-	CurveItem *m_defItem;
-	CurveItem *m_intItem;
-	CurveItem *m_agyItem;
+	CharSetGraphicsItem *m_charsetItem = nullptr;
+	FaceSetGraphicsItem *m_faceItem = nullptr;
+
+	BattleAnimationItem *m_battlerItem = nullptr;
+	CurveItem *m_hpItem = nullptr;
+	CurveItem *m_mpItem = nullptr;
+	CurveItem *m_attItem = nullptr;
+	CurveItem *m_defItem = nullptr;
+	CurveItem *m_intItem = nullptr;
+	CurveItem *m_agyItem = nullptr;
 	std::vector<short> m_dummyCurve;
 
 	lcf::rpg::Actor dummy;
-	lcf::rpg::Actor *m_current;
+	lcf::rpg::Actor *m_current = nullptr;
 	ProjectData& m_project;
 };
 

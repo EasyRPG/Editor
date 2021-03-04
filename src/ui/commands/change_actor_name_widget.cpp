@@ -45,6 +45,6 @@ void ChangeActorNameWidget::onParameterChanged(int index, int new_value) {
 		const auto& actor = lcf::ReaderUtil::GetElement(m_project.database().actors, new_value);
 
 		ui->lineName_argX->setText(ToQString(actor->name));
-		cmd->string = actor->title;
+		m_cmd->string = actor->title;
 	}
 }

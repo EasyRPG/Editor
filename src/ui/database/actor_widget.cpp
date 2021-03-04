@@ -17,13 +17,15 @@
 
 #include "actor_widget.h"
 #include "ui_actor_widget.h"
-#include <QTimer>
 #include <QGraphicsOpacityEffect>
 #include <QSortFilterProxyModel>
 
 #include "common/dbstring.h"
 #include "common/lcf_widget_binding.h"
 #include "model/actor.h"
+#include "ui/picker/picker_dialog.h"
+#include "ui/picker/picker_charset_widget.h"
+#include "ui/picker/picker_faceset_widget.h"
 
 ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
@@ -41,14 +43,6 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	ui->spinMaxLv->setMaximum(kMaxLevel);
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
-	m_charaItem = new CharSetItem();
-	m_charaItem->setSpin(true);
-	m_charaItem->setWalk(true);
-	m_charaItem->setScale(2.0);
-	m_charaItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
-
-	m_faceItem = new FaceSetItem();
-	m_faceItem->setScale(2.0);
 
 	m_battlerItem = new BattleAnimationItem();
 
@@ -61,14 +55,6 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	m_defItem = new CurveItem(Qt::green, m_dummyCurve);
 	m_intItem = new CurveItem(Qt::darkBlue, m_dummyCurve);
 	m_agyItem = new CurveItem(Qt::blue, m_dummyCurve);
-
-	ui->graphicsCharset->setScene(new QGraphicsScene(this));
-	ui->graphicsCharset->scene()->addItem(m_charaItem);
-	ui->graphicsCharset->scene()->setSceneRect(0,0,48,64);
-
-	ui->graphicsFaceset->setScene(new QGraphicsScene(this));
-	ui->graphicsFaceset->scene()->addItem(m_faceItem);
-	ui->graphicsFaceset->scene()->setSceneRect(0,0,96,96);
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
 	ui->graphicsBattleset->scene()->addItem(m_battlerItem);
@@ -98,18 +84,14 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 	ui->graphicsAgy->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAgy->size()));
 	ui->graphicsAgy->scene()->addItem(m_agyItem);
 
-	QTimer *timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), ui->graphicsCharset->scene(), SLOT(advance()));
-	connect(timer, SIGNAL(timeout()), ui->graphicsBattleset->scene(), SLOT(advance()));
-	timer->start(200);
 	UpdateModels();
 
-	if (database.system.ldb_id != 2003) {
+	/*FIXME if (database.system.ldb_id != 2003) {
 		for (int i = 0; i < ui->gridBattleSet->count(); ++i) {
 			ui->gridBattleSet->itemAt(i)->widget()->hide();
 		}
 		ui->groupBoxClass->hide();
-	}
+	}*/
 
 	for (auto& uis : { ui->lineName, ui->lineTitle }) {
 		LcfWidgetBinding::connect(this, uis);
@@ -145,6 +127,21 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboUnarmedAnimation);
 	ui->comboUnarmedAnimation->makeModel(project);
+
+	// GraphicViews
+	m_charsetItem = new CharSetGraphicsItem(project);
+	m_charsetItem->setSpin(true);
+	m_charsetItem->setWalk(true);
+	m_charsetItem->setGraphicsEffect(new QGraphicsOpacityEffect(this));
+	ui->graphicsCharset->scale(2.0, 2.0);
+	ui->graphicsCharset->setItem(m_charsetItem);
+	ui->graphicsCharset->enableTimer();
+	QObject::connect(ui->graphicsCharset, &RpgGraphicsViewBase::clicked, this, &ActorWidget::charSetClicked);
+
+	m_faceItem = new FaceSetGraphicsItem(project);
+	ui->graphicsFaceset->scale(2.0, 2.0);
+	ui->graphicsFaceset->setItem(m_faceItem);
+	QObject::connect(ui->graphicsFaceset, &RpgGraphicsViewBase::clicked, this, &ActorWidget::faceSetClicked);
 }
 
 void ActorWidget::setData(lcf::rpg::Actor* actor) {
@@ -175,8 +172,6 @@ void ActorWidget::UpdateModels()
 		ui->listAttributeRanks->addItem(database.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < database.states.size(); i++)
 		ui->listStatusRanks->addItem(database.states[i].name.c_str());
-
-	on_currentActorChanged(m_current);
 }
 
 void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
@@ -192,43 +187,6 @@ void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
 		m_battlerItem->setBasePix(BattleAnimationItem::Battler,"");
 	else
 		m_battlerItem->setDemoAnimation(database.battleranimations[static_cast<size_t>(index) - 1]);
-}
-
-void ActorWidget::on_pushSetCharset_clicked()
-{
-	if (!m_current)
-		return;
-
-	CharSetPickerDialog dlg(this, false);
-	dlg.setName(ToQString(m_current->character_name));
-	dlg.setIndex(m_current->character_index);
-	dlg.exec();
-	if (dlg.result() == QDialogButtonBox::Ok)
-	{
-		m_current->character_name = ToDBString(dlg.name());
-		m_current->character_index = dlg.index();
-
-		m_charaItem->setVisible(true);
-		m_charaItem->setBasePix(ToQString(m_current->character_name));
-		m_charaItem->setIndex(m_current->character_index);
-	}
-}
-
-void ActorWidget::on_pushSetFace_clicked()
-{
-	faceset_picker_dialog dlg(this, true);
-	dlg.setName(ToQString(m_current->face_name));
-	dlg.exec();
-	if (dlg.result() == QDialogButtonBox::Ok)
-	{
-		m_current->face_name = ToDBString(dlg.name());
-		m_current->face_index = dlg.index();
-
-		m_faceItem->setVisible(true);
-		m_faceItem->setBasePix(ToQString(m_current->face_name));
-		m_faceItem->setIndex(m_current->face_index);
-
-	}
 }
 
 void ActorWidget::ResetExpText(lcf::rpg::Actor* actor) {
@@ -318,14 +276,6 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 		else
 			ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg(static_cast<int>(actor->state_ranks[static_cast<size_t>(i)]))));
 	}
-	m_charaItem->setVisible(true);
-	m_charaItem->setBasePix(actor->character_name.c_str());
-	m_charaItem->setIndex(actor->character_index);
-	m_charaItem->graphicsEffect()->setEnabled(actor->transparent);
-
-	m_faceItem->setVisible(true);
-	m_faceItem->setBasePix(actor->face_name.c_str());
-	m_faceItem->setIndex(actor->face_index);
 
 	if (actor->battler_animation <= 0 ||
 			actor->battler_animation >= static_cast<int>(database.battleranimations.size()))
@@ -339,6 +289,11 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	m_defItem->setData(actor->parameters.defense);
 	m_intItem->setData(actor->parameters.spirit);
 	m_agyItem->setData(actor->parameters.agility);
+
+	// GraphicViews
+	m_faceItem->refresh(*actor);
+	m_charsetItem->refresh(*actor);
+	m_charsetItem->graphicsEffect()->setEnabled(actor->transparent);
 
 	this->setEnabled(actor != &dummy);
 }
@@ -382,4 +337,28 @@ void ActorWidget::resizeEvent(QResizeEvent *event)
 	ui->graphicsDef->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsDef->size()));
 	ui->graphicsInt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsInt->size()));
 	ui->graphicsAgy->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAgy->size()));
+}
+
+void ActorWidget::faceSetClicked() {
+	auto* widget = new PickerFacesetWidget(m_current->face_index, this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		m_current->face_name = ToDBString(baseName);
+		m_current->face_index = widget->index();
+		m_faceItem->refresh(*m_current);
+	});
+	dialog.setDirectoryAndFile(FACESET, ToQString(m_current->face_name));
+	dialog.exec();
+}
+
+void ActorWidget::charSetClicked() {
+	auto* widget = new PickerCharsetWidget(m_current->character_index, this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		m_current->character_name = ToDBString(baseName);
+		m_current->character_index = widget->index();
+		m_charsetItem->refresh(*m_current);
+	});
+	dialog.setDirectoryAndFile(CHARSET, ToQString(m_current->character_name));
+	dialog.exec();
 }

@@ -37,8 +37,8 @@ namespace FileFinder {
 		Legacy
 	};
 
-	QString Find(const QDir& directory, const QString& filename, FileType type = FileType::Default);
-	QString Find(const QDir& baseDir, const QString& subDir, const QString& filename, FileType type = FileType::Default);
+	QString Find(const QDir& directory, const QString& filename, FileType type = FileType::Default, QDir::Filter filter = QDir::Files);
+	QString Find(const QDir& baseDir, const QString& subDir, const QString& filename, FileType type = FileType::Default, QDir::Filter filter = QDir::Files);
 
 	ProjectType GetProjectType(const QDir& directory);
 

@@ -17,24 +17,31 @@
 
 #pragma once
 
-#include <QPixmap>
-#include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+#include "ui/event/event_command_base_widget.h"
 
-class RpgBase {
+class FaceSetGraphicsItem;
+
+namespace Ui {
+class ChangeActorFaceWidget;
+}
+
+class ChangeActorFaceWidget : public EventCommandBaseWidget
+{
+	Q_OBJECT
+
 public:
-	explicit RpgBase(ProjectData& project);
+	explicit ChangeActorFaceWidget(ProjectData& project, QWidget *parent);
+	~ChangeActorFaceWidget();
 
-	virtual QPixmap preview() {
-		return QPixmap();
-	}
+	void setData(lcf::rpg::EventCommand* cmd) override;
 
-	ProjectData& project() const {
-		return m_project;
-	}
+	void onParameterChanged(int index, int new_value) override;
 
-protected:
-	ProjectData& m_project;
+private:
+	void faceSetClicked();
+
+	Ui::ChangeActorFaceWidget *ui;
+
+	FaceSetGraphicsItem* m_faceItem = nullptr;
+	bool m_first = true;
 };
