@@ -15,26 +15,45 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "system_widget.h"
-#include "ui_system_widget.h"
+#pragma once
 
-#include "src/common/lcf_widget_binding.h"
+#include <QWidget>
 
-SystemWidget::SystemWidget(ProjectData& project, QWidget *parent) :
-	QWidget(parent),
-	ui(new Ui::SystemWidget),
-	m_project(project) {
-	ui->setupUi(this);
+#include "picker_child_widget.h"
 
-	ui->lineTitleBgm->makeModel(project);
-	ui->lineCursorSound->makeModel(project);
-
-	auto& sys = project.database().system;
-
-	ui->lineTitleBgm->bindMusic(sys.title_music);
-	ui->lineCursorSound->bindSound(sys.cursor_se);
+namespace Ui {
+class PickerAudioWidget;
 }
 
-SystemWidget::~SystemWidget() {
-	delete ui;
+namespace lcf::rpg {
+	class Music;
+	class Sound;
 }
+
+class PickerAudioWidget : public PickerChildWidget {
+	Q_OBJECT
+
+public:
+	enum class Type {
+		Music,
+		Sound
+	};
+
+	explicit PickerAudioWidget(const lcf::rpg::Music& music, QWidget *parent = nullptr);
+	explicit PickerAudioWidget(const lcf::rpg::Sound& sound, QWidget *parent = nullptr);
+	~PickerAudioWidget();
+
+	void fileChanged(const QString&) override;
+
+	int fadeInTime() const;
+	int volume() const;
+	int tempo() const;
+	int balance() const;
+
+private:
+	Ui::PickerAudioWidget *ui;
+
+	Type m_type;
+	QString m_filename;
+};
+

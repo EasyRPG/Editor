@@ -31,9 +31,21 @@ PickerDialog::PickerDialog(ProjectData &project, FileFinder::FileType file_type,
 		m_project(project),
 		m_file_type(file_type) {
 	ui->setupUi(this);
+	wrappedWidget->setParent(this);
 	ui->wrappedWidget = wrappedWidget;
+	ui->sidebar->insertWidget(1, wrappedWidget);
+
+	ui->filesystemView->setRootIsDecorated(false);
+	ui->filesystemView->setHeaderHidden(true);
+
 	m_model = new QFileSystemModel(this);
 	m_model->setReadOnly(true);
+	ui->filesystemView->setModel(m_model);
+
+	// Hide columns except name
+	for (int i = 1; i <= 3; ++i) {
+		ui->filesystemView->setColumnHidden(i, true);
+	}
 
 	QObject::connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &PickerDialog::buttonClicked);
 
@@ -75,9 +87,10 @@ void PickerDialog::setDirectoryAndFile(const QString &dir, const QString& initia
 	QString path = m_project.project().findDirectory(dir);
 	QString file = m_project.project().findFile(dir, initialFile, m_file_type);
 	m_model->setRootPath(path);
-	ui->filesystemView->setModel(m_model);
 	ui->filesystemView->setRootIndex(m_model->index(path));
-	ui->filesystemView->setCurrentIndex(m_model->index(file));
+
+	QModelIndex index = m_model->index(file);
+	ui->filesystemView->setCurrentIndex(index);
 
 	m_currentFile = file;
 

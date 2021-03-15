@@ -6,37 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>717</width>
+    <width>720</width>
     <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
-    <widget class="QSplitter" name="splitter">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <widget class="QTreeView" name="filesystemView"/>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="PixmapGraphicsView" name="graphicsView">
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="PickerChildWidget" name="wrappedWidget" native="true"/>
-       </item>
-      </layout>
-     </widget>
-    </widget>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,0" columnminimumwidth="0,300">
+   <item row="0" column="0">
+    <widget class="QTreeView" name="filesystemView"/>
    </item>
-   <item>
+   <item row="0" column="1">
+    <layout class="QVBoxLayout" name="sidebar">
+     <item>
+      <widget class="PixmapGraphicsView" name="graphicsView">
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="PickerChildWidget" name="wrappedWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
