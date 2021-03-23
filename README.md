@@ -24,7 +24,7 @@ Documentation is available at the documentation wiki: https://wiki.easyrpg.org
 Up to date binaries for assorted platforms are available at our continous
 integration service:
 
-https://ci.easyrpg.org/view/Editor-Qt/
+https://ci.easyrpg.org/view/Editor/
 
 
 ## Source code
@@ -32,7 +32,7 @@ https://ci.easyrpg.org/view/Editor-Qt/
 EasyRPG Editor development is hosted by GitHub, project files are available
 in this git repository:
 
-https://github.com/EasyRPG/Editor-Qt
+https://github.com/EasyRPG/Editor
 
 Released versions are also available at our Download Archive:
 
@@ -60,7 +60,7 @@ Run the generated executable in the "bin" folder.
 
 Available options:
 
-* File an issue at https://github.com/EasyRPG/Editor-Qt/issues
+* File an issue at https://github.com/EasyRPG/Editor/issues
 * Open a thread at https://community.easyrpg.org/
 * Chat with us via IRC: [#easyrpg at irc.freenode.net]
 
