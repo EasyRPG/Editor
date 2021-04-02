@@ -85,7 +85,7 @@ private:
 
 template<class LCF>
 inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, std::vector<LCF>& data, QWidget* parent) :
-		m_project(project), DatabaseSplitWidgetBase(parent)
+		DatabaseSplitWidgetBase(parent), m_project(project)
 {
 	m_contentWidget = new typename RpgReflect<LCF>::widget_type(m_project, this);
 	QListView& list = *ui->list;

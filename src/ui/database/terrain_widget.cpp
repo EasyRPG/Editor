@@ -31,7 +31,7 @@ TerrainWidget::~TerrainWidget()
 	delete ui;
 }
 
-void TerrainWidget::setData(lcf::rpg::Terrain* terrain)
+void TerrainWidget::setData(lcf::rpg::Terrain* /* terrain */)
 {
 
 }

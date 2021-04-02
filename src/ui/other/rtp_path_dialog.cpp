@@ -39,7 +39,7 @@ RtpPathDialog::~RtpPathDialog()
 void RtpPathDialog::on_toolRtpPath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,
-													 "Select Rtp forlder",
+													 "Select Rtp folder",
 													 ui->lineRtpPath->text());
 	if (path == QString())
 		return;

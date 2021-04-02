@@ -31,7 +31,7 @@ BattleAnimationWidget::~BattleAnimationWidget()
 	delete ui;
 }
 
-void BattleAnimationWidget::setData(lcf::rpg::Animation* anim)
+void BattleAnimationWidget::setData(lcf::rpg::Animation* /* anim */)
 {
 
 }

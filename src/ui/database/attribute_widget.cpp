@@ -31,7 +31,7 @@ AttributeWidget::~AttributeWidget()
 	delete ui;
 }
 
-void AttributeWidget::setData(lcf::rpg::Attribute* attribute)
+void AttributeWidget::setData(lcf::rpg::Attribute* /* attribute */)
 {
 
 }

@@ -21,7 +21,7 @@
 
 EventRawWidget::EventRawWidget(ProjectData& project, QWidget* parent) :
 	QWidget(parent),
-	ui(new Ui::EventRawWidget), m_project(project)
+	m_project(project), ui(new Ui::EventRawWidget)
 {
 	ui->setupUi(this);
 

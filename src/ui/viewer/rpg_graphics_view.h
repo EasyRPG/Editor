@@ -22,6 +22,7 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QTimer>
+#include <memory>
 #include <type_traits>
 
 #include "charset_graphics_item.h"
