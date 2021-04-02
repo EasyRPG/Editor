@@ -41,7 +41,7 @@ public:
 
 	LcfObjectHolder(T& obj) : m_obj(&obj) {}
 
-	LcfObjectHolder(const LcfObjectHolder<T>& other) {
+	LcfObjectHolder(const LcfObjectHolder<T>& other) : QObject(nullptr) {
 		m_obj = other.m_obj;
 	}
 
