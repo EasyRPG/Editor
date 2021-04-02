@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Source Files
-add_library(${PROJECT_NAME} STATIC
+set(EDITOR_SOURCES
 	src/common/dbstring.h
 	src/common/filefinder.cpp
 	src/common/filefinder.h
@@ -315,11 +315,15 @@ add_library(${PROJECT_NAME} STATIC
 	src/ui/viewer/stat_curve_graphics_item.cpp
 	src/ui/viewer/stat_curve_graphics_item.h
 )
+add_library(${PROJECT_NAME} STATIC ${EDITOR_SOURCES})
 
 # Include directories
 target_include_directories(${PROJECT_NAME} PUBLIC
 	"${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
+
+# IDE source grouping
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX "Editor" FILES ${EDITOR_SOURCES})
 
 # Add autogen include dirs to include path, otherwise the includes are not found
 # when used in the header (via https://stackoverflow.com/q/44746308/)
