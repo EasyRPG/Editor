@@ -151,7 +151,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 	delete ui;
-	delete searchdialog;
+	if (core().project())
+		delete searchdialog;
 	delete dlg_resource;
 	delete dlg_db;
 }
@@ -159,7 +160,8 @@ MainWindow::~MainWindow()
 void MainWindow::LoadLastProject()
 {
 	QString l_project = m_settings.value(CURRENT_PROJECT_KEY, QString()).toString();
-	LoadProject(l_project);
+	if (!l_project.isEmpty())
+		LoadProject(l_project);
 }
 
 void MainWindow::LoadProject(QString foldername)
