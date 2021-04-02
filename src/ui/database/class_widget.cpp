@@ -59,7 +59,7 @@ ClassWidget::~ClassWidget()
 	delete ui;
 }
 
-void ClassWidget::setData(lcf::rpg::Class* cls)
+void ClassWidget::setData(lcf::rpg::Class* /* cls */)
 {
 
 }

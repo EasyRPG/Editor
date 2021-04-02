@@ -31,7 +31,7 @@ ChipSetWidget::~ChipSetWidget()
 	delete ui;
 }
 
-void ChipSetWidget::setData(lcf::rpg::Chipset* chipset)
+void ChipSetWidget::setData(lcf::rpg::Chipset* /* chipset */)
 {
 
 }

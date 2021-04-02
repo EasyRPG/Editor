@@ -33,7 +33,6 @@ DatabaseDialog::DatabaseDialog(ProjectData& project, QWidget *parent) :
 	on_currentActorChanged(nullptr);
 
 	m_projectDataCopy = project;
-	auto& database = m_projectDataCopy.database();
 
 	pageActors = new DatabaseSplitWidget<lcf::rpg::Actor>(m_projectDataCopy, this);
 	pageClasses = new DatabaseSplitWidget<lcf::rpg::Class>(m_projectDataCopy, this);
@@ -84,7 +83,7 @@ DatabaseDialog::~DatabaseDialog()
 	delete ui;
 }
 
-void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor *actor)
+void DatabaseDialog::on_currentActorChanged(lcf::rpg::Actor */* actor */)
 {
 #if 0
 	m_currentActor = actor;

@@ -49,7 +49,6 @@ EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 	m_scene->setBackgroundBrush(QBrush(QPixmap(":/embedded/share/old_grid.png")));
 	ui->graphicsSprite->setScene(m_scene);
 
-	auto& database = project.database();
 	ui->comboSwitchA->makeModel(project);
 	ui->comboSwitchB->makeModel(project);
 	ui->comboVariable->makeModel(project);
@@ -114,7 +113,7 @@ void EventPageWidget::on_checkSwitchA_toggled(bool checked)
 	if (!m_eventPage)
 		return;
 	if (checked) {
-		int switchId = m_eventPage->condition.switch_a_id-1;
+		//int switchId = m_eventPage->condition.switch_a_id-1;
 		//ui->lineSwitchA->setText(formatSwitchCondition(switchId));
 	}
 	else {
@@ -128,7 +127,7 @@ void EventPageWidget::on_checkSwitchB_toggled(bool checked)
 	if (!m_eventPage)
 		return;
 	if (checked) {
-		int switchId = m_eventPage->condition.switch_b_id-1;
+		//int switchId = m_eventPage->condition.switch_b_id-1;
 		//ui->lineSwitchB->setText(formatSwitchCondition(switchId));
 	}
 	else {
