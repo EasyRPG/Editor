@@ -62,7 +62,7 @@ Available options:
 
 * File an issue at https://github.com/EasyRPG/Editor/issues
 * Open a thread at https://community.easyrpg.org/
-* Chat with us via IRC: [#easyrpg at irc.freenode.net]
+* Chat with us via IRC: [#easyrpg at irc.libera.chat]
 
 
 ## License
@@ -76,6 +76,6 @@ See the file [COPYING-ICONS] for license conditions.
 
 [liblcf]: https://github.com/EasyRPG/liblcf
 [Qt]: https://www.qt.io
-[#easyrpg at irc.freenode.net]: https://kiwiirc.com/nextclient/#ircs://irc.freenode.net/#easyrpg?nick=rpgguest??
+[#easyrpg at irc.libera.chat]: https://kiwiirc.com/nextclient/#ircs://irc.libera.chat/#easyrpg?nick=rpgguest??
 [COPYING]: COPYING
 [COPYING-ICONS]: licenses/COPYING-ICONS
