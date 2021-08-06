@@ -478,7 +478,7 @@
     <string>Zoom 100%</string>
    </property>
    <property name="statusTip">
-    <string>Scale 200%</string>
+    <string>Zoom 100%</string>
    </property>
   </action>
   <action name="actionZoomIn">
@@ -489,7 +489,7 @@
     <string>Zoom In</string>
    </property>
    <property name="statusTip">
-    <string>Scale 100%</string>
+    <string>Zoom In</string>
    </property>
    <property name="shortcut">
     <string>+</string>
@@ -503,7 +503,7 @@
     <string>Zoom Out</string>
    </property>
    <property name="statusTip">
-    <string>Scale 50%</string>
+    <string>Zoom Out</string>
    </property>
    <property name="shortcut">
     <string>-</string>

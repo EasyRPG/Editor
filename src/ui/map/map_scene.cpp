@@ -228,20 +228,35 @@ void MapScene::redrawMap()
 		return;
 	core().LoadChipset(m_map->chipset_id);
 	core().setCurrentMapEvents(mapEvents());
-	s_tileSize =core().tileSize() *static_cast<int>(m_scale);
+	s_tileSize = core().tileSize() * static_cast<double>(m_scale);
 	redrawLayer(Core::LOWER);
 	redrawLayer(Core::UPPER);
 }
 
 void MapScene::setScale(float scale)
 {
+	float old_scale = m_scale;
+	int map_x = m_view->horizontalScrollBar()->value();
+	int map_y = m_view->verticalScrollBar()->value();
+
 	m_scale = scale;
-	m_lines->setScale(static_cast<int>(m_scale));
-	m_selectionTile->setScale(static_cast<int>(m_scale));
+	m_lines->setScale(static_cast<double>(m_scale));
+	m_selectionTile->setScale(static_cast<double>(m_scale));
 	this->setSceneRect(0,
-					   0,
-					   m_map->width * core().tileSize() * static_cast<int>(m_scale),
-					   m_map->height * core().tileSize() * static_cast<int>(m_scale));
+		0,
+		m_map->width * core().tileSize() * static_cast<double>(m_scale),
+		m_map->height * core().tileSize() * static_cast<double>(m_scale));
+
+	if (m_view->horizontalScrollBar()->isVisible()) {
+		m_view->horizontalScrollBar()->setValue((map_x + m_view->horizontalScrollBar()->pageStep() / 2.0) * m_scale / old_scale - m_view->horizontalScrollBar()->pageStep() / 2.0);
+	} else {
+		m_view->horizontalScrollBar()->setValue(m_view->horizontalScrollBar()->maximum() / 2.0);
+	}
+	if (m_view->verticalScrollBar()->isVisible()) {
+		m_view->verticalScrollBar()->setValue((map_y + m_view->verticalScrollBar()->pageStep() / 2.0) * m_scale / old_scale - m_view->verticalScrollBar()->pageStep() / 2.0);
+	} else {
+		m_view->verticalScrollBar()->setValue(m_view->verticalScrollBar()->maximum() / 2.0);
+	}
 	redrawMap();
 }
 
@@ -440,7 +455,7 @@ void MapScene::on_view_V_Scroll()
 		return;
 	if (m_view->verticalScrollBar()->isVisible())
 	{
-		n_mapInfo.scrollbar_y = m_view->verticalScrollBar()->value() / static_cast<int>(m_scale);
+		n_mapInfo.scrollbar_y = m_view->verticalScrollBar()->value() / static_cast<double>(m_scale);
 	}
 	m_userInteraction = false;
 }
@@ -451,7 +466,7 @@ void MapScene::on_view_H_Scroll()
 		return;
 	if (m_view->horizontalScrollBar()->isVisible())
 	{
-		n_mapInfo.scrollbar_x = m_view->horizontalScrollBar()->value() / static_cast<int>(m_scale);
+		n_mapInfo.scrollbar_x = m_view->horizontalScrollBar()->value() / static_cast<double>(m_scale);
 	}
 	m_userInteraction = false;
 }
@@ -471,12 +486,12 @@ void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 			lst_y = cur_y;
 			m_eventMenu->popup(event->screenPos());
 		}
-		if (core().tool() == Core::ZOOM && static_cast<double>(m_scale) > 0.25)
+		if (core().tool() == Core::ZOOM && static_cast<double>(m_scale) > 0.125)
 			setScale(m_scale/2);
 	}
 	if (event->button() == Qt::LeftButton)
 	{
-		if (core().tool() == Core::ZOOM && static_cast<double>(m_scale) < 2.0) // Zoom
+		if (core().tool() == Core::ZOOM && static_cast<double>(m_scale) < 8.0) // Zoom
 			setScale(m_scale*2);
 		else if (core().layer() == Core::EVENT) // Select tile
 		{
