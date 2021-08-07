@@ -824,13 +824,13 @@ void MainWindow::on_actionLayerEvents_triggered()
 
 void MainWindow::on_actionZoomIn_triggered()
 {
-	if (static_cast<double>(currentScene()->scale()) != 2.0)
+	if (static_cast<double>(currentScene()->scale()) < 8.0)
 		currentScene()->setScale(currentScene()->scale()*2);
 }
 
 void MainWindow::on_actionZoomOut_triggered()
 {
-	if (static_cast<double>(currentScene()->scale()) != 0.25)
+	if (static_cast<double>(currentScene()->scale()) > 0.125)
 		currentScene()->setScale(currentScene()->scale()/2);
 }
 
