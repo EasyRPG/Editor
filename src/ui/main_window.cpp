@@ -1057,7 +1057,7 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 
 void MainWindow::on_actionMapCopy_triggered()
 {
-	m_copiedMap = core().project()->findFile("Map%1.emu");
+	m_copiedMap = core().project()->projectDir().path() + "/Map%1.lmu";
 	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
 								  4, QLatin1Char('0'));
 	ui->actionMapPaste->setEnabled(true);
@@ -1149,7 +1149,7 @@ void MainWindow::on_actionMapPaste_triggered()
 		return;
 	}
 
-	std::unique_ptr<lcf::rpg::Map> map = lcf::LMU_Reader::LoadXml(m_copiedMap.toStdString());
+	std::unique_ptr<lcf::rpg::Map> map = lcf::LMU_Reader::Load(m_copiedMap.toStdString(), core().project()->encoding().toStdString());
 	lcf::rpg::MapInfo info;
 	for (size_t i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
@@ -1171,6 +1171,7 @@ void MainWindow::on_actionMapPaste_triggered()
 		}
 	}
 
+	info.type = lcf::rpg::TreeMap::MapType_map;
 	info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	if (info.parent_map == 0)
 	{
@@ -1186,7 +1187,15 @@ void MainWindow::on_actionMapPaste_triggered()
 			info.save = lcf::rpg::MapInfo::TriState_allow;
 	}
 
-	core().project()->treeMap().maps.push_back(info);
+	int depth = 1;
+	QTreeWidgetItem *curItem = ui->treeMap->currentItem();
+	while (curItem->parent() != nullptr) {
+		depth++;
+		curItem = curItem->parent();
+	}
+	info.indentation = depth;
+
+	core().project()->treeMap().maps.insert(core().project()->treeMap().maps.begin() + info.ID, info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
 	item->setData(0,Qt::DisplayRole,ToQString(info.name));
@@ -1206,10 +1215,10 @@ void MainWindow::on_actionMapPaste_triggered()
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
 	core().project()->saveTreeMap();
-	QString path = core().project()->findFile("Map%1.emu");
+	QString path = core().project()->projectDir().path() + "/Map%1.lmu";
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
