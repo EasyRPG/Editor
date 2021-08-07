@@ -1057,7 +1057,7 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 
 void MainWindow::on_actionMapCopy_triggered()
 {
-	m_copiedMap = core().project()->projectDir().path() + "/Map%1.lmu";
+	m_copiedMap = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
 	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
 								  4, QLatin1Char('0'));
 	ui->actionMapPaste->setEnabled(true);
@@ -1130,10 +1130,14 @@ void MainWindow::on_actionMapNew_triggered()
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
 	core().project()->saveTreeMap();
-	QString path = core().project()->projectDir().path() + "/Map%1.lmu";
+	QString path = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
-	lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
+	if (core().project()->projectType() == FileFinder::ProjectType::EasyRpg) {
+		lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	} else {
+		lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
+	}
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
@@ -1149,7 +1153,12 @@ void MainWindow::on_actionMapPaste_triggered()
 		return;
 	}
 
-	std::unique_ptr<lcf::rpg::Map> map = lcf::LMU_Reader::Load(m_copiedMap.toStdString(), core().project()->encoding().toStdString());
+	std::unique_ptr<lcf::rpg::Map> map;
+	if (core().project()->projectType() == FileFinder::ProjectType::EasyRpg) {
+		map = lcf::LMU_Reader::LoadXml(m_copiedMap.toStdString());
+	} else {
+		map = lcf::LMU_Reader::Load(m_copiedMap.toStdString(), core().project()->encoding().toStdString());
+	}
 	lcf::rpg::MapInfo info;
 	for (size_t i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
@@ -1215,10 +1224,14 @@ void MainWindow::on_actionMapPaste_triggered()
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
 	core().project()->saveTreeMap();
-	QString path = core().project()->projectDir().path() + "/Map%1.lmu";
+	QString path = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
-	lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
+	if (core().project()->projectType() == FileFinder::ProjectType::EasyRpg) {
+		lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	} else {
+		lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
+	}
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
@@ -1242,7 +1255,8 @@ void MainWindow::removeMap(const int id)
 	for (int i = 0; i < m_treeItems[id]->childCount(); i++)
 		removeMap(m_treeItems[id]->child(i)->data(1, Qt::DisplayRole).toInt());
 
-	QString mapPath = core().project()->projectDir().path() + "/Map%1.lmu";
+	QString mapPath = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
+
 	mapPath = mapPath.arg(QString::number(id), 4, QLatin1Char('0'));
 
 	if (QFileInfo(mapPath).exists())
