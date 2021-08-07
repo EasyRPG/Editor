@@ -1073,7 +1073,7 @@ void MainWindow::on_actionMapNew_triggered()
 	{
 		QMessageBox::critical(this,
 							  "File not found",
-							  "The file " + template_file + " can't be found.");
+							  "The file " + template_file + " can't be found. Please check if the templates directory is in the same directory as the editor executable.");
 		return;
 	}
 
@@ -1091,6 +1091,7 @@ void MainWindow::on_actionMapNew_triggered()
 		}
 	}
 
+	info.type = lcf::rpg::TreeMap::MapType_map;
 	info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	if (info.parent_map == 0)
 	{
@@ -1101,7 +1102,15 @@ void MainWindow::on_actionMapNew_triggered()
 		info.save = lcf::rpg::MapInfo::TriState_allow;
 	}
 
-	core().project()->treeMap().maps.push_back(info);
+	int depth = 1;
+	QTreeWidgetItem *curItem = ui->treeMap->currentItem();
+	while (curItem->parent() != nullptr) {
+		depth++;
+		curItem = curItem->parent();
+	}
+	info.indentation = depth;
+
+	core().project()->treeMap().maps.insert(core().project()->treeMap().maps.begin() + info.ID, info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
 	item->setData(0,Qt::DisplayRole,ToQString(info.name));
@@ -1121,10 +1130,10 @@ void MainWindow::on_actionMapNew_triggered()
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
 	core().project()->saveTreeMap();
-	QString path = core().project()->findFile("Map%1.emu");
+	QString path = core().project()->projectDir().path() + "/Map%1.lmu";
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
