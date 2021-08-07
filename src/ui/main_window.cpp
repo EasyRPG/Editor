@@ -1224,9 +1224,16 @@ void MainWindow::on_actionMapPaste_triggered()
 
 void MainWindow::on_actionMapDelete_triggered()
 {
-	removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
+	int result = QMessageBox::question(this,
+		"Delete map",
+		QString("You are about to delete the selected map and its children.\nThis cannot be undone. Do you want to continue?"),
+		QMessageBox::Yes | QMessageBox::No);
 
-	core().project()->saveTreeMap();
+	if (result == QMessageBox::Yes) {
+		removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
+
+		core().project()->saveTreeMap();
+	}
 }
 
 void MainWindow::removeMap(const int id)
@@ -1235,7 +1242,7 @@ void MainWindow::removeMap(const int id)
 	for (int i = 0; i < m_treeItems[id]->childCount(); i++)
 		removeMap(m_treeItems[id]->child(i)->data(1, Qt::DisplayRole).toInt());
 
-	QString mapPath = core().project()->findFile("Map%1.emu");
+	QString mapPath = core().project()->projectDir().path() + "/Map%1.lmu";
 	mapPath = mapPath.arg(QString::number(id), 4, QLatin1Char('0'));
 
 	if (QFileInfo(mapPath).exists())
