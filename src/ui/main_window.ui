@@ -782,7 +782,7 @@
     <string>New Map</string>
    </property>
    <property name="toolTip">
-    <string>Create a new map and add it as children of the current map.</string>
+    <string>Create a new map and add it as child of the current map.</string>
    </property>
   </action>
   <action name="actionMapCopy">

@@ -1057,7 +1057,7 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 
 void MainWindow::on_actionMapCopy_triggered()
 {
-	m_copiedMap = core().project()->findFile("Map%1.emu");
+	m_copiedMap = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
 	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
 								  4, QLatin1Char('0'));
 	ui->actionMapPaste->setEnabled(true);
@@ -1073,7 +1073,7 @@ void MainWindow::on_actionMapNew_triggered()
 	{
 		QMessageBox::critical(this,
 							  "File not found",
-							  "The file " + template_file + " can't be found.");
+							  "The file " + template_file + " can't be found. Please check if the templates directory is in the same directory as the editor executable.");
 		return;
 	}
 
@@ -1091,6 +1091,7 @@ void MainWindow::on_actionMapNew_triggered()
 		}
 	}
 
+	info.type = lcf::rpg::TreeMap::MapType_map;
 	info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	if (info.parent_map == 0)
 	{
@@ -1101,7 +1102,15 @@ void MainWindow::on_actionMapNew_triggered()
 		info.save = lcf::rpg::MapInfo::TriState_allow;
 	}
 
-	core().project()->treeMap().maps.push_back(info);
+	int depth = 1;
+	QTreeWidgetItem *curItem = ui->treeMap->currentItem();
+	while (curItem->parent() != nullptr) {
+		depth++;
+		curItem = curItem->parent();
+	}
+	info.indentation = depth;
+
+	core().project()->treeMap().maps.insert(core().project()->treeMap().maps.begin() + info.ID, info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
 	item->setData(0,Qt::DisplayRole,ToQString(info.name));
@@ -1121,10 +1130,14 @@ void MainWindow::on_actionMapNew_triggered()
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
 	core().project()->saveTreeMap();
-	QString path = core().project()->findFile("Map%1.emu");
+	QString path = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	if (core().project()->projectType() == FileFinder::ProjectType::EasyRpg) {
+		lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	} else {
+		lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
+	}
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
@@ -1140,7 +1153,12 @@ void MainWindow::on_actionMapPaste_triggered()
 		return;
 	}
 
-	std::unique_ptr<lcf::rpg::Map> map = lcf::LMU_Reader::LoadXml(m_copiedMap.toStdString());
+	std::unique_ptr<lcf::rpg::Map> map;
+	if (core().project()->projectType() == FileFinder::ProjectType::EasyRpg) {
+		map = lcf::LMU_Reader::LoadXml(m_copiedMap.toStdString());
+	} else {
+		map = lcf::LMU_Reader::Load(m_copiedMap.toStdString(), core().project()->encoding().toStdString());
+	}
 	lcf::rpg::MapInfo info;
 	for (size_t i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
@@ -1162,6 +1180,7 @@ void MainWindow::on_actionMapPaste_triggered()
 		}
 	}
 
+	info.type = lcf::rpg::TreeMap::MapType_map;
 	info.parent_map = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	if (info.parent_map == 0)
 	{
@@ -1177,7 +1196,15 @@ void MainWindow::on_actionMapPaste_triggered()
 			info.save = lcf::rpg::MapInfo::TriState_allow;
 	}
 
-	core().project()->treeMap().maps.push_back(info);
+	int depth = 1;
+	QTreeWidgetItem *curItem = ui->treeMap->currentItem();
+	while (curItem->parent() != nullptr) {
+		depth++;
+		curItem = curItem->parent();
+	}
+	info.indentation = depth;
+
+	core().project()->treeMap().maps.insert(core().project()->treeMap().maps.begin() + info.ID, info);
 	QTreeWidgetItem *item = new QTreeWidgetItem();
 	item->setData(1,Qt::DisplayRole,info.ID);
 	item->setData(0,Qt::DisplayRole,ToQString(info.name));
@@ -1197,18 +1224,29 @@ void MainWindow::on_actionMapPaste_triggered()
 	ui->treeMap->currentItem()->setSelected(false);
 	item->setSelected(true);
 	core().project()->saveTreeMap();
-	QString path = core().project()->findFile("Map%1.emu");
+	QString path = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
 	path = path.arg(QString::number(info.ID), 4, QLatin1Char('0'));
 	auto lcf_engine = lcf::GetEngineVersion(core().project()->database());
-	lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	if (core().project()->projectType() == FileFinder::ProjectType::EasyRpg) {
+		lcf::LMU_Reader::SaveXml(path.toStdString(), *map, lcf_engine);
+	} else {
+		lcf::LMU_Reader::Save(path.toStdString(), *map, lcf_engine, core().project()->encoding().toStdString());
+	}
 	on_treeMap_itemDoubleClicked(item, 0);
 }
 
 void MainWindow::on_actionMapDelete_triggered()
 {
-	removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
+	int result = QMessageBox::question(this,
+		"Delete map",
+		QString("You are about to delete the selected map and its children.\nThis cannot be undone. Do you want to continue?"),
+		QMessageBox::Yes | QMessageBox::No);
 
-	core().project()->saveTreeMap();
+	if (result == QMessageBox::Yes) {
+		removeMap(ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt());
+
+		core().project()->saveTreeMap();
+	}
 }
 
 void MainWindow::removeMap(const int id)
@@ -1217,7 +1255,8 @@ void MainWindow::removeMap(const int id)
 	for (int i = 0; i < m_treeItems[id]->childCount(); i++)
 		removeMap(m_treeItems[id]->child(i)->data(1, Qt::DisplayRole).toInt());
 
-	QString mapPath = core().project()->findFile("Map%1.emu");
+	QString mapPath = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
+
 	mapPath = mapPath.arg(QString::number(id), 4, QLatin1Char('0'));
 
 	if (QFileInfo(mapPath).exists())
