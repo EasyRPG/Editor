@@ -498,11 +498,11 @@ void MainWindow::update_actions()
 	ui->actionDrawRectangle->setEnabled(has_project);
 	ui->actionResourceManager->setEnabled(has_project);
 	ui->actionZoom100->setEnabled(has_project);
-	ui->actionMapRevert->setEnabled(has_project);
+	ui->actionMapRevert->setEnabled(currentScene() && currentScene()->isModified());
 	ui->actionZoomIn->setEnabled(has_project);
 	ui->actionZoomOut->setEnabled(has_project);
 	ui->actionSearch->setEnabled(has_project);
-	ui->actionUndo->setEnabled(has_project);
+	ui->actionUndo->setEnabled(currentScene() && currentScene()->isModified());
 	ui->actionZoom->setEnabled(has_project);
 	ui->actionProjectClose->setEnabled(has_project);
 	ui->actionLayerEvents->setEnabled(has_project);
@@ -512,7 +512,7 @@ void MainWindow::update_actions()
 	ui->actionProjectNew->setEnabled(!has_project);
 	ui->actionProjectOpen->setEnabled(!has_project);
 	ui->actionPlayTest->setEnabled(has_project);
-	ui->actionMapSave->setEnabled(has_project);
+	ui->actionMapSave->setEnabled(currentScene() && currentScene()->isModified());
 	ui->actionScriptEditor->setEnabled(has_project);
 	ui->actionTitleBackgroundToggle->setEnabled(has_project);
 	ui->actionMapNew->setEnabled(has_project);
