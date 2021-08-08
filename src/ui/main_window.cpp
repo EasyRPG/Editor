@@ -859,7 +859,7 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
 		int result = QMessageBox::question(this,
 										   "Save map changes",
 										   QString("%1 has unsaved changes.\n"
-										   "Do you want to save them before clossing"
+										   "Do you want to save them before closing"
 										   " it?").arg(getTabScene(index)->mapName()),
 										   QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 		switch (result)
@@ -868,7 +868,6 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
 			getTabScene(index)->Save();
 			break;
 		case (QMessageBox::No):
-			removeView(getTabScene(index)->id());
 			break;
 		case (QMessageBox::Cancel):
 			return;
