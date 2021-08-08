@@ -768,14 +768,18 @@ void MainWindow::updateToolActions()
 void MainWindow::on_actionProjectClose_triggered()
 {
 	m_settings.setValue(CURRENT_PROJECT_KEY, QString());
-	ui->treeMap->clear();
-	saveAll();
-	core().project().reset();
+	int result = saveAll();
 
-	while (ui->tabMap->currentIndex() != -1)
-		removeView(currentScene()->id());
-	update_actions();
-	setWindowTitle("EasyRPG Editor");
+	if (result == true) {
+		ui->treeMap->clear();
+		while (ui->tabMap->currentIndex() != -1)
+			removeView(currentScene()->id());
+
+		core().project().reset();
+
+		update_actions();
+		setWindowTitle("EasyRPG Editor");
+	}
 }
 
 void MainWindow::on_actionProjectOpen_triggered()
@@ -1005,7 +1009,7 @@ bool MainWindow::saveAll()
 		int result = QMessageBox::question(this,
 										   "Save map changes",
 										   "Some maps have unsaved changes.\n"
-										   "Do you want to save them before clossing them?",
+										   "Do you want to save them before closing them?",
 										   QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 		switch (result)
 		{
