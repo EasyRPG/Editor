@@ -70,7 +70,7 @@ public slots:
 
 	void Save();
 
-	void Load();
+	void Load(bool revert = false);
 
 	void undo();
 

@@ -397,7 +397,7 @@
     <string>&amp;Quit</string>
    </property>
    <property name="statusTip">
-    <string>Quit EasyRPG</string>
+    <string>Quit EasyRPG Editor</string>
    </property>
   </action>
   <action name="actionMapSave">
@@ -408,7 +408,7 @@
     <string>Save current Map</string>
    </property>
    <property name="statusTip">
-    <string>Save all changes done in maps</string>
+    <string>Save all changes done in current Map</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -419,10 +419,10 @@
     <string>&amp;Revert Map</string>
    </property>
    <property name="toolTip">
-    <string>Revert currentl Map</string>
+    <string>Revert current Map</string>
    </property>
    <property name="statusTip">
-    <string>Revert changes on all maps</string>
+    <string>Revert changes on current Map</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>

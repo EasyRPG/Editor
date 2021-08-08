@@ -1036,7 +1036,7 @@ void MainWindow::on_actionMapSave_triggered()
 void MainWindow::on_actionMapRevert_triggered()
 {
 	if (currentScene())
-		currentScene()->Load();
+		currentScene()->Load(true);
 }
 
 
