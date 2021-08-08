@@ -480,7 +480,7 @@ void Core::LoadChipset(int n_chipsetid)
 			 */
 			dest_x = tileSize()/2;
 			if (d+r == 10)
-				blit(r_tileSize*5*2, r_tileSize*7/2);
+				blit(r_tileSize*5/2, r_tileSize*7/2);
 			else if (d)
 			{
 				if (l)
