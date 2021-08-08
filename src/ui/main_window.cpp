@@ -122,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	dlg_db = nullptr;
 	m_paletteScene = new PaletteScene(ui->graphicsPalette);
 	ui->graphicsPalette->setScene(m_paletteScene);
+	ui->graphicsPalette->verticalScrollBar()->setSliderPosition(1);
 	connect(&core(),
 			SIGNAL(toolChanged()),
 			this,
