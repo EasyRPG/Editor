@@ -63,7 +63,7 @@ std::shared_ptr<Project> OpenProjectDialog::getProject() {
 
 void OpenProjectDialog::refreshProjectList()
 {
-	ui->tableProjects->clearContents();
+	ui->tableProjects->setRowCount(0);
 
 	prjList = Project::enumerate(m_defaultDir);
 

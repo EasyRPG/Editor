@@ -337,7 +337,7 @@ void MapScene::Save()
 	emit mapSaved();
 }
 
-void MapScene::Load()
+void MapScene::Load(bool revert)
 {
 	// FIXME: Many calls to core()
 	const auto& treeMap = m_project.treeMap();
@@ -355,18 +355,24 @@ void MapScene::Load()
 		core().LoadBackground(m_map->parallax_name.c_str());
 	else
 		core().LoadBackground(QString());
-	QList<QGraphicsItem*> lines;
-	for (int x = 0; x <= m_map->width; x++)
-		lines.append(new QGraphicsLineItem(x*core().tileSize(),
-										   0,
-										   x*core().tileSize(),
-										   m_map->height*core().tileSize()));
-	for (int y = 0; y <= m_map->height; y++)
-		lines.append(new QGraphicsLineItem(0,
-										   y*core().tileSize(),
-										   m_map->width*core().tileSize(),
-										   y*core().tileSize()));
-	m_lines = createItemGroup(lines);
+
+	if (!revert) {
+		QList<QGraphicsItem*> lines;
+		for (int x = 0; x <= m_map->width; x++)
+			lines.append(new QGraphicsLineItem(x*core().tileSize(),
+				0,
+				x*core().tileSize(),
+				m_map->height*core().tileSize()));
+
+		for (int y = 0; y <= m_map->height; y++)
+			lines.append(new QGraphicsLineItem(0,
+				y*core().tileSize(),
+				m_map->width*core().tileSize(),
+				y*core().tileSize()));
+
+		m_lines = createItemGroup(lines);
+	}
+
 	redrawMap();
 	m_undoStack->clear();
 	emit mapReverted();

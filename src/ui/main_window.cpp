@@ -122,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	dlg_db = nullptr;
 	m_paletteScene = new PaletteScene(ui->graphicsPalette);
 	ui->graphicsPalette->setScene(m_paletteScene);
+	ui->graphicsPalette->verticalScrollBar()->setSliderPosition(1);
 	connect(&core(),
 			SIGNAL(toolChanged()),
 			this,
@@ -498,11 +499,11 @@ void MainWindow::update_actions()
 	ui->actionDrawRectangle->setEnabled(has_project);
 	ui->actionResourceManager->setEnabled(has_project);
 	ui->actionZoom100->setEnabled(has_project);
-	ui->actionMapRevert->setEnabled(has_project);
+	ui->actionMapRevert->setEnabled(currentScene() && currentScene()->isModified());
 	ui->actionZoomIn->setEnabled(has_project);
 	ui->actionZoomOut->setEnabled(has_project);
 	ui->actionSearch->setEnabled(has_project);
-	ui->actionUndo->setEnabled(has_project);
+	ui->actionUndo->setEnabled(currentScene() && currentScene()->isModified());
 	ui->actionZoom->setEnabled(has_project);
 	ui->actionProjectClose->setEnabled(has_project);
 	ui->actionLayerEvents->setEnabled(has_project);
@@ -512,7 +513,7 @@ void MainWindow::update_actions()
 	ui->actionProjectNew->setEnabled(!has_project);
 	ui->actionProjectOpen->setEnabled(!has_project);
 	ui->actionPlayTest->setEnabled(has_project);
-	ui->actionMapSave->setEnabled(has_project);
+	ui->actionMapSave->setEnabled(currentScene() && currentScene()->isModified());
 	ui->actionScriptEditor->setEnabled(has_project);
 	ui->actionTitleBackgroundToggle->setEnabled(has_project);
 	ui->actionMapNew->setEnabled(has_project);
@@ -768,14 +769,18 @@ void MainWindow::updateToolActions()
 void MainWindow::on_actionProjectClose_triggered()
 {
 	m_settings.setValue(CURRENT_PROJECT_KEY, QString());
-	ui->treeMap->clear();
-	saveAll();
-	core().project().reset();
+	int result = saveAll();
 
-	while (ui->tabMap->currentIndex() != -1)
-		removeView(currentScene()->id());
-	update_actions();
-	setWindowTitle("EasyRPG Editor");
+	if (result == true) {
+		ui->treeMap->clear();
+		while (ui->tabMap->currentIndex() != -1)
+			removeView(currentScene()->id());
+
+		core().project().reset();
+
+		update_actions();
+		setWindowTitle("EasyRPG Editor");
+	}
 }
 
 void MainWindow::on_actionProjectOpen_triggered()
@@ -859,7 +864,7 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
 		int result = QMessageBox::question(this,
 										   "Save map changes",
 										   QString("%1 has unsaved changes.\n"
-										   "Do you want to save them before clossing"
+										   "Do you want to save them before closing"
 										   " it?").arg(getTabScene(index)->mapName()),
 										   QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 		switch (result)
@@ -868,7 +873,6 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
 			getTabScene(index)->Save();
 			break;
 		case (QMessageBox::No):
-			removeView(getTabScene(index)->id());
 			break;
 		case (QMessageBox::Cancel):
 			return;
@@ -1006,7 +1010,7 @@ bool MainWindow::saveAll()
 		int result = QMessageBox::question(this,
 										   "Save map changes",
 										   "Some maps have unsaved changes.\n"
-										   "Do you want to save them before clossing them?",
+										   "Do you want to save them before closing them?",
 										   QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 		switch (result)
 		{
@@ -1036,7 +1040,7 @@ void MainWindow::on_actionMapSave_triggered()
 void MainWindow::on_actionMapRevert_triggered()
 {
 	if (currentScene())
-		currentScene()->Load();
+		currentScene()->Load(true);
 }
 
 
