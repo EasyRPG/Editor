@@ -304,11 +304,17 @@ void Core::LoadChipset(int n_chipsetid)
 	QPixmap a_tile(tileSize(), tileSize());
 	QPainter a(&a_tile);
 	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-	m_tileCache[translate(3)] = a_tile;
+	for (int i = 0; i < 50; i++) {
+		m_tileCache[translate(3) + i] = a_tile;
+	}
 	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(4*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-	m_tileCache[translate(4)] = a_tile;
+	for (int i = 0; i < 50; i++) {
+		m_tileCache[translate(4) + i] = a_tile;
+	}
 	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(5*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
-	m_tileCache[translate(5)] = a_tile;
+	for (int i = 0; i < 50; i++) {
+		m_tileCache[translate(5) + i] = a_tile;
+	}
 
 	/* BindGroundTiles */
 	// Each tileset contains 5 columns with a size of 6x16 tiles
@@ -727,7 +733,7 @@ short Core::translate(int terrain_id, int _code, int _scode)
 	if (isWater(terrain_id))
 		return (static_cast<short>(terrain_id)*1000+m_dictionary[_code]+m_dictionary[_scode]*50);
 	if (isAnimation(terrain_id))
-		return (3000+(static_cast<short>(terrain_id)-3)*50+46);
+		return (3000+(static_cast<short>(terrain_id)-3)*50+m_dictionary[_code]);
 	if (isDblock(terrain_id))
 		return (4000+(static_cast<short>(terrain_id)-6)*50+m_dictionary[_code]);
 	if (isEblock(terrain_id))
@@ -743,9 +749,9 @@ int Core::translate(short tile_id)
 		return -1;
 	else if (tile_id < 3000)
 		return tile_id/1000;
-	else if (tile_id >= 3000 && tile_id <= 3150)
+	else if (tile_id >= 3000 && tile_id < 3150)
 		return (tile_id-3000)/50+3;
-	else if (tile_id >=4000 && tile_id < 4600 )
+	else if (tile_id >= 4000 && tile_id < 4600)
 		return (tile_id-4000)/50+6;
 	else if (tile_id >= 5000 && tile_id < 5162)
 		return tile_id-5000+18;
