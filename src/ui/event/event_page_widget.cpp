@@ -325,8 +325,7 @@ void EventPageWidget::updateGraphic()
 	}
 	else
 	{
-		// FIXME m_charaItem->setBasePix(ToQString(m_eventPage->character_name));
-		m_charaItem->setIndex(m_eventPage->character_index);
+		m_charaItem->refresh(ToQString(m_eventPage->character_name), m_eventPage->character_index);
 		m_charaItem->setFrame(m_eventPage->character_pattern);
 		m_charaItem->setFacing(m_eventPage->character_direction);
 		m_tileItem->setVisible(false);

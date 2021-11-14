@@ -308,14 +308,14 @@
        <widget class="QGraphicsView" name="graphicsSprite">
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>66</height>
+          <width>52</width>
+          <height>68</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>48</width>
-          <height>64</height>
+          <width>52</width>
+          <height>68</height>
          </size>
         </property>
         <property name="verticalScrollBarPolicy">
