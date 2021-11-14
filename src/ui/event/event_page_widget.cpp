@@ -87,12 +87,12 @@ void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 	ui->spinTimerBSec->setValue(eventPage->condition.timer2_sec%60);
 	ui->checkTransparent->setChecked(eventPage->translucent);
 	ui->comboMoveType->setCurrentIndex(eventPage->move_type);
-	ui->comboMoveSpeed->setCurrentIndex(eventPage->move_speed-1);
+	ui->comboMoveFrequency->setCurrentIndex(eventPage->move_frequency-1);
 	ui->comboCondition->setCurrentIndex(eventPage->trigger);
 	ui->comboLayer->setCurrentIndex(eventPage->layer);
 	ui->checkOverlapForbidden->setChecked(eventPage->overlap_forbidden);
 	ui->comboAnimationType->setCurrentIndex(eventPage->animation_type);
-	ui->comboMoveFrequency->setCurrentIndex(eventPage->move_frequency-1);
+	ui->comboMoveSpeed->setCurrentIndex(eventPage->move_speed-1);
 	m_effect->setEnabled(m_eventPage->translucent);
 	updateGraphic();
 
@@ -104,7 +104,7 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 	if (!m_eventPage)
 		return;
 	ui->label->setEnabled(index != 0);
-	ui->comboMoveSpeed->setEnabled(index != 0);
+	ui->comboMoveFrequency->setEnabled(index != 0);
 	m_eventPage->move_type = index;
 }
 
@@ -249,11 +249,11 @@ void EventPageWidget::on_checkTransparent_toggled(bool checked)
 	m_effect->setEnabled(checked);
 }
 
-void EventPageWidget::on_comboMoveSpeed_currentIndexChanged(int index)
+void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
-	m_eventPage->move_speed = index+1;
+	m_eventPage->move_frequency = index+1;
 }
 
 void EventPageWidget::on_comboCondition_currentIndexChanged(int index)
@@ -284,11 +284,11 @@ void EventPageWidget::on_comboAnimationType_currentIndexChanged(int index)
 	m_eventPage->animation_type = index;
 }
 
-void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
+void EventPageWidget::on_comboMoveSpeed_currentIndexChanged(int index)
 {
 	if (!m_eventPage)
 		return;
-	m_eventPage->move_frequency = index+1;
+	m_eventPage->move_speed = index+1;
 }
 
 void EventPageWidget::on_pushSetSprite_clicked()

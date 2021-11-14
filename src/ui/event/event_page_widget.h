@@ -81,7 +81,7 @@ private slots:
 
 	void on_checkTransparent_toggled(bool checked);
 
-	void on_comboMoveSpeed_currentIndexChanged(int index);
+	void on_comboMoveFrequency_currentIndexChanged(int index);
 
 	void on_comboCondition_currentIndexChanged(int index);
 
@@ -91,7 +91,7 @@ private slots:
 
 	void on_comboAnimationType_currentIndexChanged(int index);
 
-	void on_comboMoveFrequency_currentIndexChanged(int index);
+	void on_comboMoveSpeed_currentIndexChanged(int index);
 
 	void on_pushSetSprite_clicked();
 
