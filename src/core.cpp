@@ -187,9 +187,9 @@ void Core::LoadChipset(int n_chipsetid)
 			if (isABWater(tile_u) && isABWater (tile_r) && isABWater (tile_ur))
 				sur = UPRIGHT;
 			if (isABWater(tile_d) && isABWater (tile_l) && isABWater (tile_dl))
-				sdl = DOWNLEFT;
+				sdl = DOWNRIGHT;
 			if (isABWater(tile_d) && isABWater (tile_r) && isABWater (tile_dr))
-				sdr = DOWNRIGHT;
+				sdr = DOWNLEFT;
 		}
 		else
 		{
@@ -198,9 +198,9 @@ void Core::LoadChipset(int n_chipsetid)
 			if (isDWater (tile_u) && isDWater (tile_r) && isWater(tile_ur))
 				sur = UPRIGHT;
 			if (isDWater (tile_d) && isDWater (tile_l) && isWater(tile_dl))
-				sdl = DOWNLEFT;
+				sdl = DOWNRIGHT;
 			if (isDWater (tile_d) && isDWater (tile_r) && isWater(tile_dr))
-				sdr = DOWNRIGHT;
+				sdr = DOWNLEFT;
 		}
 		_scode = sul+sur+sdl+sdr;
 		if ((u+l) == 0 && tile_ul == 3)

@@ -898,10 +898,10 @@ short MapScene::bind(int x, int y)
 			if (x < m_map->width-1 && y > 0 && core().isABWater(tile_u) && core().isABWater (tile_r) && core().isABWater (tile_ur))
 				sur = UPRIGHT;
 			if (x > 0 && y < m_map->height-1 && core().isABWater(tile_d) && core().isABWater (tile_l) && core().isABWater (tile_dl))
-				sdl = DOWNLEFT;
+				sdl = DOWNRIGHT;
 			if (x < m_map->width-1 && y < m_map->height-1 &&
 					core().isABWater(tile_d) && core().isABWater (tile_r) && core().isABWater (tile_dr))
-				sdr = DOWNRIGHT;
+				sdr = DOWNLEFT;
 		}
 		else
 		{
@@ -910,10 +910,10 @@ short MapScene::bind(int x, int y)
 			if (x < m_map->width-1 && y > 0 && core().isDWater (tile_u) && core().isDWater (tile_r) && core().isWater(tile_ur))
 				sur = UPRIGHT;
 			if (x > 0 && y < m_map->height-1 && core().isDWater (tile_d) && core().isDWater (tile_l) && core().isWater(tile_dl))
-				sdl = DOWNLEFT;
+				sdl = DOWNRIGHT;
 			if (x < m_map->width-1 && y < m_map->height-1 &&
 					core().isDWater (tile_d) && core().isDWater (tile_r) && core().isWater(tile_dr))
-				sdr = DOWNRIGHT;
+				sdr = DOWNLEFT;
 		}
 		_scode = sul+sur+sdl+sdr;
 	}
