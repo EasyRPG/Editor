@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <defs>
+    <linearGradient id="gradient" gradientTransform="rotate(45)">
+      <stop offset="0%" stop-color="#f00" />
+      <stop offset="100%" stop-color="#800000" />
+    </linearGradient>
+  </defs>
+  <style>
+    .font { font: 12px sans-serif; fill: #fff; }
+  </style>
+  <circle cx="8" cy="8" r="8" fill="url(#gradient)" />
+  <text x="4" y="12" class="font">A</text>
+</svg>
