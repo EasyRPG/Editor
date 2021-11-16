@@ -19,6 +19,8 @@
 
 #include <QWidget>
 #include <lcf/rpg/attribute.h>
+#include "model/attribute.h"
+#include <QButtonGroup>
 
 class ProjectData;
 
@@ -38,8 +40,19 @@ public:
 
 	void setData(lcf::rpg::Attribute* attribute);
 
+public slots:
+	void on_currentAttributeChanged(lcf::rpg::Attribute *attribute);
+
+signals:
+	void currentAttributeChanged(lcf::rpg::Attribute *attribute);
+
 private:
 	Ui::AttributeWidget *ui;
+
+	lcf::rpg::Attribute dummy;
+	lcf::rpg::Attribute *m_current = nullptr;
 	ProjectData& m_project;
+
+	QButtonGroup* m_buttonGroupType = nullptr;
 };
 
