@@ -50,6 +50,10 @@ private slots:
 
 	void on_pushNewPage_clicked();
 
+	void on_pushCopyPage_clicked();
+
+	void on_pushPastePage_clicked();
+
 	void on_pushDeletePage_clicked();
 
 private:
@@ -59,6 +63,7 @@ private:
 	lcf::rpg::Event a_event;
 	int lst_result;
 	ProjectData& m_project;
+	lcf::rpg::EventPage event_page_clipboard;
 
 	void refreshEventPageTabs();
 };

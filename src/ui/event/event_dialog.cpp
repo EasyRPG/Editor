@@ -168,6 +168,18 @@ void EventDialog::on_pushNewPage_clicked() {
 	ui->tabEventPages->setCurrentIndex(cur_index + 1);
 }
 
+void EventDialog::on_pushCopyPage_clicked() {
+	event_page_clipboard = m_event.pages[ui->tabEventPages->currentIndex()];
+	ui->pushPastePage->setEnabled(true);
+}
+
+void EventDialog::on_pushPastePage_clicked() {
+	int cur_index = ui->tabEventPages->currentIndex();
+	m_event.pages.insert(m_event.pages.begin() + cur_index + 1, event_page_clipboard);
+	refreshEventPageTabs();
+	ui->tabEventPages->setCurrentIndex(cur_index + 1);
+}
+
 void EventDialog::on_pushDeletePage_clicked() {
 	int cur_index = ui->tabEventPages->currentIndex();
 	m_event.pages.erase(m_event.pages.begin() + cur_index);
