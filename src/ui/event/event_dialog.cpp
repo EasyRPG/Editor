@@ -150,6 +150,7 @@ void EventDialog::setEvent(lcf::rpg::Event& event)
 
 void EventDialog::apply()
 {
+	m_event.name = ToDBString(ui->lineName->text());
 	a_event = m_event;
 	if (equalEvents(a_event, r_event))
 		lst_result = QDialogButtonBox::Cancel;
@@ -159,6 +160,7 @@ void EventDialog::apply()
 
 void EventDialog::ok()
 {
+	m_event.name = ToDBString(ui->lineName->text());
 	if (equalEvents(m_event, r_event))
 		lst_result = QDialogButtonBox::Cancel;
 	else
