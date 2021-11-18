@@ -51,9 +51,15 @@ private slots:
 
 	void on_checkSwitchA_toggled(bool checked);
 
+	void on_comboSwitchA_currentIndexChanged(int index);
+
 	void on_checkSwitchB_toggled(bool checked);
 
+	void on_comboSwitchB_currentIndexChanged(int index);
+
 	void on_checkVar_toggled(bool checked);
+
+	void on_comboVariable_currentIndexChanged(int index);
 
 	void on_checkItem_toggled(bool checked);
 

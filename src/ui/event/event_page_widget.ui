@@ -43,6 +43,9 @@
         </item>
         <item row="0" column="1">
          <widget class="SwitchRpgComboBox" name="comboSwitchA">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -53,6 +56,9 @@
         </item>
         <item row="1" column="1">
          <widget class="SwitchRpgComboBox" name="comboSwitchB">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -77,6 +83,9 @@
         </item>
         <item row="2" column="1">
          <widget class="VariableRpgComboBox" name="comboVariable">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -117,7 +126,7 @@
           </item>
           <item>
            <property name="text">
-            <string>Greather than (&gt;)</string>
+            <string>Greater than (&gt;)</string>
            </property>
           </item>
           <item>
@@ -226,7 +235,7 @@
            <bool>false</bool>
           </property>
           <property name="suffix">
-           <string>  seconds or less</string>
+           <string> seconds or less</string>
           </property>
           <property name="maximum">
            <number>59</number>
@@ -729,6 +738,24 @@
  </customwidgets>
  <resources/>
  <connections>
+  <connection>
+   <sender>checkSwitchA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboSwitchA</receiver>
+   <slot>setEnabled(bool)</slot>
+  </connection>
+  <connection>
+   <sender>checkSwitchB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboSwitchB</receiver>
+   <slot>setEnabled(bool)</slot>
+  </connection>
+  <connection>
+   <sender>checkVar</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboVariable</receiver>
+   <slot>setEnabled(bool)</slot>
+  </connection>
   <connection>
    <sender>checkVar</sender>
    <signal>toggled(bool)</signal>

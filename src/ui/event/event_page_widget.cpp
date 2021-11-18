@@ -71,8 +71,11 @@ void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 {
 	m_eventPage = eventPage;
 	ui->checkSwitchA->setChecked(eventPage->condition.flags.switch_a);
+	ui->comboSwitchA->setCurrentIndex(eventPage->condition.switch_a_id-1);
 	ui->checkSwitchB->setChecked(eventPage->condition.flags.switch_b);
+	ui->comboSwitchB->setCurrentIndex(eventPage->condition.switch_b_id-1);
 	ui->checkVar->setChecked(eventPage->condition.flags.variable);
+	ui->comboVariable->setCurrentIndex(eventPage->condition.variable_id-1);
 	ui->comboVarOperation->setCurrentIndex(eventPage->condition.compare_operator);
 	ui->spinVarValue->setValue(eventPage->condition.variable_value);
 	ui->checkItem->setChecked(eventPage->condition.flags.item);
@@ -112,49 +115,42 @@ void EventPageWidget::on_checkSwitchA_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
-	if (checked) {
-		//int switchId = m_eventPage->condition.switch_a_id-1;
-		//ui->lineSwitchA->setText(formatSwitchCondition(switchId));
-	}
-	else {
-		//ui->lineSwitchA->setText("");
-	}
 	m_eventPage->condition.flags.switch_a = checked;
+}
+
+void EventPageWidget::on_comboSwitchA_currentIndexChanged(int index)
+{
+	if (!m_eventPage)
+		return;
+	m_eventPage->condition.switch_a_id = index+1;
 }
 
 void EventPageWidget::on_checkSwitchB_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
-	if (checked) {
-		//int switchId = m_eventPage->condition.switch_b_id-1;
-		//ui->lineSwitchB->setText(formatSwitchCondition(switchId));
-	}
-	else {
-		//ui->lineSwitchB->setText("");
-	}
 	m_eventPage->condition.flags.switch_b = checked;
+}
+
+void EventPageWidget::on_comboSwitchB_currentIndexChanged(int index)
+{
+	if (!m_eventPage)
+		return;
+	m_eventPage->condition.switch_b_id = index+1;
 }
 
 void EventPageWidget::on_checkVar_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
-	/*if (checked) {
-		int varId = m_eventPage->condition.variable_id;
-		if (varId >= 1 && varId <= static_cast<int>(core().project()->database().variables.size())) {
-			ui->lineVar->setText(QString("%1: %2").arg(varId)
-				.arg(ToQString
-					 (core().project()->database().variables[static_cast<size_t>(varId) - 1].name)));
-		}
-		else {
-			ui->lineVar->setText(QString("%1: ???").arg(varId));
-		}
-	}
-	else {
-		ui->lineVar->setText("");
-	}*/
 	m_eventPage->condition.flags.variable = checked;
+}
+
+void EventPageWidget::on_comboVariable_currentIndexChanged(int index)
+{
+	if (!m_eventPage)
+		return;
+	m_eventPage->condition.variable_id = index+1;
 }
 
 void EventPageWidget::on_checkItem_toggled(bool checked)
@@ -196,7 +192,7 @@ void EventPageWidget::on_checkHero_toggled(bool checked)
 {
 	if (!m_eventPage)
 		return;
-	m_eventPage->condition.flags.item = checked;
+	m_eventPage->condition.flags.actor = checked;
 }
 
 void EventPageWidget::on_checkTimerA_toggled(bool checked)
