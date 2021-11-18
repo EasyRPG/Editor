@@ -50,6 +50,8 @@ private slots:
 
 	void on_pushNewPage_clicked();
 
+	void on_pushDeletePage_clicked();
+
 private:
 	Ui::EventDialog *ui;
 	lcf::rpg::Event m_event;

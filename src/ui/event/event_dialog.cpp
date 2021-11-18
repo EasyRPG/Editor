@@ -168,6 +168,13 @@ void EventDialog::on_pushNewPage_clicked() {
 	ui->tabEventPages->setCurrentIndex(cur_index + 1);
 }
 
+void EventDialog::on_pushDeletePage_clicked() {
+	int cur_index = ui->tabEventPages->currentIndex();
+	m_event.pages.erase(m_event.pages.begin() + cur_index);
+	refreshEventPageTabs();
+	ui->tabEventPages->setCurrentIndex(std::max(0, cur_index - 1));
+}
+
 void EventDialog::refreshEventPageTabs() {
 	ui->tabEventPages->clear();
 	for (unsigned int i = 0; i < m_event.pages.size(); i++)
@@ -176,4 +183,5 @@ void EventDialog::refreshEventPageTabs() {
 		tab->setEventPage(&(m_event.pages[i]));
 		ui->tabEventPages->addTab(tab,QString::number(i+1));
 	}
+	ui->pushDeletePage->setEnabled(m_event.pages.size() >= 2);
 }
