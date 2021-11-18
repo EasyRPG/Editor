@@ -139,13 +139,7 @@ void EventDialog::setEvent(lcf::rpg::Event& event)
 	r_event = event;
 	ui->lineName->setText(ToQString(m_event.name));
 	this->setWindowTitle(QString("EV: %1").arg(m_event.ID));
-	ui->tabEventPages->clear();
-	for (unsigned int i = 0; i < m_event.pages.size(); i++)
-	{
-		EventPageWidget *tab = new EventPageWidget(m_project, this);
-		tab->setEventPage(&(m_event.pages[i]));
-		ui->tabEventPages->addTab(tab,QString::number(i+1));
-	}
+	refreshEventPageTabs();
 }
 
 void EventDialog::apply()
@@ -165,4 +159,21 @@ void EventDialog::ok()
 		lst_result = QDialogButtonBox::Cancel;
 	else
 		lst_result = QDialogButtonBox::Ok;
+}
+
+void EventDialog::on_pushNewPage_clicked() {
+	int cur_index = ui->tabEventPages->currentIndex();
+	m_event.pages.insert(m_event.pages.begin() + cur_index + 1, lcf::rpg::EventPage());
+	refreshEventPageTabs();
+	ui->tabEventPages->setCurrentIndex(cur_index + 1);
+}
+
+void EventDialog::refreshEventPageTabs() {
+	ui->tabEventPages->clear();
+	for (unsigned int i = 0; i < m_event.pages.size(); i++)
+	{
+		EventPageWidget *tab = new EventPageWidget(m_project, this);
+		tab->setEventPage(&(m_event.pages[i]));
+		ui->tabEventPages->addTab(tab,QString::number(i+1));
+	}
 }

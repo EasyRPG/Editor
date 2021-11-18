@@ -48,6 +48,8 @@ private slots:
 
 	void ok();
 
+	void on_pushNewPage_clicked();
+
 private:
 	Ui::EventDialog *ui;
 	lcf::rpg::Event m_event;
@@ -55,4 +57,6 @@ private:
 	lcf::rpg::Event a_event;
 	int lst_result;
 	ProjectData& m_project;
+
+	void refreshEventPageTabs();
 };
