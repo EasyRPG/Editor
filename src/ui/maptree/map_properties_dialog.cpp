@@ -19,6 +19,8 @@
 #include "ui_map_properties_dialog.h"
 #include "core.h"
 #include "common/dbstring.h"
+#include "ui/picker/picker_audio_widget.h"
+#include "ui/picker/picker_dialog.h"
 
 MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent) :
 	QDialog(parent),
@@ -207,6 +209,8 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 		ui->radioSaveParent->setEnabled(false);
 		ui->radioEscapeParent->setEnabled(false);
 	}
+
+	new_music = info.music;
 }
 
 MapPropertiesDialog::~MapPropertiesDialog()
@@ -231,6 +235,15 @@ void MapPropertiesDialog::ok() {
 	m_map.width = ui->spinWidth->value();
 	m_map.height = ui->spinHeight->value();
 	m_map.scroll_type = ui->comboWrapping->currentIndex();
+	if (ui->radioBGMparent->isChecked()) {
+		m_info.music_type = 0;
+	} else if (ui->radioBGMevent->isChecked()) {
+		m_info.music_type = 1;
+	} else {
+		m_info.music_type = 2;
+	}
+	new_music.name = ui->lineBGMname->text().toStdString();
+	m_info.music = new_music;
 	if (ui->radioTeleportParent->isChecked()) {
 		m_info.teleport = 0;
 	} else if (ui->radioTeleportAllow->isChecked()) {
@@ -319,4 +332,19 @@ void MapPropertiesDialog::on_tableEncounters_itemChanged(QTableWidgetItem *item)
 		ui->tableEncounters->setItem(ui->tableEncounters->rowCount()-2, 0, n_item);
 		item->setData(Qt::DisplayRole, "<Add Encounter>");
 	}
+}
+
+void MapPropertiesDialog::on_toolSetBGM_clicked() {
+	auto* widget = new PickerAudioWidget(new_music, this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Music, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		ui->lineBGMname->setText(baseName);
+		new_music.name = baseName.toStdString();
+		new_music.fadein = widget->fadeInTime();
+		new_music.volume = widget->volume();
+		new_music.tempo = widget->tempo();
+		new_music.balance = widget->balance();
+	});
+	dialog.setDirectoryAndFile(MUSIC, ui->lineBGMname->text());
+	dialog.exec();
 }

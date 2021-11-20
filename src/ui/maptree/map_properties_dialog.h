@@ -57,6 +57,8 @@ private slots:
 
 	void on_tableEncounters_itemChanged(QTableWidgetItem *item);
 
+	void on_toolSetBGM_clicked();
+
 private:
 	Ui::MapPropertiesDialog *ui;
 
@@ -80,5 +82,7 @@ private:
 	std::vector<short> m_generatorUpperLayer;
 
 	ProjectData& m_project;
+
+	lcf::rpg::Music new_music;
 };
 
