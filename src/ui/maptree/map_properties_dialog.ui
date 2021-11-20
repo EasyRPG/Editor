@@ -56,10 +56,18 @@
           </property>
           <layout class="QHBoxLayout" name="layoutDimensions">
            <item>
-            <widget class="QSpinBox" name="spinWidth"/>
+            <widget class="QSpinBox" name="spinWidth">
+             <property name="minimum">
+              <number>20</number>
+             </property>
+            </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinHeight"/>
+            <widget class="QSpinBox" name="spinHeight">
+             <property name="minimum">
+              <number>15</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
