@@ -226,8 +226,32 @@ MapPropertiesDialog::~MapPropertiesDialog()
 }
 
 void MapPropertiesDialog::ok() {
+	m_info.name = ToDBString(ui->lineName->text());
+	m_map.chipset_id = ui->comboTileset->currentIndex() + 1;
 	m_map.width = ui->spinWidth->value();
 	m_map.height = ui->spinHeight->value();
+	m_map.scroll_type = ui->comboWrapping->currentIndex();
+	if (ui->radioTeleportParent->isChecked()) {
+		m_info.teleport = 0;
+	} else if (ui->radioTeleportAllow->isChecked()) {
+		m_info.teleport = 1;
+	} else {
+		m_info.teleport = 2;
+	}
+	if (ui->radioEscapeParent->isChecked()) {
+		m_info.escape = 0;
+	} else if (ui->radioEscapeAllow->isChecked()) {
+		m_info.escape = 1;
+	} else {
+		m_info.escape = 2;
+	}
+	if (ui->radioSaveParent->isChecked()) {
+		m_info.save = 0;
+	} else if (ui->radioSaveAllow->isChecked()) {
+		m_info.save = 1;
+	} else {
+		m_info.save = 2;
+	}
 }
 
 void MapPropertiesDialog::on_groupPanorama_toggled(bool arg1)
