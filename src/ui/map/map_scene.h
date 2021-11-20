@@ -68,7 +68,7 @@ public slots:
 
 	void onToolChanged();
 
-	void Save();
+	void Save(bool properties_changed = false);
 
 	void Load(bool revert = false);
 

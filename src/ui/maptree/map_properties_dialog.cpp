@@ -28,7 +28,8 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 	m_project(project)
 {
 	ui->setupUi(this);
-	
+	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(ok()));
+
 	auto& database = project.database();
 
 	for (int terrain = 0; terrain < 162; terrain++)
@@ -222,6 +223,11 @@ MapPropertiesDialog::~MapPropertiesDialog()
 	delete m_ObstacleCItem;
 
 	delete ui;
+}
+
+void MapPropertiesDialog::ok() {
+	m_map.width = ui->spinWidth->value();
+	m_map.height = ui->spinHeight->value();
 }
 
 void MapPropertiesDialog::on_groupPanorama_toggled(bool arg1)

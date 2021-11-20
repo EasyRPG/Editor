@@ -39,6 +39,8 @@ public:
 	~MapPropertiesDialog();
 
 private slots:
+	void ok();
+
 	void on_groupPanorama_toggled(bool arg1);
 
 	void on_groupUseGenerator_toggled(bool arg1);

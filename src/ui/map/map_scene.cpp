@@ -237,8 +237,59 @@ QMap<int, lcf::rpg::Event*> *MapScene::mapEvents()
 
 void MapScene::editMapProperties()
 {
+	int old_width = m_map->width;
+	int old_height = m_map->height;
+
 	MapPropertiesDialog dlg(m_project, n_mapInfo, *m_map, m_view);
-	dlg.exec();
+	if (dlg.exec() == QDialog::Accepted) {
+		// Resize map
+		if (m_map->width != old_width || m_map->height != old_height) {
+			auto old_lower_layer = m_map->lower_layer;
+			auto old_upper_layer = m_map->upper_layer;
+			int old_tile_counter = 0;
+
+			m_map->lower_layer.clear();
+			m_map->upper_layer.clear();
+			for (int y = 0; y < m_map->height; y++) {
+				if (y < old_height) {
+					for (int x = 0; x < m_map->width; x++) {
+						if (x < old_width) {
+							m_map->lower_layer.push_back(old_lower_layer[old_tile_counter]);
+							m_map->upper_layer.push_back(old_upper_layer[old_tile_counter]);
+							old_tile_counter++;
+						} else {
+							m_map->lower_layer.push_back(0);
+							m_map->upper_layer.push_back(10000);
+						}
+					}
+					if (m_map->width < old_width) {
+						old_tile_counter += (old_width - m_map->width);
+					}
+				} else {
+					for (int x = 0; x < m_map->width; x++) {
+						m_map->lower_layer.push_back(0);
+						m_map->upper_layer.push_back(10000);
+					}
+				}
+			}
+			setLayerData(Core::LOWER, m_map->lower_layer);
+			setLayerData(Core::UPPER, m_map->upper_layer);
+
+			// Delete out of bounds events
+			if (m_map->width < old_width || m_map->height < old_height) {
+				std::vector<lcf::rpg::Event>::iterator ev;
+				for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev) {
+					if (ev->x >= m_map->width || ev->y >= m_map->height) {
+						m_map->events.erase(ev);
+					}
+				}
+			}
+		}
+
+		Save(true);
+		redrawMap();
+		setScale(m_scale);
+	}
 }
 
 void MapScene::redrawMap()
@@ -333,9 +384,9 @@ void MapScene::onToolChanged()
 	}
 }
 
-void MapScene::Save()
+void MapScene::Save(bool properties_changed)
 {
-	if (!isModified())
+	if (!isModified() && !properties_changed)
 		return;
 
 	auto& treeMap = m_project.treeMap();
