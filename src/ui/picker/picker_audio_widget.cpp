@@ -26,7 +26,7 @@ PickerAudioWidget::PickerAudioWidget(const lcf::rpg::Music& music, QWidget *pare
 	ui(new Ui::PickerAudioWidget) {
 	ui->setupUi(this);
 
-	ui->sliderFadeIn->setValue(music.fadein);
+	ui->sliderFadeIn->setValue(music.fadein / 1000);
 	ui->sliderVolume->setValue(music.volume);
 	ui->sliderTempo->setValue(music.tempo);
 	ui->sliderBalance->setValue(music.balance);
@@ -53,7 +53,7 @@ void PickerAudioWidget::fileChanged(const QString& filename) {
 }
 
 int PickerAudioWidget::fadeInTime() const {
-	return ui->sliderFadeIn->value();
+	return ui->sliderFadeIn->value() * 1000;
 }
 
 int PickerAudioWidget::volume() const {
@@ -66,4 +66,20 @@ int PickerAudioWidget::tempo() const {
 
 int PickerAudioWidget::balance() const {
 	return ui->sliderBalance->value();
+}
+
+void PickerAudioWidget::on_sliderFadeIn_valueChanged(int value) {
+	ui->labelFadeIn->setText(QString("%1s").arg(value));
+}
+
+void PickerAudioWidget::on_sliderVolume_valueChanged(int value) {
+	ui->labelVolume->setText(QString("%1%").arg(value));
+}
+
+void PickerAudioWidget::on_sliderTempo_valueChanged(int value) {
+	ui->labelTempo->setText(QString("%1%").arg(value));
+}
+
+void PickerAudioWidget::on_sliderBalance_valueChanged(int value) {
+	ui->labelBalance->setText(QString("%1:%2").arg(100 - value).arg(value));
 }

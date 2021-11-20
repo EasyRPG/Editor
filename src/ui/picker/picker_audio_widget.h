@@ -55,5 +55,10 @@ private:
 
 	Type m_type;
 	QString m_filename;
-};
 
+private slots:
+	void on_sliderFadeIn_valueChanged(int value);
+	void on_sliderVolume_valueChanged(int value);
+	void on_sliderTempo_valueChanged(int value);
+	void on_sliderBalance_valueChanged(int value);
+};
