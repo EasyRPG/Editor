@@ -59,6 +59,8 @@ private slots:
 
 	void on_toolSetBGM_clicked();
 
+	void on_toolSetBackdrop_clicked();
+
 private:
 	Ui::MapPropertiesDialog *ui;
 

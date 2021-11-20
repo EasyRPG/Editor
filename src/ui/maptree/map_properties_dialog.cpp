@@ -20,6 +20,7 @@
 #include "core.h"
 #include "common/dbstring.h"
 #include "ui/picker/picker_audio_widget.h"
+#include "ui/picker/picker_backdrop_widget.h"
 #include "ui/picker/picker_dialog.h"
 
 MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent) :
@@ -244,6 +245,14 @@ void MapPropertiesDialog::ok() {
 	}
 	new_music.name = ui->lineBGMname->text().toStdString();
 	m_info.music = new_music;
+	if (ui->radioBackdropParent->isChecked()) {
+		m_info.background_type = 0;
+	} else if (ui->radioBackdropTerrain->isChecked()) {
+		m_info.background_type = 1;
+	} else {
+		m_info.background_type = 2;
+	}
+	m_info.background_name = ToDBString(ui->lineBackdropName->text());
 	if (ui->radioTeleportParent->isChecked()) {
 		m_info.teleport = 0;
 	} else if (ui->radioTeleportAllow->isChecked()) {
@@ -346,5 +355,15 @@ void MapPropertiesDialog::on_toolSetBGM_clicked() {
 		new_music.balance = widget->balance();
 	});
 	dialog.setDirectoryAndFile(MUSIC, ui->lineBGMname->text());
+	dialog.exec();
+}
+
+void MapPropertiesDialog::on_toolSetBackdrop_clicked() {
+	auto* widget = new PickerBackdropWidget(this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		ui->lineBackdropName->setText(baseName);
+	});
+	dialog.setDirectoryAndFile(BACKDROP, ui->lineBackdropName->text());
 	dialog.exec();
 }
