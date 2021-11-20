@@ -199,10 +199,13 @@ QString Project::detectEncoding() {
 	if (enc.empty()) {
 		std::ifstream i(findFile(RM_DB).toStdString(), std::ios::binary);
 		if (i) {
-			std::string dbenc = lcf::ReaderUtil::DetectEncoding(i);
-			lcf::Encoder encoder(dbenc);
-			if (encoder.IsOk()) {
-				enc = dbenc;
+			auto db = lcf::LDB_Reader::Load(i);
+			if (db) {
+				std::string dbenc = lcf::ReaderUtil::DetectEncoding(*db);
+				lcf::Encoder encoder(dbenc);
+				if (encoder.IsOk()) {
+					enc = dbenc;
+				}
 			}
 		}
 	}
