@@ -21,6 +21,7 @@
 #include "common/dbstring.h"
 #include "ui/picker/picker_audio_widget.h"
 #include "ui/picker/picker_backdrop_widget.h"
+#include "ui/picker/picker_panorama_widget.h"
 #include "ui/picker/picker_dialog.h"
 
 MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent) :
@@ -211,6 +212,7 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 		ui->radioEscapeParent->setEnabled(false);
 	}
 
+	new_panorama = map.parallax_name;
 	new_music = info.music;
 }
 
@@ -236,6 +238,25 @@ void MapPropertiesDialog::ok() {
 	m_map.width = ui->spinWidth->value();
 	m_map.height = ui->spinHeight->value();
 	m_map.scroll_type = ui->comboWrapping->currentIndex();
+	if (ui->groupPanorama->isChecked()) {
+		m_map.parallax_flag = true;
+		m_map.parallax_name = new_panorama;
+		m_map.parallax_loop_x = ui->groupHorizontalScroll->isChecked();
+		m_map.parallax_loop_y = ui->groupVerticalScroll->isChecked();
+		m_map.parallax_auto_loop_x = ui->checkHorizontalAutoscroll->isChecked();
+		m_map.parallax_auto_loop_y = ui->checkVerticalAutoscroll->isChecked();
+		m_map.parallax_sx = ui->spinHorizontalScrollSpeed->value();
+		m_map.parallax_sy = ui->spinVerticalScrollSpeed->value();
+	} else {
+		m_map.parallax_flag = false;
+		m_map.parallax_name = ToDBString("");
+		m_map.parallax_loop_x = false;
+		m_map.parallax_loop_y = false;
+		m_map.parallax_auto_loop_x = false;
+		m_map.parallax_auto_loop_y = false;
+		m_map.parallax_sx = 0;
+		m_map.parallax_sy = 0;
+	}
 	if (ui->radioBGMparent->isChecked()) {
 		m_info.music_type = 0;
 	} else if (ui->radioBGMevent->isChecked()) {
@@ -340,6 +361,24 @@ void MapPropertiesDialog::on_tableEncounters_itemChanged(QTableWidgetItem *item)
 		ui->tableEncounters->insertRow(ui->tableEncounters->rowCount()-1);
 		ui->tableEncounters->setItem(ui->tableEncounters->rowCount()-2, 0, n_item);
 		item->setData(Qt::DisplayRole, "<Add Encounter>");
+	}
+}
+
+void MapPropertiesDialog::on_pushSetPanorama_clicked() {
+	auto* widget = new PickerPanoramaWidget(this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		new_panorama = ToDBString(baseName);
+	});
+	dialog.setDirectoryAndFile(PANORAMA, ToQString(new_panorama));
+	dialog.exec();
+
+	if (!new_panorama.empty()) {
+		QPixmap pix = QPixmap(m_project.project().findFile(PANORAMA, ToQString(new_panorama), FileFinder::FileType::Image));
+		if (!pix) {
+			pix = QPixmap(core().rtpPath(PANORAMA, ToQString(new_panorama)));
+		}
+		m_panoramaItem->setPixmap(pix);
 	}
 }
 

@@ -57,6 +57,8 @@ private slots:
 
 	void on_tableEncounters_itemChanged(QTableWidgetItem *item);
 
+	void on_pushSetPanorama_clicked();
+
 	void on_toolSetBGM_clicked();
 
 	void on_toolSetBackdrop_clicked();
@@ -85,6 +87,7 @@ private:
 
 	ProjectData& m_project;
 
+	lcf::DBString new_panorama;
 	lcf::rpg::Music new_music;
 };
 
