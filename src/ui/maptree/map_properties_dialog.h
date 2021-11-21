@@ -39,7 +39,7 @@ public:
 	~MapPropertiesDialog();
 
 private slots:
-	void ok();
+	void accept();
 
 	void on_groupPanorama_toggled(bool arg1);
 
@@ -89,5 +89,8 @@ private:
 
 	lcf::DBString new_panorama;
 	lcf::rpg::Music new_music;
+
+	int old_width;
+	int old_height;
 };
 

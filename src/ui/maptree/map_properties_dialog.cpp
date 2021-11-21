@@ -23,6 +23,7 @@
 #include "ui/picker/picker_backdrop_widget.h"
 #include "ui/picker/picker_panorama_widget.h"
 #include "ui/picker/picker_dialog.h"
+#include <QMessageBox>
 
 MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo &info, lcf::rpg::Map &map, QWidget *parent) :
 	QDialog(parent),
@@ -32,7 +33,6 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 	m_project(project)
 {
 	ui->setupUi(this);
-	connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(ok()));
 
 	auto& database = project.database();
 
@@ -214,6 +214,9 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 
 	new_panorama = map.parallax_name;
 	new_music = info.music;
+
+	old_width = map.width;
+	old_height = map.height;
 }
 
 MapPropertiesDialog::~MapPropertiesDialog()
@@ -232,11 +235,24 @@ MapPropertiesDialog::~MapPropertiesDialog()
 	delete ui;
 }
 
-void MapPropertiesDialog::ok() {
+void MapPropertiesDialog::accept() {
+	int width = ui->spinWidth->value();
+	int height = ui->spinHeight->value();
+	if (width < old_width || height < old_height) {
+		int result = QMessageBox::question(this,
+			"Shrink map",
+			QString("You are about to shrink the current map. All out of bounds map data and events will be deleted. This cannot be undone. Do you want to continue?"),
+			QMessageBox::Yes | QMessageBox::No);
+
+		if (result != QMessageBox::Yes) {
+			return;
+		}
+	}
+
 	m_info.name = ToDBString(ui->lineName->text());
 	m_map.chipset_id = ui->comboTileset->currentIndex() + 1;
-	m_map.width = ui->spinWidth->value();
-	m_map.height = ui->spinHeight->value();
+	m_map.width = width;
+	m_map.height = height;
 	m_map.scroll_type = ui->comboWrapping->currentIndex();
 	if (ui->groupPanorama->isChecked()) {
 		m_map.parallax_flag = true;
@@ -295,6 +311,52 @@ void MapPropertiesDialog::ok() {
 	} else {
 		m_info.save = 2;
 	}
+
+	// Resize map if map bounds have been changed
+	if (width != old_width || height != old_height) {
+		auto old_lower_layer = m_map.lower_layer;
+		auto old_upper_layer = m_map.upper_layer;
+		int old_tile_counter = 0;
+
+		m_map.lower_layer.clear();
+		m_map.upper_layer.clear();
+		for (int y = 0; y < height; y++) {
+			if (y < old_height) {
+				for (int x = 0; x < width; x++) {
+					if (x < old_width) {
+						m_map.lower_layer.push_back(old_lower_layer[old_tile_counter]);
+						m_map.upper_layer.push_back(old_upper_layer[old_tile_counter]);
+						old_tile_counter++;
+					} else {
+						m_map.lower_layer.push_back(0);
+						m_map.upper_layer.push_back(10000);
+					}
+				}
+				if (width < old_width) {
+					old_tile_counter += (old_width - width);
+				}
+			} else {
+				for (int x = 0; x < width; x++) {
+					m_map.lower_layer.push_back(0);
+					m_map.upper_layer.push_back(10000);
+				}
+			}
+		}
+
+		// Delete out of bounds events
+		if (width < old_width || height < old_height) {
+			std::vector<lcf::rpg::Event>::iterator ev = m_map.events.begin();
+			while (ev != m_map.events.end()) {
+				if (ev->x >= width || ev->y >= height) {
+					ev = m_map.events.erase(ev);
+				} else {
+					++ev;
+				}
+			}
+		}
+	}
+
+	QDialog::accept();
 }
 
 void MapPropertiesDialog::on_groupPanorama_toggled(bool arg1)
