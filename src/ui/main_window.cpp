@@ -1309,7 +1309,7 @@ void MainWindow::on_actionMapProperties_triggered()
 	if (!currentScene())
 		return;
 
-	currentScene()->editMapProperties();
+	currentScene()->editMapProperties(ui->treeMap->currentItem());
 }
 
 void MainWindow::on_actionSearch_triggered()

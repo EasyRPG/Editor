@@ -25,6 +25,7 @@
 #include <QMap>
 #include <QMenu>
 #include <QUndoStack>
+#include <QTreeWidgetItem>
 #include <memory>
 #include <lcf/rpg/map.h>
 #include <lcf/rpg/mapinfo.h>
@@ -51,7 +52,7 @@ public:
 	void setLayerData(Core::Layer layer, std::vector<short> data);
 	void setEventData(int id, const lcf::rpg::Event &data);
 	QMap<int, lcf::rpg::Event *> *mapEvents();
-	void editMapProperties();
+	void editMapProperties(QTreeWidgetItem *item);
 
 signals:
 

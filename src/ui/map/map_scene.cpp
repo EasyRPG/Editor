@@ -235,10 +235,11 @@ QMap<int, lcf::rpg::Event*> *MapScene::mapEvents()
 	return events;
 }
 
-void MapScene::editMapProperties()
+void MapScene::editMapProperties(QTreeWidgetItem *item)
 {
 	int old_width = m_map->width;
 	int old_height = m_map->height;
+	lcf::DBString old_name = n_mapInfo.name;
 
 	MapPropertiesDialog dlg(m_project, n_mapInfo, *m_map, m_view);
 	if (dlg.exec() == QDialog::Accepted) {
@@ -252,6 +253,10 @@ void MapScene::editMapProperties()
 		redrawPanorama();
 		redrawMap();
 		setScale(m_scale);
+
+		if (n_mapInfo.name != old_name) {
+			item->setData(0, Qt::DisplayRole, ToQString(n_mapInfo.name));
+		}
 	}
 }
 
