@@ -121,6 +121,7 @@ private:
 	short bind(int x, int y);
 	lcf::rpg::Event* getEventAt(int x, int y);
 	int getFirstFreeId();
+	void redrawPanorama();
 	void redrawGrid();
 
 

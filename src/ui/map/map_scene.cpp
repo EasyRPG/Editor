@@ -249,6 +249,7 @@ void MapScene::editMapProperties()
 		}
 
 		Save(true);
+		redrawPanorama();
 		redrawMap();
 		setScale(m_scale);
 	}
@@ -383,10 +384,8 @@ void MapScene::Load(bool revert)
 	m_map = m_project.project().loadMap(n_mapInfo.ID);
 	m_lower =  m_map->lower_layer;
 	m_upper =  m_map->upper_layer;
-	if(m_map->parallax_flag)
-		core().LoadBackground(m_map->parallax_name.c_str());
-	else
-		core().LoadBackground(QString());
+
+	redrawPanorama();
 
 	if (!revert) {
 		redrawGrid();
@@ -1039,6 +1038,14 @@ int MapScene::getFirstFreeId() {
 	}
 
 	return id;
+}
+
+void MapScene::redrawPanorama() {
+	if (m_map->parallax_flag) {
+		core().LoadBackground(m_map->parallax_name.c_str());
+	} else {
+		core().LoadBackground(QString());
+	}
 }
 
 void MapScene::redrawGrid() {
