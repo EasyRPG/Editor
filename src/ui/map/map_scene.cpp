@@ -245,6 +245,7 @@ void MapScene::editMapProperties()
 		if (m_map->width != old_width || m_map->height != old_height) {
 			setLayerData(Core::LOWER, m_map->lower_layer);
 			setLayerData(Core::UPPER, m_map->upper_layer);
+			redrawGrid();
 		}
 
 		Save(true);
@@ -388,20 +389,7 @@ void MapScene::Load(bool revert)
 		core().LoadBackground(QString());
 
 	if (!revert) {
-		QList<QGraphicsItem*> lines;
-		for (int x = 0; x <= m_map->width; x++)
-			lines.append(new QGraphicsLineItem(x*core().tileSize(),
-				0,
-				x*core().tileSize(),
-				m_map->height*core().tileSize()));
-
-		for (int y = 0; y <= m_map->height; y++)
-			lines.append(new QGraphicsLineItem(0,
-				y*core().tileSize(),
-				m_map->width*core().tileSize(),
-				y*core().tileSize()));
-
-		m_lines = createItemGroup(lines);
+		redrawGrid();
 	}
 
 	redrawMap();
@@ -1051,4 +1039,32 @@ int MapScene::getFirstFreeId() {
 	}
 
 	return id;
+}
+
+void MapScene::redrawGrid() {
+	if (!grid_lines.empty()) {
+		while (!grid_lines.empty()) {
+			QGraphicsItem* line = grid_lines.takeLast();
+			delete line;
+		}
+		destroyItemGroup(m_lines);
+	}
+
+	for (int x = 0; x <= m_map->width; x++) {
+		grid_lines.append(new QGraphicsLineItem(x*core().tileSize(),
+			0,
+			x*core().tileSize(),
+			m_map->height*core().tileSize()));
+	}
+
+	for (int y = 0; y <= m_map->height; y++) {
+		grid_lines.append(new QGraphicsLineItem(0,
+			y*core().tileSize(),
+			m_map->width*core().tileSize(),
+			y*core().tileSize()));
+	}
+
+	m_lines = createItemGroup(grid_lines);
+
+	m_lines->setVisible(core().layer() == Core::EVENT);
 }

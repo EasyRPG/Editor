@@ -121,6 +121,7 @@ private:
 	short bind(int x, int y);
 	lcf::rpg::Event* getEventAt(int x, int y);
 	int getFirstFreeId();
+	void redrawGrid();
 
 
 	QMenu *m_eventMenu;
@@ -150,5 +151,6 @@ private:
 	ProjectData& m_project;
 	lcf::rpg::Event event_clipboard;
 	bool event_clipboard_set = false;
+	QList<QGraphicsItem*> grid_lines;
 };
 
