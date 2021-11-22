@@ -94,13 +94,12 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 	ui->radioDungeonOpenRoom->setChecked(map.generator_mode == 3);
 	ui->radioDungeonPassage1_1->setChecked(map.generator_tiles == 0);
 	ui->radioDungeonPassage2_2->setChecked(map.generator_tiles == 1);
-	for (int i = static_cast<int>(info.encounters.size()) - 1; i >= 0; i--)
-	{
-		QTableWidgetItem * item = new QTableWidgetItem();
+	for (int i = 0; i < static_cast<int>(info.encounters.size()); i++) {
+		QTableWidgetItem *item = new QTableWidgetItem();
 		item->setData(Qt::DisplayRole, ToQString(database.troops[static_cast<size_t>(info.encounters[static_cast<size_t>(i)].troop_id)-1].name));
 		item->setData(Qt::UserRole, info.encounters[static_cast<size_t>(i)].troop_id);
-		ui->tableEncounters->insertRow(0);
-		ui->tableEncounters->setItem(0,0,item);
+		ui->tableEncounters->insertRow(i);
+		ui->tableEncounters->setItem(i, 0, item);
 	}
 	m_encounterDelegate = new QEncounterDelegate(this);
 	ui->tableEncounters->setItemDelegate(m_encounterDelegate);
@@ -311,6 +310,14 @@ void MapPropertiesDialog::accept() {
 	} else {
 		m_info.save = 2;
 	}
+	m_info.encounters.clear();
+	for (int i = 0; i < ui->tableEncounters->rowCount(); i++) {
+		QTableWidgetItem *item = ui->tableEncounters->item(i, 0);
+		lcf::rpg::Encounter enc;
+		enc.troop_id = item->data(Qt::UserRole).toInt();
+		m_info.encounters.push_back(enc);
+	}
+	m_info.encounter_steps = ui->spinEncounterRate->value();
 
 	// Resize map if map bounds have been changed
 	if (width != old_width || height != old_height) {
@@ -413,16 +420,18 @@ void MapPropertiesDialog::on_groupObstacleC_toggled(bool arg1)
 	m_ObstacleCItem->setVisible(arg1);
 }
 
-void MapPropertiesDialog::on_tableEncounters_itemChanged(QTableWidgetItem *item)
-{
-	if (item->row() == ui->tableEncounters->rowCount()-1)
-	{
-		QTableWidgetItem *n_item = new QTableWidgetItem();
-		n_item->setData(Qt::DisplayRole, item->data(Qt::DisplayRole));
-		n_item->setData(Qt::UserRole, item->data(Qt::UserRole));
-		ui->tableEncounters->insertRow(ui->tableEncounters->rowCount()-1);
-		ui->tableEncounters->setItem(ui->tableEncounters->rowCount()-2, 0, n_item);
-		item->setData(Qt::DisplayRole, "<Add Encounter>");
+void MapPropertiesDialog::on_pushAddEncounter_clicked() {
+	QTableWidgetItem* item = new QTableWidgetItem();
+	item->setData(Qt::DisplayRole, ToQString(m_project.database().troops[0].name));
+	item->setData(Qt::UserRole, 1);
+	ui->tableEncounters->insertRow(ui->tableEncounters->rowCount());
+	ui->tableEncounters->setItem(ui->tableEncounters->rowCount() - 1, 0, item);
+}
+
+void MapPropertiesDialog::on_pushRemoveEncounter_clicked() {
+	QTableWidgetItem *item = ui->tableEncounters->currentItem();
+	if (item) {
+		ui->tableEncounters->removeRow(item->row());
 	}
 }
 

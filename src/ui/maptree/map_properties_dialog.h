@@ -55,7 +55,9 @@ private slots:
 
 	void on_groupObstacleC_toggled(bool arg1);
 
-	void on_tableEncounters_itemChanged(QTableWidgetItem *item);
+	void on_pushAddEncounter_clicked();
+
+	void on_pushRemoveEncounter_clicked();
 
 	void on_pushSetPanorama_clicked();
 
