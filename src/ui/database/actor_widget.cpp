@@ -265,16 +265,16 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 	for (int i = 0; i < ui->listAttributeRanks->count(); i++)
 	{
 		if (i >= static_cast<int>(actor->attribute_ranks.size()))
-			ui->listAttributeRanks->item(static_cast<int>(i))->setIcon(QIcon(":/embedded/share/old_rank2.png"));
+			ui->listAttributeRanks->item(static_cast<int>(i))->setIcon(QIcon(":/ranks/rank2"));
 		else
-			ui->listAttributeRanks->item(static_cast<int>(i))->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg(static_cast<int>(actor->attribute_ranks[static_cast<size_t>(i)]))));
+			ui->listAttributeRanks->item(static_cast<int>(i))->setIcon(QIcon(QString(":/ranks/rank%1").arg(static_cast<int>(actor->attribute_ranks[static_cast<size_t>(i)]))));
 	}
 	for (int i = 0; i < ui->listStatusRanks->count(); i++)
 	{
 		if (i >= static_cast<int>(actor->state_ranks.size()))
-			ui->listStatusRanks->item(i)->setIcon(QIcon(":/embedded/share/old_rank2.png"));
+			ui->listStatusRanks->item(i)->setIcon(QIcon(":/ranks/rank2"));
 		else
-			ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/embedded/share/old_rank%1.png").arg(static_cast<int>(actor->state_ranks[static_cast<size_t>(i)]))));
+			ui->listStatusRanks->item(i)->setIcon(QIcon(QString(":/ranks/rank%1").arg(static_cast<int>(actor->state_ranks[static_cast<size_t>(i)]))));
 	}
 
 	if (actor->battler_animation <= 0 ||

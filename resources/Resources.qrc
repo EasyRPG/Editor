@@ -86,4 +86,11 @@
         <file alias="zoom-out">icons/dark/zoom-out.svg</file>
         <file alias="zoom">icons/dark/zoom.svg</file>
     </qresource>
+    <qresource prefix="/ranks">
+        <file alias="rank0">icons/ranks/rank0.svg</file>
+        <file alias="rank1">icons/ranks/rank1.svg</file>
+        <file alias="rank2">icons/ranks/rank2.svg</file>
+        <file alias="rank3">icons/ranks/rank3.svg</file>
+        <file alias="rank4">icons/ranks/rank4.svg</file>
+    </qresource>
 </RCC>
