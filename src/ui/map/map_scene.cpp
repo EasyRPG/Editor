@@ -701,8 +701,7 @@ void MapScene::updateArea(int x1, int y1, int x2, int y2)
 		{
 			if (core().layer() == Core::LOWER)
 			{
-				if (!core().isEblock(core().translate(m_lower[static_cast<size_t>(_index(x, y))])) &&
-					!core().isAnimation(core().translate(m_lower[static_cast<size_t>(_index(x, y))])))
+				if (!core().isEblock(core().translate(m_lower[static_cast<size_t>(_index(x, y))])))
 					m_lower[static_cast<size_t>(_index(x,y))] = bind(x, y);
 			}
 
@@ -866,7 +865,7 @@ short MapScene::bind(int x, int y)
 			dr = DOWNRIGHT;
 		_code = u+d+l+r+ul+ur+dl+dr;
 	}
-	else if (core().isWater(terrain_id))
+	else if (core().isWater(terrain_id) || core().isAnimation(terrain_id))
 	{
 		if (y > 0 && (!core().isWater(tile_u) &&
 					  !core().isAnimation(tile_u)))
@@ -880,14 +879,14 @@ short MapScene::bind(int x, int y)
 		if (x < m_map->width-1 && (!core().isWater(tile_r) &&
 										 !core().isAnimation(tile_r)))
 			r = RIGHT;
-		if ((u+l) == 0 && x > 0 && y > 0 && !core().isWater(tile_ul))
+		if ((u+l) == 0 && x > 0 && y > 0 && !core().isWater(tile_ul) && !core().isAnimation(tile_ul))
 			ul = UPLEFT;
-		if ((u+r) == 0 && x < m_map->width-1 && y > 0 && !core().isWater(tile_ur))
+		if ((u+r) == 0 && x < m_map->width-1 && y > 0 && !core().isWater(tile_ur) && !core().isAnimation(tile_ur))
 			ur = UPRIGHT;
-		if ((d+l) == 0 && x > 0 && y < m_map->height-1 && !core().isWater(tile_dl))
+		if ((d+l) == 0 && x > 0 && y < m_map->height-1 && !core().isWater(tile_dl) && !core().isAnimation(tile_dl))
 			dl = DOWNLEFT;
 		if ((d+r) == 0 && x < m_map->width-1 &&
-				y < m_map->height-1 && !core().isWater(tile_dr))
+				y < m_map->height-1 && !core().isWater(tile_dr) && !core().isAnimation(tile_dr))
 			dr = DOWNRIGHT;
 		_code = u+d+l+r+ul+ur+dl+dr;
 		// DeepWater Special Corners
@@ -898,10 +897,10 @@ short MapScene::bind(int x, int y)
 			if (x < m_map->width-1 && y > 0 && core().isABWater(tile_u) && core().isABWater (tile_r) && core().isABWater (tile_ur))
 				sur = UPRIGHT;
 			if (x > 0 && y < m_map->height-1 && core().isABWater(tile_d) && core().isABWater (tile_l) && core().isABWater (tile_dl))
-				sdl = DOWNLEFT;
+				sdl = DOWNRIGHT;
 			if (x < m_map->width-1 && y < m_map->height-1 &&
 					core().isABWater(tile_d) && core().isABWater (tile_r) && core().isABWater (tile_dr))
-				sdr = DOWNRIGHT;
+				sdr = DOWNLEFT;
 		}
 		else
 		{
@@ -910,10 +909,10 @@ short MapScene::bind(int x, int y)
 			if (x < m_map->width-1 && y > 0 && core().isDWater (tile_u) && core().isDWater (tile_r) && core().isWater(tile_ur))
 				sur = UPRIGHT;
 			if (x > 0 && y < m_map->height-1 && core().isDWater (tile_d) && core().isDWater (tile_l) && core().isWater(tile_dl))
-				sdl = DOWNLEFT;
+				sdl = DOWNRIGHT;
 			if (x < m_map->width-1 && y < m_map->height-1 &&
 					core().isDWater (tile_d) && core().isDWater (tile_r) && core().isWater(tile_dr))
-				sdr = DOWNRIGHT;
+				sdr = DOWNLEFT;
 		}
 		_scode = sul+sur+sdl+sdr;
 	}
