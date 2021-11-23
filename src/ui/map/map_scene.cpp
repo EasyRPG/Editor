@@ -508,6 +508,11 @@ void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 		}
 		else // Start drawing
 		{
+			// Do not draw on invalid coordinates
+			if (cur_x == -1 || cur_y == -1) {
+				return;
+			}
+
 			fst_x = cur_x;
 			fst_y = cur_y;
 			switch(core().tool())
@@ -537,12 +542,15 @@ void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-	if (!sceneRect().contains(event->scenePos()))
+	if (!sceneRect().contains(event->scenePos())) {
+		cur_x = -1;
+		cur_y = -1;
 		return;
+	}
 	if (cur_x == static_cast<int>(event->scenePos().x() / s_tileSize) && cur_y == static_cast<int>(event->scenePos().y() / s_tileSize))
 		return;
-	cur_x = static_cast<int>(event->scenePos().x() / s_tileSize);
-	cur_y = static_cast<int>(event->scenePos().y() / s_tileSize);
+	cur_x = std::max(0, std::min(m_map->width - 1, static_cast<int>(event->scenePos().x() / s_tileSize)));
+	cur_y = std::max(0, std::min(m_map->height - 1, static_cast<int>(event->scenePos().y() / s_tileSize)));
 	if (m_drawing)
 	{
 		switch (core().tool())
