@@ -261,7 +261,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>7</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -304,7 +304,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>7</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -347,7 +347,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>0</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -390,7 +390,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>0</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -433,7 +433,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>0</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -476,7 +476,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>0</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -519,7 +519,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>0</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -562,7 +562,7 @@
     </sound_effect>
     <occasion_field>T</occasion_field>
     <occasion_battle>F</occasion_battle>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <physical_rate>0</physical_rate>
     <magical_rate>3</magical_rate>
     <variance>4</variance>
@@ -630,7 +630,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -684,7 +684,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -738,7 +738,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -792,7 +792,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -846,7 +846,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -900,7 +900,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -954,7 +954,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1008,7 +1008,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1062,7 +1062,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1116,7 +1116,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1170,7 +1170,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1224,7 +1224,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1278,7 +1278,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1332,7 +1332,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1386,7 +1386,7 @@
     <state_set>F F T</state_set>
     <attribute_set>T F F F F F F T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1440,7 +1440,7 @@
     <state_set>F T</state_set>
     <attribute_set>F T</attribute_set>
     <state_chance>5</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1494,7 +1494,7 @@
     <state_set>F T</state_set>
     <attribute_set>F T F F T</attribute_set>
     <state_chance>5</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1548,7 +1548,7 @@
     <state_set>F T</state_set>
     <attribute_set>F T F F T</attribute_set>
     <state_chance>5</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1602,7 +1602,7 @@
     <state_set>F T</state_set>
     <attribute_set>F T F F F F F T</attribute_set>
     <state_chance>5</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1656,7 +1656,7 @@
     <state_set>F T</state_set>
     <attribute_set>F T F T</attribute_set>
     <state_chance>5</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1710,7 +1710,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1764,7 +1764,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1818,7 +1818,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1872,7 +1872,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1926,7 +1926,7 @@
     <state_set></state_set>
     <attribute_set>T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -1980,7 +1980,7 @@
     <state_set></state_set>
     <attribute_set>T F T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2034,7 +2034,7 @@
     <state_set></state_set>
     <attribute_set>T F T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2088,7 +2088,7 @@
     <state_set></state_set>
     <attribute_set>T F T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2142,7 +2142,7 @@
     <state_set></state_set>
     <attribute_set>T F T T T T T T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2196,7 +2196,7 @@
     <state_set></state_set>
     <attribute_set>T F T T T T T T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2250,7 +2250,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2304,7 +2304,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2358,7 +2358,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2412,7 +2412,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2466,7 +2466,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2520,7 +2520,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2530,7 +2530,7 @@
    </Item>
    <Item id="0037">
     <name>Leather Cap</name>
-    <description>Said to help against arrows… but don't count on it</description>
+    <description>Said to help against arrows, but don't count on it</description>
     <type>4</type>
     <price>60</price>
     <uses>1</uses>
@@ -2574,7 +2574,7 @@
     <state_set></state_set>
     <attribute_set>F F T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2628,7 +2628,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2682,7 +2682,7 @@
     <state_set></state_set>
     <attribute_set>F F T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2736,7 +2736,7 @@
     <state_set></state_set>
     <attribute_set>T T T</attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2790,7 +2790,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2844,7 +2844,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2898,7 +2898,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -2952,7 +2952,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -3006,7 +3006,7 @@
     <state_set></state_set>
     <attribute_set></attribute_set>
     <state_chance>0</state_chance>
-    <state_effect>F</state_effect>
+    <reverse_state_effect>F</reverse_state_effect>
     <weapon_animation>1</weapon_animation>
     <animation_data></animation_data>
     <use_skill>F</use_skill>
@@ -3364,9 +3364,9 @@
     <special_lateral_party>10</special_lateral_party>
     <special_lateral_enemies>5</special_lateral_enemies>
     <grid_location>0</grid_location>
-    <grid_a>0</grid_a>
-    <grid_b>0</grid_b>
-    <grid_c>0</grid_c>
+    <grid_top_y>120</grid_top_y>
+    <grid_elongation>392</grid_elongation>
+    <grid_inclination>16000</grid_inclination>
    </Terrain>
    <Terrain id="0002">
     <name>Water</name>
@@ -3412,9 +3412,9 @@
     <special_lateral_party>10</special_lateral_party>
     <special_lateral_enemies>5</special_lateral_enemies>
     <grid_location>0</grid_location>
-    <grid_a>0</grid_a>
-    <grid_b>0</grid_b>
-    <grid_c>0</grid_c>
+    <grid_top_y>120</grid_top_y>
+    <grid_elongation>392</grid_elongation>
+    <grid_inclination>16000</grid_inclination>
    </Terrain>
    <Terrain id="0003">
     <name>Forest</name>
@@ -3460,9 +3460,9 @@
     <special_lateral_party>10</special_lateral_party>
     <special_lateral_enemies>5</special_lateral_enemies>
     <grid_location>0</grid_location>
-    <grid_a>0</grid_a>
-    <grid_b>0</grid_b>
-    <grid_c>0</grid_c>
+    <grid_top_y>120</grid_top_y>
+    <grid_elongation>392</grid_elongation>
+    <grid_inclination>16000</grid_inclination>
    </Terrain>
   </terrains>
   <attributes>
@@ -3658,8 +3658,8 @@
     <restrict_magic_level>0</restrict_magic_level>
     <hp_change_type>0</hp_change_type>
     <sp_change_type>0</sp_change_type>
-    <message_actor> is poisned!</message_actor>
-    <message_enemy> is poisned!</message_enemy>
+    <message_actor> is poisoned!</message_actor>
+    <message_enemy> is poisoned!</message_enemy>
     <message_already> is already poisoned!</message_already>
     <message_affected></message_affected>
     <message_recovery> recovers from poison!</message_recovery>
@@ -3765,7 +3765,7 @@
    <Animation id="0001">
     <name>Hit</name>
     <animation_name>Zip</animation_name>
-    <unknown_03>-1</unknown_03>
+    <large>F</large>
     <timings>
      <AnimationTiming id="0001">
       <frame>1</frame>
@@ -3919,7 +3919,7 @@
    <Animation id="0002">
     <name>Healing</name>
     <animation_name>Zip</animation_name>
-    <unknown_03>-1</unknown_03>
+    <large>F</large>
     <timings>
      <AnimationTiming id="0001">
       <frame>1</frame>
@@ -4160,7 +4160,7 @@
    <Animation id="0003">
     <name>Lightning</name>
     <animation_name>Zip</animation_name>
-    <unknown_03>-1</unknown_03>
+    <large>F</large>
     <timings>
      <AnimationTiming id="0001">
       <frame>1</frame>
@@ -4657,7 +4657,7 @@
     <inn_b_cancel>stay 1 night</inn_b_cancel>
     <possessed_items>Num. owned</possessed_items>
     <equipped_items>Num. equipped</equipped_items>
-    <gold>gold</gold>
+    <gold> Gold</gold>
     <battle_fight>Fight</battle_fight>
     <battle_auto>AutoBattle</battle_auto>
     <battle_escape>Escape</battle_escape>
@@ -4694,9 +4694,9 @@
     <armor>Armour</armor>
     <helmet>Helmet</helmet>
     <accessory>Other</accessory>
-    <save_game_message>Please choose a slot to load from</save_game_message>
-    <load_game_message>Please choose a slot to save to</load_game_message>
-    <file>Slot </file>
+    <save_game_message>Please choose a slot to save to</save_game_message>
+    <load_game_message>Please choose a slot to load from</load_game_message>
+    <file>Slot</file>
     <exit_game_message>Do you really want to exit?</exit_game_message>
     <yes>Yes</yes>
     <no>No</no>
@@ -4907,11 +4907,11 @@
       <accessory_id>0</accessory_id>
      </TestBattler>
     </battletest_data>
-    <save_count>31</save_count>
+    <save_count>0</save_count>
     <battletest_terrain>0</battletest_terrain>
     <battletest_formation>0</battletest_formation>
     <battletest_condition>0</battletest_condition>
-    <unknown_61>-1</unknown_61>
+    <equipment_setting>0</equipment_setting>
     <show_frame>F</show_frame>
     <frame_name></frame_name>
     <invert_animations>F</invert_animations>
@@ -4941,20 +4941,20 @@
   <battlecommands>
    <BattleCommands>
     <placement>0</placement>
-    <death_handler1>0</death_handler1>
+    <death_handler_unused>F</death_handler_unused>
     <row>0</row>
     <battle_type>0</battle_type>
-    <unknown_09>0</unknown_09>
+    <unused_display_normal_parameters>T</unused_display_normal_parameters>
     <commands></commands>
-    <death_handler2>0</death_handler2>
-    <death_event>0</death_event>
+    <death_handler>F</death_handler>
+    <death_event>1</death_event>
     <window_size>0</window_size>
     <transparency>0</transparency>
-    <teleport>F</teleport>
-    <teleport_id>0</teleport_id>
-    <teleport_x>0</teleport_x>
-    <teleport_y>0</teleport_y>
-    <teleport_face>0</teleport_face>
+    <death_teleport>F</death_teleport>
+    <death_teleport_id>1</death_teleport_id>
+    <death_teleport_x>0</death_teleport_x>
+    <death_teleport_y>0</death_teleport_y>
+    <death_teleport_face>0</death_teleport_face>
    </BattleCommands>
   </battlecommands>
   <classes></classes>
