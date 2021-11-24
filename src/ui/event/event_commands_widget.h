@@ -40,7 +40,10 @@ private:
 	void setDataInternal(ProjectData& project, T* event);
 	std::vector<lcf::rpg::EventCommand>	* m_commands = nullptr;
 
+	void addRawEvent(QTreeWidgetItem* item);
 	void editRawEvent(QTreeWidgetItem* item, int column, bool show_warning);
+	void deleteEvent(QTreeWidgetItem* item);
+	void refreshList();
 
 	ProjectData* m_project = nullptr;
 
