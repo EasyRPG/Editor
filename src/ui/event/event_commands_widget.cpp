@@ -297,7 +297,7 @@ void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool s
 	dialog.reset(wrapper);
 
 	dialog->exec();
-	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
+	refreshList();
 }
 
 void EventCommandsWidget::deleteEvent(QTreeWidgetItem *item) {
@@ -332,17 +332,45 @@ void EventCommandsWidget::showContextMenu(const QPoint& pos) {
 }
 
 void EventCommandsWidget::refreshList() {
+	using Cmd = lcf::rpg::EventCommand::Code;
+
 	clear();
 
 	// Populate event command list
 	int32_t prev_indent = -1;
 	std::vector<QTreeWidgetItem*> parent_stack;
 	parent_stack.reserve(10);
+	int32_t indent = 0;
 
 	for (size_t i = 0; i < m_commands->size(); ++i) {
 		auto& cmd = (*m_commands)[i];
 
-		auto indent = cmd.indent;
+		if (i > 0) {
+			auto& last_cmd = (*m_commands)[i - 1];
+			switch (static_cast<Cmd>(last_cmd.code)) {
+				case Cmd::ConditionalBranch:
+				case Cmd::ElseBranch:
+				case Cmd::ConditionalBranch_B:
+				case Cmd::ElseBranch_B:
+				case Cmd::Loop:
+				case Cmd::ShowChoiceOption:
+				case Cmd::VictoryHandler:
+				case Cmd::EscapeHandler:
+				case Cmd::DefeatHandler:
+				case Cmd::Transaction:
+				case Cmd::NoTransaction:
+				case Cmd::Stay:
+				case Cmd::NoStay:
+					indent++;
+					break;
+				case Cmd::END:
+					indent--;
+					break;
+				default:
+					break;
+			}
+		}
+		cmd.indent = indent;
 
 		auto* item = new QTreeWidgetItem({Stringizer::stringize(cmd), QString::number(i)});
 		item->setToolTip(0, tr("Line") + ": " + QString::number(i + 1));
