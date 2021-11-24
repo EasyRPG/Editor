@@ -25,8 +25,6 @@ EventRawWidget::EventRawWidget(ProjectData& project, QWidget* parent) :
 {
 	ui->setupUi(this);
 
-	ui->buttonAddNum->setHidden(true); // FIXME: Not implemented
-
 	LcfWidgetBinding::connect(this, ui->lineString);
 	LcfWidgetBinding::connect<int32_t>(this, ui->spinCode);
 }
@@ -36,7 +34,37 @@ EventRawWidget::~EventRawWidget() {
 }
 
 void EventRawWidget::on_buttonAddNum_clicked() {
+	int index = cmd->parameters.size();
+	auto new_arr = lcf::DBArray<int32_t>(index + 1);
+	std::copy(cmd->parameters.begin(), cmd->parameters.end(), new_arr.begin());
+	cmd->parameters = new_arr;
 
+	for (size_t i = 0; i < cmd->parameters.size() - 1; ++i) {
+		QSpinBox *spin = static_cast<QSpinBox*>(ui->gridLayoutNum->itemAtPosition(i, 1)->widget());
+		LcfWidgetBinding::connect<int32_t>(this, spin);
+		LcfWidgetBinding::bind(spin, cmd->parameters[i]);
+	}
+
+	addParameterWidget(index);
+}
+
+void EventRawWidget::on_buttonRemoveNum_clicked() {
+	if (cmd->parameters.size() > 0) {
+		int index = cmd->parameters.size();
+		auto new_arr = lcf::DBArray<int32_t>(index - 1);
+		std::copy(cmd->parameters.begin(), cmd->parameters.end() - 1, new_arr.begin());
+		cmd->parameters = new_arr;
+
+		for (int i = 1; i >= 0; --i) {
+			delete ui->gridLayoutNum->itemAtPosition(index - 1, i)->widget();
+		}
+
+		for (size_t i = 0; i < cmd->parameters.size(); ++i) {
+			QSpinBox *spin = static_cast<QSpinBox*>(ui->gridLayoutNum->itemAtPosition(i, 1)->widget());
+			LcfWidgetBinding::connect<int32_t>(this, spin);
+			LcfWidgetBinding::bind(spin, cmd->parameters[i]);
+		}
+	}
 }
 
 void EventRawWidget::setData(lcf::rpg::EventCommand* cmd) {
@@ -46,29 +74,29 @@ void EventRawWidget::setData(lcf::rpg::EventCommand* cmd) {
 	LcfWidgetBinding::bind(ui->spinCode, cmd->code);
 
 	for (size_t i = 0; i < cmd->parameters.size(); ++i) {
-		auto& param = cmd->parameters[i];
-
-		auto label = new QLabel(this);
-		label->setText(QString("%1:").arg(i+1));
-		auto spin = new QSpinBox(this);
-		spin->setMinimum(INT_MIN);
-		spin->setMaximum(INT_MAX);
-		QSizePolicy policy;
-		policy.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
-		spin->setSizePolicy(policy);
-		auto del = new QPushButton(this);
-		del->setText("Delete");
-		del->setHidden(true); // FIXME: Not implemented
-
-		LcfWidgetBinding::connect<int32_t>(this, spin);
-		LcfWidgetBinding::bind(spin, param);
-
-		ui->gridLayoutNum->addWidget(label, i, 0);
-		ui->gridLayoutNum->addWidget(spin, i, 1);
-		ui->gridLayoutNum->addWidget(del, i, 2);
+		addParameterWidget(i);
 	}
 }
 
 void EventRawWidget::setShowWarning(bool show) {
 	ui->labelWarn->setHidden(!show);
+}
+
+void EventRawWidget::addParameterWidget(int index) {
+	auto& param = cmd->parameters[index];
+
+	auto label = new QLabel(this);
+	label->setText(QString("%1:").arg(index + 1));
+	auto spin = new QSpinBox(this);
+	spin->setMinimum(INT_MIN);
+	spin->setMaximum(INT_MAX);
+	QSizePolicy policy;
+	policy.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
+	spin->setSizePolicy(policy);
+
+	LcfWidgetBinding::connect<int32_t>(this, spin);
+	LcfWidgetBinding::bind(spin, param);
+
+	ui->gridLayoutNum->addWidget(label, index, 0);
+	ui->gridLayoutNum->addWidget(spin, index, 1);
 }

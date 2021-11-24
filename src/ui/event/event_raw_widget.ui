@@ -74,6 +74,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="buttonRemoveNum">
+     <property name="text">
+      <string>Remove Numeric Parameter</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
