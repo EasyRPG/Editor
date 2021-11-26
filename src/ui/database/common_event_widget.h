@@ -38,7 +38,12 @@ public:
 
 	void setData(lcf::rpg::CommonEvent* common_event);
 
+private slots:
+	void on_comboTrigger_currentIndexChanged(int index);
+
 private:
+	void updateComboSwitchEnabled();
+
 	Ui::CommonEventWidget *ui;
 	ProjectData& m_project;
 	lcf::rpg::CommonEvent *m_current = nullptr;

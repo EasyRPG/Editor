@@ -36,23 +36,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="comboTrigger">
-         <item>
-          <property name="text">
-           <string>Disabled</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Foreground</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Background</string>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="comboTrigger"/>
        </item>
       </layout>
      </item>
@@ -63,6 +47,9 @@
        </property>
        <property name="checkable">
         <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
