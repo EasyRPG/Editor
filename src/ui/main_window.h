@@ -156,6 +156,7 @@ private:
 	QMap<int,QGraphicsView*> m_views;
 	QMap<int,QTreeWidgetItem*> m_treeItems;
 	QString m_copiedMap;
+	int copiedMapId;
 	SearchDialog *searchdialog;
 };
 

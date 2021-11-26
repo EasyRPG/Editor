@@ -778,6 +778,8 @@ void MainWindow::on_actionProjectClose_triggered()
 
 		core().project().reset();
 
+		m_copiedMap.clear();
+
 		update_actions();
 		setWindowTitle("EasyRPG Editor");
 	}
@@ -1061,8 +1063,9 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 
 void MainWindow::on_actionMapCopy_triggered()
 {
+	copiedMapId = ui->treeMap->currentItem()->data(1, Qt::DisplayRole).toInt();
 	m_copiedMap = core().project()->projectDir().path() + (core().project()->projectType() == FileFinder::ProjectType::EasyRpg ? "/Map%1.emu" : "/Map%1.lmu");
-	m_copiedMap = m_copiedMap.arg(QString::number(ui->treeMap->currentItem()->data(1,Qt::DisplayRole).toInt()),
+	m_copiedMap = m_copiedMap.arg(QString::number(copiedMapId),
 								  4, QLatin1Char('0'));
 	ui->actionMapPaste->setEnabled(true);
 }
@@ -1166,7 +1169,7 @@ void MainWindow::on_actionMapPaste_triggered()
 	lcf::rpg::MapInfo info;
 	for (size_t i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{
-		if (core().project()->treeMap().maps[i].ID == info.ID)
+		if (core().project()->treeMap().maps[i].ID == copiedMapId)
 		{
 			info = core().project()->treeMap().maps[i];
 			break;
