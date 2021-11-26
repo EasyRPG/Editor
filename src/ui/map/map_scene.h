@@ -81,6 +81,14 @@ private slots:
 
 	void on_actionNewEvent();
 
+	void on_actionEditEvent();
+
+	void on_actionCopyEvent();
+
+	void on_actionCutEvent();
+
+	void on_actionPasteEvent();
+
 	void on_actionDeleteEvent();
 
 	void on_user_interaction();
@@ -111,6 +119,8 @@ private:
 	void drawRect();
 	void drawFill(int terrain_id, int x, int y);
 	short bind(int x, int y);
+	lcf::rpg::Event* getEventAt(int x, int y);
+	int getFirstFreeId();
 
 
 	QMenu *m_eventMenu;
@@ -138,5 +148,7 @@ private:
 	bool m_selecting;
 	bool m_userInteraction = false;
 	ProjectData& m_project;
+	lcf::rpg::Event event_clipboard;
+	bool event_clipboard_set = false;
 };
 
