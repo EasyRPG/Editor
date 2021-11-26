@@ -501,6 +501,11 @@ void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 			setScale(m_scale*2);
 		else if (core().layer() == Core::EVENT) // Select tile
 		{
+			// Do not allow selecting the (-1, -1) spot
+			if (cur_x == -1 || cur_y == -1) {
+				return;
+			}
+
 			m_selecting = true;
 			m_selectionTile->setVisible(true);
 			m_selectionTile->setRect(QRectF(QRect(cur_x*core().tileSize(),cur_y*core().tileSize(),
@@ -620,6 +625,12 @@ void MapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 	Q_UNUSED(event)
 	if (core().layer() != Core::EVENT)
 		return;
+
+	// Do not allow putting events on invalid coordinates
+	if (cur_x == -1 || cur_y == -1) {
+		return;
+	}
+
 	std::vector<lcf::rpg::Event>::iterator ev;
 	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
 	{
