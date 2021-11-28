@@ -42,7 +42,11 @@ public:
 private slots:
 	void on_buttonAddNum_clicked();
 
+	void on_buttonRemoveNum_clicked();
+
 private:
+	void addParameterWidget(int index);
+
 	ProjectData& m_project;
 	Ui::EventRawWidget* ui;
 	lcf::rpg::EventCommand* cmd = nullptr;
