@@ -139,17 +139,12 @@ void EventDialog::setEvent(lcf::rpg::Event& event)
 	r_event = event;
 	ui->lineName->setText(ToQString(m_event.name));
 	this->setWindowTitle(QString("EV: %1").arg(m_event.ID));
-	ui->tabEventPages->clear();
-	for (unsigned int i = 0; i < m_event.pages.size(); i++)
-	{
-		EventPageWidget *tab = new EventPageWidget(m_project, this);
-		tab->setEventPage(&(m_event.pages[i]));
-		ui->tabEventPages->addTab(tab,QString::number(i+1));
-	}
+	refreshEventPageTabs();
 }
 
 void EventDialog::apply()
 {
+	m_event.name = ToDBString(ui->lineName->text());
 	a_event = m_event;
 	if (equalEvents(a_event, r_event))
 		lst_result = QDialogButtonBox::Cancel;
@@ -159,8 +154,46 @@ void EventDialog::apply()
 
 void EventDialog::ok()
 {
+	m_event.name = ToDBString(ui->lineName->text());
 	if (equalEvents(m_event, r_event))
 		lst_result = QDialogButtonBox::Cancel;
 	else
 		lst_result = QDialogButtonBox::Ok;
+}
+
+void EventDialog::on_pushNewPage_clicked() {
+	int cur_index = ui->tabEventPages->currentIndex();
+	m_event.pages.insert(m_event.pages.begin() + cur_index + 1, lcf::rpg::EventPage());
+	refreshEventPageTabs();
+	ui->tabEventPages->setCurrentIndex(cur_index + 1);
+}
+
+void EventDialog::on_pushCopyPage_clicked() {
+	event_page_clipboard = m_event.pages[ui->tabEventPages->currentIndex()];
+	ui->pushPastePage->setEnabled(true);
+}
+
+void EventDialog::on_pushPastePage_clicked() {
+	int cur_index = ui->tabEventPages->currentIndex();
+	m_event.pages.insert(m_event.pages.begin() + cur_index + 1, event_page_clipboard);
+	refreshEventPageTabs();
+	ui->tabEventPages->setCurrentIndex(cur_index + 1);
+}
+
+void EventDialog::on_pushDeletePage_clicked() {
+	int cur_index = ui->tabEventPages->currentIndex();
+	m_event.pages.erase(m_event.pages.begin() + cur_index);
+	refreshEventPageTabs();
+	ui->tabEventPages->setCurrentIndex(std::max(0, cur_index - 1));
+}
+
+void EventDialog::refreshEventPageTabs() {
+	ui->tabEventPages->clear();
+	for (unsigned int i = 0; i < m_event.pages.size(); i++)
+	{
+		EventPageWidget *tab = new EventPageWidget(m_project, this);
+		tab->setEventPage(&(m_event.pages[i]));
+		ui->tabEventPages->addTab(tab,QString::number(i+1));
+	}
+	ui->pushDeletePage->setEnabled(m_event.pages.size() >= 2);
 }
