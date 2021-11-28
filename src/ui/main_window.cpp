@@ -451,9 +451,10 @@ bool MainWindow::convertXYZtoPNG(QFile &xyz_file, QString out_path)
 
 void MainWindow::on_actionQuit_triggered()
 {
-	saveAll();
-//	  this->on_actionJukebox_triggered(true);
-	qApp->quit();
+	if (saveAll()) {
+		//this->on_actionJukebox_triggered(true);
+		qApp->quit();
+	}
 }
 
 void MainWindow::on_actionPaletteToggle_triggered(bool checked)
