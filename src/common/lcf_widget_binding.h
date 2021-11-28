@@ -121,7 +121,7 @@ namespace LcfWidgetBinding {
 			}
 
 			auto data = variant.value<LcfObjectHolder<T>>();
-			data.obj() = static_cast<T>(comboBox->currentIndex());
+			data.obj() = static_cast<T>(comboBox->currentData().toInt());
 		};
 
 		QWidget::connect(comboBox, qOverload<int>(&QComboBox::currentIndexChanged), parent, callback);

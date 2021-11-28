@@ -19,6 +19,8 @@
 
 #include <QWidget>
 #include <lcf/rpg/state.h>
+#include "model/state.h"
+#include <QButtonGroup>
 
 class ProjectData;
 
@@ -38,8 +40,21 @@ public:
 
 	void setData(lcf::rpg::State* state);
 
+public slots:
+	void on_currentStateChanged(lcf::rpg::State *state);
+
+signals:
+	void currentStateChanged(lcf::rpg::State *state);
+
 private:
 	Ui::StateWidget *ui;
+
+	lcf::rpg::State dummy;
+	lcf::rpg::State *m_current = nullptr;
 	ProjectData& m_project;
+
+	QButtonGroup* m_buttonGroupStatAlteration = nullptr;
+	QButtonGroup* m_buttonGroupHPEffect = nullptr;
+	QButtonGroup* m_buttonGroupMPEffect = nullptr;
 };
 
