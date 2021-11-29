@@ -26,9 +26,14 @@ CommonEventWidget::CommonEventWidget(ProjectData& project, QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	ui->comboTrigger->addItem("Disabled", lcf::rpg::CommonEvent::Trigger_call);
+	ui->comboTrigger->addItem("Foreground", lcf::rpg::CommonEvent::Trigger_automatic);
+	ui->comboTrigger->addItem("Background", lcf::rpg::CommonEvent::Trigger_parallel);
+
 	LcfWidgetBinding::connect(this, ui->lineName);
 	LcfWidgetBinding::connect<int32_t>(this, ui->comboTrigger);
 	LcfWidgetBinding::connect<bool>(this, ui->groupSwitch);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboSwitch);
 	ui->comboSwitch->makeModel(project);
 }
 
@@ -43,9 +48,18 @@ void CommonEventWidget::setData(lcf::rpg::CommonEvent* common_event) {
 	LcfWidgetBinding::bind(ui->lineName, m_current->name);
 	LcfWidgetBinding::bind(ui->comboTrigger, m_current->trigger);
 	LcfWidgetBinding::bind(ui->groupSwitch, m_current->switch_flag);
-	LcfWidgetBinding::bind(ui->comboSwitch->comboBox(), m_current->switch_id);
+	LcfWidgetBinding::bind(ui->comboSwitch, m_current->switch_id);
 
 	ui->commands->setData(m_project, m_current);
 
 	this->setEnabled(common_event != nullptr);
+	updateComboSwitchEnabled();
+}
+
+void CommonEventWidget::on_comboTrigger_currentIndexChanged(int index) {
+	updateComboSwitchEnabled();
+}
+
+void CommonEventWidget::updateComboSwitchEnabled() {
+	ui->groupSwitch->setEnabled(ui->comboTrigger->currentData().toInt() != lcf::rpg::CommonEvent::Trigger_call);
 }
