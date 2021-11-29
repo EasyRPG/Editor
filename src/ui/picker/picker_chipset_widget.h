@@ -18,38 +18,18 @@
 #pragma once
 
 #include <QWidget>
-#include <lcf/rpg/chipset.h>
+#include "picker_child_widget.h"
 
-class ProjectData;
+class QGraphicsScene;
+class QGraphicsPixmapItem;
 
-namespace Ui {
-class ChipsetWidget;
-}
-
-class QButtonGroup;
-
-class ChipsetWidget : public QWidget
-{
+class PickerChipsetWidget : public PickerChildWidget {
 	Q_OBJECT
-
 public:
-	using value_type = lcf::rpg::Chipset;
+	PickerChipsetWidget(QWidget* parent = nullptr) : PickerChildWidget(parent) {}
 
-	explicit ChipsetWidget(ProjectData& project, QWidget *parent = nullptr);
-	~ChipsetWidget();
-
-	void setData(lcf::rpg::Chipset* chipset);
+	void imageChanged(QPixmap image) override;
 
 private:
-	void chipsetClicked();
-
-	lcf::rpg::Chipset dummy;
-	lcf::rpg::Chipset *m_current = nullptr;
-
-	Ui::ChipsetWidget *ui;
-	ProjectData& m_project;
-
-	QButtonGroup* m_buttonGroupSequence = nullptr;
-	QButtonGroup* m_buttonGroupSpeed = nullptr;
+	QGraphicsPixmapItem* m_pixmap = nullptr;
 };
-

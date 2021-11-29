@@ -15,41 +15,15 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include "picker_chipset_widget.h"
+#include "ui/viewer/rpg_graphics_view.h"
+#include <QGraphicsScene>
 
-#include <QWidget>
-#include <lcf/rpg/chipset.h>
+void PickerChipsetWidget::imageChanged(QPixmap image) {
+	if (!m_pixmap) {
+		m_pixmap = new QGraphicsPixmapItem(image);
+	}
 
-class ProjectData;
-
-namespace Ui {
-class ChipsetWidget;
+	m_pixmap->setPixmap(image);
+	m_view->setItem(m_pixmap);
 }
-
-class QButtonGroup;
-
-class ChipsetWidget : public QWidget
-{
-	Q_OBJECT
-
-public:
-	using value_type = lcf::rpg::Chipset;
-
-	explicit ChipsetWidget(ProjectData& project, QWidget *parent = nullptr);
-	~ChipsetWidget();
-
-	void setData(lcf::rpg::Chipset* chipset);
-
-private:
-	void chipsetClicked();
-
-	lcf::rpg::Chipset dummy;
-	lcf::rpg::Chipset *m_current = nullptr;
-
-	Ui::ChipsetWidget *ui;
-	ProjectData& m_project;
-
-	QButtonGroup* m_buttonGroupSequence = nullptr;
-	QButtonGroup* m_buttonGroupSpeed = nullptr;
-};
-
