@@ -33,10 +33,6 @@ void ChipsetGraphicsView::setProjectData(ProjectData& project) {
 }
 
 void ChipsetGraphicsView::setChipset(lcf::rpg::Chipset& chipset) {
-	if (m_chipset == &chipset) {
-		return;
-	}
-
 	m_chipset = &chipset;
 	QString file = m_project->project().findFile(CHIPSET, ToQString(chipset.chipset_name), FileFinder::FileType::Image);
 	if (!file.isEmpty()) {
@@ -104,7 +100,7 @@ void ChipsetGraphicsView::refresh() {
 		scene()->clear();
 		num_tiles = 162;
 		for (int terrain_id = 0; terrain_id < num_tiles; terrain_id++) {
-			auto* tile = new TileGraphicsItem(*m_project, *m_chipset, m_chipset_pix);
+			auto* tile = new TileGraphicsItem(*m_project, m_chipset, m_chipset_pix);
 			tile->setTileIndex(terrain_id);
 			tile->setLayer(Layer::Lower);
 			tile->setEditMode(m_editmode);
@@ -115,7 +111,7 @@ void ChipsetGraphicsView::refresh() {
 		scene()->clear();
 		num_tiles = 144;
 		for (int terrain_id = 0; terrain_id < num_tiles; terrain_id++) {
-			auto* tile = new TileGraphicsItem(*m_project, *m_chipset, m_chipset_pix);
+			auto* tile = new TileGraphicsItem(*m_project, m_chipset, m_chipset_pix);
 			tile->setTileIndex(terrain_id);
 			tile->setLayer(Layer::Upper);
 			tile->setEditMode(m_editmode);

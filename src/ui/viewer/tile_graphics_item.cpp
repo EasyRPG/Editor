@@ -23,8 +23,8 @@
 
 #include <lcf/rpg/actor.h>
 
-TileGraphicsItem::TileGraphicsItem(ProjectData& project, lcf::rpg::Chipset& chipset, const QPixmap pix) :
-	QGraphicsItem(), m_project(project), m_chipset(&chipset), m_image(pix) {
+TileGraphicsItem::TileGraphicsItem(ProjectData& project, lcf::rpg::Chipset* chipset, const QPixmap pix) :
+	QGraphicsItem(), m_project(project), m_chipset(chipset), m_image(pix) {
 }
 
 QRectF TileGraphicsItem::tileRect() const {
@@ -61,7 +61,7 @@ QRectF TileGraphicsItem::tileRect() const {
 			y = 0;
 		}
 
-		x += sub_tile_id % 6 * 16;
+		x += sub_tile_id % 6 * 16 + (m_anim_step * TILE_SIZE);
 		y += sub_tile_id / 6 * 16;
 
 		return QRectF(x, y, TILE_SIZE, TILE_SIZE);
@@ -83,7 +83,7 @@ QRectF TileGraphicsItem::tileRect() const {
 			y = 128;
 		}
 
-		x += sub_tile_id % 6 * 16;
+		x += sub_tile_id % 6 * 16 + (m_anim_step * TILE_SIZE);
 		y += sub_tile_id / 6 * 16;
 
 		return QRectF(x, y, TILE_SIZE, TILE_SIZE);
@@ -126,6 +126,22 @@ void TileGraphicsItem::setTileIndex(int index) {
 	m_tile_index = index;
 }
 
+int TileGraphicsItem::animType() const {
+	return m_anim_type;
+}
+
+void TileGraphicsItem::setAnimType(int anim_type) {
+	m_anim_type = anim_type;
+}
+
+int TileGraphicsItem::animSpeed() const {
+	return m_anim_speed;
+}
+
+void TileGraphicsItem::setAnimSpeed(int anim_speed) {
+	m_anim_speed = (anim_speed + 1) * 12;
+}
+
 ChipsetGraphicsView::Layer TileGraphicsItem::layer() const {
 	return m_layer;
 }
@@ -140,4 +156,23 @@ ChipsetGraphicsView::EditMode TileGraphicsItem::editMode() const {
 
 void TileGraphicsItem::setEditMode(ChipsetGraphicsView::EditMode edit_mode) {
 	m_editmode = edit_mode;
+}
+
+void TileGraphicsItem::advance(int phase) {
+	if (!phase)	{
+		m_anim_step = frames / animSpeed();
+		if (animType() == lcf::rpg::Chipset::AnimType_reciprocating) {
+			m_anim_step %= 3;
+		} else if (animType() == lcf::rpg::Chipset::AnimType_cyclic) {
+			m_anim_step %= 4;
+			if (m_anim_step == 3) {
+				m_anim_step = 1;
+			}
+		} else {
+			return;
+		}
+		++frames;
+	} else {
+		update();
+	}
 }

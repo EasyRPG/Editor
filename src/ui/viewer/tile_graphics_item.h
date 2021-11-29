@@ -28,7 +28,7 @@ class ProjectData;
 
 class TileGraphicsItem : public QGraphicsItem {
 public:
-	explicit TileGraphicsItem(ProjectData& project, lcf::rpg::Chipset& chipset, const QPixmap pix = QPixmap(16,16));
+	explicit TileGraphicsItem(ProjectData& project, lcf::rpg::Chipset* chipset = nullptr, const QPixmap pix = QPixmap(16,16));
 
 	QRectF boundingRect() const override;
 	QRectF tileRect() const;
@@ -42,18 +42,31 @@ public:
 	int tileIndex() const;
 	void setTileIndex(int index);
 
+	int animType() const;
+	void setAnimType(int anim_type);
+
+	int animSpeed() const;
+	void setAnimSpeed(int anim_speed);
+
 	ChipsetGraphicsView::Layer layer() const;
 	void setLayer(ChipsetGraphicsView::Layer layer);
 
 	ChipsetGraphicsView::EditMode editMode() const;
 	void setEditMode(ChipsetGraphicsView::EditMode edit_mode);
 
+protected:
+	void advance(int phase) override;
+
 private:
 	ProjectData& m_project;
 	int m_tile_index = 0;
+	int m_anim_type = -1;
+	int m_anim_speed = 12;
+	int m_anim_step = 0;
 	ChipsetGraphicsView::Layer m_layer = ChipsetGraphicsView::Layer::None;
 	ChipsetGraphicsView::EditMode m_editmode = ChipsetGraphicsView::EditMode::None;
 	QString m_filename;
 	lcf::rpg::Chipset* m_chipset = nullptr;
 	QPixmap m_image;
+	int frames = 0;
 };

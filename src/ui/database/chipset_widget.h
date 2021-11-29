@@ -27,6 +27,7 @@ class ChipsetWidget;
 }
 
 class QButtonGroup;
+class TileGraphicsItem;
 
 class ChipsetWidget : public QWidget
 {
@@ -49,6 +50,7 @@ private:
 	Ui::ChipsetWidget *ui;
 	ProjectData& m_project;
 
+	TileGraphicsItem* m_water_tile = nullptr;
 	QButtonGroup* m_buttonGroupSequence = nullptr;
 	QButtonGroup* m_buttonGroupSpeed = nullptr;
 };

@@ -17,13 +17,14 @@
 
 #include "rpg_graphics_view.h"
 #include <QMouseEvent>
+#include <memory>
 
 RpgGraphicsViewBase::RpgGraphicsViewBase(QWidget* parent) : QGraphicsView(parent) {
 	setScene(new QGraphicsScene(this));
 }
 
 void RpgGraphicsViewBase::enableTimer() {
-	m_timer.reset(new QTimer());
+	m_timer = std::make_unique<QTimer>();
 	QObject::connect(m_timer.get(), &QTimer::timeout, scene(), &QGraphicsScene::advance);
 	m_timer->start(1000 / 33);
 }

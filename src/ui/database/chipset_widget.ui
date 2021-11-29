@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>929</width>
-    <height>599</height>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,7 +85,7 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="TileGraphicsView" name="graphicsView">
+             <widget class="TileGraphicsView" name="viewWaterAnim">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                 <horstretch>0</horstretch>
