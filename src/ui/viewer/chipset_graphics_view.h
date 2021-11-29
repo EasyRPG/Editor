@@ -57,8 +57,8 @@ public:
 
 	void enableTimer();
 
-	bool drawGrid() const;
-	void setDrawGrid(bool draw_grid);
+	bool showGrid() const;
+	void setShowGrid(bool show_grid);
 
 	int tilesPerCol() const;
 	void setTilesPerCol(int tiles_per_col);
@@ -82,7 +82,7 @@ protected:
 	std::unique_ptr<QTimer> m_timer;
 	QPixmap m_chipset_pix;
 
-	bool m_draw_grid = false;
+	bool m_show_grid = false;
 	int m_tiles_per_col = 6;
 	EditMode m_editmode = EditMode::Terrain;
 	Layer m_layer = Layer::None;

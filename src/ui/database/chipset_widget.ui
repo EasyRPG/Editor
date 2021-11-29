@@ -238,7 +238,7 @@
        <item row="0" column="1">
         <widget class="QPushButton" name="pushTileset">
          <property name="text">
-          <string>PushButton</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -263,7 +263,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="groupUpperEditMode"/>
   <buttongroup name="groupLowerEditMode"/>
+  <buttongroup name="groupUpperEditMode"/>
  </buttongroups>
 </ui>

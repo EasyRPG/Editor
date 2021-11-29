@@ -57,12 +57,12 @@ void ChipsetGraphicsView::mousePressEvent(QMouseEvent* event) {
 	QGraphicsView::mousePressEvent(event);*/
 }
 
-bool ChipsetGraphicsView::drawGrid() const {
-	return m_draw_grid;
+bool ChipsetGraphicsView::showGrid() const {
+	return m_show_grid;
 }
 
-void ChipsetGraphicsView::setDrawGrid(bool draw_grid) {
-	m_draw_grid = draw_grid;
+void ChipsetGraphicsView::setShowGrid(bool show_grid) {
+	m_show_grid = show_grid;
 }
 
 int ChipsetGraphicsView::tilesPerCol() const {
@@ -95,9 +95,12 @@ void ChipsetGraphicsView::refresh() {
 
 	const int TILE_SIZE = 16;
 
+	int num_tiles = 0;
+
 	if (layer() == Layer::Lower) {
 		scene()->clear();
-		for (int terrain_id = 0; terrain_id < 162; terrain_id++) {
+		num_tiles = 162;
+		for (int terrain_id = 0; terrain_id < num_tiles; terrain_id++) {
 			auto* tile = new TileGraphicsItem(*m_project, *m_chipset, m_chipset_pix);
 			tile->setTileIndex(terrain_id);
 			tile->setLayer(Layer::Lower);
@@ -107,13 +110,30 @@ void ChipsetGraphicsView::refresh() {
 		}
 	} else if (layer() == Layer::Upper) {
 		scene()->clear();
-		for (int terrain_id = 0; terrain_id < 144; terrain_id++) {
+		num_tiles = 144;
+		for (int terrain_id = 0; terrain_id < num_tiles; terrain_id++) {
 			auto* tile = new TileGraphicsItem(*m_project, *m_chipset, m_chipset_pix);
 			tile->setTileIndex(terrain_id);
 			tile->setLayer(Layer::Upper);
 			tile->setEditMode(m_editmode);
 			tile->setPos(QPointF(terrain_id * TILE_SIZE % (TILE_SIZE * m_tiles_per_col), terrain_id / m_tiles_per_col * TILE_SIZE));
 			scene()->addItem(tile);
+		}
+	}
+
+	if (showGrid() && num_tiles > 0) {
+		// Draw X Grid
+		for (int i = 1; i < num_tiles - 1; ++i) {
+			if (i % m_tiles_per_col == 0) {
+				int y = i / m_tiles_per_col * TILE_SIZE;
+				scene()->addLine(0, y, m_tiles_per_col * TILE_SIZE, y);
+			}
+		}
+
+		// Draw Y Grid
+		for (int i = 1; i < m_tiles_per_col; ++i) {
+			int x = i * TILE_SIZE;
+			scene()->addLine(x, 0, x, num_tiles / m_tiles_per_col * TILE_SIZE);
 		}
 	}
 }

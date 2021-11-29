@@ -74,11 +74,11 @@ void ChipsetWidget::setData(lcf::rpg::Chipset* chipset)
 	LcfWidgetBinding::bind(m_buttonGroupSpeed, chipset->animation_speed);
 	LcfWidgetBinding::bind(m_buttonGroupSequence, chipset->animation_type);
 
-	ui->graphicsChipsetLower->setChipset(*chipset);
-	ui->graphicsChipsetUpper->setChipset(*chipset);
-
-	ui->graphicsChipsetLower->refresh();
-	ui->graphicsChipsetUpper->refresh();
+	for (auto* view: {ui->graphicsChipsetLower, ui->graphicsChipsetUpper}) {
+		view->setChipset(*chipset);
+		view->setShowGrid(true);
+		view->refresh();
+	}
 
 	ui->pushTileset->setText(ToQString(chipset->chipset_name));
 
