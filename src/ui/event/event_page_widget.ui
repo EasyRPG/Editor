@@ -109,36 +109,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <item>
-           <property name="text">
-            <string>Equal to (==)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Greater or equal to (&gt;=)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Lesser or equal to (&lt;=)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Greater than (&gt;)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Lesser than (&lt;)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Not equal to (!=)</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item>
@@ -381,33 +351,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboCondition">
-        <item>
-         <property name="text">
-          <string>Action Key</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Touched by Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Collision with Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>AutoStart</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Parallel Process</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboCondition"/>
       </item>
      </layout>
     </widget>
@@ -431,23 +375,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboLayer">
-        <item>
-         <property name="text">
-          <string>Below Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Same as Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Above Hero</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboLayer"/>
       </item>
       <item>
        <widget class="QCheckBox" name="checkOverlapForbidden">
@@ -478,43 +406,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboMoveType">
-        <item>
-         <property name="text">
-          <string>Stationary</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Random</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Vertical</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Horizontal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Toward Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Away from Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Custom Pattern</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboMoveType"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -533,49 +425,6 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="currentIndex">
-           <number>2</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>6</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>7</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>8</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -612,38 +461,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboAnimationType">
-        <item>
-         <property name="text">
-          <string>Non-Continuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Continuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fixed Dir/Non-Countinuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fixed Dir/Countinuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fixed Graphic</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Spin Around</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboAnimationType"/>
       </item>
      </layout>
     </widget>
@@ -667,41 +485,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboMoveSpeed">
-        <property name="currentIndex">
-         <number>2</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>1: (1/8) Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>2: (1/4) Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>3: (1/2) Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>4: Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>5: Normal x 2</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>6: Normal x 4</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboMoveSpeed"/>
       </item>
      </layout>
     </widget>
