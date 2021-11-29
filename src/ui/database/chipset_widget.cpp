@@ -18,20 +18,20 @@
 #include "chipset_widget.h"
 #include "ui_chipset_widget.h"
 
-ChipSetWidget::ChipSetWidget(ProjectData& project, QWidget *parent) :
+ChipsetWidget::ChipsetWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::ChipSetWidget),
+	ui(new Ui::ChipsetWidget),
 	m_project(project)
 {
 	ui->setupUi(this);
 }
 
-ChipSetWidget::~ChipSetWidget()
+ChipsetWidget::~ChipsetWidget()
 {
 	delete ui;
 }
 
-void ChipSetWidget::setData(lcf::rpg::Chipset* /* chipset */)
+void ChipsetWidget::setData(lcf::rpg::Chipset* /* chipset */)
 {
 
 }

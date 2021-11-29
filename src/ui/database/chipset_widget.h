@@ -23,23 +23,23 @@
 class ProjectData;
 
 namespace Ui {
-class ChipSetWidget;
+class ChipsetWidget;
 }
 
-class ChipSetWidget : public QWidget
+class ChipsetWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
 	using value_type = lcf::rpg::Chipset;
 
-	explicit ChipSetWidget(ProjectData& project, QWidget *parent = nullptr);
-	~ChipSetWidget();
+	explicit ChipsetWidget(ProjectData& project, QWidget *parent = nullptr);
+	~ChipsetWidget();
 
 	void setData(lcf::rpg::Chipset* chipset);
 
 private:
-	Ui::ChipSetWidget *ui;
+	Ui::ChipsetWidget *ui;
 	ProjectData& m_project;
 };
 
