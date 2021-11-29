@@ -55,48 +55,7 @@ void EventCommandsWidget::setDataInternal(ProjectData& project, T* event) {
 	assert(event);
 	m_project = &project;
 	m_commands = &event->event_commands;
-	clear();
-
-	// Populate event command list
-	int32_t prev_indent = -1;
-	std::vector<QTreeWidgetItem*> parent_stack;
-	parent_stack.reserve(10);
-
-	for (size_t i = 0; i < m_commands->size(); ++i) {
-		auto& cmd = (*m_commands)[i];
-
-		auto indent = cmd.indent;
-
-		auto* item = new QTreeWidgetItem({Stringizer::stringize(cmd), QString::number(i)});
-		item->setToolTip(0, tr("Line") + ": " + QString::number(i + 1));
-		item->setData(0, Qt::UserRole, QVariant::fromValue(reinterpret_cast<void*>(&cmd)));
-
-		if (indent == 0 || prev_indent == -1) {
-			addTopLevelItem(item);
-			parent_stack = {item};
-		} else {
-			if (indent != prev_indent) {
-				parent_stack.resize(indent + 1);
-			}
-			if (!parent_stack[indent - 1]) {
-				std::cerr << QString("Event Command %1 (Line %2) has bad indent").arg(cmd.code).arg(i+1).toStdString() << "\n";
-				for (auto j = indent - 1; j >= 0; --j) {
-					if (parent_stack[j]) {
-						indent = j + 1;
-						break;
-					}
-				}
-				parent_stack.resize(indent + 1);
-			}
-
-			parent_stack[indent - 1]->addChild(item);
-			parent_stack[indent] = item;
-		}
-
-		prev_indent = indent;
-	}
-
-	expandAll();
+	refreshList();
 }
 
 template<typename T>
@@ -307,6 +266,25 @@ void EventCommandsWidget::editEvent(QTreeWidgetItem* item, int column) {
 	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
 }
 
+void EventCommandsWidget::addRawEvent(QTreeWidgetItem *item) {
+	lcf::rpg::EventCommand cmd;
+
+	auto* wrapper = new WidgetAsDialogWrapper<EventRawWidget, lcf::rpg::EventCommand>(*m_project, cmd, this);
+	wrapper->widget()->setShowWarning(false);
+
+	std::unique_ptr<QDialog> dialog;
+	dialog.reset(wrapper);
+
+	if (dialog->exec() == QDialog::Accepted) {
+		if (!item) {
+			m_commands->push_back(cmd);
+		} else {
+			m_commands->insert(m_commands->begin() + item->text(1).toInt() + 1, cmd);
+		}
+		refreshList();
+	}
+}
+
 void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool show_warning) {
 	assert(column == 0);
 
@@ -319,24 +297,109 @@ void EventCommandsWidget::editRawEvent(QTreeWidgetItem *item, int column, bool s
 	dialog.reset(wrapper);
 
 	dialog->exec();
-	currentItem()->setData(column, Qt::DisplayRole, Stringizer::stringize(cmd));
+	refreshList();
+}
+
+void EventCommandsWidget::deleteEvent(QTreeWidgetItem *item) {
+	m_commands->erase(m_commands->begin() + item->text(1).toInt());
+	refreshList();
 }
 
 void EventCommandsWidget::showContextMenu(const QPoint& pos) {
 	auto* item = this->itemAt(pos);
-	if (!item) {
-		return;
-	}
 
 	auto* editAct = new QAction("Edit...", this);
+	auto* addRawAct = new QAction("Add raw...", this);
 	auto* editRawAct = new QAction("Edit raw...", this);
+	auto* deleteAct = new QAction("Delete", this);
 
 	connect(editAct, &QAction::triggered, this, [&]{ editEvent(item, 0); });
+	connect(addRawAct, &QAction::triggered, this, [&]{ addRawEvent(item); });
 	connect(editRawAct, &QAction::triggered, this, [&]{ editRawEvent(item, 0, false); });
+	connect(deleteAct, &QAction::triggered, this, [&]{ deleteEvent(item); });
 
 	QMenu menu(this);
-	menu.addAction(editAct);
-	menu.addAction(editRawAct);
+	if (item) {
+		menu.addAction(editAct);
+	}
+	menu.addAction(addRawAct);
+	if (item) {
+		menu.addAction(editRawAct);
+		menu.addAction(deleteAct);
+	}
 
 	menu.exec(mapToGlobal(pos));
+}
+
+void EventCommandsWidget::refreshList() {
+	using Cmd = lcf::rpg::EventCommand::Code;
+
+	clear();
+
+	// Populate event command list
+	int32_t prev_indent = -1;
+	std::vector<QTreeWidgetItem*> parent_stack;
+	parent_stack.reserve(10);
+	int32_t indent = 0;
+
+	for (size_t i = 0; i < m_commands->size(); ++i) {
+		auto& cmd = (*m_commands)[i];
+
+		if (i > 0) {
+			auto& last_cmd = (*m_commands)[i - 1];
+			switch (static_cast<Cmd>(last_cmd.code)) {
+				case Cmd::ConditionalBranch:
+				case Cmd::ElseBranch:
+				case Cmd::ConditionalBranch_B:
+				case Cmd::ElseBranch_B:
+				case Cmd::Loop:
+				case Cmd::ShowChoiceOption:
+				case Cmd::VictoryHandler:
+				case Cmd::EscapeHandler:
+				case Cmd::DefeatHandler:
+				case Cmd::Transaction:
+				case Cmd::NoTransaction:
+				case Cmd::Stay:
+				case Cmd::NoStay:
+					indent++;
+					break;
+				case Cmd::END:
+					indent--;
+					break;
+				default:
+					break;
+			}
+		}
+		cmd.indent = indent;
+
+		auto* item = new QTreeWidgetItem({Stringizer::stringize(cmd), QString::number(i)});
+		item->setToolTip(0, tr("Line") + ": " + QString::number(i + 1));
+		item->setData(0, Qt::UserRole, QVariant::fromValue(reinterpret_cast<void*>(&cmd)));
+
+		if (indent == 0 || prev_indent == -1) {
+			addTopLevelItem(item);
+			parent_stack = {item};
+		} else {
+			if (indent != prev_indent) {
+				parent_stack.resize(indent + 1);
+			}
+			if (!parent_stack[indent - 1]) {
+				std::cerr << QString("Event Command %1 (Line %2) has bad indent").arg(cmd.code).arg(i+1).toStdString() << "\n";
+				for (auto j = indent - 1; j >= 0; --j) {
+					if (parent_stack[j]) {
+						indent = j + 1;
+						break;
+					}
+				}
+				parent_stack.resize(indent + 1);
+			}
+
+			parent_stack[indent - 1]->addChild(item);
+			parent_stack[indent] = item;
+		}
+
+		prev_indent = indent;
+	}
+
+	expandAll();
 }
