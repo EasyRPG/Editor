@@ -16,6 +16,12 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>4</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -79,7 +85,14 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="TileGraphicsView" name="graphicsView"/>
+             <widget class="TileGraphicsView" name="graphicsView">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QGroupBox" name="groupBox_45">
@@ -127,13 +140,33 @@
               </layout>
              </widget>
             </item>
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="ChipsetGraphicsView" name="graphicsChipsetLower"/>
+        <widget class="ChipsetGraphicsView" name="graphicsChipsetLower">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -208,7 +241,14 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QListView" name="listTerrain"/>
+    <widget class="QListView" name="listTerrain">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -263,7 +303,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="groupLowerEditMode"/>
   <buttongroup name="groupUpperEditMode"/>
+  <buttongroup name="groupLowerEditMode"/>
  </buttongroups>
 </ui>

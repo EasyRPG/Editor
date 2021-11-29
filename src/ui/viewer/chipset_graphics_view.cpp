@@ -38,7 +38,10 @@ void ChipsetGraphicsView::setChipset(lcf::rpg::Chipset& chipset) {
 	}
 
 	m_chipset = &chipset;
-	m_chipset_pix = ImageLoader::Load(m_project->project().findFile(CHIPSET, ToQString(chipset.chipset_name), FileFinder::FileType::Image));
+	QString file = m_project->project().findFile(CHIPSET, ToQString(chipset.chipset_name), FileFinder::FileType::Image);
+	if (!file.isEmpty()) {
+		m_chipset_pix = ImageLoader::Load(file);
+	}
 }
 
 void ChipsetGraphicsView::enableTimer() {
