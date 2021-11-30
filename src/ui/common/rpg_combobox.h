@@ -49,9 +49,6 @@ public slots:
 		QObject::connect(diag, SIGNAL(valueSelected(int)), this, SLOT(indexChanged(int)));
 	}
 
-signals:
-	void currentIndexChanged(int);
-
 protected:
 	QComboBox* m_comboBox;
 };
@@ -104,7 +101,6 @@ public:
 
 	void indexChanged(int index) override {
 		m_comboBox->setCurrentIndex(index);
-		emit currentIndexChanged(index);
 	};
 
 private:
@@ -148,8 +144,6 @@ RpgComboBox<LCF>::RpgComboBox(QWidget *parent, QAbstractItemModel *model) :
 		connect(dialog);
 		dialog->exec();
 	});
-
-	QObject::connect(m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(indexChanged(int)));
 }
 
 using ActorRpgComboBox = RpgComboBox<lcf::rpg::Actor>;
