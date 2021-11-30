@@ -138,6 +138,12 @@ lcf::rpg::EventPage *EventPageWidget::eventPage() const
 
 void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 {
+	auto& database = m_project.database();
+	const bool isRPG2k3 = database.system.ldb_id == 2003;
+
+	ui->spinVarValue->setMinimum(isRPG2k3 ? -9999999 : -999999);
+	ui->spinVarValue->setMaximum(isRPG2k3 ? 9999999 : 999999);
+
 	m_eventPage = eventPage;
 	LcfWidgetBinding::bind(ui->checkSwitchA, eventPage->condition.flags.switch_a);
 	LcfWidgetBinding::bind(ui->comboSwitchA, eventPage->condition.switch_a_id);
@@ -175,10 +181,11 @@ void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 	ui->comboSwitchA->setEnabled(ui->checkSwitchA->isChecked());
 	ui->comboSwitchB->setEnabled(ui->checkSwitchB->isChecked());
 	ui->comboVariable->setEnabled(ui->checkVar->isChecked());
-	ui->comboVarOperation->setEnabled(ui->checkVar->isChecked());
+	ui->comboVarOperation->setEnabled(isRPG2k3 && ui->checkVar->isChecked());
 	ui->spinVarValue->setEnabled(ui->checkVar->isChecked());
 	ui->spinTimerAMin->setEnabled(ui->checkTimerA->isChecked());
 	ui->spinTimerASec->setEnabled(ui->checkTimerA->isChecked());
+	ui->checkTimerB->setEnabled(isRPG2k3);
 	ui->spinTimerBMin->setEnabled(ui->checkTimerB->isChecked());
 	ui->spinTimerBSec->setEnabled(ui->checkTimerB->isChecked());
 	ui->comboItem->setEnabled(ui->checkItem->isChecked());
@@ -191,6 +198,13 @@ void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 {
 	ui->label->setEnabled(index != lcf::rpg::EventPage::MoveType_stationary);
 	ui->comboMoveFrequency->setEnabled(index != lcf::rpg::EventPage::MoveType_stationary);
+}
+
+void EventPageWidget::on_checkVar_toggled(bool checked)
+{
+	auto& database = m_project.database();
+	const bool isRPG2k3 = database.system.ldb_id == 2003;
+	ui->comboVarOperation->setEnabled(isRPG2k3 && checked);
 }
 
 void EventPageWidget::on_checkTransparent_toggled(bool checked)

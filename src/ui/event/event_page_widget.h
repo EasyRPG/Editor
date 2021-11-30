@@ -49,6 +49,8 @@ public:
 private slots:
 	void on_comboMoveType_currentIndexChanged(int index);
 
+	void on_checkVar_toggled(bool checked);
+
 	void on_checkTransparent_toggled(bool checked);
 
 	void on_spinTimerAMin_valueChanged(int arg1);
