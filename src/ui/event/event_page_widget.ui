@@ -43,6 +43,9 @@
         </item>
         <item row="0" column="1">
          <widget class="SwitchRpgComboBox" name="comboSwitchA">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -53,6 +56,9 @@
         </item>
         <item row="1" column="1">
          <widget class="SwitchRpgComboBox" name="comboSwitchB">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -77,6 +83,9 @@
         </item>
         <item row="2" column="1">
          <widget class="VariableRpgComboBox" name="comboVariable">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -100,36 +109,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <item>
-           <property name="text">
-            <string>Equal to                     (==)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Greather or equal to (&gt;=)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Lesser or equal to     (&lt;=)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Greather than             (&gt;)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Lesser than                 (&lt;)</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Not equal to              (!=)</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item>
@@ -142,12 +121,6 @@
             <horstretch>3</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
-          </property>
-          <property name="minimum">
-           <number>-999999</number>
-          </property>
-          <property name="maximum">
-           <number>999999</number>
           </property>
          </widget>
         </item>
@@ -226,7 +199,7 @@
            <bool>false</bool>
           </property>
           <property name="suffix">
-           <string>  seconds or less</string>
+           <string> seconds or less</string>
           </property>
           <property name="maximum">
            <number>59</number>
@@ -308,14 +281,14 @@
        <widget class="QGraphicsView" name="graphicsSprite">
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>66</height>
+          <width>52</width>
+          <height>68</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>48</width>
-          <height>64</height>
+          <width>52</width>
+          <height>68</height>
          </size>
         </property>
         <property name="verticalScrollBarPolicy">
@@ -372,33 +345,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboCondition">
-        <item>
-         <property name="text">
-          <string>Action Key</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Touched by Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Collision with Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>AutoStart</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Parallel Process</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboCondition"/>
       </item>
      </layout>
     </widget>
@@ -422,23 +369,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboLayer">
-        <item>
-         <property name="text">
-          <string>Below Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Same as Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Above Hero</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboLayer"/>
       </item>
       <item>
        <widget class="QCheckBox" name="checkOverlapForbidden">
@@ -469,43 +400,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboMoveType">
-        <item>
-         <property name="text">
-          <string>Stationary</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Random</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Vertical</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Horizontal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Toward Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Away from Hero</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Custom Pattern</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboMoveType"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -515,12 +410,12 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Speed</string>
+           <string>Frequency</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboMoveSpeed">
+         <widget class="QComboBox" name="comboMoveFrequency">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -560,41 +455,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboAnimationType">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <item>
-         <property name="text">
-          <string>Non-Continuos</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Continuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fixed Dir/Non-Countinuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fixed Dir/Countinuous</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Fixed Graphic</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Spin Around</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboAnimationType"/>
       </item>
      </layout>
     </widget>
@@ -602,7 +463,7 @@
    <item row="4" column="1" colspan="2">
     <widget class="QGroupBox" name="groupBox_10">
      <property name="title">
-      <string>Move Frequency</string>
+      <string>Move Speed</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <property name="leftMargin">
@@ -618,41 +479,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboMoveFrequency">
-        <property name="currentIndex">
-         <number>2</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>1: (1/8) Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>2: (1/4) Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>3: (1/2) Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>4: Normal</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>5: Normal x 2</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>6: Normal x 4</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboMoveSpeed"/>
       </item>
      </layout>
     </widget>
@@ -690,6 +517,24 @@
  <resources/>
  <connections>
   <connection>
+   <sender>checkSwitchA</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboSwitchA</receiver>
+   <slot>setEnabled(bool)</slot>
+  </connection>
+  <connection>
+   <sender>checkSwitchB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboSwitchB</receiver>
+   <slot>setEnabled(bool)</slot>
+  </connection>
+  <connection>
+   <sender>checkVar</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboVariable</receiver>
+   <slot>setEnabled(bool)</slot>
+  </connection>
+  <connection>
    <sender>checkVar</sender>
    <signal>toggled(bool)</signal>
    <receiver>spinVarValue</receiver>
@@ -702,22 +547,6 @@
     <hint type="destinationlabel">
      <x>229</x>
      <y>111</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkVar</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>comboVarOperation</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>43</x>
-     <y>92</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>69</x>
-     <y>114</y>
     </hint>
    </hints>
   </connection>

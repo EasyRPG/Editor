@@ -32,6 +32,52 @@ EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	ui->comboVarOperation->addItem("Equal to (==)", lcf::rpg::EventPageCondition::Comparison_equal);
+	ui->comboVarOperation->addItem("Greater or equal to (>=)", lcf::rpg::EventPageCondition::Comparison_greater_equal);
+	ui->comboVarOperation->addItem("Lesser or equal to (<=)", lcf::rpg::EventPageCondition::Comparison_less_equal);
+	ui->comboVarOperation->addItem("Greater than (>)", lcf::rpg::EventPageCondition::Comparison_greater);
+	ui->comboVarOperation->addItem("Lesser than (<)", lcf::rpg::EventPageCondition::Comparison_less);
+	ui->comboVarOperation->addItem("Not equal to (!=)", lcf::rpg::EventPageCondition::Comparison_not_equal);
+	ui->comboVarOperation->setCurrentIndex(1);
+
+	ui->comboMoveType->addItem("Stationary", lcf::rpg::EventPage::MoveType_stationary);
+	ui->comboMoveType->addItem("Random", lcf::rpg::EventPage::MoveType_random);
+	ui->comboMoveType->addItem("Vertical", lcf::rpg::EventPage::MoveType_vertical);
+	ui->comboMoveType->addItem("Horizontal", lcf::rpg::EventPage::MoveType_horizontal);
+	ui->comboMoveType->addItem("Toward Hero", lcf::rpg::EventPage::MoveType_toward);
+	ui->comboMoveType->addItem("Away from Hero", lcf::rpg::EventPage::MoveType_away);
+	ui->comboMoveType->addItem("Custom Pattern", lcf::rpg::EventPage::MoveType_custom);
+
+	for (int i = 1; i <= 8; i++) {
+		ui->comboMoveFrequency->addItem(QString("%1").arg(i), i);
+	}
+	ui->comboMoveFrequency->setCurrentIndex(2);
+
+	ui->comboCondition->addItem("Action Key", lcf::rpg::EventPage::Trigger_action);
+	ui->comboCondition->addItem("Touched by Hero", lcf::rpg::EventPage::Trigger_touched);
+	ui->comboCondition->addItem("Collision with Hero", lcf::rpg::EventPage::Trigger_collision);
+	ui->comboCondition->addItem("AutoStart", lcf::rpg::EventPage::Trigger_auto_start);
+	ui->comboCondition->addItem("Parallel Process", lcf::rpg::EventPage::Trigger_parallel);
+
+	ui->comboLayer->addItem("Below Hero", lcf::rpg::EventPage::Layers_below);
+	ui->comboLayer->addItem("Same as Hero", lcf::rpg::EventPage::Layers_same);
+	ui->comboLayer->addItem("Above Hero", lcf::rpg::EventPage::Layers_above);
+
+	ui->comboAnimationType->addItem("Non-Continuous", lcf::rpg::EventPage::AnimType_non_continuous);
+	ui->comboAnimationType->addItem("Continuous", lcf::rpg::EventPage::AnimType_continuous);
+	ui->comboAnimationType->addItem("Fixed Dir/Non-Continuous", lcf::rpg::EventPage::AnimType_fixed_non_continuous);
+	ui->comboAnimationType->addItem("Fixed Dir/Continuous", lcf::rpg::EventPage::AnimType_fixed_continuous);
+	ui->comboAnimationType->addItem("Fixed Graphic", lcf::rpg::EventPage::AnimType_fixed_graphic);
+	ui->comboAnimationType->addItem("Spin Around", lcf::rpg::EventPage::AnimType_spin);
+
+	ui->comboMoveSpeed->addItem("1: (1/8) Normal", lcf::rpg::EventPage::MoveSpeed_eighth);
+	ui->comboMoveSpeed->addItem("2: (1/4) Normal", lcf::rpg::EventPage::MoveSpeed_quarter);
+	ui->comboMoveSpeed->addItem("3: (1/2) Normal", lcf::rpg::EventPage::MoveSpeed_half);
+	ui->comboMoveSpeed->addItem("4: Normal", lcf::rpg::EventPage::MoveSpeed_normal);
+	ui->comboMoveSpeed->addItem("5: Normal x 2", lcf::rpg::EventPage::MoveSpeed_double);
+	ui->comboMoveSpeed->addItem("6: Normal x 4", lcf::rpg::EventPage::MoveSpeed_fourfold);
+	ui->comboMoveSpeed->setCurrentIndex(2);
+
 	m_charaItem = new CharSetGraphicsItem(project);
 	m_tileItem = new QGraphicsPixmapItem();
 	m_scene = new QGraphicsScene(this);
@@ -54,6 +100,29 @@ EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 	ui->comboVariable->makeModel(project);
 	ui->comboItem->makeModel(project);
 	ui->comboHero->makeModel(project);
+
+	LcfWidgetBinding::connect<bool>(this, ui->checkSwitchA);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboSwitchA);
+	LcfWidgetBinding::connect<bool>(this, ui->checkSwitchB);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboSwitchB);
+	LcfWidgetBinding::connect<bool>(this, ui->checkVar);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboVariable);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboVarOperation);
+	LcfWidgetBinding::connect<int32_t>(this, ui->spinVarValue);
+	LcfWidgetBinding::connect<bool>(this, ui->checkItem);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboItem);
+	LcfWidgetBinding::connect<bool>(this, ui->checkHero);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboHero);
+	LcfWidgetBinding::connect<bool>(this, ui->checkTimerA);
+	LcfWidgetBinding::connect<bool>(this, ui->checkTimerB);
+	LcfWidgetBinding::connect<bool>(this, ui->checkTransparent);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboMoveType);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboMoveFrequency);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboCondition);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboLayer);
+	LcfWidgetBinding::connect<bool>(this, ui->checkOverlapForbidden);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboAnimationType);
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboMoveSpeed);
 }
 
 EventPageWidget::~EventPageWidget()
@@ -69,141 +138,78 @@ lcf::rpg::EventPage *EventPageWidget::eventPage() const
 
 void EventPageWidget::setEventPage(lcf::rpg::EventPage *eventPage)
 {
+	auto& database = m_project.database();
+	const bool isRPG2k3 = database.system.ldb_id == 2003;
+
+	ui->spinVarValue->setMinimum(isRPG2k3 ? -9999999 : -999999);
+	ui->spinVarValue->setMaximum(isRPG2k3 ? 9999999 : 999999);
+
 	m_eventPage = eventPage;
-	ui->checkSwitchA->setChecked(eventPage->condition.flags.switch_a);
-	ui->checkSwitchB->setChecked(eventPage->condition.flags.switch_b);
-	ui->checkVar->setChecked(eventPage->condition.flags.variable);
-	ui->comboVarOperation->setCurrentIndex(eventPage->condition.compare_operator);
-	ui->spinVarValue->setValue(eventPage->condition.variable_value);
-	ui->checkItem->setChecked(eventPage->condition.flags.item);
-	ui->comboItem->setCurrentIndex(eventPage->condition.item_id-1);
-	ui->checkHero->setChecked(eventPage->condition.flags.actor);
-	ui->comboHero->setCurrentIndex(eventPage->condition.actor_id-1);
-	ui->checkTimerA->setChecked(eventPage->condition.flags.timer);
+	LcfWidgetBinding::bind(ui->checkSwitchA, eventPage->condition.flags.switch_a);
+	LcfWidgetBinding::bind(ui->comboSwitchA, eventPage->condition.switch_a_id);
+	LcfWidgetBinding::bind(ui->checkSwitchB, eventPage->condition.flags.switch_b);
+	LcfWidgetBinding::bind(ui->comboSwitchB, eventPage->condition.switch_b_id);
+	LcfWidgetBinding::bind(ui->checkVar, eventPage->condition.flags.variable);
+	LcfWidgetBinding::bind(ui->comboVariable, eventPage->condition.variable_id);
+	LcfWidgetBinding::bind(ui->comboVarOperation, eventPage->condition.compare_operator);
+	LcfWidgetBinding::bind(ui->spinVarValue, eventPage->condition.variable_value);
+	LcfWidgetBinding::bind(ui->checkItem, eventPage->condition.flags.item);
+	LcfWidgetBinding::bind(ui->comboItem, eventPage->condition.item_id);
+	LcfWidgetBinding::bind(ui->checkHero, eventPage->condition.flags.actor);
+	LcfWidgetBinding::bind(ui->comboHero, eventPage->condition.actor_id);
+	LcfWidgetBinding::bind(ui->checkTimerA, eventPage->condition.flags.timer);
+	LcfWidgetBinding::bind(ui->checkTimerB, eventPage->condition.flags.timer2);
+	LcfWidgetBinding::bind(ui->checkTransparent, eventPage->translucent);
+	LcfWidgetBinding::bind(ui->comboMoveType, eventPage->move_type);
+	LcfWidgetBinding::bind(ui->comboMoveFrequency, eventPage->move_frequency);
+	LcfWidgetBinding::bind(ui->comboCondition, eventPage->trigger);
+	LcfWidgetBinding::bind(ui->comboLayer, eventPage->layer);
+	LcfWidgetBinding::bind(ui->checkOverlapForbidden, eventPage->overlap_forbidden);
+	LcfWidgetBinding::bind(ui->comboAnimationType, eventPage->animation_type);
+	LcfWidgetBinding::bind(ui->comboMoveSpeed, eventPage->move_speed);
+
 	ui->spinTimerAMin->setValue(eventPage->condition.timer_sec/60);
 	ui->spinTimerASec->setValue(eventPage->condition.timer_sec%60);
-	ui->checkTimerB->setChecked(eventPage->condition.flags.timer2);
 	ui->spinTimerBMin->setValue(eventPage->condition.timer2_sec/60);
 	ui->spinTimerBSec->setValue(eventPage->condition.timer2_sec%60);
-	ui->checkTransparent->setChecked(eventPage->translucent);
-	ui->comboMoveType->setCurrentIndex(eventPage->move_type);
-	ui->comboMoveSpeed->setCurrentIndex(eventPage->move_speed-1);
-	ui->comboCondition->setCurrentIndex(eventPage->trigger);
-	ui->comboLayer->setCurrentIndex(eventPage->layer);
-	ui->checkOverlapForbidden->setChecked(eventPage->overlap_forbidden);
-	ui->comboAnimationType->setCurrentIndex(eventPage->animation_type);
-	ui->comboMoveFrequency->setCurrentIndex(eventPage->move_frequency-1);
+
 	m_effect->setEnabled(m_eventPage->translucent);
 	updateGraphic();
 
 	ui->commands->setData(m_project, eventPage);
+
+	ui->comboSwitchA->setEnabled(ui->checkSwitchA->isChecked());
+	ui->comboSwitchB->setEnabled(ui->checkSwitchB->isChecked());
+	ui->comboVariable->setEnabled(ui->checkVar->isChecked());
+	ui->comboVarOperation->setEnabled(isRPG2k3 && ui->checkVar->isChecked());
+	ui->spinVarValue->setEnabled(ui->checkVar->isChecked());
+	ui->spinTimerAMin->setEnabled(ui->checkTimerA->isChecked());
+	ui->spinTimerASec->setEnabled(ui->checkTimerA->isChecked());
+	ui->checkTimerB->setEnabled(isRPG2k3);
+	ui->spinTimerBMin->setEnabled(ui->checkTimerB->isChecked());
+	ui->spinTimerBSec->setEnabled(ui->checkTimerB->isChecked());
+	ui->comboItem->setEnabled(ui->checkItem->isChecked());
+	ui->comboHero->setEnabled(ui->checkHero->isChecked());
+	ui->label->setEnabled(ui->comboMoveType->currentIndex() != lcf::rpg::EventPage::MoveType_stationary);
+	ui->comboMoveFrequency->setEnabled(ui->comboMoveType->currentIndex() != lcf::rpg::EventPage::MoveType_stationary);
 }
 
 void EventPageWidget::on_comboMoveType_currentIndexChanged(int index)
 {
-	if (!m_eventPage)
-		return;
-	ui->label->setEnabled(index != 0);
-	ui->comboMoveSpeed->setEnabled(index != 0);
-	m_eventPage->move_type = index;
-}
-
-void EventPageWidget::on_checkSwitchA_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	if (checked) {
-		//int switchId = m_eventPage->condition.switch_a_id-1;
-		//ui->lineSwitchA->setText(formatSwitchCondition(switchId));
-	}
-	else {
-		//ui->lineSwitchA->setText("");
-	}
-	m_eventPage->condition.flags.switch_a = checked;
-}
-
-void EventPageWidget::on_checkSwitchB_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	if (checked) {
-		//int switchId = m_eventPage->condition.switch_b_id-1;
-		//ui->lineSwitchB->setText(formatSwitchCondition(switchId));
-	}
-	else {
-		//ui->lineSwitchB->setText("");
-	}
-	m_eventPage->condition.flags.switch_b = checked;
+	ui->label->setEnabled(index != lcf::rpg::EventPage::MoveType_stationary);
+	ui->comboMoveFrequency->setEnabled(index != lcf::rpg::EventPage::MoveType_stationary);
 }
 
 void EventPageWidget::on_checkVar_toggled(bool checked)
 {
-	if (!m_eventPage)
-		return;
-	/*if (checked) {
-		int varId = m_eventPage->condition.variable_id;
-		if (varId >= 1 && varId <= static_cast<int>(core().project()->database().variables.size())) {
-			ui->lineVar->setText(QString("%1: %2").arg(varId)
-				.arg(ToQString
-					 (core().project()->database().variables[static_cast<size_t>(varId) - 1].name)));
-		}
-		else {
-			ui->lineVar->setText(QString("%1: ???").arg(varId));
-		}
-	}
-	else {
-		ui->lineVar->setText("");
-	}*/
-	m_eventPage->condition.flags.variable = checked;
+	auto& database = m_project.database();
+	const bool isRPG2k3 = database.system.ldb_id == 2003;
+	ui->comboVarOperation->setEnabled(isRPG2k3 && checked);
 }
 
-void EventPageWidget::on_checkItem_toggled(bool checked)
+void EventPageWidget::on_checkTransparent_toggled(bool checked)
 {
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.flags.item = checked;
-}
-
-void EventPageWidget::on_comboVarOperation_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.compare_operator = index;
-}
-
-void EventPageWidget::on_spinVarValue_valueChanged(int arg1)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.variable_value = arg1;
-}
-
-void EventPageWidget::on_comboItem_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.item_id = index+1;
-}
-
-void EventPageWidget::on_comboHero_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.actor_id = index+1;
-}
-
-void EventPageWidget::on_checkHero_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.flags.item = checked;
-}
-
-void EventPageWidget::on_checkTimerA_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.flags.timer = checked;
+	m_effect->setEnabled(checked);
 }
 
 void EventPageWidget::on_spinTimerAMin_valueChanged(int arg1)
@@ -220,13 +226,6 @@ void EventPageWidget::on_spinTimerASec_valueChanged(int arg1)
 	m_eventPage->condition.timer_sec = ui->spinTimerAMin->value()*60 + arg1;
 }
 
-void EventPageWidget::on_checkTimerB_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->condition.flags.timer2 = checked;
-}
-
 void EventPageWidget::on_spinTimerBMin_valueChanged(int arg1)
 {
 	if (!m_eventPage)
@@ -239,56 +238,6 @@ void EventPageWidget::on_spinTimerBSec_valueChanged(int arg1)
 	if (!m_eventPage)
 		return;
 	m_eventPage->condition.timer2_sec = ui->spinTimerBMin->value()*60 + arg1;
-}
-
-void EventPageWidget::on_checkTransparent_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->translucent = checked;
-	m_effect->setEnabled(checked);
-}
-
-void EventPageWidget::on_comboMoveSpeed_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->move_speed = index+1;
-}
-
-void EventPageWidget::on_comboCondition_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->trigger = index;
-}
-
-void EventPageWidget::on_comboLayer_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->layer = index;
-}
-
-void EventPageWidget::on_checkOverlapForbidden_toggled(bool checked)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->overlap_forbidden = checked;
-}
-
-void EventPageWidget::on_comboAnimationType_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->animation_type = index;
-}
-
-void EventPageWidget::on_comboMoveFrequency_currentIndexChanged(int index)
-{
-	if (!m_eventPage)
-		return;
-	m_eventPage->move_frequency = index+1;
 }
 
 void EventPageWidget::on_pushSetSprite_clicked()
@@ -325,8 +274,7 @@ void EventPageWidget::updateGraphic()
 	}
 	else
 	{
-		// FIXME m_charaItem->setBasePix(ToQString(m_eventPage->character_name));
-		m_charaItem->setIndex(m_eventPage->character_index);
+		m_charaItem->refresh(ToQString(m_eventPage->character_name), m_eventPage->character_index);
 		m_charaItem->setFrame(m_eventPage->character_pattern);
 		m_charaItem->setFacing(m_eventPage->character_direction);
 		m_tileItem->setVisible(false);
