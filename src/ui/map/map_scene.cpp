@@ -65,6 +65,9 @@ MapScene::MapScene(ProjectData& project, int id, QGraphicsView *view, QObject *p
 						   "New Event",
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
+						   "Edit Event",
+						   this);
+	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
 						   "Copy Event",
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
@@ -79,7 +82,11 @@ MapScene::MapScene(ProjectData& project, int id, QGraphicsView *view, QObject *p
 	connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
 	connect(actions[1],SIGNAL(triggered()),this,SLOT(on_actionSetStartPosition()));
 	connect(actions[2],SIGNAL(triggered()),this,SLOT(on_actionNewEvent()));
-	connect(actions[6],SIGNAL(triggered()),this,SLOT(on_actionDeleteEvent()));
+	connect(actions[3],SIGNAL(triggered()),this,SLOT(on_actionEditEvent()));
+	connect(actions[4],SIGNAL(triggered()),this,SLOT(on_actionCopyEvent()));
+	connect(actions[5],SIGNAL(triggered()),this,SLOT(on_actionCutEvent()));
+	connect(actions[6],SIGNAL(triggered()),this,SLOT(on_actionPasteEvent()));
+	connect(actions[7],SIGNAL(triggered()),this,SLOT(on_actionDeleteEvent()));
 
 	m_eventMenu->addActions(actions);
 	m_lowerpix = new QGraphicsPixmapItem();
@@ -203,9 +210,21 @@ void MapScene::setLayerData(Core::Layer layer, std::vector<short> data)
 
 void MapScene::setEventData(int id, const lcf::rpg::Event &data)
 {
-	for (unsigned int i = 0; i < m_map->events.size(); i++)
-		if (m_map->events[i].ID == id)
-			m_map->events[i] = data;
+	for (unsigned int i = 0; i < m_map->events.size(); i++) {
+		if (m_map->events[i].ID == id) {
+			if (m_map->events[i] == data) {
+				m_map->events.erase(m_map->events.begin() + i);
+				redrawMap();
+				return;
+			} else {
+				m_map->events[i] = data;
+				return;
+			}
+		}
+	}
+
+	m_map->events.push_back(data);
+	redrawMap();
 }
 
 QMap<int, lcf::rpg::Event*> *MapScene::mapEvents()
@@ -391,20 +410,7 @@ void MapScene::undo()
 void MapScene::on_actionNewEvent()
 {
 	// Find first free id
-	std::vector<lcf::rpg::Event>::iterator ev;
-	int id = 1;
-	for (;;++id)
-	{
-		bool valid = true;
-		for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
-			if (ev->ID == id)
-			{
-				valid = false;
-				break;
-			}
-		if (valid)
-			break;
-	}
+	int id = getFirstFreeId();
 
 	lcf::rpg::Event event;
 	event.ID = id;
@@ -417,9 +423,52 @@ void MapScene::on_actionNewEvent()
 	if (result != QDialogButtonBox::Cancel)
 	{
 		m_map->events.push_back(event);
+		m_undoStack->push(new UndoEvent(event, this));
 		redrawMap();
 		emit mapChanged();
 	}
+}
+
+void MapScene::on_actionEditEvent() {
+	std::vector<lcf::rpg::Event>::iterator ev;
+	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev) {
+		if (_index(cur_x, cur_y) == _index(ev->x, ev->y)) {
+			lcf::rpg::Event backup = *ev;
+			int result = EventDialog::edit(m_view, *ev, m_project);
+			if (result != QDialogButtonBox::Cancel) {
+				m_undoStack->push(new UndoEvent(backup, this));
+				emit mapChanged();
+			}
+			redrawMap();
+			return;
+		}
+	}
+}
+
+void MapScene::on_actionCopyEvent() {
+	event_clipboard = *getEventAt(cur_x, cur_y);
+	event_clipboard_set = true;
+}
+
+void MapScene::on_actionCutEvent() {
+	on_actionCopyEvent();
+	on_actionDeleteEvent();
+}
+
+void MapScene::on_actionPasteEvent() {
+	// Find first free id
+	int id = getFirstFreeId();
+
+	lcf::rpg::Event event = event_clipboard;
+	event.ID = id;
+	event.name = ToDBString(QString("EV%1").arg(QString::number(id), 4, QLatin1Char('0')));
+	event.x = cur_x;
+	event.y = cur_y;
+
+	m_map->events.push_back(event);
+	m_undoStack->push(new UndoEvent(event, this));
+	redrawMap();
+	emit mapChanged();
 }
 
 void MapScene::on_actionDeleteEvent()
@@ -431,6 +480,9 @@ void MapScene::on_actionDeleteEvent()
 
 	if (ev != m_map->events.end())
 	{
+		lcf::rpg::Event backup = *ev;
+		m_undoStack->push(new UndoEvent(backup, this));
+
 		m_map->events.erase(ev);
 		redrawMap();
 		emit mapChanged();
@@ -488,6 +540,13 @@ void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 		}
 		if (sceneRect().contains(event->scenePos()) && core().layer() == Core::EVENT)
 		{
+			m_eventMenu->actions()[2]->setEnabled(!getEventAt(cur_x, cur_y));
+			m_eventMenu->actions()[3]->setEnabled(getEventAt(cur_x, cur_y));
+			m_eventMenu->actions()[4]->setEnabled(getEventAt(cur_x, cur_y));
+			m_eventMenu->actions()[5]->setEnabled(getEventAt(cur_x, cur_y));
+			m_eventMenu->actions()[6]->setEnabled(!getEventAt(cur_x, cur_y) && event_clipboard_set);
+			m_eventMenu->actions()[7]->setEnabled(getEventAt(cur_x, cur_y));
+
 			lst_x = cur_x;
 			lst_y = cur_y;
 			m_eventMenu->popup(event->screenPos());
@@ -631,23 +690,11 @@ void MapScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 		return;
 	}
 
-	std::vector<lcf::rpg::Event>::iterator ev;
-	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev)
-	{
-		if (_index(cur_x,cur_y) == _index(ev->x,ev->y))
-		{
-			lcf::rpg::Event backup = *ev;
-			int result = EventDialog::edit(m_view, *ev, m_project);
-			if (result != QDialogButtonBox::Cancel)
-			{
-				m_undoStack->push(new UndoEvent(backup, this));
-				emit mapChanged();
-			}
-			redrawMap();
-			return;
-		}
+	if (getEventAt(cur_x, cur_y)) {
+		on_actionEditEvent();
+	} else {
+		on_actionNewEvent();
 	}
-	on_actionNewEvent();
 }
 
 int MapScene::_x(int index)
@@ -958,4 +1005,38 @@ void MapScene::selectTile(int x, int y)
 void MapScene::centerOnTile(int x, int y)
 {
 	m_view->centerOn(x * s_tileSize, y * s_tileSize);
+}
+
+lcf::rpg::Event* MapScene::getEventAt(int x, int y) {
+	std::vector<lcf::rpg::Event>::iterator ev;
+	for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev) {
+		if (_index(x, y) == _index(ev->x, ev->y)) {
+			break;
+		}
+	}
+
+	if (ev != m_map->events.end()) {
+		return &(*ev);
+	}
+
+	return nullptr;
+}
+
+int MapScene::getFirstFreeId() {
+	std::vector<lcf::rpg::Event>::iterator ev;
+	int id = 1;
+	for (;;++id) {
+		bool valid = true;
+		for (ev = m_map->events.begin(); ev != m_map->events.end(); ++ev) {
+			if (ev->ID == id) {
+				valid = false;
+				break;
+			}
+		}
+		if (valid) {
+			break;
+		}
+	}
+
+	return id;
 }
