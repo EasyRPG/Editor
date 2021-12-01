@@ -79,28 +79,7 @@
           </property>
           <layout class="QVBoxLayout" name="layoutWrapping">
            <item>
-            <widget class="QComboBox" name="comboWrapping">
-             <item>
-              <property name="text">
-               <string>None</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Vertical</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Horizontal</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Both</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="comboWrapping"/>
            </item>
           </layout>
          </widget>

@@ -23,6 +23,7 @@
 #include <lcf/rpg/mapinfo.h>
 #include <lcf/rpg/map.h>
 #include "ui/common/encounter_delegate.h"
+#include <QButtonGroup>
 
 class ProjectData;
 
@@ -83,6 +84,8 @@ private:
 
 	lcf::rpg::MapInfo &m_info;
 	lcf::rpg::Map &m_map;
+	lcf::rpg::MapInfo m_info_copy;
+	lcf::rpg::Map m_map_copy;
 
 	std::vector<short> m_generatorLowerLayer;
 	std::vector<short> m_generatorUpperLayer;
@@ -94,5 +97,11 @@ private:
 
 	int old_width;
 	int old_height;
+
+	QButtonGroup* m_buttonGroupBGM = nullptr;
+	QButtonGroup* m_buttonGroupBackdrop = nullptr;
+	QButtonGroup* m_buttonGroupTeleport = nullptr;
+	QButtonGroup* m_buttonGroupEscape = nullptr;
+	QButtonGroup* m_buttonGroupSave = nullptr;
 };
 
