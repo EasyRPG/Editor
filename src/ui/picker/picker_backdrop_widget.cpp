@@ -21,6 +21,8 @@
 
 void PickerBackdropWidget::imageChanged(QPixmap image) {
 	if (!m_pixmap) {
+		m_view->setMinimumSize(324, 244);
+		m_view->setMaximumSize(324, 244);
 		m_pixmap = new QGraphicsPixmapItem(image);
 	}
 
