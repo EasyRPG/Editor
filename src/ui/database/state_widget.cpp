@@ -36,9 +36,7 @@ StateWidget::StateWidget(ProjectData& project, QWidget *parent) :
 	ui->comboExtents->addItem("Ends after battle", 0);
 	ui->comboExtents->addItem("Persists after battle", 1);
 
-	for (int i = 0; i < 20; i++) {
-		ui->comboColor->addItem(QString("Color %1").arg(i), i);
-	}
+	ui->comboColor->setup(project);
 
 	ui->comboRestriction->addItem("No restriction", 0);
 	ui->comboRestriction->addItem("No action allowed", 1);
@@ -73,10 +71,11 @@ StateWidget::StateWidget(ProjectData& project, QWidget *parent) :
 
 	for (auto& uis : {
 			ui->comboExtents,
-			ui->comboColor,
 			ui->comboRestriction }) {
 		LcfWidgetBinding::connect<int32_t>(this, uis);
 	}
+
+	LcfWidgetBinding::connect<int32_t>(this, ui->comboColor);
 
 	for (auto& uis : {
 			ui->spinPriority,
@@ -245,11 +244,8 @@ void StateWidget::on_currentStateChanged(lcf::rpg::State *state) {
 			ui->checkStatAffectAgility }) {
 		uis->setEnabled(state->ID != 1);
 	}
-	for (auto& uis : {
-			ui->comboColor,
-			ui->comboRestriction }) {
-		uis->setEnabled(state->ID != 1);
-	}
+	ui->comboColor->setEnabled(state->ID != 1);
+	ui->comboRestriction->setEnabled(state->ID != 1);
 	for (auto& uis : {
 			ui->spinPriority,
 			ui->spinAccuracy,
