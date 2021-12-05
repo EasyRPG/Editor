@@ -40,6 +40,7 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 
 	m_current = nullptr;
 
+	ui->spinMinLv->setMaximum(kMaxLevel);
 	ui->spinMaxLv->setMaximum(kMaxLevel);
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
@@ -172,6 +173,18 @@ void ActorWidget::UpdateModels()
 		ui->listAttributeRanks->addItem(database.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < database.states.size(); i++)
 		ui->listStatusRanks->addItem(database.states[i].name.c_str());
+}
+
+void ActorWidget::on_spinMinLv_valueChanged(int value) {
+	if (ui->spinMaxLv->value() < value) {
+		ui->spinMaxLv->setValue(value);
+	}
+}
+
+void ActorWidget::on_spinMaxLv_valueChanged(int value) {
+	if (ui->spinMinLv->value() > value) {
+		ui->spinMinLv->setValue(value);
+	}
 }
 
 void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
