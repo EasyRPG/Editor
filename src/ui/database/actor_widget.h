@@ -49,6 +49,8 @@ public slots:
 private slots:
 	void on_comboBattleset_currentIndexChanged(int index);
 	void on_pushApplyProfession_clicked();
+	void on_listStatusRanks_clicked();
+	void on_listAttributeRanks_clicked();
 
 	void faceSetClicked();
 	void charSetClicked();

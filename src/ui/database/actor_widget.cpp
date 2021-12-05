@@ -328,6 +328,62 @@ void ActorWidget::on_pushApplyProfession_clicked()
 	on_currentActorChanged(actor);
 }
 
+void ActorWidget::on_listStatusRanks_clicked() {
+	if (!m_current) {
+		return;
+	}
+
+	int index = ui->listStatusRanks->currentRow();
+	if (m_current->state_ranks.size() <= index) {
+		for (int i = m_current->state_ranks.size(); i <= index; i++) {
+			m_current->state_ranks.push_back(2);
+		}
+	}
+	int rank = m_current->state_ranks[index];
+	rank = (rank + 1) % 5;
+	m_current->state_ranks[index] = rank;
+	ui->listStatusRanks->item(index)->setIcon(QIcon(QString(":/ranks/rank%1").arg(rank)));
+
+	if (index == m_current->state_ranks.size() - 1 && rank == 2) {
+		m_current->state_ranks.pop_back();
+		for (int i = m_current->state_ranks.size() - 1; i >= 0; i--) {
+			if (m_current->state_ranks[i] == 2) {
+				m_current->state_ranks.pop_back();
+			} else {
+				break;
+			}
+		}
+	}
+}
+
+void ActorWidget::on_listAttributeRanks_clicked() {
+	if (!m_current) {
+		return;
+	}
+
+	int index = ui->listAttributeRanks->currentRow();
+	if (m_current->attribute_ranks.size() <= index) {
+		for (int i = m_current->attribute_ranks.size(); i <= index; i++) {
+			m_current->attribute_ranks.push_back(2);
+		}
+	}
+	int rank = m_current->attribute_ranks[index];
+	rank = (rank + 1) % 5;
+	m_current->attribute_ranks[index] = rank;
+	ui->listAttributeRanks->item(index)->setIcon(QIcon(QString(":/ranks/rank%1").arg(rank)));
+
+	if (index == m_current->attribute_ranks.size() - 1 && rank == 2) {
+		m_current->attribute_ranks.pop_back();
+		for (int i = m_current->attribute_ranks.size() - 1; i >= 0; i--) {
+			if (m_current->attribute_ranks[i] == 2) {
+				m_current->attribute_ranks.pop_back();
+			} else {
+				break;
+			}
+		}
+	}
+}
+
 void ActorWidget::resizeEvent(QResizeEvent *event)
 {
 	Q_UNUSED(event)
