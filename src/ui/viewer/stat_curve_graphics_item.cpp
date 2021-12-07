@@ -24,6 +24,7 @@ CurveItem::CurveItem(QColor color, std::vector<int16_t> &data, QGraphicsItem *pa
 {
 	m_color = color;
 	m_maxValue = 999.0;
+	m_maxLevel = 50.0;
 }
 
 QRectF CurveItem::boundingRect() const
@@ -46,7 +47,7 @@ void CurveItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 	QVector<QPointF> p;
 	p.append(r.bottomLeft());
 	for (size_t i = 0; i < m_data.size(); i++)
-		p.append(QPointF((static_cast<qreal>(i)*r.width())/99.0,
+		p.append(QPointF((static_cast<qreal>(i)*r.width())/(m_maxLevel - 1.0),
 						 r.height()-r.height()*static_cast<qreal>(m_data[i])/m_maxValue));
 	p.append(r.bottomRight());
 
@@ -70,6 +71,16 @@ qreal CurveItem::maxValue() const
 void CurveItem::setMaxValue(const qreal &maxValue)
 {
 	m_maxValue = maxValue;
+}
+
+qreal CurveItem::maxLevel() const
+{
+	return m_maxLevel;
+}
+
+void CurveItem::setMaxLevel(const qreal &maxLevel)
+{
+	m_maxLevel = maxLevel;
 }
 
 
