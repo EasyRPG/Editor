@@ -29,6 +29,8 @@ void PickerCharsetWidget::clicked(const QPointF& pos) {
 
 void PickerCharsetWidget::imageChanged(QPixmap image) {
 	if (!m_pixmap) {
+		m_view->setMinimumSize(196, 132);
+		m_view->setMaximumSize(196, 132);
 		m_view->scale(2.0, 2.0);
 		m_pixmap = new QGraphicsPixmapItem();
 	}
