@@ -364,6 +364,8 @@ void MapScene::Save(bool properties_changed)
 			treeMap.maps[i] = n_mapInfo; //Apply info changes
 			break;
 		}
+	// Remember last active map
+	treeMap.active_node = n_mapInfo.ID;
 	// FIXME: ProjectData.Project is Const
 	core().project()->saveTreeMap();
 	QString file = QString("Map%1.emu")

@@ -1057,12 +1057,6 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 		ui->actionMapDelete->setEnabled(false);
 		return;
 	}
-	int id = current->data(1, Qt::DisplayRole).toInt();
-	ui->actionMapCopy->setEnabled(id != 0);
-	ui->actionMapDelete->setEnabled(id != 0);
-	if (id != 0) {
-		core().project()->treeMap().active_node = id;
-	}
 }
 
 void MainWindow::on_actionMapCopy_triggered()
