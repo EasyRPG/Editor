@@ -23,7 +23,12 @@
 #include <lcf/rpg/actor.h>
 
 CharSetGraphicsItem::CharSetGraphicsItem(ProjectData& project, const QPixmap pix) :
-	QGraphicsItem(), m_project(project), m_image(pix) {}
+	QGraphicsItem(), m_project(project), m_image(pix) {
+	if (pix.isNull()) {
+		m_image = QPixmap(24, 32);
+		m_image.fill(QColor(255, 255, 255, 0));
+	}
+}
 
 void setBasePix(const QString &n_pixName);
 
@@ -68,7 +73,13 @@ void CharSetGraphicsItem::refresh(const lcf::rpg::Actor& actor) {
 void CharSetGraphicsItem::refresh(QString filename, int index) {
 	if (m_filename != filename) {
 		m_filename = filename;
-		m_image = ImageLoader::Load(m_project.project().findFile(CHARSET, filename, FileFinder::FileType::Image));
+		QString path = m_project.project().findFile(CHARSET, filename, FileFinder::FileType::Image);
+		if (!path.isEmpty()) {
+			m_image = ImageLoader::Load(path);
+		} else {
+			m_image = QPixmap(48, 48);
+			m_image.fill(QColor(255, 255, 255, 0));
+		}
 	}
 	setIndex(index);
 	update();
