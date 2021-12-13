@@ -30,12 +30,19 @@ lcf::rpg::Actor& ActorModel::data() {
 }
 
 QPixmap ActorModel::preview() {
-	QPixmap faceSet = ImageLoader::Load(m_project.project().findFile("FaceSet", ToQString(m_data.face_name), FileFinder::FileType::Image));
+	QString path = m_project.project().findFile("FaceSet", ToQString(m_data.face_name), FileFinder::FileType::Image);
+	if (!path.isEmpty()) {
+		QPixmap faceSet = ImageLoader::Load(path);
+		int x = (m_data.face_index % 4) * 48;
+		int y = (m_data.face_index / 4) * 48;
 
-	int x = (m_data.face_index % 4) * 48;
-	int y = (m_data.face_index / 4) * 48;
+		return faceSet.copy(x, y, 48, 48);
+	} else {
+		QPixmap faceSet = QPixmap(48, 48);
+		faceSet.fill(QColor(255, 255, 255, 0));
 
-	return faceSet.copy(x, y, 48, 48);
+		return faceSet;
+	}
 }
 
 const lcf::rpg::Actor& ActorModel::data() const {
