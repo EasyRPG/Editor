@@ -90,7 +90,7 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboColor"/>
+       <widget class="SystemColorComboBox" name="comboColor"/>
       </item>
      </layout>
     </widget>
@@ -1038,6 +1038,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SystemColorComboBox</class>
+   <extends>QComboBox</extends>
+   <header>ui/common/system_color_combobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -169,6 +169,8 @@ set(EDITOR_SOURCES
 	src/ui/common/rpg_slider.h
 	src/ui/common/rpg_spinbox.cpp
 	src/ui/common/rpg_spinbox.h
+	src/ui/common/system_color_combobox.cpp
+	src/ui/common/system_color_combobox.h
 	src/ui/common/widget_as_dialog_model_wrapper.h
 	src/ui/common/widget_as_dialog_wrapper.h
 	src/ui/database/actor_delegate.cpp
