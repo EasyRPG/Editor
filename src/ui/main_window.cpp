@@ -1057,9 +1057,6 @@ void MainWindow::on_treeMap_currentItemChanged(QTreeWidgetItem* current, QTreeWi
 		ui->actionMapDelete->setEnabled(false);
 		return;
 	}
-	ui->actionMapCopy->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
-	ui->actionMapDelete->setEnabled(current->data(1,Qt::DisplayRole).toInt() != 0);
-	core().project()->treeMap().active_node = current->data(1,Qt::DisplayRole).toInt() != 0;
 }
 
 void MainWindow::on_actionMapCopy_triggered()
@@ -1306,7 +1303,7 @@ void MainWindow::on_actionMapProperties_triggered()
 	if (!currentScene())
 		return;
 
-	currentScene()->editMapProperties();
+	currentScene()->editMapProperties(ui->treeMap->currentItem());
 }
 
 void MainWindow::on_actionSearch_triggered()

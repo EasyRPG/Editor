@@ -235,10 +235,29 @@ QMap<int, lcf::rpg::Event*> *MapScene::mapEvents()
 	return events;
 }
 
-void MapScene::editMapProperties()
+void MapScene::editMapProperties(QTreeWidgetItem *item)
 {
+	int old_width = m_map->width;
+	int old_height = m_map->height;
+	lcf::DBString old_name = n_mapInfo.name;
+
 	MapPropertiesDialog dlg(m_project, n_mapInfo, *m_map, m_view);
-	dlg.exec();
+	if (dlg.exec() == QDialog::Accepted) {
+		if (m_map->width != old_width || m_map->height != old_height) {
+			setLayerData(Core::LOWER, m_map->lower_layer);
+			setLayerData(Core::UPPER, m_map->upper_layer);
+			redrawGrid();
+		}
+
+		Save(true);
+		redrawPanorama();
+		redrawMap();
+		setScale(m_scale);
+
+		if (n_mapInfo.name != old_name) {
+			item->setData(0, Qt::DisplayRole, ToQString(n_mapInfo.name));
+		}
+	}
 }
 
 void MapScene::redrawMap()
@@ -333,9 +352,9 @@ void MapScene::onToolChanged()
 	}
 }
 
-void MapScene::Save()
+void MapScene::Save(bool properties_changed)
 {
-	if (!isModified())
+	if (!isModified() && !properties_changed)
 		return;
 
 	auto& treeMap = m_project.treeMap();
@@ -345,6 +364,8 @@ void MapScene::Save()
 			treeMap.maps[i] = n_mapInfo; //Apply info changes
 			break;
 		}
+	// Remember last active map
+	treeMap.active_node = n_mapInfo.ID;
 	// FIXME: ProjectData.Project is Const
 	core().project()->saveTreeMap();
 	QString file = QString("Map%1.emu")
@@ -370,26 +391,11 @@ void MapScene::Load(bool revert)
 	m_map = m_project.project().loadMap(n_mapInfo.ID);
 	m_lower =  m_map->lower_layer;
 	m_upper =  m_map->upper_layer;
-	if(m_map->parallax_flag)
-		core().LoadBackground(m_map->parallax_name.c_str());
-	else
-		core().LoadBackground(QString());
+
+	redrawPanorama();
 
 	if (!revert) {
-		QList<QGraphicsItem*> lines;
-		for (int x = 0; x <= m_map->width; x++)
-			lines.append(new QGraphicsLineItem(x*core().tileSize(),
-				0,
-				x*core().tileSize(),
-				m_map->height*core().tileSize()));
-
-		for (int y = 0; y <= m_map->height; y++)
-			lines.append(new QGraphicsLineItem(0,
-				y*core().tileSize(),
-				m_map->width*core().tileSize(),
-				y*core().tileSize()));
-
-		m_lines = createItemGroup(lines);
+		redrawGrid();
 	}
 
 	redrawMap();
@@ -1039,4 +1045,40 @@ int MapScene::getFirstFreeId() {
 	}
 
 	return id;
+}
+
+void MapScene::redrawPanorama() {
+	if (m_map->parallax_flag) {
+		core().LoadBackground(m_map->parallax_name.c_str());
+	} else {
+		core().LoadBackground(QString());
+	}
+}
+
+void MapScene::redrawGrid() {
+	if (!grid_lines.empty()) {
+		while (!grid_lines.empty()) {
+			QGraphicsItem* line = grid_lines.takeLast();
+			delete line;
+		}
+		destroyItemGroup(m_lines);
+	}
+
+	for (int x = 0; x <= m_map->width; x++) {
+		grid_lines.append(new QGraphicsLineItem(x*core().tileSize(),
+			0,
+			x*core().tileSize(),
+			m_map->height*core().tileSize()));
+	}
+
+	for (int y = 0; y <= m_map->height; y++) {
+		grid_lines.append(new QGraphicsLineItem(0,
+			y*core().tileSize(),
+			m_map->width*core().tileSize(),
+			y*core().tileSize()));
+	}
+
+	m_lines = createItemGroup(grid_lines);
+
+	m_lines->setVisible(core().layer() == Core::EVENT);
 }

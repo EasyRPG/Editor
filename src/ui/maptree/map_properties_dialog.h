@@ -23,6 +23,7 @@
 #include <lcf/rpg/mapinfo.h>
 #include <lcf/rpg/map.h>
 #include "ui/common/encounter_delegate.h"
+#include <QButtonGroup>
 
 class ProjectData;
 
@@ -39,6 +40,8 @@ public:
 	~MapPropertiesDialog();
 
 private slots:
+	void accept();
+
 	void on_groupPanorama_toggled(bool arg1);
 
 	void on_groupUseGenerator_toggled(bool arg1);
@@ -53,7 +56,15 @@ private slots:
 
 	void on_groupObstacleC_toggled(bool arg1);
 
-	void on_tableEncounters_itemChanged(QTableWidgetItem *item);
+	void on_pushAddEncounter_clicked();
+
+	void on_pushRemoveEncounter_clicked();
+
+	void on_pushSetPanorama_clicked();
+
+	void on_toolSetBGM_clicked();
+
+	void on_toolSetBackdrop_clicked();
 
 private:
 	Ui::MapPropertiesDialog *ui;
@@ -73,10 +84,24 @@ private:
 
 	lcf::rpg::MapInfo &m_info;
 	lcf::rpg::Map &m_map;
+	lcf::rpg::MapInfo m_info_copy;
+	lcf::rpg::Map m_map_copy;
 
 	std::vector<short> m_generatorLowerLayer;
 	std::vector<short> m_generatorUpperLayer;
 
 	ProjectData& m_project;
+
+	lcf::DBString new_panorama;
+	lcf::rpg::Music new_music;
+
+	int old_width;
+	int old_height;
+
+	QButtonGroup* m_buttonGroupBGM = nullptr;
+	QButtonGroup* m_buttonGroupBackdrop = nullptr;
+	QButtonGroup* m_buttonGroupTeleport = nullptr;
+	QButtonGroup* m_buttonGroupEscape = nullptr;
+	QButtonGroup* m_buttonGroupSave = nullptr;
 };
 

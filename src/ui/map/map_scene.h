@@ -25,6 +25,7 @@
 #include <QMap>
 #include <QMenu>
 #include <QUndoStack>
+#include <QTreeWidgetItem>
 #include <memory>
 #include <lcf/rpg/map.h>
 #include <lcf/rpg/mapinfo.h>
@@ -51,7 +52,7 @@ public:
 	void setLayerData(Core::Layer layer, std::vector<short> data);
 	void setEventData(int id, const lcf::rpg::Event &data);
 	QMap<int, lcf::rpg::Event *> *mapEvents();
-	void editMapProperties();
+	void editMapProperties(QTreeWidgetItem *item);
 
 signals:
 
@@ -68,7 +69,7 @@ public slots:
 
 	void onToolChanged();
 
-	void Save();
+	void Save(bool properties_changed = false);
 
 	void Load(bool revert = false);
 
@@ -121,6 +122,8 @@ private:
 	short bind(int x, int y);
 	lcf::rpg::Event* getEventAt(int x, int y);
 	int getFirstFreeId();
+	void redrawPanorama();
+	void redrawGrid();
 
 
 	QMenu *m_eventMenu;
@@ -150,5 +153,6 @@ private:
 	ProjectData& m_project;
 	lcf::rpg::Event event_clipboard;
 	bool event_clipboard_set = false;
+	QList<QGraphicsItem*> grid_lines;
 };
 

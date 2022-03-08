@@ -56,10 +56,18 @@
           </property>
           <layout class="QHBoxLayout" name="layoutDimensions">
            <item>
-            <widget class="QSpinBox" name="spinWidth"/>
+            <widget class="QSpinBox" name="spinWidth">
+             <property name="minimum">
+              <number>20</number>
+             </property>
+            </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinHeight"/>
+            <widget class="QSpinBox" name="spinHeight">
+             <property name="minimum">
+              <number>15</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -71,28 +79,7 @@
           </property>
           <layout class="QVBoxLayout" name="layoutWrapping">
            <item>
-            <widget class="QComboBox" name="comboWrapping">
-             <item>
-              <property name="text">
-               <string>None</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Vertical</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Horizontal</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Both</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="comboWrapping"/>
            </item>
           </layout>
          </widget>
@@ -117,37 +104,30 @@
              <attribute name="verticalHeaderDefaultSectionSize">
               <number>21</number>
              </attribute>
-             <row>
-              <property name="text">
-               <string/>
-              </property>
-             </row>
              <column>
               <property name="text">
                <string>Name</string>
               </property>
              </column>
-             <item row="0" column="0">
-              <property name="text">
-               <string>&lt;Add Encounter&gt;</string>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="foreground">
-               <brush brushstyle="NoBrush">
-                <color alpha="255">
-                 <red>85</red>
-                 <green>170</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </property>
-             </item>
             </widget>
+           </item>
+           <item>
+            <layout class="QGridLayout" name="layoutAddRemoveEncounter">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="pushAddEncounter">
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="pushRemoveEncounter">
+               <property name="text">
+                <string>Remove</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="layoutEncounterRate">
@@ -186,7 +166,20 @@
           </property>
           <layout class="QGridLayout" name="layoutPanorama">
            <item row="0" column="0" colspan="2">
-            <widget class="QGraphicsView" name="graphicsPanorama"/>
+            <widget class="QGraphicsView" name="graphicsPanorama">
+             <property name="minimumSize">
+              <size>
+               <width>324</width>
+               <height>244</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>324</width>
+               <height>244</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0" colspan="2">
             <widget class="QPushButton" name="pushSetPanorama">
