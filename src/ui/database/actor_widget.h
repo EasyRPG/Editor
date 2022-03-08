@@ -47,6 +47,8 @@ public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 
 private slots:
+	void on_spinMinLv_valueChanged(int value);
+	void on_spinMaxLv_valueChanged(int value);
 	void on_comboBattleset_currentIndexChanged(int index);
 	void on_pushApplyProfession_clicked();
 	void on_listStatusRanks_clicked();

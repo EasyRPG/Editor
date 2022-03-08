@@ -27,7 +27,7 @@ class ProjectData;
 
 class FaceSetGraphicsItem : public QGraphicsItem {
 public:
-	explicit FaceSetGraphicsItem(ProjectData& m_project, const QPixmap pix = QPixmap(192,192));
+	explicit FaceSetGraphicsItem(ProjectData& m_project, const QPixmap pix = QPixmap());
 
 	QRect faceRect() const;
 	QRectF boundingRect() const override;

@@ -315,7 +315,7 @@
          <string> turns</string>
         </property>
         <property name="prefix">
-         <string>1 of </string>
+         <string>1 in </string>
         </property>
         <property name="minimum">
          <number>1</number>
@@ -425,14 +425,14 @@
        <widget class="FaceSetGraphicsView" name="graphicsFaceset">
         <property name="minimumSize">
          <size>
-          <width>96</width>
-          <height>96</height>
+          <width>100</width>
+          <height>100</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>96</width>
-          <height>96</height>
+          <width>100</width>
+          <height>100</height>
          </size>
         </property>
         <property name="verticalScrollBarPolicy">
@@ -470,14 +470,14 @@
        <widget class="CharSetGraphicsView" name="graphicsCharset">
         <property name="minimumSize">
          <size>
-          <width>48</width>
-          <height>64</height>
+          <width>52</width>
+          <height>68</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>48</width>
-          <height>64</height>
+          <width>52</width>
+          <height>68</height>
          </size>
         </property>
         <property name="verticalScrollBarPolicy">
@@ -516,14 +516,14 @@
        <widget class="QGraphicsView" name="graphicsBattleset">
         <property name="minimumSize">
          <size>
-          <width>48</width>
-          <height>48</height>
+          <width>52</width>
+          <height>52</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>48</width>
-          <height>48</height>
+          <width>52</width>
+          <height>52</height>
          </size>
         </property>
         <property name="verticalScrollBarPolicy">
@@ -940,7 +940,7 @@
    <item row="8" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox_379">
      <property name="title">
-      <string>Custome Properties</string>
+      <string>Custom Properties</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_42">
       <item>

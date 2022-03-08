@@ -25,6 +25,10 @@
 
 FaceSetGraphicsItem::FaceSetGraphicsItem(ProjectData& project, const QPixmap pix) :
 	QGraphicsItem(), m_project(project), m_image(pix) {
+	if (pix.isNull()) {
+		m_image = QPixmap(48, 48);
+		m_image.fill(QColor(255, 255, 255, 0));
+	}
 }
 
 QRect FaceSetGraphicsItem::faceRect() const {
@@ -51,7 +55,13 @@ void FaceSetGraphicsItem::refresh(const lcf::rpg::Actor& actor) {
 void FaceSetGraphicsItem::refresh(QString filename, int index) {
 	if (m_filename != filename) {
 		m_filename = filename;
-		m_image = ImageLoader::Load(m_project.project().findFile(FACESET, filename, FileFinder::FileType::Image));
+		QString path = m_project.project().findFile(FACESET, filename, FileFinder::FileType::Image);
+		if (!path.isEmpty()) {
+			m_image = ImageLoader::Load(path);
+		} else {
+			m_image = QPixmap(48, 48);
+			m_image.fill(QColor(255, 255, 255, 0));
+		}
 	}
 	setIndex(index);
 	update();

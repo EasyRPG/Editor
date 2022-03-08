@@ -41,7 +41,7 @@ public:
 		Frame_right = 2
 	};
 
-	explicit CharSetGraphicsItem(ProjectData& project, const QPixmap pix = QPixmap(24, 32));
+	explicit CharSetGraphicsItem(ProjectData& project, const QPixmap pix = QPixmap());
 
 	QRectF boundingRect() const override;
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;

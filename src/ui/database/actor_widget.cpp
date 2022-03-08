@@ -40,6 +40,7 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 
 	m_current = nullptr;
 
+	ui->spinMinLv->setMaximum(kMaxLevel);
 	ui->spinMaxLv->setMaximum(kMaxLevel);
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
@@ -50,38 +51,37 @@ ActorWidget::ActorWidget(ProjectData& project, QWidget *parent) :
 		m_dummyCurve.push_back(0);
 	m_hpItem = new CurveItem(Qt::red, m_dummyCurve);
 	m_hpItem->setMaxValue(kMaxHp);
+	m_hpItem->setMaxLevel(kMaxLevel);
 	m_mpItem = new CurveItem(Qt::magenta, m_dummyCurve);
+	m_mpItem->setMaxLevel(kMaxLevel);
 	m_attItem = new CurveItem(Qt::yellow, m_dummyCurve);
+	m_attItem->setMaxLevel(kMaxLevel);
 	m_defItem = new CurveItem(Qt::green, m_dummyCurve);
+	m_defItem->setMaxLevel(kMaxLevel);
 	m_intItem = new CurveItem(Qt::darkBlue, m_dummyCurve);
+	m_intItem->setMaxLevel(kMaxLevel);
 	m_agyItem = new CurveItem(Qt::blue, m_dummyCurve);
+	m_agyItem->setMaxLevel(kMaxLevel);
 
 	ui->graphicsBattleset->setScene(new QGraphicsScene(this));
 	ui->graphicsBattleset->scene()->addItem(m_battlerItem);
 	ui->graphicsBattleset->scene()->setSceneRect(0,0,48,48);
 
-	ui->graphicsHp->setScene(new QGraphicsScene(this));
-	ui->graphicsHp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsHp->size()));
+	for (auto& uis : {
+			ui->graphicsHp,
+			ui->graphicsMp,
+			ui->graphicsAtt,
+			ui->graphicsDef,
+			ui->graphicsInt,
+			ui->graphicsAgy }) {
+		uis->setScene(new QGraphicsScene(this));
+		uis->scene()->setSceneRect(QRectF(QPointF(0, 0), QSize(uis->size().width() - 4, uis->size().height() - 4)));
+	}
 	ui->graphicsHp->scene()->addItem(m_hpItem);
-
-	ui->graphicsMp->setScene(new QGraphicsScene(this));
-	ui->graphicsMp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsMp->size()));
 	ui->graphicsMp->scene()->addItem(m_mpItem);
-
-	ui->graphicsAtt->setScene(new QGraphicsScene(this));
-	ui->graphicsAtt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAtt->size()));
 	ui->graphicsAtt->scene()->addItem(m_attItem);
-
-	ui->graphicsDef->setScene(new QGraphicsScene(this));
-	ui->graphicsDef->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsDef->size()));
 	ui->graphicsDef->scene()->addItem(m_defItem);
-
-	ui->graphicsInt->setScene(new QGraphicsScene(this));
-	ui->graphicsInt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsInt->size()));
 	ui->graphicsInt->scene()->addItem(m_intItem);
-
-	ui->graphicsAgy->setScene(new QGraphicsScene(this));
-	ui->graphicsAgy->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAgy->size()));
 	ui->graphicsAgy->scene()->addItem(m_agyItem);
 
 	UpdateModels();
@@ -172,6 +172,18 @@ void ActorWidget::UpdateModels()
 		ui->listAttributeRanks->addItem(database.attributes[i].name.c_str());
 	for (unsigned int i = 0; i < database.states.size(); i++)
 		ui->listStatusRanks->addItem(database.states[i].name.c_str());
+}
+
+void ActorWidget::on_spinMinLv_valueChanged(int value) {
+	if (ui->spinMaxLv->value() < value) {
+		ui->spinMaxLv->setValue(value);
+	}
+}
+
+void ActorWidget::on_spinMaxLv_valueChanged(int value) {
+	if (ui->spinMinLv->value() > value) {
+		ui->spinMinLv->setValue(value);
+	}
 }
 
 void ActorWidget::on_comboBattleset_currentIndexChanged(int index)
@@ -387,15 +399,22 @@ void ActorWidget::on_listAttributeRanks_clicked() {
 void ActorWidget::resizeEvent(QResizeEvent *event)
 {
 	Q_UNUSED(event)
-	ui->graphicsHp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsHp->size()));
-	ui->graphicsMp->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsMp->size()));
-	ui->graphicsAtt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAtt->size()));
-	ui->graphicsDef->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsDef->size()));
-	ui->graphicsInt->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsInt->size()));
-	ui->graphicsAgy->scene()->setSceneRect(QRectF(QPointF(0,0),ui->graphicsAgy->size()));
+	for (auto& uis : {
+			ui->graphicsHp,
+			ui->graphicsMp,
+			ui->graphicsAtt,
+			ui->graphicsDef,
+			ui->graphicsInt,
+			ui->graphicsAgy }) {
+		uis->scene()->setSceneRect(QRectF(QPointF(0, 0), QSize(uis->size().width() - 4, uis->size().height() - 4)));
+	}
 }
 
 void ActorWidget::faceSetClicked() {
+	if (!m_current) {
+		return;
+	}
+
 	auto* widget = new PickerFacesetWidget(m_current->face_index, this);
 	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
 	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
@@ -408,6 +427,10 @@ void ActorWidget::faceSetClicked() {
 }
 
 void ActorWidget::charSetClicked() {
+	if (!m_current) {
+		return;
+	}
+
 	auto* widget = new PickerCharsetWidget(m_current->character_index, this);
 	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
 	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {

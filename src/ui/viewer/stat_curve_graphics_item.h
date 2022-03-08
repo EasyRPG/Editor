@@ -35,9 +35,13 @@ public:
 	qreal maxValue() const;
 	void setMaxValue(const qreal &maxValue);
 
+	qreal maxLevel() const;
+	void setMaxLevel(const qreal &maxLevel);
+
 private:
 	std::vector<int16_t> m_data;
 	QColor m_color;
 	qreal m_maxValue;
+	qreal m_maxLevel;
 };
 
