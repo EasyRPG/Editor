@@ -1,0 +1,73 @@
+{% include "copyright.tmpl" %}
+#pragma once
+
+// Headers
+#include <lcf/rpg/{{ struct_name|lower }}.h>
+#include "binding/binding_base.h"
+#include "binding/array_adapter.h"
+{%- for field in fields[struct_name]|sort %}
+{%- if not field.size and field.type is is_array_of_struct or field.type is is_struct %}
+#include "binding/{{ field.type|inner_type|lower }}.h"
+{%- endif %}
+{%- endfor %}
+
+class ProjectData;
+
+/**
+ * Binding::Generated::{{ struct_name }} class.
+ * Exposes lcf::rpg::{{ struct_name }} to QML.
+ */
+namespace Binding::Generated {
+class {{ struct_name }} : public Binding::BindingBase {
+	Q_OBJECT
+	{%- if has_id %}
+	Q_PROPERTY(int id READ id CONSTANT)
+	{%- endif %}
+	{%- for field in fields[struct_name] %}
+	{%- if not field.type.endswith("_Flags") %}
+	{%- if field.type is can_write %}
+	Q_PROPERTY({{ field.type|qt_type }} {{ field.name }} READ {{ field.name }} WRITE set_{{ field.name }} NOTIFY {{ field.name}}_changed)
+	{%- else %}
+	Q_PROPERTY({{ field.type|qt_type }} {{ field.name }} READ {{ field.name }} CONSTANT)
+	{%- endif %}
+	{%- endif %}
+	{%- endfor %}
+
+public:
+	{{ struct_name }}(ProjectData& project, lcf::rpg::{{ struct_name }}& data, QObject* parent = nullptr);
+
+	lcf::rpg::{{ struct_name }}& data();
+
+	{%- if has_id %}
+	int id();
+	{%- endif %}
+	{%- for field in fields[struct_name] %}
+	{%- if not field.type.endswith("_Flags") %}
+	{{ field.type|qt_type }} {{ field.name }}();
+	{%- if field.type is can_write %}
+	void set_{{ field.name }}(const {{ field.type|qt_type }}& new_{{ field.name }});
+	{%- endif %}
+	{%- endif %}
+	{%- endfor %}
+
+signals:
+	{%- for field in fields[struct_name] %}
+	{%- if not field.type.endswith("_Flags") %}
+	{%- if field.type is can_write %}
+	void {{ field.name}}_changed();
+	{%- endif %}
+	{%- endif %}
+	{%- endfor %}
+
+protected:
+	lcf::rpg::{{ struct_name }}& m_data;
+
+	{%- for field in fields[struct_name] %}
+	{%- if not field.type.endswith("_Flags") %}
+	{%- if field.type is is_array_of_struct or field.type is is_struct %}
+	{{ field.type|qt_type }} m_{{ field.name }};
+	{%- endif %}
+	{%- endif %}
+	{%- endfor %}
+};
+} // namespace Binding::Generated

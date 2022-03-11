@@ -1,0 +1,70 @@
+{% include "copyright.tmpl" %}
+// Headers
+#include "{{ filename }}.h"
+#include "common/dbstring.h"
+
+namespace Binding::Generated {
+	{{ struct_name }}::{{ struct_name }}(ProjectData& project, lcf::rpg::{{ struct_name }}& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
+		{%- for field in fields[struct_name] %}
+		{%- if not field.type.endswith("_Flags") %}
+		{%- if field.type is is_array_of_struct %}
+		{
+			m_{{ field.name }} = new ArrayAdapter(this);
+			auto& arr = m_{{ field.name }}->data();
+			for (auto& var: m_data.{{ field.name }})
+				arr.push_back(new Binding::{{ field.type|inner_type }}(m_project, var, this));
+		}
+		{%- elif field.type is is_struct %}
+		m_{{ field.name }} = new Binding::{{ field.type }}(m_project, m_data.{{ field.name }}, this);
+		{%- endif %}
+		{%- endif %}
+		{%- endfor %}
+	}
+
+	{%- if has_id %}
+	int {{ struct_name }}::id() {
+		return m_data.ID;
+	}
+	{%- endif %}
+	{%- for field in fields[struct_name] %}
+	{%- if not field.type.endswith("_Flags") %}
+	{{ field.type|qt_type }} {{ struct_name }}::{{ field.name }}() {
+	{%- if field.type is is_db_string %}
+		return ToQString(m_data.{{ field.name }});
+	{%- elif field.type is is_string %}
+		return QString::fromStdString(m_data.{{ field.name }});
+	{%- elif field.type is is_array_of_struct %}
+		return m_{{ field.name }};
+	{%- elif field.type is is_array %}
+		return {{ field.type|qt_type }}(m_data.{{ field.name }}.begin(), m_data.{{ field.name }}.end());
+	{%- elif field.type is is_struct %}
+		return m_{{ field.name }};
+	{%- else %}
+		return m_data.{{ field.name }};
+	{%- endif %}
+	}
+	{%- if field.type is can_write %}
+	void {{ struct_name }}::set_{{ field.name }}(const {{ field.type|qt_type }}& new_{{ field.name }}) {
+		{%- if field.type is is_db_string %}
+		if (ToQString(m_data.{{ field.name }}) == new_{{ field.name }})
+			return;
+		m_data.{{ field.name }} = ToDBString(new_{{ field.name }});
+		{%- elif field.type is is_string %}
+		if (QString::fromStdString(m_data.{{ field.name }}) == new_{{ field.name }})
+			return;
+		m_data.{{ field.name }} = new_{{ field.name }}.toStdString();
+		{%- elif field.type is is_array %}
+		if ({{ field.type|qt_type }}(m_data.{{ field.name }}.begin(), m_data.{{ field.name }}.end()) == new_{{ field.name }})
+			return;
+		m_data.{{ field.name }} = decltype(m_data.{{ field.name }})(new_{{ field.name }}.begin(), new_{{ field.name }}.end());
+		{%- else %}
+		if (m_data.{{ field.name }} == new_{{ field.name }})
+			return;
+		m_data.{{ field.name }} = new_{{ field.name }};
+		{%- endif %}
+		emit {{ field.name }}_changed();
+	}
+	{%- endif %}
+	{% endif %}
+	{%- endfor %}
+} // namespace Binding::Generated

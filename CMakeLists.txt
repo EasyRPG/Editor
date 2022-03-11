@@ -16,6 +16,274 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Source Files
 set(EDITOR_SOURCES
+	src/binding/actor.cpp
+	src/binding/actor.h
+	src/binding/animationcelldata.cpp
+	src/binding/animationcelldata.h
+	src/binding/animation.cpp
+	src/binding/animationframe.cpp
+	src/binding/animationframe.h
+	src/binding/animation.h
+	src/binding/animationtiming.cpp
+	src/binding/animationtiming.h
+	src/binding/array_adapter.h
+	src/binding/array_adapter.cpp
+	src/binding/attribute.cpp
+	src/binding/attribute.h
+	src/binding/battlecommand.cpp
+	src/binding/battlecommand.h
+	src/binding/battlecommands.cpp
+	src/binding/battlecommands.h
+	src/binding/battleranimation.cpp
+	src/binding/battleranimation.h
+	src/binding/battleranimationitemskill.cpp
+	src/binding/battleranimationitemskill.h
+	src/binding/battleranimationpose.cpp
+	src/binding/battleranimationpose.h
+	src/binding/battleranimationweapon.cpp
+	src/binding/battleranimationweapon.h
+	src/binding/binding_base.h
+	src/binding/binding_base.cpp
+	src/binding/chipset.cpp
+	src/binding/chipset.h
+	src/binding/class.cpp
+	src/binding/class.h
+	src/binding/commonevent.cpp
+	src/binding/commonevent.h
+	src/binding/database.cpp
+	src/binding/database.h
+	src/binding/encounter.cpp
+	src/binding/encounter.h
+	src/binding/enemyaction.cpp
+	src/binding/enemyaction.h
+	src/binding/enemy.cpp
+	src/binding/enemy.h
+	src/binding/equipment.cpp
+	src/binding/equipment.h
+	src/binding/eventcommand.cpp
+	src/binding/eventcommand.h
+	src/binding/event.cpp
+	src/binding/event.h
+	src/binding/eventpagecondition.cpp
+	src/binding/eventpagecondition.h
+	src/binding/eventpage.cpp
+	src/binding/eventpage.h
+	src/binding/item.cpp
+	src/binding/item.h
+	src/binding/learning.cpp
+	src/binding/learning.h
+	src/binding/map.cpp
+	src/binding/map.h
+	src/binding/mapinfo.cpp
+	src/binding/mapinfo.h
+	src/binding/movecommand.cpp
+	src/binding/movecommand.h
+	src/binding/moveroute.cpp
+	src/binding/moveroute.h
+	src/binding/music.cpp
+	src/binding/music.h
+	src/binding/parameters.cpp
+	src/binding/parameters.h
+	src/binding/rect.cpp
+	src/binding/rect.h
+	src/binding/saveactor.cpp
+	src/binding/saveactor.h
+	src/binding/savecommonevent.cpp
+	src/binding/savecommonevent.h
+	src/binding/save.cpp
+	src/binding/saveeasyrpgdata.cpp
+	src/binding/saveeasyrpgdata.h
+	src/binding/saveeventexecframe.cpp
+	src/binding/saveeventexecframe.h
+	src/binding/saveeventexecstate.cpp
+	src/binding/saveeventexecstate.h
+	src/binding/save.h
+	src/binding/saveinventory.cpp
+	src/binding/saveinventory.h
+	src/binding/savemapeventbase.cpp
+	src/binding/savemapeventbase.h
+	src/binding/savemapevent.cpp
+	src/binding/savemapevent.h
+	src/binding/savemapinfo.cpp
+	src/binding/savemapinfo.h
+	src/binding/savepanorama.cpp
+	src/binding/savepanorama.h
+	src/binding/savepartylocation.cpp
+	src/binding/savepartylocation.h
+	src/binding/savepicture.cpp
+	src/binding/savepicture.h
+	src/binding/savescreen.cpp
+	src/binding/savescreen.h
+	src/binding/savesystem.cpp
+	src/binding/savesystem.h
+	src/binding/savetarget.cpp
+	src/binding/savetarget.h
+	src/binding/savetitle.cpp
+	src/binding/savetitle.h
+	src/binding/savevehiclelocation.cpp
+	src/binding/savevehiclelocation.h
+	src/binding/skill.cpp
+	src/binding/skill.h
+	src/binding/sound.cpp
+	src/binding/sound.h
+	src/binding/start.cpp
+	src/binding/start.h
+	src/binding/state.cpp
+	src/binding/state.h
+	src/binding/switch.cpp
+	src/binding/switch.h
+	src/binding/system.cpp
+	src/binding/system.h
+	src/binding/terms.cpp
+	src/binding/terms.h
+	src/binding/terrain.cpp
+	src/binding/terrain.h
+	src/binding/testbattler.cpp
+	src/binding/testbattler.h
+	src/binding/treemap.cpp
+	src/binding/treemap.h
+	src/binding/troop.cpp
+	src/binding/troop.h
+	src/binding/troopmember.cpp
+	src/binding/troopmember.h
+	src/binding/trooppagecondition.cpp
+	src/binding/trooppagecondition.h
+	src/binding/trooppage.cpp
+	src/binding/trooppage.h
+	src/binding/variable.cpp
+	src/binding/variable.h
+	src/binding/generated/actor.cpp
+	src/binding/generated/actor.h
+	src/binding/generated/animationcelldata.cpp
+	src/binding/generated/animationcelldata.h
+	src/binding/generated/animation.cpp
+	src/binding/generated/animationframe.cpp
+	src/binding/generated/animationframe.h
+	src/binding/generated/animation.h
+	src/binding/generated/animationtiming.cpp
+	src/binding/generated/animationtiming.h
+	src/binding/generated/attribute.cpp
+	src/binding/generated/attribute.h
+	src/binding/generated/battlecommand.cpp
+	src/binding/generated/battlecommand.h
+	src/binding/generated/battlecommands.cpp
+	src/binding/generated/battlecommands.h
+	src/binding/generated/battleranimation.cpp
+	src/binding/generated/battleranimation.h
+	src/binding/generated/battleranimationitemskill.cpp
+	src/binding/generated/battleranimationitemskill.h
+	src/binding/generated/battleranimationpose.cpp
+	src/binding/generated/battleranimationpose.h
+	src/binding/generated/battleranimationweapon.cpp
+	src/binding/generated/battleranimationweapon.h
+	src/binding/generated/chipset.cpp
+	src/binding/generated/chipset.h
+	src/binding/generated/class.cpp
+	src/binding/generated/class.h
+	src/binding/generated/commonevent.cpp
+	src/binding/generated/commonevent.h
+	src/binding/generated/database.cpp
+	src/binding/generated/database.h
+	src/binding/generated/encounter.cpp
+	src/binding/generated/encounter.h
+	src/binding/generated/enemyaction.cpp
+	src/binding/generated/enemyaction.h
+	src/binding/generated/enemy.cpp
+	src/binding/generated/enemy.h
+	src/binding/generated/equipment.cpp
+	src/binding/generated/equipment.h
+	src/binding/generated/eventcommand.cpp
+	src/binding/generated/eventcommand.h
+	src/binding/generated/event.cpp
+	src/binding/generated/event.h
+	src/binding/generated/eventpagecondition.cpp
+	src/binding/generated/eventpagecondition.h
+	src/binding/generated/eventpage.cpp
+	src/binding/generated/eventpage.h
+	src/binding/generated/item.cpp
+	src/binding/generated/item.h
+	src/binding/generated/learning.cpp
+	src/binding/generated/learning.h
+	src/binding/generated/map.cpp
+	src/binding/generated/map.h
+	src/binding/generated/mapinfo.cpp
+	src/binding/generated/mapinfo.h
+	src/binding/generated/movecommand.cpp
+	src/binding/generated/movecommand.h
+	src/binding/generated/moveroute.cpp
+	src/binding/generated/moveroute.h
+	src/binding/generated/music.cpp
+	src/binding/generated/music.h
+	src/binding/generated/parameters.cpp
+	src/binding/generated/parameters.h
+	src/binding/generated/rect.cpp
+	src/binding/generated/rect.h
+	src/binding/generated/saveactor.cpp
+	src/binding/generated/saveactor.h
+	src/binding/generated/savecommonevent.cpp
+	src/binding/generated/savecommonevent.h
+	src/binding/generated/save.cpp
+	src/binding/generated/saveeasyrpgdata.cpp
+	src/binding/generated/saveeasyrpgdata.h
+	src/binding/generated/saveeventexecframe.cpp
+	src/binding/generated/saveeventexecframe.h
+	src/binding/generated/saveeventexecstate.cpp
+	src/binding/generated/saveeventexecstate.h
+	src/binding/generated/save.h
+	src/binding/generated/saveinventory.cpp
+	src/binding/generated/saveinventory.h
+	src/binding/generated/savemapeventbase.cpp
+	src/binding/generated/savemapeventbase.h
+	src/binding/generated/savemapevent.cpp
+	src/binding/generated/savemapevent.h
+	src/binding/generated/savemapinfo.cpp
+	src/binding/generated/savemapinfo.h
+	src/binding/generated/savepanorama.cpp
+	src/binding/generated/savepanorama.h
+	src/binding/generated/savepartylocation.cpp
+	src/binding/generated/savepartylocation.h
+	src/binding/generated/savepicture.cpp
+	src/binding/generated/savepicture.h
+	src/binding/generated/savescreen.cpp
+	src/binding/generated/savescreen.h
+	src/binding/generated/savesystem.cpp
+	src/binding/generated/savesystem.h
+	src/binding/generated/savetarget.cpp
+	src/binding/generated/savetarget.h
+	src/binding/generated/savetitle.cpp
+	src/binding/generated/savetitle.h
+	src/binding/generated/savevehiclelocation.cpp
+	src/binding/generated/savevehiclelocation.h
+	src/binding/generated/skill.cpp
+	src/binding/generated/skill.h
+	src/binding/generated/sound.cpp
+	src/binding/generated/sound.h
+	src/binding/generated/start.cpp
+	src/binding/generated/start.h
+	src/binding/generated/state.cpp
+	src/binding/generated/state.h
+	src/binding/generated/switch.cpp
+	src/binding/generated/switch.h
+	src/binding/generated/system.cpp
+	src/binding/generated/system.h
+	src/binding/generated/terms.cpp
+	src/binding/generated/terms.h
+	src/binding/generated/terrain.cpp
+	src/binding/generated/terrain.h
+	src/binding/generated/testbattler.cpp
+	src/binding/generated/testbattler.h
+	src/binding/generated/treemap.cpp
+	src/binding/generated/treemap.h
+	src/binding/generated/troop.cpp
+	src/binding/generated/troop.h
+	src/binding/generated/troopmember.cpp
+	src/binding/generated/troopmember.h
+	src/binding/generated/trooppagecondition.cpp
+	src/binding/generated/trooppagecondition.h
+	src/binding/generated/trooppage.cpp
+	src/binding/generated/trooppage.h
+	src/binding/generated/variable.cpp
+	src/binding/generated/variable.h
 	src/common/dbstring.h
 	src/common/filefinder.cpp
 	src/common/filefinder.h
@@ -321,6 +589,11 @@ set(EDITOR_SOURCES
 	src/ui/viewer/stat_curve_graphics_item.cpp
 	src/ui/viewer/stat_curve_graphics_item.h
 )
+
+list(APPEND EDITOR_SOURCES
+	src/ui/MainWindow.qml
+)
+
 add_library(${PROJECT_NAME} STATIC ${EDITOR_SOURCES})
 
 # Include directories
@@ -360,11 +633,7 @@ set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "")
 set(CMAKE_XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.easyrpg.editor")
 
 # Dependencies
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Svg REQUIRED)
+find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Core Widgets Multimedia Gui Svg Quick QuickControls2)
 find_package(ZLIB REQUIRED)
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
@@ -407,7 +676,7 @@ endif()
 target_link_libraries(${PROJECT_NAME}
 	ZLIB::ZLIB
 	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia Qt5::Svg
-	Qt5::QSvgIconPlugin
+	Qt5::QSvgIconPlugin Qt5::Quick Qt5::Qml
 )
 
 # Executable
@@ -443,7 +712,10 @@ set_target_properties(${EXE_NAME} PROPERTIES
 )
 
 # Add resources
-target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
+target_sources(${EXE_NAME} PRIVATE
+	"resources/Resources.qrc"
+	"src/ui/Ui.qrc"
+)
 
 if(WIN32)
 	target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")

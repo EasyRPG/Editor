@@ -1,0 +1,1 @@
+# Required to make the Jinja2 Template Loader happy
