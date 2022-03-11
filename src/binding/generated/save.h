@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/save.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/saveactor.h"
 #include "binding/savevehiclelocation.h"
 #include "binding/savevehiclelocation.h"
@@ -51,18 +52,18 @@ class Save : public Binding::BindingBase {
 	Q_PROPERTY(Binding::SaveTitle* title READ title CONSTANT)
 	Q_PROPERTY(Binding::SaveSystem* system READ system CONSTANT)
 	Q_PROPERTY(Binding::SaveScreen* screen READ screen CONSTANT)
-	Q_PROPERTY(QVector<Binding::SavePicture*> pictures READ pictures CONSTANT)
+	Q_PROPERTY(ArrayAdapter* pictures READ pictures CONSTANT)
 	Q_PROPERTY(Binding::SavePartyLocation* party_location READ party_location CONSTANT)
 	Q_PROPERTY(Binding::SaveVehicleLocation* boat_location READ boat_location CONSTANT)
 	Q_PROPERTY(Binding::SaveVehicleLocation* ship_location READ ship_location CONSTANT)
 	Q_PROPERTY(Binding::SaveVehicleLocation* airship_location READ airship_location CONSTANT)
-	Q_PROPERTY(QVector<Binding::SaveActor*> actors READ actors CONSTANT)
+	Q_PROPERTY(ArrayAdapter* actors READ actors CONSTANT)
 	Q_PROPERTY(Binding::SaveInventory* inventory READ inventory CONSTANT)
-	Q_PROPERTY(QVector<Binding::SaveTarget*> targets READ targets CONSTANT)
+	Q_PROPERTY(ArrayAdapter* targets READ targets CONSTANT)
 	Q_PROPERTY(Binding::SaveMapInfo* map_info READ map_info CONSTANT)
 	Q_PROPERTY(Binding::SavePanorama* panorama READ panorama CONSTANT)
 	Q_PROPERTY(Binding::SaveEventExecState* foreground_event_execstate READ foreground_event_execstate CONSTANT)
-	Q_PROPERTY(QVector<Binding::SaveCommonEvent*> common_events READ common_events CONSTANT)
+	Q_PROPERTY(ArrayAdapter* common_events READ common_events CONSTANT)
 	Q_PROPERTY(Binding::SaveEasyRpgData* easyrpg_data READ easyrpg_data CONSTANT)
 
 public:
@@ -72,18 +73,18 @@ public:
 	Binding::SaveTitle* title();
 	Binding::SaveSystem* system();
 	Binding::SaveScreen* screen();
-	QVector<Binding::SavePicture*>& pictures();
+	ArrayAdapter* pictures();
 	Binding::SavePartyLocation* party_location();
 	Binding::SaveVehicleLocation* boat_location();
 	Binding::SaveVehicleLocation* ship_location();
 	Binding::SaveVehicleLocation* airship_location();
-	QVector<Binding::SaveActor*>& actors();
+	ArrayAdapter* actors();
 	Binding::SaveInventory* inventory();
-	QVector<Binding::SaveTarget*>& targets();
+	ArrayAdapter* targets();
 	Binding::SaveMapInfo* map_info();
 	Binding::SavePanorama* panorama();
 	Binding::SaveEventExecState* foreground_event_execstate();
-	QVector<Binding::SaveCommonEvent*>& common_events();
+	ArrayAdapter* common_events();
 	Binding::SaveEasyRpgData* easyrpg_data();
 
 signals:
@@ -93,18 +94,18 @@ protected:
 	Binding::SaveTitle* m_title;
 	Binding::SaveSystem* m_system;
 	Binding::SaveScreen* m_screen;
-	QVector<Binding::SavePicture*> m_pictures;
+	ArrayAdapter* m_pictures;
 	Binding::SavePartyLocation* m_party_location;
 	Binding::SaveVehicleLocation* m_boat_location;
 	Binding::SaveVehicleLocation* m_ship_location;
 	Binding::SaveVehicleLocation* m_airship_location;
-	QVector<Binding::SaveActor*> m_actors;
+	ArrayAdapter* m_actors;
 	Binding::SaveInventory* m_inventory;
-	QVector<Binding::SaveTarget*> m_targets;
+	ArrayAdapter* m_targets;
 	Binding::SaveMapInfo* m_map_info;
 	Binding::SavePanorama* m_panorama;
 	Binding::SaveEventExecState* m_foreground_event_execstate;
-	QVector<Binding::SaveCommonEvent*> m_common_events;
+	ArrayAdapter* m_common_events;
 	Binding::SaveEasyRpgData* m_easyrpg_data;
 };
 } // namespace Binding::Generated

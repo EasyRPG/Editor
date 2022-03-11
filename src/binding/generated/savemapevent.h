@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/savemapevent.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/saveeventexecstate.h"
 
 class ProjectData;

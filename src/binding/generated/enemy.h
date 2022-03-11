@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/enemy.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/enemyaction.h"
 
 class ProjectData;
@@ -54,7 +55,7 @@ class Enemy : public Binding::BindingBase {
 	Q_PROPERTY(bool levitate READ levitate WRITE set_levitate NOTIFY levitate_changed)
 	Q_PROPERTY(QVector<int> state_ranks READ state_ranks WRITE set_state_ranks NOTIFY state_ranks_changed)
 	Q_PROPERTY(QVector<int> attribute_ranks READ attribute_ranks WRITE set_attribute_ranks NOTIFY attribute_ranks_changed)
-	Q_PROPERTY(QVector<Binding::EnemyAction*> actions READ actions CONSTANT)
+	Q_PROPERTY(ArrayAdapter* actions READ actions CONSTANT)
 	Q_PROPERTY(int32_t maniac_unarmed_animation READ maniac_unarmed_animation CONSTANT)
 	Q_PROPERTY(int easyrpg_enemyai READ easyrpg_enemyai WRITE set_easyrpg_enemyai NOTIFY easyrpg_enemyai_changed)
 	Q_PROPERTY(bool easyrpg_prevent_critical READ easyrpg_prevent_critical WRITE set_easyrpg_prevent_critical NOTIFY easyrpg_prevent_critical_changed)
@@ -112,7 +113,7 @@ public:
 	void set_state_ranks(const QVector<int>& new_state_ranks);
 	QVector<int> attribute_ranks();
 	void set_attribute_ranks(const QVector<int>& new_attribute_ranks);
-	QVector<Binding::EnemyAction*>& actions();
+	ArrayAdapter* actions();
 	int32_t maniac_unarmed_animation();
 	int easyrpg_enemyai();
 	void set_easyrpg_enemyai(const int& new_easyrpg_enemyai);
@@ -171,6 +172,6 @@ signals:
 
 protected:
 	lcf::rpg::Enemy& m_data;
-	QVector<Binding::EnemyAction*> m_actions;
+	ArrayAdapter* m_actions;
 };
 } // namespace Binding::Generated

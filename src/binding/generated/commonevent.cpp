@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	CommonEvent::CommonEvent(ProjectData& project, lcf::rpg::CommonEvent& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.event_commands) {
-			m_event_commands.push_back(new Binding::EventCommand(m_project, var, this));
+		{
+			m_event_commands = new ArrayAdapter(this);
+			auto& arr = m_event_commands->data();
+			for (auto& var: m_data.event_commands)
+				arr.push_back(new Binding::EventCommand(m_project, var, this));
 		}
 	}
 	int CommonEvent::id() {
@@ -58,7 +61,7 @@ namespace Binding::Generated {
 		return m_data.switch_id;
 	}
 
-	QVector<Binding::EventCommand*>& CommonEvent::event_commands() {
+	ArrayAdapter* CommonEvent::event_commands() {
 		return m_event_commands;
 	}
 

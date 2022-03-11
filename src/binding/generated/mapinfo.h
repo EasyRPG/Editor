@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/mapinfo.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/rect.h"
 #include "binding/encounter.h"
 #include "binding/music.h"
@@ -50,7 +51,7 @@ class MapInfo : public Binding::BindingBase {
 	Q_PROPERTY(int32_t teleport READ teleport CONSTANT)
 	Q_PROPERTY(int32_t escape READ escape CONSTANT)
 	Q_PROPERTY(int32_t save READ save CONSTANT)
-	Q_PROPERTY(QVector<Binding::Encounter*> encounters READ encounters CONSTANT)
+	Q_PROPERTY(ArrayAdapter* encounters READ encounters CONSTANT)
 	Q_PROPERTY(int encounter_steps READ encounter_steps WRITE set_encounter_steps NOTIFY encounter_steps_changed)
 	Q_PROPERTY(Binding::Rect* area_rect READ area_rect CONSTANT)
 
@@ -79,7 +80,7 @@ public:
 	int32_t teleport();
 	int32_t escape();
 	int32_t save();
-	QVector<Binding::Encounter*>& encounters();
+	ArrayAdapter* encounters();
 	int encounter_steps();
 	void set_encounter_steps(const int& new_encounter_steps);
 	Binding::Rect* area_rect();
@@ -96,7 +97,7 @@ signals:
 protected:
 	lcf::rpg::MapInfo& m_data;
 	Binding::Music* m_music;
-	QVector<Binding::Encounter*> m_encounters;
+	ArrayAdapter* m_encounters;
 	Binding::Rect* m_area_rect;
 };
 } // namespace Binding::Generated

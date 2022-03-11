@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	Map::Map(ProjectData& project, lcf::rpg::Map& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.events) {
-			m_events.push_back(new Binding::Event(m_project, var, this));
+		{
+			m_events = new ArrayAdapter(this);
+			auto& arr = m_events->data();
+			for (auto& var: m_data.events)
+				arr.push_back(new Binding::Event(m_project, var, this));
 		}
 	}
 	int Map::chipset_id() {
@@ -299,7 +302,7 @@ namespace Binding::Generated {
 		emit upper_layer_changed();
 	}
 
-	QVector<Binding::Event*>& Map::events() {
+	ArrayAdapter* Map::events() {
 		return m_events;
 	}
 

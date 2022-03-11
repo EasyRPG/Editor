@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/class.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/parameters.h"
 #include "binding/learning.h"
 
@@ -45,7 +46,7 @@ class Class : public Binding::BindingBase {
 	Q_PROPERTY(int exp_inflation READ exp_inflation WRITE set_exp_inflation NOTIFY exp_inflation_changed)
 	Q_PROPERTY(int exp_correction READ exp_correction WRITE set_exp_correction NOTIFY exp_correction_changed)
 	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
-	Q_PROPERTY(QVector<Binding::Learning*> skills READ skills CONSTANT)
+	Q_PROPERTY(ArrayAdapter* skills READ skills CONSTANT)
 	Q_PROPERTY(QVector<int> state_ranks READ state_ranks WRITE set_state_ranks NOTIFY state_ranks_changed)
 	Q_PROPERTY(QVector<int> attribute_ranks READ attribute_ranks WRITE set_attribute_ranks NOTIFY attribute_ranks_changed)
 	Q_PROPERTY(QVector<int> battle_commands READ battle_commands WRITE set_battle_commands NOTIFY battle_commands_changed)
@@ -73,7 +74,7 @@ public:
 	int exp_correction();
 	void set_exp_correction(const int& new_exp_correction);
 	int32_t battler_animation();
-	QVector<Binding::Learning*>& skills();
+	ArrayAdapter* skills();
 	QVector<int> state_ranks();
 	void set_state_ranks(const QVector<int>& new_state_ranks);
 	QVector<int> attribute_ranks();
@@ -97,6 +98,6 @@ signals:
 protected:
 	lcf::rpg::Class& m_data;
 	Binding::Parameters* m_parameters;
-	QVector<Binding::Learning*> m_skills;
+	ArrayAdapter* m_skills;
 };
 } // namespace Binding::Generated

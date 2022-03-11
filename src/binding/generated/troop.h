@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/troop.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/troopmember.h"
 #include "binding/trooppage.h"
 
@@ -36,11 +37,11 @@ class Troop : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
-	Q_PROPERTY(QVector<Binding::TroopMember*> members READ members CONSTANT)
+	Q_PROPERTY(ArrayAdapter* members READ members CONSTANT)
 	Q_PROPERTY(bool auto_alignment READ auto_alignment WRITE set_auto_alignment NOTIFY auto_alignment_changed)
 	Q_PROPERTY(QVector<bool> terrain_set READ terrain_set WRITE set_terrain_set NOTIFY terrain_set_changed)
 	Q_PROPERTY(bool appear_randomly READ appear_randomly WRITE set_appear_randomly NOTIFY appear_randomly_changed)
-	Q_PROPERTY(QVector<Binding::TroopPage*> pages READ pages CONSTANT)
+	Q_PROPERTY(ArrayAdapter* pages READ pages CONSTANT)
 
 public:
 	Troop(ProjectData& project, lcf::rpg::Troop& data, QObject* parent = nullptr);
@@ -49,14 +50,14 @@ public:
 	int id();
 	QString name();
 	void set_name(const QString& new_name);
-	QVector<Binding::TroopMember*>& members();
+	ArrayAdapter* members();
 	bool auto_alignment();
 	void set_auto_alignment(const bool& new_auto_alignment);
 	QVector<bool> terrain_set();
 	void set_terrain_set(const QVector<bool>& new_terrain_set);
 	bool appear_randomly();
 	void set_appear_randomly(const bool& new_appear_randomly);
-	QVector<Binding::TroopPage*>& pages();
+	ArrayAdapter* pages();
 
 signals:
 	void name_changed();
@@ -66,7 +67,7 @@ signals:
 
 protected:
 	lcf::rpg::Troop& m_data;
-	QVector<Binding::TroopMember*> m_members;
-	QVector<Binding::TroopPage*> m_pages;
+	ArrayAdapter* m_members;
+	ArrayAdapter* m_pages;
 };
 } // namespace Binding::Generated

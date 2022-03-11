@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/state.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 
 class ProjectData;
 

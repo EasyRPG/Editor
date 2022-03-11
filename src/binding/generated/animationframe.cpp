@@ -23,14 +23,17 @@
 
 namespace Binding::Generated {
 	AnimationFrame::AnimationFrame(ProjectData& project, lcf::rpg::AnimationFrame& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.cells) {
-			m_cells.push_back(new Binding::AnimationCellData(m_project, var, this));
+		{
+			m_cells = new ArrayAdapter(this);
+			auto& arr = m_cells->data();
+			for (auto& var: m_data.cells)
+				arr.push_back(new Binding::AnimationCellData(m_project, var, this));
 		}
 	}
 	int AnimationFrame::id() {
 		return m_data.ID;
 	}
-	QVector<Binding::AnimationCellData*>& AnimationFrame::cells() {
+	ArrayAdapter* AnimationFrame::cells() {
 		return m_cells;
 	}
 

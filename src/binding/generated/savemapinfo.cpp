@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	SaveMapInfo::SaveMapInfo(ProjectData& project, lcf::rpg::SaveMapInfo& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.events) {
-			m_events.push_back(new Binding::SaveMapEvent(m_project, var, this));
+		{
+			m_events = new ArrayAdapter(this);
+			auto& arr = m_events->data();
+			for (auto& var: m_data.events)
+				arr.push_back(new Binding::SaveMapEvent(m_project, var, this));
 		}
 	}
 	int SaveMapInfo::position_x() {
@@ -67,7 +70,7 @@ namespace Binding::Generated {
 		emit chipset_id_changed();
 	}
 
-	QVector<Binding::SaveMapEvent*>& SaveMapInfo::events() {
+	ArrayAdapter* SaveMapInfo::events() {
 		return m_events;
 	}
 

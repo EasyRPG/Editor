@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/system.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/sound.h"
 #include "binding/music.h"
 #include "binding/music.h"
@@ -97,7 +98,7 @@ class System : public Binding::BindingBase {
 	Q_PROPERTY(int selected_condition READ selected_condition WRITE set_selected_condition NOTIFY selected_condition_changed)
 	Q_PROPERTY(int32_t selected_hero READ selected_hero CONSTANT)
 	Q_PROPERTY(QString battletest_background READ battletest_background WRITE set_battletest_background NOTIFY battletest_background_changed)
-	Q_PROPERTY(QVector<Binding::TestBattler*> battletest_data READ battletest_data CONSTANT)
+	Q_PROPERTY(ArrayAdapter* battletest_data READ battletest_data CONSTANT)
 	Q_PROPERTY(int save_count READ save_count WRITE set_save_count NOTIFY save_count_changed)
 	Q_PROPERTY(int32_t battletest_terrain READ battletest_terrain CONSTANT)
 	Q_PROPERTY(int32_t battletest_formation READ battletest_formation CONSTANT)
@@ -192,7 +193,7 @@ public:
 	int32_t selected_hero();
 	QString battletest_background();
 	void set_battletest_background(const QString& new_battletest_background);
-	QVector<Binding::TestBattler*>& battletest_data();
+	ArrayAdapter* battletest_data();
 	int save_count();
 	void set_save_count(const int& new_save_count);
 	int32_t battletest_terrain();
@@ -313,6 +314,6 @@ protected:
 	Binding::Sound* m_dodge_se;
 	Binding::Sound* m_enemy_death_se;
 	Binding::Sound* m_item_se;
-	QVector<Binding::TestBattler*> m_battletest_data;
+	ArrayAdapter* m_battletest_data;
 };
 } // namespace Binding::Generated

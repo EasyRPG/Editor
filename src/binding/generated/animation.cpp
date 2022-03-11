@@ -23,11 +23,17 @@
 
 namespace Binding::Generated {
 	Animation::Animation(ProjectData& project, lcf::rpg::Animation& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.timings) {
-			m_timings.push_back(new Binding::AnimationTiming(m_project, var, this));
+		{
+			m_timings = new ArrayAdapter(this);
+			auto& arr = m_timings->data();
+			for (auto& var: m_data.timings)
+				arr.push_back(new Binding::AnimationTiming(m_project, var, this));
 		}
-		for (auto& var: m_data.frames) {
-			m_frames.push_back(new Binding::AnimationFrame(m_project, var, this));
+		{
+			m_frames = new ArrayAdapter(this);
+			auto& arr = m_frames->data();
+			for (auto& var: m_data.frames)
+				arr.push_back(new Binding::AnimationFrame(m_project, var, this));
 		}
 	}
 	int Animation::id() {
@@ -63,7 +69,7 @@ namespace Binding::Generated {
 		emit large_changed();
 	}
 
-	QVector<Binding::AnimationTiming*>& Animation::timings() {
+	ArrayAdapter* Animation::timings() {
 		return m_timings;
 	}
 
@@ -75,7 +81,7 @@ namespace Binding::Generated {
 		return m_data.position;
 	}
 
-	QVector<Binding::AnimationFrame*>& Animation::frames() {
+	ArrayAdapter* Animation::frames() {
 		return m_frames;
 	}
 

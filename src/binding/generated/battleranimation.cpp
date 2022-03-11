@@ -23,11 +23,17 @@
 
 namespace Binding::Generated {
 	BattlerAnimation::BattlerAnimation(ProjectData& project, lcf::rpg::BattlerAnimation& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.poses) {
-			m_poses.push_back(new Binding::BattlerAnimationPose(m_project, var, this));
+		{
+			m_poses = new ArrayAdapter(this);
+			auto& arr = m_poses->data();
+			for (auto& var: m_data.poses)
+				arr.push_back(new Binding::BattlerAnimationPose(m_project, var, this));
 		}
-		for (auto& var: m_data.weapons) {
-			m_weapons.push_back(new Binding::BattlerAnimationWeapon(m_project, var, this));
+		{
+			m_weapons = new ArrayAdapter(this);
+			auto& arr = m_weapons->data();
+			for (auto& var: m_data.weapons)
+				arr.push_back(new Binding::BattlerAnimationWeapon(m_project, var, this));
 		}
 	}
 	int BattlerAnimation::id() {
@@ -47,11 +53,11 @@ namespace Binding::Generated {
 		return m_data.speed;
 	}
 
-	QVector<Binding::BattlerAnimationPose*>& BattlerAnimation::poses() {
+	ArrayAdapter* BattlerAnimation::poses() {
 		return m_poses;
 	}
 
-	QVector<Binding::BattlerAnimationWeapon*>& BattlerAnimation::weapons() {
+	ArrayAdapter* BattlerAnimation::weapons() {
 		return m_weapons;
 	}
 

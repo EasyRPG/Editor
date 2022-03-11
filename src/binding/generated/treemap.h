@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/treemap.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/mapinfo.h"
 #include "binding/start.h"
 
@@ -34,7 +35,7 @@ class ProjectData;
 namespace Binding::Generated {
 class TreeMap : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(QVector<Binding::MapInfo*> maps READ maps CONSTANT)
+	Q_PROPERTY(ArrayAdapter* maps READ maps CONSTANT)
 	Q_PROPERTY(QVector<int32_t> tree_order READ tree_order WRITE set_tree_order NOTIFY tree_order_changed)
 	Q_PROPERTY(int active_node READ active_node WRITE set_active_node NOTIFY active_node_changed)
 	Q_PROPERTY(Binding::Start* start READ start CONSTANT)
@@ -43,7 +44,7 @@ public:
 	TreeMap(ProjectData& project, lcf::rpg::TreeMap& data, QObject* parent = nullptr);
 
 	lcf::rpg::TreeMap& data();
-	QVector<Binding::MapInfo*>& maps();
+	ArrayAdapter* maps();
 	QVector<int32_t> tree_order();
 	void set_tree_order(const QVector<int32_t>& new_tree_order);
 	int active_node();
@@ -56,7 +57,7 @@ signals:
 
 protected:
 	lcf::rpg::TreeMap& m_data;
-	QVector<Binding::MapInfo*> m_maps;
+	ArrayAdapter* m_maps;
 	Binding::Start* m_start;
 };
 } // namespace Binding::Generated

@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/savepartylocation.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 
 class ProjectData;
 

@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/animationframe.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/animationcelldata.h"
 
 class ProjectData;
@@ -34,19 +35,19 @@ namespace Binding::Generated {
 class AnimationFrame : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
-	Q_PROPERTY(QVector<Binding::AnimationCellData*> cells READ cells CONSTANT)
+	Q_PROPERTY(ArrayAdapter* cells READ cells CONSTANT)
 
 public:
 	AnimationFrame(ProjectData& project, lcf::rpg::AnimationFrame& data, QObject* parent = nullptr);
 
 	lcf::rpg::AnimationFrame& data();
 	int id();
-	QVector<Binding::AnimationCellData*>& cells();
+	ArrayAdapter* cells();
 
 signals:
 
 protected:
 	lcf::rpg::AnimationFrame& m_data;
-	QVector<Binding::AnimationCellData*> m_cells;
+	ArrayAdapter* m_cells;
 };
 } // namespace Binding::Generated

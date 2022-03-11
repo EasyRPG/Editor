@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/skill.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/battleranimationitemskill.h"
 #include "binding/sound.h"
 
@@ -68,7 +69,7 @@ class Skill : public Binding::BindingBase {
 	Q_PROPERTY(QVector<bool> attribute_effects READ attribute_effects WRITE set_attribute_effects NOTIFY attribute_effects_changed)
 	Q_PROPERTY(bool affect_attr_defence READ affect_attr_defence WRITE set_affect_attr_defence NOTIFY affect_attr_defence_changed)
 	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
-	Q_PROPERTY(QVector<Binding::BattlerAnimationItemSkill*> battler_animation_data READ battler_animation_data CONSTANT)
+	Q_PROPERTY(ArrayAdapter* battler_animation_data READ battler_animation_data CONSTANT)
 	Q_PROPERTY(QString easyrpg_battle2k3_message READ easyrpg_battle2k3_message WRITE set_easyrpg_battle2k3_message NOTIFY easyrpg_battle2k3_message_changed)
 	Q_PROPERTY(bool easyrpg_ignore_reflect READ easyrpg_ignore_reflect WRITE set_easyrpg_ignore_reflect NOTIFY easyrpg_ignore_reflect_changed)
 	Q_PROPERTY(int easyrpg_state_hit READ easyrpg_state_hit WRITE set_easyrpg_state_hit NOTIFY easyrpg_state_hit_changed)
@@ -147,7 +148,7 @@ public:
 	bool affect_attr_defence();
 	void set_affect_attr_defence(const bool& new_affect_attr_defence);
 	int32_t battler_animation();
-	QVector<Binding::BattlerAnimationItemSkill*>& battler_animation_data();
+	ArrayAdapter* battler_animation_data();
 	QString easyrpg_battle2k3_message();
 	void set_easyrpg_battle2k3_message(const QString& new_easyrpg_battle2k3_message);
 	bool easyrpg_ignore_reflect();
@@ -217,6 +218,6 @@ signals:
 protected:
 	lcf::rpg::Skill& m_data;
 	Binding::Sound* m_sound_effect;
-	QVector<Binding::BattlerAnimationItemSkill*> m_battler_animation_data;
+	ArrayAdapter* m_battler_animation_data;
 };
 } // namespace Binding::Generated

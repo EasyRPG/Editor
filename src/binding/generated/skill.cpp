@@ -24,8 +24,11 @@
 namespace Binding::Generated {
 	Skill::Skill(ProjectData& project, lcf::rpg::Skill& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 		m_sound_effect = new Binding::Sound(m_project, m_data.sound_effect, this);
-		for (auto& var: m_data.battler_animation_data) {
-			m_battler_animation_data.push_back(new Binding::BattlerAnimationItemSkill(m_project, var, this));
+		{
+			m_battler_animation_data = new ArrayAdapter(this);
+			auto& arr = m_battler_animation_data->data();
+			for (auto& var: m_data.battler_animation_data)
+				arr.push_back(new Binding::BattlerAnimationItemSkill(m_project, var, this));
 		}
 	}
 	int Skill::id() {
@@ -319,7 +322,7 @@ namespace Binding::Generated {
 		return m_data.battler_animation;
 	}
 
-	QVector<Binding::BattlerAnimationItemSkill*>& Skill::battler_animation_data() {
+	ArrayAdapter* Skill::battler_animation_data() {
 		return m_battler_animation_data;
 	}
 

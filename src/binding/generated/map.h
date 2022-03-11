@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/map.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/event.h"
 
 class ProjectData;
@@ -62,7 +63,7 @@ class Map : public Binding::BindingBase {
 	Q_PROPERTY(QVector<int> generator_tile_ids READ generator_tile_ids WRITE set_generator_tile_ids NOTIFY generator_tile_ids_changed)
 	Q_PROPERTY(QVector<int> lower_layer READ lower_layer WRITE set_lower_layer NOTIFY lower_layer_changed)
 	Q_PROPERTY(QVector<int> upper_layer READ upper_layer WRITE set_upper_layer NOTIFY upper_layer_changed)
-	Q_PROPERTY(QVector<Binding::Event*> events READ events CONSTANT)
+	Q_PROPERTY(ArrayAdapter* events READ events CONSTANT)
 	Q_PROPERTY(int save_count_2k3e READ save_count_2k3e WRITE set_save_count_2k3e NOTIFY save_count_2k3e_changed)
 	Q_PROPERTY(int save_count READ save_count WRITE set_save_count NOTIFY save_count_changed)
 
@@ -125,7 +126,7 @@ public:
 	void set_lower_layer(const QVector<int>& new_lower_layer);
 	QVector<int> upper_layer();
 	void set_upper_layer(const QVector<int>& new_upper_layer);
-	QVector<Binding::Event*>& events();
+	ArrayAdapter* events();
 	int save_count_2k3e();
 	void set_save_count_2k3e(const int& new_save_count_2k3e);
 	int save_count();
@@ -163,6 +164,6 @@ signals:
 
 protected:
 	lcf::rpg::Map& m_data;
-	QVector<Binding::Event*> m_events;
+	ArrayAdapter* m_events;
 };
 } // namespace Binding::Generated

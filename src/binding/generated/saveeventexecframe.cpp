@@ -23,14 +23,17 @@
 
 namespace Binding::Generated {
 	SaveEventExecFrame::SaveEventExecFrame(ProjectData& project, lcf::rpg::SaveEventExecFrame& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.commands) {
-			m_commands.push_back(new Binding::EventCommand(m_project, var, this));
+		{
+			m_commands = new ArrayAdapter(this);
+			auto& arr = m_commands->data();
+			for (auto& var: m_data.commands)
+				arr.push_back(new Binding::EventCommand(m_project, var, this));
 		}
 	}
 	int SaveEventExecFrame::id() {
 		return m_data.ID;
 	}
-	QVector<Binding::EventCommand*>& SaveEventExecFrame::commands() {
+	ArrayAdapter* SaveEventExecFrame::commands() {
 		return m_commands;
 	}
 

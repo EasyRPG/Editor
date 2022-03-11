@@ -23,11 +23,14 @@
 
 namespace Binding::Generated {
 	MoveRoute::MoveRoute(ProjectData& project, lcf::rpg::MoveRoute& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.move_commands) {
-			m_move_commands.push_back(new Binding::MoveCommand(m_project, var, this));
+		{
+			m_move_commands = new ArrayAdapter(this);
+			auto& arr = m_move_commands->data();
+			for (auto& var: m_data.move_commands)
+				arr.push_back(new Binding::MoveCommand(m_project, var, this));
 		}
 	}
-	QVector<Binding::MoveCommand*>& MoveRoute::move_commands() {
+	ArrayAdapter* MoveRoute::move_commands() {
 		return m_move_commands;
 	}
 

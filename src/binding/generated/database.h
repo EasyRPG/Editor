@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/database.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/actor.h"
 #include "binding/animation.h"
 #include "binding/attribute.h"
@@ -50,71 +51,71 @@ class ProjectData;
 namespace Binding::Generated {
 class Database : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(QVector<Binding::Actor*> actors READ actors CONSTANT)
-	Q_PROPERTY(QVector<Binding::Skill*> skills READ skills CONSTANT)
-	Q_PROPERTY(QVector<Binding::Item*> items READ items CONSTANT)
-	Q_PROPERTY(QVector<Binding::Enemy*> enemies READ enemies CONSTANT)
-	Q_PROPERTY(QVector<Binding::Troop*> troops READ troops CONSTANT)
-	Q_PROPERTY(QVector<Binding::Terrain*> terrains READ terrains CONSTANT)
-	Q_PROPERTY(QVector<Binding::Attribute*> attributes READ attributes CONSTANT)
-	Q_PROPERTY(QVector<Binding::State*> states READ states CONSTANT)
-	Q_PROPERTY(QVector<Binding::Animation*> animations READ animations CONSTANT)
-	Q_PROPERTY(QVector<Binding::Chipset*> chipsets READ chipsets CONSTANT)
+	Q_PROPERTY(ArrayAdapter* actors READ actors CONSTANT)
+	Q_PROPERTY(ArrayAdapter* skills READ skills CONSTANT)
+	Q_PROPERTY(ArrayAdapter* items READ items CONSTANT)
+	Q_PROPERTY(ArrayAdapter* enemies READ enemies CONSTANT)
+	Q_PROPERTY(ArrayAdapter* troops READ troops CONSTANT)
+	Q_PROPERTY(ArrayAdapter* terrains READ terrains CONSTANT)
+	Q_PROPERTY(ArrayAdapter* attributes READ attributes CONSTANT)
+	Q_PROPERTY(ArrayAdapter* states READ states CONSTANT)
+	Q_PROPERTY(ArrayAdapter* animations READ animations CONSTANT)
+	Q_PROPERTY(ArrayAdapter* chipsets READ chipsets CONSTANT)
 	Q_PROPERTY(Binding::Terms* terms READ terms CONSTANT)
 	Q_PROPERTY(Binding::System* system READ system CONSTANT)
-	Q_PROPERTY(QVector<Binding::Switch*> switches READ switches CONSTANT)
-	Q_PROPERTY(QVector<Binding::Variable*> variables READ variables CONSTANT)
-	Q_PROPERTY(QVector<Binding::CommonEvent*> commonevents READ commonevents CONSTANT)
+	Q_PROPERTY(ArrayAdapter* switches READ switches CONSTANT)
+	Q_PROPERTY(ArrayAdapter* variables READ variables CONSTANT)
+	Q_PROPERTY(ArrayAdapter* commonevents READ commonevents CONSTANT)
 	Q_PROPERTY(int32_t version READ version CONSTANT)
 	Q_PROPERTY(Binding::BattleCommands* battlecommands READ battlecommands CONSTANT)
-	Q_PROPERTY(QVector<Binding::Class*> classes READ classes CONSTANT)
-	Q_PROPERTY(QVector<Binding::BattlerAnimation*> battleranimations READ battleranimations CONSTANT)
+	Q_PROPERTY(ArrayAdapter* classes READ classes CONSTANT)
+	Q_PROPERTY(ArrayAdapter* battleranimations READ battleranimations CONSTANT)
 
 public:
 	Database(ProjectData& project, lcf::rpg::Database& data, QObject* parent = nullptr);
 
 	lcf::rpg::Database& data();
-	QVector<Binding::Actor*>& actors();
-	QVector<Binding::Skill*>& skills();
-	QVector<Binding::Item*>& items();
-	QVector<Binding::Enemy*>& enemies();
-	QVector<Binding::Troop*>& troops();
-	QVector<Binding::Terrain*>& terrains();
-	QVector<Binding::Attribute*>& attributes();
-	QVector<Binding::State*>& states();
-	QVector<Binding::Animation*>& animations();
-	QVector<Binding::Chipset*>& chipsets();
+	ArrayAdapter* actors();
+	ArrayAdapter* skills();
+	ArrayAdapter* items();
+	ArrayAdapter* enemies();
+	ArrayAdapter* troops();
+	ArrayAdapter* terrains();
+	ArrayAdapter* attributes();
+	ArrayAdapter* states();
+	ArrayAdapter* animations();
+	ArrayAdapter* chipsets();
 	Binding::Terms* terms();
 	Binding::System* system();
-	QVector<Binding::Switch*>& switches();
-	QVector<Binding::Variable*>& variables();
-	QVector<Binding::CommonEvent*>& commonevents();
+	ArrayAdapter* switches();
+	ArrayAdapter* variables();
+	ArrayAdapter* commonevents();
 	int32_t version();
 	Binding::BattleCommands* battlecommands();
-	QVector<Binding::Class*>& classes();
-	QVector<Binding::BattlerAnimation*>& battleranimations();
+	ArrayAdapter* classes();
+	ArrayAdapter* battleranimations();
 
 signals:
 
 protected:
 	lcf::rpg::Database& m_data;
-	QVector<Binding::Actor*> m_actors;
-	QVector<Binding::Skill*> m_skills;
-	QVector<Binding::Item*> m_items;
-	QVector<Binding::Enemy*> m_enemies;
-	QVector<Binding::Troop*> m_troops;
-	QVector<Binding::Terrain*> m_terrains;
-	QVector<Binding::Attribute*> m_attributes;
-	QVector<Binding::State*> m_states;
-	QVector<Binding::Animation*> m_animations;
-	QVector<Binding::Chipset*> m_chipsets;
+	ArrayAdapter* m_actors;
+	ArrayAdapter* m_skills;
+	ArrayAdapter* m_items;
+	ArrayAdapter* m_enemies;
+	ArrayAdapter* m_troops;
+	ArrayAdapter* m_terrains;
+	ArrayAdapter* m_attributes;
+	ArrayAdapter* m_states;
+	ArrayAdapter* m_animations;
+	ArrayAdapter* m_chipsets;
 	Binding::Terms* m_terms;
 	Binding::System* m_system;
-	QVector<Binding::Switch*> m_switches;
-	QVector<Binding::Variable*> m_variables;
-	QVector<Binding::CommonEvent*> m_commonevents;
+	ArrayAdapter* m_switches;
+	ArrayAdapter* m_variables;
+	ArrayAdapter* m_commonevents;
 	Binding::BattleCommands* m_battlecommands;
-	QVector<Binding::Class*> m_classes;
-	QVector<Binding::BattlerAnimation*> m_battleranimations;
+	ArrayAdapter* m_classes;
+	ArrayAdapter* m_battleranimations;
 };
 } // namespace Binding::Generated

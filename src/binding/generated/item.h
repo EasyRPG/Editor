@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/item.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/battleranimationitemskill.h"
 
 class ProjectData;
@@ -81,7 +82,7 @@ class Item : public Binding::BindingBase {
 	Q_PROPERTY(int state_chance READ state_chance WRITE set_state_chance NOTIFY state_chance_changed)
 	Q_PROPERTY(bool reverse_state_effect READ reverse_state_effect WRITE set_reverse_state_effect NOTIFY reverse_state_effect_changed)
 	Q_PROPERTY(int32_t weapon_animation READ weapon_animation CONSTANT)
-	Q_PROPERTY(QVector<Binding::BattlerAnimationItemSkill*> animation_data READ animation_data CONSTANT)
+	Q_PROPERTY(ArrayAdapter* animation_data READ animation_data CONSTANT)
 	Q_PROPERTY(bool use_skill READ use_skill WRITE set_use_skill NOTIFY use_skill_changed)
 	Q_PROPERTY(QVector<bool> class_set READ class_set WRITE set_class_set NOTIFY class_set_changed)
 	Q_PROPERTY(int32_t ranged_trajectory READ ranged_trajectory CONSTANT)
@@ -183,7 +184,7 @@ public:
 	bool reverse_state_effect();
 	void set_reverse_state_effect(const bool& new_reverse_state_effect);
 	int32_t weapon_animation();
-	QVector<Binding::BattlerAnimationItemSkill*>& animation_data();
+	ArrayAdapter* animation_data();
 	bool use_skill();
 	void set_use_skill(const bool& new_use_skill);
 	QVector<bool> class_set();
@@ -245,6 +246,6 @@ signals:
 
 protected:
 	lcf::rpg::Item& m_data;
-	QVector<Binding::BattlerAnimationItemSkill*> m_animation_data;
+	ArrayAdapter* m_animation_data;
 };
 } // namespace Binding::Generated

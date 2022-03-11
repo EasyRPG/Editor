@@ -25,8 +25,11 @@ namespace Binding::Generated {
 	EventPage::EventPage(ProjectData& project, lcf::rpg::EventPage& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 		m_condition = new Binding::EventPageCondition(m_project, m_data.condition, this);
 		m_move_route = new Binding::MoveRoute(m_project, m_data.move_route, this);
-		for (auto& var: m_data.event_commands) {
-			m_event_commands.push_back(new Binding::EventCommand(m_project, var, this));
+		{
+			m_event_commands = new ArrayAdapter(this);
+			auto& arr = m_event_commands->data();
+			for (auto& var: m_data.event_commands)
+				arr.push_back(new Binding::EventCommand(m_project, var, this));
 		}
 	}
 	int EventPage::id() {
@@ -118,7 +121,7 @@ namespace Binding::Generated {
 		return m_move_route;
 	}
 
-	QVector<Binding::EventCommand*>& EventPage::event_commands() {
+	ArrayAdapter* EventPage::event_commands() {
 		return m_event_commands;
 	}
 

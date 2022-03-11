@@ -15,14 +15,30 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
+#include <QObject>
 #include "binding_base.h"
 
-using namespace Binding;
+/**
+ * Wrapper for arrays containing lcf-data where 1-indexing is useful.
+ */
+namespace Binding {
+class ArrayAdapter : public QObject {
+	Q_OBJECT
+	Q_PROPERTY(QVector<Binding::BindingBase*> data READ data CONSTANT)
 
-BindingBase::BindingBase(ProjectData& project, QObject* parent) : QObject(parent), m_project(project) {
+public:
+	ArrayAdapter(QObject* parent = nullptr);
 
-}
+	Q_INVOKABLE Binding::BindingBase* get(int index);
+	Q_INVOKABLE Binding::BindingBase* get0(int index);
 
-ProjectData* BindingBase::project() const {
-	return &m_project;
-}
+	QVector<BindingBase*>& data();
+
+signals:
+
+protected:
+	QVector<BindingBase*> m_data;
+};
+} // namespace Binding

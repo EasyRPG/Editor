@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/actor.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/equipment.h"
 #include "binding/parameters.h"
 #include "binding/learning.h"
@@ -61,7 +62,7 @@ class Actor : public Binding::BindingBase {
 	Q_PROPERTY(int battle_x READ battle_x WRITE set_battle_x NOTIFY battle_x_changed)
 	Q_PROPERTY(int battle_y READ battle_y WRITE set_battle_y NOTIFY battle_y_changed)
 	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
-	Q_PROPERTY(QVector<Binding::Learning*> skills READ skills CONSTANT)
+	Q_PROPERTY(ArrayAdapter* skills READ skills CONSTANT)
 	Q_PROPERTY(bool rename_skill READ rename_skill WRITE set_rename_skill NOTIFY rename_skill_changed)
 	Q_PROPERTY(QString skill_name READ skill_name WRITE set_skill_name NOTIFY skill_name_changed)
 	Q_PROPERTY(QVector<int> state_ranks READ state_ranks WRITE set_state_ranks NOTIFY state_ranks_changed)
@@ -129,7 +130,7 @@ public:
 	int battle_y();
 	void set_battle_y(const int& new_battle_y);
 	int32_t battler_animation();
-	QVector<Binding::Learning*>& skills();
+	ArrayAdapter* skills();
 	bool rename_skill();
 	void set_rename_skill(const bool& new_rename_skill);
 	QString skill_name();
@@ -205,6 +206,6 @@ protected:
 	lcf::rpg::Actor& m_data;
 	Binding::Parameters* m_parameters;
 	Binding::Equipment* m_initial_equipment;
-	QVector<Binding::Learning*> m_skills;
+	ArrayAdapter* m_skills;
 };
 } // namespace Binding::Generated

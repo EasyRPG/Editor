@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	Item::Item(ProjectData& project, lcf::rpg::Item& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.animation_data) {
-			m_animation_data.push_back(new Binding::BattlerAnimationItemSkill(m_project, var, this));
+		{
+			m_animation_data = new ArrayAdapter(this);
+			auto& arr = m_animation_data->data();
+			for (auto& var: m_data.animation_data)
+				arr.push_back(new Binding::BattlerAnimationItemSkill(m_project, var, this));
 		}
 	}
 	int Item::id() {
@@ -470,7 +473,7 @@ namespace Binding::Generated {
 		return m_data.weapon_animation;
 	}
 
-	QVector<Binding::BattlerAnimationItemSkill*>& Item::animation_data() {
+	ArrayAdapter* Item::animation_data() {
 		return m_animation_data;
 	}
 

@@ -15,14 +15,26 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "binding_base.h"
+#include "array_adapter.h"
 
 using namespace Binding;
 
-BindingBase::BindingBase(ProjectData& project, QObject* parent) : QObject(parent), m_project(project) {
+ArrayAdapter::ArrayAdapter(QObject* parent) : QObject(parent) {
 
 }
 
-ProjectData* BindingBase::project() const {
-	return &m_project;
+BindingBase* ArrayAdapter::get(int index) {
+	return get0(index - 1);
+}
+
+BindingBase* ArrayAdapter::get0(int index) {
+	if (index < 0 || index >= m_data.size()) {
+		return nullptr;
+	}
+
+	return m_data[index];
+}
+
+QVector<BindingBase*>& ArrayAdapter::data() {
+	return m_data;
 }

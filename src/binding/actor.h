@@ -34,6 +34,7 @@ public:
 	Q_INVOKABLE void sayHello() {
 		std::cout << "Hello from " << m_data.name.c_str() << "\n";
 	}
+
 signals:
 
 private:

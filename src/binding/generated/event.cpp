@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	Event::Event(ProjectData& project, lcf::rpg::Event& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.pages) {
-			m_pages.push_back(new Binding::EventPage(m_project, var, this));
+		{
+			m_pages = new ArrayAdapter(this);
+			auto& arr = m_pages->data();
+			for (auto& var: m_data.pages)
+				arr.push_back(new Binding::EventPage(m_project, var, this));
 		}
 	}
 	int Event::id() {
@@ -60,7 +63,7 @@ namespace Binding::Generated {
 		emit y_changed();
 	}
 
-	QVector<Binding::EventPage*>& Event::pages() {
+	ArrayAdapter* Event::pages() {
 		return m_pages;
 	}
 

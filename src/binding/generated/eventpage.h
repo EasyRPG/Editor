@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/eventpage.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/eventpagecondition.h"
 #include "binding/eventcommand.h"
 #include "binding/moveroute.h"
@@ -50,7 +51,7 @@ class EventPage : public Binding::BindingBase {
 	Q_PROPERTY(int32_t animation_type READ animation_type CONSTANT)
 	Q_PROPERTY(int32_t move_speed READ move_speed CONSTANT)
 	Q_PROPERTY(Binding::MoveRoute* move_route READ move_route CONSTANT)
-	Q_PROPERTY(QVector<Binding::EventCommand*> event_commands READ event_commands CONSTANT)
+	Q_PROPERTY(ArrayAdapter* event_commands READ event_commands CONSTANT)
 
 public:
 	EventPage(ProjectData& project, lcf::rpg::EventPage& data, QObject* parent = nullptr);
@@ -76,7 +77,7 @@ public:
 	int32_t animation_type();
 	int32_t move_speed();
 	Binding::MoveRoute* move_route();
-	QVector<Binding::EventCommand*>& event_commands();
+	ArrayAdapter* event_commands();
 
 signals:
 	void character_name_changed();
@@ -89,6 +90,6 @@ protected:
 	lcf::rpg::EventPage& m_data;
 	Binding::EventPageCondition* m_condition;
 	Binding::MoveRoute* m_move_route;
-	QVector<Binding::EventCommand*> m_event_commands;
+	ArrayAdapter* m_event_commands;
 };
 } // namespace Binding::Generated

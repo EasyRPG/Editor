@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	Enemy::Enemy(ProjectData& project, lcf::rpg::Enemy& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.actions) {
-			m_actions.push_back(new Binding::EnemyAction(m_project, var, this));
+		{
+			m_actions = new ArrayAdapter(this);
+			auto& arr = m_actions->data();
+			for (auto& var: m_data.actions)
+				arr.push_back(new Binding::EnemyAction(m_project, var, this));
 		}
 	}
 	int Enemy::id() {
@@ -224,7 +227,7 @@ namespace Binding::Generated {
 		emit attribute_ranks_changed();
 	}
 
-	QVector<Binding::EnemyAction*>& Enemy::actions() {
+	ArrayAdapter* Enemy::actions() {
 		return m_actions;
 	}
 

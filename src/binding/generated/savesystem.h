@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/savesystem.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/sound.h"
 #include "binding/music.h"
 #include "binding/music.h"

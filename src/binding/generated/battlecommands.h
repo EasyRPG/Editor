@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/battlecommands.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/battlecommand.h"
 
 class ProjectData;
@@ -38,7 +39,7 @@ class BattleCommands : public Binding::BindingBase {
 	Q_PROPERTY(int32_t row READ row CONSTANT)
 	Q_PROPERTY(int32_t battle_type READ battle_type CONSTANT)
 	Q_PROPERTY(bool unused_display_normal_parameters READ unused_display_normal_parameters WRITE set_unused_display_normal_parameters NOTIFY unused_display_normal_parameters_changed)
-	Q_PROPERTY(QVector<Binding::BattleCommand*> commands READ commands CONSTANT)
+	Q_PROPERTY(ArrayAdapter* commands READ commands CONSTANT)
 	Q_PROPERTY(bool death_handler READ death_handler WRITE set_death_handler NOTIFY death_handler_changed)
 	Q_PROPERTY(int32_t death_event READ death_event CONSTANT)
 	Q_PROPERTY(int32_t window_size READ window_size CONSTANT)
@@ -64,7 +65,7 @@ public:
 	int32_t battle_type();
 	bool unused_display_normal_parameters();
 	void set_unused_display_normal_parameters(const bool& new_unused_display_normal_parameters);
-	QVector<Binding::BattleCommand*>& commands();
+	ArrayAdapter* commands();
 	bool death_handler();
 	void set_death_handler(const bool& new_death_handler);
 	int32_t death_event();
@@ -99,6 +100,6 @@ signals:
 
 protected:
 	lcf::rpg::BattleCommands& m_data;
-	QVector<Binding::BattleCommand*> m_commands;
+	ArrayAdapter* m_commands;
 };
 } // namespace Binding::Generated

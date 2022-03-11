@@ -43,8 +43,11 @@ namespace Binding::Generated {
 		m_dodge_se = new Binding::Sound(m_project, m_data.dodge_se, this);
 		m_enemy_death_se = new Binding::Sound(m_project, m_data.enemy_death_se, this);
 		m_item_se = new Binding::Sound(m_project, m_data.item_se, this);
-		for (auto& var: m_data.battletest_data) {
-			m_battletest_data.push_back(new Binding::TestBattler(m_project, var, this));
+		{
+			m_battletest_data = new ArrayAdapter(this);
+			auto& arr = m_battletest_data->data();
+			for (auto& var: m_data.battletest_data)
+				arr.push_back(new Binding::TestBattler(m_project, var, this));
 		}
 	}
 	int System::ldb_id() {
@@ -313,7 +316,7 @@ namespace Binding::Generated {
 		emit battletest_background_changed();
 	}
 
-	QVector<Binding::TestBattler*>& System::battletest_data() {
+	ArrayAdapter* System::battletest_data() {
 		return m_battletest_data;
 	}
 

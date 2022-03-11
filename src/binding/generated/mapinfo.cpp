@@ -24,8 +24,11 @@
 namespace Binding::Generated {
 	MapInfo::MapInfo(ProjectData& project, lcf::rpg::MapInfo& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 		m_music = new Binding::Music(m_project, m_data.music, this);
-		for (auto& var: m_data.encounters) {
-			m_encounters.push_back(new Binding::Encounter(m_project, var, this));
+		{
+			m_encounters = new ArrayAdapter(this);
+			auto& arr = m_encounters->data();
+			for (auto& var: m_data.encounters)
+				arr.push_back(new Binding::Encounter(m_project, var, this));
 		}
 		m_area_rect = new Binding::Rect(m_project, m_data.area_rect, this);
 	}
@@ -124,7 +127,7 @@ namespace Binding::Generated {
 		return m_data.save;
 	}
 
-	QVector<Binding::Encounter*>& MapInfo::encounters() {
+	ArrayAdapter* MapInfo::encounters() {
 		return m_encounters;
 	}
 

@@ -23,11 +23,17 @@
 
 namespace Binding::Generated {
 	Troop::Troop(ProjectData& project, lcf::rpg::Troop& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.members) {
-			m_members.push_back(new Binding::TroopMember(m_project, var, this));
+		{
+			m_members = new ArrayAdapter(this);
+			auto& arr = m_members->data();
+			for (auto& var: m_data.members)
+				arr.push_back(new Binding::TroopMember(m_project, var, this));
 		}
-		for (auto& var: m_data.pages) {
-			m_pages.push_back(new Binding::TroopPage(m_project, var, this));
+		{
+			m_pages = new ArrayAdapter(this);
+			auto& arr = m_pages->data();
+			for (auto& var: m_data.pages)
+				arr.push_back(new Binding::TroopPage(m_project, var, this));
 		}
 	}
 	int Troop::id() {
@@ -43,7 +49,7 @@ namespace Binding::Generated {
 		emit name_changed();
 	}
 
-	QVector<Binding::TroopMember*>& Troop::members() {
+	ArrayAdapter* Troop::members() {
 		return m_members;
 	}
 
@@ -77,7 +83,7 @@ namespace Binding::Generated {
 		emit appear_randomly_changed();
 	}
 
-	QVector<Binding::TroopPage*>& Troop::pages() {
+	ArrayAdapter* Troop::pages() {
 		return m_pages;
 	}
 

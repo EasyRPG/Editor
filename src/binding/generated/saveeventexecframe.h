@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/saveeventexecframe.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/eventcommand.h"
 
 class ProjectData;
@@ -34,7 +35,7 @@ namespace Binding::Generated {
 class SaveEventExecFrame : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
-	Q_PROPERTY(QVector<Binding::EventCommand*> commands READ commands CONSTANT)
+	Q_PROPERTY(ArrayAdapter* commands READ commands CONSTANT)
 	Q_PROPERTY(int current_command READ current_command WRITE set_current_command NOTIFY current_command_changed)
 	Q_PROPERTY(int event_id READ event_id WRITE set_event_id NOTIFY event_id_changed)
 	Q_PROPERTY(bool triggered_by_decision_key READ triggered_by_decision_key WRITE set_triggered_by_decision_key NOTIFY triggered_by_decision_key_changed)
@@ -50,7 +51,7 @@ public:
 
 	lcf::rpg::SaveEventExecFrame& data();
 	int id();
-	QVector<Binding::EventCommand*>& commands();
+	ArrayAdapter* commands();
 	int current_command();
 	void set_current_command(const int& new_current_command);
 	int event_id();
@@ -81,6 +82,6 @@ signals:
 
 protected:
 	lcf::rpg::SaveEventExecFrame& m_data;
-	QVector<Binding::EventCommand*> m_commands;
+	ArrayAdapter* m_commands;
 };
 } // namespace Binding::Generated

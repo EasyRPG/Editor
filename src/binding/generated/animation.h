@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/animation.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/animationframe.h"
 #include "binding/animationtiming.h"
 
@@ -38,10 +39,10 @@ class Animation : public Binding::BindingBase {
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
 	Q_PROPERTY(QString animation_name READ animation_name WRITE set_animation_name NOTIFY animation_name_changed)
 	Q_PROPERTY(bool large READ large WRITE set_large NOTIFY large_changed)
-	Q_PROPERTY(QVector<Binding::AnimationTiming*> timings READ timings CONSTANT)
+	Q_PROPERTY(ArrayAdapter* timings READ timings CONSTANT)
 	Q_PROPERTY(int32_t scope READ scope CONSTANT)
 	Q_PROPERTY(int32_t position READ position CONSTANT)
-	Q_PROPERTY(QVector<Binding::AnimationFrame*> frames READ frames CONSTANT)
+	Q_PROPERTY(ArrayAdapter* frames READ frames CONSTANT)
 
 public:
 	Animation(ProjectData& project, lcf::rpg::Animation& data, QObject* parent = nullptr);
@@ -54,10 +55,10 @@ public:
 	void set_animation_name(const QString& new_animation_name);
 	bool large();
 	void set_large(const bool& new_large);
-	QVector<Binding::AnimationTiming*>& timings();
+	ArrayAdapter* timings();
 	int32_t scope();
 	int32_t position();
-	QVector<Binding::AnimationFrame*>& frames();
+	ArrayAdapter* frames();
 
 signals:
 	void name_changed();
@@ -66,7 +67,7 @@ signals:
 
 protected:
 	lcf::rpg::Animation& m_data;
-	QVector<Binding::AnimationTiming*> m_timings;
-	QVector<Binding::AnimationFrame*> m_frames;
+	ArrayAdapter* m_timings;
+	ArrayAdapter* m_frames;
 };
 } // namespace Binding::Generated

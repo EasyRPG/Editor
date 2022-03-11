@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/animationtiming.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/sound.h"
 
 class ProjectData;

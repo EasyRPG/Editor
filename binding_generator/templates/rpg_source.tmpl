@@ -8,8 +8,11 @@ namespace Binding::Generated {
 		{%- for field in fields[struct_name] %}
 		{%- if not field.type.endswith("_Flags") %}
 		{%- if field.type is is_array_of_struct %}
-		for (auto& var: m_data.{{ field.name }}) {
-			m_{{ field.name }}.push_back(new Binding::{{ field.type|inner_type }}(m_project, var, this));
+		{
+			m_{{ field.name }} = new ArrayAdapter(this);
+			auto& arr = m_{{ field.name }}->data();
+			for (auto& var: m_data.{{ field.name }})
+				arr.push_back(new Binding::{{ field.type|inner_type }}(m_project, var, this));
 		}
 		{%- elif field.type is is_struct %}
 		m_{{ field.name }} = new Binding::{{ field.type }}(m_project, m_data.{{ field.name }}, this);
@@ -25,7 +28,7 @@ namespace Binding::Generated {
 	{%- endif %}
 	{%- for field in fields[struct_name] %}
 	{%- if not field.type.endswith("_Flags") %}
-	{{ field.type|qt_type }}{%- if field.type is is_array_of_struct %}&{%- endif %} {{ struct_name }}::{{ field.name }}() {
+	{{ field.type|qt_type }} {{ struct_name }}::{{ field.name }}() {
 	{%- if field.type is is_db_string %}
 		return ToQString(m_data.{{ field.name }});
 	{%- elif field.type is is_string %}

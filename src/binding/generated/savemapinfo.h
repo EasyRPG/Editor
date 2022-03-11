@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/savemapinfo.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/savemapevent.h"
 
 class ProjectData;
@@ -37,7 +38,7 @@ class SaveMapInfo : public Binding::BindingBase {
 	Q_PROPERTY(int position_y READ position_y WRITE set_position_y NOTIFY position_y_changed)
 	Q_PROPERTY(int encounter_rate READ encounter_rate WRITE set_encounter_rate NOTIFY encounter_rate_changed)
 	Q_PROPERTY(int chipset_id READ chipset_id WRITE set_chipset_id NOTIFY chipset_id_changed)
-	Q_PROPERTY(QVector<Binding::SaveMapEvent*> events READ events CONSTANT)
+	Q_PROPERTY(ArrayAdapter* events READ events CONSTANT)
 	Q_PROPERTY(QVector<int> lower_tiles READ lower_tiles WRITE set_lower_tiles NOTIFY lower_tiles_changed)
 	Q_PROPERTY(QVector<int> upper_tiles READ upper_tiles WRITE set_upper_tiles NOTIFY upper_tiles_changed)
 	Q_PROPERTY(QString parallax_name READ parallax_name WRITE set_parallax_name NOTIFY parallax_name_changed)
@@ -60,7 +61,7 @@ public:
 	void set_encounter_rate(const int& new_encounter_rate);
 	int chipset_id();
 	void set_chipset_id(const int& new_chipset_id);
-	QVector<Binding::SaveMapEvent*>& events();
+	ArrayAdapter* events();
 	QVector<int> lower_tiles();
 	void set_lower_tiles(const QVector<int>& new_lower_tiles);
 	QVector<int> upper_tiles();
@@ -97,6 +98,6 @@ signals:
 
 protected:
 	lcf::rpg::SaveMapInfo& m_data;
-	QVector<Binding::SaveMapEvent*> m_events;
+	ArrayAdapter* m_events;
 };
 } // namespace Binding::Generated

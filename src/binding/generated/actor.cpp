@@ -25,8 +25,11 @@ namespace Binding::Generated {
 	Actor::Actor(ProjectData& project, lcf::rpg::Actor& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 		m_parameters = new Binding::Parameters(m_project, m_data.parameters, this);
 		m_initial_equipment = new Binding::Equipment(m_project, m_data.initial_equipment, this);
-		for (auto& var: m_data.skills) {
-			m_skills.push_back(new Binding::Learning(m_project, var, this));
+		{
+			m_skills = new ArrayAdapter(this);
+			auto& arr = m_skills->data();
+			for (auto& var: m_data.skills)
+				arr.push_back(new Binding::Learning(m_project, var, this));
 		}
 	}
 	int Actor::id() {
@@ -252,7 +255,7 @@ namespace Binding::Generated {
 		return m_data.battler_animation;
 	}
 
-	QVector<Binding::Learning*>& Actor::skills() {
+	ArrayAdapter* Actor::skills() {
 		return m_skills;
 	}
 

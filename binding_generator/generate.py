@@ -55,11 +55,14 @@ def qt_type(ty, prefix=True):
 
     m = re.match(r'Array<(.*):(.*)>', ty)
     if m:
-        return 'QVector<%s>' % qt_type(m.group(1), prefix)
+        return 'ArrayAdapter*'
 
     m = re.match(r'(Vector|Array)<(.*)>', ty)
     if m:
+        if type_is_struct(m.group(2)):
+            return 'ArrayAdapter*'
         return 'QVector<%s>' % qt_type(m.group(2), prefix)
+
     m = re.match(r'DBArray<(.*)>', ty)
     if m:
         return 'QVector<%s>' % qt_type(m.group(1), prefix)

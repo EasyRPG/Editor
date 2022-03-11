@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/trooppage.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/trooppagecondition.h"
 #include "binding/eventcommand.h"
 
@@ -36,7 +37,7 @@ class TroopPage : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(Binding::TroopPageCondition* condition READ condition CONSTANT)
-	Q_PROPERTY(QVector<Binding::EventCommand*> event_commands READ event_commands CONSTANT)
+	Q_PROPERTY(ArrayAdapter* event_commands READ event_commands CONSTANT)
 
 public:
 	TroopPage(ProjectData& project, lcf::rpg::TroopPage& data, QObject* parent = nullptr);
@@ -44,13 +45,13 @@ public:
 	lcf::rpg::TroopPage& data();
 	int id();
 	Binding::TroopPageCondition* condition();
-	QVector<Binding::EventCommand*>& event_commands();
+	ArrayAdapter* event_commands();
 
 signals:
 
 protected:
 	lcf::rpg::TroopPage& m_data;
 	Binding::TroopPageCondition* m_condition;
-	QVector<Binding::EventCommand*> m_event_commands;
+	ArrayAdapter* m_event_commands;
 };
 } // namespace Binding::Generated

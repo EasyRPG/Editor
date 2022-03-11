@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/saveeventexecstate.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/saveeventexecframe.h"
 
 class ProjectData;
@@ -33,7 +34,7 @@ class ProjectData;
 namespace Binding::Generated {
 class SaveEventExecState : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(QVector<Binding::SaveEventExecFrame*> stack READ stack CONSTANT)
+	Q_PROPERTY(ArrayAdapter* stack READ stack CONSTANT)
 	Q_PROPERTY(bool show_message READ show_message WRITE set_show_message NOTIFY show_message_changed)
 	Q_PROPERTY(bool abort_on_escape READ abort_on_escape WRITE set_abort_on_escape NOTIFY abort_on_escape_changed)
 	Q_PROPERTY(bool wait_movement READ wait_movement WRITE set_wait_movement NOTIFY wait_movement_changed)
@@ -60,7 +61,7 @@ public:
 	SaveEventExecState(ProjectData& project, lcf::rpg::SaveEventExecState& data, QObject* parent = nullptr);
 
 	lcf::rpg::SaveEventExecState& data();
-	QVector<Binding::SaveEventExecFrame*>& stack();
+	ArrayAdapter* stack();
 	bool show_message();
 	void set_show_message(const bool& new_show_message);
 	bool abort_on_escape();
@@ -129,6 +130,6 @@ signals:
 
 protected:
 	lcf::rpg::SaveEventExecState& m_data;
-	QVector<Binding::SaveEventExecFrame*> m_stack;
+	ArrayAdapter* m_stack;
 };
 } // namespace Binding::Generated

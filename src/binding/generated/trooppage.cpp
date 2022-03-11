@@ -24,8 +24,11 @@
 namespace Binding::Generated {
 	TroopPage::TroopPage(ProjectData& project, lcf::rpg::TroopPage& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 		m_condition = new Binding::TroopPageCondition(m_project, m_data.condition, this);
-		for (auto& var: m_data.event_commands) {
-			m_event_commands.push_back(new Binding::EventCommand(m_project, var, this));
+		{
+			m_event_commands = new ArrayAdapter(this);
+			auto& arr = m_event_commands->data();
+			for (auto& var: m_data.event_commands)
+				arr.push_back(new Binding::EventCommand(m_project, var, this));
 		}
 	}
 	int TroopPage::id() {
@@ -35,7 +38,7 @@ namespace Binding::Generated {
 		return m_condition;
 	}
 
-	QVector<Binding::EventCommand*>& TroopPage::event_commands() {
+	ArrayAdapter* TroopPage::event_commands() {
 		return m_event_commands;
 	}
 

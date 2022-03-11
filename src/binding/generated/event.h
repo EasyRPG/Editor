@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/event.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/eventpage.h"
 
 class ProjectData;
@@ -37,7 +38,7 @@ class Event : public Binding::BindingBase {
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
 	Q_PROPERTY(int x READ x WRITE set_x NOTIFY x_changed)
 	Q_PROPERTY(int y READ y WRITE set_y NOTIFY y_changed)
-	Q_PROPERTY(QVector<Binding::EventPage*> pages READ pages CONSTANT)
+	Q_PROPERTY(ArrayAdapter* pages READ pages CONSTANT)
 
 public:
 	Event(ProjectData& project, lcf::rpg::Event& data, QObject* parent = nullptr);
@@ -50,7 +51,7 @@ public:
 	void set_x(const int& new_x);
 	int y();
 	void set_y(const int& new_y);
-	QVector<Binding::EventPage*>& pages();
+	ArrayAdapter* pages();
 
 signals:
 	void name_changed();
@@ -59,6 +60,6 @@ signals:
 
 protected:
 	lcf::rpg::Event& m_data;
-	QVector<Binding::EventPage*> m_pages;
+	ArrayAdapter* m_pages;
 };
 } // namespace Binding::Generated

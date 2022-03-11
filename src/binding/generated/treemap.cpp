@@ -23,12 +23,15 @@
 
 namespace Binding::Generated {
 	TreeMap::TreeMap(ProjectData& project, lcf::rpg::TreeMap& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.maps) {
-			m_maps.push_back(new Binding::MapInfo(m_project, var, this));
+		{
+			m_maps = new ArrayAdapter(this);
+			auto& arr = m_maps->data();
+			for (auto& var: m_data.maps)
+				arr.push_back(new Binding::MapInfo(m_project, var, this));
 		}
 		m_start = new Binding::Start(m_project, m_data.start, this);
 	}
-	QVector<Binding::MapInfo*>& TreeMap::maps() {
+	ArrayAdapter* TreeMap::maps() {
 		return m_maps;
 	}
 

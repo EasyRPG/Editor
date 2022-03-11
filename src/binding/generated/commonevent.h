@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/commonevent.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/eventcommand.h"
 
 class ProjectData;
@@ -38,7 +39,7 @@ class CommonEvent : public Binding::BindingBase {
 	Q_PROPERTY(int32_t trigger READ trigger CONSTANT)
 	Q_PROPERTY(bool switch_flag READ switch_flag WRITE set_switch_flag NOTIFY switch_flag_changed)
 	Q_PROPERTY(int32_t switch_id READ switch_id CONSTANT)
-	Q_PROPERTY(QVector<Binding::EventCommand*> event_commands READ event_commands CONSTANT)
+	Q_PROPERTY(ArrayAdapter* event_commands READ event_commands CONSTANT)
 
 public:
 	CommonEvent(ProjectData& project, lcf::rpg::CommonEvent& data, QObject* parent = nullptr);
@@ -51,7 +52,7 @@ public:
 	bool switch_flag();
 	void set_switch_flag(const bool& new_switch_flag);
 	int32_t switch_id();
-	QVector<Binding::EventCommand*>& event_commands();
+	ArrayAdapter* event_commands();
 
 signals:
 	void name_changed();
@@ -59,6 +60,6 @@ signals:
 
 protected:
 	lcf::rpg::CommonEvent& m_data;
-	QVector<Binding::EventCommand*> m_event_commands;
+	ArrayAdapter* m_event_commands;
 };
 } // namespace Binding::Generated

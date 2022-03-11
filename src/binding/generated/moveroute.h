@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/moveroute.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/movecommand.h"
 
 class ProjectData;
@@ -33,7 +34,7 @@ class ProjectData;
 namespace Binding::Generated {
 class MoveRoute : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(QVector<Binding::MoveCommand*> move_commands READ move_commands CONSTANT)
+	Q_PROPERTY(ArrayAdapter* move_commands READ move_commands CONSTANT)
 	Q_PROPERTY(bool repeat READ repeat WRITE set_repeat NOTIFY repeat_changed)
 	Q_PROPERTY(bool skippable READ skippable WRITE set_skippable NOTIFY skippable_changed)
 
@@ -41,7 +42,7 @@ public:
 	MoveRoute(ProjectData& project, lcf::rpg::MoveRoute& data, QObject* parent = nullptr);
 
 	lcf::rpg::MoveRoute& data();
-	QVector<Binding::MoveCommand*>& move_commands();
+	ArrayAdapter* move_commands();
 	bool repeat();
 	void set_repeat(const bool& new_repeat);
 	bool skippable();
@@ -53,6 +54,6 @@ signals:
 
 protected:
 	lcf::rpg::MoveRoute& m_data;
-	QVector<Binding::MoveCommand*> m_move_commands;
+	ArrayAdapter* m_move_commands;
 };
 } // namespace Binding::Generated

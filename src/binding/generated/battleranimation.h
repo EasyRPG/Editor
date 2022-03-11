@@ -22,6 +22,7 @@
 // Headers
 #include <lcf/rpg/battleranimation.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 #include "binding/battleranimationpose.h"
 #include "binding/battleranimationweapon.h"
 
@@ -37,8 +38,8 @@ class BattlerAnimation : public Binding::BindingBase {
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
 	Q_PROPERTY(int32_t speed READ speed CONSTANT)
-	Q_PROPERTY(QVector<Binding::BattlerAnimationPose*> poses READ poses CONSTANT)
-	Q_PROPERTY(QVector<Binding::BattlerAnimationWeapon*> weapons READ weapons CONSTANT)
+	Q_PROPERTY(ArrayAdapter* poses READ poses CONSTANT)
+	Q_PROPERTY(ArrayAdapter* weapons READ weapons CONSTANT)
 
 public:
 	BattlerAnimation(ProjectData& project, lcf::rpg::BattlerAnimation& data, QObject* parent = nullptr);
@@ -48,15 +49,15 @@ public:
 	QString name();
 	void set_name(const QString& new_name);
 	int32_t speed();
-	QVector<Binding::BattlerAnimationPose*>& poses();
-	QVector<Binding::BattlerAnimationWeapon*>& weapons();
+	ArrayAdapter* poses();
+	ArrayAdapter* weapons();
 
 signals:
 	void name_changed();
 
 protected:
 	lcf::rpg::BattlerAnimation& m_data;
-	QVector<Binding::BattlerAnimationPose*> m_poses;
-	QVector<Binding::BattlerAnimationWeapon*> m_weapons;
+	ArrayAdapter* m_poses;
+	ArrayAdapter* m_weapons;
 };
 } // namespace Binding::Generated

@@ -23,8 +23,11 @@
 
 namespace Binding::Generated {
 	BattleCommands::BattleCommands(ProjectData& project, lcf::rpg::BattleCommands& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.commands) {
-			m_commands.push_back(new Binding::BattleCommand(m_project, var, this));
+		{
+			m_commands = new ArrayAdapter(this);
+			auto& arr = m_commands->data();
+			for (auto& var: m_data.commands)
+				arr.push_back(new Binding::BattleCommand(m_project, var, this));
 		}
 	}
 	int32_t BattleCommands::placement() {
@@ -59,7 +62,7 @@ namespace Binding::Generated {
 		emit unused_display_normal_parameters_changed();
 	}
 
-	QVector<Binding::BattleCommand*>& BattleCommands::commands() {
+	ArrayAdapter* BattleCommands::commands() {
 		return m_commands;
 	}
 

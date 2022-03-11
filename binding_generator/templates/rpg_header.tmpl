@@ -4,6 +4,7 @@
 // Headers
 #include <lcf/rpg/{{ struct_name|lower }}.h>
 #include "binding/binding_base.h"
+#include "binding/array_adapter.h"
 {%- for field in fields[struct_name]|sort %}
 {%- if not field.size and field.type is is_array_of_struct or field.type is is_struct %}
 #include "binding/{{ field.type|inner_type|lower }}.h"
@@ -42,7 +43,7 @@ public:
 	{%- endif %}
 	{%- for field in fields[struct_name] %}
 	{%- if not field.type.endswith("_Flags") %}
-	{{ field.type|qt_type }}{%- if field.type is is_array_of_struct %}&{%- endif %} {{ field.name }}();
+	{{ field.type|qt_type }} {{ field.name }}();
 	{%- if field.type is can_write %}
 	void set_{{ field.name }}(const {{ field.type|qt_type }}& new_{{ field.name }});
 	{%- endif %}

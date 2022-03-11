@@ -23,11 +23,14 @@
 
 namespace Binding::Generated {
 	SaveEventExecState::SaveEventExecState(ProjectData& project, lcf::rpg::SaveEventExecState& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
-		for (auto& var: m_data.stack) {
-			m_stack.push_back(new Binding::SaveEventExecFrame(m_project, var, this));
+		{
+			m_stack = new ArrayAdapter(this);
+			auto& arr = m_stack->data();
+			for (auto& var: m_data.stack)
+				arr.push_back(new Binding::SaveEventExecFrame(m_project, var, this));
 		}
 	}
-	QVector<Binding::SaveEventExecFrame*>& SaveEventExecState::stack() {
+	ArrayAdapter* SaveEventExecState::stack() {
 		return m_stack;
 	}
 
