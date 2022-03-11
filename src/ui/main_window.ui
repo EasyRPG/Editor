@@ -40,7 +40,7 @@
      <x>0</x>
      <y>0</y>
      <width>802</width>
-     <height>36</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuGame">
@@ -76,6 +76,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionDatabase"/>
+    <addaction name="actionDatabase_QML"/>
     <addaction name="actionResourceManager"/>
     <addaction name="actionJukebox"/>
     <addaction name="actionSearch"/>
@@ -833,6 +834,11 @@
    </property>
    <property name="toolTip">
     <string>Enable caching in the searchdialog</string>
+   </property>
+  </action>
+  <action name="actionDatabase_QML">
+   <property name="text">
+    <string>Database QML</string>
    </property>
   </action>
  </widget>

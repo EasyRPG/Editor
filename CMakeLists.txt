@@ -589,6 +589,11 @@ set(EDITOR_SOURCES
 	src/ui/viewer/stat_curve_graphics_item.cpp
 	src/ui/viewer/stat_curve_graphics_item.h
 )
+
+list(APPEND EDITOR_SOURCES
+	src/ui/MainWindow.qml
+)
+
 add_library(${PROJECT_NAME} STATIC ${EDITOR_SOURCES})
 
 # Include directories
@@ -707,7 +712,10 @@ set_target_properties(${EXE_NAME} PROPERTIES
 )
 
 # Add resources
-target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
+target_sources(${EXE_NAME} PRIVATE
+	"resources/Resources.qrc"
+	"src/ui/Ui.qrc"
+)
 
 if(WIN32)
 	target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")

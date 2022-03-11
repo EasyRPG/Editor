@@ -28,6 +28,8 @@
 #include "ui/common/palette_scene.h"
 #include "ui/other/musicplayer.h"
 
+class QQmlApplicationEngine;
+
 namespace Ui {
 class MainWindow;
 }
@@ -60,6 +62,8 @@ private slots:
 	void on_actionResourceManager_triggered();
 
 	void on_actionDatabase_triggered();
+
+	void on_actionDatabase_QML_triggered();
 
 	void on_actionProjectNew_triggered();
 
@@ -147,6 +151,7 @@ private:
 	void removeView(int id);
 	void removeMap(const int id);
 	bool convertXYZtoPNG(QFile &xyz_file, QString out_path);
+	QQmlApplicationEngine* m_qml_engine;
 
 	Ui::MainWindow *ui;
 	ResourceManagerDialog *dlg_resource;

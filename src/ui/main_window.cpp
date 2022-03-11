@@ -35,6 +35,8 @@
 #include <QScrollBar>
 #include <QStringList>
 #include <QDir>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include <cassert>
 #include <sstream>
 #include <iomanip>
@@ -123,6 +125,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_paletteScene = new PaletteScene(ui->graphicsPalette);
 	ui->graphicsPalette->setScene(m_paletteScene);
 	ui->graphicsPalette->verticalScrollBar()->setSliderPosition(1);
+	m_qml_engine = new QQmlApplicationEngine(this);
 	connect(&core(),
 			SIGNAL(toolChanged()),
 			this,
@@ -485,6 +488,13 @@ void MainWindow::on_actionDatabase_triggered()
 	dlg_db = new DatabaseDialog(core().project()->projectData(), this);
 	dlg_db->setModal(true);
 	dlg_db->exec();
+}
+
+void MainWindow::on_actionDatabase_QML_triggered() {
+	QQmlContext* ctx = m_qml_engine->rootContext();
+	auto* binding = new ProjectBinding(core().project()->projectData(), this);
+	ctx->setContextProperty("project", binding);
+	m_qml_engine->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 }
 
 void MainWindow::update_actions()
