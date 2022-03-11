@@ -37,8 +37,14 @@ namespace Binding::Generated {
 		emit name_changed();
 	}
 
-	int32_t Attribute::type() {
+	int Attribute::type() {
 		return m_data.type;
+	}
+	void Attribute::set_type(const int& new_type) {
+		if (m_data.type == new_type)
+			return;
+		m_data.type = new_type;
+		emit type_changed();
 	}
 
 	int Attribute::a_rate() {

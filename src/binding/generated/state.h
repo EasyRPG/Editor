@@ -35,10 +35,10 @@ class State : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
-	Q_PROPERTY(int32_t type READ type CONSTANT)
+	Q_PROPERTY(int type READ type WRITE set_type NOTIFY type_changed)
 	Q_PROPERTY(int color READ color WRITE set_color NOTIFY color_changed)
 	Q_PROPERTY(int priority READ priority WRITE set_priority NOTIFY priority_changed)
-	Q_PROPERTY(int32_t restriction READ restriction CONSTANT)
+	Q_PROPERTY(int restriction READ restriction WRITE set_restriction NOTIFY restriction_changed)
 	Q_PROPERTY(int a_rate READ a_rate WRITE set_a_rate NOTIFY a_rate_changed)
 	Q_PROPERTY(int b_rate READ b_rate WRITE set_b_rate NOTIFY b_rate_changed)
 	Q_PROPERTY(int c_rate READ c_rate WRITE set_c_rate NOTIFY c_rate_changed)
@@ -47,7 +47,7 @@ class State : public Binding::BindingBase {
 	Q_PROPERTY(int hold_turn READ hold_turn WRITE set_hold_turn NOTIFY hold_turn_changed)
 	Q_PROPERTY(int auto_release_prob READ auto_release_prob WRITE set_auto_release_prob NOTIFY auto_release_prob_changed)
 	Q_PROPERTY(int release_by_damage READ release_by_damage WRITE set_release_by_damage NOTIFY release_by_damage_changed)
-	Q_PROPERTY(int32_t affect_type READ affect_type CONSTANT)
+	Q_PROPERTY(int affect_type READ affect_type WRITE set_affect_type NOTIFY affect_type_changed)
 	Q_PROPERTY(bool affect_attack READ affect_attack WRITE set_affect_attack NOTIFY affect_attack_changed)
 	Q_PROPERTY(bool affect_defense READ affect_defense WRITE set_affect_defense NOTIFY affect_defense_changed)
 	Q_PROPERTY(bool affect_spirit READ affect_spirit WRITE set_affect_spirit NOTIFY affect_spirit_changed)
@@ -56,13 +56,13 @@ class State : public Binding::BindingBase {
 	Q_PROPERTY(bool avoid_attacks READ avoid_attacks WRITE set_avoid_attacks NOTIFY avoid_attacks_changed)
 	Q_PROPERTY(bool reflect_magic READ reflect_magic WRITE set_reflect_magic NOTIFY reflect_magic_changed)
 	Q_PROPERTY(bool cursed READ cursed WRITE set_cursed NOTIFY cursed_changed)
-	Q_PROPERTY(int32_t battler_animation_id READ battler_animation_id CONSTANT)
+	Q_PROPERTY(int battler_animation_id READ battler_animation_id WRITE set_battler_animation_id NOTIFY battler_animation_id_changed)
 	Q_PROPERTY(bool restrict_skill READ restrict_skill WRITE set_restrict_skill NOTIFY restrict_skill_changed)
 	Q_PROPERTY(int restrict_skill_level READ restrict_skill_level WRITE set_restrict_skill_level NOTIFY restrict_skill_level_changed)
 	Q_PROPERTY(bool restrict_magic READ restrict_magic WRITE set_restrict_magic NOTIFY restrict_magic_changed)
 	Q_PROPERTY(int restrict_magic_level READ restrict_magic_level WRITE set_restrict_magic_level NOTIFY restrict_magic_level_changed)
-	Q_PROPERTY(int32_t hp_change_type READ hp_change_type CONSTANT)
-	Q_PROPERTY(int32_t sp_change_type READ sp_change_type CONSTANT)
+	Q_PROPERTY(int hp_change_type READ hp_change_type WRITE set_hp_change_type NOTIFY hp_change_type_changed)
+	Q_PROPERTY(int sp_change_type READ sp_change_type WRITE set_sp_change_type NOTIFY sp_change_type_changed)
 	Q_PROPERTY(QString message_actor READ message_actor WRITE set_message_actor NOTIFY message_actor_changed)
 	Q_PROPERTY(QString message_enemy READ message_enemy WRITE set_message_enemy NOTIFY message_enemy_changed)
 	Q_PROPERTY(QString message_already READ message_already WRITE set_message_already NOTIFY message_already_changed)
@@ -85,12 +85,14 @@ public:
 	int id();
 	QString name();
 	void set_name(const QString& new_name);
-	int32_t type();
+	int type();
+	void set_type(const int& new_type);
 	int color();
 	void set_color(const int& new_color);
 	int priority();
 	void set_priority(const int& new_priority);
-	int32_t restriction();
+	int restriction();
+	void set_restriction(const int& new_restriction);
 	int a_rate();
 	void set_a_rate(const int& new_a_rate);
 	int b_rate();
@@ -107,7 +109,8 @@ public:
 	void set_auto_release_prob(const int& new_auto_release_prob);
 	int release_by_damage();
 	void set_release_by_damage(const int& new_release_by_damage);
-	int32_t affect_type();
+	int affect_type();
+	void set_affect_type(const int& new_affect_type);
 	bool affect_attack();
 	void set_affect_attack(const bool& new_affect_attack);
 	bool affect_defense();
@@ -124,7 +127,8 @@ public:
 	void set_reflect_magic(const bool& new_reflect_magic);
 	bool cursed();
 	void set_cursed(const bool& new_cursed);
-	int32_t battler_animation_id();
+	int battler_animation_id();
+	void set_battler_animation_id(const int& new_battler_animation_id);
 	bool restrict_skill();
 	void set_restrict_skill(const bool& new_restrict_skill);
 	int restrict_skill_level();
@@ -133,8 +137,10 @@ public:
 	void set_restrict_magic(const bool& new_restrict_magic);
 	int restrict_magic_level();
 	void set_restrict_magic_level(const int& new_restrict_magic_level);
-	int32_t hp_change_type();
-	int32_t sp_change_type();
+	int hp_change_type();
+	void set_hp_change_type(const int& new_hp_change_type);
+	int sp_change_type();
+	void set_sp_change_type(const int& new_sp_change_type);
 	QString message_actor();
 	void set_message_actor(const QString& new_message_actor);
 	QString message_enemy();
@@ -166,8 +172,10 @@ public:
 
 signals:
 	void name_changed();
+	void type_changed();
 	void color_changed();
 	void priority_changed();
+	void restriction_changed();
 	void a_rate_changed();
 	void b_rate_changed();
 	void c_rate_changed();
@@ -176,6 +184,7 @@ signals:
 	void hold_turn_changed();
 	void auto_release_prob_changed();
 	void release_by_damage_changed();
+	void affect_type_changed();
 	void affect_attack_changed();
 	void affect_defense_changed();
 	void affect_spirit_changed();
@@ -184,10 +193,13 @@ signals:
 	void avoid_attacks_changed();
 	void reflect_magic_changed();
 	void cursed_changed();
+	void battler_animation_id_changed();
 	void restrict_skill_changed();
 	void restrict_skill_level_changed();
 	void restrict_magic_changed();
 	void restrict_magic_level_changed();
+	void hp_change_type_changed();
+	void sp_change_type_changed();
 	void message_actor_changed();
 	void message_enemy_changed();
 	void message_already_changed();

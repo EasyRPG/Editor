@@ -45,7 +45,7 @@ class Class : public Binding::BindingBase {
 	Q_PROPERTY(int exp_base READ exp_base WRITE set_exp_base NOTIFY exp_base_changed)
 	Q_PROPERTY(int exp_inflation READ exp_inflation WRITE set_exp_inflation NOTIFY exp_inflation_changed)
 	Q_PROPERTY(int exp_correction READ exp_correction WRITE set_exp_correction NOTIFY exp_correction_changed)
-	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
+	Q_PROPERTY(int battler_animation READ battler_animation WRITE set_battler_animation NOTIFY battler_animation_changed)
 	Q_PROPERTY(ArrayAdapter* skills READ skills CONSTANT)
 	Q_PROPERTY(QVector<int> state_ranks READ state_ranks WRITE set_state_ranks NOTIFY state_ranks_changed)
 	Q_PROPERTY(QVector<int> attribute_ranks READ attribute_ranks WRITE set_attribute_ranks NOTIFY attribute_ranks_changed)
@@ -73,7 +73,8 @@ public:
 	void set_exp_inflation(const int& new_exp_inflation);
 	int exp_correction();
 	void set_exp_correction(const int& new_exp_correction);
-	int32_t battler_animation();
+	int battler_animation();
+	void set_battler_animation(const int& new_battler_animation);
 	ArrayAdapter* skills();
 	QVector<int> state_ranks();
 	void set_state_ranks(const QVector<int>& new_state_ranks);
@@ -91,6 +92,7 @@ signals:
 	void exp_base_changed();
 	void exp_inflation_changed();
 	void exp_correction_changed();
+	void battler_animation_changed();
 	void state_ranks_changed();
 	void attribute_ranks_changed();
 	void battle_commands_changed();

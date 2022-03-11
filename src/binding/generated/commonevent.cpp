@@ -43,8 +43,14 @@ namespace Binding::Generated {
 		emit name_changed();
 	}
 
-	int32_t CommonEvent::trigger() {
+	int CommonEvent::trigger() {
 		return m_data.trigger;
+	}
+	void CommonEvent::set_trigger(const int& new_trigger) {
+		if (m_data.trigger == new_trigger)
+			return;
+		m_data.trigger = new_trigger;
+		emit trigger_changed();
 	}
 
 	bool CommonEvent::switch_flag() {
@@ -57,8 +63,14 @@ namespace Binding::Generated {
 		emit switch_flag_changed();
 	}
 
-	int32_t CommonEvent::switch_id() {
+	int CommonEvent::switch_id() {
 		return m_data.switch_id;
+	}
+	void CommonEvent::set_switch_id(const int& new_switch_id) {
+		if (m_data.switch_id == new_switch_id)
+			return;
+		m_data.switch_id = new_switch_id;
+		emit switch_id_changed();
 	}
 
 	ArrayAdapter* CommonEvent::event_commands() {

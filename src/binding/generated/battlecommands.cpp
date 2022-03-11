@@ -30,8 +30,14 @@ namespace Binding::Generated {
 				arr.push_back(new Binding::BattleCommand(m_project, var, this));
 		}
 	}
-	int32_t BattleCommands::placement() {
+	int BattleCommands::placement() {
 		return m_data.placement;
+	}
+	void BattleCommands::set_placement(const int& new_placement) {
+		if (m_data.placement == new_placement)
+			return;
+		m_data.placement = new_placement;
+		emit placement_changed();
 	}
 
 	bool BattleCommands::death_handler_unused() {
@@ -44,12 +50,24 @@ namespace Binding::Generated {
 		emit death_handler_unused_changed();
 	}
 
-	int32_t BattleCommands::row() {
+	int BattleCommands::row() {
 		return m_data.row;
 	}
+	void BattleCommands::set_row(const int& new_row) {
+		if (m_data.row == new_row)
+			return;
+		m_data.row = new_row;
+		emit row_changed();
+	}
 
-	int32_t BattleCommands::battle_type() {
+	int BattleCommands::battle_type() {
 		return m_data.battle_type;
+	}
+	void BattleCommands::set_battle_type(const int& new_battle_type) {
+		if (m_data.battle_type == new_battle_type)
+			return;
+		m_data.battle_type = new_battle_type;
+		emit battle_type_changed();
 	}
 
 	bool BattleCommands::unused_display_normal_parameters() {
@@ -76,16 +94,34 @@ namespace Binding::Generated {
 		emit death_handler_changed();
 	}
 
-	int32_t BattleCommands::death_event() {
+	int BattleCommands::death_event() {
 		return m_data.death_event;
 	}
-
-	int32_t BattleCommands::window_size() {
-		return m_data.window_size;
+	void BattleCommands::set_death_event(const int& new_death_event) {
+		if (m_data.death_event == new_death_event)
+			return;
+		m_data.death_event = new_death_event;
+		emit death_event_changed();
 	}
 
-	int32_t BattleCommands::transparency() {
+	int BattleCommands::window_size() {
+		return m_data.window_size;
+	}
+	void BattleCommands::set_window_size(const int& new_window_size) {
+		if (m_data.window_size == new_window_size)
+			return;
+		m_data.window_size = new_window_size;
+		emit window_size_changed();
+	}
+
+	int BattleCommands::transparency() {
 		return m_data.transparency;
+	}
+	void BattleCommands::set_transparency(const int& new_transparency) {
+		if (m_data.transparency == new_transparency)
+			return;
+		m_data.transparency = new_transparency;
+		emit transparency_changed();
 	}
 
 	bool BattleCommands::death_teleport() {
@@ -98,8 +134,14 @@ namespace Binding::Generated {
 		emit death_teleport_changed();
 	}
 
-	int32_t BattleCommands::death_teleport_id() {
+	int BattleCommands::death_teleport_id() {
 		return m_data.death_teleport_id;
+	}
+	void BattleCommands::set_death_teleport_id(const int& new_death_teleport_id) {
+		if (m_data.death_teleport_id == new_death_teleport_id)
+			return;
+		m_data.death_teleport_id = new_death_teleport_id;
+		emit death_teleport_id_changed();
 	}
 
 	int BattleCommands::death_teleport_x() {
@@ -122,12 +164,24 @@ namespace Binding::Generated {
 		emit death_teleport_y_changed();
 	}
 
-	int32_t BattleCommands::death_teleport_face() {
+	int BattleCommands::death_teleport_face() {
 		return m_data.death_teleport_face;
 	}
+	void BattleCommands::set_death_teleport_face(const int& new_death_teleport_face) {
+		if (m_data.death_teleport_face == new_death_teleport_face)
+			return;
+		m_data.death_teleport_face = new_death_teleport_face;
+		emit death_teleport_face_changed();
+	}
 
-	int32_t BattleCommands::easyrpg_default_atb_mode() {
+	int BattleCommands::easyrpg_default_atb_mode() {
 		return m_data.easyrpg_default_atb_mode;
+	}
+	void BattleCommands::set_easyrpg_default_atb_mode(const int& new_easyrpg_default_atb_mode) {
+		if (m_data.easyrpg_default_atb_mode == new_easyrpg_default_atb_mode)
+			return;
+		m_data.easyrpg_default_atb_mode = new_easyrpg_default_atb_mode;
+		emit easyrpg_default_atb_mode_changed();
 	}
 
 	bool BattleCommands::easyrpg_enable_battle_row_command() {

@@ -42,8 +42,14 @@ namespace Binding::Generated {
 		return m_se;
 	}
 
-	int32_t AnimationTiming::flash_scope() {
+	int AnimationTiming::flash_scope() {
 		return m_data.flash_scope;
+	}
+	void AnimationTiming::set_flash_scope(const int& new_flash_scope) {
+		if (m_data.flash_scope == new_flash_scope)
+			return;
+		m_data.flash_scope = new_flash_scope;
+		emit flash_scope_changed();
 	}
 
 	int AnimationTiming::flash_red() {
@@ -86,8 +92,14 @@ namespace Binding::Generated {
 		emit flash_power_changed();
 	}
 
-	int32_t AnimationTiming::screen_shake() {
+	int AnimationTiming::screen_shake() {
 		return m_data.screen_shake;
+	}
+	void AnimationTiming::set_screen_shake(const int& new_screen_shake) {
+		if (m_data.screen_shake == new_screen_shake)
+			return;
+		m_data.screen_shake = new_screen_shake;
+		emit screen_shake_changed();
 	}
 
 } // namespace Binding::Generated

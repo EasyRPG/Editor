@@ -44,7 +44,7 @@ def qt_type(ty, prefix=True):
         return qt_types[ty]
 
     if ty == "DatabaseVersion":
-        return 'int32_t'
+        return 'int'
 
     if ty == "EmptyBlock":
         return 'void'
@@ -73,11 +73,11 @@ def qt_type(ty, prefix=True):
 
     m = re.match(r'Ref<(.*)>', ty)
     if m:
-        return 'int32_t'
+        return 'int'
 
     m = re.match(r'Enum<(.*)>', ty)
     if m:
-        return 'int32_t'
+        return 'int'
 
     m = re.match(r'(.*)_Flags$', ty)
     if m:

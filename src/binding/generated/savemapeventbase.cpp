@@ -145,8 +145,14 @@ namespace Binding::Generated {
 		emit overlap_forbidden_changed();
 	}
 
-	int32_t SaveMapEventBase::animation_type() {
+	int SaveMapEventBase::animation_type() {
 		return m_data.animation_type;
+	}
+	void SaveMapEventBase::set_animation_type(const int& new_animation_type) {
+		if (m_data.animation_type == new_animation_type)
+			return;
+		m_data.animation_type = new_animation_type;
+		emit animation_type_changed();
 	}
 
 	bool SaveMapEventBase::lock_facing() {

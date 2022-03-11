@@ -24,8 +24,14 @@
 namespace Binding::Generated {
 	Start::Start(ProjectData& project, lcf::rpg::Start& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 	}
-	int32_t Start::party_map_id() {
+	int Start::party_map_id() {
 		return m_data.party_map_id;
+	}
+	void Start::set_party_map_id(const int& new_party_map_id) {
+		if (m_data.party_map_id == new_party_map_id)
+			return;
+		m_data.party_map_id = new_party_map_id;
+		emit party_map_id_changed();
 	}
 
 	int Start::party_x() {
@@ -48,8 +54,14 @@ namespace Binding::Generated {
 		emit party_y_changed();
 	}
 
-	int32_t Start::boat_map_id() {
+	int Start::boat_map_id() {
 		return m_data.boat_map_id;
+	}
+	void Start::set_boat_map_id(const int& new_boat_map_id) {
+		if (m_data.boat_map_id == new_boat_map_id)
+			return;
+		m_data.boat_map_id = new_boat_map_id;
+		emit boat_map_id_changed();
 	}
 
 	int Start::boat_x() {
@@ -72,8 +84,14 @@ namespace Binding::Generated {
 		emit boat_y_changed();
 	}
 
-	int32_t Start::ship_map_id() {
+	int Start::ship_map_id() {
 		return m_data.ship_map_id;
+	}
+	void Start::set_ship_map_id(const int& new_ship_map_id) {
+		if (m_data.ship_map_id == new_ship_map_id)
+			return;
+		m_data.ship_map_id = new_ship_map_id;
+		emit ship_map_id_changed();
 	}
 
 	int Start::ship_x() {
@@ -96,8 +114,14 @@ namespace Binding::Generated {
 		emit ship_y_changed();
 	}
 
-	int32_t Start::airship_map_id() {
+	int Start::airship_map_id() {
 		return m_data.airship_map_id;
+	}
+	void Start::set_airship_map_id(const int& new_airship_map_id) {
+		if (m_data.airship_map_id == new_airship_map_id)
+			return;
+		m_data.airship_map_id = new_airship_map_id;
+		emit airship_map_id_changed();
 	}
 
 	int Start::airship_x() {

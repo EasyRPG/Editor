@@ -37,8 +37,14 @@ namespace Binding::Generated {
 		emit name_changed();
 	}
 
-	int32_t BattleCommand::type() {
+	int BattleCommand::type() {
 		return m_data.type;
+	}
+	void BattleCommand::set_type(const int& new_type) {
+		if (m_data.type == new_type)
+			return;
+		m_data.type = new_type;
+		emit type_changed();
 	}
 
 } // namespace Binding::Generated

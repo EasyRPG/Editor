@@ -27,8 +27,14 @@ namespace Binding::Generated {
 	int Encounter::id() {
 		return m_data.ID;
 	}
-	int32_t Encounter::troop_id() {
+	int Encounter::troop_id() {
 		return m_data.troop_id;
+	}
+	void Encounter::set_troop_id(const int& new_troop_id) {
+		if (m_data.troop_id == new_troop_id)
+			return;
+		m_data.troop_id = new_troop_id;
+		emit troop_id_changed();
 	}
 
 } // namespace Binding::Generated

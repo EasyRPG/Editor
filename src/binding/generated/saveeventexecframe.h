@@ -40,7 +40,7 @@ class SaveEventExecFrame : public Binding::BindingBase {
 	Q_PROPERTY(int event_id READ event_id WRITE set_event_id NOTIFY event_id_changed)
 	Q_PROPERTY(bool triggered_by_decision_key READ triggered_by_decision_key WRITE set_triggered_by_decision_key NOTIFY triggered_by_decision_key_changed)
 	Q_PROPERTY(QVector<int> subcommand_path READ subcommand_path WRITE set_subcommand_path NOTIFY subcommand_path_changed)
-	Q_PROPERTY(int32_t maniac_event_info READ maniac_event_info CONSTANT)
+	Q_PROPERTY(int maniac_event_info READ maniac_event_info WRITE set_maniac_event_info NOTIFY maniac_event_info_changed)
 	Q_PROPERTY(int maniac_event_id READ maniac_event_id WRITE set_maniac_event_id NOTIFY maniac_event_id_changed)
 	Q_PROPERTY(int maniac_event_page_id READ maniac_event_page_id WRITE set_maniac_event_page_id NOTIFY maniac_event_page_id_changed)
 	Q_PROPERTY(int maniac_loop_info_size READ maniac_loop_info_size WRITE set_maniac_loop_info_size NOTIFY maniac_loop_info_size_changed)
@@ -60,7 +60,8 @@ public:
 	void set_triggered_by_decision_key(const bool& new_triggered_by_decision_key);
 	QVector<int> subcommand_path();
 	void set_subcommand_path(const QVector<int>& new_subcommand_path);
-	int32_t maniac_event_info();
+	int maniac_event_info();
+	void set_maniac_event_info(const int& new_maniac_event_info);
 	int maniac_event_id();
 	void set_maniac_event_id(const int& new_maniac_event_id);
 	int maniac_event_page_id();
@@ -75,6 +76,7 @@ signals:
 	void event_id_changed();
 	void triggered_by_decision_key_changed();
 	void subcommand_path_changed();
+	void maniac_event_info_changed();
 	void maniac_event_id_changed();
 	void maniac_event_page_id_changed();
 	void maniac_loop_info_size_changed();

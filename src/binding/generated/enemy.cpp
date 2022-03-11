@@ -153,8 +153,14 @@ namespace Binding::Generated {
 		emit gold_changed();
 	}
 
-	int32_t Enemy::drop_id() {
+	int Enemy::drop_id() {
 		return m_data.drop_id;
+	}
+	void Enemy::set_drop_id(const int& new_drop_id) {
+		if (m_data.drop_id == new_drop_id)
+			return;
+		m_data.drop_id = new_drop_id;
+		emit drop_id_changed();
 	}
 
 	int Enemy::drop_prob() {
@@ -231,8 +237,14 @@ namespace Binding::Generated {
 		return m_actions;
 	}
 
-	int32_t Enemy::maniac_unarmed_animation() {
+	int Enemy::maniac_unarmed_animation() {
 		return m_data.maniac_unarmed_animation;
+	}
+	void Enemy::set_maniac_unarmed_animation(const int& new_maniac_unarmed_animation) {
+		if (m_data.maniac_unarmed_animation == new_maniac_unarmed_animation)
+			return;
+		m_data.maniac_unarmed_animation = new_maniac_unarmed_animation;
+		emit maniac_unarmed_animation_changed();
 	}
 
 	int Enemy::easyrpg_enemyai() {

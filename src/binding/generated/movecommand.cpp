@@ -24,8 +24,14 @@
 namespace Binding::Generated {
 	MoveCommand::MoveCommand(ProjectData& project, lcf::rpg::MoveCommand& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 	}
-	int32_t MoveCommand::command_id() {
+	int MoveCommand::command_id() {
 		return m_data.command_id;
+	}
+	void MoveCommand::set_command_id(const int& new_command_id) {
+		if (m_data.command_id == new_command_id)
+			return;
+		m_data.command_id = new_command_id;
+		emit command_id_changed();
 	}
 
 	QString MoveCommand::parameter_string() {

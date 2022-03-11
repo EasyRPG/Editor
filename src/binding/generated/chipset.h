@@ -39,7 +39,7 @@ class Chipset : public Binding::BindingBase {
 	Q_PROPERTY(QVector<int> terrain_data READ terrain_data WRITE set_terrain_data NOTIFY terrain_data_changed)
 	Q_PROPERTY(QVector<int> passable_data_lower READ passable_data_lower WRITE set_passable_data_lower NOTIFY passable_data_lower_changed)
 	Q_PROPERTY(QVector<int> passable_data_upper READ passable_data_upper WRITE set_passable_data_upper NOTIFY passable_data_upper_changed)
-	Q_PROPERTY(int32_t animation_type READ animation_type CONSTANT)
+	Q_PROPERTY(int animation_type READ animation_type WRITE set_animation_type NOTIFY animation_type_changed)
 	Q_PROPERTY(int animation_speed READ animation_speed WRITE set_animation_speed NOTIFY animation_speed_changed)
 
 public:
@@ -57,7 +57,8 @@ public:
 	void set_passable_data_lower(const QVector<int>& new_passable_data_lower);
 	QVector<int> passable_data_upper();
 	void set_passable_data_upper(const QVector<int>& new_passable_data_upper);
-	int32_t animation_type();
+	int animation_type();
+	void set_animation_type(const int& new_animation_type);
 	int animation_speed();
 	void set_animation_speed(const int& new_animation_speed);
 
@@ -67,6 +68,7 @@ signals:
 	void terrain_data_changed();
 	void passable_data_lower_changed();
 	void passable_data_upper_changed();
+	void animation_type_changed();
 	void animation_speed_changed();
 
 protected:

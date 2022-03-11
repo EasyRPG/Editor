@@ -33,7 +33,7 @@ class ProjectData;
 namespace Binding::Generated {
 class SaveVehicleLocation : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(int32_t vehicle READ vehicle CONSTANT)
+	Q_PROPERTY(int vehicle READ vehicle WRITE set_vehicle NOTIFY vehicle_changed)
 	Q_PROPERTY(int remaining_ascent READ remaining_ascent WRITE set_remaining_ascent NOTIFY remaining_ascent_changed)
 	Q_PROPERTY(int remaining_descent READ remaining_descent WRITE set_remaining_descent NOTIFY remaining_descent_changed)
 	Q_PROPERTY(QString orig_sprite_name READ orig_sprite_name WRITE set_orig_sprite_name NOTIFY orig_sprite_name_changed)
@@ -43,7 +43,8 @@ public:
 	SaveVehicleLocation(ProjectData& project, lcf::rpg::SaveVehicleLocation& data, QObject* parent = nullptr);
 
 	lcf::rpg::SaveVehicleLocation& data();
-	int32_t vehicle();
+	int vehicle();
+	void set_vehicle(const int& new_vehicle);
 	int remaining_ascent();
 	void set_remaining_ascent(const int& new_remaining_ascent);
 	int remaining_descent();
@@ -54,6 +55,7 @@ public:
 	void set_orig_sprite_id(const int& new_orig_sprite_id);
 
 signals:
+	void vehicle_changed();
 	void remaining_ascent_changed();
 	void remaining_descent_changed();
 	void orig_sprite_name_changed();

@@ -48,8 +48,14 @@ namespace Binding::Generated {
 		m_enemy_death_se = new Binding::Sound(m_project, m_data.enemy_death_se, this);
 		m_item_se = new Binding::Sound(m_project, m_data.item_se, this);
 	}
-	int32_t SaveSystem::scene() {
+	int SaveSystem::scene() {
 		return m_data.scene;
+	}
+	void SaveSystem::set_scene(const int& new_scene) {
+		if (m_data.scene == new_scene)
+			return;
+		m_data.scene = new_scene;
+		emit scene_changed();
 	}
 
 	int SaveSystem::frame_count() {
@@ -72,12 +78,24 @@ namespace Binding::Generated {
 		emit graphics_name_changed();
 	}
 
-	int32_t SaveSystem::message_stretch() {
+	int SaveSystem::message_stretch() {
 		return m_data.message_stretch;
 	}
+	void SaveSystem::set_message_stretch(const int& new_message_stretch) {
+		if (m_data.message_stretch == new_message_stretch)
+			return;
+		m_data.message_stretch = new_message_stretch;
+		emit message_stretch_changed();
+	}
 
-	int32_t SaveSystem::font_id() {
+	int SaveSystem::font_id() {
 		return m_data.font_id;
+	}
+	void SaveSystem::set_font_id(const int& new_font_id) {
+		if (m_data.font_id == new_font_id)
+			return;
+		m_data.font_id = new_font_id;
+		emit font_id_changed();
 	}
 
 	QVector<bool> SaveSystem::switches() {
@@ -426,8 +444,14 @@ namespace Binding::Generated {
 		emit save_slot_changed();
 	}
 
-	int32_t SaveSystem::atb_mode() {
+	int SaveSystem::atb_mode() {
 		return m_data.atb_mode;
+	}
+	void SaveSystem::set_atb_mode(const int& new_atb_mode) {
+		if (m_data.atb_mode == new_atb_mode)
+			return;
+		m_data.atb_mode = new_atb_mode;
+		emit atb_mode_changed();
 	}
 
 	int SaveSystem::maniac_frameskip() {

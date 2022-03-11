@@ -27,24 +27,54 @@ namespace Binding::Generated {
 	int EnemyAction::id() {
 		return m_data.ID;
 	}
-	int32_t EnemyAction::kind() {
+	int EnemyAction::kind() {
 		return m_data.kind;
 	}
+	void EnemyAction::set_kind(const int& new_kind) {
+		if (m_data.kind == new_kind)
+			return;
+		m_data.kind = new_kind;
+		emit kind_changed();
+	}
 
-	int32_t EnemyAction::basic() {
+	int EnemyAction::basic() {
 		return m_data.basic;
 	}
+	void EnemyAction::set_basic(const int& new_basic) {
+		if (m_data.basic == new_basic)
+			return;
+		m_data.basic = new_basic;
+		emit basic_changed();
+	}
 
-	int32_t EnemyAction::skill_id() {
+	int EnemyAction::skill_id() {
 		return m_data.skill_id;
 	}
-
-	int32_t EnemyAction::enemy_id() {
-		return m_data.enemy_id;
+	void EnemyAction::set_skill_id(const int& new_skill_id) {
+		if (m_data.skill_id == new_skill_id)
+			return;
+		m_data.skill_id = new_skill_id;
+		emit skill_id_changed();
 	}
 
-	int32_t EnemyAction::condition_type() {
+	int EnemyAction::enemy_id() {
+		return m_data.enemy_id;
+	}
+	void EnemyAction::set_enemy_id(const int& new_enemy_id) {
+		if (m_data.enemy_id == new_enemy_id)
+			return;
+		m_data.enemy_id = new_enemy_id;
+		emit enemy_id_changed();
+	}
+
+	int EnemyAction::condition_type() {
 		return m_data.condition_type;
+	}
+	void EnemyAction::set_condition_type(const int& new_condition_type) {
+		if (m_data.condition_type == new_condition_type)
+			return;
+		m_data.condition_type = new_condition_type;
+		emit condition_type_changed();
 	}
 
 	int EnemyAction::condition_param1() {
@@ -67,8 +97,14 @@ namespace Binding::Generated {
 		emit condition_param2_changed();
 	}
 
-	int32_t EnemyAction::switch_id() {
+	int EnemyAction::switch_id() {
 		return m_data.switch_id;
+	}
+	void EnemyAction::set_switch_id(const int& new_switch_id) {
+		if (m_data.switch_id == new_switch_id)
+			return;
+		m_data.switch_id = new_switch_id;
+		emit switch_id_changed();
 	}
 
 	bool EnemyAction::switch_on() {
@@ -81,8 +117,14 @@ namespace Binding::Generated {
 		emit switch_on_changed();
 	}
 
-	int32_t EnemyAction::switch_on_id() {
+	int EnemyAction::switch_on_id() {
 		return m_data.switch_on_id;
+	}
+	void EnemyAction::set_switch_on_id(const int& new_switch_on_id) {
+		if (m_data.switch_on_id == new_switch_on_id)
+			return;
+		m_data.switch_on_id = new_switch_on_id;
+		emit switch_on_id_changed();
 	}
 
 	bool EnemyAction::switch_off() {
@@ -95,8 +137,14 @@ namespace Binding::Generated {
 		emit switch_off_changed();
 	}
 
-	int32_t EnemyAction::switch_off_id() {
+	int EnemyAction::switch_off_id() {
 		return m_data.switch_off_id;
+	}
+	void EnemyAction::set_switch_off_id(const int& new_switch_off_id) {
+		if (m_data.switch_off_id == new_switch_off_id)
+			return;
+		m_data.switch_off_id = new_switch_off_id;
+		emit switch_off_id_changed();
 	}
 
 	int EnemyAction::rating() {

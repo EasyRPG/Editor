@@ -57,11 +57,11 @@ class Actor : public Binding::BindingBase {
 	Q_PROPERTY(int exp_inflation READ exp_inflation WRITE set_exp_inflation NOTIFY exp_inflation_changed)
 	Q_PROPERTY(int exp_correction READ exp_correction WRITE set_exp_correction NOTIFY exp_correction_changed)
 	Q_PROPERTY(Binding::Equipment* initial_equipment READ initial_equipment CONSTANT)
-	Q_PROPERTY(int32_t unarmed_animation READ unarmed_animation CONSTANT)
-	Q_PROPERTY(int32_t class_id READ class_id CONSTANT)
+	Q_PROPERTY(int unarmed_animation READ unarmed_animation WRITE set_unarmed_animation NOTIFY unarmed_animation_changed)
+	Q_PROPERTY(int class_id READ class_id WRITE set_class_id NOTIFY class_id_changed)
 	Q_PROPERTY(int battle_x READ battle_x WRITE set_battle_x NOTIFY battle_x_changed)
 	Q_PROPERTY(int battle_y READ battle_y WRITE set_battle_y NOTIFY battle_y_changed)
-	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
+	Q_PROPERTY(int battler_animation READ battler_animation WRITE set_battler_animation NOTIFY battler_animation_changed)
 	Q_PROPERTY(ArrayAdapter* skills READ skills CONSTANT)
 	Q_PROPERTY(bool rename_skill READ rename_skill WRITE set_rename_skill NOTIFY rename_skill_changed)
 	Q_PROPERTY(QString skill_name READ skill_name WRITE set_skill_name NOTIFY skill_name_changed)
@@ -123,13 +123,16 @@ public:
 	int exp_correction();
 	void set_exp_correction(const int& new_exp_correction);
 	Binding::Equipment* initial_equipment();
-	int32_t unarmed_animation();
-	int32_t class_id();
+	int unarmed_animation();
+	void set_unarmed_animation(const int& new_unarmed_animation);
+	int class_id();
+	void set_class_id(const int& new_class_id);
 	int battle_x();
 	void set_battle_x(const int& new_battle_x);
 	int battle_y();
 	void set_battle_y(const int& new_battle_y);
-	int32_t battler_animation();
+	int battler_animation();
+	void set_battler_animation(const int& new_battler_animation);
 	ArrayAdapter* skills();
 	bool rename_skill();
 	void set_rename_skill(const bool& new_rename_skill);
@@ -183,8 +186,11 @@ signals:
 	void exp_base_changed();
 	void exp_inflation_changed();
 	void exp_correction_changed();
+	void unarmed_animation_changed();
+	void class_id_changed();
 	void battle_x_changed();
 	void battle_y_changed();
+	void battler_animation_changed();
 	void rename_skill_changed();
 	void skill_name_changed();
 	void state_ranks_changed();

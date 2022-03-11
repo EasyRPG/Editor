@@ -34,16 +34,18 @@ namespace Binding::Generated {
 class Encounter : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
-	Q_PROPERTY(int32_t troop_id READ troop_id CONSTANT)
+	Q_PROPERTY(int troop_id READ troop_id WRITE set_troop_id NOTIFY troop_id_changed)
 
 public:
 	Encounter(ProjectData& project, lcf::rpg::Encounter& data, QObject* parent = nullptr);
 
 	lcf::rpg::Encounter& data();
 	int id();
-	int32_t troop_id();
+	int troop_id();
+	void set_troop_id(const int& new_troop_id);
 
 signals:
+	void troop_id_changed();
 
 protected:
 	lcf::rpg::Encounter& m_data;

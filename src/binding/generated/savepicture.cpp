@@ -157,8 +157,14 @@ namespace Binding::Generated {
 		emit current_sat_changed();
 	}
 
-	int32_t SavePicture::effect_mode() {
+	int SavePicture::effect_mode() {
 		return m_data.effect_mode;
+	}
+	void SavePicture::set_effect_mode(const int& new_effect_mode) {
+		if (m_data.effect_mode == new_effect_mode)
+			return;
+		m_data.effect_mode = new_effect_mode;
+		emit effect_mode_changed();
 	}
 
 	double SavePicture::current_effect_power() {
@@ -241,12 +247,24 @@ namespace Binding::Generated {
 		emit spritesheet_play_once_changed();
 	}
 
-	int32_t SavePicture::map_layer() {
+	int SavePicture::map_layer() {
 		return m_data.map_layer;
 	}
+	void SavePicture::set_map_layer(const int& new_map_layer) {
+		if (m_data.map_layer == new_map_layer)
+			return;
+		m_data.map_layer = new_map_layer;
+		emit map_layer_changed();
+	}
 
-	int32_t SavePicture::battle_layer() {
+	int SavePicture::battle_layer() {
 		return m_data.battle_layer;
+	}
+	void SavePicture::set_battle_layer(const int& new_battle_layer) {
+		if (m_data.battle_layer == new_battle_layer)
+			return;
+		m_data.battle_layer = new_battle_layer;
+		emit battle_layer_changed();
 	}
 
 	double SavePicture::finish_x() {
@@ -379,8 +397,14 @@ namespace Binding::Generated {
 		emit current_waver_changed();
 	}
 
-	int32_t SavePicture::easyrpg_flip() {
+	int SavePicture::easyrpg_flip() {
 		return m_data.easyrpg_flip;
+	}
+	void SavePicture::set_easyrpg_flip(const int& new_easyrpg_flip) {
+		if (m_data.easyrpg_flip == new_easyrpg_flip)
+			return;
+		m_data.easyrpg_flip = new_easyrpg_flip;
+		emit easyrpg_flip_changed();
 	}
 
 	int SavePicture::easyrpg_blend_mode() {

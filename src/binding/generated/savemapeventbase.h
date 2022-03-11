@@ -46,7 +46,7 @@ class SaveMapEventBase : public Binding::BindingBase {
 	Q_PROPERTY(int move_frequency READ move_frequency WRITE set_move_frequency NOTIFY move_frequency_changed)
 	Q_PROPERTY(int layer READ layer WRITE set_layer NOTIFY layer_changed)
 	Q_PROPERTY(bool overlap_forbidden READ overlap_forbidden WRITE set_overlap_forbidden NOTIFY overlap_forbidden_changed)
-	Q_PROPERTY(int32_t animation_type READ animation_type CONSTANT)
+	Q_PROPERTY(int animation_type READ animation_type WRITE set_animation_type NOTIFY animation_type_changed)
 	Q_PROPERTY(bool lock_facing READ lock_facing WRITE set_lock_facing NOTIFY lock_facing_changed)
 	Q_PROPERTY(int move_speed READ move_speed WRITE set_move_speed NOTIFY move_speed_changed)
 	Q_PROPERTY(Binding::MoveRoute* move_route READ move_route CONSTANT)
@@ -102,7 +102,8 @@ public:
 	void set_layer(const int& new_layer);
 	bool overlap_forbidden();
 	void set_overlap_forbidden(const bool& new_overlap_forbidden);
-	int32_t animation_type();
+	int animation_type();
+	void set_animation_type(const int& new_animation_type);
 	bool lock_facing();
 	void set_lock_facing(const bool& new_lock_facing);
 	int move_speed();
@@ -168,6 +169,7 @@ signals:
 	void move_frequency_changed();
 	void layer_changed();
 	void overlap_forbidden_changed();
+	void animation_type_changed();
 	void lock_facing_changed();
 	void move_speed_changed();
 	void move_route_overwrite_changed();

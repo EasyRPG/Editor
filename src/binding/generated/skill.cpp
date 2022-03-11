@@ -84,12 +84,24 @@ namespace Binding::Generated {
 		emit failure_message_changed();
 	}
 
-	int32_t Skill::type() {
+	int Skill::type() {
 		return m_data.type;
 	}
+	void Skill::set_type(const int& new_type) {
+		if (m_data.type == new_type)
+			return;
+		m_data.type = new_type;
+		emit type_changed();
+	}
 
-	int32_t Skill::sp_type() {
+	int Skill::sp_type() {
 		return m_data.sp_type;
+	}
+	void Skill::set_sp_type(const int& new_sp_type) {
+		if (m_data.sp_type == new_sp_type)
+			return;
+		m_data.sp_type = new_sp_type;
+		emit sp_type_changed();
 	}
 
 	int Skill::sp_percent() {
@@ -112,16 +124,34 @@ namespace Binding::Generated {
 		emit sp_cost_changed();
 	}
 
-	int32_t Skill::scope() {
+	int Skill::scope() {
 		return m_data.scope;
 	}
-
-	int32_t Skill::switch_id() {
-		return m_data.switch_id;
+	void Skill::set_scope(const int& new_scope) {
+		if (m_data.scope == new_scope)
+			return;
+		m_data.scope = new_scope;
+		emit scope_changed();
 	}
 
-	int32_t Skill::animation_id() {
+	int Skill::switch_id() {
+		return m_data.switch_id;
+	}
+	void Skill::set_switch_id(const int& new_switch_id) {
+		if (m_data.switch_id == new_switch_id)
+			return;
+		m_data.switch_id = new_switch_id;
+		emit switch_id_changed();
+	}
+
+	int Skill::animation_id() {
 		return m_data.animation_id;
+	}
+	void Skill::set_animation_id(const int& new_animation_id) {
+		if (m_data.animation_id == new_animation_id)
+			return;
+		m_data.animation_id = new_animation_id;
+		emit animation_id_changed();
 	}
 
 	Binding::Sound* Skill::sound_effect() {
@@ -318,8 +348,14 @@ namespace Binding::Generated {
 		emit affect_attr_defence_changed();
 	}
 
-	int32_t Skill::battler_animation() {
+	int Skill::battler_animation() {
 		return m_data.battler_animation;
+	}
+	void Skill::set_battler_animation(const int& new_battler_animation) {
+		if (m_data.battler_animation == new_battler_animation)
+			return;
+		m_data.battler_animation = new_battler_animation;
+		emit battler_animation_changed();
 	}
 
 	ArrayAdapter* Skill::battler_animation_data() {
@@ -426,8 +462,14 @@ namespace Binding::Generated {
 		emit easyrpg_affected_by_row_modifiers_changed();
 	}
 
-	int32_t Skill::easyrpg_hp_type() {
+	int Skill::easyrpg_hp_type() {
 		return m_data.easyrpg_hp_type;
+	}
+	void Skill::set_easyrpg_hp_type(const int& new_easyrpg_hp_type) {
+		if (m_data.easyrpg_hp_type == new_easyrpg_hp_type)
+			return;
+		m_data.easyrpg_hp_type = new_easyrpg_hp_type;
+		emit easyrpg_hp_type_changed();
 	}
 
 	int Skill::easyrpg_hp_percent() {

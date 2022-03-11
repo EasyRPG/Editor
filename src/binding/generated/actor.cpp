@@ -223,12 +223,24 @@ namespace Binding::Generated {
 		return m_initial_equipment;
 	}
 
-	int32_t Actor::unarmed_animation() {
+	int Actor::unarmed_animation() {
 		return m_data.unarmed_animation;
 	}
+	void Actor::set_unarmed_animation(const int& new_unarmed_animation) {
+		if (m_data.unarmed_animation == new_unarmed_animation)
+			return;
+		m_data.unarmed_animation = new_unarmed_animation;
+		emit unarmed_animation_changed();
+	}
 
-	int32_t Actor::class_id() {
+	int Actor::class_id() {
 		return m_data.class_id;
+	}
+	void Actor::set_class_id(const int& new_class_id) {
+		if (m_data.class_id == new_class_id)
+			return;
+		m_data.class_id = new_class_id;
+		emit class_id_changed();
 	}
 
 	int Actor::battle_x() {
@@ -251,8 +263,14 @@ namespace Binding::Generated {
 		emit battle_y_changed();
 	}
 
-	int32_t Actor::battler_animation() {
+	int Actor::battler_animation() {
 		return m_data.battler_animation;
+	}
+	void Actor::set_battler_animation(const int& new_battler_animation) {
+		if (m_data.battler_animation == new_battler_animation)
+			return;
+		m_data.battler_animation = new_battler_animation;
+		emit battler_animation_changed();
 	}
 
 	ArrayAdapter* Actor::skills() {

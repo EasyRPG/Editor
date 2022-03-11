@@ -37,8 +37,14 @@ namespace Binding::Generated {
 		emit level_changed();
 	}
 
-	int32_t Learning::skill_id() {
+	int Learning::skill_id() {
 		return m_data.skill_id;
+	}
+	void Learning::set_skill_id(const int& new_skill_id) {
+		if (m_data.skill_id == new_skill_id)
+			return;
+		m_data.skill_id = new_skill_id;
+		emit skill_id_changed();
 	}
 
 } // namespace Binding::Generated

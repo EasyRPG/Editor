@@ -49,8 +49,14 @@ namespace Binding::Generated {
 		emit name_changed();
 	}
 
-	int32_t BattlerAnimation::speed() {
+	int BattlerAnimation::speed() {
 		return m_data.speed;
+	}
+	void BattlerAnimation::set_speed(const int& new_speed) {
+		if (m_data.speed == new_speed)
+			return;
+		m_data.speed = new_speed;
+		emit speed_changed();
 	}
 
 	ArrayAdapter* BattlerAnimation::poses() {

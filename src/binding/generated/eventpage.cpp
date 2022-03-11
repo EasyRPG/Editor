@@ -59,12 +59,24 @@ namespace Binding::Generated {
 		emit character_index_changed();
 	}
 
-	int32_t EventPage::character_direction() {
+	int EventPage::character_direction() {
 		return m_data.character_direction;
 	}
+	void EventPage::set_character_direction(const int& new_character_direction) {
+		if (m_data.character_direction == new_character_direction)
+			return;
+		m_data.character_direction = new_character_direction;
+		emit character_direction_changed();
+	}
 
-	int32_t EventPage::character_pattern() {
+	int EventPage::character_pattern() {
 		return m_data.character_pattern;
+	}
+	void EventPage::set_character_pattern(const int& new_character_pattern) {
+		if (m_data.character_pattern == new_character_pattern)
+			return;
+		m_data.character_pattern = new_character_pattern;
+		emit character_pattern_changed();
 	}
 
 	bool EventPage::translucent() {
@@ -77,8 +89,14 @@ namespace Binding::Generated {
 		emit translucent_changed();
 	}
 
-	int32_t EventPage::move_type() {
+	int EventPage::move_type() {
 		return m_data.move_type;
+	}
+	void EventPage::set_move_type(const int& new_move_type) {
+		if (m_data.move_type == new_move_type)
+			return;
+		m_data.move_type = new_move_type;
+		emit move_type_changed();
 	}
 
 	int EventPage::move_frequency() {
@@ -91,12 +109,24 @@ namespace Binding::Generated {
 		emit move_frequency_changed();
 	}
 
-	int32_t EventPage::trigger() {
+	int EventPage::trigger() {
 		return m_data.trigger;
 	}
+	void EventPage::set_trigger(const int& new_trigger) {
+		if (m_data.trigger == new_trigger)
+			return;
+		m_data.trigger = new_trigger;
+		emit trigger_changed();
+	}
 
-	int32_t EventPage::layer() {
+	int EventPage::layer() {
 		return m_data.layer;
+	}
+	void EventPage::set_layer(const int& new_layer) {
+		if (m_data.layer == new_layer)
+			return;
+		m_data.layer = new_layer;
+		emit layer_changed();
 	}
 
 	bool EventPage::overlap_forbidden() {
@@ -109,12 +139,24 @@ namespace Binding::Generated {
 		emit overlap_forbidden_changed();
 	}
 
-	int32_t EventPage::animation_type() {
+	int EventPage::animation_type() {
 		return m_data.animation_type;
 	}
+	void EventPage::set_animation_type(const int& new_animation_type) {
+		if (m_data.animation_type == new_animation_type)
+			return;
+		m_data.animation_type = new_animation_type;
+		emit animation_type_changed();
+	}
 
-	int32_t EventPage::move_speed() {
+	int EventPage::move_speed() {
 		return m_data.move_speed;
+	}
+	void EventPage::set_move_speed(const int& new_move_speed) {
+		if (m_data.move_speed == new_move_speed)
+			return;
+		m_data.move_speed = new_move_speed;
+		emit move_speed_changed();
 	}
 
 	Binding::MoveRoute* EventPage::move_route() {

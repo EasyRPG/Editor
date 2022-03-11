@@ -37,12 +37,12 @@ class AnimationTiming : public Binding::BindingBase {
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(int frame READ frame WRITE set_frame NOTIFY frame_changed)
 	Q_PROPERTY(Binding::Sound* se READ se CONSTANT)
-	Q_PROPERTY(int32_t flash_scope READ flash_scope CONSTANT)
+	Q_PROPERTY(int flash_scope READ flash_scope WRITE set_flash_scope NOTIFY flash_scope_changed)
 	Q_PROPERTY(int flash_red READ flash_red WRITE set_flash_red NOTIFY flash_red_changed)
 	Q_PROPERTY(int flash_green READ flash_green WRITE set_flash_green NOTIFY flash_green_changed)
 	Q_PROPERTY(int flash_blue READ flash_blue WRITE set_flash_blue NOTIFY flash_blue_changed)
 	Q_PROPERTY(int flash_power READ flash_power WRITE set_flash_power NOTIFY flash_power_changed)
-	Q_PROPERTY(int32_t screen_shake READ screen_shake CONSTANT)
+	Q_PROPERTY(int screen_shake READ screen_shake WRITE set_screen_shake NOTIFY screen_shake_changed)
 
 public:
 	AnimationTiming(ProjectData& project, lcf::rpg::AnimationTiming& data, QObject* parent = nullptr);
@@ -52,7 +52,8 @@ public:
 	int frame();
 	void set_frame(const int& new_frame);
 	Binding::Sound* se();
-	int32_t flash_scope();
+	int flash_scope();
+	void set_flash_scope(const int& new_flash_scope);
 	int flash_red();
 	void set_flash_red(const int& new_flash_red);
 	int flash_green();
@@ -61,14 +62,17 @@ public:
 	void set_flash_blue(const int& new_flash_blue);
 	int flash_power();
 	void set_flash_power(const int& new_flash_power);
-	int32_t screen_shake();
+	int screen_shake();
+	void set_screen_shake(const int& new_screen_shake);
 
 signals:
 	void frame_changed();
+	void flash_scope_changed();
 	void flash_red_changed();
 	void flash_green_changed();
 	void flash_blue_changed();
 	void flash_power_changed();
+	void screen_shake_changed();
 
 protected:
 	lcf::rpg::AnimationTiming& m_data;

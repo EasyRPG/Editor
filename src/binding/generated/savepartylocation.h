@@ -35,11 +35,11 @@ class SavePartyLocation : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(bool boarding READ boarding WRITE set_boarding NOTIFY boarding_changed)
 	Q_PROPERTY(bool aboard READ aboard WRITE set_aboard NOTIFY aboard_changed)
-	Q_PROPERTY(int32_t vehicle READ vehicle CONSTANT)
+	Q_PROPERTY(int vehicle READ vehicle WRITE set_vehicle NOTIFY vehicle_changed)
 	Q_PROPERTY(bool unboarding READ unboarding WRITE set_unboarding NOTIFY unboarding_changed)
 	Q_PROPERTY(int preboard_move_speed READ preboard_move_speed WRITE set_preboard_move_speed NOTIFY preboard_move_speed_changed)
 	Q_PROPERTY(bool menu_calling READ menu_calling WRITE set_menu_calling NOTIFY menu_calling_changed)
-	Q_PROPERTY(int32_t pan_state READ pan_state CONSTANT)
+	Q_PROPERTY(int pan_state READ pan_state WRITE set_pan_state NOTIFY pan_state_changed)
 	Q_PROPERTY(int pan_current_x READ pan_current_x WRITE set_pan_current_x NOTIFY pan_current_x_changed)
 	Q_PROPERTY(int pan_current_y READ pan_current_y WRITE set_pan_current_y NOTIFY pan_current_y_changed)
 	Q_PROPERTY(int pan_finish_x READ pan_finish_x WRITE set_pan_finish_x NOTIFY pan_finish_x_changed)
@@ -58,14 +58,16 @@ public:
 	void set_boarding(const bool& new_boarding);
 	bool aboard();
 	void set_aboard(const bool& new_aboard);
-	int32_t vehicle();
+	int vehicle();
+	void set_vehicle(const int& new_vehicle);
 	bool unboarding();
 	void set_unboarding(const bool& new_unboarding);
 	int preboard_move_speed();
 	void set_preboard_move_speed(const int& new_preboard_move_speed);
 	bool menu_calling();
 	void set_menu_calling(const bool& new_menu_calling);
-	int32_t pan_state();
+	int pan_state();
+	void set_pan_state(const int& new_pan_state);
 	int pan_current_x();
 	void set_pan_current_x(const int& new_pan_current_x);
 	int pan_current_y();
@@ -88,9 +90,11 @@ public:
 signals:
 	void boarding_changed();
 	void aboard_changed();
+	void vehicle_changed();
 	void unboarding_changed();
 	void preboard_move_speed_changed();
 	void menu_calling_changed();
+	void pan_state_changed();
 	void pan_current_x_changed();
 	void pan_current_y_changed();
 	void pan_finish_x_changed();

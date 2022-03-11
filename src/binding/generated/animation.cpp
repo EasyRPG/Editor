@@ -73,12 +73,24 @@ namespace Binding::Generated {
 		return m_timings;
 	}
 
-	int32_t Animation::scope() {
+	int Animation::scope() {
 		return m_data.scope;
 	}
+	void Animation::set_scope(const int& new_scope) {
+		if (m_data.scope == new_scope)
+			return;
+		m_data.scope = new_scope;
+		emit scope_changed();
+	}
 
-	int32_t Animation::position() {
+	int Animation::position() {
 		return m_data.position;
+	}
+	void Animation::set_position(const int& new_position) {
+		if (m_data.position == new_position)
+			return;
+		m_data.position = new_position;
+		emit position_changed();
 	}
 
 	ArrayAdapter* Animation::frames() {

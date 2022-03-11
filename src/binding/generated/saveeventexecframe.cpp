@@ -77,8 +77,14 @@ namespace Binding::Generated {
 		emit subcommand_path_changed();
 	}
 
-	int32_t SaveEventExecFrame::maniac_event_info() {
+	int SaveEventExecFrame::maniac_event_info() {
 		return m_data.maniac_event_info;
+	}
+	void SaveEventExecFrame::set_maniac_event_info(const int& new_maniac_event_info) {
+		if (m_data.maniac_event_info == new_maniac_event_info)
+			return;
+		m_data.maniac_event_info = new_maniac_event_info;
+		emit maniac_event_info_changed();
 	}
 
 	int SaveEventExecFrame::maniac_event_id() {

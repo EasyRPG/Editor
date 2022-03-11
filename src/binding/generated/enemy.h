@@ -47,7 +47,7 @@ class Enemy : public Binding::BindingBase {
 	Q_PROPERTY(bool transparent READ transparent WRITE set_transparent NOTIFY transparent_changed)
 	Q_PROPERTY(int exp READ exp WRITE set_exp NOTIFY exp_changed)
 	Q_PROPERTY(int gold READ gold WRITE set_gold NOTIFY gold_changed)
-	Q_PROPERTY(int32_t drop_id READ drop_id CONSTANT)
+	Q_PROPERTY(int drop_id READ drop_id WRITE set_drop_id NOTIFY drop_id_changed)
 	Q_PROPERTY(int drop_prob READ drop_prob WRITE set_drop_prob NOTIFY drop_prob_changed)
 	Q_PROPERTY(bool critical_hit READ critical_hit WRITE set_critical_hit NOTIFY critical_hit_changed)
 	Q_PROPERTY(int critical_hit_chance READ critical_hit_chance WRITE set_critical_hit_chance NOTIFY critical_hit_chance_changed)
@@ -56,7 +56,7 @@ class Enemy : public Binding::BindingBase {
 	Q_PROPERTY(QVector<int> state_ranks READ state_ranks WRITE set_state_ranks NOTIFY state_ranks_changed)
 	Q_PROPERTY(QVector<int> attribute_ranks READ attribute_ranks WRITE set_attribute_ranks NOTIFY attribute_ranks_changed)
 	Q_PROPERTY(ArrayAdapter* actions READ actions CONSTANT)
-	Q_PROPERTY(int32_t maniac_unarmed_animation READ maniac_unarmed_animation CONSTANT)
+	Q_PROPERTY(int maniac_unarmed_animation READ maniac_unarmed_animation WRITE set_maniac_unarmed_animation NOTIFY maniac_unarmed_animation_changed)
 	Q_PROPERTY(int easyrpg_enemyai READ easyrpg_enemyai WRITE set_easyrpg_enemyai NOTIFY easyrpg_enemyai_changed)
 	Q_PROPERTY(bool easyrpg_prevent_critical READ easyrpg_prevent_critical WRITE set_easyrpg_prevent_critical NOTIFY easyrpg_prevent_critical_changed)
 	Q_PROPERTY(bool easyrpg_raise_evasion READ easyrpg_raise_evasion WRITE set_easyrpg_raise_evasion NOTIFY easyrpg_raise_evasion_changed)
@@ -98,7 +98,8 @@ public:
 	void set_exp(const int& new_exp);
 	int gold();
 	void set_gold(const int& new_gold);
-	int32_t drop_id();
+	int drop_id();
+	void set_drop_id(const int& new_drop_id);
 	int drop_prob();
 	void set_drop_prob(const int& new_drop_prob);
 	bool critical_hit();
@@ -114,7 +115,8 @@ public:
 	QVector<int> attribute_ranks();
 	void set_attribute_ranks(const QVector<int>& new_attribute_ranks);
 	ArrayAdapter* actions();
-	int32_t maniac_unarmed_animation();
+	int maniac_unarmed_animation();
+	void set_maniac_unarmed_animation(const int& new_maniac_unarmed_animation);
 	int easyrpg_enemyai();
 	void set_easyrpg_enemyai(const int& new_easyrpg_enemyai);
 	bool easyrpg_prevent_critical();
@@ -151,6 +153,7 @@ signals:
 	void transparent_changed();
 	void exp_changed();
 	void gold_changed();
+	void drop_id_changed();
 	void drop_prob_changed();
 	void critical_hit_changed();
 	void critical_hit_chance_changed();
@@ -158,6 +161,7 @@ signals:
 	void levitate_changed();
 	void state_ranks_changed();
 	void attribute_ranks_changed();
+	void maniac_unarmed_animation_changed();
 	void easyrpg_enemyai_changed();
 	void easyrpg_prevent_critical_changed();
 	void easyrpg_raise_evasion_changed();

@@ -247,12 +247,24 @@ namespace Binding::Generated {
 		emit changed_battle_commands_changed();
 	}
 
-	int32_t SaveActor::class_id() {
+	int SaveActor::class_id() {
 		return m_data.class_id;
 	}
+	void SaveActor::set_class_id(const int& new_class_id) {
+		if (m_data.class_id == new_class_id)
+			return;
+		m_data.class_id = new_class_id;
+		emit class_id_changed();
+	}
 
-	int32_t SaveActor::row() {
+	int SaveActor::row() {
 		return m_data.row;
+	}
+	void SaveActor::set_row(const int& new_row) {
+		if (m_data.row == new_row)
+			return;
+		m_data.row = new_row;
+		emit row_changed();
 	}
 
 	bool SaveActor::two_weapon() {
@@ -295,8 +307,14 @@ namespace Binding::Generated {
 		emit super_guard_changed();
 	}
 
-	int32_t SaveActor::battler_animation() {
+	int SaveActor::battler_animation() {
 		return m_data.battler_animation;
+	}
+	void SaveActor::set_battler_animation(const int& new_battler_animation) {
+		if (m_data.battler_animation == new_battler_animation)
+			return;
+		m_data.battler_animation = new_battler_animation;
+		emit battler_animation_changed();
 	}
 
 } // namespace Binding::Generated

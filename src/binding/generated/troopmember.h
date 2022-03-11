@@ -34,7 +34,7 @@ namespace Binding::Generated {
 class TroopMember : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
-	Q_PROPERTY(int32_t enemy_id READ enemy_id CONSTANT)
+	Q_PROPERTY(int enemy_id READ enemy_id WRITE set_enemy_id NOTIFY enemy_id_changed)
 	Q_PROPERTY(int x READ x WRITE set_x NOTIFY x_changed)
 	Q_PROPERTY(int y READ y WRITE set_y NOTIFY y_changed)
 	Q_PROPERTY(bool invisible READ invisible WRITE set_invisible NOTIFY invisible_changed)
@@ -44,7 +44,8 @@ public:
 
 	lcf::rpg::TroopMember& data();
 	int id();
-	int32_t enemy_id();
+	int enemy_id();
+	void set_enemy_id(const int& new_enemy_id);
 	int x();
 	void set_x(const int& new_x);
 	int y();
@@ -53,6 +54,7 @@ public:
 	void set_invisible(const bool& new_invisible);
 
 signals:
+	void enemy_id_changed();
 	void x_changed();
 	void y_changed();
 	void invisible_changed();

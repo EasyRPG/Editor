@@ -24,8 +24,14 @@
 namespace Binding::Generated {
 	EventCommand::EventCommand(ProjectData& project, lcf::rpg::EventCommand& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 	}
-	int32_t EventCommand::code() {
+	int EventCommand::code() {
 		return m_data.code;
+	}
+	void EventCommand::set_code(const int& new_code) {
+		if (m_data.code == new_code)
+			return;
+		m_data.code = new_code;
+		emit code_changed();
 	}
 
 	int EventCommand::indent() {

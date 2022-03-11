@@ -260,36 +260,84 @@ namespace Binding::Generated {
 		return m_item_se;
 	}
 
-	int32_t System::transition_out() {
+	int System::transition_out() {
 		return m_data.transition_out;
 	}
+	void System::set_transition_out(const int& new_transition_out) {
+		if (m_data.transition_out == new_transition_out)
+			return;
+		m_data.transition_out = new_transition_out;
+		emit transition_out_changed();
+	}
 
-	int32_t System::transition_in() {
+	int System::transition_in() {
 		return m_data.transition_in;
 	}
+	void System::set_transition_in(const int& new_transition_in) {
+		if (m_data.transition_in == new_transition_in)
+			return;
+		m_data.transition_in = new_transition_in;
+		emit transition_in_changed();
+	}
 
-	int32_t System::battle_start_fadeout() {
+	int System::battle_start_fadeout() {
 		return m_data.battle_start_fadeout;
 	}
+	void System::set_battle_start_fadeout(const int& new_battle_start_fadeout) {
+		if (m_data.battle_start_fadeout == new_battle_start_fadeout)
+			return;
+		m_data.battle_start_fadeout = new_battle_start_fadeout;
+		emit battle_start_fadeout_changed();
+	}
 
-	int32_t System::battle_start_fadein() {
+	int System::battle_start_fadein() {
 		return m_data.battle_start_fadein;
 	}
+	void System::set_battle_start_fadein(const int& new_battle_start_fadein) {
+		if (m_data.battle_start_fadein == new_battle_start_fadein)
+			return;
+		m_data.battle_start_fadein = new_battle_start_fadein;
+		emit battle_start_fadein_changed();
+	}
 
-	int32_t System::battle_end_fadeout() {
+	int System::battle_end_fadeout() {
 		return m_data.battle_end_fadeout;
 	}
+	void System::set_battle_end_fadeout(const int& new_battle_end_fadeout) {
+		if (m_data.battle_end_fadeout == new_battle_end_fadeout)
+			return;
+		m_data.battle_end_fadeout = new_battle_end_fadeout;
+		emit battle_end_fadeout_changed();
+	}
 
-	int32_t System::battle_end_fadein() {
+	int System::battle_end_fadein() {
 		return m_data.battle_end_fadein;
 	}
-
-	int32_t System::message_stretch() {
-		return m_data.message_stretch;
+	void System::set_battle_end_fadein(const int& new_battle_end_fadein) {
+		if (m_data.battle_end_fadein == new_battle_end_fadein)
+			return;
+		m_data.battle_end_fadein = new_battle_end_fadein;
+		emit battle_end_fadein_changed();
 	}
 
-	int32_t System::font_id() {
+	int System::message_stretch() {
+		return m_data.message_stretch;
+	}
+	void System::set_message_stretch(const int& new_message_stretch) {
+		if (m_data.message_stretch == new_message_stretch)
+			return;
+		m_data.message_stretch = new_message_stretch;
+		emit message_stretch_changed();
+	}
+
+	int System::font_id() {
 		return m_data.font_id;
+	}
+	void System::set_font_id(const int& new_font_id) {
+		if (m_data.font_id == new_font_id)
+			return;
+		m_data.font_id = new_font_id;
+		emit font_id_changed();
 	}
 
 	int System::selected_condition() {
@@ -302,8 +350,14 @@ namespace Binding::Generated {
 		emit selected_condition_changed();
 	}
 
-	int32_t System::selected_hero() {
+	int System::selected_hero() {
 		return m_data.selected_hero;
+	}
+	void System::set_selected_hero(const int& new_selected_hero) {
+		if (m_data.selected_hero == new_selected_hero)
+			return;
+		m_data.selected_hero = new_selected_hero;
+		emit selected_hero_changed();
 	}
 
 	QString System::battletest_background() {
@@ -330,24 +384,54 @@ namespace Binding::Generated {
 		emit save_count_changed();
 	}
 
-	int32_t System::battletest_terrain() {
+	int System::battletest_terrain() {
 		return m_data.battletest_terrain;
 	}
+	void System::set_battletest_terrain(const int& new_battletest_terrain) {
+		if (m_data.battletest_terrain == new_battletest_terrain)
+			return;
+		m_data.battletest_terrain = new_battletest_terrain;
+		emit battletest_terrain_changed();
+	}
 
-	int32_t System::battletest_formation() {
+	int System::battletest_formation() {
 		return m_data.battletest_formation;
 	}
+	void System::set_battletest_formation(const int& new_battletest_formation) {
+		if (m_data.battletest_formation == new_battletest_formation)
+			return;
+		m_data.battletest_formation = new_battletest_formation;
+		emit battletest_formation_changed();
+	}
 
-	int32_t System::battletest_condition() {
+	int System::battletest_condition() {
 		return m_data.battletest_condition;
 	}
-
-	int32_t System::equipment_setting() {
-		return m_data.equipment_setting;
+	void System::set_battletest_condition(const int& new_battletest_condition) {
+		if (m_data.battletest_condition == new_battletest_condition)
+			return;
+		m_data.battletest_condition = new_battletest_condition;
+		emit battletest_condition_changed();
 	}
 
-	int32_t System::battletest_alt_terrain() {
+	int System::equipment_setting() {
+		return m_data.equipment_setting;
+	}
+	void System::set_equipment_setting(const int& new_equipment_setting) {
+		if (m_data.equipment_setting == new_equipment_setting)
+			return;
+		m_data.equipment_setting = new_equipment_setting;
+		emit equipment_setting_changed();
+	}
+
+	int System::battletest_alt_terrain() {
 		return m_data.battletest_alt_terrain;
+	}
+	void System::set_battletest_alt_terrain(const int& new_battletest_alt_terrain) {
+		if (m_data.battletest_alt_terrain == new_battletest_alt_terrain)
+			return;
+		m_data.battletest_alt_terrain = new_battletest_alt_terrain;
+		emit battletest_alt_terrain_changed();
 	}
 
 	bool System::show_frame() {

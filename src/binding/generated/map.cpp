@@ -60,8 +60,14 @@ namespace Binding::Generated {
 		emit height_changed();
 	}
 
-	int32_t Map::scroll_type() {
+	int Map::scroll_type() {
 		return m_data.scroll_type;
+	}
+	void Map::set_scroll_type(const int& new_scroll_type) {
+		if (m_data.scroll_type == new_scroll_type)
+			return;
+		m_data.scroll_type = new_scroll_type;
+		emit scroll_type_changed();
 	}
 
 	bool Map::parallax_flag() {
@@ -154,8 +160,14 @@ namespace Binding::Generated {
 		emit generator_flag_changed();
 	}
 
-	int32_t Map::generator_mode() {
+	int Map::generator_mode() {
 		return m_data.generator_mode;
+	}
+	void Map::set_generator_mode(const int& new_generator_mode) {
+		if (m_data.generator_mode == new_generator_mode)
+			return;
+		m_data.generator_mode = new_generator_mode;
+		emit generator_mode_changed();
 	}
 
 	bool Map::top_level() {
@@ -168,8 +180,14 @@ namespace Binding::Generated {
 		emit top_level_changed();
 	}
 
-	int32_t Map::generator_tiles() {
+	int Map::generator_tiles() {
 		return m_data.generator_tiles;
+	}
+	void Map::set_generator_tiles(const int& new_generator_tiles) {
+		if (m_data.generator_tiles == new_generator_tiles)
+			return;
+		m_data.generator_tiles = new_generator_tiles;
+		emit generator_tiles_changed();
 	}
 
 	int Map::generator_width() {

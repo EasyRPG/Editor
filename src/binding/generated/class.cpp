@@ -118,8 +118,14 @@ namespace Binding::Generated {
 		emit exp_correction_changed();
 	}
 
-	int32_t Class::battler_animation() {
+	int Class::battler_animation() {
 		return m_data.battler_animation;
+	}
+	void Class::set_battler_animation(const int& new_battler_animation) {
+		if (m_data.battler_animation == new_battler_animation)
+			return;
+		m_data.battler_animation = new_battler_animation;
+		emit battler_animation_changed();
 	}
 
 	ArrayAdapter* Class::skills() {

@@ -34,30 +34,42 @@ namespace Binding::Generated {
 class TestBattler : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
-	Q_PROPERTY(int32_t actor_id READ actor_id CONSTANT)
+	Q_PROPERTY(int actor_id READ actor_id WRITE set_actor_id NOTIFY actor_id_changed)
 	Q_PROPERTY(int level READ level WRITE set_level NOTIFY level_changed)
-	Q_PROPERTY(int32_t weapon_id READ weapon_id CONSTANT)
-	Q_PROPERTY(int32_t shield_id READ shield_id CONSTANT)
-	Q_PROPERTY(int32_t armor_id READ armor_id CONSTANT)
-	Q_PROPERTY(int32_t helmet_id READ helmet_id CONSTANT)
-	Q_PROPERTY(int32_t accessory_id READ accessory_id CONSTANT)
+	Q_PROPERTY(int weapon_id READ weapon_id WRITE set_weapon_id NOTIFY weapon_id_changed)
+	Q_PROPERTY(int shield_id READ shield_id WRITE set_shield_id NOTIFY shield_id_changed)
+	Q_PROPERTY(int armor_id READ armor_id WRITE set_armor_id NOTIFY armor_id_changed)
+	Q_PROPERTY(int helmet_id READ helmet_id WRITE set_helmet_id NOTIFY helmet_id_changed)
+	Q_PROPERTY(int accessory_id READ accessory_id WRITE set_accessory_id NOTIFY accessory_id_changed)
 
 public:
 	TestBattler(ProjectData& project, lcf::rpg::TestBattler& data, QObject* parent = nullptr);
 
 	lcf::rpg::TestBattler& data();
 	int id();
-	int32_t actor_id();
+	int actor_id();
+	void set_actor_id(const int& new_actor_id);
 	int level();
 	void set_level(const int& new_level);
-	int32_t weapon_id();
-	int32_t shield_id();
-	int32_t armor_id();
-	int32_t helmet_id();
-	int32_t accessory_id();
+	int weapon_id();
+	void set_weapon_id(const int& new_weapon_id);
+	int shield_id();
+	void set_shield_id(const int& new_shield_id);
+	int armor_id();
+	void set_armor_id(const int& new_armor_id);
+	int helmet_id();
+	void set_helmet_id(const int& new_helmet_id);
+	int accessory_id();
+	void set_accessory_id(const int& new_accessory_id);
 
 signals:
+	void actor_id_changed();
 	void level_changed();
+	void weapon_id_changed();
+	void shield_id_changed();
+	void armor_id_changed();
+	void helmet_id_changed();
+	void accessory_id_changed();
 
 protected:
 	lcf::rpg::TestBattler& m_data;

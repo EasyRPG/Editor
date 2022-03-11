@@ -87,24 +87,24 @@ class System : public Binding::BindingBase {
 	Q_PROPERTY(Binding::Sound* dodge_se READ dodge_se CONSTANT)
 	Q_PROPERTY(Binding::Sound* enemy_death_se READ enemy_death_se CONSTANT)
 	Q_PROPERTY(Binding::Sound* item_se READ item_se CONSTANT)
-	Q_PROPERTY(int32_t transition_out READ transition_out CONSTANT)
-	Q_PROPERTY(int32_t transition_in READ transition_in CONSTANT)
-	Q_PROPERTY(int32_t battle_start_fadeout READ battle_start_fadeout CONSTANT)
-	Q_PROPERTY(int32_t battle_start_fadein READ battle_start_fadein CONSTANT)
-	Q_PROPERTY(int32_t battle_end_fadeout READ battle_end_fadeout CONSTANT)
-	Q_PROPERTY(int32_t battle_end_fadein READ battle_end_fadein CONSTANT)
-	Q_PROPERTY(int32_t message_stretch READ message_stretch CONSTANT)
-	Q_PROPERTY(int32_t font_id READ font_id CONSTANT)
+	Q_PROPERTY(int transition_out READ transition_out WRITE set_transition_out NOTIFY transition_out_changed)
+	Q_PROPERTY(int transition_in READ transition_in WRITE set_transition_in NOTIFY transition_in_changed)
+	Q_PROPERTY(int battle_start_fadeout READ battle_start_fadeout WRITE set_battle_start_fadeout NOTIFY battle_start_fadeout_changed)
+	Q_PROPERTY(int battle_start_fadein READ battle_start_fadein WRITE set_battle_start_fadein NOTIFY battle_start_fadein_changed)
+	Q_PROPERTY(int battle_end_fadeout READ battle_end_fadeout WRITE set_battle_end_fadeout NOTIFY battle_end_fadeout_changed)
+	Q_PROPERTY(int battle_end_fadein READ battle_end_fadein WRITE set_battle_end_fadein NOTIFY battle_end_fadein_changed)
+	Q_PROPERTY(int message_stretch READ message_stretch WRITE set_message_stretch NOTIFY message_stretch_changed)
+	Q_PROPERTY(int font_id READ font_id WRITE set_font_id NOTIFY font_id_changed)
 	Q_PROPERTY(int selected_condition READ selected_condition WRITE set_selected_condition NOTIFY selected_condition_changed)
-	Q_PROPERTY(int32_t selected_hero READ selected_hero CONSTANT)
+	Q_PROPERTY(int selected_hero READ selected_hero WRITE set_selected_hero NOTIFY selected_hero_changed)
 	Q_PROPERTY(QString battletest_background READ battletest_background WRITE set_battletest_background NOTIFY battletest_background_changed)
 	Q_PROPERTY(ArrayAdapter* battletest_data READ battletest_data CONSTANT)
 	Q_PROPERTY(int save_count READ save_count WRITE set_save_count NOTIFY save_count_changed)
-	Q_PROPERTY(int32_t battletest_terrain READ battletest_terrain CONSTANT)
-	Q_PROPERTY(int32_t battletest_formation READ battletest_formation CONSTANT)
-	Q_PROPERTY(int32_t battletest_condition READ battletest_condition CONSTANT)
-	Q_PROPERTY(int32_t equipment_setting READ equipment_setting CONSTANT)
-	Q_PROPERTY(int32_t battletest_alt_terrain READ battletest_alt_terrain CONSTANT)
+	Q_PROPERTY(int battletest_terrain READ battletest_terrain WRITE set_battletest_terrain NOTIFY battletest_terrain_changed)
+	Q_PROPERTY(int battletest_formation READ battletest_formation WRITE set_battletest_formation NOTIFY battletest_formation_changed)
+	Q_PROPERTY(int battletest_condition READ battletest_condition WRITE set_battletest_condition NOTIFY battletest_condition_changed)
+	Q_PROPERTY(int equipment_setting READ equipment_setting WRITE set_equipment_setting NOTIFY equipment_setting_changed)
+	Q_PROPERTY(int battletest_alt_terrain READ battletest_alt_terrain WRITE set_battletest_alt_terrain NOTIFY battletest_alt_terrain_changed)
 	Q_PROPERTY(bool show_frame READ show_frame WRITE set_show_frame NOTIFY show_frame_changed)
 	Q_PROPERTY(QString frame_name READ frame_name WRITE set_frame_name NOTIFY frame_name_changed)
 	Q_PROPERTY(bool invert_animations READ invert_animations WRITE set_invert_animations NOTIFY invert_animations_changed)
@@ -180,27 +180,41 @@ public:
 	Binding::Sound* dodge_se();
 	Binding::Sound* enemy_death_se();
 	Binding::Sound* item_se();
-	int32_t transition_out();
-	int32_t transition_in();
-	int32_t battle_start_fadeout();
-	int32_t battle_start_fadein();
-	int32_t battle_end_fadeout();
-	int32_t battle_end_fadein();
-	int32_t message_stretch();
-	int32_t font_id();
+	int transition_out();
+	void set_transition_out(const int& new_transition_out);
+	int transition_in();
+	void set_transition_in(const int& new_transition_in);
+	int battle_start_fadeout();
+	void set_battle_start_fadeout(const int& new_battle_start_fadeout);
+	int battle_start_fadein();
+	void set_battle_start_fadein(const int& new_battle_start_fadein);
+	int battle_end_fadeout();
+	void set_battle_end_fadeout(const int& new_battle_end_fadeout);
+	int battle_end_fadein();
+	void set_battle_end_fadein(const int& new_battle_end_fadein);
+	int message_stretch();
+	void set_message_stretch(const int& new_message_stretch);
+	int font_id();
+	void set_font_id(const int& new_font_id);
 	int selected_condition();
 	void set_selected_condition(const int& new_selected_condition);
-	int32_t selected_hero();
+	int selected_hero();
+	void set_selected_hero(const int& new_selected_hero);
 	QString battletest_background();
 	void set_battletest_background(const QString& new_battletest_background);
 	ArrayAdapter* battletest_data();
 	int save_count();
 	void set_save_count(const int& new_save_count);
-	int32_t battletest_terrain();
-	int32_t battletest_formation();
-	int32_t battletest_condition();
-	int32_t equipment_setting();
-	int32_t battletest_alt_terrain();
+	int battletest_terrain();
+	void set_battletest_terrain(const int& new_battletest_terrain);
+	int battletest_formation();
+	void set_battletest_formation(const int& new_battletest_formation);
+	int battletest_condition();
+	void set_battletest_condition(const int& new_battletest_condition);
+	int equipment_setting();
+	void set_equipment_setting(const int& new_equipment_setting);
+	int battletest_alt_terrain();
+	void set_battletest_alt_terrain(const int& new_battletest_alt_terrain);
 	bool show_frame();
 	void set_show_frame(const bool& new_show_frame);
 	QString frame_name();
@@ -264,9 +278,23 @@ signals:
 	void system2_name_changed();
 	void party_changed();
 	void menu_commands_changed();
+	void transition_out_changed();
+	void transition_in_changed();
+	void battle_start_fadeout_changed();
+	void battle_start_fadein_changed();
+	void battle_end_fadeout_changed();
+	void battle_end_fadein_changed();
+	void message_stretch_changed();
+	void font_id_changed();
 	void selected_condition_changed();
+	void selected_hero_changed();
 	void battletest_background_changed();
 	void save_count_changed();
+	void battletest_terrain_changed();
+	void battletest_formation_changed();
+	void battletest_condition_changed();
+	void equipment_setting_changed();
+	void battletest_alt_terrain_changed();
 	void show_frame_changed();
 	void frame_name_changed();
 	void invert_animations_changed();

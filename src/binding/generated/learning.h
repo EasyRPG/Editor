@@ -35,7 +35,7 @@ class Learning : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(int level READ level WRITE set_level NOTIFY level_changed)
-	Q_PROPERTY(int32_t skill_id READ skill_id CONSTANT)
+	Q_PROPERTY(int skill_id READ skill_id WRITE set_skill_id NOTIFY skill_id_changed)
 
 public:
 	Learning(ProjectData& project, lcf::rpg::Learning& data, QObject* parent = nullptr);
@@ -44,10 +44,12 @@ public:
 	int id();
 	int level();
 	void set_level(const int& new_level);
-	int32_t skill_id();
+	int skill_id();
+	void set_skill_id(const int& new_skill_id);
 
 signals:
 	void level_changed();
+	void skill_id_changed();
 
 protected:
 	lcf::rpg::Learning& m_data;

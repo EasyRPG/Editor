@@ -108,8 +108,14 @@ namespace Binding::Generated {
 		emit airship_land_changed();
 	}
 
-	int32_t Terrain::bush_depth() {
+	int Terrain::bush_depth() {
 		return m_data.bush_depth;
+	}
+	void Terrain::set_bush_depth(const int& new_bush_depth) {
+		if (m_data.bush_depth == new_bush_depth)
+			return;
+		m_data.bush_depth = new_bush_depth;
+		emit bush_depth_changed();
 	}
 
 	Binding::Sound* Terrain::footstep() {
@@ -126,8 +132,14 @@ namespace Binding::Generated {
 		emit on_damage_se_changed();
 	}
 
-	int32_t Terrain::background_type() {
+	int Terrain::background_type() {
 		return m_data.background_type;
+	}
+	void Terrain::set_background_type(const int& new_background_type) {
+		if (m_data.background_type == new_background_type)
+			return;
+		m_data.background_type = new_background_type;
+		emit background_type_changed();
 	}
 
 	QString Terrain::background_a_name() {

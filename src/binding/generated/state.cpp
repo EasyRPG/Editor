@@ -37,8 +37,14 @@ namespace Binding::Generated {
 		emit name_changed();
 	}
 
-	int32_t State::type() {
+	int State::type() {
 		return m_data.type;
+	}
+	void State::set_type(const int& new_type) {
+		if (m_data.type == new_type)
+			return;
+		m_data.type = new_type;
+		emit type_changed();
 	}
 
 	int State::color() {
@@ -61,8 +67,14 @@ namespace Binding::Generated {
 		emit priority_changed();
 	}
 
-	int32_t State::restriction() {
+	int State::restriction() {
 		return m_data.restriction;
+	}
+	void State::set_restriction(const int& new_restriction) {
+		if (m_data.restriction == new_restriction)
+			return;
+		m_data.restriction = new_restriction;
+		emit restriction_changed();
 	}
 
 	int State::a_rate() {
@@ -145,8 +157,14 @@ namespace Binding::Generated {
 		emit release_by_damage_changed();
 	}
 
-	int32_t State::affect_type() {
+	int State::affect_type() {
 		return m_data.affect_type;
+	}
+	void State::set_affect_type(const int& new_affect_type) {
+		if (m_data.affect_type == new_affect_type)
+			return;
+		m_data.affect_type = new_affect_type;
+		emit affect_type_changed();
 	}
 
 	bool State::affect_attack() {
@@ -229,8 +247,14 @@ namespace Binding::Generated {
 		emit cursed_changed();
 	}
 
-	int32_t State::battler_animation_id() {
+	int State::battler_animation_id() {
 		return m_data.battler_animation_id;
+	}
+	void State::set_battler_animation_id(const int& new_battler_animation_id) {
+		if (m_data.battler_animation_id == new_battler_animation_id)
+			return;
+		m_data.battler_animation_id = new_battler_animation_id;
+		emit battler_animation_id_changed();
 	}
 
 	bool State::restrict_skill() {
@@ -273,12 +297,24 @@ namespace Binding::Generated {
 		emit restrict_magic_level_changed();
 	}
 
-	int32_t State::hp_change_type() {
+	int State::hp_change_type() {
 		return m_data.hp_change_type;
 	}
+	void State::set_hp_change_type(const int& new_hp_change_type) {
+		if (m_data.hp_change_type == new_hp_change_type)
+			return;
+		m_data.hp_change_type = new_hp_change_type;
+		emit hp_change_type_changed();
+	}
 
-	int32_t State::sp_change_type() {
+	int State::sp_change_type() {
 		return m_data.sp_change_type;
+	}
+	void State::set_sp_change_type(const int& new_sp_change_type) {
+		if (m_data.sp_change_type == new_sp_change_type)
+			return;
+		m_data.sp_change_type = new_sp_change_type;
+		emit sp_change_type_changed();
 	}
 
 	QString State::message_actor() {

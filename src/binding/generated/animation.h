@@ -40,8 +40,8 @@ class Animation : public Binding::BindingBase {
 	Q_PROPERTY(QString animation_name READ animation_name WRITE set_animation_name NOTIFY animation_name_changed)
 	Q_PROPERTY(bool large READ large WRITE set_large NOTIFY large_changed)
 	Q_PROPERTY(ArrayAdapter* timings READ timings CONSTANT)
-	Q_PROPERTY(int32_t scope READ scope CONSTANT)
-	Q_PROPERTY(int32_t position READ position CONSTANT)
+	Q_PROPERTY(int scope READ scope WRITE set_scope NOTIFY scope_changed)
+	Q_PROPERTY(int position READ position WRITE set_position NOTIFY position_changed)
 	Q_PROPERTY(ArrayAdapter* frames READ frames CONSTANT)
 
 public:
@@ -56,14 +56,18 @@ public:
 	bool large();
 	void set_large(const bool& new_large);
 	ArrayAdapter* timings();
-	int32_t scope();
-	int32_t position();
+	int scope();
+	void set_scope(const int& new_scope);
+	int position();
+	void set_position(const int& new_position);
 	ArrayAdapter* frames();
 
 signals:
 	void name_changed();
 	void animation_name_changed();
 	void large_changed();
+	void scope_changed();
+	void position_changed();
 
 protected:
 	lcf::rpg::Animation& m_data;

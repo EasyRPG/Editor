@@ -37,7 +37,7 @@ class BattlerAnimation : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
-	Q_PROPERTY(int32_t speed READ speed CONSTANT)
+	Q_PROPERTY(int speed READ speed WRITE set_speed NOTIFY speed_changed)
 	Q_PROPERTY(ArrayAdapter* poses READ poses CONSTANT)
 	Q_PROPERTY(ArrayAdapter* weapons READ weapons CONSTANT)
 
@@ -48,12 +48,14 @@ public:
 	int id();
 	QString name();
 	void set_name(const QString& new_name);
-	int32_t speed();
+	int speed();
+	void set_speed(const int& new_speed);
 	ArrayAdapter* poses();
 	ArrayAdapter* weapons();
 
 signals:
 	void name_changed();
+	void speed_changed();
 
 protected:
 	lcf::rpg::BattlerAnimation& m_data;

@@ -35,7 +35,7 @@ class Attribute : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
-	Q_PROPERTY(int32_t type READ type CONSTANT)
+	Q_PROPERTY(int type READ type WRITE set_type NOTIFY type_changed)
 	Q_PROPERTY(int a_rate READ a_rate WRITE set_a_rate NOTIFY a_rate_changed)
 	Q_PROPERTY(int b_rate READ b_rate WRITE set_b_rate NOTIFY b_rate_changed)
 	Q_PROPERTY(int c_rate READ c_rate WRITE set_c_rate NOTIFY c_rate_changed)
@@ -49,7 +49,8 @@ public:
 	int id();
 	QString name();
 	void set_name(const QString& new_name);
-	int32_t type();
+	int type();
+	void set_type(const int& new_type);
 	int a_rate();
 	void set_a_rate(const int& new_a_rate);
 	int b_rate();
@@ -63,6 +64,7 @@ public:
 
 signals:
 	void name_changed();
+	void type_changed();
 	void a_rate_changed();
 	void b_rate_changed();
 	void c_rate_changed();

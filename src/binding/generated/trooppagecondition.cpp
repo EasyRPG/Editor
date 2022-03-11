@@ -24,16 +24,34 @@
 namespace Binding::Generated {
 	TroopPageCondition::TroopPageCondition(ProjectData& project, lcf::rpg::TroopPageCondition& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 	}
-	int32_t TroopPageCondition::switch_a_id() {
+	int TroopPageCondition::switch_a_id() {
 		return m_data.switch_a_id;
 	}
-
-	int32_t TroopPageCondition::switch_b_id() {
-		return m_data.switch_b_id;
+	void TroopPageCondition::set_switch_a_id(const int& new_switch_a_id) {
+		if (m_data.switch_a_id == new_switch_a_id)
+			return;
+		m_data.switch_a_id = new_switch_a_id;
+		emit switch_a_id_changed();
 	}
 
-	int32_t TroopPageCondition::variable_id() {
+	int TroopPageCondition::switch_b_id() {
+		return m_data.switch_b_id;
+	}
+	void TroopPageCondition::set_switch_b_id(const int& new_switch_b_id) {
+		if (m_data.switch_b_id == new_switch_b_id)
+			return;
+		m_data.switch_b_id = new_switch_b_id;
+		emit switch_b_id_changed();
+	}
+
+	int TroopPageCondition::variable_id() {
 		return m_data.variable_id;
+	}
+	void TroopPageCondition::set_variable_id(const int& new_variable_id) {
+		if (m_data.variable_id == new_variable_id)
+			return;
+		m_data.variable_id = new_variable_id;
+		emit variable_id_changed();
 	}
 
 	int TroopPageCondition::variable_value() {
@@ -116,8 +134,14 @@ namespace Binding::Generated {
 		emit enemy_hp_max_changed();
 	}
 
-	int32_t TroopPageCondition::actor_id() {
+	int TroopPageCondition::actor_id() {
 		return m_data.actor_id;
+	}
+	void TroopPageCondition::set_actor_id(const int& new_actor_id) {
+		if (m_data.actor_id == new_actor_id)
+			return;
+		m_data.actor_id = new_actor_id;
+		emit actor_id_changed();
 	}
 
 	int TroopPageCondition::actor_hp_min() {
@@ -170,8 +194,14 @@ namespace Binding::Generated {
 		emit turn_enemy_b_changed();
 	}
 
-	int32_t TroopPageCondition::turn_actor_id() {
+	int TroopPageCondition::turn_actor_id() {
 		return m_data.turn_actor_id;
+	}
+	void TroopPageCondition::set_turn_actor_id(const int& new_turn_actor_id) {
+		if (m_data.turn_actor_id == new_turn_actor_id)
+			return;
+		m_data.turn_actor_id = new_turn_actor_id;
+		emit turn_actor_id_changed();
 	}
 
 	int TroopPageCondition::turn_actor_a() {
@@ -194,12 +224,24 @@ namespace Binding::Generated {
 		emit turn_actor_b_changed();
 	}
 
-	int32_t TroopPageCondition::command_actor_id() {
+	int TroopPageCondition::command_actor_id() {
 		return m_data.command_actor_id;
 	}
+	void TroopPageCondition::set_command_actor_id(const int& new_command_actor_id) {
+		if (m_data.command_actor_id == new_command_actor_id)
+			return;
+		m_data.command_actor_id = new_command_actor_id;
+		emit command_actor_id_changed();
+	}
 
-	int32_t TroopPageCondition::command_id() {
+	int TroopPageCondition::command_id() {
 		return m_data.command_id;
+	}
+	void TroopPageCondition::set_command_id(const int& new_command_id) {
+		if (m_data.command_id == new_command_id)
+			return;
+		m_data.command_id = new_command_id;
+		emit command_id_changed();
 	}
 
 } // namespace Binding::Generated

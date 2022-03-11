@@ -47,7 +47,7 @@ class SavePicture : public Binding::BindingBase {
 	Q_PROPERTY(double current_green READ current_green WRITE set_current_green NOTIFY current_green_changed)
 	Q_PROPERTY(double current_blue READ current_blue WRITE set_current_blue NOTIFY current_blue_changed)
 	Q_PROPERTY(double current_sat READ current_sat WRITE set_current_sat NOTIFY current_sat_changed)
-	Q_PROPERTY(int32_t effect_mode READ effect_mode CONSTANT)
+	Q_PROPERTY(int effect_mode READ effect_mode WRITE set_effect_mode NOTIFY effect_mode_changed)
 	Q_PROPERTY(double current_effect_power READ current_effect_power WRITE set_current_effect_power NOTIFY current_effect_power_changed)
 	Q_PROPERTY(double current_bot_trans READ current_bot_trans WRITE set_current_bot_trans NOTIFY current_bot_trans_changed)
 	Q_PROPERTY(int spritesheet_cols READ spritesheet_cols WRITE set_spritesheet_cols NOTIFY spritesheet_cols_changed)
@@ -56,8 +56,8 @@ class SavePicture : public Binding::BindingBase {
 	Q_PROPERTY(int spritesheet_speed READ spritesheet_speed WRITE set_spritesheet_speed NOTIFY spritesheet_speed_changed)
 	Q_PROPERTY(int frames READ frames WRITE set_frames NOTIFY frames_changed)
 	Q_PROPERTY(bool spritesheet_play_once READ spritesheet_play_once WRITE set_spritesheet_play_once NOTIFY spritesheet_play_once_changed)
-	Q_PROPERTY(int32_t map_layer READ map_layer CONSTANT)
-	Q_PROPERTY(int32_t battle_layer READ battle_layer CONSTANT)
+	Q_PROPERTY(int map_layer READ map_layer WRITE set_map_layer NOTIFY map_layer_changed)
+	Q_PROPERTY(int battle_layer READ battle_layer WRITE set_battle_layer NOTIFY battle_layer_changed)
 	Q_PROPERTY(double finish_x READ finish_x WRITE set_finish_x NOTIFY finish_x_changed)
 	Q_PROPERTY(double finish_y READ finish_y WRITE set_finish_y NOTIFY finish_y_changed)
 	Q_PROPERTY(int finish_magnify READ finish_magnify WRITE set_finish_magnify NOTIFY finish_magnify_changed)
@@ -71,7 +71,7 @@ class SavePicture : public Binding::BindingBase {
 	Q_PROPERTY(int time_left READ time_left WRITE set_time_left NOTIFY time_left_changed)
 	Q_PROPERTY(double current_rotation READ current_rotation WRITE set_current_rotation NOTIFY current_rotation_changed)
 	Q_PROPERTY(int current_waver READ current_waver WRITE set_current_waver NOTIFY current_waver_changed)
-	Q_PROPERTY(int32_t easyrpg_flip READ easyrpg_flip CONSTANT)
+	Q_PROPERTY(int easyrpg_flip READ easyrpg_flip WRITE set_easyrpg_flip NOTIFY easyrpg_flip_changed)
 	Q_PROPERTY(int easyrpg_blend_mode READ easyrpg_blend_mode WRITE set_easyrpg_blend_mode NOTIFY easyrpg_blend_mode_changed)
 
 public:
@@ -105,7 +105,8 @@ public:
 	void set_current_blue(const double& new_current_blue);
 	double current_sat();
 	void set_current_sat(const double& new_current_sat);
-	int32_t effect_mode();
+	int effect_mode();
+	void set_effect_mode(const int& new_effect_mode);
 	double current_effect_power();
 	void set_current_effect_power(const double& new_current_effect_power);
 	double current_bot_trans();
@@ -122,8 +123,10 @@ public:
 	void set_frames(const int& new_frames);
 	bool spritesheet_play_once();
 	void set_spritesheet_play_once(const bool& new_spritesheet_play_once);
-	int32_t map_layer();
-	int32_t battle_layer();
+	int map_layer();
+	void set_map_layer(const int& new_map_layer);
+	int battle_layer();
+	void set_battle_layer(const int& new_battle_layer);
 	double finish_x();
 	void set_finish_x(const double& new_finish_x);
 	double finish_y();
@@ -150,7 +153,8 @@ public:
 	void set_current_rotation(const double& new_current_rotation);
 	int current_waver();
 	void set_current_waver(const int& new_current_waver);
-	int32_t easyrpg_flip();
+	int easyrpg_flip();
+	void set_easyrpg_flip(const int& new_easyrpg_flip);
 	int easyrpg_blend_mode();
 	void set_easyrpg_blend_mode(const int& new_easyrpg_blend_mode);
 
@@ -168,6 +172,7 @@ signals:
 	void current_green_changed();
 	void current_blue_changed();
 	void current_sat_changed();
+	void effect_mode_changed();
 	void current_effect_power_changed();
 	void current_bot_trans_changed();
 	void spritesheet_cols_changed();
@@ -176,6 +181,8 @@ signals:
 	void spritesheet_speed_changed();
 	void frames_changed();
 	void spritesheet_play_once_changed();
+	void map_layer_changed();
+	void battle_layer_changed();
 	void finish_x_changed();
 	void finish_y_changed();
 	void finish_magnify_changed();
@@ -189,6 +196,7 @@ signals:
 	void time_left_changed();
 	void current_rotation_changed();
 	void current_waver_changed();
+	void easyrpg_flip_changed();
 	void easyrpg_blend_mode_changed();
 
 protected:

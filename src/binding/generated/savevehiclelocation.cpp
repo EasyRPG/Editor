@@ -24,8 +24,14 @@
 namespace Binding::Generated {
 	SaveVehicleLocation::SaveVehicleLocation(ProjectData& project, lcf::rpg::SaveVehicleLocation& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 	}
-	int32_t SaveVehicleLocation::vehicle() {
+	int SaveVehicleLocation::vehicle() {
 		return m_data.vehicle;
+	}
+	void SaveVehicleLocation::set_vehicle(const int& new_vehicle) {
+		if (m_data.vehicle == new_vehicle)
+			return;
+		m_data.vehicle = new_vehicle;
+		emit vehicle_changed();
 	}
 
 	int SaveVehicleLocation::remaining_ascent() {

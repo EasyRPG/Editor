@@ -35,11 +35,11 @@ namespace Binding::Generated {
 		return m_maps;
 	}
 
-	QVector<int32_t> TreeMap::tree_order() {
-		return QVector<int32_t>(m_data.tree_order.begin(), m_data.tree_order.end());
+	QVector<int> TreeMap::tree_order() {
+		return QVector<int>(m_data.tree_order.begin(), m_data.tree_order.end());
 	}
-	void TreeMap::set_tree_order(const QVector<int32_t>& new_tree_order) {
-		if (QVector<int32_t>(m_data.tree_order.begin(), m_data.tree_order.end()) == new_tree_order)
+	void TreeMap::set_tree_order(const QVector<int>& new_tree_order) {
+		if (QVector<int>(m_data.tree_order.begin(), m_data.tree_order.end()) == new_tree_order)
 			return;
 		m_data.tree_order = decltype(m_data.tree_order)(new_tree_order.begin(), new_tree_order.end());
 		emit tree_order_changed();

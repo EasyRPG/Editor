@@ -33,7 +33,7 @@ class ProjectData;
 namespace Binding::Generated {
 class EventCommand : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(int32_t code READ code CONSTANT)
+	Q_PROPERTY(int code READ code WRITE set_code NOTIFY code_changed)
 	Q_PROPERTY(int indent READ indent WRITE set_indent NOTIFY indent_changed)
 	Q_PROPERTY(QString string READ string WRITE set_string NOTIFY string_changed)
 	Q_PROPERTY(QVector<int> parameters READ parameters WRITE set_parameters NOTIFY parameters_changed)
@@ -42,7 +42,8 @@ public:
 	EventCommand(ProjectData& project, lcf::rpg::EventCommand& data, QObject* parent = nullptr);
 
 	lcf::rpg::EventCommand& data();
-	int32_t code();
+	int code();
+	void set_code(const int& new_code);
 	int indent();
 	void set_indent(const int& new_indent);
 	QString string();
@@ -51,6 +52,7 @@ public:
 	void set_parameters(const QVector<int>& new_parameters);
 
 signals:
+	void code_changed();
 	void indent_changed();
 	void string_changed();
 	void parameters_changed();

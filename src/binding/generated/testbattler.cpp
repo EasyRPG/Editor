@@ -27,8 +27,14 @@ namespace Binding::Generated {
 	int TestBattler::id() {
 		return m_data.ID;
 	}
-	int32_t TestBattler::actor_id() {
+	int TestBattler::actor_id() {
 		return m_data.actor_id;
+	}
+	void TestBattler::set_actor_id(const int& new_actor_id) {
+		if (m_data.actor_id == new_actor_id)
+			return;
+		m_data.actor_id = new_actor_id;
+		emit actor_id_changed();
 	}
 
 	int TestBattler::level() {
@@ -41,24 +47,54 @@ namespace Binding::Generated {
 		emit level_changed();
 	}
 
-	int32_t TestBattler::weapon_id() {
+	int TestBattler::weapon_id() {
 		return m_data.weapon_id;
 	}
+	void TestBattler::set_weapon_id(const int& new_weapon_id) {
+		if (m_data.weapon_id == new_weapon_id)
+			return;
+		m_data.weapon_id = new_weapon_id;
+		emit weapon_id_changed();
+	}
 
-	int32_t TestBattler::shield_id() {
+	int TestBattler::shield_id() {
 		return m_data.shield_id;
 	}
+	void TestBattler::set_shield_id(const int& new_shield_id) {
+		if (m_data.shield_id == new_shield_id)
+			return;
+		m_data.shield_id = new_shield_id;
+		emit shield_id_changed();
+	}
 
-	int32_t TestBattler::armor_id() {
+	int TestBattler::armor_id() {
 		return m_data.armor_id;
 	}
-
-	int32_t TestBattler::helmet_id() {
-		return m_data.helmet_id;
+	void TestBattler::set_armor_id(const int& new_armor_id) {
+		if (m_data.armor_id == new_armor_id)
+			return;
+		m_data.armor_id = new_armor_id;
+		emit armor_id_changed();
 	}
 
-	int32_t TestBattler::accessory_id() {
+	int TestBattler::helmet_id() {
+		return m_data.helmet_id;
+	}
+	void TestBattler::set_helmet_id(const int& new_helmet_id) {
+		if (m_data.helmet_id == new_helmet_id)
+			return;
+		m_data.helmet_id = new_helmet_id;
+		emit helmet_id_changed();
+	}
+
+	int TestBattler::accessory_id() {
 		return m_data.accessory_id;
+	}
+	void TestBattler::set_accessory_id(const int& new_accessory_id) {
+		if (m_data.accessory_id == new_accessory_id)
+			return;
+		m_data.accessory_id = new_accessory_id;
+		emit accessory_id_changed();
 	}
 
 } // namespace Binding::Generated

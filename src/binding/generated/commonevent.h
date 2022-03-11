@@ -36,9 +36,9 @@ class CommonEvent : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
-	Q_PROPERTY(int32_t trigger READ trigger CONSTANT)
+	Q_PROPERTY(int trigger READ trigger WRITE set_trigger NOTIFY trigger_changed)
 	Q_PROPERTY(bool switch_flag READ switch_flag WRITE set_switch_flag NOTIFY switch_flag_changed)
-	Q_PROPERTY(int32_t switch_id READ switch_id CONSTANT)
+	Q_PROPERTY(int switch_id READ switch_id WRITE set_switch_id NOTIFY switch_id_changed)
 	Q_PROPERTY(ArrayAdapter* event_commands READ event_commands CONSTANT)
 
 public:
@@ -48,15 +48,19 @@ public:
 	int id();
 	QString name();
 	void set_name(const QString& new_name);
-	int32_t trigger();
+	int trigger();
+	void set_trigger(const int& new_trigger);
 	bool switch_flag();
 	void set_switch_flag(const bool& new_switch_flag);
-	int32_t switch_id();
+	int switch_id();
+	void set_switch_id(const int& new_switch_id);
 	ArrayAdapter* event_commands();
 
 signals:
 	void name_changed();
+	void trigger_changed();
 	void switch_flag_changed();
+	void switch_id_changed();
 
 protected:
 	lcf::rpg::CommonEvent& m_data;

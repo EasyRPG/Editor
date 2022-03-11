@@ -38,7 +38,7 @@ class SaveTarget : public Binding::BindingBase {
 	Q_PROPERTY(int map_x READ map_x WRITE set_map_x NOTIFY map_x_changed)
 	Q_PROPERTY(int map_y READ map_y WRITE set_map_y NOTIFY map_y_changed)
 	Q_PROPERTY(bool switch_on READ switch_on WRITE set_switch_on NOTIFY switch_on_changed)
-	Q_PROPERTY(int32_t switch_id READ switch_id CONSTANT)
+	Q_PROPERTY(int switch_id READ switch_id WRITE set_switch_id NOTIFY switch_id_changed)
 
 public:
 	SaveTarget(ProjectData& project, lcf::rpg::SaveTarget& data, QObject* parent = nullptr);
@@ -53,13 +53,15 @@ public:
 	void set_map_y(const int& new_map_y);
 	bool switch_on();
 	void set_switch_on(const bool& new_switch_on);
-	int32_t switch_id();
+	int switch_id();
+	void set_switch_id(const int& new_switch_id);
 
 signals:
 	void map_id_changed();
 	void map_x_changed();
 	void map_y_changed();
 	void switch_on_changed();
+	void switch_id_changed();
 
 protected:
 	lcf::rpg::SaveTarget& m_data;

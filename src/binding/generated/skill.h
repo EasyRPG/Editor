@@ -41,13 +41,13 @@ class Skill : public Binding::BindingBase {
 	Q_PROPERTY(QString using_message1 READ using_message1 WRITE set_using_message1 NOTIFY using_message1_changed)
 	Q_PROPERTY(QString using_message2 READ using_message2 WRITE set_using_message2 NOTIFY using_message2_changed)
 	Q_PROPERTY(int failure_message READ failure_message WRITE set_failure_message NOTIFY failure_message_changed)
-	Q_PROPERTY(int32_t type READ type CONSTANT)
-	Q_PROPERTY(int32_t sp_type READ sp_type CONSTANT)
+	Q_PROPERTY(int type READ type WRITE set_type NOTIFY type_changed)
+	Q_PROPERTY(int sp_type READ sp_type WRITE set_sp_type NOTIFY sp_type_changed)
 	Q_PROPERTY(int sp_percent READ sp_percent WRITE set_sp_percent NOTIFY sp_percent_changed)
 	Q_PROPERTY(int sp_cost READ sp_cost WRITE set_sp_cost NOTIFY sp_cost_changed)
-	Q_PROPERTY(int32_t scope READ scope CONSTANT)
-	Q_PROPERTY(int32_t switch_id READ switch_id CONSTANT)
-	Q_PROPERTY(int32_t animation_id READ animation_id CONSTANT)
+	Q_PROPERTY(int scope READ scope WRITE set_scope NOTIFY scope_changed)
+	Q_PROPERTY(int switch_id READ switch_id WRITE set_switch_id NOTIFY switch_id_changed)
+	Q_PROPERTY(int animation_id READ animation_id WRITE set_animation_id NOTIFY animation_id_changed)
 	Q_PROPERTY(Binding::Sound* sound_effect READ sound_effect CONSTANT)
 	Q_PROPERTY(bool occasion_field READ occasion_field WRITE set_occasion_field NOTIFY occasion_field_changed)
 	Q_PROPERTY(bool occasion_battle READ occasion_battle WRITE set_occasion_battle NOTIFY occasion_battle_changed)
@@ -68,7 +68,7 @@ class Skill : public Binding::BindingBase {
 	Q_PROPERTY(QVector<bool> state_effects READ state_effects WRITE set_state_effects NOTIFY state_effects_changed)
 	Q_PROPERTY(QVector<bool> attribute_effects READ attribute_effects WRITE set_attribute_effects NOTIFY attribute_effects_changed)
 	Q_PROPERTY(bool affect_attr_defence READ affect_attr_defence WRITE set_affect_attr_defence NOTIFY affect_attr_defence_changed)
-	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
+	Q_PROPERTY(int battler_animation READ battler_animation WRITE set_battler_animation NOTIFY battler_animation_changed)
 	Q_PROPERTY(ArrayAdapter* battler_animation_data READ battler_animation_data CONSTANT)
 	Q_PROPERTY(QString easyrpg_battle2k3_message READ easyrpg_battle2k3_message WRITE set_easyrpg_battle2k3_message NOTIFY easyrpg_battle2k3_message_changed)
 	Q_PROPERTY(bool easyrpg_ignore_reflect READ easyrpg_ignore_reflect WRITE set_easyrpg_ignore_reflect NOTIFY easyrpg_ignore_reflect_changed)
@@ -80,7 +80,7 @@ class Skill : public Binding::BindingBase {
 	Q_PROPERTY(bool easyrpg_affected_by_evade_all_physical_attacks READ easyrpg_affected_by_evade_all_physical_attacks WRITE set_easyrpg_affected_by_evade_all_physical_attacks NOTIFY easyrpg_affected_by_evade_all_physical_attacks_changed)
 	Q_PROPERTY(int easyrpg_critical_hit_chance READ easyrpg_critical_hit_chance WRITE set_easyrpg_critical_hit_chance NOTIFY easyrpg_critical_hit_chance_changed)
 	Q_PROPERTY(bool easyrpg_affected_by_row_modifiers READ easyrpg_affected_by_row_modifiers WRITE set_easyrpg_affected_by_row_modifiers NOTIFY easyrpg_affected_by_row_modifiers_changed)
-	Q_PROPERTY(int32_t easyrpg_hp_type READ easyrpg_hp_type CONSTANT)
+	Q_PROPERTY(int easyrpg_hp_type READ easyrpg_hp_type WRITE set_easyrpg_hp_type NOTIFY easyrpg_hp_type_changed)
 	Q_PROPERTY(int easyrpg_hp_percent READ easyrpg_hp_percent WRITE set_easyrpg_hp_percent NOTIFY easyrpg_hp_percent_changed)
 	Q_PROPERTY(int easyrpg_hp_cost READ easyrpg_hp_cost WRITE set_easyrpg_hp_cost NOTIFY easyrpg_hp_cost_changed)
 
@@ -99,15 +99,20 @@ public:
 	void set_using_message2(const QString& new_using_message2);
 	int failure_message();
 	void set_failure_message(const int& new_failure_message);
-	int32_t type();
-	int32_t sp_type();
+	int type();
+	void set_type(const int& new_type);
+	int sp_type();
+	void set_sp_type(const int& new_sp_type);
 	int sp_percent();
 	void set_sp_percent(const int& new_sp_percent);
 	int sp_cost();
 	void set_sp_cost(const int& new_sp_cost);
-	int32_t scope();
-	int32_t switch_id();
-	int32_t animation_id();
+	int scope();
+	void set_scope(const int& new_scope);
+	int switch_id();
+	void set_switch_id(const int& new_switch_id);
+	int animation_id();
+	void set_animation_id(const int& new_animation_id);
 	Binding::Sound* sound_effect();
 	bool occasion_field();
 	void set_occasion_field(const bool& new_occasion_field);
@@ -147,7 +152,8 @@ public:
 	void set_attribute_effects(const QVector<bool>& new_attribute_effects);
 	bool affect_attr_defence();
 	void set_affect_attr_defence(const bool& new_affect_attr_defence);
-	int32_t battler_animation();
+	int battler_animation();
+	void set_battler_animation(const int& new_battler_animation);
 	ArrayAdapter* battler_animation_data();
 	QString easyrpg_battle2k3_message();
 	void set_easyrpg_battle2k3_message(const QString& new_easyrpg_battle2k3_message);
@@ -169,7 +175,8 @@ public:
 	void set_easyrpg_critical_hit_chance(const int& new_easyrpg_critical_hit_chance);
 	bool easyrpg_affected_by_row_modifiers();
 	void set_easyrpg_affected_by_row_modifiers(const bool& new_easyrpg_affected_by_row_modifiers);
-	int32_t easyrpg_hp_type();
+	int easyrpg_hp_type();
+	void set_easyrpg_hp_type(const int& new_easyrpg_hp_type);
 	int easyrpg_hp_percent();
 	void set_easyrpg_hp_percent(const int& new_easyrpg_hp_percent);
 	int easyrpg_hp_cost();
@@ -181,8 +188,13 @@ signals:
 	void using_message1_changed();
 	void using_message2_changed();
 	void failure_message_changed();
+	void type_changed();
+	void sp_type_changed();
 	void sp_percent_changed();
 	void sp_cost_changed();
+	void scope_changed();
+	void switch_id_changed();
+	void animation_id_changed();
 	void occasion_field_changed();
 	void occasion_battle_changed();
 	void reverse_state_effect_changed();
@@ -202,6 +214,7 @@ signals:
 	void state_effects_changed();
 	void attribute_effects_changed();
 	void affect_attr_defence_changed();
+	void battler_animation_changed();
 	void easyrpg_battle2k3_message_changed();
 	void easyrpg_ignore_reflect_changed();
 	void easyrpg_state_hit_changed();
@@ -212,6 +225,7 @@ signals:
 	void easyrpg_affected_by_evade_all_physical_attacks_changed();
 	void easyrpg_critical_hit_chance_changed();
 	void easyrpg_affected_by_row_modifiers_changed();
+	void easyrpg_hp_type_changed();
 	void easyrpg_hp_percent_changed();
 	void easyrpg_hp_cost_changed();
 

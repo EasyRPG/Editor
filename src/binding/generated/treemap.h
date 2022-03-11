@@ -36,7 +36,7 @@ namespace Binding::Generated {
 class TreeMap : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(ArrayAdapter* maps READ maps CONSTANT)
-	Q_PROPERTY(QVector<int32_t> tree_order READ tree_order WRITE set_tree_order NOTIFY tree_order_changed)
+	Q_PROPERTY(QVector<int> tree_order READ tree_order WRITE set_tree_order NOTIFY tree_order_changed)
 	Q_PROPERTY(int active_node READ active_node WRITE set_active_node NOTIFY active_node_changed)
 	Q_PROPERTY(Binding::Start* start READ start CONSTANT)
 
@@ -45,8 +45,8 @@ public:
 
 	lcf::rpg::TreeMap& data();
 	ArrayAdapter* maps();
-	QVector<int32_t> tree_order();
-	void set_tree_order(const QVector<int32_t>& new_tree_order);
+	QVector<int> tree_order();
+	void set_tree_order(const QVector<int>& new_tree_order);
 	int active_node();
 	void set_active_node(const int& new_active_node);
 	Binding::Start* start();

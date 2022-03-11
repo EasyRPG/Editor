@@ -33,7 +33,7 @@ class ProjectData;
 namespace Binding::Generated {
 class MoveCommand : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(int32_t command_id READ command_id CONSTANT)
+	Q_PROPERTY(int command_id READ command_id WRITE set_command_id NOTIFY command_id_changed)
 	Q_PROPERTY(QString parameter_string READ parameter_string WRITE set_parameter_string NOTIFY parameter_string_changed)
 	Q_PROPERTY(int parameter_a READ parameter_a WRITE set_parameter_a NOTIFY parameter_a_changed)
 	Q_PROPERTY(int parameter_b READ parameter_b WRITE set_parameter_b NOTIFY parameter_b_changed)
@@ -43,7 +43,8 @@ public:
 	MoveCommand(ProjectData& project, lcf::rpg::MoveCommand& data, QObject* parent = nullptr);
 
 	lcf::rpg::MoveCommand& data();
-	int32_t command_id();
+	int command_id();
+	void set_command_id(const int& new_command_id);
 	QString parameter_string();
 	void set_parameter_string(const QString& new_parameter_string);
 	int parameter_a();
@@ -54,6 +55,7 @@ public:
 	void set_parameter_c(const int& new_parameter_c);
 
 signals:
+	void command_id_changed();
 	void parameter_string_changed();
 	void parameter_a_changed();
 	void parameter_b_changed();

@@ -35,7 +35,7 @@ class BattleCommand : public Binding::BindingBase {
 	Q_OBJECT
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
-	Q_PROPERTY(int32_t type READ type CONSTANT)
+	Q_PROPERTY(int type READ type WRITE set_type NOTIFY type_changed)
 
 public:
 	BattleCommand(ProjectData& project, lcf::rpg::BattleCommand& data, QObject* parent = nullptr);
@@ -44,10 +44,12 @@ public:
 	int id();
 	QString name();
 	void set_name(const QString& new_name);
-	int32_t type();
+	int type();
+	void set_type(const int& new_type);
 
 signals:
 	void name_changed();
+	void type_changed();
 
 protected:
 	lcf::rpg::BattleCommand& m_data;

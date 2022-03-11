@@ -77,8 +77,14 @@ namespace Binding::Generated {
 		emit passable_data_upper_changed();
 	}
 
-	int32_t Chipset::animation_type() {
+	int Chipset::animation_type() {
 		return m_data.animation_type;
+	}
+	void Chipset::set_animation_type(const int& new_animation_type) {
+		if (m_data.animation_type == new_animation_type)
+			return;
+		m_data.animation_type = new_animation_type;
+		emit animation_type_changed();
 	}
 
 	int Chipset::animation_speed() {

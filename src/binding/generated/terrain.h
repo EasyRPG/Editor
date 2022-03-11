@@ -43,10 +43,10 @@ class Terrain : public Binding::BindingBase {
 	Q_PROPERTY(bool ship_pass READ ship_pass WRITE set_ship_pass NOTIFY ship_pass_changed)
 	Q_PROPERTY(bool airship_pass READ airship_pass WRITE set_airship_pass NOTIFY airship_pass_changed)
 	Q_PROPERTY(bool airship_land READ airship_land WRITE set_airship_land NOTIFY airship_land_changed)
-	Q_PROPERTY(int32_t bush_depth READ bush_depth CONSTANT)
+	Q_PROPERTY(int bush_depth READ bush_depth WRITE set_bush_depth NOTIFY bush_depth_changed)
 	Q_PROPERTY(Binding::Sound* footstep READ footstep CONSTANT)
 	Q_PROPERTY(bool on_damage_se READ on_damage_se WRITE set_on_damage_se NOTIFY on_damage_se_changed)
-	Q_PROPERTY(int32_t background_type READ background_type CONSTANT)
+	Q_PROPERTY(int background_type READ background_type WRITE set_background_type NOTIFY background_type_changed)
 	Q_PROPERTY(QString background_a_name READ background_a_name WRITE set_background_a_name NOTIFY background_a_name_changed)
 	Q_PROPERTY(bool background_a_scrollh READ background_a_scrollh WRITE set_background_a_scrollh NOTIFY background_a_scrollh_changed)
 	Q_PROPERTY(bool background_a_scrollv READ background_a_scrollv WRITE set_background_a_scrollv NOTIFY background_a_scrollv_changed)
@@ -90,11 +90,13 @@ public:
 	void set_airship_pass(const bool& new_airship_pass);
 	bool airship_land();
 	void set_airship_land(const bool& new_airship_land);
-	int32_t bush_depth();
+	int bush_depth();
+	void set_bush_depth(const int& new_bush_depth);
 	Binding::Sound* footstep();
 	bool on_damage_se();
 	void set_on_damage_se(const bool& new_on_damage_se);
-	int32_t background_type();
+	int background_type();
+	void set_background_type(const int& new_background_type);
 	QString background_a_name();
 	void set_background_a_name(const QString& new_background_a_name);
 	bool background_a_scrollh();
@@ -147,7 +149,9 @@ signals:
 	void ship_pass_changed();
 	void airship_pass_changed();
 	void airship_land_changed();
+	void bush_depth_changed();
 	void on_damage_se_changed();
+	void background_type_changed();
 	void background_a_name_changed();
 	void background_a_scrollh_changed();
 	void background_a_scrollv_changed();

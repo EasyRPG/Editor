@@ -40,16 +40,16 @@ class EventPage : public Binding::BindingBase {
 	Q_PROPERTY(Binding::EventPageCondition* condition READ condition CONSTANT)
 	Q_PROPERTY(QString character_name READ character_name WRITE set_character_name NOTIFY character_name_changed)
 	Q_PROPERTY(int character_index READ character_index WRITE set_character_index NOTIFY character_index_changed)
-	Q_PROPERTY(int32_t character_direction READ character_direction CONSTANT)
-	Q_PROPERTY(int32_t character_pattern READ character_pattern CONSTANT)
+	Q_PROPERTY(int character_direction READ character_direction WRITE set_character_direction NOTIFY character_direction_changed)
+	Q_PROPERTY(int character_pattern READ character_pattern WRITE set_character_pattern NOTIFY character_pattern_changed)
 	Q_PROPERTY(bool translucent READ translucent WRITE set_translucent NOTIFY translucent_changed)
-	Q_PROPERTY(int32_t move_type READ move_type CONSTANT)
+	Q_PROPERTY(int move_type READ move_type WRITE set_move_type NOTIFY move_type_changed)
 	Q_PROPERTY(int move_frequency READ move_frequency WRITE set_move_frequency NOTIFY move_frequency_changed)
-	Q_PROPERTY(int32_t trigger READ trigger CONSTANT)
-	Q_PROPERTY(int32_t layer READ layer CONSTANT)
+	Q_PROPERTY(int trigger READ trigger WRITE set_trigger NOTIFY trigger_changed)
+	Q_PROPERTY(int layer READ layer WRITE set_layer NOTIFY layer_changed)
 	Q_PROPERTY(bool overlap_forbidden READ overlap_forbidden WRITE set_overlap_forbidden NOTIFY overlap_forbidden_changed)
-	Q_PROPERTY(int32_t animation_type READ animation_type CONSTANT)
-	Q_PROPERTY(int32_t move_speed READ move_speed CONSTANT)
+	Q_PROPERTY(int animation_type READ animation_type WRITE set_animation_type NOTIFY animation_type_changed)
+	Q_PROPERTY(int move_speed READ move_speed WRITE set_move_speed NOTIFY move_speed_changed)
 	Q_PROPERTY(Binding::MoveRoute* move_route READ move_route CONSTANT)
 	Q_PROPERTY(ArrayAdapter* event_commands READ event_commands CONSTANT)
 
@@ -63,28 +63,42 @@ public:
 	void set_character_name(const QString& new_character_name);
 	int character_index();
 	void set_character_index(const int& new_character_index);
-	int32_t character_direction();
-	int32_t character_pattern();
+	int character_direction();
+	void set_character_direction(const int& new_character_direction);
+	int character_pattern();
+	void set_character_pattern(const int& new_character_pattern);
 	bool translucent();
 	void set_translucent(const bool& new_translucent);
-	int32_t move_type();
+	int move_type();
+	void set_move_type(const int& new_move_type);
 	int move_frequency();
 	void set_move_frequency(const int& new_move_frequency);
-	int32_t trigger();
-	int32_t layer();
+	int trigger();
+	void set_trigger(const int& new_trigger);
+	int layer();
+	void set_layer(const int& new_layer);
 	bool overlap_forbidden();
 	void set_overlap_forbidden(const bool& new_overlap_forbidden);
-	int32_t animation_type();
-	int32_t move_speed();
+	int animation_type();
+	void set_animation_type(const int& new_animation_type);
+	int move_speed();
+	void set_move_speed(const int& new_move_speed);
 	Binding::MoveRoute* move_route();
 	ArrayAdapter* event_commands();
 
 signals:
 	void character_name_changed();
 	void character_index_changed();
+	void character_direction_changed();
+	void character_pattern_changed();
 	void translucent_changed();
+	void move_type_changed();
 	void move_frequency_changed();
+	void trigger_changed();
+	void layer_changed();
 	void overlap_forbidden_changed();
+	void animation_type_changed();
+	void move_speed_changed();
 
 protected:
 	lcf::rpg::EventPage& m_data;

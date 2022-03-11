@@ -37,8 +37,8 @@ class BattlerAnimationPose : public Binding::BindingBase {
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
 	Q_PROPERTY(QString battler_name READ battler_name WRITE set_battler_name NOTIFY battler_name_changed)
 	Q_PROPERTY(int battler_index READ battler_index WRITE set_battler_index NOTIFY battler_index_changed)
-	Q_PROPERTY(int32_t animation_type READ animation_type CONSTANT)
-	Q_PROPERTY(int32_t battle_animation_id READ battle_animation_id CONSTANT)
+	Q_PROPERTY(int animation_type READ animation_type WRITE set_animation_type NOTIFY animation_type_changed)
+	Q_PROPERTY(int battle_animation_id READ battle_animation_id WRITE set_battle_animation_id NOTIFY battle_animation_id_changed)
 
 public:
 	BattlerAnimationPose(ProjectData& project, lcf::rpg::BattlerAnimationPose& data, QObject* parent = nullptr);
@@ -51,13 +51,17 @@ public:
 	void set_battler_name(const QString& new_battler_name);
 	int battler_index();
 	void set_battler_index(const int& new_battler_index);
-	int32_t animation_type();
-	int32_t battle_animation_id();
+	int animation_type();
+	void set_animation_type(const int& new_animation_type);
+	int battle_animation_id();
+	void set_battle_animation_id(const int& new_battle_animation_id);
 
 signals:
 	void name_changed();
 	void battler_name_changed();
 	void battler_index_changed();
+	void animation_type_changed();
+	void battle_animation_id_changed();
 
 protected:
 	lcf::rpg::BattlerAnimationPose& m_data;

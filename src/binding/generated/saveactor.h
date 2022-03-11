@@ -56,13 +56,13 @@ class SaveActor : public Binding::BindingBase {
 	Q_PROPERTY(QVector<int> battle_commands READ battle_commands WRITE set_battle_commands NOTIFY battle_commands_changed)
 	Q_PROPERTY(QVector<int> status READ status WRITE set_status NOTIFY status_changed)
 	Q_PROPERTY(bool changed_battle_commands READ changed_battle_commands WRITE set_changed_battle_commands NOTIFY changed_battle_commands_changed)
-	Q_PROPERTY(int32_t class_id READ class_id CONSTANT)
-	Q_PROPERTY(int32_t row READ row CONSTANT)
+	Q_PROPERTY(int class_id READ class_id WRITE set_class_id NOTIFY class_id_changed)
+	Q_PROPERTY(int row READ row WRITE set_row NOTIFY row_changed)
 	Q_PROPERTY(bool two_weapon READ two_weapon WRITE set_two_weapon NOTIFY two_weapon_changed)
 	Q_PROPERTY(bool lock_equipment READ lock_equipment WRITE set_lock_equipment NOTIFY lock_equipment_changed)
 	Q_PROPERTY(bool auto_battle READ auto_battle WRITE set_auto_battle NOTIFY auto_battle_changed)
 	Q_PROPERTY(bool super_guard READ super_guard WRITE set_super_guard NOTIFY super_guard_changed)
-	Q_PROPERTY(int32_t battler_animation READ battler_animation CONSTANT)
+	Q_PROPERTY(int battler_animation READ battler_animation WRITE set_battler_animation NOTIFY battler_animation_changed)
 
 public:
 	SaveActor(ProjectData& project, lcf::rpg::SaveActor& data, QObject* parent = nullptr);
@@ -113,8 +113,10 @@ public:
 	void set_status(const QVector<int>& new_status);
 	bool changed_battle_commands();
 	void set_changed_battle_commands(const bool& new_changed_battle_commands);
-	int32_t class_id();
-	int32_t row();
+	int class_id();
+	void set_class_id(const int& new_class_id);
+	int row();
+	void set_row(const int& new_row);
 	bool two_weapon();
 	void set_two_weapon(const bool& new_two_weapon);
 	bool lock_equipment();
@@ -123,7 +125,8 @@ public:
 	void set_auto_battle(const bool& new_auto_battle);
 	bool super_guard();
 	void set_super_guard(const bool& new_super_guard);
-	int32_t battler_animation();
+	int battler_animation();
+	void set_battler_animation(const int& new_battler_animation);
 
 signals:
 	void name_changed();
@@ -148,10 +151,13 @@ signals:
 	void battle_commands_changed();
 	void status_changed();
 	void changed_battle_commands_changed();
+	void class_id_changed();
+	void row_changed();
 	void two_weapon_changed();
 	void lock_equipment_changed();
 	void auto_battle_changed();
 	void super_guard_changed();
+	void battler_animation_changed();
 
 protected:
 	lcf::rpg::SaveActor& m_data;

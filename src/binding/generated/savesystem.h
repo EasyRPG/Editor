@@ -57,11 +57,11 @@ class ProjectData;
 namespace Binding::Generated {
 class SaveSystem : public Binding::BindingBase {
 	Q_OBJECT
-	Q_PROPERTY(int32_t scene READ scene CONSTANT)
+	Q_PROPERTY(int scene READ scene WRITE set_scene NOTIFY scene_changed)
 	Q_PROPERTY(int frame_count READ frame_count WRITE set_frame_count NOTIFY frame_count_changed)
 	Q_PROPERTY(QString graphics_name READ graphics_name WRITE set_graphics_name NOTIFY graphics_name_changed)
-	Q_PROPERTY(int32_t message_stretch READ message_stretch CONSTANT)
-	Q_PROPERTY(int32_t font_id READ font_id CONSTANT)
+	Q_PROPERTY(int message_stretch READ message_stretch WRITE set_message_stretch NOTIFY message_stretch_changed)
+	Q_PROPERTY(int font_id READ font_id WRITE set_font_id NOTIFY font_id_changed)
 	Q_PROPERTY(QVector<bool> switches READ switches WRITE set_switches NOTIFY switches_changed)
 	Q_PROPERTY(QVector<int> variables READ variables WRITE set_variables NOTIFY variables_changed)
 	Q_PROPERTY(int message_transparent READ message_transparent WRITE set_message_transparent NOTIFY message_transparent_changed)
@@ -111,7 +111,7 @@ class SaveSystem : public Binding::BindingBase {
 	Q_PROPERTY(QString background READ background WRITE set_background NOTIFY background_changed)
 	Q_PROPERTY(int save_count READ save_count WRITE set_save_count NOTIFY save_count_changed)
 	Q_PROPERTY(int save_slot READ save_slot WRITE set_save_slot NOTIFY save_slot_changed)
-	Q_PROPERTY(int32_t atb_mode READ atb_mode CONSTANT)
+	Q_PROPERTY(int atb_mode READ atb_mode WRITE set_atb_mode NOTIFY atb_mode_changed)
 	Q_PROPERTY(int maniac_frameskip READ maniac_frameskip WRITE set_maniac_frameskip NOTIFY maniac_frameskip_changed)
 	Q_PROPERTY(int maniac_picture_limit READ maniac_picture_limit WRITE set_maniac_picture_limit NOTIFY maniac_picture_limit_changed)
 	Q_PROPERTY(QVector<int> maniac_options READ maniac_options WRITE set_maniac_options NOTIFY maniac_options_changed)
@@ -121,13 +121,16 @@ public:
 	SaveSystem(ProjectData& project, lcf::rpg::SaveSystem& data, QObject* parent = nullptr);
 
 	lcf::rpg::SaveSystem& data();
-	int32_t scene();
+	int scene();
+	void set_scene(const int& new_scene);
 	int frame_count();
 	void set_frame_count(const int& new_frame_count);
 	QString graphics_name();
 	void set_graphics_name(const QString& new_graphics_name);
-	int32_t message_stretch();
-	int32_t font_id();
+	int message_stretch();
+	void set_message_stretch(const int& new_message_stretch);
+	int font_id();
+	void set_font_id(const int& new_font_id);
 	QVector<bool> switches();
 	void set_switches(const QVector<bool>& new_switches);
 	QVector<int> variables();
@@ -202,7 +205,8 @@ public:
 	void set_save_count(const int& new_save_count);
 	int save_slot();
 	void set_save_slot(const int& new_save_slot);
-	int32_t atb_mode();
+	int atb_mode();
+	void set_atb_mode(const int& new_atb_mode);
 	int maniac_frameskip();
 	void set_maniac_frameskip(const int& new_maniac_frameskip);
 	int maniac_picture_limit();
@@ -213,8 +217,11 @@ public:
 	void set_maniac_joypad_bindings(const QVector<int>& new_maniac_joypad_bindings);
 
 signals:
+	void scene_changed();
 	void frame_count_changed();
 	void graphics_name_changed();
+	void message_stretch_changed();
+	void font_id_changed();
 	void switches_changed();
 	void variables_changed();
 	void message_transparent_changed();
@@ -240,6 +247,7 @@ signals:
 	void background_changed();
 	void save_count_changed();
 	void save_slot_changed();
+	void atb_mode_changed();
 	void maniac_frameskip_changed();
 	void maniac_picture_limit_changed();
 	void maniac_options_changed();

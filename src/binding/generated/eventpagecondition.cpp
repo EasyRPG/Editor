@@ -24,16 +24,34 @@
 namespace Binding::Generated {
 	EventPageCondition::EventPageCondition(ProjectData& project, lcf::rpg::EventPageCondition& data, QObject* parent) : Binding::BindingBase(project, parent), m_data(data) {
 	}
-	int32_t EventPageCondition::switch_a_id() {
+	int EventPageCondition::switch_a_id() {
 		return m_data.switch_a_id;
 	}
-
-	int32_t EventPageCondition::switch_b_id() {
-		return m_data.switch_b_id;
+	void EventPageCondition::set_switch_a_id(const int& new_switch_a_id) {
+		if (m_data.switch_a_id == new_switch_a_id)
+			return;
+		m_data.switch_a_id = new_switch_a_id;
+		emit switch_a_id_changed();
 	}
 
-	int32_t EventPageCondition::variable_id() {
+	int EventPageCondition::switch_b_id() {
+		return m_data.switch_b_id;
+	}
+	void EventPageCondition::set_switch_b_id(const int& new_switch_b_id) {
+		if (m_data.switch_b_id == new_switch_b_id)
+			return;
+		m_data.switch_b_id = new_switch_b_id;
+		emit switch_b_id_changed();
+	}
+
+	int EventPageCondition::variable_id() {
 		return m_data.variable_id;
+	}
+	void EventPageCondition::set_variable_id(const int& new_variable_id) {
+		if (m_data.variable_id == new_variable_id)
+			return;
+		m_data.variable_id = new_variable_id;
+		emit variable_id_changed();
 	}
 
 	int EventPageCondition::variable_value() {
@@ -46,12 +64,24 @@ namespace Binding::Generated {
 		emit variable_value_changed();
 	}
 
-	int32_t EventPageCondition::item_id() {
+	int EventPageCondition::item_id() {
 		return m_data.item_id;
 	}
+	void EventPageCondition::set_item_id(const int& new_item_id) {
+		if (m_data.item_id == new_item_id)
+			return;
+		m_data.item_id = new_item_id;
+		emit item_id_changed();
+	}
 
-	int32_t EventPageCondition::actor_id() {
+	int EventPageCondition::actor_id() {
 		return m_data.actor_id;
+	}
+	void EventPageCondition::set_actor_id(const int& new_actor_id) {
+		if (m_data.actor_id == new_actor_id)
+			return;
+		m_data.actor_id = new_actor_id;
+		emit actor_id_changed();
 	}
 
 	int EventPageCondition::timer_sec() {
@@ -74,8 +104,14 @@ namespace Binding::Generated {
 		emit timer2_sec_changed();
 	}
 
-	int32_t EventPageCondition::compare_operator() {
+	int EventPageCondition::compare_operator() {
 		return m_data.compare_operator;
+	}
+	void EventPageCondition::set_compare_operator(const int& new_compare_operator) {
+		if (m_data.compare_operator == new_compare_operator)
+			return;
+		m_data.compare_operator = new_compare_operator;
+		emit compare_operator_changed();
 	}
 
 } // namespace Binding::Generated

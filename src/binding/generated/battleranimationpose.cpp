@@ -57,12 +57,24 @@ namespace Binding::Generated {
 		emit battler_index_changed();
 	}
 
-	int32_t BattlerAnimationPose::animation_type() {
+	int BattlerAnimationPose::animation_type() {
 		return m_data.animation_type;
 	}
+	void BattlerAnimationPose::set_animation_type(const int& new_animation_type) {
+		if (m_data.animation_type == new_animation_type)
+			return;
+		m_data.animation_type = new_animation_type;
+		emit animation_type_changed();
+	}
 
-	int32_t BattlerAnimationPose::battle_animation_id() {
+	int BattlerAnimationPose::battle_animation_id() {
 		return m_data.battle_animation_id;
+	}
+	void BattlerAnimationPose::set_battle_animation_id(const int& new_battle_animation_id) {
+		if (m_data.battle_animation_id == new_battle_animation_id)
+			return;
+		m_data.battle_animation_id = new_battle_animation_id;
+		emit battle_animation_id_changed();
 	}
 
 } // namespace Binding::Generated

@@ -44,8 +44,14 @@ namespace Binding::Generated {
 		emit aboard_changed();
 	}
 
-	int32_t SavePartyLocation::vehicle() {
+	int SavePartyLocation::vehicle() {
 		return m_data.vehicle;
+	}
+	void SavePartyLocation::set_vehicle(const int& new_vehicle) {
+		if (m_data.vehicle == new_vehicle)
+			return;
+		m_data.vehicle = new_vehicle;
+		emit vehicle_changed();
 	}
 
 	bool SavePartyLocation::unboarding() {
@@ -78,8 +84,14 @@ namespace Binding::Generated {
 		emit menu_calling_changed();
 	}
 
-	int32_t SavePartyLocation::pan_state() {
+	int SavePartyLocation::pan_state() {
 		return m_data.pan_state;
+	}
+	void SavePartyLocation::set_pan_state(const int& new_pan_state) {
+		if (m_data.pan_state == new_pan_state)
+			return;
+		m_data.pan_state = new_pan_state;
+		emit pan_state_changed();
 	}
 
 	int SavePartyLocation::pan_current_x() {

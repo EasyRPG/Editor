@@ -66,7 +66,7 @@ class Database : public Binding::BindingBase {
 	Q_PROPERTY(ArrayAdapter* switches READ switches CONSTANT)
 	Q_PROPERTY(ArrayAdapter* variables READ variables CONSTANT)
 	Q_PROPERTY(ArrayAdapter* commonevents READ commonevents CONSTANT)
-	Q_PROPERTY(int32_t version READ version CONSTANT)
+	Q_PROPERTY(int version READ version WRITE set_version NOTIFY version_changed)
 	Q_PROPERTY(Binding::BattleCommands* battlecommands READ battlecommands CONSTANT)
 	Q_PROPERTY(ArrayAdapter* classes READ classes CONSTANT)
 	Q_PROPERTY(ArrayAdapter* battleranimations READ battleranimations CONSTANT)
@@ -90,12 +90,14 @@ public:
 	ArrayAdapter* switches();
 	ArrayAdapter* variables();
 	ArrayAdapter* commonevents();
-	int32_t version();
+	int version();
+	void set_version(const int& new_version);
 	Binding::BattleCommands* battlecommands();
 	ArrayAdapter* classes();
 	ArrayAdapter* battleranimations();
 
 signals:
+	void version_changed();
 
 protected:
 	lcf::rpg::Database& m_data;

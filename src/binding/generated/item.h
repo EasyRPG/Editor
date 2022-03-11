@@ -37,7 +37,7 @@ class Item : public Binding::BindingBase {
 	Q_PROPERTY(int id READ id CONSTANT)
 	Q_PROPERTY(QString name READ name WRITE set_name NOTIFY name_changed)
 	Q_PROPERTY(QString description READ description WRITE set_description NOTIFY description_changed)
-	Q_PROPERTY(int32_t type READ type CONSTANT)
+	Q_PROPERTY(int type READ type WRITE set_type NOTIFY type_changed)
 	Q_PROPERTY(int price READ price WRITE set_price NOTIFY price_changed)
 	Q_PROPERTY(int uses READ uses WRITE set_uses NOTIFY uses_changed)
 	Q_PROPERTY(int atk_points1 READ atk_points1 WRITE set_atk_points1 NOTIFY atk_points1_changed)
@@ -48,7 +48,7 @@ class Item : public Binding::BindingBase {
 	Q_PROPERTY(int sp_cost READ sp_cost WRITE set_sp_cost NOTIFY sp_cost_changed)
 	Q_PROPERTY(int hit READ hit WRITE set_hit NOTIFY hit_changed)
 	Q_PROPERTY(int critical_hit READ critical_hit WRITE set_critical_hit NOTIFY critical_hit_changed)
-	Q_PROPERTY(int32_t animation_id READ animation_id CONSTANT)
+	Q_PROPERTY(int animation_id READ animation_id WRITE set_animation_id NOTIFY animation_id_changed)
 	Q_PROPERTY(bool preemptive READ preemptive WRITE set_preemptive NOTIFY preemptive_changed)
 	Q_PROPERTY(bool dual_attack READ dual_attack WRITE set_dual_attack NOTIFY dual_attack_changed)
 	Q_PROPERTY(bool attack_all READ attack_all WRITE set_attack_all NOTIFY attack_all_changed)
@@ -72,8 +72,8 @@ class Item : public Binding::BindingBase {
 	Q_PROPERTY(int spi_points2 READ spi_points2 WRITE set_spi_points2 NOTIFY spi_points2_changed)
 	Q_PROPERTY(int agi_points2 READ agi_points2 WRITE set_agi_points2 NOTIFY agi_points2_changed)
 	Q_PROPERTY(int using_message READ using_message WRITE set_using_message NOTIFY using_message_changed)
-	Q_PROPERTY(int32_t skill_id READ skill_id CONSTANT)
-	Q_PROPERTY(int32_t switch_id READ switch_id CONSTANT)
+	Q_PROPERTY(int skill_id READ skill_id WRITE set_skill_id NOTIFY skill_id_changed)
+	Q_PROPERTY(int switch_id READ switch_id WRITE set_switch_id NOTIFY switch_id_changed)
 	Q_PROPERTY(bool occasion_field2 READ occasion_field2 WRITE set_occasion_field2 NOTIFY occasion_field2_changed)
 	Q_PROPERTY(bool occasion_battle READ occasion_battle WRITE set_occasion_battle NOTIFY occasion_battle_changed)
 	Q_PROPERTY(QVector<bool> actor_set READ actor_set WRITE set_actor_set NOTIFY actor_set_changed)
@@ -81,12 +81,12 @@ class Item : public Binding::BindingBase {
 	Q_PROPERTY(QVector<bool> attribute_set READ attribute_set WRITE set_attribute_set NOTIFY attribute_set_changed)
 	Q_PROPERTY(int state_chance READ state_chance WRITE set_state_chance NOTIFY state_chance_changed)
 	Q_PROPERTY(bool reverse_state_effect READ reverse_state_effect WRITE set_reverse_state_effect NOTIFY reverse_state_effect_changed)
-	Q_PROPERTY(int32_t weapon_animation READ weapon_animation CONSTANT)
+	Q_PROPERTY(int weapon_animation READ weapon_animation WRITE set_weapon_animation NOTIFY weapon_animation_changed)
 	Q_PROPERTY(ArrayAdapter* animation_data READ animation_data CONSTANT)
 	Q_PROPERTY(bool use_skill READ use_skill WRITE set_use_skill NOTIFY use_skill_changed)
 	Q_PROPERTY(QVector<bool> class_set READ class_set WRITE set_class_set NOTIFY class_set_changed)
-	Q_PROPERTY(int32_t ranged_trajectory READ ranged_trajectory CONSTANT)
-	Q_PROPERTY(int32_t ranged_target READ ranged_target CONSTANT)
+	Q_PROPERTY(int ranged_trajectory READ ranged_trajectory WRITE set_ranged_trajectory NOTIFY ranged_trajectory_changed)
+	Q_PROPERTY(int ranged_target READ ranged_target WRITE set_ranged_target NOTIFY ranged_target_changed)
 	Q_PROPERTY(QString easyrpg_using_message READ easyrpg_using_message WRITE set_easyrpg_using_message NOTIFY easyrpg_using_message_changed)
 	Q_PROPERTY(int easyrpg_max_count READ easyrpg_max_count WRITE set_easyrpg_max_count NOTIFY easyrpg_max_count_changed)
 
@@ -99,7 +99,8 @@ public:
 	void set_name(const QString& new_name);
 	QString description();
 	void set_description(const QString& new_description);
-	int32_t type();
+	int type();
+	void set_type(const int& new_type);
 	int price();
 	void set_price(const int& new_price);
 	int uses();
@@ -120,7 +121,8 @@ public:
 	void set_hit(const int& new_hit);
 	int critical_hit();
 	void set_critical_hit(const int& new_critical_hit);
-	int32_t animation_id();
+	int animation_id();
+	void set_animation_id(const int& new_animation_id);
 	bool preemptive();
 	void set_preemptive(const bool& new_preemptive);
 	bool dual_attack();
@@ -167,8 +169,10 @@ public:
 	void set_agi_points2(const int& new_agi_points2);
 	int using_message();
 	void set_using_message(const int& new_using_message);
-	int32_t skill_id();
-	int32_t switch_id();
+	int skill_id();
+	void set_skill_id(const int& new_skill_id);
+	int switch_id();
+	void set_switch_id(const int& new_switch_id);
 	bool occasion_field2();
 	void set_occasion_field2(const bool& new_occasion_field2);
 	bool occasion_battle();
@@ -183,14 +187,17 @@ public:
 	void set_state_chance(const int& new_state_chance);
 	bool reverse_state_effect();
 	void set_reverse_state_effect(const bool& new_reverse_state_effect);
-	int32_t weapon_animation();
+	int weapon_animation();
+	void set_weapon_animation(const int& new_weapon_animation);
 	ArrayAdapter* animation_data();
 	bool use_skill();
 	void set_use_skill(const bool& new_use_skill);
 	QVector<bool> class_set();
 	void set_class_set(const QVector<bool>& new_class_set);
-	int32_t ranged_trajectory();
-	int32_t ranged_target();
+	int ranged_trajectory();
+	void set_ranged_trajectory(const int& new_ranged_trajectory);
+	int ranged_target();
+	void set_ranged_target(const int& new_ranged_target);
 	QString easyrpg_using_message();
 	void set_easyrpg_using_message(const QString& new_easyrpg_using_message);
 	int easyrpg_max_count();
@@ -199,6 +206,7 @@ public:
 signals:
 	void name_changed();
 	void description_changed();
+	void type_changed();
 	void price_changed();
 	void uses_changed();
 	void atk_points1_changed();
@@ -209,6 +217,7 @@ signals:
 	void sp_cost_changed();
 	void hit_changed();
 	void critical_hit_changed();
+	void animation_id_changed();
 	void preemptive_changed();
 	void dual_attack_changed();
 	void attack_all_changed();
@@ -232,6 +241,8 @@ signals:
 	void spi_points2_changed();
 	void agi_points2_changed();
 	void using_message_changed();
+	void skill_id_changed();
+	void switch_id_changed();
 	void occasion_field2_changed();
 	void occasion_battle_changed();
 	void actor_set_changed();
@@ -239,8 +250,11 @@ signals:
 	void attribute_set_changed();
 	void state_chance_changed();
 	void reverse_state_effect_changed();
+	void weapon_animation_changed();
 	void use_skill_changed();
 	void class_set_changed();
+	void ranged_trajectory_changed();
+	void ranged_target_changed();
 	void easyrpg_using_message_changed();
 	void easyrpg_max_count_changed();
 

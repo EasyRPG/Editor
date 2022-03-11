@@ -27,8 +27,14 @@ namespace Binding::Generated {
 	int TroopMember::id() {
 		return m_data.ID;
 	}
-	int32_t TroopMember::enemy_id() {
+	int TroopMember::enemy_id() {
 		return m_data.enemy_id;
+	}
+	void TroopMember::set_enemy_id(const int& new_enemy_id) {
+		if (m_data.enemy_id == new_enemy_id)
+			return;
+		m_data.enemy_id = new_enemy_id;
+		emit enemy_id_changed();
 	}
 
 	int TroopMember::x() {

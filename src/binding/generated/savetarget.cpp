@@ -67,8 +67,14 @@ namespace Binding::Generated {
 		emit switch_on_changed();
 	}
 
-	int32_t SaveTarget::switch_id() {
+	int SaveTarget::switch_id() {
 		return m_data.switch_id;
+	}
+	void SaveTarget::set_switch_id(const int& new_switch_id) {
+		if (m_data.switch_id == new_switch_id)
+			return;
+		m_data.switch_id = new_switch_id;
+		emit switch_id_changed();
 	}
 
 } // namespace Binding::Generated

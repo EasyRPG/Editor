@@ -37,20 +37,44 @@ namespace Binding::Generated {
 		emit unknown02_changed();
 	}
 
-	int32_t BattlerAnimationItemSkill::type() {
+	int BattlerAnimationItemSkill::type() {
 		return m_data.type;
 	}
+	void BattlerAnimationItemSkill::set_type(const int& new_type) {
+		if (m_data.type == new_type)
+			return;
+		m_data.type = new_type;
+		emit type_changed();
+	}
 
-	int32_t BattlerAnimationItemSkill::weapon_animation_id() {
+	int BattlerAnimationItemSkill::weapon_animation_id() {
 		return m_data.weapon_animation_id;
 	}
-
-	int32_t BattlerAnimationItemSkill::movement() {
-		return m_data.movement;
+	void BattlerAnimationItemSkill::set_weapon_animation_id(const int& new_weapon_animation_id) {
+		if (m_data.weapon_animation_id == new_weapon_animation_id)
+			return;
+		m_data.weapon_animation_id = new_weapon_animation_id;
+		emit weapon_animation_id_changed();
 	}
 
-	int32_t BattlerAnimationItemSkill::after_image() {
+	int BattlerAnimationItemSkill::movement() {
+		return m_data.movement;
+	}
+	void BattlerAnimationItemSkill::set_movement(const int& new_movement) {
+		if (m_data.movement == new_movement)
+			return;
+		m_data.movement = new_movement;
+		emit movement_changed();
+	}
+
+	int BattlerAnimationItemSkill::after_image() {
 		return m_data.after_image;
+	}
+	void BattlerAnimationItemSkill::set_after_image(const int& new_after_image) {
+		if (m_data.after_image == new_after_image)
+			return;
+		m_data.after_image = new_after_image;
+		emit after_image_changed();
 	}
 
 	int BattlerAnimationItemSkill::attacks() {
@@ -73,20 +97,44 @@ namespace Binding::Generated {
 		emit ranged_changed();
 	}
 
-	int32_t BattlerAnimationItemSkill::ranged_animation_id() {
+	int BattlerAnimationItemSkill::ranged_animation_id() {
 		return m_data.ranged_animation_id;
 	}
+	void BattlerAnimationItemSkill::set_ranged_animation_id(const int& new_ranged_animation_id) {
+		if (m_data.ranged_animation_id == new_ranged_animation_id)
+			return;
+		m_data.ranged_animation_id = new_ranged_animation_id;
+		emit ranged_animation_id_changed();
+	}
 
-	int32_t BattlerAnimationItemSkill::ranged_speed() {
+	int BattlerAnimationItemSkill::ranged_speed() {
 		return m_data.ranged_speed;
 	}
-
-	int32_t BattlerAnimationItemSkill::battle_animation_id() {
-		return m_data.battle_animation_id;
+	void BattlerAnimationItemSkill::set_ranged_speed(const int& new_ranged_speed) {
+		if (m_data.ranged_speed == new_ranged_speed)
+			return;
+		m_data.ranged_speed = new_ranged_speed;
+		emit ranged_speed_changed();
 	}
 
-	int32_t BattlerAnimationItemSkill::pose() {
+	int BattlerAnimationItemSkill::battle_animation_id() {
+		return m_data.battle_animation_id;
+	}
+	void BattlerAnimationItemSkill::set_battle_animation_id(const int& new_battle_animation_id) {
+		if (m_data.battle_animation_id == new_battle_animation_id)
+			return;
+		m_data.battle_animation_id = new_battle_animation_id;
+		emit battle_animation_id_changed();
+	}
+
+	int BattlerAnimationItemSkill::pose() {
 		return m_data.pose;
+	}
+	void BattlerAnimationItemSkill::set_pose(const int& new_pose) {
+		if (m_data.pose == new_pose)
+			return;
+		m_data.pose = new_pose;
+		emit pose_changed();
 	}
 
 } // namespace Binding::Generated

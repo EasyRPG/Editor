@@ -53,8 +53,14 @@ namespace Binding::Generated {
 		emit description_changed();
 	}
 
-	int32_t Item::type() {
+	int Item::type() {
 		return m_data.type;
+	}
+	void Item::set_type(const int& new_type) {
+		if (m_data.type == new_type)
+			return;
+		m_data.type = new_type;
+		emit type_changed();
 	}
 
 	int Item::price() {
@@ -157,8 +163,14 @@ namespace Binding::Generated {
 		emit critical_hit_changed();
 	}
 
-	int32_t Item::animation_id() {
+	int Item::animation_id() {
 		return m_data.animation_id;
+	}
+	void Item::set_animation_id(const int& new_animation_id) {
+		if (m_data.animation_id == new_animation_id)
+			return;
+		m_data.animation_id = new_animation_id;
+		emit animation_id_changed();
 	}
 
 	bool Item::preemptive() {
@@ -391,12 +403,24 @@ namespace Binding::Generated {
 		emit using_message_changed();
 	}
 
-	int32_t Item::skill_id() {
+	int Item::skill_id() {
 		return m_data.skill_id;
 	}
+	void Item::set_skill_id(const int& new_skill_id) {
+		if (m_data.skill_id == new_skill_id)
+			return;
+		m_data.skill_id = new_skill_id;
+		emit skill_id_changed();
+	}
 
-	int32_t Item::switch_id() {
+	int Item::switch_id() {
 		return m_data.switch_id;
+	}
+	void Item::set_switch_id(const int& new_switch_id) {
+		if (m_data.switch_id == new_switch_id)
+			return;
+		m_data.switch_id = new_switch_id;
+		emit switch_id_changed();
 	}
 
 	bool Item::occasion_field2() {
@@ -469,8 +493,14 @@ namespace Binding::Generated {
 		emit reverse_state_effect_changed();
 	}
 
-	int32_t Item::weapon_animation() {
+	int Item::weapon_animation() {
 		return m_data.weapon_animation;
+	}
+	void Item::set_weapon_animation(const int& new_weapon_animation) {
+		if (m_data.weapon_animation == new_weapon_animation)
+			return;
+		m_data.weapon_animation = new_weapon_animation;
+		emit weapon_animation_changed();
 	}
 
 	ArrayAdapter* Item::animation_data() {
@@ -497,12 +527,24 @@ namespace Binding::Generated {
 		emit class_set_changed();
 	}
 
-	int32_t Item::ranged_trajectory() {
+	int Item::ranged_trajectory() {
 		return m_data.ranged_trajectory;
 	}
+	void Item::set_ranged_trajectory(const int& new_ranged_trajectory) {
+		if (m_data.ranged_trajectory == new_ranged_trajectory)
+			return;
+		m_data.ranged_trajectory = new_ranged_trajectory;
+		emit ranged_trajectory_changed();
+	}
 
-	int32_t Item::ranged_target() {
+	int Item::ranged_target() {
 		return m_data.ranged_target;
+	}
+	void Item::set_ranged_target(const int& new_ranged_target) {
+		if (m_data.ranged_target == new_ranged_target)
+			return;
+		m_data.ranged_target = new_ranged_target;
+		emit ranged_target_changed();
 	}
 
 	QString Item::easyrpg_using_message() {

@@ -177,8 +177,14 @@ namespace Binding::Generated {
 		return m_commonevents;
 	}
 
-	int32_t Database::version() {
+	int Database::version() {
 		return m_data.version;
+	}
+	void Database::set_version(const int& new_version) {
+		if (m_data.version == new_version)
+			return;
+		m_data.version = new_version;
+		emit version_changed();
 	}
 
 	Binding::BattleCommands* Database::battlecommands() {
