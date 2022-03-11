@@ -18,10 +18,17 @@
 #include "project_data.h"
 
 ProjectData::ProjectData(Project& project) : m_project(&project) {
-
 }
 
 ProjectData::ProjectData(Project& project, lcf::rpg::Database database, lcf::rpg::TreeMap treeMap) :
 	m_project(&project), m_database(std::move(database)), m_treemap(std::move(treeMap)) {
+}
 
+ProjectBinding::ProjectBinding(ProjectData &project_data, QObject* parent) : QObject(parent), m_project_data(project_data) {
+	m_database_model = new Binding::Database(project_data, project_data.database());
+	m_tree_model = new Binding::TreeMap(project_data, project_data.treeMap());
+}
+
+ProjectBinding::~ProjectBinding() {
+	delete m_database_model;
 }
