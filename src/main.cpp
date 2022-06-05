@@ -19,7 +19,9 @@
 #include "ui/main_window.h"
 #include "ui/event/event_page_widget.h"
 #include <QApplication>
+#include <QTranslator>
 #include <QTimer>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +29,15 @@ int main(int argc, char *argv[])
 	a.setApplicationName("EasyRPG Editor");
 	a.setOrganizationName("EasyRPG");
 	a.setOrganizationDomain("easyrpg.org");
+
+	// load translations
+	QTranslator t;
+	if(t.load(QLocale(), QLatin1String("easyrpg-editor"), QLatin1String("_"), QLatin1String(":/i18n"))) {
+		a.installTranslator(&t);
+	} else {
+		qDebug() << "No translation(s) available.";
+	}
+
 	MainWindow w;
 	// FIXME: SplashScreen disabled for now, this imposed a 6s startup delay due to timers...
 	//SplashDialog s(&w);

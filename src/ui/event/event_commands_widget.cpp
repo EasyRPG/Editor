@@ -308,10 +308,10 @@ void EventCommandsWidget::deleteEvent(QTreeWidgetItem *item) {
 void EventCommandsWidget::showContextMenu(const QPoint& pos) {
 	auto* item = this->itemAt(pos);
 
-	auto* editAct = new QAction("Edit...", this);
-	auto* addRawAct = new QAction("Add raw...", this);
-	auto* editRawAct = new QAction("Edit raw...", this);
-	auto* deleteAct = new QAction("Delete", this);
+	auto* editAct = new QAction(tr("Edit") + "...", this);
+	auto* addRawAct = new QAction(tr("Add raw") + "...", this);
+	auto* editRawAct = new QAction(tr("Edit raw") + "...", this);
+	auto* deleteAct = new QAction(tr("Delete"), this);
 
 	connect(editAct, &QAction::triggered, this, [&]{ editEvent(item, 0); });
 	connect(addRawAct, &QAction::triggered, this, [&]{ addRawEvent(item); });

@@ -32,11 +32,11 @@ PartyOperandWidget::PartyOperandWidget(QWidget *parent) :
 	auto* gridLayout = new QGridLayout(this);
 
 	m_radioParty = new QRadioButton(this);
-	m_radioParty->setText("Entiry Party");
+	m_radioParty->setText(tr("Entire Party"));
 	m_radioValue = new QRadioButton(this);
-	m_radioValue->setText("Specific:");
+	m_radioValue->setText(tr("Specific") + ":");
 	m_radioVar = new QRadioButton(this);
-	m_radioVar->setText("By Variable:");
+	m_radioVar->setText(tr("By Variable") + ":");
 	m_buttonGroup = new QButtonGroup(this);
 	m_buttonGroup->addButton(m_radioParty);
 	m_buttonGroup->setId(m_radioParty, 0);
@@ -86,9 +86,9 @@ ValueOperandWidget::ValueOperandWidget(QWidget *parent) :
 	auto* gridLayout = new QGridLayout(this);
 
 	m_radioValue = new QRadioButton(this);
-	m_radioValue->setText("Constant:");
+	m_radioValue->setText(tr("Constant") + ":");
 	m_radioVar = new QRadioButton(this);
-	m_radioVar->setText("By Variable:");
+	m_radioVar->setText(tr("By Variable") + ":");
 	m_buttonGroup = new QButtonGroup(this);
 	m_buttonGroup->addButton(m_radioValue);
 	m_buttonGroup->setId(m_radioValue, 0);
@@ -134,18 +134,18 @@ TimerOperandWidget::TimerOperandWidget(QWidget *parent) :
 	auto* gridLayout = new QGridLayout(this);
 
 	m_radioValue = new QRadioButton(this);
-	m_radioValue->setText("Constant:");
+	m_radioValue->setText(tr("Constant") + ":");
 	m_radioVar = new QRadioButton(this);
-	m_radioVar->setText("By Variable:");
+	m_radioVar->setText(tr("By Variable") + ":");
 	m_buttonGroup = new QButtonGroup(this);
 	m_buttonGroup->addButton(m_radioValue);
 	m_buttonGroup->setId(m_radioValue, 0);
 	m_buttonGroup->addButton(m_radioVar);
 	m_buttonGroup->setId(m_radioVar, 1);
 	m_spinSec = new RpgSpinBox(this);
-	m_spinSec->setSuffix(" Seconds");
+	m_spinSec->setSuffix(" " + tr("Seconds"));
 	m_spinMin = new RpgSpinBox(this);
-	m_spinMin->setSuffix(" Minutes");
+	m_spinMin->setSuffix(" " + tr("Minutes"));
 	m_comboVar = new VariableRpgComboBox(this);
 	gridLayout->addWidget(m_radioValue, 0, 0);
 	auto* hboxLayout = new QHBoxLayout(this);

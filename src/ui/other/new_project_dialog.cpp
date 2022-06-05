@@ -73,7 +73,7 @@ QString NewProjectDialog::getDefDir()
 void NewProjectDialog::on_toolProjectPath_clicked()
 {
 	QString path = QFileDialog::getExistingDirectory(this,
-													 "Select destination forlder",
+													 tr("Select destination folder"),
 													 m_defDir);
 	if (path == QString())
 		return;

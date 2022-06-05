@@ -1,6 +1,7 @@
 EasyRPG Editor authors
 ======================
 
+* Carsten Teibes (carstene1ns)
 * Diego Pedraza (zegeri)
 * Francisco de la Peña (fdelapena)
 * Gabriel Kind (Ghabry)

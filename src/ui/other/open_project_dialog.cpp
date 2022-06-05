@@ -86,7 +86,7 @@ void OpenProjectDialog::refreshProjectList()
 
 void OpenProjectDialog::on_toolProjectPath_clicked()
 {
-	QString path = QFileDialog::getExistingDirectory(this, "Select destination folder", m_defaultDir);
+	QString path = QFileDialog::getExistingDirectory(this, tr("Select destination folder"), m_defaultDir);
 	if (path == QString())
 		return;
 	ui->lineProjectPath->setText(path+"/");
@@ -110,8 +110,8 @@ bool OpenProjectDialog::removeDir(const QString & dirName)
 			if (!result)
 			{
 				QMessageBox::warning(this,
-									 "An error ocurred",
-									 QString("Could't delete %1").arg(info.absoluteFilePath()),
+									 tr("An error ocurred"),
+									 QString(tr("Could't delete %1")).arg(info.absoluteFilePath()),
 									 QMessageBox::Ok, 0);
 				return false;
 			}

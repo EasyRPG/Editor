@@ -171,15 +171,15 @@ void MainWindow::LoadProject(QString foldername)
 
 	if (!prj) {
 		QMessageBox::critical(this,
-							  "Error loading project",
-							  QString("Failed to load project %1").arg(foldername));
+							  tr("Error loading project"),
+							  QString(tr("Failed to load project %1")).arg(foldername));
 		return;
 	}
 
 	if (!prj->loadDatabaseAndMapTree()) {
 		QMessageBox::critical(this,
-							  "Error loading project",
-							  QString("Failed to load database or maptree of %1").arg(foldername));
+							  tr("Error loading project"),
+							  QString(tr("Failed to load database or maptree of %1")).arg(foldername));
 		return;
 	}
 
@@ -188,8 +188,8 @@ void MainWindow::LoadProject(QString foldername)
 	searchdialog = new SearchDialog(core().project()->projectData(), this);
 
 	//m_projSett = new QSettings(core().project()->findFile(ROOT, EASY_CFG), QSettings::IniFormat, this);
-	//QString title = m_projSett->value(GAMETITLE, "Untitled").toString();
-	setWindowTitle("EasyRPG Editor - " +  core().project()->gameTitle());
+	//QString title = m_projSett->value(GAMETITLE, tr("Untitled")).toString();
+	setWindowTitle(tr("EasyRPG Editor") + " - " +  core().project()->gameTitle());
 	//core().setLayer(static_cast<Core::Layer>(m_projSett->value(LAYER, Core::LOWER).toInt()));
 	//core().setTileSize(m_projSett->value(TILESIZE, 16).toInt());
 	//QList<QVariant> m_mapList = m_projSett->value(MAPS, QList<QVariant>()).toList();
@@ -255,8 +255,8 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 {
 	if (!FileFinder::IsRPG2kProject(src_dir)) {
 		QMessageBox::critical(this,
-			"Error loading project",
-			QString("The selected project %1 is not a legacy RPG Maker project").arg(src_dir.dirName()));
+			tr("Error loading project"),
+			QString(tr("The selected project %1 is not a legacy RPG Maker project")).arg(src_dir.dirName()));
 		return;
 	}
 
@@ -264,21 +264,21 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 
 	if (!prj) {
 		QMessageBox::critical(this,
-							  "Error loading project",
-							  QString("Failed to load project %1").arg(src_dir.dirName()));
+							  tr("Error loading project"),
+							  QString(tr("Failed to load project %1")).arg(src_dir.dirName()));
 		return;
 	}
 
 	if (!prj->loadDatabaseAndMapTree()) {
 		QMessageBox::critical(this,
-							  "Error loading project",
-							  QString("Failed to load database or maptree of %1").arg(src_dir.dirName()));
+							  tr("Error loading project"),
+							  QString(tr("Failed to load database or maptree of %1")).arg(src_dir.dirName()));
 		return;
 	}
 
 	// Load all maps
 	lcf::rpg::TreeMap& maps = prj->treeMap();
-	QProgressDialog progress("Processing Maps...", "", 0, 0, this);
+	QProgressDialog progress(tr("Processing Maps..."), "", 0, 0, this);
 	progress.setMaximum(static_cast<int>(maps.maps.size()));
 	progress.setWindowModality(Qt::WindowModal);
 
@@ -293,13 +293,13 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 
 	// Save new database and treemap
 	prj->relocate(target_dir, FileFinder::ProjectType::EasyRpg);
-	progress.setLabelText("Importing database and map tree...");
+	progress.setLabelText(tr("Importing database and map tree..."));
 	progress.setValue(0);
 	progress.setMaximum(0);
 	prj->saveDatabase(false);
 	prj->saveTreeMap();
 
-	progress.setLabelText("Importing maps...");
+	progress.setLabelText(tr("Importing maps..."));
 	progress.setMaximum(static_cast<int>(loaded_maps.size()));
 	int i = 1;
 	for (auto& [id, map] : loaded_maps) {
@@ -308,7 +308,7 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 	}
 	loaded_maps.clear();
 
-	progress.setLabelText("Importing resources...");
+	progress.setLabelText(tr("Importing resources..."));
 
 	// Create all asset directories
 	for (const QString& dir : resource_dirs)
@@ -358,7 +358,7 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 				if (convertXYZtoPNG(file, conv_path))
 					file.remove();
 				else
-					qWarning() << QString("Failed to convert %1 to PNG").arg(dest_file);
+					qWarning() << QString(tr("Failed to convert %1 to PNG")).arg(dest_file);
 			}
 		}
 
@@ -421,7 +421,7 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 	m_projSett->setValue(TILESIZE, 16);
 	this->on_treeMap_itemDoubleClicked(m_treeItems[m_mapList[0].toInt()], 0);*/
 
-	setWindowTitle("EasyRPG Editor - " +  core().project()->gameTitle());
+	setWindowTitle(tr("EasyRPG Editor") + " - " +  core().project()->gameTitle());
 	m_settings.setValue(CURRENT_PROJECT_KEY, core().project()->projectDir().absolutePath());
 }
 
@@ -541,9 +541,9 @@ void MainWindow::on_actionProjectNew_triggered() {
 		if (d_gamepath.exists())
 		{
 			int response = QMessageBox::warning(this,
-							"Game folder exist",
-							QString("The folder %1 where you want to place your new game already exist.\n"
-									"Do you want to delete this folder and all it's content?"
+							tr("Game folder exist"),
+							QString(tr("The folder %1 where you want to place your new game already exist.\n"
+									"Do you want to delete this folder and all it's content?")
 									).arg(core().defDir()+dlg.getProjectFolder()),
 							QMessageBox::Ok,
 							QMessageBox::Cancel);
@@ -566,8 +566,8 @@ void MainWindow::on_actionProjectNew_triggered() {
 			QFile::copy(t_folder+EASY_MT, d_gamepath.absolutePath() + "/" + EASY_MT) &&
 			QFile::copy(t_folder+"Map0001.emu", d_gamepath.absolutePath() + "/Map0001.emu"))) {
 			QMessageBox::critical(this,
-				"Creating new project failed",
-				"Copying of template failed");
+				tr("Creating new project failed"),
+				tr("Copying of template failed"));
 			return;
 		}
 
@@ -579,7 +579,7 @@ void MainWindow::on_actionProjectNew_triggered() {
 		core().project() = prj;
 
 		core().project()->setGameTitle(dlg.getGameTitle());
-		setWindowTitle("EasyRPG Editor - " +  core().project()->gameTitle());
+		setWindowTitle(tr("EasyRPG Editor") + " - " +  core().project()->gameTitle());
 		m_settings.setValue(CURRENT_PROJECT_KEY, core().project()->gameTitle());
 		m_settings.setValue(CURRENT_PROJECT_KEY, core().project()->projectDir().absolutePath());
 
@@ -663,8 +663,8 @@ bool MainWindow::removeDir(const QString & dirName, const QString &root)
 			if (!result)
 			{
 				QMessageBox::warning(this,
-									 "An error ocurred",
-									 QString("Could't delete %1").arg(info.absoluteFilePath()),
+									 tr("An error ocurred"),
+									 QString(tr("Could't delete %1")).arg(info.absoluteFilePath()),
 									 QMessageBox::Ok, 0);
 				return false;
 			}
@@ -782,7 +782,7 @@ void MainWindow::on_actionProjectClose_triggered()
 		m_copiedMap.clear();
 
 		update_actions();
-		setWindowTitle("EasyRPG Editor");
+		setWindowTitle(tr("EasyRPG Editor"));
 	}
 }
 
@@ -865,10 +865,10 @@ void MainWindow::on_tabMap_tabCloseRequested(int index)
 	if (getTabScene(index)->isModified())
 	{
 		int result = QMessageBox::question(this,
-										   "Save map changes",
-										   QString("%1 has unsaved changes.\n"
+										   tr("Save map changes"),
+										   QString(tr("%1 has unsaved changes.\n"
 										   "Do you want to save them before closing"
-										   " it?").arg(getTabScene(index)->mapName()),
+										   " it?")).arg(getTabScene(index)->mapName()),
 										   QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 		switch (result)
 		{
@@ -915,9 +915,9 @@ void MainWindow::on_actionProjectImport_triggered()
 			if (d_gamepath.exists())
 			{
 				int response = QMessageBox::warning(this,
-								"Game folder exist",
-								QString("The folder %1 where you want to place your new game already exist.\n"
-										"Do you want to delete this folder and all it's content?"
+								tr("Game folder exist"),
+								QString(tr("The folder %1 where you want to place your new game already exist.\n"
+										"Do you want to delete this folder and all it's content?")
 										).arg(dlg.getDefDir()+dlg.getProjectFolder()),
 								QMessageBox::Ok,
 								QMessageBox::Cancel);
@@ -1011,9 +1011,9 @@ bool MainWindow::saveAll()
 	if (need_save)
 	{
 		int result = QMessageBox::question(this,
-										   "Save map changes",
-										   "Some maps have unsaved changes.\n"
-										   "Do you want to save them before closing them?",
+										   tr("Save map changes"),
+										   tr("Some maps have unsaved changes.\n"
+										   "Do you want to save them before closing them?"),
 										   QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 		switch (result)
 		{
@@ -1077,8 +1077,8 @@ void MainWindow::on_actionMapNew_triggered()
 	if (!f.exists())
 	{
 		QMessageBox::critical(this,
-							  "File not found",
-							  "The file " + template_file + " can't be found. Please check if the templates directory is in the same directory as the editor executable.");
+							  tr("File not found"),
+							  QString(tr("The file %1 can't be found. Please check if the templates directory is in the same directory as the editor executable.")).arg(template_file));
 		return;
 	}
 
@@ -1153,8 +1153,8 @@ void MainWindow::on_actionMapPaste_triggered()
 	if (!f.exists())
 	{
 		QMessageBox::critical(this,
-							  "File not found",
-							  "The file " + m_copiedMap + " can't be found.");
+							  tr("File not found"),
+							  QString(tr("The file %1 can't be found.")).arg(m_copiedMap));
 		return;
 	}
 
@@ -1243,8 +1243,8 @@ void MainWindow::on_actionMapPaste_triggered()
 void MainWindow::on_actionMapDelete_triggered()
 {
 	int result = QMessageBox::question(this,
-		"Delete map",
-		QString("You are about to delete the selected map and its children.\nThis cannot be undone. Do you want to continue?"),
+		tr("Delete map"),
+		QString(tr("You are about to delete the selected map and its children.\nThis cannot be undone. Do you want to continue?")),
 		QMessageBox::Yes | QMessageBox::No);
 
 	if (result == QMessageBox::Yes) {
@@ -1267,7 +1267,7 @@ void MainWindow::removeMap(const int id)
 	if (QFileInfo(mapPath).exists())
 		QFile::remove(mapPath);
 	else
-		qWarning() << QString("file not found: %1").arg(mapPath);
+		qWarning() << QString(tr("file not found: %1")).arg(mapPath);
 
 	for (unsigned int i = 0; i < core().project()->treeMap().maps.size(); i++)
 	{

@@ -109,7 +109,8 @@ inline DatabaseSplitWidget<LCF>::DatabaseSplitWidget(ProjectData& project, std::
 			return;
 		}
 
-		auto* editAct = new QAction("Edit...", &list);
+		// FIXME: translation does not work without QCoreApplication::translate
+		auto* editAct = new QAction(QCoreApplication::translate("DatabaseSplitWidget", "Edit..."), &list);
 
 		connect(editAct, &QAction::triggered, &list, [&]{
 			auto* d = new WidgetAsDialogWrapper<typename RpgReflect<LCF>::widget_type, LCF>

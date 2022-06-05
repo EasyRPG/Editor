@@ -21,6 +21,7 @@
 #include <QList>
 #include <QSettings>
 #include <QString>
+#include <QCoreApplication>
 #include <memory>
 
 #include "common/filefinder.h"
@@ -30,6 +31,7 @@
 #include <lcf/rpg/treemap.h>
 
 class Project {
+	Q_DECLARE_TR_FUNCTIONS(Project)
 public:
 	using ProjectList = std::vector<std::shared_ptr<Project>>;
 

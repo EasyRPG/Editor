@@ -53,19 +53,19 @@ class DatabaseDialog;
 class DatabaseDialog : public QDialog
 {
 	Q_OBJECT
-	
+
 public:
 	explicit DatabaseDialog(ProjectData& project, QWidget *parent = nullptr);
 	~DatabaseDialog();
 
 signals:
 	void currentActorChanged(lcf::rpg::Actor *actor);
+
 public slots:
 	void on_currentActorChanged(lcf::rpg::Actor *actor);
 	void on_buttonBox_clicked(QAbstractButton *button);
 
 private slots:
-
 	void on_toolSwitchStyle_clicked(bool checked);
 
 	void on_tabOld_Pages_currentChanged(int index);
@@ -101,4 +101,3 @@ private:
 	ProjectData& m_project;
 	ProjectData m_projectDataCopy;
 };
-

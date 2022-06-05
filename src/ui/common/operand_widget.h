@@ -95,10 +95,11 @@ OperandWidget<LCF>::OperandWidget(QWidget *parent) :
 {
 	auto* gridLayout = new QGridLayout(this);
 
+	// FIXME: translation does not work without QCoreApplication::translate
 	m_radioValue = new QRadioButton(this);
-	m_radioValue->setText("Specific:");
+	m_radioValue->setText(QCoreApplication::translate("OperandWidget", "Specific") + ":");
 	m_radioVar = new QRadioButton(this);
-	m_radioVar->setText("By Variable:");
+	m_radioVar->setText(QCoreApplication::translate("OperandWidget", "By Variable") + ":");
 	m_buttonGroup = new QButtonGroup(this);
 	m_buttonGroup->addButton(m_radioValue);
 	m_buttonGroup->setId(m_radioValue, 0);
@@ -113,6 +114,7 @@ OperandWidget<LCF>::OperandWidget(QWidget *parent) :
 }
 
 class PartyOperandWidget : public OperandWidgetBase {
+	Q_OBJECT
 public:
 	PartyOperandWidget(QWidget *parent);
 
@@ -131,6 +133,7 @@ private:
 };
 
 class ValueOperandWidget : public OperandWidgetBase {
+	Q_OBJECT
 public:
 	ValueOperandWidget(QWidget *parent);
 
@@ -148,6 +151,7 @@ private:
 };
 
 class TimerOperandWidget : public OperandWidgetBase {
+	Q_OBJECT
 public:
 	TimerOperandWidget(QWidget *parent);
 
@@ -222,16 +226,17 @@ OperationOperandWidget<LCF>::OperationOperandWidget(QWidget *parent) :
 {
 	auto* gridLayout = new QGridLayout(this);
 
+	// FIXME: translation does not work without QCoreApplication::translate
 	m_radioValue = new QRadioButton(this);
-	m_radioValue->setText("Specific:");
+	m_radioValue->setText(QCoreApplication::translate("OperationOperandWidget", "Specific") + ":");
 	m_radioBatch = new QRadioButton(this);
-	m_radioBatch->setText("Range:");
+	m_radioBatch->setText(QCoreApplication::translate("OperationOperandWidget", "Range") + ":");
 	m_radioVar = new QRadioButton(this);
-	m_radioVar->setText("By Variable:");
+	m_radioVar->setText(QCoreApplication::translate("OperationOperandWidget", "By Variable") + ":");
 	m_spinBatchMin = new RpgSpinBox(this);
-	m_spinBatchMin->setPrefix("From ");
+	m_spinBatchMin->setPrefix(QCoreApplication::translate("OperationOperandWidget", "From") + " ");
 	m_spinBatchMax = new RpgSpinBox(this);
-	m_spinBatchMax->setPrefix("To ");
+	m_spinBatchMax->setPrefix(QCoreApplication::translate("OperationOperandWidget", "To") + " ");
 	m_buttonGroup = new QButtonGroup(this);
 	m_buttonGroup->addButton(m_radioValue);
 	m_buttonGroup->setId(m_radioValue, 0);
@@ -270,4 +275,3 @@ using SwitchOperandWidget = OperandWidget<lcf::rpg::Switch>;
 using VariableOperandWidget = OperandWidget<lcf::rpg::Variable>;
 using SwitchOperationOperandWidget = OperationOperandWidget<lcf::rpg::Switch>;
 using VariableOperationOperandWidget = OperationOperandWidget<lcf::rpg::Variable>;
-

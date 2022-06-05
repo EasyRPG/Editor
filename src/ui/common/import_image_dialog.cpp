@@ -53,7 +53,7 @@ QImage ImportImageDialog::image()
 void ImportImageDialog::image_clicked(QPointF pos, bool pressed)
 {
 	ui->label->setText(QString("%1, %2, ").arg(pos.toPoint().x()).arg(pos.toPoint().y())
-					   + (pressed ? "yes" : "no"));
+					   + (pressed ? tr("yes") : tr("no")));
 }
 
 void ImportImageDialog::on_pushZoomIn_clicked()

@@ -119,13 +119,13 @@ void ResourceManagerDialog::on_pushImport_clicked()
 
 	QString filename;
 	if (ui->listResourceType->currentIndex().row() == 11) //Movie
-		filename = QFileDialog::getOpenFileName(this,tr("Select a file to import"), m_lastmoviepath == QString() ? QStandardPaths::standardLocations(QStandardPaths::MoviesLocation)[0] : m_lastmoviepath, tr("Video formats (*.avi *.mpg)"));
+		filename = QFileDialog::getOpenFileName(this, tr("Select a file to import"), m_lastmoviepath == QString() ? QStandardPaths::standardLocations(QStandardPaths::MoviesLocation)[0] : m_lastmoviepath, tr("Video formats (*.avi *.mpg)"));
 	else if (ui->listResourceType->currentIndex().row() == 12) //Music
 		filename = QFileDialog::getOpenFileName(this, tr("Select a file to import"), m_lastmusicpath == QString() ? QStandardPaths::standardLocations(QStandardPaths::MusicLocation)[0] : m_lastmusicpath, tr("All formats (*.mid *.mp3 *.ogg *.wav);;MID (*.mid);;MP3 (*.mp3);;OGG (*.ogg);;WAV (*.wav)"));
 	else if (ui->listResourceType->currentIndex().row() == 15) //Sound
 		filename = QFileDialog::getOpenFileName(this, tr("Select a file to import"),m_lastsoundpath == QString() ? QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation)[0] : m_lastsoundpath, tr("WAV (*.wav)"));
 	else //Picture
-		filename = QFileDialog::getOpenFileName(this,tr("Select a file to import"), m_lastpicturepath == QString() ? QStandardPaths::standardLocations(QStandardPaths::PicturesLocation)[0] : m_lastpicturepath, tr("All formats (*.bmp *.png *.xyz);;BMP (*.bmp);;PNG (*.png);;XYZ (*.xyz)"));
+		filename = QFileDialog::getOpenFileName(this, tr("Select a file to import"), m_lastpicturepath == QString() ? QStandardPaths::standardLocations(QStandardPaths::PicturesLocation)[0] : m_lastpicturepath, tr("All formats (*.bmp *.png *.xyz);;BMP (*.bmp);;PNG (*.png);;XYZ (*.xyz)"));
 
 	//Check file
 	QSize size;
@@ -142,7 +142,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 		image = QImage(filename);
 		size = image.size();
 		if (size != QSize(320,240)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Backdrop images's size should be 320x240."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Backdrop images's size should be 320x240."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -151,7 +151,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 1:
 		size = QImage(filename).size();
 		if (size.width() < 96 || size.width() > 480 || size.height() < 96 || size.height() > 480 || size.width()%96 != 0 || size.height()%96 != 0) {
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Battle images's size should be beatwhen 96x96 and 480x480 and be a multiple of 96."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Battle images's size should be between 96x96 and 480x480 and be a multiple of 96."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -164,7 +164,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 2:
 		size = QImage(filename).size();
 		if (size.width() < 128 || size.width() > 640 || size.height() < 128 || size.height() > 640 || size.width()%128 != 0 || size.height()%128 != 0) {
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Battle2 images's size should be beatwhen 128x128 and 640x640 and be a multiple of 128"), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Battle2 images's size should be between 128x128 and 640x640 and be a multiple of 128"), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -172,7 +172,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 3:
 		size = QImage(filename).size();
 		if (size != QSize(144,384)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("BattleCharset images's size should be 144x384."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("BattleCharset images's size should be 144x384."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -180,7 +180,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 4:
 		size = QImage(filename).size();
 		if (size != QSize(192,512)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("BattleWeapon images's size should be 192x512."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("BattleWeapon images's size should be 192x512."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -188,7 +188,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 5:
 		size = QImage(filename).size();
 		if (size != QSize(288,256)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Charset images's size should be 288x256."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Charset images's size should be 288x256."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -201,7 +201,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 6:
 		size = QImage(filename).size();
 		if (size != QSize(480,256)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Chipset images's size should be 480x256."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Chipset images's size should be 480x256."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -209,7 +209,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 7:
 		size = QImage(filename).size();
 		if (size != QSize(192,192)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Faceset images's size should be 192x192."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Faceset images's size should be 192x192."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -217,7 +217,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 8:
 		size = QImage(filename).size();
 		if (size != QSize(320,240)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Frame images's size should be 320x240."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Frame images's size should be 320x240."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -225,7 +225,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 9:
 		size = QImage(filename).size();
 		if (size != QSize(320,240)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("GameOver images's size should be 320x240."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("GameOver images's size should be 320x240."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -233,7 +233,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 10:
 		size = QImage(filename).size();
 		if (size.width() < 16 || size.width() > 240 || size.height() < 16 || size.height() > 240){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Monster images's size should be beatwhen 16x16 and 240x240."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Monster images's size should be between 16x16 and 240x240."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -245,7 +245,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 13:
 		size = QImage(filename).size();
 		if (size.width() < 80 || size.width() > 640 || size.height() < 80 || size.height() > 640){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Background images's size should be beatwhen 80x80 and 640x640."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Background images's size should be between 80x80 and 640x640."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -257,7 +257,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 16:
 		size = QImage(filename).size();
 		if (size != QSize(160,80)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("System images's size should be 160x80."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("System images's size should be 160x80."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -265,7 +265,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 17:
 		size = QImage(filename).size();
 		if (size != QSize(80,96)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("System2 images's size should be 80x96."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("System2 images's size should be 80x96."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}
@@ -273,7 +273,7 @@ void ResourceManagerDialog::on_pushImport_clicked()
 	case 18:
 		size = QImage(filename).size();
 		if (size != QSize(320,240)){
-			QMessageBox msg(QMessageBox::Critical, "Error", tr("Title images's size should be 320x240."), QMessageBox::Ok);
+			QMessageBox msg(QMessageBox::Critical, tr("Error"), tr("Title images's size should be 320x240."), QMessageBox::Ok);
 			msg.exec();
 			return;
 		}

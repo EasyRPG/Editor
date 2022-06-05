@@ -32,50 +32,50 @@ EventPageWidget::EventPageWidget(ProjectData& project, QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	ui->comboVarOperation->addItem("Equal to (==)", lcf::rpg::EventPageCondition::Comparison_equal);
-	ui->comboVarOperation->addItem("Greater or equal to (>=)", lcf::rpg::EventPageCondition::Comparison_greater_equal);
-	ui->comboVarOperation->addItem("Lesser or equal to (<=)", lcf::rpg::EventPageCondition::Comparison_less_equal);
-	ui->comboVarOperation->addItem("Greater than (>)", lcf::rpg::EventPageCondition::Comparison_greater);
-	ui->comboVarOperation->addItem("Lesser than (<)", lcf::rpg::EventPageCondition::Comparison_less);
-	ui->comboVarOperation->addItem("Not equal to (!=)", lcf::rpg::EventPageCondition::Comparison_not_equal);
+	ui->comboVarOperation->addItem(tr("Equal to") + " (==)", lcf::rpg::EventPageCondition::Comparison_equal);
+	ui->comboVarOperation->addItem(tr("Greater or equal to") + " (>=)", lcf::rpg::EventPageCondition::Comparison_greater_equal);
+	ui->comboVarOperation->addItem(tr("Lesser or equal to") + " (<=)", lcf::rpg::EventPageCondition::Comparison_less_equal);
+	ui->comboVarOperation->addItem(tr("Greater than") + " (>)", lcf::rpg::EventPageCondition::Comparison_greater);
+	ui->comboVarOperation->addItem(tr("Lesser than") + " (<)", lcf::rpg::EventPageCondition::Comparison_less);
+	ui->comboVarOperation->addItem(tr("Not equal to") + " (!=)", lcf::rpg::EventPageCondition::Comparison_not_equal);
 	ui->comboVarOperation->setCurrentIndex(1);
 
-	ui->comboMoveType->addItem("Stationary", lcf::rpg::EventPage::MoveType_stationary);
-	ui->comboMoveType->addItem("Random", lcf::rpg::EventPage::MoveType_random);
-	ui->comboMoveType->addItem("Vertical", lcf::rpg::EventPage::MoveType_vertical);
-	ui->comboMoveType->addItem("Horizontal", lcf::rpg::EventPage::MoveType_horizontal);
-	ui->comboMoveType->addItem("Toward Hero", lcf::rpg::EventPage::MoveType_toward);
-	ui->comboMoveType->addItem("Away from Hero", lcf::rpg::EventPage::MoveType_away);
-	ui->comboMoveType->addItem("Custom Pattern", lcf::rpg::EventPage::MoveType_custom);
+	ui->comboMoveType->addItem(tr("Stationary"), lcf::rpg::EventPage::MoveType_stationary);
+	ui->comboMoveType->addItem(tr("Random"), lcf::rpg::EventPage::MoveType_random);
+	ui->comboMoveType->addItem(tr("Vertical"), lcf::rpg::EventPage::MoveType_vertical);
+	ui->comboMoveType->addItem(tr("Horizontal"), lcf::rpg::EventPage::MoveType_horizontal);
+	ui->comboMoveType->addItem(tr("Toward Hero"), lcf::rpg::EventPage::MoveType_toward);
+	ui->comboMoveType->addItem(tr("Away from Hero"), lcf::rpg::EventPage::MoveType_away);
+	ui->comboMoveType->addItem(tr("Custom Pattern"), lcf::rpg::EventPage::MoveType_custom);
 
 	for (int i = 1; i <= 8; i++) {
 		ui->comboMoveFrequency->addItem(QString("%1").arg(i), i);
 	}
 	ui->comboMoveFrequency->setCurrentIndex(2);
 
-	ui->comboCondition->addItem("Action Key", lcf::rpg::EventPage::Trigger_action);
-	ui->comboCondition->addItem("Touched by Hero", lcf::rpg::EventPage::Trigger_touched);
-	ui->comboCondition->addItem("Collision with Hero", lcf::rpg::EventPage::Trigger_collision);
-	ui->comboCondition->addItem("AutoStart", lcf::rpg::EventPage::Trigger_auto_start);
-	ui->comboCondition->addItem("Parallel Process", lcf::rpg::EventPage::Trigger_parallel);
+	ui->comboCondition->addItem(tr("Action Key"), lcf::rpg::EventPage::Trigger_action);
+	ui->comboCondition->addItem(tr("Touched by Hero"), lcf::rpg::EventPage::Trigger_touched);
+	ui->comboCondition->addItem(tr("Collision with Hero"), lcf::rpg::EventPage::Trigger_collision);
+	ui->comboCondition->addItem(tr("AutoStart"), lcf::rpg::EventPage::Trigger_auto_start);
+	ui->comboCondition->addItem(tr("Parallel Process"), lcf::rpg::EventPage::Trigger_parallel);
 
-	ui->comboLayer->addItem("Below Hero", lcf::rpg::EventPage::Layers_below);
-	ui->comboLayer->addItem("Same as Hero", lcf::rpg::EventPage::Layers_same);
-	ui->comboLayer->addItem("Above Hero", lcf::rpg::EventPage::Layers_above);
+	ui->comboLayer->addItem(tr("Below Hero"), lcf::rpg::EventPage::Layers_below);
+	ui->comboLayer->addItem(tr("Same as Hero"), lcf::rpg::EventPage::Layers_same);
+	ui->comboLayer->addItem(tr("Above Hero"), lcf::rpg::EventPage::Layers_above);
 
-	ui->comboAnimationType->addItem("Non-Continuous", lcf::rpg::EventPage::AnimType_non_continuous);
-	ui->comboAnimationType->addItem("Continuous", lcf::rpg::EventPage::AnimType_continuous);
-	ui->comboAnimationType->addItem("Fixed Dir/Non-Continuous", lcf::rpg::EventPage::AnimType_fixed_non_continuous);
-	ui->comboAnimationType->addItem("Fixed Dir/Continuous", lcf::rpg::EventPage::AnimType_fixed_continuous);
-	ui->comboAnimationType->addItem("Fixed Graphic", lcf::rpg::EventPage::AnimType_fixed_graphic);
-	ui->comboAnimationType->addItem("Spin Around", lcf::rpg::EventPage::AnimType_spin);
+	ui->comboAnimationType->addItem(tr("Non-Continuous"), lcf::rpg::EventPage::AnimType_non_continuous);
+	ui->comboAnimationType->addItem(tr("Continuous"), lcf::rpg::EventPage::AnimType_continuous);
+	ui->comboAnimationType->addItem(tr("Fixed Dir/Non-Continuous"), lcf::rpg::EventPage::AnimType_fixed_non_continuous);
+	ui->comboAnimationType->addItem(tr("Fixed Dir/Continuous"), lcf::rpg::EventPage::AnimType_fixed_continuous);
+	ui->comboAnimationType->addItem(tr("Fixed Graphic"), lcf::rpg::EventPage::AnimType_fixed_graphic);
+	ui->comboAnimationType->addItem(tr("Spin Around"), lcf::rpg::EventPage::AnimType_spin);
 
-	ui->comboMoveSpeed->addItem("1: (1/8) Normal", lcf::rpg::EventPage::MoveSpeed_eighth);
-	ui->comboMoveSpeed->addItem("2: (1/4) Normal", lcf::rpg::EventPage::MoveSpeed_quarter);
-	ui->comboMoveSpeed->addItem("3: (1/2) Normal", lcf::rpg::EventPage::MoveSpeed_half);
-	ui->comboMoveSpeed->addItem("4: Normal", lcf::rpg::EventPage::MoveSpeed_normal);
-	ui->comboMoveSpeed->addItem("5: Normal x 2", lcf::rpg::EventPage::MoveSpeed_double);
-	ui->comboMoveSpeed->addItem("6: Normal x 4", lcf::rpg::EventPage::MoveSpeed_fourfold);
+	ui->comboMoveSpeed->addItem(tr("1: (1/8) Normal"), lcf::rpg::EventPage::MoveSpeed_eighth);
+	ui->comboMoveSpeed->addItem(tr("2: (1/4) Normal"), lcf::rpg::EventPage::MoveSpeed_quarter);
+	ui->comboMoveSpeed->addItem(tr("3: (1/2) Normal"), lcf::rpg::EventPage::MoveSpeed_half);
+	ui->comboMoveSpeed->addItem(tr("4: Normal"), lcf::rpg::EventPage::MoveSpeed_normal);
+	ui->comboMoveSpeed->addItem(tr("5: Normal x 2"), lcf::rpg::EventPage::MoveSpeed_double);
+	ui->comboMoveSpeed->addItem(tr("6: Normal x 4"), lcf::rpg::EventPage::MoveSpeed_fourfold);
 	ui->comboMoveSpeed->setCurrentIndex(2);
 
 	m_charaItem = new CharSetGraphicsItem(project);

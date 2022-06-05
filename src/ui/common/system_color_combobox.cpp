@@ -30,6 +30,6 @@ void SystemColorComboBox::setup(ProjectData& project) {
 		QIcon coloricon;
 		coloricon.addPixmap(colorpixmap, QIcon::Normal);
 		coloricon.addPixmap(colorpixmap, QIcon::Disabled);
-		addItem(coloricon, QString("Color %1").arg(i), i);
+		addItem(coloricon, QString(tr("Color %1")).arg(i), i);
 	}
 }
