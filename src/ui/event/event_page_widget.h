@@ -25,7 +25,6 @@
 #include <lcf/rpg/eventcommand.h>
 #include <lcf/rpg/database.h>
 #include "ui/viewer/charset_graphics_item.h"
-#include "ui/other/splash_dialog.h"
 #include <QProgressBar>
 #include <QLabel>
 

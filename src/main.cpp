@@ -15,10 +15,10 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ui/other/splash_dialog.h"
 #include "ui/main_window.h"
 #include "ui/event/event_page_widget.h"
 #include <QApplication>
+#include <QSplashScreen>
 #include <QTranslator>
 #include <QTimer>
 #include <QDebug>
@@ -26,26 +26,53 @@
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+
+	// show splash
+	QPixmap logo(":/app/splash.png");
+	QSplashScreen s(logo, Qt::WindowStaysOnTopHint);
+	s.showMessage("EasyRPG Editor");
+	s.show();
+#ifdef NDEBUG
+	// close splash after 3 seconds for release
+	QTimer::singleShot(3000, &s, &QWidget::close);
+#endif
+
 	a.setApplicationName("EasyRPG Editor");
 	a.setOrganizationName("EasyRPG");
 	a.setOrganizationDomain("easyrpg.org");
 
 	// load translations
+	s.showMessage("Loading translations...");
+	a.processEvents();
 	QTranslator t;
-	if(t.load(QLocale(), QLatin1String("easyrpg-editor"), QLatin1String("_"), QLatin1String(":/i18n"))) {
+	bool found = false;
+#ifndef NDEBUG
+	// allow overwriting in debug builds
+	QString e = getenv("EASYRPG_EDITOR_LANG_FILE");
+	if (!e.isEmpty())
+		found = t.load(e);
+#else
+	found = t.load(QLocale(), QLatin1String("easyrpg-editor"), QLatin1String("_"), QLatin1String(":/i18n"));
+#endif
+	if (found)
 		a.installTranslator(&t);
-	} else {
+	else
 		qDebug() << "No translation(s) available.";
-	}
 
+	// main window and project
+	s.showMessage("Loading main window...");
+	a.processEvents();
 	MainWindow w;
-	// FIXME: SplashScreen disabled for now, this imposed a 6s startup delay due to timers...
-	//SplashDialog s(&w);
-	//s.show();
-	//QTimer::singleShot(3000, &s, SLOT(hide()));
-	//QTimer::singleShot(3000, &w, SLOT(show()));
+	s.showMessage("Loading last project...");
+	a.processEvents();
 	w.LoadLastProject();
+	s.clearMessage();
 	w.show();
+#ifndef NDEBUG
+	// close splash immediately in debug
+	s.finish(&w);
+#endif
 
+	// into event loop
 	return a.exec();
 }
