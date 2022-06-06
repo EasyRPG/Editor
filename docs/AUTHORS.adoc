@@ -1,5 +1,4 @@
-EasyRPG Editor authors
-======================
+= EasyRPG Editor authors
 
 * Carsten Teibes (carstene1ns)
 * Diego Pedraza (zegeri)
@@ -8,3 +7,6 @@ EasyRPG Editor authors
 * Marcel Hellwig (hellow554)
 * Mariano Javier Suligoy (MarianoGNU)
 * Matthew Fioravante (fmatthew5876)
+
+(listed in alphabetical order, see also
+https://github.com/EasyRPG/Editor/graphs/contributors[full contributor list on GitHub])
