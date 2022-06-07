@@ -28,6 +28,9 @@ Makefile*
 /bin/platforms
 *.cbp
 
+# flatpak
+/.flatpak-builder
+
 # liblcf
 lib/liblcf
 

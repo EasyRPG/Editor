@@ -1,0 +1,76 @@
+name: Stable Compilation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)
+        required: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-21.08
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v2
+    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+      with:
+        bundle: EasyRPG-Editor.flatpak
+        manifest-path: builds/flatpak/org.easyrpg.editor.yml
+        cache-key: flatpak-builder-${{ github.sha }}
+
+  docker:
+    name: ${{ matrix.image }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.image }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - ubuntu:20.04  # LTS       | CMake 3.16.3 | G++ 9.3.0  | QT 5.12.8
+          - debian:11     # stable    | CMake 3.18.4 | G++ 10.2.1 | QT 5.15.2
+          - ubuntu:22.04  # LTS       | CMake 3.22.1 | G++ 11.2.0 | QT 5.15.3
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+
+      - name: Install dependencies
+        run: |
+          export DEBIAN_FRONTEND="noninteractive"
+          apt-get update
+          apt-get install -yqq --no-install-recommends --no-install-suggests \
+            ca-certificates build-essential cmake ninja-build git \
+            libicu-dev libexpat1-dev qttools5-dev-tools qtbase5-dev-tools \
+            qtbase5-dev qtmultimedia5-dev libqt5svg5-dev
+
+      - name: Clone Repository
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref == ''
+      - name: Clone Repository (with custom ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
+
+      - name: Compile
+        run: |
+          cmake -G Ninja . -B build-ga \
+            -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
+            -DEDITOR_BUILD_LIBLCF=ON
+          cmake --build build-ga
+
+      - name: Install
+        run: |
+          cmake --install build-ga

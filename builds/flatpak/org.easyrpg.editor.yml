@@ -1,0 +1,43 @@
+app-id: org.easyrpg.editor
+runtime: org.kde.Sdk
+runtime-version: '5.15-21.08'
+sdk: org.kde.Sdk
+command: easyrpg-editor
+rename-desktop-file: easyrpg-editor.desktop
+#rename-appdata-file: easyrpg-editor.appdata.xml
+rename-icon: easyrpg-editor
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+# insecure:
+  - --filesystem=host
+# more secure:
+#  - --filesystem=home
+  - --device=dri
+  - --allow=devel
+modules:
+  - name: liblcf
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DLIBLCF_ENABLE_TOOLS=OFF
+      - -DLIBLCF_WITH_XML=OFF
+      - -DLIBLCF_ENABLE_TESTS=OFF
+    sources:
+      - type: git
+        url: https://github.com/EasyRPG/liblcf.git
+        #tag: '0.7.0'
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /lib/cmake
+      - /share
+  - name: editor
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    sources:
+      - type: git
+        url: https://github.com/EasyRPG/Editor.git
