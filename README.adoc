@@ -28,6 +28,7 @@ https://wiki.easyrpg.org
 - {qt5} (>= 5.11)
 - Qt Multimedia
 - Qt SVG
+- Qt Linguist (optional, for translation)
 
 == Daily builds
 

@@ -378,12 +378,8 @@ set_target_properties(${EXE_NAME} PROPERTIES
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Dependencies
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Svg REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
+find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg)
+find_package(Qt5LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
@@ -431,21 +427,25 @@ target_link_libraries(${EXE_NAME}
 target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
 
 # Translations
-set(TRANSLATION_SOURCES
-	translations/editor_de.ts
-)
-set(TRANSLATION_RES ${CMAKE_CURRENT_BINARY_DIR}/translations/editor.qrc)
-configure_file(translations/editor.qrc ${TRANSLATION_RES} COPYONLY)
-set_source_files_properties(${TRANSLATION_SOURCES} PROPERTIES
-	OUTPUT_LOCATION "translations")
-qt5_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
-	OPTIONS -compress -nounfinished -removeidentical)
-target_sources(${EXE_NAME} PRIVATE ${TRANSLATION_RES} ${EDITOR_TRANSLATIONS})
-add_custom_target(translations
-	COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-	COMMENT "Create/Update translations..."
-	COMMAND_EXPAND_LISTS VERBATIM)
+if(TARGET Qt5::lrelease)
+	set(TRANSLATION_SOURCES
+		translations/editor_de.ts
+	)
+	set(TRANSLATION_RES ${CMAKE_CURRENT_BINARY_DIR}/translations/editor.qrc)
+	configure_file(translations/editor.qrc ${TRANSLATION_RES} COPYONLY)
+	set_source_files_properties(${TRANSLATION_SOURCES} PROPERTIES
+		OUTPUT_LOCATION "translations")
+	qt5_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
+		OPTIONS -compress -nounfinished -removeidentical)
+	target_sources(${EXE_NAME} PRIVATE ${TRANSLATION_RES} ${EDITOR_TRANSLATIONS})
+	add_custom_target(translations
+		COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		COMMENT "Create/Update translations..."
+		COMMAND_EXPAND_LISTS VERBATIM)
+else()
+	message(STATUS "Disabling translation support")
+endif()
 
 # Installation
 include(GNUInstallDirs)
