@@ -30,3 +30,7 @@ indent_size = 4
 [*.ui]
 indent_style = space
 indent_size = 1
+
+[*.yaml,*.yml]
+indent_style = space
+indent_size = 2

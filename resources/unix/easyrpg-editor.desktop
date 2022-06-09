@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Icon=easyrpg-editor
+Type=Application
+Categories=Game;Qt;X-Editor;
+Exec=easyrpg-editor
+Name=EasyRPG Editor
+GenericName=Game Editor
+Comment=Create and edit RPG Maker games
+StartupNotify=true
+StartupWMClass=org.easyrpg.easyrpg-editor

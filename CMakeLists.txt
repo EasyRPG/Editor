@@ -383,9 +383,10 @@ if(EDITOR_BUILD_LIBLCF)
 
 	option(BUILD_SHARED_LIBS "Not used. Supresses CMP0077 in liblcf" ON)
 
-	# Always build static liblcf
+	# Always build static liblcf and do not install it
 	function(add_liblcf)
 		set(BUILD_SHARED_LIBS OFF)
+		set(LIBLCF_ENABLE_INSTALL OFF)
 		add_subdirectory(${LIBLCF_PATH})
 	endfunction()
 	add_liblcf()
@@ -472,4 +473,20 @@ else()
 	install(TARGETS ${EXE_NAME}
 		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 	)
+	if(UNIX)
+		# Install desktop entry and icon
+		install(FILES resources/unix/easyrpg-editor.desktop
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+		# legacy path, remove 2030 :)
+		install(FILES resources/app/easyrpg.png
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/pixmaps
+			RENAME easyrpg-editor.png)
+		# FIXME: use scalable icon
+		install(FILES resources/app/easyrpg.png
+			DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/48x48/apps
+			RENAME easyrpg-editor.png)
+		# FIXME: Fill appdata file
+		#install(FILES resources/unix/easyrpg-editor.appdata.xml
+		#	DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
+	endif()
 endif()
