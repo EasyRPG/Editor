@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/i18n">
+        <file alias="easyrpg-editor_de.qm">editor_de.qm</file>
+    </qresource>
+</RCC>

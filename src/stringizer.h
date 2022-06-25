@@ -19,8 +19,22 @@
 
 #include <QString>
 #include <lcf/rpg/eventcommand.h>
+#include <qcoreapplication.h>
 
 namespace Stringizer {
+#ifdef PLEASE_HELP_LINGUIST
+	/*
+	 * NOTE: We need to help linguist, macro name is totally made up.
+	 * See comment at top of source file for reasoning.
+	 */
+	Q_DECLARE_TR_FUNCTIONS(Stringizer)
+#else
+	// This is normally copied from qcoreapplication.h by the macro...
+	static inline QString tr(const char *sourceText, const char *disambiguation = nullptr, int n = -1)
+	{
+		return QCoreApplication::translate("stringizer", sourceText, disambiguation, n);
+	}
+#endif
 	QString stringize(const lcf::rpg::EventCommand& com);
 
 	// Common stringize operations

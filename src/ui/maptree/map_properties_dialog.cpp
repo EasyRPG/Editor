@@ -44,10 +44,10 @@ MapPropertiesDialog::MapPropertiesDialog(ProjectData& project, lcf::rpg::MapInfo
 		ui->comboTileset->addItem(ToQString(database.chipsets[static_cast<size_t>(i)].name), i + 1);
 	}
 
-	ui->comboWrapping->addItem("None", lcf::rpg::Map::ScrollType_none);
-	ui->comboWrapping->addItem("Vertical", lcf::rpg::Map::ScrollType_vertical);
-	ui->comboWrapping->addItem("Horizontal", lcf::rpg::Map::ScrollType_horizontal);
-	ui->comboWrapping->addItem("Both", lcf::rpg::Map::ScrollType_both);
+	ui->comboWrapping->addItem(tr("None"), lcf::rpg::Map::ScrollType_none);
+	ui->comboWrapping->addItem(tr("Vertical"), lcf::rpg::Map::ScrollType_vertical);
+	ui->comboWrapping->addItem(tr("Horizontal"), lcf::rpg::Map::ScrollType_horizontal);
+	ui->comboWrapping->addItem(tr("Both"), lcf::rpg::Map::ScrollType_both);
 
 	m_buttonGroupBGM = new QButtonGroup(this);
 	m_buttonGroupBGM->addButton(ui->radioBGMparent);
@@ -304,8 +304,8 @@ void MapPropertiesDialog::accept() {
 	int height = m_map_copy.height;
 	if (width < old_width || height < old_height) {
 		int result = QMessageBox::question(this,
-			"Shrink map",
-			QString("You are about to shrink the current map. All out of bounds map data and events will be deleted. This cannot be undone. Do you want to continue?"),
+			tr("Shrink map"),
+			QString(tr("You are about to shrink the current map. All out of bounds map data and events will be deleted. This cannot be undone. Do you want to continue?")),
 			QMessageBox::Yes | QMessageBox::No);
 
 		if (result != QMessageBox::Yes) {

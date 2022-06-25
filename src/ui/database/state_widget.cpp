@@ -33,15 +33,15 @@ StateWidget::StateWidget(ProjectData& project, QWidget *parent) :
 
 	m_current = nullptr;
 
-	ui->comboExtents->addItem("Ends after battle", 0);
-	ui->comboExtents->addItem("Persists after battle", 1);
+	ui->comboExtents->addItem(tr("Ends after battle"), 0);
+	ui->comboExtents->addItem(tr("Persists after battle"), 1);
 
 	ui->comboColor->setup(project);
 
-	ui->comboRestriction->addItem("No restriction", 0);
-	ui->comboRestriction->addItem("No action allowed", 1);
-	ui->comboRestriction->addItem("Attack enemies randomly", 2);
-	ui->comboRestriction->addItem("Attack allies randomly", 3);
+	ui->comboRestriction->addItem(tr("No restriction"), 0);
+	ui->comboRestriction->addItem(tr("No action allowed"), 1);
+	ui->comboRestriction->addItem(tr("Attack enemies randomly"), 2);
+	ui->comboRestriction->addItem(tr("Attack allies randomly"), 3);
 
 	m_buttonGroupStatAlteration = new QButtonGroup(this);
 	m_buttonGroupStatAlteration->addButton(ui->radioStatAlterationNone);

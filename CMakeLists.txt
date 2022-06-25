@@ -1,7 +1,5 @@
-cmake_minimum_required(VERSION 3.9)
-if(POLICY CMP0091)
-	cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
-endif()
+cmake_minimum_required(VERSION 3.15)
+cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
@@ -289,9 +287,6 @@ set(EDITOR_SOURCES
 	src/ui/other/search_dialog.cpp
 	src/ui/other/search_dialog.h
 	src/ui/other/search_dialog.ui
-	src/ui/other/splash_dialog.cpp
-	src/ui/other/splash_dialog.h
-	src/ui/other/splash_dialog.ui
 	src/ui/other/volumebutton.cpp
 	src/ui/other/volumebutton.h
 	src/ui/picker/picker_audio_widget.cpp
@@ -321,11 +316,45 @@ set(EDITOR_SOURCES
 	src/ui/viewer/stat_curve_graphics_item.cpp
 	src/ui/viewer/stat_curve_graphics_item.h
 )
-add_library(${PROJECT_NAME} STATIC ${EDITOR_SOURCES})
+
+if(APPLE)
+	# Do not code sign
+	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
+	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "")
+	set(CMAKE_XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.easyrpg.editor")
+
+	# App Icon
+	set(EDITOR_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Editor.icns")
+	set_source_files_properties(${EDITOR_BUNDLE_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+
+	set(EXE_NAME "EasyRPG-Editor.app")
+	set(EXE_OUTPUT_NAME "EasyRPG Editor")
+	add_executable(${EXE_NAME} MACOSX_BUNDLE "src/main.cpp" ${EDITOR_SOURCES} ${EDITOR_BUNDLE_ICON})
+	set_target_properties(${EXE_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Info.plist.in")
+	set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME ${EXE_OUTPUT_NAME})
+else()
+	# Executable
+	set(EXE_NAME ${PROJECT_NAME})
+	add_executable(${EXE_NAME} WIN32 "src/main.cpp" ${EDITOR_SOURCES})
+	if(WIN32)
+		# Open console for Debug builds
+		if(CMAKE_BUILD_TYPE MATCHES "Debug")
+			set_target_properties(${EXE_NAME} PROPERTIES WIN32_EXECUTABLE FALSE)
+		endif()
+		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "Editor")
+		# Add icon
+		target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")
+	else()
+		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "easyrpg-editor")
+	endif()
+endif()
 
 # Include directories
-target_include_directories(${PROJECT_NAME} PUBLIC
-	"${CMAKE_CURRENT_SOURCE_DIR}/src"
+target_include_directories(${EXE_NAME}
+	PUBLIC
+		${CMAKE_CURRENT_SOURCE_DIR}/src
+	INTERFACE
+		$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
 )
 
 # IDE source grouping
@@ -340,31 +369,17 @@ else()
 	set(AUTOGEN_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}_autogen/include)
 endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE
-	$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
-)
-
 # Qt Magic
-set_target_properties(${PROJECT_NAME} PROPERTIES
+set_target_properties(${EXE_NAME} PROPERTIES
 	AUTOMOC ON
 	AUTOUIC ON
+	AUTORCC ON # Enable resource compiler for exe
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# App Icon (for macOS)
-set(${PROJECT_NAME}_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Editor.icns")
-
-# Do not code sign on Macs
-set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
-set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "")
-set(CMAKE_XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.easyrpg.editor")
-
 # Dependencies
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Svg REQUIRED)
+find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg)
+find_package(Qt5LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
@@ -390,69 +405,56 @@ if(EDITOR_BUILD_LIBLCF)
 		add_subdirectory(${LIBLCF_PATH})
 	endfunction()
 	add_liblcf()
-	target_link_libraries(${PROJECT_NAME} lcf)
+	target_link_libraries(${EXE_NAME} lcf)
 else()
 	# Use system package
 	find_package(liblcf REQUIRED)
-	target_link_libraries(${PROJECT_NAME} liblcf::liblcf)
-endif()
-
-# Find Qt deployment apps
-if(APPLE)
-	get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
-	get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
-	find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
+	target_link_libraries(${EXE_NAME} liblcf::liblcf)
 endif()
 
 # Libraries
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${EXE_NAME}
 	ZLIB::ZLIB
-	Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Multimedia Qt5::Svg
+	Qt5::Widgets
+	Qt5::Gui
+	Qt5::Core
+	Qt5::Multimedia
+	Qt5::Svg
 	Qt5::QSvgIconPlugin
-)
-
-# Executable
-# Windows: Only open console for Debug builds
-if(APPLE)
-	set(EXE_NAME "EasyRPG-Editor.app")
-	set_source_files_properties(${${PROJECT_NAME}_BUNDLE_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-	add_executable("${EXE_NAME}" MACOSX_BUNDLE "src/main.cpp" ${${PROJECT_NAME}_BUNDLE_ICON})
-else()
-	set(EXE_NAME "${PROJECT_NAME}_exe")
-	if(CMAKE_BUILD_TYPE MATCHES "Debug")
-		add_executable(${PROJECT_NAME}_exe "src/main.cpp")
-	else()
-		add_executable(${PROJECT_NAME}_exe WIN32 "src/main.cpp")
-	endif()
-endif()
-
-if(WIN32)
-	set_target_properties(${PROJECT_NAME}_exe PROPERTIES OUTPUT_NAME "Editor")
-elseif(APPLE)
-	set(EXE_OUTPUT_NAME "EasyRPG Editor")
-	set_target_properties("${EXE_NAME}" PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Info.plist.in")
-	set_target_properties("${EXE_NAME}" PROPERTIES OUTPUT_NAME ${EXE_OUTPUT_NAME})
-else()
-	set_target_properties(${PROJECT_NAME}_exe PROPERTIES OUTPUT_NAME "easyrpg-editor")
-endif()
-
-target_link_libraries(${EXE_NAME} ${PROJECT_NAME})
-
-# Qt Magic (Enable resource compiler for exe)
-set_target_properties(${EXE_NAME} PROPERTIES
-	AUTORCC ON
 )
 
 # Add resources
 target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
 
-if(WIN32)
-	target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")
+# Translations
+if(TARGET Qt5::lrelease)
+	set(TRANSLATION_SOURCES
+		translations/editor_de.ts
+	)
+	set(TRANSLATION_RES ${CMAKE_CURRENT_BINARY_DIR}/translations/editor.qrc)
+	configure_file(translations/editor.qrc ${TRANSLATION_RES} COPYONLY)
+	set_source_files_properties(${TRANSLATION_SOURCES} PROPERTIES
+		OUTPUT_LOCATION "translations")
+	qt5_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
+		OPTIONS -compress -nounfinished -removeidentical)
+	target_sources(${EXE_NAME} PRIVATE ${TRANSLATION_RES} ${EDITOR_TRANSLATIONS})
+	add_custom_target(translations
+		COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		COMMENT "Create/Update translations..."
+		COMMAND_EXPAND_LISTS VERBATIM)
+else()
+	message(STATUS "Disabling translation support")
 endif()
 
 # Installation
 include(GNUInstallDirs)
 if(APPLE)
+	# Find Qt deployment apps
+	get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+	get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
+	find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
+
 	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
 	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
 	# Run macdeployqt

@@ -88,7 +88,7 @@ void SearchDialog::on_button_search_clicked()
 	ui->list_result->clear();
 	ui->list_result->setRowCount(0);
 	QStringList sl;
-	sl << "Map" << "Event" << "Event Page" << "Sourceline" << "Action";
+	sl << tr("Map") << tr("Event") << tr("Event Page") << tr("Sourceline") << tr("Action");
 	ui->list_result->setHorizontalHeaderLabels(sl);
 
 	std::function<bool(const lcf::rpg::EventCommand&)> search_predicate;
@@ -228,7 +228,7 @@ void SearchDialog::on_button_search_clicked()
 
 	if (!search_predicate)
 	{
-		QMessageBox::warning(this, "", "This search parameter isn't supported yet.");
+		QMessageBox::warning(this, "", tr("This search parameter isn't supported yet."));
 		return;
 	}
 
@@ -248,7 +248,7 @@ void SearchDialog::on_button_search_clicked()
 	{
 		for (auto &map : m_project.treeMap().maps)
 		{
-			ui->label_status->setText(QString("Parsing Map %1 / %2").arg(QString::number(map.ID + 1), QString::number(m_project.treeMap().maps.size())));
+			ui->label_status->setText(QString(tr("Parsing Map %1 / %2")).arg(QString::number(map.ID + 1), QString::number(m_project.treeMap().maps.size())));
 			QApplication::processEvents(); //FIXME: can this be done better?!
 
 			auto mapp = loadMap(map.ID);
@@ -297,7 +297,7 @@ void SearchDialog::showResults(const std::vector<command_info>& results) {
 		QStringList maps_rev;
 		if (mm == 0) // Common Event
 		{
-			maps_rev << "Common";
+			maps_rev << tr("Common");
 		}
 		else
 		{

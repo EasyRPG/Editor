@@ -210,10 +210,9 @@ void ActorWidget::ResetExpText(lcf::rpg::Actor* actor) {
 		inflation = actor->exp_inflation;
 		correction = actor->exp_correction;
 	}
-	char buf[1024] = {};
-	snprintf(buf, sizeof(buf), "Initial = %d; Increment = %d; Correction = %d",
-			 base, inflation, correction);
-	ui->labelExpCurve->setText(buf);
+	ui->labelExpCurve->setText(QString(tr(
+		"Initial = %1; Increment = %2; Correction = %3"
+		)).arg(base).arg(inflation).arg(correction));
 }
 
 void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)

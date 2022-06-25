@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>app/splash.png</file>
         <file>app/easyrpg.png</file>
         <file>app/editor.ico</file>
         <file>app/logo.svg</file>

@@ -56,28 +56,28 @@ MapScene::MapScene(ProjectData& project, int id, QGraphicsView *view, QObject *p
 	m_eventMenu = new QMenu(m_view);
 	QList<QAction*> actions;
 	actions << new QAction(QIcon(":/icons/share/old_playtest.png"),
-						   "Start Game Here",
+						   tr("Start Game Here"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_edit.png"),
-						   "Set Start Position",
+						   tr("Set Start Position"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
-						   "New Event",
+						   tr("New Event"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
-						   "Edit Event",
+						   tr("Edit Event"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
-						   "Copy Event",
+						   tr("Copy Event"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
-						   "Cut Event",
+						   tr("Cut Event"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
-						   "Paste Event",
+						   tr("Paste Event"),
 						   this);
 	actions << new QAction(QIcon(":/icons/share/old_event_layer.png"),
-						   "Delete Event",
+						   tr("Delete Event"),
 						   this);
 	connect(actions[0],SIGNAL(triggered()),this,SLOT(on_actionRunHere()));
 	connect(actions[1],SIGNAL(triggered()),this,SLOT(on_actionSetStartPosition()));
@@ -649,7 +649,7 @@ void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 		{
 			if (_index(cur_x,cur_y) == _index(evt.x,evt.y))
 			{
-				status_msg.append(QString(" - Event %0: %1").arg(evt.ID).arg(evt.name.c_str()));
+				status_msg.append(QString(" - " + tr("Event") + " %0: %1").arg(evt.ID).arg(evt.name.c_str()));
 			}
 		}
 	}

@@ -1,0 +1,54 @@
+= Translating EasyRPG Editor
+// Show note icon
+ifdef::env-github[]
+:tip-caption: :bulb:
+endif::[]
+ifndef::env-github[]
+:icons: font
+endif::[]
+
+== Adding a language
+
+- Add the file with corresponding language code (e.g. "es") to `CMakeLists.txt`:
++
+[source,cmake]
+---------------------------
+set(TRANSLATION_SOURCES
+  [...]
+  translations/editor_es.ts
+)
+---------------------------
+
+- Add the name to `translations/editor.qrc`
++
+[source,xml]
+--------------------------------------------------------
+<qresource prefix="/i18n">
+  [...]
+  <file alias="easyrpg-editor_es.qm">editor_es.qm</file>
+</qresource>
+--------------------------------------------------------
+
+- Run `cmake --build --target translations` if you have a build tree ready.
++
+Or invoke lupdate manually from root directory of the repository:
+  `lupdate src -ts translations/editor_es.ts`
+
+== (Further) translating an already added language
+
+- Open `translations/editor_<lang>.ts` in Qt Linguist
+- Translate strings and save file
++
+TIP: There are good external tutorials.
+- Commit to git repository and make a pull request
+
+== Running Editor in a specific language for testing
+
+- Build Editor in `Debug` configuration
+- Compile the translation file (QM format) with `lrelease` or CMake
+- Set environment variable `EASYRPG_EDITOR_LANG_FILE` to the desired file, e.g.
++
+[source, console]
+---------------------------------------------------
+env EASYRPG_EDITOR_LANG_FILE=test.qm easyrpg-editor
+---------------------------------------------------
