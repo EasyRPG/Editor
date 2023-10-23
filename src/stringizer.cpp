@@ -885,9 +885,9 @@ namespace
 			+ (com.parameters[2] ? Stringizer::tr("(Wait)") : "");
 	}
 
-	QString stringizeSpriteTransparency(const lcf::rpg::EventCommand& com)
+	QString stringizePlayerVisibility(const lcf::rpg::EventCommand& com)
 	{
-		return Stringizer::tr("Sprite Transparency") + ": "
+		return Stringizer::tr("Player Visibility") + ": "
 			+ (com.parameters[0] ? Stringizer::tr("Opaque") : Stringizer::tr("Transparent"));
 	}
 
@@ -956,9 +956,9 @@ namespace
 			+ (com.parameters[1] ? ", " + Stringizer::tr("Vert Scroll") : "");
 	}
 
-	QString stringizeChangeEncounterRate(const lcf::rpg::EventCommand& com)
+	QString stringizeChangeEncounterSteps(const lcf::rpg::EventCommand& com)
 	{
-		return Stringizer::tr("Change Encounter Rate") + ": " + QString::number(com.parameters[0]);
+		return Stringizer::tr("Change Encounter Steps") + ": " + QString::number(com.parameters[0]);
 	}
 
 	QString stringizeTileSubstitution(const lcf::rpg::EventCommand& com)
@@ -1517,7 +1517,7 @@ namespace Stringizer
 		case C::MovePicture:			 return stringizeMovePicture(com);
 		case C::ErasePicture:			 return stringizeErasePicture(com);
 		case C::ShowBattleAnimation:	 return stringizeShowBattleAnimation(com);
-		case C::SpriteTransparency:		 return stringizeSpriteTransparency(com);
+		case C::PlayerVisibility:		 return stringizePlayerVisibility(com);
 		case C::FlashSprite:			 return stringizeFlashSprite(com);
 		case C::MoveEvent:				 return stringizeMoveEvent(com);
 		case C::ProceedWithMovement:	 return tr("Proceed With Movement");
@@ -1532,7 +1532,7 @@ namespace Stringizer
 		case C::KeyInputProc:			 return stringizeKeyInputProc(com);
 		case C::ChangeMapTileset:		 return stringizeChangeMapTileset(com);
 		case C::ChangePBG:				 return stringizeChangePBG(com);
-		case C::ChangeEncounterRate:	 return stringizeChangeEncounterRate(com);
+		case C::ChangeEncounterSteps:	 return stringizeChangeEncounterSteps(com);
 		case C::TileSubstitution:		 return stringizeTileSubstitution(com);
 		case C::TeleportTargets:		 return stringizeTeleportTargets(com);
 		case C::ChangeTeleportAccess:	 return stringizeChangeTeleportAccess(com);
