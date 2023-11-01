@@ -23,23 +23,35 @@
 class ProjectData;
 
 namespace Ui {
-class ChipSetWidget;
+class ChipsetWidget;
 }
 
-class ChipSetWidget : public QWidget
+class QButtonGroup;
+class TileGraphicsItem;
+
+class ChipsetWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
 	using value_type = lcf::rpg::Chipset;
 
-	explicit ChipSetWidget(ProjectData& project, QWidget *parent = nullptr);
-	~ChipSetWidget();
+	explicit ChipsetWidget(ProjectData& project, QWidget *parent = nullptr);
+	~ChipsetWidget();
 
 	void setData(lcf::rpg::Chipset* chipset);
 
 private:
-	Ui::ChipSetWidget *ui;
+	void chipsetClicked();
+
+	lcf::rpg::Chipset dummy;
+	lcf::rpg::Chipset *m_current = nullptr;
+
+	Ui::ChipsetWidget *ui;
 	ProjectData& m_project;
+
+	TileGraphicsItem* m_water_tile = nullptr;
+	QButtonGroup* m_buttonGroupSequence = nullptr;
+	QButtonGroup* m_buttonGroupSpeed = nullptr;
 };
 

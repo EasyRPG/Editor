@@ -298,6 +298,8 @@ set(EDITOR_SOURCES
 	src/ui/picker/picker_child_widget.h
 	src/ui/picker/picker_charset_widget.cpp
 	src/ui/picker/picker_charset_widget.h
+	src/ui/picker/picker_chipset_widget.cpp
+	src/ui/picker/picker_chipset_widget.h
 	src/ui/picker/picker_faceset_widget.cpp
 	src/ui/picker/picker_faceset_widget.h
 	src/ui/picker/picker_panorama_widget.cpp
@@ -309,12 +311,16 @@ set(EDITOR_SOURCES
 	src/ui/viewer/battle_animation_graphics_item.h
 	src/ui/viewer/charset_graphics_item.cpp
 	src/ui/viewer/charset_graphics_item.h
+	src/ui/viewer/chipset_graphics_view.cpp
+	src/ui/viewer/chipset_graphics_view.h
 	src/ui/viewer/faceset_graphics_item.cpp
 	src/ui/viewer/faceset_graphics_item.h
 	src/ui/viewer/rpg_graphics_view.cpp
 	src/ui/viewer/rpg_graphics_view.h
 	src/ui/viewer/stat_curve_graphics_item.cpp
 	src/ui/viewer/stat_curve_graphics_item.h
+	src/ui/viewer/tile_graphics_item.cpp
+	src/ui/viewer/tile_graphics_item.cpp
 )
 
 if(APPLE)
