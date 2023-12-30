@@ -1,6 +1,6 @@
 INSTRUCTIONS:
 
 1) Download:
-https://ci.easyrpg.org/view/Editor/job/editor-windows/lastSuccessfulBuild/artifact/bin/easyrpg_editor_windows.zip
+https://ci.easyrpg.org/view/Editor/job/editor-windows/lastSuccessfulBuild/artifact/build/bin/Editor.exe
 
-2) Unzip Player.exe in this folder.
+2) Unzip Editor.exe in this folder.
