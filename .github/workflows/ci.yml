@@ -39,8 +39,9 @@ jobs:
       matrix:
         image:
           - ubuntu:20.04  # LTS       | CMake 3.16.3 | G++ 9.3.0  | QT 5.12.8
-          - debian:11     # stable    | CMake 3.18.4 | G++ 10.2.1 | QT 5.15.2
           - ubuntu:22.04  # LTS       | CMake 3.22.1 | G++ 11.2.0 | QT 5.15.3
+          - debian:12     # stable    | CMake 3.25.1 | G++ 12.2.0 | QT 5.15.8
+          - ubuntu:24.04  # LTS       | CMake 3.28.3 | G++ 13.2.0 | QT 5.15.13
 
     steps:
       - name: Cancel Previous Runs
@@ -52,8 +53,8 @@ jobs:
           apt-get update
           apt-get install -yqq --no-install-recommends --no-install-suggests \
             ca-certificates build-essential cmake ninja-build git \
-            libicu-dev libexpat1-dev qttools5-dev-tools qtbase5-dev-tools \
-            qtbase5-dev qtmultimedia5-dev libqt5svg5-dev
+            libicu-dev libexpat1-dev libinih-dev qttools5-dev-tools \
+            qtbase5-dev-tools qtbase5-dev qtmultimedia5-dev libqt5svg5-dev
 
       - name: Clone Repository
         uses: actions/checkout@v2

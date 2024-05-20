@@ -17,22 +17,36 @@ finish-args:
 #  - --filesystem=home
   - --device=dri
   - --allow=devel
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - /lib/*.so
 modules:
+  # external libraries
+  - name: libinih
+    buildsystem: meson
+    config-opts:
+      - --buildtype=debugoptimized
+    sources:
+      - type: git
+        url: https://github.com/benhoyt/inih.git
+        tag: 58
+        commit: 5cc5e2c24642513aaa5b19126aad42d0e4e0923e
+  # own libraries
   - name: liblcf
     buildsystem: cmake-ninja
+    builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DLIBLCF_ENABLE_TOOLS=OFF
       - -DLIBLCF_WITH_XML=OFF
       - -DLIBLCF_ENABLE_TESTS=OFF
+      - -DLIBLCF_UPDATE_MIMEDB=OFF
     sources:
       - type: git
         url: https://github.com/EasyRPG/liblcf.git
-        #tag: '0.7.0'
     cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /lib/cmake
       - /share
   - name: editor
     buildsystem: cmake-ninja
