@@ -46,7 +46,7 @@ DatabaseDialog::DatabaseDialog(ProjectData& project, QWidget *parent) :
 	pageBattleAnimations2 = new DatabaseSplitWidget<lcf::rpg::BattlerAnimation>(m_projectDataCopy, this);
 	pageBattleScreen = new BattleScreenWidget(m_projectDataCopy, this);
 	pageTerrain = new DatabaseSplitWidget<lcf::rpg::Terrain>(m_projectDataCopy, this);
-	// FIXME: This fails to compile pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset>(m_projectDataCopy, this);
+	pageChipset = new DatabaseSplitWidget<lcf::rpg::Chipset>(m_projectDataCopy, this);
 	pageCommonevents = new DatabaseSplitWidget<lcf::rpg::CommonEvent>(m_projectDataCopy, this);
 	pageSwitches = new DatabaseSplitWidget<lcf::rpg::Switch>(m_projectDataCopy, this);
 	pageVariables = new DatabaseSplitWidget<lcf::rpg::Variable>(m_projectDataCopy, this);
@@ -66,7 +66,7 @@ DatabaseDialog::DatabaseDialog(ProjectData& project, QWidget *parent) :
 	ui->tabOld_Pages->insertTab(9, pageBattleAnimations2, tr("Battle Animation 2"));
 	ui->tabOld_Pages->insertTab(10, pageBattleScreen, tr("Battle screen"));
 	ui->tabOld_Pages->insertTab(11, pageTerrain, tr("Terrain"));
-	// FIXME ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
+	ui->tabOld_Pages->insertTab(12, pageChipset, tr("Chipset"));
 	ui->tabOld_Pages->insertTab(13, pageVocabulary, tr("Vocabulary"));
 	ui->tabOld_Pages->insertTab(14, pageSystem, tr("System"));
 	ui->tabOld_Pages->insertTab(15, pageSystem2, tr("System"));

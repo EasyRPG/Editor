@@ -18,20 +18,108 @@
 #include "chipset_widget.h"
 #include "ui_chipset_widget.h"
 
-ChipSetWidget::ChipSetWidget(ProjectData& project, QWidget *parent) :
+#include "common/lcf_widget_binding.h"
+#include "ui/picker/picker_chipset_widget.h"
+#include "ui/picker/picker_dialog.h"
+
+#include <QButtonGroup>
+
+ChipsetWidget::ChipsetWidget(ProjectData& project, QWidget *parent) :
 	QWidget(parent),
-	ui(new Ui::ChipSetWidget),
+	ui(new Ui::ChipsetWidget),
 	m_project(project)
 {
 	ui->setupUi(this);
+
+	QListView& list = *ui->listTerrain;
+	list.setModel(new RpgModel<lcf::rpg::Terrain>(project, project.database().terrains, parent));
+
+	LcfWidgetBinding::connect(this, ui->lineName);
+
+	m_buttonGroupSequence = new QButtonGroup(this);
+	m_buttonGroupSequence->addButton(ui->radioLowerAnim1232);
+	m_buttonGroupSequence->setId(ui->radioLowerAnim1232, 0);
+	m_buttonGroupSequence->addButton(ui->radioLowerAnim123);
+	m_buttonGroupSequence->setId(ui->radioLowerAnim123, 1);
+	LcfWidgetBinding::connect<int32_t>(this, m_buttonGroupSequence);
+	connect(m_buttonGroupSequence, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked),
+	[=](QAbstractButton*){
+		if (m_water_tile) {
+			m_water_tile->setAnimType(m_buttonGroupSequence->checkedId());
+		}
+	});
+
+	m_buttonGroupSpeed = new QButtonGroup(this);
+	m_buttonGroupSpeed->addButton(ui->radioLowerAnimSlow);
+	m_buttonGroupSpeed->setId(ui->radioLowerAnimSlow, 0);
+	m_buttonGroupSpeed->addButton(ui->radioLowerAnimFast);
+	m_buttonGroupSpeed->setId(ui->radioLowerAnimFast, 1);
+	LcfWidgetBinding::connect<int32_t>(this, m_buttonGroupSpeed);
+	connect(m_buttonGroupSpeed, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked),
+		[=](QAbstractButton*){
+		if (m_water_tile) {
+			m_water_tile->setAnimSpeed(m_buttonGroupSpeed->checkedId());
+		}
+	});
+
+	ui->graphicsChipsetLower->setProjectData(project);
+	ui->graphicsChipsetLower->setLayer(ChipsetGraphicsView::Layer::Lower);
+	ui->graphicsChipsetUpper->setProjectData(project);
+	ui->graphicsChipsetUpper->setLayer(ChipsetGraphicsView::Layer::Upper);
+
+	ui->viewWaterAnim->scale(2., 2.);
+	ui->viewWaterAnim->enableTimer();
+
+	QObject::connect(ui->pushTileset, &QPushButton::clicked, this, &ChipsetWidget::chipsetClicked);
 }
 
-ChipSetWidget::~ChipSetWidget()
+ChipsetWidget::~ChipsetWidget()
 {
 	delete ui;
 }
 
-void ChipSetWidget::setData(lcf::rpg::Chipset* /* chipset */)
+void ChipsetWidget::setData(lcf::rpg::Chipset* chipset)
 {
+	if (!chipset) {
+		chipset = &dummy;
+	}
+	m_current = chipset;
 
+	LcfWidgetBinding::bind(ui->lineName, chipset->name);
+	LcfWidgetBinding::bind(m_buttonGroupSpeed, chipset->animation_speed);
+	LcfWidgetBinding::bind(m_buttonGroupSequence, chipset->animation_type);
+
+	for (auto* view: {ui->graphicsChipsetLower, ui->graphicsChipsetUpper}) {
+		view->setChipset(*chipset);
+		view->setShowGrid(true);
+		view->refresh();
+	}
+
+	QString file = m_project.project().findFile(CHIPSET, ToQString(m_current->chipset_name), FileFinder::FileType::Image);
+	if (!file.isEmpty()) {
+		m_water_tile = new TileGraphicsItem(m_project, nullptr, ImageLoader::Load(file));
+		m_water_tile->setLayer(ChipsetGraphicsView::Layer::Lower);
+		m_water_tile->setTileIndex(2);
+		m_water_tile->setAnimType(m_current->animation_type);
+		m_water_tile->setAnimSpeed(m_current->animation_speed);
+		ui->viewWaterAnim->setItem(m_water_tile);
+	} else {
+		ui->viewWaterAnim->setItem(nullptr);
+	}
+
+	ui->pushTileset->setText(ToQString(chipset->chipset_name));
+
+	this->setEnabled(chipset != &dummy);
+}
+
+void ChipsetWidget::chipsetClicked() {
+	auto* widget = new PickerChipsetWidget(this);
+	PickerDialog dialog(m_project, FileFinder::FileType::Image, widget, this);
+	QObject::connect(&dialog, &PickerDialog::fileSelected, [&](const QString& baseName) {
+		m_current->chipset_name = ToDBString(baseName);
+		ui->pushTileset->setText(ToQString(m_current->chipset_name));
+		setData(m_current);
+	});
+	dialog.setDirectoryAndFile(CHIPSET, ToQString(m_current->chipset_name));
+	dialog.exec();
 }
