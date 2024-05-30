@@ -222,6 +222,7 @@ void Core::LoadChipset(int n_chipsetid)
 		 * Get base
 		 */
 		QPixmap p_tile(tileSize(), tileSize());
+		p_tile.fill(QColor(0,0,0,0));
 		QPainter p(&p_tile);
 		if (isABWater (terrain_id))
 			p.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(0, 4*r_tileSize,r_tileSize,r_tileSize));
@@ -302,6 +303,7 @@ void Core::LoadChipset(int n_chipsetid)
 
 	/* Register AnimationTiles */
 	QPixmap a_tile(tileSize(), tileSize());
+	a_tile.fill(QColor(0,0,0,0));
 	QPainter a(&a_tile);
 	a.drawPixmap(0,0,tileSize(),tileSize(),o_chipset.copy(3*r_tileSize,4*r_tileSize,r_tileSize,r_tileSize));
 	for (int i = 0; i < 50; i++) {
@@ -377,6 +379,7 @@ void Core::LoadChipset(int n_chipsetid)
 			 * Get base
 			 */
 			QPixmap p_tile(tileSize(), tileSize());
+			p_tile.fill(QColor(0,0,0,0));
 			QPainter p(&p_tile);
 
 			/*
@@ -569,7 +572,7 @@ void Core::LoadBackground(QString name)
 {
 	if (name.isEmpty()) {
 		m_background = QPixmap(640,480);
-		m_background.fill(Qt::magenta);
+		m_background.fill(Qt::black);
 	} else
 		m_background = ImageLoader::Load(project()->findFile(PANORAMA, name, FileFinder::FileType::Image));
 }
@@ -710,9 +713,16 @@ void Core::renderEvent(const lcf::rpg::Event& event, const QRect &dest_rect)
 	if (event.pages[0].character_name.empty())
 		renderTile(static_cast<short>(event.pages[0].character_index+10000), final_rect);
 	else {
-		if (!m_eventCache.contains(event.ID))
-			return;
-		m_painter.drawPixmap(final_rect, m_eventCache.value(event.ID), QRect(0,6,24,24));
+
+		QString check = ToQString(event.pages[0].character_name);
+		int offset = (event.pages[0].character_pattern * 3 + event.pages[0].character_direction);
+		QString offset_string = QString::number(offset);
+		offset_string = check.leftJustified(2, '0');
+		check.append(offset_string);
+
+		if (!m_eventCache.contains(check))
+			cacheEvent(&event, check);
+		m_painter.drawPixmap(final_rect, m_eventCache.value(check), QRect(0,6,24,24));
 	}
 }
 
@@ -852,6 +862,33 @@ lcf::rpg::Event *Core::currentMapEvent(int eventID)
 	return event;
 }
 
+void Core::cacheEvent(lcf::rpg::Event* ev, QString key) {
+	
+	if (ev->pages.empty())
+		return;
+
+	lcf::rpg::EventPage& evp = ev->pages[0];
+	if (evp.character_name.empty())
+		return;
+
+	QString char_name = ToQString(evp.character_name);
+
+	QPixmap charset(ImageLoader::Load(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
+	if (!charset)
+		charset = ImageLoader::Load(rtpPath(CHARSET,char_name));
+	if (!charset)
+	{
+		qWarning()<<"CharSet"<<char_name<<"not found.";
+		charset = createDummyPixmap(288,256);
+	}
+
+	int char_index = evp.character_index;
+	int src_x = (char_index%4)*72 + evp.character_pattern * 24;
+	int src_y = (char_index/4)*128 + evp.character_direction * 32;
+
+	m_eventCache[key] = charset.copy(src_x, src_y, 24, 32);
+}
+
 void Core::setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events)
 {
 	m_currentMapEvents = events;
@@ -860,28 +897,14 @@ void Core::setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events)
 	for (QMap<int, lcf::rpg::Event*>::iterator it = events->begin(); it != events->end(); ++it)
 	{
 		lcf::rpg::Event* ev = it.value();
-		if (ev->pages.empty())
-			continue;
 
-		lcf::rpg::EventPage& evp = ev->pages[0];
-		if (evp.character_name.empty())
-			continue;
+		QString check = ToQString(ev.pages[0].character_name);
+		int offset = (ev.pages[0].character_pattern * 3 + ev.pages[0].character_direction);
+		QString offset_string = QString::number(offset);
+		offset_string = check.leftJustified(2, '0');
+		check.append(offset_string);
 
-		QString char_name = ToQString(evp.character_name);
-
-		QPixmap charset(ImageLoader::Load(project()->findFile(CHARSET,char_name, FileFinder::FileType::Image)));
-		if (!charset)
-			charset = ImageLoader::Load(rtpPath(CHARSET,char_name));
-		if (!charset)
-		{
-			qWarning()<<"CharSet"<<char_name<<"not found.";
-			charset = createDummyPixmap(288,256);
-		}
-
-		int char_index = evp.character_index;
-		int src_x = (char_index%4)*72 + evp.character_pattern * 24;
-		int src_y = (char_index/4)*128 + evp.character_direction * 32;
-		m_eventCache[it.key()] = charset.copy(src_x, src_y, 24, 32);
+		cacheEvent(*ev, check);
 	}
 }
 
