@@ -862,7 +862,7 @@ lcf::rpg::Event *Core::currentMapEvent(int eventID)
 	return event;
 }
 
-void Core::cacheEvent(lcf::rpg::Event* ev, QString key) {
+void Core::cacheEvent(const lcf::rpg::Event* ev, QString key) {
 	
 	if (ev->pages.empty())
 		return;
@@ -892,20 +892,6 @@ void Core::cacheEvent(lcf::rpg::Event* ev, QString key) {
 void Core::setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events)
 {
 	m_currentMapEvents = events;
-
-	m_eventCache.clear();
-	for (QMap<int, lcf::rpg::Event*>::iterator it = events->begin(); it != events->end(); ++it)
-	{
-		lcf::rpg::Event* ev = it.value();
-
-		QString check = ToQString(ev.pages[0].character_name);
-		int offset = (ev.pages[0].character_pattern * 3 + ev.pages[0].character_direction);
-		QString offset_string = QString::number(offset);
-		offset_string = check.leftJustified(2, '0');
-		check.append(offset_string);
-
-		cacheEvent(*ev, check);
-	}
 }
 
 QPixmap Core::createDummyPixmap(int width, int height)

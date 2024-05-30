@@ -109,7 +109,7 @@ public:
 
 	lcf::rpg::Event *currentMapEvent(int eventID);
 	void setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events);
-	void cacheEvent(lcf::rpg::Event* ev, QString key);
+	void cacheEvent(const lcf::rpg::Event* ev, QString key);
 
 	void runGame();
 	void runGameHere(int map_id, int x, int y);
