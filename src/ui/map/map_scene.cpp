@@ -165,6 +165,8 @@ void MapScene::Init()
 	m_view->verticalScrollBar()->setValue(n_mapInfo.scrollbar_y *static_cast<int>(m_scale));
 	m_view->horizontalScrollBar()->setValue(n_mapInfo.scrollbar_x * static_cast<int>(m_scale));
 	m_init = true;
+	core().setCurrentMapEvents(mapEvents());
+	redrawPanorama();
 	redrawMap();
 }
 
@@ -214,7 +216,6 @@ void MapScene::setEventData(int id, const lcf::rpg::Event &data)
 		if (m_map->events[i].ID == id) {
 			if (m_map->events[i] == data) {
 				m_map->events.erase(m_map->events.begin() + i);
-				redrawMap();
 				return;
 			} else {
 				m_map->events[i] = data;
@@ -265,7 +266,6 @@ void MapScene::redrawMap()
 	if (!m_init)
 		return;
 	core().LoadChipset(m_map->chipset_id);
-	core().setCurrentMapEvents(mapEvents());
 	s_tileSize = core().tileSize() * static_cast<double>(m_scale);
 	redrawLayer(Core::LOWER);
 	redrawLayer(Core::UPPER);

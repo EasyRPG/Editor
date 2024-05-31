@@ -109,6 +109,7 @@ public:
 
 	lcf::rpg::Event *currentMapEvent(int eventID);
 	void setCurrentMapEvents(QMap<int, lcf::rpg::Event *> *events);
+	void cacheEvent(const lcf::rpg::Event* ev, QString key);
 
 	void runGame();
 	void runGameHere(int map_id, int x, int y);
@@ -136,7 +137,7 @@ private:
 	Tool m_tool;
 	QPixmap m_background;
 	QMap<int, QPixmap> m_tileCache;
-	QMap<int, QPixmap> m_eventCache;
+	QMap<QString, QPixmap> m_eventCache;
 	QMap<int, short> m_dictionary;
 	QMap<int, lcf::rpg::Map> m_maps;
 	QMap<int, QWidget*> m_mapTabs;
