@@ -715,9 +715,8 @@ void Core::renderEvent(const lcf::rpg::Event& event, const QRect &dest_rect)
 	else {
 
 		QString check = ToQString(event.pages[0].character_name);
-		int offset = (event.pages[0].character_pattern * 3 + event.pages[0].character_direction);
+		int offset = (event.pages[0].character_index * 32 + event.pages[0].character_direction * 4 + event.pages[0].character_pattern);
 		QString offset_string = QString::number(offset);
-		offset_string = check.leftJustified(2, '0');
 		check.append(offset_string);
 
 		if (!m_eventCache.contains(check))
@@ -867,7 +866,7 @@ void Core::cacheEvent(const lcf::rpg::Event* ev, QString key) {
 	if (ev->pages.empty())
 		return;
 
-	lcf::rpg::EventPage& evp = ev->pages[0];
+	const lcf::rpg::EventPage& evp = ev->pages[0];
 	if (evp.character_name.empty())
 		return;
 
