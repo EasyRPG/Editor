@@ -1049,9 +1049,9 @@ int MapScene::getFirstFreeId() {
 
 void MapScene::redrawPanorama() {
 	if (m_map->parallax_flag) {
-		core().LoadBackground(m_map->parallax_name.c_str(), m_scale);
+		core().LoadBackground(m_map->parallax_name.c_str());
 	} else {
-		core().LoadBackground(QString(), m_scale);
+		core().LoadBackground(QString());
 	}
 }
 
