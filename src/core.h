@@ -60,7 +60,7 @@ public:
 	static Core* getCore();
 
 	void LoadChipset(int n_chipsetid);
-	void LoadBackground(QString name);
+	void LoadBackground(QString name, float scale);
 
 	int tileSize();
 	void setTileSize(int tileSize);

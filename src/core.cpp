@@ -568,13 +568,15 @@ void Core::LoadChipset(int n_chipsetid)
 	emit chipsetChanged();
 }
 
-void Core::LoadBackground(QString name)
+void Core::LoadBackground(QString name, float scale)
 {
 	if (name.isEmpty()) {
 		m_background = QPixmap(640,480);
 		m_background.fill(Qt::black);
 	} else
 		m_background = ImageLoader::Load(project()->findFile(PANORAMA, name, FileFinder::FileType::Image));
+		int height = m_background.height();
+		m_background = m_background.scaledToHeight(int(height * scale));
 }
 
 int Core::tileSize()
@@ -690,15 +692,11 @@ const std::shared_ptr<Project>& Core::project() const {
 void Core::beginPainting(QPixmap &dest)
 {
 	m_painter.begin(&dest);
-	if (m_painter.isActive())
-		m_painter.setBackground(QBrush(m_background));
 	m_painter.setPen(Qt::yellow);
 }
 
 void Core::renderTile(const short &tile_id, const QRect &dest_rect)
 {
-	if (tile_id < 10000)
-		m_painter.fillRect(dest_rect, QBrush(m_background));
 	m_painter.drawPixmap(dest_rect, m_tileCache[tile_id]);
 }
 
@@ -717,6 +715,7 @@ void Core::renderEvent(const lcf::rpg::Event& event, const QRect &dest_rect)
 		QString check = ToQString(event.pages[0].character_name);
 		int offset = (event.pages[0].character_index * 32 + event.pages[0].character_direction * 4 + event.pages[0].character_pattern);
 		QString offset_string = QString::number(offset);
+		offset_string = offset_string.leftJustified(3, QLatin1Char('0'));
 		check.append(offset_string);
 
 		if (!m_eventCache.contains(check))
