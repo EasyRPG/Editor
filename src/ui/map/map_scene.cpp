@@ -164,6 +164,7 @@ void MapScene::Init()
 			SLOT(onLayerChanged()));
 	m_view->verticalScrollBar()->setValue(n_mapInfo.scrollbar_y *static_cast<int>(m_scale));
 	m_view->horizontalScrollBar()->setValue(n_mapInfo.scrollbar_x * static_cast<int>(m_scale));
+	core().setCurrentMapEvents(mapEvents());
 	m_init = true;
 	redrawMap();
 }
@@ -265,7 +266,6 @@ void MapScene::redrawMap()
 	if (!m_init)
 		return;
 	core().LoadChipset(m_map->chipset_id);
-	core().setCurrentMapEvents(mapEvents());
 	s_tileSize = core().tileSize() * static_cast<double>(m_scale);
 	redrawLayer(Core::LOWER);
 	redrawLayer(Core::UPPER);

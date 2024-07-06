@@ -43,6 +43,7 @@ cmake_install.cmake
 *automoc.cpp
 .cmake/
 cmake-build-*/
+build/
 
 # Ninja
 *.ninja

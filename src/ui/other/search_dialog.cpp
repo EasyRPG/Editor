@@ -122,7 +122,7 @@ void SearchDialog::on_button_search_clicked()
 
 	if (ui->radio_variable->isChecked())
 	{
-		int varID = ui->combo_variable->currentData().toInt();
+		int varID = ui->combo_variable->currentText().toInt();
 
 		search_predicate = [varID](const lcf::rpg::EventCommand& com)
 		{
@@ -184,7 +184,7 @@ void SearchDialog::on_button_search_clicked()
 	}
 	else if (ui->radio_switch->isChecked())
 	{
-		int switchID = ui->combo_switch->currentData().toInt();
+		int switchID = ui->combo_switch->currentText().toInt();
 
 		search_predicate = [switchID](const lcf::rpg::EventCommand& com)
 		{
@@ -202,7 +202,7 @@ void SearchDialog::on_button_search_clicked()
 	}
 	else if (ui->radio_item->isChecked())
 	{
-		int itemID = ui->combo_item->currentData().toInt();
+		int itemID = ui->combo_item->currentText().toInt();
 
 		search_predicate = [itemID](const lcf::rpg::EventCommand& com)
 		{
