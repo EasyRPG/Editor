@@ -86,7 +86,7 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:
-	void updateState(QMediaPlayer::State state);
+	//void updateState(QMediaPlayer::State state);
 	void updatePosition(qint64 position);
 	void updateDuration(qint64 duration);
 	void setPosition(int position);

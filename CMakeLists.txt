@@ -378,8 +378,8 @@ set_target_properties(${EXE_NAME} PROPERTIES
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Dependencies
-find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg)
-find_package(Qt5LinguistTools CONFIG QUIET)
+find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg)
+find_package(Qt6LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
@@ -414,20 +414,20 @@ endif()
 
 # Libraries
 target_link_libraries(${EXE_NAME}
-	ZLIB::ZLIB
-	Qt5::Widgets
-	Qt5::Gui
-	Qt5::Core
-	Qt5::Multimedia
-	Qt5::Svg
-	Qt5::QSvgIconPlugin
+    ZLIB::ZLIB
+    Qt6::Widgets
+    Qt6::Gui
+    Qt6::Core
+    Qt6::Multimedia
+    Qt6::Svg
+    Qt6::QSvgIconPlugin
 )
 
 # Add resources
 target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
 
 # Translations
-if(TARGET Qt5::lrelease)
+if(TARGET Qt6::lrelease)
 	set(TRANSLATION_SOURCES
 		translations/editor_de.ts
 	)
@@ -435,11 +435,11 @@ if(TARGET Qt5::lrelease)
 	configure_file(translations/editor.qrc ${TRANSLATION_RES} COPYONLY)
 	set_source_files_properties(${TRANSLATION_SOURCES} PROPERTIES
 		OUTPUT_LOCATION "translations")
-	qt5_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
+	qt_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
 		OPTIONS -compress -nounfinished -removeidentical)
 	target_sources(${EXE_NAME} PRIVATE ${TRANSLATION_RES} ${EDITOR_TRANSLATIONS})
 	add_custom_target(translations
-		COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
+		COMMAND ${Qt6_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		COMMENT "Create/Update translations..."
 		COMMAND_EXPAND_LISTS VERBATIM)
@@ -451,7 +451,7 @@ endif()
 include(GNUInstallDirs)
 if(APPLE)
 	# Find Qt deployment apps
-	get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+	get_target_property(_QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
 	get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
 	find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
 

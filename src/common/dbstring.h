@@ -25,7 +25,7 @@ inline QString ToQString(const std::string& s) {
 	return QString::fromStdString(s);
 }
 
-inline QString ToQString(lcf::StringView s) {
+inline QString ToQString(std::string_view s) {
 	return QString::fromUtf8(s.data(), s.size());
 }
 

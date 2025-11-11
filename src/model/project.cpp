@@ -69,11 +69,11 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 
 	if (!cfg.isNull()) {
 		lcf::INIReader ini(cfg.toStdString());
-		std::string title = ini.GetString("RPG_RT", GAMETITLE, tr("Untitled").toStdString());
+		auto title = ini.GetString("RPG_RT", GAMETITLE, tr("Untitled").toStdString());
 
 		if (project_type == FileFinder::ProjectType::Legacy) {
 			// Check for game encoding
-			std::string enc = ini.GetString("EasyRPG", "Encoding", "");
+			auto enc = ini.GetString("EasyRPG", "Encoding", "");
 			if (enc.empty()) {
 				// Only use the title for encoding detection
 				// This is called for all games in the "Open Project" list
@@ -81,11 +81,11 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 				enc = lcf::ReaderUtil::DetectEncoding(title);
 			}
 
-			p->setEncoding(QString::fromStdString(enc));
+			p->setEncoding(QString::fromStdString(std::string(enc)));
 			title = lcf::ReaderUtil::Recode(title, enc);
 		}
 
-		p->setGameTitle(QString::fromStdString(title));
+		p->setGameTitle(QString::fromStdString(std::string(title)));
 	}
 
 	return p;

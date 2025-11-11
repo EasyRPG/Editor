@@ -53,6 +53,8 @@ cmake-build-*/
 
 # Visual Studio Code
 .vscode/
+.cache/
+build/
 
 # Mac
 .DS_Store

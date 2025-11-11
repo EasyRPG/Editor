@@ -1092,9 +1092,9 @@ namespace
 			break;
 		case 7: // Vehicle in use
 			condition = Stringizer::tr("Vehicle") + " "
-				+ com.parameters[1] == 0 ? Stringizer::tr("Boat") :
+				+ (com.parameters[1] == 0 ? Stringizer::tr("Boat") :
 					 com.parameters[1] == 1 ? Stringizer::tr("Ship") :
-					 com.parameters[1] == 2 ? Stringizer::tr("Airship") : Stringizer::tr("Unknown");
+					 com.parameters[1] == 2 ? Stringizer::tr("Airship") : Stringizer::tr("Unknown"));
 			break;
 		case 8: // Key decision initiated this event
 			condition = Stringizer::tr("Event Started with Decision Key");

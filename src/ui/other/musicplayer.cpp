@@ -78,8 +78,8 @@ MusicPlayer::MusicPlayer(QWidget *parent) : QWidget(parent),
 	connect(&mediaPlayer, SIGNAL(durationChanged(qint64)), this, SLOT(updateDuration(qint64)));
 	connect(&mediaPlayer, SIGNAL(metaDataAvailableChanged(bool)), this, SLOT(updateInfo()));
 	connect(&mediaPlayer, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(handleError()));
-	connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)),
-			this, SLOT(updateState(QMediaPlayer::State)));
+	//connect(&mediaPlayer, SIGNAL(stateChanged(QMediaPlayer::State)),
+	//		this, SLOT(updateState(QMediaPlayer::State)));
 }
 
 void MusicPlayer::openFile()
@@ -97,18 +97,18 @@ void MusicPlayer::playFile(const QString &filePath)
 	playButton->setEnabled(true);
 	infoLabel->setText(QFileInfo(filePath).fileName());
 
-	mediaPlayer.setMedia(QUrl::fromLocalFile(filePath));
+	//mediaPlayer.setMedia(QUrl::fromLocalFile(filePath));
 	mediaPlayer.play();
 }
 
 void MusicPlayer::togglePlayback()
 {
-	if (mediaPlayer.mediaStatus() == QMediaPlayer::NoMedia)
+	/*if (mediaPlayer.mediaStatus() == QMediaPlayer::NoMedia)
 		openFile();
 	else if (mediaPlayer.state() == QMediaPlayer::PlayingState)
 		mediaPlayer.pause();
 	else
-		mediaPlayer.play();
+		mediaPlayer.play();*/
 }
 
 void MusicPlayer::seekForward()
@@ -143,7 +143,7 @@ void MusicPlayer::mouseReleaseEvent(QMouseEvent *event)
 	offset = QPoint();
 	event->accept();
 }
-
+/*
 void MusicPlayer::updateState(QMediaPlayer::State state)
 {
 	if (state == QMediaPlayer::PlayingState) {
@@ -154,7 +154,7 @@ void MusicPlayer::updateState(QMediaPlayer::State state)
 		playButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
 	}
 }
-
+*/
 void MusicPlayer::updatePosition(qint64 position)
 {
 	positionSlider->setValue(static_cast<int>(position));
@@ -179,7 +179,7 @@ void MusicPlayer::setPosition(int position)
 
 void MusicPlayer::updateInfo()
 {
-	QStringList info;
+	/*QStringList info;
 	QString author = mediaPlayer.metaData("Author").toString();
 	if (!author.isEmpty())
 		info += author;
@@ -187,7 +187,7 @@ void MusicPlayer::updateInfo()
 	if (!title.isEmpty())
 		info += title;
 	if (!info.isEmpty())
-		infoLabel->setText(info.join(tr(" - ")));
+		infoLabel->setText(info.join(tr(" - ")));*/
 }
 
 void MusicPlayer::handleError()
@@ -212,7 +212,7 @@ void MusicPlayer::createWidgets()
 
 	volumeButton = new VolumeButton(this);
 	volumeButton->setToolTip(tr("Adjust volume"));
-	volumeButton->setVolume(mediaPlayer.volume());
+	//volumeButton->setVolume(mediaPlayer.volume());
 	connect(volumeButton, SIGNAL(volumeChanged(int)), &mediaPlayer, SLOT(setVolume(int)));
 
 	positionSlider = new QSlider(Qt::Horizontal, this);
@@ -225,7 +225,7 @@ void MusicPlayer::createWidgets()
 	positionLabel->setMinimumWidth(positionLabel->sizeHint().width());
 
 	QBoxLayout *controlLayout = new QHBoxLayout;
-	controlLayout->setMargin(0);
+	//controlLayout->setMargin(0);
 	controlLayout->addWidget(openButton);
 	controlLayout->addWidget(playButton);
 	controlLayout->addWidget(positionSlider);

@@ -78,7 +78,7 @@ VolumeButton::VolumeButton(QWidget *parent) :
 	connect(slider, SIGNAL(valueChanged(int)), label, SLOT(setNum(int)));
 
 	QBoxLayout *popupLayout = new QHBoxLayout(popup);
-	popupLayout->setMargin(2);
+	//popupLayout->setMargin(2);
 	popupLayout->addWidget(slider);
 	popupLayout->addWidget(label);
 

@@ -2,7 +2,7 @@
 // hide ugly links behind atributes to not interrupt plain text flow
 :docs: link:docs[docs folder]
 :liblcf: https://github.com/EasyRPG/liblcf[liblcf]
-:qt5: https://www.qt.io[Qt 5]
+:qt6: https://www.qt.io[Qt 6]
 :translation: link:docs/Translation.adoc[Translation]
 :irc-channel: https://kiwiirc.com/nextclient/#ircs://irc.libera.chat/#easyrpg?nick=rpgguest??
 :authors-doc: link:docs/AUTHORS.adoc[AUTHORS document]
@@ -25,7 +25,7 @@ https://wiki.easyrpg.org
 == Requirements
 
 - {liblcf} for RPG Maker data reading.
-- {qt5} (>= 5.11)
+- {qt6} (>= 6.10)
 - Qt Multimedia
 - Qt SVG
 - Qt Linguist (optional, for translation)

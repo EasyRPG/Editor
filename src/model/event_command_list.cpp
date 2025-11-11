@@ -16,6 +16,7 @@
  */
 
 #include "event_command_list.h"
+#include <cassert>
 
 EventCommandList::EventCommandList(std::vector<lcf::rpg::EventCommand>& commands, int current_index) :
 	m_commands(&commands), m_current_index(current_index)
