@@ -16,12 +16,12 @@
  */
 
 #include "ui/main_window.h"
-#include "ui/event/event_page_widget.h"
 #include <QApplication>
 #include <QSplashScreen>
 #include <QTranslator>
 #include <QTimer>
 #include <QDebug>
+#include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	QPixmap logo(":/app/splash.png");
 	QSplashScreen s(logo, Qt::WindowStaysOnTopHint);
 	s.showMessage("EasyRPG Editor");
-	s.show();
+	//s.show();
 #ifdef NDEBUG
 	// close splash after 3 seconds for release
 	QTimer::singleShot(3000, &s, &QWidget::close);
@@ -40,6 +40,14 @@ int main(int argc, char *argv[])
 	a.setApplicationName("EasyRPG Editor");
 	a.setOrganizationName("EasyRPG");
 	a.setOrganizationDomain("easyrpg.org");
+
+	qputenv("QML_IMPORT_TRACE", "1");
+	QQmlApplicationEngine engine;
+	engine.loadFromModule("org.easyrpg.editor", "MainPage");
+
+    if (engine.rootObjects().isEmpty()) {
+        return -1;
+    }
 
 	// load translations
 	s.showMessage("Loading translations...");

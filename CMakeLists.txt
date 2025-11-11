@@ -3,8 +3,13 @@ cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
+# Qt6 and KF6 required
+set(REQUIRED_QT_VERSION "6.0.0")
+set(KF_DEP_VERSION "6.12.0")
+
 # Extra CMake Module files
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+find_package(ECM ${KF_DEP_VERSION} REQUIRED)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${ECM_MODULE_PATH})
 include(ConfigureWindows)
 
 # C++17 is required
@@ -317,6 +322,10 @@ set(EDITOR_SOURCES
 	src/ui/viewer/stat_curve_graphics_item.h
 )
 
+set(EDITOR_QML
+	src/ui/MainPage.qml
+)
+
 if(APPLE)
 	# Do not code sign
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
@@ -377,10 +386,25 @@ set_target_properties(${EXE_NAME} PROPERTIES
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Dependencies
-find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg)
+find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
 find_package(Qt6LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
+find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami ItemModels)
+
+include(ECMQmlModule)
+include(ECMFindQmlModule)
+
+ecm_add_qml_module(${EXE_NAME}
+	URI
+	org.easyrpg.editor
+)
+
+ecm_target_qml_sources(${EXE_NAME}
+	SOURCES ${EDITOR_QML}
+)
+
+ecm_find_qmlmodule(org.kde.kitemmodels 1.0)
+
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
 set(EDITOR_BUILD_LIBLCF_GIT "https://github.com/EasyRPG/liblcf.git" CACHE STRING "Git repository of liblcf to clone when building liblcf. Requires EDITOR_BUILD_LIBLCF=ON.")
@@ -405,22 +429,23 @@ if(EDITOR_BUILD_LIBLCF)
 		add_subdirectory(${LIBLCF_PATH})
 	endfunction()
 	add_liblcf()
-	target_link_libraries(${EXE_NAME} lcf)
+	target_link_libraries(${EXE_NAME} PRIVATE lcf)
 else()
 	# Use system package
 	find_package(liblcf REQUIRED)
-	target_link_libraries(${EXE_NAME} liblcf::liblcf)
+	target_link_libraries(${EXE_NAME} PRIVATE liblcf::liblcf)
 endif()
 
 # Libraries
-target_link_libraries(${EXE_NAME}
-    ZLIB::ZLIB
-    Qt6::Widgets
-    Qt6::Gui
-    Qt6::Core
-    Qt6::Multimedia
-    Qt6::Svg
-    Qt6::QSvgIconPlugin
+target_link_libraries(${EXE_NAME} PRIVATE
+	ZLIB::ZLIB
+	Qt6::Widgets
+	Qt6::Gui
+	Qt6::Core
+	Qt6::Multimedia
+	Qt6::Svg
+	Qt6::QSvgIconPlugin
+	Qt6::QuickControls2
 )
 
 # Add resources
