@@ -15,6 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cassert>
 #include "event_command_list.h"
 
 EventCommandList::EventCommandList(std::vector<lcf::rpg::EventCommand>& commands, int current_index) :

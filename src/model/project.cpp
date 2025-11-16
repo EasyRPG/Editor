@@ -67,13 +67,15 @@ std::shared_ptr<Project> Project::load(const QDir& dir) {
 		cfg = FileFinder::Find(dir, RM_INI);
 	}
 
+	std::string title;
+	std::string enc;
 	if (!cfg.isNull()) {
-		lcf::INIReader ini(cfg.toStdString());
-		std::string title = ini.GetString("RPG_RT", GAMETITLE, tr("Untitled").toStdString());
+		const lcf::INIReader ini(cfg.toStdString());
+		title = ini.GetString("RPG_RT", GAMETITLE, tr("Untitled").toStdString());
 
 		if (project_type == FileFinder::ProjectType::Legacy) {
 			// Check for game encoding
-			std::string enc = ini.GetString("EasyRPG", "Encoding", "");
+			enc = ini.GetString("EasyRPG", "Encoding", "");
 			if (enc.empty()) {
 				// Only use the title for encoding detection
 				// This is called for all games in the "Open Project" list
