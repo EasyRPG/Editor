@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	QPixmap logo(":/app/splash.png");
 	QSplashScreen s(logo, Qt::WindowStaysOnTopHint);
 	s.showMessage("EasyRPG Editor");
-	//s.show();
+	s.show();
 #ifdef NDEBUG
 	// close splash after 3 seconds for release
 	QTimer::singleShot(3000, &s, &QWidget::close);
@@ -41,13 +41,13 @@ int main(int argc, char *argv[])
 	a.setOrganizationName("EasyRPG");
 	a.setOrganizationDomain("easyrpg.org");
 
-	qputenv("QML_IMPORT_TRACE", "1");
+	// setup qml engine
 	QQmlApplicationEngine engine;
-	engine.loadFromModule("org.easyrpg.editor", "MainPage");
+	engine.loadFromModule("org.easyrpg.editor", "MainWindow");
 
-    if (engine.rootObjects().isEmpty()) {
-        return -1;
-    }
+	if (engine.rootObjects().isEmpty()) {
+		return -1;
+	}
 
 	// load translations
 	s.showMessage("Loading translations...");
