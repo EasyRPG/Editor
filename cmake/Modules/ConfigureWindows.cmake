@@ -46,7 +46,7 @@ if(MSVC)
 		endif()
 	else()
 		# Depends on vcpkg but we don't support anything else
-		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>$<$<STREQUAL:${VCPKG_CRT_LINKAGE},dynamic>:DLL>" CACHE STRING "")
+		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "")
 	endif()
 
 	option(MSVC_MULTICORE "MSVC: Build using multiple cores (/MP)" ON)

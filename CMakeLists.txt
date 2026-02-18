@@ -4,13 +4,20 @@ cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
 # Qt6 and KF6 required
-set(REQUIRED_QT_VERSION "6.0.0")
-set(KF_DEP_VERSION "6.12.0")
+set(REQUIRED_QT_VERSION "6.11.0")
+set(KF_DEP_VERSION "6.11.0")
 
 # Extra CMake Module files
 find_package(ECM ${KF_DEP_VERSION} REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${ECM_MODULE_PATH})
 include(ConfigureWindows)
+
+# Dependencies provided by CMake Presets
+option(EDITOR_FIND_ROOT_PATH_APPEND "When enabled the items from CMAKE_PREFIX_PATH are added to CMAKE_FIND_ROOT_PATH. Works around problematic CMake Toolchain files" OFF)
+list(APPEND CMAKE_PREFIX_PATH "${EDITOR_PREFIX_PATH_APPEND}")
+if(EDITOR_FIND_ROOT_PATH_APPEND)
+	list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
+endif()
 
 # C++17 is required
 set(CMAKE_CXX_STANDARD 23)
@@ -322,8 +329,12 @@ set(EDITOR_SOURCES
 	src/ui/viewer/stat_curve_graphics_item.h
 )
 
-set(EDITOR_QML
-	src/ui/MainPage.qml
+set(EDITOR_QML_UI
+	src/ui/MainWindow.qml
+)
+
+set(EDITOR_QML_INTERFACE
+	src/qmlbinding/empty.h
 )
 
 if(APPLE)
@@ -356,12 +367,18 @@ else()
 	else()
 		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "easyrpg-editor")
 	endif()
+
+	# QML Debugger support
+	if(CMAKE_BUILD_TYPE MATCHES "Debug")
+		target_compile_definitions(${EXE_NAME} PRIVATE QT_QML_DEBUG=1)
+	endif()
 endif()
 
 # Include directories
 target_include_directories(${EXE_NAME}
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/src
+		${CMAKE_CURRENT_SOURCE_DIR}/src/qmlbinding  # Required by QML build step
 	INTERFACE
 		$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
 )
@@ -389,18 +406,22 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
 find_package(Qt6LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
-find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami ItemModels)
+find_package(glaze REQUIRED)
+find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami)
 
 include(ECMQmlModule)
 include(ECMFindQmlModule)
 
 ecm_add_qml_module(${EXE_NAME}
-	URI
-	org.easyrpg.editor
+	URI	"org.easyrpg.editor"
+	VERSION 1.0
+	GENERATE_PLUGIN_SOURCE
+	SOURCES
+		${EDITOR_QML_INTERFACE}
 )
 
 ecm_target_qml_sources(${EXE_NAME}
-	SOURCES ${EDITOR_QML}
+	SOURCES ${EDITOR_QML_UI}
 )
 
 ecm_find_qmlmodule(org.kde.kitemmodels 1.0)
@@ -439,12 +460,12 @@ endif()
 # Libraries
 target_link_libraries(${EXE_NAME} PRIVATE
 	ZLIB::ZLIB
+	glaze::glaze
 	Qt6::Widgets
 	Qt6::Gui
 	Qt6::Core
 	Qt6::Multimedia
 	Qt6::Svg
-	Qt6::QSvgIconPlugin
 	Qt6::QuickControls2
 )
 

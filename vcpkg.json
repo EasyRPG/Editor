@@ -1,0 +1,15 @@
+{
+    "name": "easyrpg-editor",
+    "version": "1.0.0",
+    "dependencies": [
+        "zlib",
+        {
+            "name": "inih",
+            "features": ["cpp"]
+        },
+        "ecm",
+        "kddockwidgets",
+        "kirigami",
+		"glaze"
+    ]
+}
