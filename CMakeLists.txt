@@ -333,6 +333,18 @@ set(EDITOR_QML_INTERFACE
 	src/qmlbinding/empty.h
 )
 
+# Dependencies
+find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
+find_package(Qt6LinguistTools CONFIG QUIET)
+find_package(ZLIB REQUIRED)
+find_package(glaze REQUIRED)
+find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami)
+
+qt_standard_project_setup(
+	REQUIRES "6.10.1"
+)
+
+# Executable
 if(APPLE)
 	# Do not code sign
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
@@ -345,13 +357,13 @@ if(APPLE)
 
 	set(EXE_NAME "EasyRPG-Editor.app")
 	set(EXE_OUTPUT_NAME "EasyRPG Editor")
-	add_executable(${EXE_NAME} MACOSX_BUNDLE "src/main.cpp" ${EDITOR_SOURCES} ${EDITOR_BUNDLE_ICON})
+	qt_add_executable(${EXE_NAME} MACOSX_BUNDLE "src/main.cpp" ${EDITOR_SOURCES} ${EDITOR_BUNDLE_ICON} MANUAL_FINALIZATION)
 	set_target_properties(${EXE_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Info.plist.in")
 	set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME ${EXE_OUTPUT_NAME})
 else()
 	# Executable
 	set(EXE_NAME ${PROJECT_NAME})
-	add_executable(${EXE_NAME} WIN32 "src/main.cpp" ${EDITOR_SOURCES})
+	qt_add_executable(${EXE_NAME} WIN32 "src/main.cpp" ${EDITOR_SOURCES} MANUAL_FINALIZATION)
 	if(WIN32)
 		# Open console for Debug builds
 		if(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -398,12 +410,6 @@ set_target_properties(${EXE_NAME} PROPERTIES
 	AUTORCC ON # Enable resource compiler for exe
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
-find_package(Qt6LinguistTools CONFIG QUIET)
-find_package(ZLIB REQUIRED)
-find_package(glaze REQUIRED)
-find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami)
 
 include(ECMQmlModule)
 include(ECMFindQmlModule)
@@ -489,30 +495,13 @@ else()
 	message(STATUS "Disabling translation support")
 endif()
 
+qt_finalize_target(${EXE_NAME})
+
 # Installation
 include(GNUInstallDirs)
 if(APPLE)
-	# Find Qt deployment apps
-	get_target_property(_QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
-	get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
-	find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
-
 	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
 	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
-	# Run macdeployqt
-	install(CODE "
-		execute_process(COMMAND
-			${MACDEPLOYQT_EXECUTABLE}
-			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\"
-			-always-overwrite
-		)
-	")
-	# Run cmake fixup_bundle to fix runpath for any non-Qt dylibs and to verify
-	install(CODE "
-		include(BundleUtilities)
-		set(BU_CHMOD_BUNDLE_ITEMS TRUE)
-		fixup_bundle(\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\" \"\" \"\")
-	" COMPONENT RUNTIME)
 else()
 	install(TARGETS ${EXE_NAME}
 		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -534,3 +523,11 @@ else()
 		#	DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
 	endif()
 endif()
+
+# Generate a deployment script to be executed at install time
+qt_generate_deploy_qml_app_script(
+    TARGET ${EXE_NAME}
+    OUTPUT_SCRIPT deploy_script
+    MACOS_BUNDLE_POST_BUILD
+)
+install(SCRIPT ${deploy_script})
