@@ -525,9 +525,12 @@ else()
 endif()
 
 # Generate a deployment script to be executed at install time
-qt_generate_deploy_qml_app_script(
-    TARGET ${EXE_NAME}
-    OUTPUT_SCRIPT deploy_script
-    MACOS_BUNDLE_POST_BUILD
-)
-install(SCRIPT ${deploy_script})
+if(WIN32 OR APPLE)
+	# The script fails on Linux currently
+	qt_generate_deploy_qml_app_script(
+		TARGET ${EXE_NAME}
+		OUTPUT_SCRIPT deploy_script
+		MACOS_BUNDLE_POST_BUILD
+	)
+	install(SCRIPT ${deploy_script})
+endif()
