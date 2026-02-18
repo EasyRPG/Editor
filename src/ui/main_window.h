@@ -26,7 +26,6 @@
 #include "ui/other/search_dialog.h"
 #include "ui/map/map_scene.h"
 #include "ui/common/palette_scene.h"
-#include "ui/other/musicplayer.h"
 
 namespace Ui {
 class MainWindow;

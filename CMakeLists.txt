@@ -279,8 +279,6 @@ set(EDITOR_SOURCES
 	src/ui/other/import_project_dialog.cpp
 	src/ui/other/import_project_dialog.h
 	src/ui/other/import_project_dialog.ui
-	src/ui/other/musicplayer.cpp
-	src/ui/other/musicplayer.h
 	src/ui/other/new_project_dialog.cpp
 	src/ui/other/new_project_dialog.h
 	src/ui/other/new_project_dialog.ui
@@ -299,8 +297,6 @@ set(EDITOR_SOURCES
 	src/ui/other/search_dialog.cpp
 	src/ui/other/search_dialog.h
 	src/ui/other/search_dialog.ui
-	src/ui/other/volumebutton.cpp
-	src/ui/other/volumebutton.h
 	src/ui/picker/picker_audio_widget.cpp
 	src/ui/picker/picker_audio_widget.h
 	src/ui/picker/picker_audio_widget.ui
