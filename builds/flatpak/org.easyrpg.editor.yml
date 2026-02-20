@@ -1,6 +1,6 @@
 app-id: org.easyrpg.editor
 runtime: org.kde.Sdk
-runtime-version: '5.15-21.08'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 command: easyrpg-editor
 rename-desktop-file: easyrpg-editor.desktop
@@ -33,6 +33,53 @@ modules:
         url: https://github.com/benhoyt/inih.git
         tag: 58
         commit: 5cc5e2c24642513aaa5b19126aad42d0e4e0923e
+  - name: libexpat
+    buildsystem: cmake-ninja
+    builddir: true
+    subdir: expat
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DEXPAT_BUILD_TOOLS=OFF
+      - -DEXPAT_BUILD_EXAMPLES=OFF
+      - -DEXPAT_BUILD_TESTS=OFF
+      - -DEXPAT_BUILD_DOCS=OFF
+    sources:
+      - type: url
+        url: https://github.com/libexpat/libexpat.git
+        branch: R_2_7_4
+    cleanup:
+      - /share
+  - name: glaze
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -Dglaze_DEVELOPER_MODE=OFF
+      - -Dglaze_BUILD_EXAMPLES=OFF
+    sources:
+      - type: git
+        url: https://github.com/stephenberry/glaze.git
+        branch: v7.0.2
+    cleanup:
+      - /share
+  - name: kddockwidgets
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DKDDockWidgets_QT6=ON
+      - -DKDDockWidgets_FRONTENDS=qtquick
+      - -DKDDockWidgets_PYTHON_BINDINGS=OFF
+      - -DKDDockWidgets_TESTS=OFF
+      - -DKDDockWidgets_EXAMPLES=OFF
+      - -DCMAKE_DISABLE_FIND_PACKAGE_spdlog=ON
+      - -DCMAKE_DISABLE_FIND_PACKAGE_fmt=ON
+      - -DCMAKE_DISABLE_FIND_PACKAGE_nlohmann_json=ON
+    sources:
+      - type: git
+        url: https://github.com/KDAB/KDDockWidgets.git
+        branch: v2.4.0
+    cleanup:
+      - /share
   # own libraries
   - name: liblcf
     buildsystem: cmake-ninja
@@ -40,7 +87,6 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DLIBLCF_ENABLE_TOOLS=OFF
-      - -DLIBLCF_WITH_XML=OFF
       - -DLIBLCF_ENABLE_TESTS=OFF
       - -DLIBLCF_UPDATE_MIMEDB=OFF
     sources:
@@ -55,3 +101,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/EasyRPG/Editor.git
+        branch: master

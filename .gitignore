@@ -30,6 +30,7 @@ Makefile*
 
 # flatpak
 /.flatpak-builder
+/local-repo
 
 # liblcf
 lib/liblcf
