@@ -9,7 +9,7 @@ set(KF_DEP_VERSION "6.11.0")
 
 # Extra CMake Module files
 find_package(ECM ${KF_DEP_VERSION} REQUIRED)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${ECM_MODULE_PATH})
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/builds/cmake/Modules" ${ECM_MODULE_PATH})
 include(EditorConfigureWindows)
 
 # Dependencies provided by CMake Presets
@@ -561,6 +561,6 @@ if(WIN32)
 	)
 
 	# Other dev environments
-	configure_file("cmake/setup_env.cmd.in" "setup_env.cmd")
+	configure_file("builds/cmake/setup_env.cmd.in" "setup_env.cmd")
 	message(STATUS "When not using Visual Studio for development run setup_env.cmd to configure the environment")
 endif()

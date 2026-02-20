@@ -42,7 +42,6 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 *automoc.cpp
-.cmake/
 cmake-build-*/
 build/
 install/

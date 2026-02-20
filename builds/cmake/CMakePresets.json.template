@@ -6,7 +6,7 @@
 		"patch": 0
 	},
 	"include": [
-		"cmake/CMakePresetsUser.json"
+		"builds/cmake/CMakePresetsUser.json"
 	],
 	"configurePresets": [
 		{
