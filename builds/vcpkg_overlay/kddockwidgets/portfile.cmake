@@ -1,3 +1,17 @@
+if("qtwidgets" IN_LIST FEATURES)
+    list(APPEND FRONTEND_LIST "qtwidgets")
+endif()
+
+if("qtquick" IN_LIST FEATURES)
+    list(APPEND FRONTEND_LIST "qtquick")
+endif()
+
+if(FRONTEND_LIST)
+    list(JOIN FRONTEND_LIST ";" FRONTENDS)
+else()
+    message(FATAL_ERROR "No front-ends selected for ${PORT}, cannot build package")
+endif()
+
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDAB/KDDockWidgets
@@ -23,7 +37,7 @@ vcpkg_cmake_configure(
     OPTIONS
         ${_qarg_OPTIONS}
         -DKDDockWidgets_QT6=ON
-        -DKDDockWidgets_FRONTENDS=qtquick
+        "-DKDDockWidgets_FRONTENDS=${FRONTENDS}"
         -DKDDockWidgets_STATIC=${KD_STATIC}
         -DKDDockWidgets_PYTHON_BINDINGS=OFF
         -DKDDockWidgets_TESTS=OFF

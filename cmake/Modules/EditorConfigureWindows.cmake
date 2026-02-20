@@ -1,0 +1,38 @@
+if(WIN32)
+	# Target Unicode API
+	add_compile_definitions(_UNICODE UNICODE)
+
+	# Disable API deprecation warnings
+	add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+
+	# Prevent some Windows.h global namespace pollution
+	add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN)
+
+	# Make math constants available
+	add_compile_definitions(_USE_MATH_DEFINES)
+endif()
+
+if(MSVC)
+	# Depends on vcpkg but we don't support anything else
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "")
+
+	option(MSVC_MULTICORE "MSVC: Build using multiple cores (/MP)" ON)
+	if (MSVC_MULTICORE)
+		add_compile_options("/MP")
+	endif()
+
+	# Interpret character literals as UTF-8
+	add_compile_options("/utf-8")
+endif()
+
+if (CMAKE_GENERATOR MATCHES "Visual Studio" AND CMAKE_CONFIGURATION_TYPES)
+	# Multi-Config is not supported due to limitations in the CMake Find Scripts
+	# Remove all configuration types except the current build type
+	set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(VCPKG_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug")
+else()
+	set(VCPKG_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
+endif()

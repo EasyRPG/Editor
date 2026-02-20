@@ -10,7 +10,7 @@ set(KF_DEP_VERSION "6.11.0")
 # Extra CMake Module files
 find_package(ECM ${KF_DEP_VERSION} REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${ECM_MODULE_PATH})
-include(ConfigureWindows)
+include(EditorConfigureWindows)
 
 # Dependencies provided by CMake Presets
 option(EDITOR_FIND_ROOT_PATH_APPEND "When enabled the items from CMAKE_PREFIX_PATH are added to CMAKE_FIND_ROOT_PATH. Works around problematic CMake Toolchain files" OFF)
@@ -334,7 +334,7 @@ set(EDITOR_QML_INTERFACE
 )
 
 # Dependencies
-find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
+find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui GuiPrivate Svg QuickControls2)
 find_package(Qt6LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
 find_package(glaze REQUIRED)
@@ -372,6 +372,8 @@ else()
 		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "Editor")
 		# Add icon
 		target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")
+		# Set Visual Studio startup project
+		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${EXE_NAME})
 	else()
 		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "easyrpg-editor")
 	endif()
@@ -426,7 +428,7 @@ ecm_target_qml_sources(${EXE_NAME}
 	SOURCES ${EDITOR_QML_UI}
 )
 
-ecm_find_qmlmodule(org.kde.kitemmodels 1.0)
+#ecm_find_qmlmodule(org.kde.kirigami 6.20 REQUIRED)
 
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
@@ -469,6 +471,8 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	Qt6::Multimedia
 	Qt6::Svg
 	Qt6::QuickControls2
+	KF6::Kirigami
+	KF6::KirigamiPlatform
 )
 
 # Add resources
@@ -499,6 +503,7 @@ qt_finalize_target(${EXE_NAME})
 
 # Installation
 include(GNUInstallDirs)
+
 if(APPLE)
 	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
 	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
@@ -527,10 +532,33 @@ endif()
 # Generate a deployment script to be executed at install time
 if(WIN32 OR APPLE)
 	# The script fails on Linux currently
+	# Untested on macOS
 	qt_generate_deploy_qml_app_script(
 		TARGET ${EXE_NAME}
 		OUTPUT_SCRIPT deploy_script
 		MACOS_BUNDLE_POST_BUILD
 	)
 	install(SCRIPT ${deploy_script})
+endif()
+
+if(WIN32)
+	# Copy DLL dependencies
+	install(
+		DIRECTORY ${VCPKG_DIR}/bin/
+		DESTINATION ${CMAKE_INSTALL_BINDIR}
+		FILES_MATCHING
+			PATTERN "*.dll"
+	)
+	# Copy Kirigami QML
+	install(DIRECTORY ${VCPKG_DIR}/lib/qml/ DESTINATION qml)
+
+	# Environment for the MSVC Debugger
+	set_target_properties(${EXE_NAME}
+		PROPERTIES VS_DEBUGGER_ENVIRONMENT
+			"PATH=${VCPKG_DIR}/bin;$ENV{Qt6_Path}/bin;%PATH%\nQML2_IMPORT_PATH=${VCPKG_DIR}/lib/qml"
+    )
+
+	# Other dev environments
+	configure_file("cmake/setup_env.cmd.in" "setup_env.cmd")
+	message(STATUS "When not using Visual Studio for development run setup_env.cmd to configure the environment")
 endif()

@@ -85,6 +85,11 @@ for base_item in conf_presets:
 			else:
 				item["displayName"] += f" ({build_type})"
 
+			if "windows" in name:
+				# Hack: The MSVC Linker does not support long paths
+				# Shorten the build folder name to "win"
+				item["binaryDir"] = "${sourceDir}/build/win-" + build_type.lower()
+
 			item["inherits"] += [f"type-{build_type.lower()}"]
 
 			append_name(build_type.lower())

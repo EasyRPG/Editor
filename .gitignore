@@ -43,6 +43,8 @@ cmake_install.cmake
 *automoc.cpp
 .cmake/
 cmake-build-*/
+build/
+install/
 
 # Ninja
 *.ninja
@@ -54,7 +56,6 @@ cmake-build-*/
 # Visual Studio Code
 .vscode/
 .cache/
-build/
 
 # Mac
 .DS_Store
