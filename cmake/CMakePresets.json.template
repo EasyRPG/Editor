@@ -18,7 +18,7 @@
 			"name": "windows",
 			"displayName": "Windows",
 			"cacheVariables": {
-				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-shared-easyrpgeditor"
+				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-static-easyrpgeditor"
 			},
 			"inherits": "win-user",
 			"easyrpg_platforms": ["liblcf"]
@@ -29,7 +29,7 @@
 			"generator": "Visual Studio 17 2022",
 			"architecture": "x64",
 			"cacheVariables": {
-				"VCPKG_TARGET_TRIPLET": "x64-windows-shared-easyrpgeditor"
+				"VCPKG_TARGET_TRIPLET": "x64-windows-static-easyrpgeditor"
 			},
 			"inherits": "win-user",
 			"easyrpg_platforms": ["liblcf"]
