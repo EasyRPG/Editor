@@ -6,16 +6,13 @@ import org.kde.kirigami as Kirigami
 import org.easyrpg.editor as EasyRPG
 
 Kirigami.ApplicationWindow {
-	id: root
+    id: root
 
-	width: 1024
-	height: 600
+    width: 1024
+    height: 600
 
-	title: "Hello World"
+    title: "Hello World"
 
     pageStack {
-        initialPage: pageRoot
-		columnView.interactive: true
-		//columnView.interactiveResizeEnabled: true
     }
 }
