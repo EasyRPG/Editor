@@ -18,19 +18,19 @@ jobs:
     name: "Flatpak"
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:kde-5.15-21.08
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.10
       options: --privileged
     steps:
-    - uses: actions/checkout@v2
-    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v4
+    - uses: actions/checkout@v4
+    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
       with:
         bundle: EasyRPG-Editor.flatpak
         manifest-path: builds/flatpak/org.easyrpg.editor.yml
         cache-key: flatpak-builder-${{ github.sha }}
 
   docker:
-    name: ${{ matrix.image }}
-    runs-on: ubuntu-latest
+    name: ${{ matrix.image }} (${{ matrix.os.arch }})
+    runs-on: ${{ matrix.os.name }}
     container:
       image: ${{ matrix.image }}
 
@@ -38,10 +38,14 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - ubuntu:20.04  # LTS       | CMake 3.16.3 | G++ 9.3.0  | QT 5.12.8
-          - ubuntu:22.04  # LTS       | CMake 3.22.1 | G++ 11.2.0 | QT 5.15.3
-          - debian:12     # stable    | CMake 3.25.1 | G++ 12.2.0 | QT 5.15.8
-          - ubuntu:24.04  # LTS       | CMake 3.28.3 | G++ 13.2.0 | QT 5.15.13
+          #   version of: # CMake  | g++    | Qt        |  support end  #
+          # -------------------------------------------------------------
+          - ubuntu:24.04  # 3.28.3 | 13.2.0 | (too old) | LTS    (4/29) #
+        os:
+          - arch: x86_64
+            name: ubuntu-latest
+          - arch: arm64
+            name: ubuntu-24.04-arm
 
     steps:
       - name: Cancel Previous Runs
@@ -53,8 +57,18 @@ jobs:
           apt-get update
           apt-get install -yqq --no-install-recommends --no-install-suggests \
             ca-certificates build-essential cmake ninja-build git \
-            libicu-dev libexpat1-dev libinih-dev qttools5-dev-tools \
-            qtbase5-dev-tools qtbase5-dev qtmultimedia5-dev libqt5svg5-dev
+            curl zip unzip tar tzdata
+
+      - name: Install Qt6
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.10.1'
+          install-deps: 'nosudo'
+          modules: 'qtmultimedia qtshadertools'
+
+      - name: Install vcpkg
+        run: |
+          git clone https://github.com/Microsoft/vcpkg.git ../vcpkg
 
       - name: Clone Repository
         uses: actions/checkout@v2
@@ -67,11 +81,12 @@ jobs:
 
       - name: Compile
         run: |
-          cmake -G Ninja . -B build-ga \
-            -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
-            -DEDITOR_BUILD_LIBLCF=ON
-          cmake --build build-ga
+          export VCPKG_ROOT=$PWD/../vcpkg
+          export Qt6_Path=$QT_ROOT_DIR
+          cmake --preset vcpkg-liblcf-release -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMAKE_PREFIX_PATH=$QT_ROOT_DIR -DLIBLCF_WITH_ICU=OFF
+          cmake --build --preset vcpkg-liblcf-release
 
       - name: Install
         run: |
-          cmake --install build-ga
+          cmake --build --preset vcpkg-liblcf-release --target install

@@ -99,6 +99,5 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
-      - type: git
-        url: https://github.com/EasyRPG/Editor.git
-        branch: master
+      - type: dir
+        path: "../../"
