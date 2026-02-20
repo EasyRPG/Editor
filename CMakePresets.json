@@ -129,7 +129,7 @@
 		{
 			"name": "windows-parent",
 			"cacheVariables": {
-				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-static-easyrpgeditor"
+				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-shared-easyrpgeditor"
 			},
 			"inherits": "win-user",
 			"hidden": true
@@ -140,7 +140,8 @@
 			"inherits": [
 				"windows-parent",
 				"type-debug"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
 		},
 		{
 			"name": "windows-relwithdebinfo",
@@ -148,7 +149,8 @@
 			"inherits": [
 				"windows-parent",
 				"type-relwithdebinfo"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
 		},
 		{
 			"name": "windows-release",
@@ -156,7 +158,8 @@
 			"inherits": [
 				"windows-parent",
 				"type-release"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
 		},
 		{
 			"name": "windows-liblcf-debug",
@@ -165,7 +168,8 @@
 				"build-liblcf",
 				"windows-parent",
 				"type-debug"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
 		},
 		{
 			"name": "windows-liblcf-relwithdebinfo",
@@ -174,7 +178,8 @@
 				"build-liblcf",
 				"windows-parent",
 				"type-relwithdebinfo"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
 		},
 		{
 			"name": "windows-liblcf-release",
@@ -183,14 +188,15 @@
 				"build-liblcf",
 				"windows-parent",
 				"type-release"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
 		},
 		{
 			"name": "windows-x64-vs2022-parent",
 			"generator": "Visual Studio 17 2022",
 			"architecture": "x64",
 			"cacheVariables": {
-				"VCPKG_TARGET_TRIPLET": "x64-windows-static-easyrpgeditor"
+				"VCPKG_TARGET_TRIPLET": "x64-windows-shared-easyrpgeditor"
 			},
 			"inherits": "win-user",
 			"hidden": true
@@ -201,7 +207,8 @@
 			"inherits": [
 				"windows-x64-vs2022-parent",
 				"type-debug"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
 		},
 		{
 			"name": "windows-x64-vs2022-relwithdebinfo",
@@ -209,7 +216,8 @@
 			"inherits": [
 				"windows-x64-vs2022-parent",
 				"type-relwithdebinfo"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
 		},
 		{
 			"name": "windows-x64-vs2022-release",
@@ -217,7 +225,8 @@
 			"inherits": [
 				"windows-x64-vs2022-parent",
 				"type-release"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
 		},
 		{
 			"name": "windows-x64-vs2022-liblcf-debug",
@@ -226,7 +235,8 @@
 				"build-liblcf",
 				"windows-x64-vs2022-parent",
 				"type-debug"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
 		},
 		{
 			"name": "windows-x64-vs2022-liblcf-relwithdebinfo",
@@ -235,7 +245,8 @@
 				"build-liblcf",
 				"windows-x64-vs2022-parent",
 				"type-relwithdebinfo"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
 		},
 		{
 			"name": "windows-x64-vs2022-liblcf-release",
@@ -244,14 +255,18 @@
 				"build-liblcf",
 				"windows-x64-vs2022-parent",
 				"type-release"
-			]
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
 		},
 		{
 			"name": "macos-parent",
 			"cacheVariables": {
-				"PLAYER_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/macos/universal",
-				"CMAKE_OSX_DEPLOYMENT_TARGET": "10.9",
-				"CMAKE_OSX_ARCHITECTURES": "x86_64;arm64"
+				"EDITOR_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos",
+				"CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
+				"CMAKE_OSX_ARCHITECTURES": "arm64"
+			},
+			"environment": {
+				"Qt6_Path": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos"
 			},
 			"condition": {
 				"type": "equals",

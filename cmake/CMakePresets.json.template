@@ -38,9 +38,12 @@
 			"name": "macos",
 			"displayName": "macOS",
 			"cacheVariables": {
-				"PLAYER_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/macos/universal",
-				"CMAKE_OSX_DEPLOYMENT_TARGET": "10.9",
-				"CMAKE_OSX_ARCHITECTURES": "x86_64;arm64"
+				"EDITOR_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos",
+				"CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
+				"CMAKE_OSX_ARCHITECTURES": "arm64"
+			},
+			"environment": {
+				"Qt6_Path": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos"
 			},
 			"condition": {
 				"type": "equals",

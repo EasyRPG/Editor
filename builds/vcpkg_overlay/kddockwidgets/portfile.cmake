@@ -46,7 +46,7 @@ vcpkg_cmake_configure(
         -DCMAKE_DISABLE_FIND_PACKAGE_spdlog=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_fmt=ON
         -DCMAKE_REQUIRE_FIND_PACKAGE_nlohmann_json=ON
-		-DCMAKE_PREFIX_PATH="$ENV{Qt6_Path}"
+        "-DCMAKE_PREFIX_PATH=$ENV{Qt6_Path}"
 )
 
 vcpkg_cmake_install()

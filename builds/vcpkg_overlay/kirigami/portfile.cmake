@@ -1,3 +1,5 @@
+vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
+
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO KDE/kirigami
@@ -5,6 +7,8 @@ vcpkg_from_github(
     SHA512 89bd4131bb92804c45f1db095df27e79121aebd5054efea60605f590b64f9e6b718037f800d5133ac78f2dfb6fbd22e694e5fa266f61ef57b375154b5b098cda
     HEAD_REF master
 )
+
+vcpkg_replace_string("${SOURCE_PATH}/CMakeLists.txt" "configure_file(qmllint.ini.in" "#configure_file(qmllint.ini.in")
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"

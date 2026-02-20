@@ -8,8 +8,8 @@
             "features": ["cpp"]
         },
         "ecm",
-		"expat",
-		"glaze",
+        "expat",
+        "glaze",
         "kddockwidgets",
         "kirigami"
     ]

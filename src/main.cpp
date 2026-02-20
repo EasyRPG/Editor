@@ -23,8 +23,7 @@
 #include <QDebug>
 #include <QQmlApplicationEngine>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 
 	// show splash
@@ -43,6 +42,9 @@ int main(int argc, char *argv[])
 
 	// setup qml engine
 	QQmlApplicationEngine engine;
+#ifdef QML_EXTRA_IMPORT_PATHS
+	engine.addImportPath(QML_EXTRA_IMPORT_PATHS);
+#endif
 	engine.loadFromModule("org.easyrpg.editor", "MainWindow");
 
 	if (engine.rootObjects().isEmpty()) {
