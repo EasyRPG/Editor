@@ -11,7 +11,7 @@ Kirigami.ApplicationWindow {
     width: 1024
     height: 600
 
-    title: "Hello World"
+    title: "EasyRPG Editor"
 
     pageStack {
     }

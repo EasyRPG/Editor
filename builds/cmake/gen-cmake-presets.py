@@ -24,10 +24,6 @@ def append_name(name):
 	item["name"] += name
 
 platform_display = dict(
-	sdl1="SDL1",
-	sdl2="SDL2",
-	sdl3="SDL3",
-	libretro="libretro core",
 	liblcf="build liblcf",
 	vcpkg="install deps with vcpkg"
 )
