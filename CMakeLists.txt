@@ -3,12 +3,24 @@ cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
+# Qt6 and KF6 required
+set(REQUIRED_QT_VERSION "6.11.0")
+set(KF_DEP_VERSION "6.11.0")
+
 # Extra CMake Module files
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
-include(ConfigureWindows)
+find_package(ECM ${KF_DEP_VERSION} REQUIRED)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/builds/cmake/Modules" ${ECM_MODULE_PATH})
+include(EditorConfigureWindows)
+
+# Dependencies provided by CMake Presets
+option(EDITOR_FIND_ROOT_PATH_APPEND "When enabled the items from CMAKE_PREFIX_PATH are added to CMAKE_FIND_ROOT_PATH. Works around problematic CMake Toolchain files" OFF)
+list(APPEND CMAKE_PREFIX_PATH "${EDITOR_PREFIX_PATH_APPEND}")
+if(EDITOR_FIND_ROOT_PATH_APPEND)
+	list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
+endif()
 
 # C++17 is required
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -267,8 +279,6 @@ set(EDITOR_SOURCES
 	src/ui/other/import_project_dialog.cpp
 	src/ui/other/import_project_dialog.h
 	src/ui/other/import_project_dialog.ui
-	src/ui/other/musicplayer.cpp
-	src/ui/other/musicplayer.h
 	src/ui/other/new_project_dialog.cpp
 	src/ui/other/new_project_dialog.h
 	src/ui/other/new_project_dialog.ui
@@ -287,8 +297,6 @@ set(EDITOR_SOURCES
 	src/ui/other/search_dialog.cpp
 	src/ui/other/search_dialog.h
 	src/ui/other/search_dialog.ui
-	src/ui/other/volumebutton.cpp
-	src/ui/other/volumebutton.h
 	src/ui/picker/picker_audio_widget.cpp
 	src/ui/picker/picker_audio_widget.h
 	src/ui/picker/picker_audio_widget.ui
@@ -317,6 +325,26 @@ set(EDITOR_SOURCES
 	src/ui/viewer/stat_curve_graphics_item.h
 )
 
+set(EDITOR_QML_UI
+	src/ui/MainWindow.qml
+)
+
+set(EDITOR_QML_INTERFACE
+	src/qmlbinding/empty.h
+)
+
+# Dependencies
+find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
+find_package(Qt6LinguistTools CONFIG QUIET)
+find_package(ZLIB REQUIRED)
+find_package(glaze REQUIRED)
+find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami)
+
+qt_standard_project_setup(
+	REQUIRES "6.10.1"
+)
+
+# Executable
 if(APPLE)
 	# Do not code sign
 	set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO")
@@ -329,13 +357,13 @@ if(APPLE)
 
 	set(EXE_NAME "EasyRPG-Editor.app")
 	set(EXE_OUTPUT_NAME "EasyRPG Editor")
-	add_executable(${EXE_NAME} MACOSX_BUNDLE "src/main.cpp" ${EDITOR_SOURCES} ${EDITOR_BUNDLE_ICON})
+	qt_add_executable(${EXE_NAME} MACOSX_BUNDLE "src/main.cpp" ${EDITOR_SOURCES} ${EDITOR_BUNDLE_ICON} MANUAL_FINALIZATION)
 	set_target_properties(${EXE_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/resources/app/Info.plist.in")
 	set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME ${EXE_OUTPUT_NAME})
 else()
 	# Executable
 	set(EXE_NAME ${PROJECT_NAME})
-	add_executable(${EXE_NAME} WIN32 "src/main.cpp" ${EDITOR_SOURCES})
+	qt_add_executable(${EXE_NAME} WIN32 "src/main.cpp" ${EDITOR_SOURCES} MANUAL_FINALIZATION)
 	if(WIN32)
 		# Open console for Debug builds
 		if(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -344,8 +372,15 @@ else()
 		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "Editor")
 		# Add icon
 		target_sources(${EXE_NAME} PRIVATE "resources/Resources.rc")
+		# Set Visual Studio startup project
+		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${EXE_NAME})
 	else()
 		set_target_properties(${EXE_NAME} PROPERTIES OUTPUT_NAME "easyrpg-editor")
+	endif()
+
+	# QML Debugger support
+	if(CMAKE_BUILD_TYPE MATCHES "Debug")
+		target_compile_definitions(${EXE_NAME} PRIVATE QT_QML_DEBUG=1)
 	endif()
 endif()
 
@@ -353,6 +388,7 @@ endif()
 target_include_directories(${EXE_NAME}
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/src
+		${CMAKE_CURRENT_SOURCE_DIR}/src/qmlbinding  # Required by QML build step
 	INTERFACE
 		$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
 )
@@ -377,10 +413,21 @@ set_target_properties(${EXE_NAME} PROPERTIES
 )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Dependencies
-find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg)
-find_package(Qt5LinguistTools CONFIG QUIET)
-find_package(ZLIB REQUIRED)
+include(ECMQmlModule)
+include(ECMFindQmlModule)
+
+ecm_add_qml_module(${EXE_NAME}
+	URI "org.easyrpg.editor"
+	VERSION 1.0
+	GENERATE_PLUGIN_SOURCE
+	SOURCES
+		${EDITOR_QML_INTERFACE}
+)
+
+ecm_target_qml_sources(${EXE_NAME}
+	SOURCES ${EDITOR_QML_UI}
+)
+
 # liblcf
 option(EDITOR_BUILD_LIBLCF "Instead of detecting liblcf the liblcf repository is cloned into lib/liblcf and built together with the Player. This is convenient for development" OFF)
 set(EDITOR_BUILD_LIBLCF_GIT "https://github.com/EasyRPG/liblcf.git" CACHE STRING "Git repository of liblcf to clone when building liblcf. Requires EDITOR_BUILD_LIBLCF=ON.")
@@ -405,29 +452,30 @@ if(EDITOR_BUILD_LIBLCF)
 		add_subdirectory(${LIBLCF_PATH})
 	endfunction()
 	add_liblcf()
-	target_link_libraries(${EXE_NAME} lcf)
+	target_link_libraries(${EXE_NAME} PRIVATE lcf)
 else()
 	# Use system package
 	find_package(liblcf REQUIRED)
-	target_link_libraries(${EXE_NAME} liblcf::liblcf)
+	target_link_libraries(${EXE_NAME} PRIVATE liblcf::liblcf)
 endif()
 
 # Libraries
-target_link_libraries(${EXE_NAME}
+target_link_libraries(${EXE_NAME} PRIVATE
 	ZLIB::ZLIB
-	Qt5::Widgets
-	Qt5::Gui
-	Qt5::Core
-	Qt5::Multimedia
-	Qt5::Svg
-	Qt5::QSvgIconPlugin
+	glaze::glaze
+	Qt6::Widgets
+	Qt6::Gui
+	Qt6::Core
+	Qt6::Multimedia
+	Qt6::Svg
+	Qt6::QuickControls2
 )
 
 # Add resources
 target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
 
 # Translations
-if(TARGET Qt5::lrelease)
+if(TARGET Qt6::lrelease)
 	set(TRANSLATION_SOURCES
 		translations/editor_de.ts
 	)
@@ -435,11 +483,11 @@ if(TARGET Qt5::lrelease)
 	configure_file(translations/editor.qrc ${TRANSLATION_RES} COPYONLY)
 	set_source_files_properties(${TRANSLATION_SOURCES} PROPERTIES
 		OUTPUT_LOCATION "translations")
-	qt5_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
+	qt_add_translation(EDITOR_TRANSLATIONS ${TRANSLATION_SOURCES}
 		OPTIONS -compress -nounfinished -removeidentical)
 	target_sources(${EXE_NAME} PRIVATE ${TRANSLATION_RES} ${EDITOR_TRANSLATIONS})
 	add_custom_target(translations
-		COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
+		COMMAND ${Qt6_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/src -ts ${TRANSLATION_SOURCES}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		COMMENT "Create/Update translations..."
 		COMMAND_EXPAND_LISTS VERBATIM)
@@ -447,30 +495,21 @@ else()
 	message(STATUS "Disabling translation support")
 endif()
 
+# Kirigami QML import path to make developing easier when using vcpkg
+if (DEFINED VCPKG_TARGET_TRIPLET)
+	target_compile_options(${EXE_NAME} PUBLIC "-DQML_EXTRA_IMPORT_PATHS=\"${VCPKG_DIR}/lib/qml\"")
+endif()
+
+qt_finalize_target(${EXE_NAME})
+
 # Installation
 include(GNUInstallDirs)
-if(APPLE)
-	# Find Qt deployment apps
-	get_target_property(_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
-	get_filename_component(_QT_BIN_DIR "${_QMAKE_EXECUTABLE}" DIRECTORY)
-	find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR}")
 
-	set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
-	install(TARGETS ${EXE_NAME} RUNTIME DESTINATION BUNDLE DESTINATION "${CMAKE_BINARY_DIR}/Package")
-	# Run macdeployqt
-	install(CODE "
-		execute_process(COMMAND
-			${MACDEPLOYQT_EXECUTABLE}
-			\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\"
-			-always-overwrite
-		)
-	")
-	# Run cmake fixup_bundle to fix runpath for any non-Qt dylibs and to verify
-	install(CODE "
-		include(BundleUtilities)
-		set(BU_CHMOD_BUNDLE_ITEMS TRUE)
-		fixup_bundle(\"${CMAKE_BINARY_DIR}/Package/${EXE_OUTPUT_NAME}.app\" \"\" \"\")
-	" COMPONENT RUNTIME)
+if(APPLE)
+	install(TARGETS ${EXE_NAME}
+		BUNDLE DESTINATION .
+		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	)
 else()
 	install(TARGETS ${EXE_NAME}
 		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -491,4 +530,37 @@ else()
 		#install(FILES resources/unix/easyrpg-editor.appdata.xml
 		#	DESTINATION ${CMAKE_INSTALL_DATADIR}/appdata)
 	endif()
+endif()
+
+# Generate a deployment script to be executed at install time
+if(WIN32 OR APPLE)
+	# The script fails on Linux currently
+	# On macOS the generated app does not run due to unsigned plugins
+	qt_generate_deploy_qml_app_script(
+		TARGET ${EXE_NAME}
+		OUTPUT_SCRIPT deploy_script
+	)
+	install(SCRIPT ${deploy_script})
+endif()
+
+if(WIN32)
+	# Copy DLL dependencies
+	install(
+		DIRECTORY ${VCPKG_DIR}/bin/
+		DESTINATION ${CMAKE_INSTALL_BINDIR}
+		FILES_MATCHING
+			PATTERN "*.dll"
+	)
+	# Copy Kirigami QML
+	install(DIRECTORY ${VCPKG_DIR}/lib/qml/ DESTINATION qml)
+
+	# Environment for the MSVC Debugger
+	set_target_properties(${EXE_NAME}
+		PROPERTIES VS_DEBUGGER_ENVIRONMENT
+			"PATH=${VCPKG_DIR}/bin;$ENV{Qt6_Path}/bin;%PATH%"
+	)
+
+	# Other dev environments
+	configure_file("builds/cmake/setup_env.cmd.in" "setup_env.cmd")
+	message(STATUS "When not using Visual Studio for development run setup_env.cmd to configure the environment")
 endif()

@@ -1,0 +1,95 @@
+name: Stable Compilation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Git Ref (Optional)
+        required: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.10
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: EasyRPG-Editor.flatpak
+        manifest-path: builds/flatpak/org.easyrpg.editor.yml
+        cache-key: flatpak-builder-${{ github.sha }}
+
+  docker:
+    name: ${{ matrix.image }} (${{ matrix.os.arch }})
+    runs-on: ${{ matrix.os.name }}
+    container:
+      image: ${{ matrix.image }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          #   version of: # CMake  | g++    | Qt        |  support end  #
+          # -------------------------------------------------------------
+          - ubuntu:24.04  # 3.28.3 | 13.2.0 | (too old) | LTS    (4/29) #
+        os:
+          - arch: x86_64
+            name: ubuntu-latest
+          - arch: arm64
+            name: ubuntu-24.04-arm
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+
+      - name: Install dependencies
+        run: |
+          export DEBIAN_FRONTEND="noninteractive"
+          apt-get update
+          apt-get install -yqq --no-install-recommends --no-install-suggests \
+            ca-certificates build-essential cmake ninja-build git \
+            curl zip unzip tar tzdata
+
+      - name: Install Qt6
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.10.1'
+          install-deps: 'nosudo'
+          modules: 'qtmultimedia qtshadertools'
+
+      - name: Install vcpkg
+        run: |
+          git clone https://github.com/Microsoft/vcpkg.git ../vcpkg
+
+      - name: Clone Repository
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref == ''
+      - name: Clone Repository (with custom ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
+
+      - name: Use gcc problem matcher
+        run: echo "::add-matcher::.github/gcc_comment_matcher.json"
+
+      - name: Compile
+        run: |
+          export VCPKG_ROOT=$PWD/../vcpkg
+          export Qt6_Path=$QT_ROOT_DIR
+          cmake --preset vcpkg-liblcf-release -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMAKE_PREFIX_PATH=$QT_ROOT_DIR -DLIBLCF_WITH_ICU=OFF
+          cmake --build --preset vcpkg-liblcf-release
+
+      - name: Install
+        run: |
+          cmake --build --preset vcpkg-liblcf-release --target install

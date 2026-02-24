@@ -29,21 +29,21 @@ class QGroupBox;
 #include <QGroupBox>
 #include <QVariant>
 #include <QButtonGroup>
+#include <QMetaObject>
 #include <string>
 
 #include "ui/common/rpg_combobox.h"
 #include "signal_blocker.h"
 
 template<class T>
-class LcfObjectHolder : QObject {
+class LcfObjectHolder {
+
 public:
 	LcfObjectHolder() = default;
+	~LcfObjectHolder() = default;
+	LcfObjectHolder(const LcfObjectHolder &) = default;
 
 	LcfObjectHolder(T& obj) : m_obj(&obj) {}
-
-	LcfObjectHolder(const LcfObjectHolder<T>& other) : QObject(nullptr) {
-		m_obj = other.m_obj;
-	}
 
 	T& obj() {
 		return *m_obj;

@@ -1,0 +1,58 @@
+{
+	"version": 4,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 23,
+		"patch": 0
+	},
+	"include": [
+		"builds/cmake/CMakePresetsUser.json"
+	],
+	"configurePresets": [
+		{
+			"name": "",
+			"displayName": "System environment",
+			"easyrpg_platforms": ["liblcf", "vcpkg", "vcpkg-liblcf"]
+		},
+		{
+			"name": "windows",
+			"displayName": "Windows",
+			"cacheVariables": {
+				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-static-easyrpgeditor"
+			},
+			"inherits": "win-user",
+			"easyrpg_platforms": ["liblcf"]
+		},
+		{
+			"name": "windows-x64-vs2022",
+			"displayName": "Windows (x64) using Visual Studio 2022",
+			"generator": "Visual Studio 17 2022",
+			"architecture": "x64",
+			"cacheVariables": {
+				"VCPKG_TARGET_TRIPLET": "x64-windows-static-easyrpgeditor"
+			},
+			"inherits": "win-user",
+			"easyrpg_platforms": ["liblcf"]
+		},
+		{
+			"name": "macos",
+			"displayName": "macOS",
+			"cacheVariables": {
+				"EDITOR_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos",
+				"CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
+				"CMAKE_OSX_ARCHITECTURES": "arm64"
+			},
+			"environment": {
+				"Qt6_Path": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Darwin"
+			},
+			"easyrpg_platforms": ["liblcf", "vcpkg", "vcpkg-liblcf"]
+		}
+	],
+	"buildPresets": [],
+	"testPresets": []
+}

@@ -30,6 +30,7 @@ Makefile*
 
 # flatpak
 /.flatpak-builder
+/local-repo
 
 # liblcf
 lib/liblcf
@@ -41,8 +42,9 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 *automoc.cpp
-.cmake/
 cmake-build-*/
+build/
+install/
 
 # Ninja
 *.ninja
@@ -53,6 +55,7 @@ cmake-build-*/
 
 # Visual Studio Code
 .vscode/
+.cache/
 
 # Mac
 .DS_Store

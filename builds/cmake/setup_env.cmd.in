@@ -1,0 +1,3 @@
+@echo off
+set PATH=${VCPKG_DIR}/bin;$ENV{Qt6_Path}\\bin;%PATH%
+echo Environment configured for EasyRPG Editor

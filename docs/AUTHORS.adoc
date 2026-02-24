@@ -4,6 +4,7 @@
 * Diego Pedraza (zegeri)
 * Francisco de la Peña (fdelapena)
 * Gabriel Kind (Ghabry)
+* lumiscosity
 * Marcel Hellwig (hellow554)
 * Mariano Javier Suligoy (MarianoGNU)
 * Matthew Fioravante (fmatthew5876)

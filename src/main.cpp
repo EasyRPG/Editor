@@ -16,15 +16,14 @@
  */
 
 #include "ui/main_window.h"
-#include "ui/event/event_page_widget.h"
 #include <QApplication>
 #include <QSplashScreen>
 #include <QTranslator>
 #include <QTimer>
 #include <QDebug>
+#include <QQmlApplicationEngine>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	QApplication a(argc, argv);
 
 	// show splash
@@ -40,6 +39,17 @@ int main(int argc, char *argv[])
 	a.setApplicationName("EasyRPG Editor");
 	a.setOrganizationName("EasyRPG");
 	a.setOrganizationDomain("easyrpg.org");
+
+	// setup qml engine
+	QQmlApplicationEngine engine;
+#ifdef QML_EXTRA_IMPORT_PATHS
+	engine.addImportPath(QML_EXTRA_IMPORT_PATHS);
+#endif
+	engine.loadFromModule("org.easyrpg.editor", "MainWindow");
+
+	if (engine.rootObjects().isEmpty()) {
+		return -1;
+	}
 
 	// load translations
 	s.showMessage("Loading translations...");

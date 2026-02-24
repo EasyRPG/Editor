@@ -798,18 +798,7 @@ void MainWindow::on_actionProjectOpen_triggered()
 
 void MainWindow::on_actionJukebox_triggered(bool disconnect)
 {
-	  static MusicPlayer player;
-	if (disconnect)
-	{
-		player.disconnect();
-	   player.deleteLater();
-	   player.close();
-	}
-	else
-	{
-		player.resize(300, 60);
-		player.show();
-	}
+
 }
 
 void MainWindow::on_actionLayerLower_triggered()

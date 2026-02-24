@@ -23,6 +23,10 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
+[*.qml]
+indent_style = space
+indent_size = 4
+
 [*.qrc]
 indent_style = space
 indent_size = 4

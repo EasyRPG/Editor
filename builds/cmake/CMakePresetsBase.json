@@ -1,0 +1,82 @@
+{
+	"version": 4,
+	"configurePresets": [
+		{
+			"name": "base",
+			"displayName": "base preset",
+			"hidden": true,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/build/${presetName}",
+			"installDir": "${sourceDir}/install/${presetName}",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+			}
+		},
+		{
+			"name": "type-debug",
+			"displayName": "build Debug",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "type-relwithdebinfo",
+			"displayName": "build RelWithDebInfo",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			}
+		},
+		{
+			"name": "type-release",
+			"displayName": "build release",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		},
+		{
+			"name": "win-base",
+			"displayName": "windows base preset",
+			"hidden": true,
+			"toolchainFile": "$env{EASYRPG_BUILDSCRIPTS}/windows/vcpkg/scripts/buildsystems/vcpkg.cmake",
+			"cacheVariables": {
+				"EDITOR_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/windows/qt/6.10.1/msvc2022_64",
+				"VCPKG_OVERLAY_PORTS": "${sourceDir}/builds/vcpkg_overlay"
+			},
+			"environment": {
+				"Qt6_Path": "$env{EASYRPG_BUILDSCRIPTS}/windows/qt/6.10.1/msvc2022_64"
+			},
+			"inherits": ["base"],
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "build-liblcf",
+			"displayName": "build liblcf dependency",
+			"hidden": true,
+			"cacheVariables": {
+				"EDITOR_BUILD_LIBLCF": "ON"
+			}
+		},
+		{
+			"name": "build-vcpkg",
+			"displayName": "build dependencies with vcpkg",
+			"toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+			"hidden": true,
+			"cacheVariables": {
+				"VCPKG_OVERLAY_PORTS": "${sourceDir}/builds/vcpkg_overlay"
+			}
+		},
+		{
+			"name": "build-vcpkg-liblcf",
+			"displayName": "build liblcf + dependencies with vcpkg",
+			"hidden": true,
+			"inherits": ["build-liblcf", "build-vcpkg"]
+		}
+	]
+}

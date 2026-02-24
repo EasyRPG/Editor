@@ -1,0 +1,532 @@
+{
+	"vendor": {
+		"README": {
+			"line1": "!!! GENERATED FILE. DO NOT EDIT !!!",
+			"line2": "Modify builds/cmake/CMakePresets.json.template instead",
+			"line3": "and run gen-cmake-presets.py to regenerate this file."
+		}
+	},
+	"version": 4,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 23,
+		"patch": 0
+	},
+	"include": [
+		"builds/cmake/CMakePresetsUser.json"
+	],
+	"configurePresets": [
+		{
+			"name": "parent",
+			"hidden": true,
+			"inherits": "base-user"
+		},
+		{
+			"name": "debug",
+			"displayName": "System environment (Debug)",
+			"inherits": [
+				"parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "relwithdebinfo",
+			"displayName": "System environment (RelWithDebInfo)",
+			"inherits": [
+				"parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "release",
+			"displayName": "System environment (Release)",
+			"inherits": [
+				"parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "liblcf-debug",
+			"displayName": "System environment (build liblcf, Debug)",
+			"inherits": [
+				"build-liblcf",
+				"parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "liblcf-relwithdebinfo",
+			"displayName": "System environment (build liblcf, RelWithDebInfo)",
+			"inherits": [
+				"build-liblcf",
+				"parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "liblcf-release",
+			"displayName": "System environment (build liblcf, Release)",
+			"inherits": [
+				"build-liblcf",
+				"parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "vcpkg-debug",
+			"displayName": "System environment (install deps with vcpkg, Debug)",
+			"inherits": [
+				"build-vcpkg",
+				"parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "vcpkg-relwithdebinfo",
+			"displayName": "System environment (install deps with vcpkg, RelWithDebInfo)",
+			"inherits": [
+				"build-vcpkg",
+				"parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "vcpkg-release",
+			"displayName": "System environment (install deps with vcpkg, Release)",
+			"inherits": [
+				"build-vcpkg",
+				"parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "vcpkg-liblcf-debug",
+			"displayName": "System environment (install deps with vcpkg + build liblcf, Debug)",
+			"inherits": [
+				"build-vcpkg-liblcf",
+				"parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "vcpkg-liblcf-relwithdebinfo",
+			"displayName": "System environment (install deps with vcpkg + build liblcf, RelWithDebInfo)",
+			"inherits": [
+				"build-vcpkg-liblcf",
+				"parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "vcpkg-liblcf-release",
+			"displayName": "System environment (install deps with vcpkg + build liblcf, Release)",
+			"inherits": [
+				"build-vcpkg-liblcf",
+				"parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "windows-parent",
+			"cacheVariables": {
+				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-static-easyrpgeditor"
+			},
+			"inherits": "win-user",
+			"hidden": true
+		},
+		{
+			"name": "windows-debug",
+			"displayName": "Windows (Debug)",
+			"inherits": [
+				"windows-parent",
+				"type-debug"
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
+		},
+		{
+			"name": "windows-relwithdebinfo",
+			"displayName": "Windows (RelWithDebInfo)",
+			"inherits": [
+				"windows-parent",
+				"type-relwithdebinfo"
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+		},
+		{
+			"name": "windows-release",
+			"displayName": "Windows (Release)",
+			"inherits": [
+				"windows-parent",
+				"type-release"
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
+		},
+		{
+			"name": "windows-liblcf-debug",
+			"displayName": "Windows (build liblcf, Debug)",
+			"inherits": [
+				"build-liblcf",
+				"windows-parent",
+				"type-debug"
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
+		},
+		{
+			"name": "windows-liblcf-relwithdebinfo",
+			"displayName": "Windows (build liblcf, RelWithDebInfo)",
+			"inherits": [
+				"build-liblcf",
+				"windows-parent",
+				"type-relwithdebinfo"
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+		},
+		{
+			"name": "windows-liblcf-release",
+			"displayName": "Windows (build liblcf, Release)",
+			"inherits": [
+				"build-liblcf",
+				"windows-parent",
+				"type-release"
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
+		},
+		{
+			"name": "windows-x64-vs2022-parent",
+			"generator": "Visual Studio 17 2022",
+			"architecture": "x64",
+			"cacheVariables": {
+				"VCPKG_TARGET_TRIPLET": "x64-windows-static-easyrpgeditor"
+			},
+			"inherits": "win-user",
+			"hidden": true
+		},
+		{
+			"name": "windows-x64-vs2022-debug",
+			"displayName": "Windows (x64) using Visual Studio 2022 (Debug)",
+			"inherits": [
+				"windows-x64-vs2022-parent",
+				"type-debug"
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
+		},
+		{
+			"name": "windows-x64-vs2022-relwithdebinfo",
+			"displayName": "Windows (x64) using Visual Studio 2022 (RelWithDebInfo)",
+			"inherits": [
+				"windows-x64-vs2022-parent",
+				"type-relwithdebinfo"
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+		},
+		{
+			"name": "windows-x64-vs2022-release",
+			"displayName": "Windows (x64) using Visual Studio 2022 (Release)",
+			"inherits": [
+				"windows-x64-vs2022-parent",
+				"type-release"
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
+		},
+		{
+			"name": "windows-x64-vs2022-liblcf-debug",
+			"displayName": "Windows (x64) using Visual Studio 2022 (build liblcf, Debug)",
+			"inherits": [
+				"build-liblcf",
+				"windows-x64-vs2022-parent",
+				"type-debug"
+			],
+			"binaryDir": "${sourceDir}/build/win-debug"
+		},
+		{
+			"name": "windows-x64-vs2022-liblcf-relwithdebinfo",
+			"displayName": "Windows (x64) using Visual Studio 2022 (build liblcf, RelWithDebInfo)",
+			"inherits": [
+				"build-liblcf",
+				"windows-x64-vs2022-parent",
+				"type-relwithdebinfo"
+			],
+			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+		},
+		{
+			"name": "windows-x64-vs2022-liblcf-release",
+			"displayName": "Windows (x64) using Visual Studio 2022 (build liblcf, Release)",
+			"inherits": [
+				"build-liblcf",
+				"windows-x64-vs2022-parent",
+				"type-release"
+			],
+			"binaryDir": "${sourceDir}/build/win-release"
+		},
+		{
+			"name": "macos-parent",
+			"cacheVariables": {
+				"EDITOR_PREFIX_PATH_APPEND": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos",
+				"CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
+				"CMAKE_OSX_ARCHITECTURES": "arm64"
+			},
+			"environment": {
+				"Qt6_Path": "$env{EASYRPG_BUILDSCRIPTS}/macos/qt/6.10.1/macos"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Darwin"
+			},
+			"hidden": true,
+			"inherits": "base-user"
+		},
+		{
+			"name": "macos-debug",
+			"displayName": "macOS (Debug)",
+			"inherits": [
+				"macos-parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "macos-relwithdebinfo",
+			"displayName": "macOS (RelWithDebInfo)",
+			"inherits": [
+				"macos-parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "macos-release",
+			"displayName": "macOS (Release)",
+			"inherits": [
+				"macos-parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "macos-liblcf-debug",
+			"displayName": "macOS (build liblcf, Debug)",
+			"inherits": [
+				"build-liblcf",
+				"macos-parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "macos-liblcf-relwithdebinfo",
+			"displayName": "macOS (build liblcf, RelWithDebInfo)",
+			"inherits": [
+				"build-liblcf",
+				"macos-parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "macos-liblcf-release",
+			"displayName": "macOS (build liblcf, Release)",
+			"inherits": [
+				"build-liblcf",
+				"macos-parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "macos-vcpkg-debug",
+			"displayName": "macOS (install deps with vcpkg, Debug)",
+			"inherits": [
+				"build-vcpkg",
+				"macos-parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "macos-vcpkg-relwithdebinfo",
+			"displayName": "macOS (install deps with vcpkg, RelWithDebInfo)",
+			"inherits": [
+				"build-vcpkg",
+				"macos-parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "macos-vcpkg-release",
+			"displayName": "macOS (install deps with vcpkg, Release)",
+			"inherits": [
+				"build-vcpkg",
+				"macos-parent",
+				"type-release"
+			]
+		},
+		{
+			"name": "macos-vcpkg-liblcf-debug",
+			"displayName": "macOS (install deps with vcpkg + build liblcf, Debug)",
+			"inherits": [
+				"build-vcpkg-liblcf",
+				"macos-parent",
+				"type-debug"
+			]
+		},
+		{
+			"name": "macos-vcpkg-liblcf-relwithdebinfo",
+			"displayName": "macOS (install deps with vcpkg + build liblcf, RelWithDebInfo)",
+			"inherits": [
+				"build-vcpkg-liblcf",
+				"macos-parent",
+				"type-relwithdebinfo"
+			]
+		},
+		{
+			"name": "macos-vcpkg-liblcf-release",
+			"displayName": "macOS (install deps with vcpkg + build liblcf, Release)",
+			"inherits": [
+				"build-vcpkg-liblcf",
+				"macos-parent",
+				"type-release"
+			]
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "debug",
+			"configurePreset": "debug"
+		},
+		{
+			"name": "relwithdebinfo",
+			"configurePreset": "relwithdebinfo"
+		},
+		{
+			"name": "release",
+			"configurePreset": "release"
+		},
+		{
+			"name": "liblcf-debug",
+			"configurePreset": "liblcf-debug"
+		},
+		{
+			"name": "liblcf-relwithdebinfo",
+			"configurePreset": "liblcf-relwithdebinfo"
+		},
+		{
+			"name": "liblcf-release",
+			"configurePreset": "liblcf-release"
+		},
+		{
+			"name": "vcpkg-debug",
+			"configurePreset": "vcpkg-debug"
+		},
+		{
+			"name": "vcpkg-relwithdebinfo",
+			"configurePreset": "vcpkg-relwithdebinfo"
+		},
+		{
+			"name": "vcpkg-release",
+			"configurePreset": "vcpkg-release"
+		},
+		{
+			"name": "vcpkg-liblcf-debug",
+			"configurePreset": "vcpkg-liblcf-debug"
+		},
+		{
+			"name": "vcpkg-liblcf-relwithdebinfo",
+			"configurePreset": "vcpkg-liblcf-relwithdebinfo"
+		},
+		{
+			"name": "vcpkg-liblcf-release",
+			"configurePreset": "vcpkg-liblcf-release"
+		},
+		{
+			"name": "windows-debug",
+			"configurePreset": "windows-debug"
+		},
+		{
+			"name": "windows-relwithdebinfo",
+			"configurePreset": "windows-relwithdebinfo"
+		},
+		{
+			"name": "windows-release",
+			"configurePreset": "windows-release"
+		},
+		{
+			"name": "windows-liblcf-debug",
+			"configurePreset": "windows-liblcf-debug"
+		},
+		{
+			"name": "windows-liblcf-relwithdebinfo",
+			"configurePreset": "windows-liblcf-relwithdebinfo"
+		},
+		{
+			"name": "windows-liblcf-release",
+			"configurePreset": "windows-liblcf-release"
+		},
+		{
+			"name": "windows-x64-vs2022-debug",
+			"configurePreset": "windows-x64-vs2022-debug"
+		},
+		{
+			"name": "windows-x64-vs2022-relwithdebinfo",
+			"configurePreset": "windows-x64-vs2022-relwithdebinfo"
+		},
+		{
+			"name": "windows-x64-vs2022-release",
+			"configurePreset": "windows-x64-vs2022-release"
+		},
+		{
+			"name": "windows-x64-vs2022-liblcf-debug",
+			"configurePreset": "windows-x64-vs2022-liblcf-debug"
+		},
+		{
+			"name": "windows-x64-vs2022-liblcf-relwithdebinfo",
+			"configurePreset": "windows-x64-vs2022-liblcf-relwithdebinfo"
+		},
+		{
+			"name": "windows-x64-vs2022-liblcf-release",
+			"configurePreset": "windows-x64-vs2022-liblcf-release"
+		},
+		{
+			"name": "macos-debug",
+			"configurePreset": "macos-debug"
+		},
+		{
+			"name": "macos-relwithdebinfo",
+			"configurePreset": "macos-relwithdebinfo"
+		},
+		{
+			"name": "macos-release",
+			"configurePreset": "macos-release"
+		},
+		{
+			"name": "macos-liblcf-debug",
+			"configurePreset": "macos-liblcf-debug"
+		},
+		{
+			"name": "macos-liblcf-relwithdebinfo",
+			"configurePreset": "macos-liblcf-relwithdebinfo"
+		},
+		{
+			"name": "macos-liblcf-release",
+			"configurePreset": "macos-liblcf-release"
+		},
+		{
+			"name": "macos-vcpkg-debug",
+			"configurePreset": "macos-vcpkg-debug"
+		},
+		{
+			"name": "macos-vcpkg-relwithdebinfo",
+			"configurePreset": "macos-vcpkg-relwithdebinfo"
+		},
+		{
+			"name": "macos-vcpkg-release",
+			"configurePreset": "macos-vcpkg-release"
+		},
+		{
+			"name": "macos-vcpkg-liblcf-debug",
+			"configurePreset": "macos-vcpkg-liblcf-debug"
+		},
+		{
+			"name": "macos-vcpkg-liblcf-relwithdebinfo",
+			"configurePreset": "macos-vcpkg-liblcf-relwithdebinfo"
+		},
+		{
+			"name": "macos-vcpkg-liblcf-release",
+			"configurePreset": "macos-vcpkg-liblcf-release"
+		}
+	],
+	"testPresets": []
+}

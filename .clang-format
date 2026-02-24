@@ -1,0 +1,7 @@
+IndentWidth: 4
+UseTab: Always
+TabWidth: 4
+BasedOnStyle: LLVM
+IndentAccessModifiers: false
+AccessModifierOffset: -4
+PointerAlignment: Left

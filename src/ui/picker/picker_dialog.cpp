@@ -83,7 +83,7 @@ void PickerDialog::buttonClicked(QAbstractButton* button) {
 }
 
 void PickerDialog::setDirectoryAndFile(const QString &dir, const QString& initialFile) {
-	m_dir = QDir(dir);
+	m_dir.setPath(dir);
 	QString path = m_project.project().findDirectory(dir);
 	QString file = m_project.project().findFile(dir, initialFile, m_file_type);
 	m_model->setRootPath(path);
@@ -92,7 +92,7 @@ void PickerDialog::setDirectoryAndFile(const QString &dir, const QString& initia
 	QModelIndex index = m_model->index(file);
 	ui->filesystemView->setCurrentIndex(index);
 
-	m_currentFile = file;
+	m_currentFile = QFileInfo(file);
 
 	ui->wrappedWidget->fileChanged(m_currentFile.absoluteFilePath());
 
