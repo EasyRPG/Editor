@@ -10,6 +10,15 @@ if(WIN32)
 
 	# Make math constants available
 	add_compile_definitions(_USE_MATH_DEFINES)
+	
+	# Path limit check
+	string(LENGTH "${CMAKE_CURRENT_BINARY_DIR}" path_length)
+	math(EXPR path_length "${path_length} + 195")
+	if(path_length GREATER 259)
+		message(FATAL_ERROR
+			"The resulting path is too long (${path_length}) and exceeds the Windows path limit of 260 characters."
+			"Please move the project into a different directory")
+	endif()
 endif()
 
 if(MSVC)
@@ -29,10 +38,4 @@ if (CMAKE_GENERATOR MATCHES "Visual Studio" AND CMAKE_CONFIGURATION_TYPES)
 	# Multi-Config is not supported due to limitations in the CMake Find Scripts
 	# Remove all configuration types except the current build type
 	set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
-endif()
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(VCPKG_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug")
-else()
-	set(VCPKG_DIR "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}")
 endif()

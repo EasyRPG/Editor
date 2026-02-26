@@ -10,7 +10,7 @@ import json
 import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-repo_dir = f"{script_dir}/.."
+repo_dir = f"{script_dir}/../.."
 
 with open(f"{script_dir}/CMakePresets.json.template", "r") as f:
 	j = json.load(f)
@@ -83,8 +83,9 @@ for base_item in conf_presets:
 
 			if "windows" in name:
 				# Hack: The MSVC Linker does not support long paths
-				# Shorten the build folder name to "win"
-				item["binaryDir"] = "${sourceDir}/build/win-" + build_type.lower()
+				# Shorten the build folder name
+				btype = "dbg" if build_type == "Debug" else "reld" if build_type == "RelWithDebInfo" else "rel"
+				item["binaryDir"] = "${sourceDir}/build/win-" + btype
 
 			item["inherits"] += [f"type-{build_type.lower()}"]
 

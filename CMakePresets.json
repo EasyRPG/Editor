@@ -129,7 +129,7 @@
 		{
 			"name": "windows-parent",
 			"cacheVariables": {
-				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-static-easyrpgeditor"
+				"VCPKG_TARGET_TRIPLET": "$env{VSCMD_ARG_TGT_ARCH}-windows-eze"
 			},
 			"inherits": "win-user",
 			"hidden": true
@@ -141,7 +141,7 @@
 				"windows-parent",
 				"type-debug"
 			],
-			"binaryDir": "${sourceDir}/build/win-debug"
+			"binaryDir": "${sourceDir}/build/win-dbg"
 		},
 		{
 			"name": "windows-relwithdebinfo",
@@ -150,7 +150,7 @@
 				"windows-parent",
 				"type-relwithdebinfo"
 			],
-			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+			"binaryDir": "${sourceDir}/build/win-reld"
 		},
 		{
 			"name": "windows-release",
@@ -159,7 +159,7 @@
 				"windows-parent",
 				"type-release"
 			],
-			"binaryDir": "${sourceDir}/build/win-release"
+			"binaryDir": "${sourceDir}/build/win-rel"
 		},
 		{
 			"name": "windows-liblcf-debug",
@@ -169,7 +169,7 @@
 				"windows-parent",
 				"type-debug"
 			],
-			"binaryDir": "${sourceDir}/build/win-debug"
+			"binaryDir": "${sourceDir}/build/win-dbg"
 		},
 		{
 			"name": "windows-liblcf-relwithdebinfo",
@@ -179,7 +179,7 @@
 				"windows-parent",
 				"type-relwithdebinfo"
 			],
-			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+			"binaryDir": "${sourceDir}/build/win-reld"
 		},
 		{
 			"name": "windows-liblcf-release",
@@ -189,14 +189,14 @@
 				"windows-parent",
 				"type-release"
 			],
-			"binaryDir": "${sourceDir}/build/win-release"
+			"binaryDir": "${sourceDir}/build/win-rel"
 		},
 		{
 			"name": "windows-x64-vs2022-parent",
 			"generator": "Visual Studio 17 2022",
 			"architecture": "x64",
 			"cacheVariables": {
-				"VCPKG_TARGET_TRIPLET": "x64-windows-static-easyrpgeditor"
+				"VCPKG_TARGET_TRIPLET": "x64-windows-eze"
 			},
 			"inherits": "win-user",
 			"hidden": true
@@ -208,7 +208,7 @@
 				"windows-x64-vs2022-parent",
 				"type-debug"
 			],
-			"binaryDir": "${sourceDir}/build/win-debug"
+			"binaryDir": "${sourceDir}/build/win-dbg"
 		},
 		{
 			"name": "windows-x64-vs2022-relwithdebinfo",
@@ -217,7 +217,7 @@
 				"windows-x64-vs2022-parent",
 				"type-relwithdebinfo"
 			],
-			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+			"binaryDir": "${sourceDir}/build/win-reld"
 		},
 		{
 			"name": "windows-x64-vs2022-release",
@@ -226,7 +226,7 @@
 				"windows-x64-vs2022-parent",
 				"type-release"
 			],
-			"binaryDir": "${sourceDir}/build/win-release"
+			"binaryDir": "${sourceDir}/build/win-rel"
 		},
 		{
 			"name": "windows-x64-vs2022-liblcf-debug",
@@ -236,7 +236,7 @@
 				"windows-x64-vs2022-parent",
 				"type-debug"
 			],
-			"binaryDir": "${sourceDir}/build/win-debug"
+			"binaryDir": "${sourceDir}/build/win-dbg"
 		},
 		{
 			"name": "windows-x64-vs2022-liblcf-relwithdebinfo",
@@ -246,7 +246,7 @@
 				"windows-x64-vs2022-parent",
 				"type-relwithdebinfo"
 			],
-			"binaryDir": "${sourceDir}/build/win-relwithdebinfo"
+			"binaryDir": "${sourceDir}/build/win-reld"
 		},
 		{
 			"name": "windows-x64-vs2022-liblcf-release",
@@ -256,7 +256,7 @@
 				"windows-x64-vs2022-parent",
 				"type-release"
 			],
-			"binaryDir": "${sourceDir}/build/win-release"
+			"binaryDir": "${sourceDir}/build/win-rel"
 		},
 		{
 			"name": "macos-parent",
