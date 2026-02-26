@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	QPixmap logo(":/app/splash.png");
 	QSplashScreen s(logo, Qt::WindowStaysOnTopHint);
 	s.showMessage("EasyRPG Editor");
-	s.show();
+	//s.show();
 #ifdef NDEBUG
 	// close splash after 3 seconds for release
 	QTimer::singleShot(3000, &s, &QWidget::close);
