@@ -1,0 +1,140 @@
+diff '--color=auto' -Naur qqc2-breeze-style-orig/CMakeLists.txt qqc2-breeze-style/CMakeLists.txt
+--- qqc2-breeze-style-orig/CMakeLists.txt	2026-02-26 01:43:50.541710810 +0100
++++ qqc2-breeze-style/CMakeLists.txt	2026-02-26 02:10:13.001891985 +0100
+@@ -37,7 +37,7 @@
+ include(KDEGitCommitHooks)
+ include(ECMQmlModule)
+ 
+-find_package(Qt6 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Gui Qml Quick QuickControls2 QuickTemplates2)
++find_package(Qt6 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Gui GuiPrivate Qml Quick QuickControls2 QuickTemplates2)
+ 
+ # shall we use DBus?
+ # enabled per default on Linux & BSD systems
+@@ -51,7 +51,7 @@
+   set(HAVE_DBUS ON)
+ endif()
+ 
+-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS GuiAddons Config KirigamiPlatform ColorScheme IconThemes)
++find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS KirigamiPlatform)
+ 
+ if (NOT APPLE AND NOT WIN32)
+     find_package(X11)
+diff '--color=auto' -Naur qqc2-breeze-style-orig/kirigami-plasmadesktop-integration/CMakeLists.txt qqc2-breeze-style/kirigami-plasmadesktop-integration/CMakeLists.txt
+--- qqc2-breeze-style-orig/kirigami-plasmadesktop-integration/CMakeLists.txt	2026-02-26 01:43:50.540014669 +0100
++++ qqc2-breeze-style/kirigami-plasmadesktop-integration/CMakeLists.txt	2026-02-26 02:12:44.428182595 +0100
+@@ -4,11 +4,11 @@
+     add_library(org.kde.breeze)
+ endif()
+ 
+-target_sources(org.kde.breeze PRIVATE
+-    plasmadesktoptheme.cpp
+-    kirigamiplasmafactory.cpp
+-    units.cpp
+-)
++#target_sources(org.kde.breeze PRIVATE
++#    plasmadesktoptheme.cpp
++#    kirigamiplasmafactory.cpp
++#    units.cpp
++#)
+ 
+ target_link_libraries(org.kde.breeze
+     PUBLIC
+@@ -17,9 +17,9 @@
+     PRIVATE
+         Qt::Qml
+         Qt::Quick
+-        KF6::GuiAddons
+-        KF6::ColorScheme
+-        KF6::IconThemes
++#        KF6::GuiAddons
++#        KF6::ColorScheme
++#        KF6::IconThemes
+ )
+ 
+ if (HAVE_DBUS)
+@@ -38,9 +38,9 @@
+ 
+ if (NOT BUILD_SHARED_LIBS)
+     target_compile_definitions(org.kde.breeze PRIVATE QT_STATICPLUGIN=1)
+-    set_target_properties(org.kde.breeze PROPERTIES QT_PLUGIN_CLASS_NAME KirigamiPlasmaFactory)
+-    __qt_internal_add_static_plugin_init_object_library(org.kde.breeze plugin_init_target)
+-    __qt_internal_propagate_object_library(org.kde.breeze "${plugin_init_target}")
++#    set_target_properties(org.kde.breeze PROPERTIES QT_PLUGIN_CLASS_NAME KirigamiPlasmaFactory)
++#    __qt_internal_add_static_plugin_init_object_library(org.kde.breeze plugin_init_target)
++#    __qt_internal_propagate_object_library(org.kde.breeze "${plugin_init_target}")
+ endif()
+ 
+ install(TARGETS org.kde.breeze ${plugin_init_target} DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/kirigami/platform EXPORT QQC2BreezeStyleTargets)
+diff '--color=auto' -Naur qqc2-breeze-style-orig/QQC2BreezeStyleConfig.cmake.in qqc2-breeze-style/QQC2BreezeStyleConfig.cmake.in
+--- qqc2-breeze-style-orig/QQC2BreezeStyleConfig.cmake.in	2026-02-26 01:43:50.539959779 +0100
++++ qqc2-breeze-style/QQC2BreezeStyleConfig.cmake.in	2026-02-26 01:44:11.898256987 +0100
+@@ -3,8 +3,8 @@
+ include(CMakeFindDependencyMacro)
+ 
+ if (NOT @BUILD_SHARED_LIBS@)
+-    find_dependency(KF6IconThemes @KF6_MIN_VERSION@)
+-    find_dependency(KF6ColorScheme @KF6_MIN_VERSION@)
++#    find_dependency(KF6IconThemes @KF6_MIN_VERSION@)
++#    find_dependency(KF6ColorScheme @KF6_MIN_VERSION@)
+ endif()
+ 
+ # Any changes in this ".cmake" file will be overwritten by CMake, the source is the ".cmake.in" file.
+diff '--color=auto' -Naur qqc2-breeze-style-orig/style/impl/CMakeLists.txt qqc2-breeze-style/style/impl/CMakeLists.txt
+--- qqc2-breeze-style-orig/style/impl/CMakeLists.txt	2026-02-26 01:43:50.540241356 +0100
++++ qqc2-breeze-style/style/impl/CMakeLists.txt	2026-02-26 01:44:11.898309947 +0100
+@@ -59,8 +59,8 @@
+     Qt6::Quick
+     Qt6::QuickControls2
+     Qt6::QuickTemplates2
+-    KF6::ConfigCore
+-    KF6::GuiAddons
++    #KF6::ConfigCore
++    #KF6::GuiAddons
+ )
+ 
+ ecm_finalize_qml_module(BreezeImpl EXPORT QQC2BreezeStyleTargets)
+diff '--color=auto' -Naur qqc2-breeze-style-orig/style/qtquickcontrols/ApplicationWindow.qml qqc2-breeze-style/style/qtquickcontrols/ApplicationWindow.qml
+--- qqc2-breeze-style-orig/style/qtquickcontrols/ApplicationWindow.qml	2026-02-26 01:43:50.540864580 +0100
++++ qqc2-breeze-style/style/qtquickcontrols/ApplicationWindow.qml	2026-02-26 01:48:16.823609857 +0100
+@@ -6,7 +6,7 @@
+ import QtQuick
+ import QtQuick.Templates as T
+ import org.kde.kirigami as Kirigami
+-import org.kde.guiaddons as GuiAddons
++//import org.kde.guiaddons as GuiAddons
+ 
+ T.ApplicationWindow {
+     id: window
+@@ -20,16 +20,16 @@
+         Kirigami.Theme.colorSet: Kirigami.Theme.Header
+         Kirigami.Theme.inherit: false
+ 
+-        Binding {
++        /*Binding {
+             target: GuiAddons.WindowInsetsController
+             property: "statusBarBackgroundColor"
+             value: Kirigami.Theme.backgroundColor
+-        }
++        }*/
+     }
+ 
+-    Binding {
++    /*Binding {
+         target: GuiAddons.WindowInsetsController
+         property: "navigationBarBackgroundColor"
+         value: window.footer ? window.footer.Kirigami.Theme.backgroundColor : Kirigami.Theme.backgroundColor
+-    }
++    }*/
+ }
+diff '--color=auto' -Naur qqc2-breeze-style-orig/style/qtquickcontrols/CMakeLists.txt qqc2-breeze-style/style/qtquickcontrols/CMakeLists.txt
+--- qqc2-breeze-style-orig/style/qtquickcontrols/CMakeLists.txt	2026-02-26 01:43:50.540923649 +0100
++++ qqc2-breeze-style/style/qtquickcontrols/CMakeLists.txt	2026-02-26 01:48:46.430637040 +0100
+@@ -6,7 +6,7 @@
+     "QtQuick.Window"
+     "org.kde.kirigami"
+     "org.kde.breeze.impl"
+-    "org.kde.guiaddons"
++#    "org.kde.guiaddons"
+ )
+ 
+ ecm_target_qml_sources(BreezeStyle SOURCES

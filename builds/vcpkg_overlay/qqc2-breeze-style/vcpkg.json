@@ -1,9 +1,9 @@
 {
-  "name": "kirigami",
-  "version": "6.23.0",
+  "name": "qqc2-breeze-style",
+  "version": "6.6.1",
   "port-version": 1,
-  "description": " A QtQuick based components set ",
-  "homepage": "https://github.com/KDE/kirigami",
+  "description": "Breeze inspired QQC2 Style",
+  "homepage": "https://github.com/KDE/qqc2-breeze-style",
   "dependencies": [
     {
       "name": "qtbase",
@@ -16,6 +16,7 @@
     {
       "name": "vcpkg-cmake-config",
       "host": true
-    }
+    },
+	"kirigami"
   ]
 }

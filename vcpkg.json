@@ -11,6 +11,7 @@
         "expat",
         "glaze",
         "kddockwidgets",
-        "kirigami"
+        "kirigami",
+		"qqc2-breeze-style"
     ]
 }

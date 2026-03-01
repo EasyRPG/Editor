@@ -22,29 +22,58 @@
 #include <QTimer>
 #include <QDebug>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
+#include <QStyleHints>
 
 int main(int argc, char *argv[]) {
-	QApplication a(argc, argv);
+	QApplication app(argc, argv);
+
+	app.setApplicationName("EasyRPG Editor");
+	app.setOrganizationName("EasyRPG");
+	app.setOrganizationDomain("easyrpg.org");
 
 	// show splash
 	QPixmap logo(":/app/splash.png");
 	QSplashScreen s(logo, Qt::WindowStaysOnTopHint);
+
+	// Style setup
+	bool force_dark = false;
+
+	// Kirigami only loads a custom style when using a static build
+	// Lets wait for upstream to improve this
+#if defined(_WIN32) || defined(__APPLE__)
+    // Default to org.kde.breeze style (from qqc2-breeze style)
+	if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+		const char* fstyle = "KIRIGAMI_FORCE_STYLE";
+		if (qEnvironmentVariableIsEmpty(fstyle) || qEnvironmentVariableIntValue(fstyle) > 0) {
+			// Built in EasyRPG Style (Theme.qml)
+			qputenv("KIRIGAMI_FORCE_STYLE", "1");
+			force_dark = true;
+		}
+		QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
+	}
+#endif
+
+	auto hints = app.styleHints();
+	auto scheme_changed = [=]() {
+		if (!force_dark && hints->colorScheme() == Qt::ColorScheme::Light) {
+			QIcon::setThemeName("ezbright");
+		} else {
+			QIcon::setThemeName("ezdark");
+		}
+	};
+	scheme_changed();
+	QObject::connect(hints, &QStyleHints::colorSchemeChanged, scheme_changed);
+
 	s.showMessage("EasyRPG Editor");
-	s.show();
+	//s.show();
 #ifdef NDEBUG
 	// close splash after 3 seconds for release
 	QTimer::singleShot(3000, &s, &QWidget::close);
 #endif
 
-	a.setApplicationName("EasyRPG Editor");
-	a.setOrganizationName("EasyRPG");
-	a.setOrganizationDomain("easyrpg.org");
-
 	// setup qml engine
 	QQmlApplicationEngine engine;
-#ifdef QML_EXTRA_IMPORT_PATHS
-	engine.addImportPath(QML_EXTRA_IMPORT_PATHS);
-#endif
 	engine.loadFromModule("org.easyrpg.editor", "MainWindow");
 
 	if (engine.rootObjects().isEmpty()) {
@@ -53,7 +82,7 @@ int main(int argc, char *argv[]) {
 
 	// load translations
 	s.showMessage("Loading translations...");
-	a.processEvents();
+	app.processEvents();
 	QTranslator t;
 	bool found = false;
 #ifndef NDEBUG
@@ -65,16 +94,16 @@ int main(int argc, char *argv[]) {
 	if (!found)
 		found = t.load(QLocale(), QLatin1String("easyrpg-editor"), QLatin1String("_"), QLatin1String(":/i18n"));
 	if (found)
-		a.installTranslator(&t);
+		app.installTranslator(&t);
 	else
 		qDebug() << "No translation(s) available.";
 
 	// main window and project
 	s.showMessage("Loading main window...");
-	a.processEvents();
+	app.processEvents();
 	MainWindow w;
 	s.showMessage("Loading last project...");
-	a.processEvents();
+	app.processEvents();
 	w.LoadLastProject();
 	s.clearMessage();
 	w.show();
@@ -84,5 +113,5 @@ int main(int argc, char *argv[]) {
 #endif
 
 	// into event loop
-	return a.exec();
+	return app.exec();
 }

@@ -3,12 +3,9 @@ cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 
-# Qt6 and KF6 required
-set(REQUIRED_QT_VERSION "6.11.0")
-set(KF_DEP_VERSION "6.11.0")
-
 # Extra CMake Module files
-find_package(ECM ${KF_DEP_VERSION} REQUIRED)
+set(REQUIRED_QT_VERSION "6.10.1")
+find_package(ECM ${REQUIRED_QT_VERSION} REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/builds/cmake/Modules" ${ECM_MODULE_PATH})
 include(EditorConfigureWindows)
 
@@ -334,14 +331,16 @@ set(EDITOR_QML_INTERFACE
 )
 
 # Dependencies
-find_package(Qt6 CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui Svg QuickControls2)
+set(QT_NO_PRIVATE_MODULE_WARNING ON)
+find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui GuiPrivate Svg QuickControls2)
 find_package(Qt6LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
 find_package(glaze REQUIRED)
 find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami)
+find_package(QQC2BreezeStyle REQUIRED)
 
 qt_standard_project_setup(
-	REQUIRES "6.10.1"
+	REQUIRES "${REQUIRED_QT_VERSION}"
 )
 
 # Executable
@@ -471,6 +470,35 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	Qt6::QuickControls2
 )
 
+get_target_property(KIRIGAMI_TYPE KF6::Kirigami TYPE)
+message(STATUS "Kirigami library type: ${KIRIGAMI_TYPE}")
+if(KIRIGAMI_TYPE STREQUAL "STATIC_LIBRARY")
+	# Why is this so difficult? Kirigami bug?
+	target_link_libraries(${EXE_NAME} PRIVATE
+		KF6::Kirigami
+		KF6Kirigamiplugin
+		KF6KirigamiTemplatesplugin
+		KF6KirigamiDialogsplugin
+		KF6KirigamiDelegatesplugin
+		KF6KirigamiLayoutsplugin
+		KF6KirigamiLayoutsPrivateplugin
+		KF6KirigamiPrimitivesplugin
+		KF6KirigamiPrivateplugin
+		KF6KirigamiPolyfillplugin
+	)
+endif()
+
+get_target_property(QQC2_TYPE org.kde.breeze TYPE)
+message(STATUS "BreezeStyle library type: ${QQC2_TYPE}")
+if(QQC2_TYPE STREQUAL "STATIC_LIBRARY")
+	target_link_libraries(${EXE_NAME} PRIVATE
+		BreezeStyle
+		BreezeImpl
+	)
+endif()
+
+qt_import_qml_plugins(${EXE_NAME})
+
 # Add resources
 target_sources(${EXE_NAME} PRIVATE "resources/Resources.qrc")
 
@@ -493,11 +521,6 @@ if(TARGET Qt6::lrelease)
 		COMMAND_EXPAND_LISTS VERBATIM)
 else()
 	message(STATUS "Disabling translation support")
-endif()
-
-# Kirigami QML import path to make developing easier when using vcpkg
-if (DEFINED VCPKG_TARGET_TRIPLET)
-	target_compile_options(${EXE_NAME} PUBLIC "-DQML_EXTRA_IMPORT_PATHS=\"${VCPKG_DIR}/lib/qml\"")
 endif()
 
 qt_finalize_target(${EXE_NAME})
@@ -544,20 +567,10 @@ if(WIN32 OR APPLE)
 endif()
 
 if(WIN32)
-	# Copy DLL dependencies
-	install(
-		DIRECTORY ${VCPKG_DIR}/bin/
-		DESTINATION ${CMAKE_INSTALL_BINDIR}
-		FILES_MATCHING
-			PATTERN "*.dll"
-	)
-	# Copy Kirigami QML
-	install(DIRECTORY ${VCPKG_DIR}/lib/qml/ DESTINATION qml)
-
 	# Environment for the MSVC Debugger
 	set_target_properties(${EXE_NAME}
 		PROPERTIES VS_DEBUGGER_ENVIRONMENT
-			"PATH=${VCPKG_DIR}/bin;$ENV{Qt6_Path}/bin;%PATH%"
+			"PATH=$ENV{Qt6_Path}/bin;%PATH%"
 	)
 
 	# Other dev environments

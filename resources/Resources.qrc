@@ -4,6 +4,12 @@
         <file>app/easyrpg.png</file>
         <file>app/editor.ico</file>
         <file>app/logo.svg</file>
+        <file>icons/ezbright/index.theme</file>
+        <file>icons/ezbright/icons/arrow-down.svg</file>
+        <file>icons/ezbright/icons/arrow-up.svg</file>
+        <file>icons/ezdark/index.theme</file>
+        <file>icons/ezdark/icons/arrow-down.svg</file>
+        <file>icons/ezdark/icons/arrow-up.svg</file>
     </qresource>
     <qresource prefix="/bright">
         <file alias="audio">icons/bright/audio.svg</file>
@@ -93,5 +99,8 @@
         <file alias="rank2">icons/ranks/rank2.svg</file>
         <file alias="rank3">icons/ranks/rank3.svg</file>
         <file alias="rank4">icons/ranks/rank4.svg</file>
+    </qresource>
+    <qresource prefix="/qt/qml/org/kde/kirigami">
+        <file>Theme.qml</file>
     </qresource>
 </RCC>
