@@ -16,7 +16,7 @@ if(EDITOR_FIND_ROOT_PATH_APPEND)
 	list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
 endif()
 
-# C++17 is required
+# C++23 is required
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -332,12 +332,16 @@ set(EDITOR_QML_INTERFACE
 
 # Dependencies
 set(QT_NO_PRIVATE_MODULE_WARNING ON)
-find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED COMPONENTS Widgets Core Multimedia Gui GuiPrivate Svg QuickControls2)
+find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED COMPONENTS
+	Widgets Core Multimedia Gui Svg
+	GuiPrivate QuickPrivate QuickControls2 WidgetsPrivate)
 find_package(Qt6LinguistTools CONFIG QUIET)
 find_package(ZLIB REQUIRED)
 find_package(glaze REQUIRED)
 find_package(KF6 ${KF_DEP_VERSION} REQUIRED COMPONENTS Kirigami)
 find_package(QQC2BreezeStyle REQUIRED)
+find_package(KDBindings QUIET) # only required by the static build
+find_package(KDDockWidgets-qt6 REQUIRED)
 
 qt_standard_project_setup(
 	REQUIRES "${REQUIRED_QT_VERSION}"
@@ -462,6 +466,7 @@ endif()
 target_link_libraries(${EXE_NAME} PRIVATE
 	ZLIB::ZLIB
 	glaze::glaze
+	KDAB::kddockwidgets
 	Qt6::Widgets
 	Qt6::Gui
 	Qt6::Core
@@ -486,6 +491,7 @@ if(KIRIGAMI_TYPE STREQUAL "STATIC_LIBRARY")
 		KF6KirigamiPrivateplugin
 		KF6KirigamiPolyfillplugin
 	)
+	target_compile_definitions(${EXE_NAME} PUBLIC "-DKIRIGAMI_STATIC=1")
 endif()
 
 get_target_property(QQC2_TYPE org.kde.breeze TYPE)

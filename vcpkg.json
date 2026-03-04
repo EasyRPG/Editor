@@ -10,8 +10,11 @@
         "ecm",
         "expat",
         "glaze",
-        "kddockwidgets",
+        {
+            "name": "kddockwidgets",
+            "features": ["qtquick"]
+        },
         "kirigami",
-		"qqc2-breeze-style"
+        "qqc2-breeze-style"
     ]
 }
