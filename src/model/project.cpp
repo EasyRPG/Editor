@@ -168,7 +168,7 @@ QString Project::findFile(const QString& dir, const QString& filename, FileFinde
 	return FileFinder::Find(projectDir().absolutePath(), dir, filename, type);
 }
 
-QString Project::findFileOrDefault(const QString& filename) {
+QString Project::findFileOrDefault(const QString& filename) const {
 	QString found = findFile(filename);
 	return found.isEmpty() ? FileFinder::CombinePath(projectDir().absolutePath(), filename) : found;
 }

@@ -327,7 +327,15 @@ set(EDITOR_QML_UI
 )
 
 set(EDITOR_QML_INTERFACE
-	src/qmlbinding/empty.h
+	src/qmlbinding/json.h
+	src/qmlbinding/json_list_view.cpp
+	src/qmlbinding/json_list_view.h
+	src/qmlbinding/json_t.h
+	src/qmlbinding/json_view.cpp
+	src/qmlbinding/json_view.h
+	src/qmlbinding/lcf_glaze.h
+	src/qmlbinding/project_data_gadget.cpp
+	src/qmlbinding/project_data_gadget.h
 )
 
 # Dependencies
