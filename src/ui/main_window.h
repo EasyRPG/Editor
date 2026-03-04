@@ -34,7 +34,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
-	
+
 public:
 	explicit MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
@@ -59,6 +59,8 @@ private slots:
 	void on_actionResourceManager_triggered();
 
 	void on_actionDatabase_triggered();
+
+	void on_actionDatabaseNew_triggered();
 
 	void on_actionProjectNew_triggered();
 
