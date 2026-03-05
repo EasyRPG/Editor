@@ -410,6 +410,11 @@ else()
 	endif()
 endif()
 
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang$")
+	# Fix template recursion limit hit by glaze
+	target_compile_options(${EXE_NAME} PRIVATE "-fbracket-depth=1024")
+endif()
+
 # Include directories
 target_include_directories(${EXE_NAME}
 	PUBLIC
