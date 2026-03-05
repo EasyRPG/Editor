@@ -39,6 +39,14 @@ public:
 
 	explicit JsonListView(QObject* parent = nullptr) : QAbstractListModel(parent) {}
 
+	Q_INVOKABLE virtual QString str(QString) const;
+	Q_INVOKABLE virtual int num(QString) const;
+	Q_INVOKABLE virtual bool boolean(QString) const;
+	Q_INVOKABLE virtual void set(QString, const QVariant&);
+	Q_INVOKABLE virtual JsonView* subtree(QString);
+	Q_INVOKABLE virtual JsonListView* list(QString);
+	Q_INVOKABLE virtual QString toJson(QString jsonPtr) const;
+
 	// QAbstractListModel overrides
 	QHash<int, QByteArray> roleNames() const override;
 
@@ -47,13 +55,6 @@ public:
 	int rowCount(const QModelIndex& = QModelIndex()) const override { return -1; }
 	QVariant data(const QModelIndex&, int = Qt::DisplayRole) const override { return {}; };
 	bool insertRows(int, int, const QModelIndex& = QModelIndex()) override { return false; };
-
-	Q_INVOKABLE virtual QString str(QString) const;
-	Q_INVOKABLE virtual int num(QString) const;
-	Q_INVOKABLE virtual bool boolean(QString) const;
-	Q_INVOKABLE virtual void set(QString, const QVariant&);
-	Q_INVOKABLE virtual JsonView* subtree(QString);
-	Q_INVOKABLE virtual JsonListView* list(QString);
 
 	JsonView* view() const { return m_view; }
 	void setView(JsonView* view) { m_view = view; }

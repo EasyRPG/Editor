@@ -31,7 +31,7 @@ DatabaseEntryPage {
     }
 
     Component.onCompleted: {
-        let rawString = root.jsonData.toJson()
+        let rawString = root.jsonData.toJson("")
         console.log(rawString)
 
         let parsedObj = JSON.parse(rawString)

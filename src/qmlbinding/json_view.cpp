@@ -21,11 +21,15 @@
 
 namespace {
 	QString makePath(const QString& left, const QString& right) {
-		assert(!left.isEmpty() && !right.isEmpty());
+		assert(!left.isEmpty());
 		assert(!right.endsWith('/'));
 
 		// normalize the path: Ensure initial / and avoid double /
 		QString out;
+
+		if (right.isEmpty()) {
+			return left;
+		}
 
 		bool slash_l = left.endsWith('/');
 		bool slash_r = right.startsWith('/');
@@ -66,6 +70,10 @@ JsonView* JsonView::subtree(QString jsonPtr) {
 
 JsonListView* JsonView::list(QString jsonPtr) {
 	return qvariant_cast<JsonListView*>(static_cast<Json*>(parent())->list(makePath(m_pathPrefix, jsonPtr)));
+}
+
+QString JsonView::toJson(QString jsonPtr) const {
+	return static_cast<Json*>(parent())->toJson(makePath(m_pathPrefix, jsonPtr));
 }
 
 QString JsonView::pathPrefix() const {

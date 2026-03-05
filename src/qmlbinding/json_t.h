@@ -34,7 +34,7 @@ public:
 	void set(QString jsonPtr, const QVariant& value) override;
 	QVariant subtree(QString jsonPtr) override;
 	QVariant list(QString jsonPtr) override;
-	void* rawData() override;
+	QString toJson(QString jsonPtr) const override;
 	void setData(LCFTYPE* data);
 
 private:

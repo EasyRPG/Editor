@@ -17,6 +17,7 @@
 
 #include "project_data_gadget.h"
 #include "model/project.h"
+#include "json_view.h"
 
 ProjectDataGadget::ProjectDataGadget(QObject* parent) : QObject(parent) {
 

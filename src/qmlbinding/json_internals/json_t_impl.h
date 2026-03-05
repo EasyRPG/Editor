@@ -17,13 +17,17 @@
 
 #pragma once
 
+// Do not include this file! Only include json_t.h
+
 #include <QObject>
 #include <QVariant>
+#include <glaze/json/generic.hpp>
 
 #include "common/dbstring.h"
 #include "lcf_glaze.h"
+#include "json_view.h"
+#include "json_list_view.h"
 #include "json_t.h"
-#include "json_seek_impl.h"
 
 template<typename LCFTYPE>
 JsonT<LCFTYPE>::JsonT(QObject* parent) : Json(parent) {}
@@ -88,19 +92,52 @@ void JsonT<LCFTYPE>::set(QString jsonPtr, const QVariant& value) {
 	}
 }
 
+template <typename T>
+concept IsVector = requires {
+    typename T::value_type;
+} && std::is_class_v<typename T::value_type>;
+
 template<typename LCFTYPE>
 QVariant JsonT<LCFTYPE>::list(QString jsonPtr) {
-	return QVariant::fromValue(lcf_seek_list_impl<LCFTYPE>(m_data, jsonPtr, this));
+	JsonListView* list_view = nullptr;
+
+	glz::seek([&](auto& val) {
+		using T = std::decay_t<decltype(val)>;
+
+		if constexpr (IsVector<T>) {
+			auto view = new JsonView(this);
+			view->setPathPrefix(jsonPtr);
+			list_view = new JsonListViewT<typename T::value_type>(this, &val, view);
+		}
+	}, *m_data, jsonPtr.toStdString());
+
+	return QVariant::fromValue(list_view);
 }
 
 template<typename LCFTYPE>
 QVariant JsonT<LCFTYPE>::subtree(QString jsonPtr) {
-	return QVariant::fromValue(lcf_seek_subtree_impl<LCFTYPE>(m_data, jsonPtr, this));
+	JsonView* view = new JsonView(this);
+	view->setPathPrefix(jsonPtr);
+	return QVariant::fromValue(view);
 }
 
 template<typename LCFTYPE>
-void* JsonT<LCFTYPE>::rawData() {
-	return m_data;
+QString JsonT<LCFTYPE>::toJson(QString jsonPtr) const {
+	std::string buffer{};
+	auto ec = glz::write_json(*m_data, buffer);
+	if (ec) {
+		qDebug() << glz::format_error(ec, buffer);
+		return {};
+	}
+
+	auto view = glz::get_view_json(jsonPtr.toStdString(), buffer);
+	if (view) {
+		return QString::fromUtf8(view->data(), view->size());
+	}
+
+	qDebug() << "Json::toJson: Invalid pointer: " << jsonPtr;
+
+	return "!BAD POINTER!";
 }
 
 template<typename LCFTYPE>

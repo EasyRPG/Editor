@@ -74,6 +74,12 @@ public:
 	 */
 	Q_INVOKABLE virtual QVariant list(QString jsonPtr) = 0;
 
-	/** @return Pointer to the underlying lcf::rpg data. For internal use only. */
-	virtual void* rawData() = 0;
+	/**
+	 * Dump the data given at the pointer location as raw JSON data.
+	 * Only use this as a last resort or for debugging purposes.
+	 *
+	 * @param jsonPtr JSON Pointer
+	 * @return JSON string
+	 */
+	Q_INVOKABLE virtual QString toJson(QString jsonPtr) const = 0;
 };

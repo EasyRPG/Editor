@@ -50,3 +50,7 @@ JsonView* JsonListView::subtree(QString jsonPtr) {
 JsonListView* JsonListView::list(QString jsonPtr) {
 	return m_view->list(jsonPtr);
 }
+
+QString JsonListView::toJson(QString jsonPtr) const {
+	return m_view->toJson(jsonPtr);
+}

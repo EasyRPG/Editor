@@ -22,6 +22,7 @@
 #include <lcf/dbbitarray.h>
 #include <lcf/dbstring.h>
 #include <lcf/rpg/database.h>
+#include <lcf/rpg/eventpagecondition.h>
 #include <lcf/rpg/terms.h>
 #include <lcf/rpg/terrain.h>
 #include <lcf/rpg/troop.h>
@@ -69,6 +70,19 @@ template <> struct to<JSON, lcf::DBBitArray> {
 };
 
 // Flags are unions which glaze cannot automatically handle
+template <> struct meta<lcf::rpg::EventPageCondition::Flags> {
+	using T = lcf::rpg::EventPageCondition::Flags;
+	static constexpr auto value = object(
+		"switch_a", &T::switch_a,
+		"switch_b", &T::switch_b,
+		"variable", &T::variable,
+		"item", &T::item,
+		"actor", &T::actor,
+		"timer", &T::timer,
+		"timer2", &T::timer2
+	);
+};
+
 template <> struct meta<lcf::rpg::TroopPageCondition::Flags> {
 	using T = lcf::rpg::TroopPageCondition::Flags;
 	static constexpr auto value = object(

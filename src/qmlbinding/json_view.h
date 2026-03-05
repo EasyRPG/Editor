@@ -79,14 +79,14 @@ public:
 	 */
 	Q_INVOKABLE JsonListView* list(QString jsonPtr);
 
-	// Overloads for JsonViewT
 	/**
-	 * Dump the current tree as a JSON string.
-	 * Mostly for debugging purposes.
+	 * Dump the data given at the pointer location as raw JSON data.
+	 * Only use this as a last resort or for debugging purposes.
 	 *
+	 * @param jsonPtr JSON Pointer
 	 * @return JSON string
 	 */
-	Q_INVOKABLE virtual QString toJson() const { return {}; };
+	Q_INVOKABLE QString toJson(QString jsonPtr) const;
 
 	QString pathPrefix() const;
 	void setPathPrefix(QString prefix);
@@ -96,28 +96,4 @@ signals:
 
 private:
 	QString m_pathPrefix;
-};
-
-// LCFTYPE: Type of the LCF object stored (e.g. lcf::rpg::Database)
-// ITEMTYPE: Type of the LCF object referenced by the view (e.g. lcf::rpg::Actor)
-template<typename LCFTYPE, typename ITEMTYPE>
-class JsonViewT : public JsonView {
-public:
-	explicit JsonViewT(QObject* parent = nullptr) : JsonView(parent) {}
-
-	QString toJson() const override {
-		auto raw_data = static_cast<Json*>(parent())->rawData();
-		auto data = static_cast<LCFTYPE*>(raw_data);
-
-		const auto& res = glz::get<ITEMTYPE>(*data, pathPrefix().toStdString()).value();
-
-		std::string buffer{};
-		auto ec = glz::write_json(res, buffer);
-		if (ec) {
-			qDebug() << glz::format_error(ec, buffer);
-			return {};
-		}
-
-		return QString::fromStdString(buffer);
-	};
 };
