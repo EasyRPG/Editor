@@ -23,6 +23,8 @@
 #include <lcf/rpg/fwd.h>
 #include <QObject>
 
+class JsonView;
+
 /**
  * Wrapper around ProjectData class for usage in QML
  */

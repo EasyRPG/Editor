@@ -17,30 +17,14 @@
 
 #pragma once
 
-#include "json.h"
+#include <QString>
 
-#include <lcf/rpg/database.h>
-#include <lcf/rpg/map.h>
-#include <lcf/rpg/treemap.h>
+class Json;
+class JsonView;
+class JsonListView;
 
 template<typename LCFTYPE>
-class JsonT : public Json {
-public:
-	explicit JsonT(QObject* parent = nullptr);
+JsonListView* json_seek_list(LCFTYPE* data, const QString& path, Json* parent);
 
-	QString str(QString jsonPtr) const override;
-	int num(QString jsonPtr) const override;
-	bool boolean(QString jsonPtr) const override;
-	void set(QString jsonPtr, const QVariant& value) override;
-	QVariant subtree(QString jsonPtr) override;
-	QVariant list(QString jsonPtr) override;
-	void* rawData() override;
-	void setData(LCFTYPE* data);
-
-private:
-	LCFTYPE* m_data = nullptr;
-};
-
-extern template class JsonT<lcf::rpg::Database>;
-extern template class JsonT<lcf::rpg::TreeMap>;
-extern template class JsonT<lcf::rpg::Map>;
+template<typename LCFTYPE>
+JsonView* json_seek_subtree(LCFTYPE* data, const QString& path, Json* parent);

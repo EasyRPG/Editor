@@ -338,6 +338,18 @@ set(EDITOR_QML_UI
 )
 
 set(EDITOR_QML_INTERFACE
+	src/qmlbinding/json_internals/json_seek.h
+	src/qmlbinding/json_internals/json_seek_impl.h
+	src/qmlbinding/json_internals/json_seek_list_database.cpp
+	src/qmlbinding/json_internals/json_seek_list_map.cpp
+	src/qmlbinding/json_internals/json_seek_list_treemap.cpp
+	src/qmlbinding/json_internals/json_seek_subtree_database.cpp
+	src/qmlbinding/json_internals/json_seek_subtree_map.cpp
+	src/qmlbinding/json_internals/json_seek_subtree_treemap.cpp
+	src/qmlbinding/json_internals/json_t_database.cpp
+	src/qmlbinding/json_internals/json_t_impl.h
+	src/qmlbinding/json_internals/json_t_map.cpp
+	src/qmlbinding/json_internals/json_t_treemap.cpp
 	src/qmlbinding/json.h
 	src/qmlbinding/json_list_view.cpp
 	src/qmlbinding/json_list_view.h

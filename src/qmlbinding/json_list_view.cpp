@@ -26,3 +26,27 @@ QHash<int, QByteArray> JsonListView::roleNames() const {
 	roles[IndexRole] = "listindex";
     return roles;
 }
+
+QString JsonListView::str(QString jsonPtr) const {
+	return m_view->str(jsonPtr);
+}
+
+int JsonListView::num(QString jsonPtr) const {
+	return m_view->num(jsonPtr);
+}
+
+bool JsonListView::boolean(QString jsonPtr) const {
+	return m_view->boolean(jsonPtr);
+}
+
+void JsonListView::set(QString jsonPtr, const QVariant& value) {
+	return m_view->set(jsonPtr, value);
+}
+
+JsonView* JsonListView::subtree(QString jsonPtr) {
+	return m_view->subtree(jsonPtr);
+}
+
+JsonListView* JsonListView::list(QString jsonPtr) {
+	return m_view->list(jsonPtr);
+}

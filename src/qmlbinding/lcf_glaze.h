@@ -27,13 +27,6 @@
 #include <lcf/rpg/troop.h>
 #include <lcf/rpg/trooppagecondition.h>
 
-namespace {
-template<typename RETTYPE, typename LCFTYPE>
-static RETTYPE glaze_get(LCFTYPE* data, QString jsonPtr) {
-	return glz::get<RETTYPE>(*data, jsonPtr.toStdString()).value();
-}
-}
-
 namespace glz {
 
 // JSON support for the custom lcf types
