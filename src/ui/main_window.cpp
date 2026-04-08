@@ -35,6 +35,8 @@
 #include <QScrollBar>
 #include <QStringList>
 #include <QDir>
+#include <QQmlContext>
+#include <QQmlApplicationEngine>
 #include <cassert>
 #include <sstream>
 #include <iomanip>
@@ -46,6 +48,7 @@
 #include <lcf/rpg/map.h>
 #include <lcf/rpg/mapinfo.h>
 #include "model/project.h"
+#include "qmlbinding/project_data_gadget.h"
 
 Q_DECLARE_METATYPE(QList<int>)
 Q_DECLARE_METATYPE(QList<float>)
@@ -487,6 +490,23 @@ void MainWindow::on_actionDatabase_triggered()
 	dlg_db->exec();
 }
 
+void MainWindow::on_actionDatabaseNew_triggered() {
+	auto engine = core().qmlEngine();
+
+	// Inject ProjectData into the QML
+    auto* projectGadget = engine->singletonInstance<ProjectDataGadget*>(
+        "org.easyrpg.editor", "ProjectData"
+    );
+
+	projectGadget->setProjectData(&core().project()->projectData());
+
+	engine->loadFromModule("org.easyrpg.editor", "DatabaseWindow");
+
+	if (engine->rootObjects().isEmpty()) {
+		 return;
+	}
+}
+
 void MainWindow::update_actions()
 {
 	bool has_project = core().project() != nullptr;
@@ -494,6 +514,7 @@ void MainWindow::update_actions()
 	ui->actionDrawCircle->setEnabled(has_project);
 	ui->actionGameDiskCreate->setEnabled(has_project);
 	ui->actionDatabase->setEnabled(has_project);
+	ui->actionDatabaseNew->setEnabled(has_project);
 	ui->actionDrawPen->setEnabled(has_project);
 	ui->actionDrawFill->setEnabled(has_project);
 	ui->actionProjectImport->setEnabled(!has_project);

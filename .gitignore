@@ -32,6 +32,9 @@ Makefile*
 /.flatpak-builder
 /local-repo
 
+# appimage
+AppDir/
+
 # liblcf
 lib/liblcf
 

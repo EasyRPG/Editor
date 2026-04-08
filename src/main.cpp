@@ -15,6 +15,7 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "core.h"
 #include "ui/main_window.h"
 #include <QApplication>
 #include <QSplashScreen>
@@ -41,7 +42,7 @@ int main(int argc, char *argv[]) {
 
 	// Kirigami only loads a custom style when using a static build
 	// Lets wait for upstream to improve this
-#if defined(_WIN32) || defined(__APPLE__)
+#if defined(KIRIGAMI_STATIC)
     // Default to org.kde.breeze style (from qqc2-breeze style)
 	if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
 		const char* fstyle = "KIRIGAMI_FORCE_STYLE";
@@ -67,18 +68,19 @@ int main(int argc, char *argv[]) {
 
 	s.showMessage("EasyRPG Editor");
 	//s.show();
+
 #ifdef NDEBUG
 	// close splash after 3 seconds for release
 	QTimer::singleShot(3000, &s, &QWidget::close);
 #endif
 
 	// setup qml engine
-	QQmlApplicationEngine engine;
-	engine.loadFromModule("org.easyrpg.editor", "MainWindow");
+	auto engine = core().qmlEngine();
 
-	if (engine.rootObjects().isEmpty()) {
+	/*engine->loadFromModule("org.easyrpg.editor", "MainWindow");
+	if (engine->rootObjects().isEmpty()) {
 		return -1;
-	}
+	}*/
 
 	// load translations
 	s.showMessage("Loading translations...");

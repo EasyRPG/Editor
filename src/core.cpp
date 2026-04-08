@@ -22,9 +22,12 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QDebug>
+#include <QQmlApplicationEngine>
 #include "ui/map/map_scene.h"
 #include "common/dbstring.h"
 #include "common/image_loader.h"
+#include <kddockwidgets/Config.h>
+#include <kddockwidgets/qtquick/Platform.h>
 
 //define static member
 Core *Core::core_instance = nullptr;
@@ -682,6 +685,16 @@ std::shared_ptr<Project>& Core::project() {
 
 const std::shared_ptr<Project>& Core::project() const {
 	return m_project;
+}
+
+QQmlApplicationEngine* Core::qmlEngine() {
+	if (!m_qml_engine) {
+		m_qml_engine = new QQmlApplicationEngine();
+		KDDockWidgets::initFrontend(KDDockWidgets::FrontendType::QtQuick);
+		KDDockWidgets::QtQuick::Platform::instance()->setQmlEngine(m_qml_engine);
+	}
+
+	return m_qml_engine;
 }
 
 void Core::beginPainting(QPixmap &dest)

@@ -45,7 +45,7 @@ vcpkg_cmake_configure(
         # https://github.com/KDAB/KDDockWidgets/blob/v2.1.0/CMakeLists.txt#L301
         -DCMAKE_DISABLE_FIND_PACKAGE_spdlog=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_fmt=ON
-        -DCMAKE_REQUIRE_FIND_PACKAGE_nlohmann_json=ON
+        -DCMAKE_DISABLE_FIND_PACKAGE_nlohmann_json=ON
         "-DCMAKE_PREFIX_PATH=$ENV{Qt6_Path}"
 )
 

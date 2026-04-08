@@ -40,7 +40,7 @@
      <x>0</x>
      <y>0</y>
      <width>802</width>
-     <height>36</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuGame">
@@ -76,6 +76,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionDatabase"/>
+    <addaction name="actionDatabaseNew"/>
     <addaction name="actionResourceManager"/>
     <addaction name="actionJukebox"/>
     <addaction name="actionSearch"/>
@@ -172,7 +173,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockPalette">
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
     <string>Palette</string>
@@ -226,10 +227,10 @@
   </widget>
   <widget class="QDockWidget" name="dockMapTree">
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::DockWidgetFeature::DockWidgetFloatable|QDockWidget::DockWidgetFeature::DockWidgetMovable</set>
    </property>
    <property name="allowedAreas">
-    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+    <set>Qt::DockWidgetArea::LeftDockWidgetArea|Qt::DockWidgetArea::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Map Tree</string>
@@ -833,6 +834,11 @@
    </property>
    <property name="toolTip">
     <string>Enable caching in the searchdialog</string>
+   </property>
+  </action>
+  <action name="actionDatabaseNew">
+   <property name="text">
+    <string>Database (New)</string>
    </property>
   </action>
  </widget>

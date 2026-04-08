@@ -54,7 +54,7 @@ public:
 	 * @param filename File to find
 	 * @return Found file or the passed filename when not found
 	 */
-	QString findFileOrDefault(const QString& filename);
+	QString findFileOrDefault(const QString& filename) const;
 
 	QString findDirectory(const QString& dir) const;
 	QString findDirectory(const QString& baseDir, const QString& dir) const;

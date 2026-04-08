@@ -28,6 +28,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QListWidget>
+#include <QQmlApplicationEngine>
 #include <lcf/rpg/map.h>
 #include <lcf/rpg/chipset.h>
 #include "ui/other/run_game_dialog.h"
@@ -117,6 +118,8 @@ public:
 	std::shared_ptr<Project>& project();
 	const std::shared_ptr<Project>& project() const;
 
+	QQmlApplicationEngine* qmlEngine();
+
 signals:
 	void toolChanged();
 
@@ -151,6 +154,7 @@ private:
 	QMap<int, lcf::rpg::Event*> *m_currentMapEvents;
 	RunGameDialog *m_runGameDialog;
 	std::shared_ptr<Project> m_project;
+	QQmlApplicationEngine* m_qml_engine = nullptr;
 };
 
 Core& core();
