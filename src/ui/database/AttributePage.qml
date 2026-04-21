@@ -62,6 +62,7 @@ DatabaseEntryPage {
                 Kirigami.FormData.label: model.label
                 from: -9999
                 to: 9999
+                suffix: "%"
             }
         }
     }
