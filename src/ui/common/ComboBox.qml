@@ -14,8 +14,6 @@ Controls.ComboBox {
     textRole: "display"
     valueRole: "identifier"
 
-    property string fallbackString: ""
-
     onActivated: {
         if (jsonData !== null && key !== "") {
             jsonData.set(key, currentValue)
@@ -30,15 +28,15 @@ Controls.ComboBox {
         if (jsonData !== null && key !== "") {
             currentIndex = indexOfValue(jsonData.num(key))
             if (currentIndex === -1) {
-                console.log("Warning: Value " + jsonData.num(key) + " not found in ComboBox model for key " + key)
+                console.log(`ComboBox: ${jsonData.num(key)} not found for ${key} ${root.model.fallbackString}`);
+
+                let isProxy = (root.model.sourceModel !== undefined);
+                let model = isProxy ? root.model.sourceModel : root.model;
+
+                if (model.fallbackString !== "") {
+                    currentIndex = indexOfValue(model.fallbackValue);
+                }
             }
         }
-    }
-
-    onModelChanged: applyFallbackString()
-    onFallbackStringChanged: applyFallbackString()
-
-    function applyFallbackString() {
-        root.model.fallbackString = root.fallbackString
     }
 }

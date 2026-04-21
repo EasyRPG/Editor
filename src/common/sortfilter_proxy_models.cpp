@@ -16,6 +16,7 @@
  */
 
 #include "sortfilter_proxy_models.h"
+#include "json_list_view.h"
 
 SortFilterProxyModelIdFilter::SortFilterProxyModelIdFilter(const std::vector<int>& indices) :
 		QSortFilterProxyModel() {
@@ -25,7 +26,7 @@ SortFilterProxyModelIdFilter::SortFilterProxyModelIdFilter(const std::vector<int
 
 bool SortFilterProxyModelIdFilter::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const {
 	QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-	int val = sourceModel()->data(index, Qt::UserRole).toInt();
+	int val = sourceModel()->data(index, JsonListView::IdRole).toInt();
 
 	return std::binary_search(this->indices.begin(), this->indices.end(), val);
 }

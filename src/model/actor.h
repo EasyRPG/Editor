@@ -20,17 +20,20 @@
 #include <QGraphicsItem>
 #include <lcf/rpg/database.h>
 #include <lcf/rpg/actor.h>
-#include "project.h"
 #include "rpg_base.h"
 
-class QSortFilterProxyModel;
+class QAbstractItemModel;
+class ProjectData;
 
 /**
  * A thin wrapper around lcf::rpg::Actor
  */
 class ActorModel : public RpgBase
 {
+	Q_GADGET
+
 public:
+	ActorModel() = default;
 	ActorModel(ProjectData& project, lcf::rpg::Actor& data);
 
 	bool IsItemUsable(const lcf::rpg::Item& item) const;
@@ -41,7 +44,7 @@ public:
 	 * @param type Equipment type
 	 * @return QSortFilterProxyModel
 	 */
-	QSortFilterProxyModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
+	Q_INVOKABLE QAbstractItemModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
 
 	lcf::rpg::Actor& data();
 
@@ -54,6 +57,6 @@ public:
 	QPixmap preview() override;
 
 private:
-	lcf::rpg::Actor& m_data;
+	lcf::rpg::Actor* m_data = nullptr;
 };
 

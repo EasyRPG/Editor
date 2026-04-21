@@ -16,6 +16,7 @@
  */
 
 #include "system_color_combobox.h"
+#include "common/image_loader.h"
 
 SystemColorComboBox::SystemColorComboBox(QWidget *parent) : QComboBox(parent) {}
 

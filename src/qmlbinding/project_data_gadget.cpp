@@ -16,6 +16,7 @@
  */
 
 #include "project_data_gadget.h"
+#include "model/actor.h"
 #include "model/project.h"
 #include "json_view.h"
 
@@ -37,9 +38,6 @@ void ProjectDataGadget::setProjectData(ProjectData* data) {
 }
 
 JsonView* ProjectDataGadget::database() {
-	auto res = m_database_json.subtree("/");
-	qDebug() << "database() " << m_data << " " << res;
-
     return m_data ? qvariant_cast<JsonView*>(m_database_json.subtree("/")) : nullptr;
 }
 
@@ -65,6 +63,10 @@ QString ProjectDataGadget::findDirectory(const QString& dir) const {
 
 QString ProjectDataGadget::findDirectory(const QString& baseDir, const QString& dir) const {
 	return m_data->project().findDirectory(baseDir, dir);
+}
+
+ActorModel ProjectDataGadget::actorModel(int actor_index) {
+	return ActorModel(*m_data, m_data->database().actors[actor_index]);
 }
 
 QString ProjectDataGadget::projectPath() const {

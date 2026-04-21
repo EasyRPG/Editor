@@ -16,6 +16,10 @@
  */
 
 #include "enemy.h"
+#include "common/filefinder.h"
+#include "common/image_loader.h"
+#include "model/project.h"
+#include "model/project_data.h"
 #include "ui/database/enemy_widget.h"
 #include "common/dbstring.h"
 
@@ -29,7 +33,7 @@ lcf::rpg::Enemy& EnemyModel::data() {
 }
 
 QPixmap EnemyModel::preview() {
-	QPixmap monster = ImageLoader::Load(m_project.project().findFile("Monster", ToQString(data().battler_name), FileFinder::FileType::Image));
+	QPixmap monster = ImageLoader::Load(m_project->project().findFile("Monster", ToQString(data().battler_name), FileFinder::FileType::Image));
 	if (!monster) {
 		return QPixmap(48, 48);
 	}

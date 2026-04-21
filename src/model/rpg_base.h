@@ -19,12 +19,14 @@
 
 #include <QPixmap>
 #include <QMessageBox>
-#include "common/image_loader.h"
-#include "project.h"
-#include "core.h"
+
+class ProjectData;
 
 class RpgBase {
+	Q_GADGET
+
 public:
+	RpgBase() = default;
 	explicit RpgBase(ProjectData& project);
 
 	virtual QPixmap preview() {
@@ -32,9 +34,9 @@ public:
 	}
 
 	ProjectData& project() const {
-		return m_project;
+		return *m_project;
 	}
 
 protected:
-	ProjectData& m_project;
+	ProjectData* m_project = nullptr;
 };

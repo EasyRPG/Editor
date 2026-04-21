@@ -18,6 +18,9 @@ Kirigami.ScrollablePage {
     Kirigami.ColumnView.fillWidth: true
     Kirigami.ColumnView.reservedSpace: applicationWindow().pageStack.defaultColumnWidth * (applicationWindow().pageStack.depth - 1)
 
+    /** When the object comes from a list, contains the index. Otherwise -1. */
+    property int objIndex: -1
+
     // TODO: Not used. Just for testing
     property bool showActions: false
 
