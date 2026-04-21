@@ -42,6 +42,11 @@ Kirigami.ScrollablePage {
             targetPage: "SkillPage.qml"
         }
         ListElement {
+            name: "Attributes"
+            key: "attributes"
+            targetPage: "AttributePage.qml"
+        }
+        ListElement {
             name: "Vocabulary"
             key: "terms"
             single: true
