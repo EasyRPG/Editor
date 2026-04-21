@@ -22,8 +22,8 @@ QHash<int, QByteArray> JsonListView::roleNames() const {
 	roles[Qt::DisplayRole] = "display";
     roles[NameRole] = "name";
     roles[TitleRole] = "title";
-	roles[IdRole] = "index";
-	roles[IndexRole] = "listindex";
+	roles[IdRole] = "identifier";
+	roles[IndexRole] = "index";
     return roles;
 }
 

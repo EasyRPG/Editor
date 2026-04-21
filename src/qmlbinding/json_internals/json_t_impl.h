@@ -47,10 +47,22 @@ QString JsonT<LCFTYPE>::str(QString jsonPtr) const {
 
 template<typename LCFTYPE>
 int JsonT<LCFTYPE>::num(QString jsonPtr) const {
-	auto res = glz::get<int>(*m_data, jsonPtr.toStdString());
+	std::string ptr = jsonPtr.toStdString();
 
-	if (res) {
-		return res.value();
+	if (auto res = glz::get<int32_t>(*m_data, ptr)) {
+		return res.value().get();
+	}
+
+	if (auto res = glz::get<uint32_t>(*m_data, ptr)) {
+		return static_cast<int>(res.value().get());
+	}
+
+	if (auto res = glz::get<int16_t>(*m_data, ptr)) {
+		return static_cast<int>(res.value().get());
+	}
+
+	if (auto res = glz::get<uint16_t>(*m_data, ptr)) {
+		return static_cast<int>(res.value().get());
 	}
 
 	qDebug() << "Json::num: Not pointing to int: " << jsonPtr;
@@ -87,14 +99,14 @@ void JsonT<LCFTYPE>::set(QString jsonPtr, const QVariant& value) {
 			break;
 		}
 		default:
-			assert(false);
+			qDebug() << "Json::set: Type unsupported: " << value.typeName();
 			break;
 	}
 }
 
 template <typename T>
 concept IsVector = requires {
-    typename T::value_type;
+	typename T::value_type;
 } && std::is_class_v<typename T::value_type>;
 
 template<typename LCFTYPE>

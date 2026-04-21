@@ -68,5 +68,19 @@ DatabaseEntryPage {
                 enabled: critical_hit_cb.checked
             }
         }
+
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Equipment"
+        }
+
+        Ez.ComboBox {
+            jsonData: root.jsonData
+            key: "initial_equipment/weapon_id"
+            Kirigami.FormData.label: "Weapon Type:"
+            model: Ez.ProjectData.database().list("items")
+            fallbackString: "(None)"
+        }
     }
 }
