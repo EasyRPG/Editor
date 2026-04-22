@@ -44,7 +44,7 @@ public:
 	 * @param type Equipment type
 	 * @return QSortFilterProxyModel
 	 */
-	Q_INVOKABLE QAbstractItemModel* CreateEquipmentFilter(lcf::rpg::Item::Type type);
+	Q_INVOKABLE QAbstractItemModel* CreateEquipmentFilter(lcf::rpg::Item::Type type, QObject* parent = nullptr);
 
 	lcf::rpg::Actor& data();
 

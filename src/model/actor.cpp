@@ -70,7 +70,7 @@ bool ActorModel::IsItemUsable(const lcf::rpg::Item& item) const {
 	return (*query_set)[query_idx];
 }
 
-QAbstractItemModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
+QAbstractItemModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type type, QObject* parent) {
 	std::vector<int> indices = {0}; // Include (None)
 
 	for (const auto& item : m_project->database().items) {
@@ -81,5 +81,11 @@ QAbstractItemModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type type)
 		indices.push_back(item.ID);
 	}
 
-	return new SortFilterProxyModelIdFilter(indices);
+	auto filter = new SortFilterProxyModelIdFilter(indices, parent);
+
+	if (!parent) {
+        QQmlEngine::setObjectOwnership(filter, QQmlEngine::JavaScriptOwnership);
+    }
+
+	return filter;
 }

@@ -28,8 +28,10 @@
  * Filters by a list of Lcf IDs
  */
 class SortFilterProxyModelIdFilter : public QSortFilterProxyModel {
+	Q_OBJECT
+
 public:
-	SortFilterProxyModelIdFilter(const std::vector<int>& indices);
+	SortFilterProxyModelIdFilter(const std::vector<int>& indices, QObject* parent);
 	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const override;
 
 private:

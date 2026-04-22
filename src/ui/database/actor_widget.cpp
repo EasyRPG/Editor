@@ -241,7 +241,7 @@ void ActorWidget::on_currentActorChanged(lcf::rpg::Actor *actor)
 
 	auto equipFilter = [&](auto& cbox, auto type) {
 		SignalBlocker s(cbox->comboBox());
-		cbox->setFilter(static_cast<QSortFilterProxyModel*>(ActorModel(m_project, *m_current).CreateEquipmentFilter(type)));
+		cbox->setFilter(static_cast<QSortFilterProxyModel*>(ActorModel(m_project, *m_current).CreateEquipmentFilter(type, this)));
 	};
 
 	equipFilter(ui->comboInitialWeapon, lcf::rpg::Item::Type_weapon);

@@ -18,8 +18,8 @@
 #include "sortfilter_proxy_models.h"
 #include "json_list_view.h"
 
-SortFilterProxyModelIdFilter::SortFilterProxyModelIdFilter(const std::vector<int>& indices) :
-		QSortFilterProxyModel() {
+SortFilterProxyModelIdFilter::SortFilterProxyModelIdFilter(const std::vector<int>& indices, QObject* parent) :
+		QSortFilterProxyModel(parent) {
 	this->indices = indices;
 	std::sort(this->indices.begin(), this->indices.end());
 }
