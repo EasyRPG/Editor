@@ -9,10 +9,10 @@ Controls.ComboBox {
     id: root
 
     property string key
-    property Ez.JsonView jsonData
+    property var jsonData
 
-    textRole: "display"
-    valueRole: "identifier"
+    textRole: "text" // In a JsonListView this is "ID: NAME", e.g. "0001: Aina"
+    valueRole: "value" // In a JsonListView is the "ID"
 
     onActivated: {
         if (jsonData !== null && key !== "") {
@@ -28,7 +28,7 @@ Controls.ComboBox {
         if (jsonData !== null && key !== "") {
             currentIndex = indexOfValue(jsonData.num(key))
             if (currentIndex === -1) {
-                console.log(`ComboBox: ${jsonData.num(key)} not found for ${key} ${root.model.fallbackString}`);
+                console.log(`ComboBox: ${jsonData.num(key)} not found for ${key}`);
 
                 let isProxy = (root.model.sourceModel !== undefined);
                 let model = isProxy ? root.model.sourceModel : root.model;

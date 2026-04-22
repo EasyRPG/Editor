@@ -89,6 +89,9 @@ void JsonT<LCFTYPE>::set(QString jsonPtr, const QVariant& value) {
 		case QMetaType::Int:
 			glz::set(m_data, jsonPtr.toStdString(), value.toInt());
 			break;
+		case QMetaType::Double:
+			glz::set(m_data, jsonPtr.toStdString(), value.toDouble());
+			break;
 		case QMetaType::QString: {
 			lcf::DBString s = ToDBString(value.value<QString>());
 			glz::set(m_data, jsonPtr.toStdString(), s);
