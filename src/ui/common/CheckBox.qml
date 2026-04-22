@@ -12,9 +12,8 @@ Controls.CheckBox {
     property Ez.JsonView jsonData
 
     onToggled: {
-    	//console.log("Text changed to:", text)
     	if (jsonData !== null && key !== "") {
-    		jsonData.set(key, checkState);
+    		jsonData.set(key, checked);
     	}
     }
 
@@ -23,6 +22,10 @@ Controls.CheckBox {
     }
 
     function onDataChanged() {
-    	checkState = (jsonData.boolean(key));
+    	if (jsonData !== null && key !== "") {
+    		checked = jsonData.boolean(key);
+    	} else {
+    		checked = false;
+    	}
     }
 }
