@@ -26,7 +26,7 @@ Kirigami.ScrollablePage {
 
     ListView {
         id: entryList
-    	model: root.jsonData
+        model: root.jsonData
 
         onCurrentIndexChanged: {
             root.selectEntry(currentIndex)
@@ -36,7 +36,7 @@ Kirigami.ScrollablePage {
             required property int index
             required property string name
 
-    		width: ListView.view.width
+            width: ListView.view.width
             text: (index+1).toString().padStart(4, '0') + ": " + name
 
             highlighted: entryList.currentIndex === index

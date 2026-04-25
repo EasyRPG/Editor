@@ -15,16 +15,16 @@ DatabaseEntryPage {
     Kirigami.FormLayout {
         anchors.fill: parent
 
-    	Ez.TextField {
-    		jsonData: root.jsonData
-    		key: "name"
-    		Kirigami.FormData.label: "Name:"
-    	}
+        Ez.TextField {
+            jsonData: root.jsonData
+            key: "name"
+            Kirigami.FormData.label: "Name:"
+        }
 
-    	Ez.TextField {
-    		jsonData: root.jsonData
-    		key: "description"
-    		Kirigami.FormData.label: "Description:"
-    	}
+        Ez.TextField {
+            jsonData: root.jsonData
+            key: "description"
+            Kirigami.FormData.label: "Description:"
+        }
     }
 }
