@@ -11,19 +11,27 @@ Controls.TextField {
     property string key
     property Ez.JsonView jsonData
 
-    onTextChanged: {
-    	//console.log("Text changed to:", key, jsonData, text)
-    	if (jsonData !== null && key !== "") {
-    		jsonData.set(key, text)
-    	}
+    onKeyChanged: updateData()
+    onJsonDataChanged: updateData()
+
+    onTextEdited: {
+        if (jsonData !== null && key !== "") {
+            jsonData.set(key, text)
+        }
     }
 
     Component.onCompleted: {
-        onDataChanged()
+        updateData()
     }
 
-    function onDataChanged() {
-    	//console.log("data changed", jsonData.str(key))
-    	text = jsonData.str(key)
+    function updateData() {
+        if (jsonData !== null && key !== "") {
+            let jsonText = jsonData.str(key);
+            if (text !== jsonText) {
+                text = jsonText;
+            }
+        } else {
+            text = "";
+        }
     }
 }
