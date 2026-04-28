@@ -12,6 +12,23 @@ import org.easyrpg.editor as Ez
 DatabaseEntryPage {
     id: root
 
+    component JsonImageViewer : Ez.ImageViewer {
+        id: imageViewer
+
+        Layout.fillWidth: true
+
+        property string key
+        filename: root.jsonData.str(key)
+
+        pickerData: Ez.PickerData {
+            Component.onCompleted: filename = imageViewer.filename
+        }
+        onAccepted: {
+            imageViewer.filename = pickerData.filename
+            jsonData.set(key, pickerData.filename)
+        }
+    }
+
     component JsonMusicViewer : Ez.MusicViewer {
         property string key
         readonly property var musicData: root.jsonData.subtree(key)
@@ -25,13 +42,53 @@ DatabaseEntryPage {
         property string key
         readonly property var soundData: root.jsonData.subtree(key)
         pickerData: Ez.PickerData {
-            Component.onCompleted: fromMusic(soundData)
+            Component.onCompleted: fromSound(soundData)
         }
-        onAccepted: pickerData.toMusic(soundData)
+        onAccepted: pickerData.toSound(soundData)
     }
 
     Kirigami.FormLayout {
         anchors.fill: parent
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Title"
+        }
+
+        JsonImageViewer {
+            directory: "Title"
+            key: "title_name"
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Game Over"
+        }
+
+        JsonImageViewer {
+            directory: "GameOver"
+            key: "gameover_name"
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "System"
+        }
+
+        JsonImageViewer {
+            directory: "System"
+            key: "system_name"
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "System 2"
+        }
+
+        JsonImageViewer {
+            directory: "System 2"
+            key: "system2_name"
+        }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true

@@ -16,6 +16,7 @@
  */
 
 #include "project_data_gadget.h"
+#include "common/image_loader.h"
 #include "model/actor.h"
 #include "model/project.h"
 #include "json_view.h"
@@ -63,6 +64,15 @@ QString ProjectDataGadget::findDirectory(const QString& dir) const {
 
 QString ProjectDataGadget::findDirectory(const QString& baseDir, const QString& dir) const {
 	return m_data->project().findDirectory(baseDir, dir);
+}
+
+QPixmap ProjectDataGadget::loadImage(const QString& dir, const QString& filename) const {
+	QString file = findFile(dir, filename, FileFinder::FileType::Image);
+	if (file.isEmpty()) {
+		return {};
+	}
+
+	return ImageLoader::Load(file);
 }
 
 ActorModel ProjectDataGadget::actorModel(int actor_index) {

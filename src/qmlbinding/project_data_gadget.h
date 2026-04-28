@@ -22,6 +22,7 @@
 #include "model/project_data.h"
 #include <lcf/rpg/fwd.h>
 #include <QObject>
+#include <QPixmap>
 
 class ActorModel;
 class JsonView;
@@ -49,6 +50,8 @@ public:
     Q_INVOKABLE QString findFileOrDefault(const QString& filename);
     Q_INVOKABLE QString findDirectory(const QString& dir) const;
     Q_INVOKABLE QString findDirectory(const QString& baseDir, const QString& dir) const;
+
+    Q_INVOKABLE QPixmap loadImage(const QString& dir, const QString& filename) const;
 
 	Q_INVOKABLE ActorModel actorModel(int actor_index);
 

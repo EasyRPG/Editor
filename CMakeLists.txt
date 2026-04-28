@@ -340,10 +340,12 @@ set(EDITOR_QML_UI
 	src/ui/database/SkillPage.qml
 	src/ui/database/SystemPage.qml
 	src/ui/database/VocabularyPage.qml
+	src/ui/picker/ImagePicker.qml
 	src/ui/picker/PickerBase.qml
 	src/ui/picker/MusicPicker.qml
 	src/ui/picker/SoundPicker.qml
 	src/ui/viewer/FileViewerBase.qml
+	src/ui/viewer/ImageViewer.qml
 	src/ui/viewer/MusicViewer.qml
 	src/ui/viewer/SoundViewer.qml
 )
@@ -364,6 +366,8 @@ set(EDITOR_QML_INTERFACE
 	src/qmlbinding/lcf_glaze.h
 	src/qmlbinding/project_data_gadget.cpp
 	src/qmlbinding/project_data_gadget.h
+	src/qmlbinding/sprite_painted_item.cpp
+	src/qmlbinding/sprite_painted_item.h
 )
 
 # Dependencies

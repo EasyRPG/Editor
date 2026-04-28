@@ -12,12 +12,13 @@ Kirigami.Page {
 
     required property Ez.PickerData pickerData
 
-    property string directoryName
+    readonly property alias filename: nameInput.text
+    property string directory
 
     default property alias formContent: formLayout.data
 
     /** Signal emitted when confirming */
-    signal accepted();
+    signal accepted()
 
     actions: [
         Kirigami.Action {
@@ -55,7 +56,7 @@ Kirigami.Page {
                 clip: true
 
                 model: Ez.DirectoryModel {
-                    path: Ez.ProjectData.findDirectory(root.directoryName)
+                    path: Ez.ProjectData.findDirectory(root.directory)
                 }
 
                 delegate: Controls.ItemDelegate {

@@ -10,7 +10,7 @@ import org.easyrpg.editor as Ez
 PickerBase {
     id: root
 
-    directoryName: "Music"
+    directory: "Music"
 
     Controls.SpinBox {
         id: fadeinInput
