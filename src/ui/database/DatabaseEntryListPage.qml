@@ -65,7 +65,7 @@ Kirigami.ScrollablePage {
             //console.log("Pushing:", root.targetPage);
             pageStack.push(Qt.resolvedUrl(root.targetPage), {
                 // Use the index passed to the function
-                jsonData: jsonData.subtree("/" + index),
+                jsonData: jsonData.subtree(index),
                 objIndex: index
             });
         }

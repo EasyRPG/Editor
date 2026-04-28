@@ -325,6 +325,7 @@ set(EDITOR_SOURCES
 set(EDITOR_QML_UI
 	src/ui/common/CheckBox.qml
 	src/ui/common/ComboBox.qml
+	src/ui/common/PickerData.qml
 	src/ui/common/RadioButton.qml
 	src/ui/common/SpinBox.qml
 	src/ui/common/TextField.qml
@@ -337,10 +338,19 @@ set(EDITOR_QML_UI
 	src/ui/database/DatabaseWindow.qml
 	src/ui/database/ItemPage.qml
 	src/ui/database/SkillPage.qml
+	src/ui/database/SystemPage.qml
 	src/ui/database/VocabularyPage.qml
+	src/ui/picker/PickerBase.qml
+	src/ui/picker/MusicPicker.qml
+	src/ui/picker/SoundPicker.qml
+	src/ui/viewer/FileViewerBase.qml
+	src/ui/viewer/MusicViewer.qml
+	src/ui/viewer/SoundViewer.qml
 )
 
 set(EDITOR_QML_INTERFACE
+	src/qmlbinding/directory_model.cpp
+	src/qmlbinding/directory_model.h
 	src/qmlbinding/json_internals/json_t_database.cpp
 	src/qmlbinding/json_internals/json_t_impl.h
 	src/qmlbinding/json_internals/json_t_map.cpp

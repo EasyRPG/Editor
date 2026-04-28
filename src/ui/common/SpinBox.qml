@@ -11,6 +11,9 @@ Controls.SpinBox {
     property string key
     property Ez.JsonView jsonData
 
+    onKeyChanged: updateData()
+    onJsonDataChanged: updateData()
+
     property string prefix: ""
     property string suffix: ""
 
@@ -21,11 +24,15 @@ Controls.SpinBox {
     }
 
     Component.onCompleted: {
-        onDataChanged()
+        updateData()
     }
 
-    function onDataChanged() {
-        value = jsonData.num(key)
+    function updateData() {
+        if (jsonData !== null && key !== "") {
+            value = jsonData.num(key)
+        } else {
+            value = 0;
+        }
     }
 
     textFromValue: function(value, locale) {

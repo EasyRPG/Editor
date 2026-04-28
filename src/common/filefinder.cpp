@@ -19,10 +19,10 @@
 #include "defines.h"
 #include "filefinder.h"
 
-QString FileFinder::Find(const QDir& dir, const QString& filename, FileType type, QDir::Filter filter) {
-	auto fn = [&](std::initializer_list<std::string> exts) -> QString {
-		for (const std::string& ext: exts) {
-			QString file_to_find = filename + ToQString(ext);
+QString FileFinder::Find(const QDir& dir, const QString& filename, FileFinder::FileType type, QDir::Filter filter) {
+	auto fn = [&](QStringList exts) -> QString {
+		for (const QString& ext: exts) {
+			QString file_to_find = filename + ext;
 			const auto& list = dir.entryList(filter);
 			for (const QString& item: list) {
 				if (item.compare(file_to_find, Qt::CaseInsensitive) == 0) {
@@ -33,23 +33,7 @@ QString FileFinder::Find(const QDir& dir, const QString& filename, FileType type
 		return nullptr;
 	};
 
-	switch (type) {
-		case FileType::Default:
-			return fn({""});
-		case FileType::Image:
-			return fn({ ".bmp", ".png", ".xyz"});
-		case FileType::Sound:
-			return fn({".opus", ".oga", ".ogg", ".wav", ".mp3"});
-		case FileType::Music:
-			return fn({".opus", ".oga", ".ogg", ".wav", ".mid", ".midi", ".mp3"});
-		case FileType::Video:
-			return fn({".webm", ".mp4", ".avi"});
-		case FileType::Font:
-			return fn({".ttf", ".ttc", ".otf", ".fon"});
-	}
-
-	assert(false);
-	return nullptr;
+	return fn(GetFiltersForType(type));
 }
 
 QString FileFinder::Find(const QDir& baseDir, const QString& subDir, const QString& filename, FileType type, QDir::Filter filter) {
@@ -76,4 +60,26 @@ bool FileFinder::IsEasyRpgProject(const QDir& directory) {
 
 QString FileFinder::CombinePath(const QString& path1, const QString& path2) {
 	return path1 + QDir::separator() + path2;
+}
+
+QStringList FileFinder::GetFiltersForType(FileType type) {
+	switch (type) {
+		case FileType::Default:
+			return {""};
+		case FileType::Image:
+			return {".bmp", ".png", ".xyz"};
+		case FileType::Sound:
+			return {".opus", ".oga", ".ogg", ".wav", ".mp3"};
+		case FileType::Music:
+			return {".opus", ".oga", ".ogg", ".wav", ".mid", ".midi", ".mp3"};
+		case FileType::Video:
+			return {".webm", ".mp4", ".avi"};
+		case FileType::Font:
+			return {".ttf", ".ttc", ".otf", ".fon"};
+		default:
+			assert(false);
+			break;
+	}
+
+	return {};
 }

@@ -47,5 +47,7 @@ namespace FileFinder {
 	bool IsEasyRpgProject(const QDir& directory);
 
 	QString CombinePath(const QString& path1, const QString& path2);
+
+	QStringList GetFiltersForType(FileType type);
 };
 
