@@ -35,12 +35,16 @@ JsonT<LCFTYPE>::JsonT(QObject* parent) : Json(parent) {}
 template<typename LCFTYPE>
 QString JsonT<LCFTYPE>::str(QString jsonPtr) const {
 	auto res = glz::get<lcf::DBString>(*m_data, jsonPtr.toStdString());
-
 	if (res) {
 		return ToQString(res.value());
 	}
 
-	qDebug() << "Json::str: Not pointing to DBString: " << jsonPtr;
+	auto res2 = glz::get<std::string>(*m_data, jsonPtr.toStdString());
+	if (res2) {
+		return ToQString(res2.value());
+	}
+
+	qDebug() << "Json::str: Not pointing to String: " << jsonPtr;
 
 	return "!BAD POINTER!";
 }
@@ -85,25 +89,37 @@ bool JsonT<LCFTYPE>::boolean(QString jsonPtr) const {
 
 template<typename LCFTYPE>
 void JsonT<LCFTYPE>::set(QString jsonPtr, const QVariant& value) {
+	bool ok = true;
+	std::string ptr = jsonPtr.toStdString();
+
 	switch (value.typeId()) {
 		case QMetaType::Int:
-			glz::set(m_data, jsonPtr.toStdString(), value.toInt());
+			ok = glz::set(m_data, ptr, value.toInt());
 			break;
 		case QMetaType::Double:
-			glz::set(m_data, jsonPtr.toStdString(), value.toDouble());
+			ok = glz::set(m_data, ptr, value.toDouble());
 			break;
 		case QMetaType::QString: {
 			lcf::DBString s = ToDBString(value.value<QString>());
-			glz::set(m_data, jsonPtr.toStdString(), s);
+			ok = glz::set(m_data, ptr, s);
+
+			if (!ok) {
+				std::string s2 = value.value<QString>().toStdString();
+				ok = glz::set(m_data, ptr, s2);
+			}
 			break;
 		}
 		case QMetaType::Bool: {
-			glz::set(m_data, jsonPtr.toStdString(), value.toBool());
+			ok = glz::set(m_data, ptr, value.toBool());
 			break;
 		}
 		default:
-			qDebug() << "Json::set: Type unsupported: " << value.typeName();
+			qDebug() << QString("Json::set: Type %1 unsupported for path %2").arg(value.typeName()).arg(jsonPtr);
 			break;
+	}
+
+	if (!ok) {
+		qDebug() << QString("Json::set: Assignment of type %1 failed for path %2").arg(value.typeName()).arg(jsonPtr);
 	}
 }
 
