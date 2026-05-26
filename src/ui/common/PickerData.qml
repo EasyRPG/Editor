@@ -5,6 +5,7 @@ QtObject {
 
     property string filename
     property int index: 0
+    property bool transparent: false
 
     property int fadein: 0
     property int volume: 100

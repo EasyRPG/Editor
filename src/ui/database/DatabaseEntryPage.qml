@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.easyrpg.editor as Ez
 
@@ -23,6 +24,8 @@ Kirigami.ScrollablePage {
 
     // TODO: Not used. Just for testing
     property bool showActions: false
+
+    Layout.fillWidth: true
 
     actions: [
         Kirigami.Action {

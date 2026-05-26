@@ -47,6 +47,30 @@ DatabaseEntryPage {
         onAccepted: pickerData.toSound(soundData)
     }
 
+    component JsonCharSetViewer : Ez.CharSetViewer {
+        id: charViewer
+        property string nameKey
+        property string indexKey
+
+        spin: true
+        walk: true
+
+        filename: root.jsonData.str(nameKey)
+        cellIndex: root.jsonData.num(indexKey)
+
+        pickerData: Ez.PickerData {
+            index: charViewer.cellIndex
+            Component.onCompleted: filename = charViewer.filename
+        }
+
+        onAccepted: {
+            charViewer.filename = pickerData.filename
+            charViewer.cellIndex = pickerData.index
+            root.jsonData.set(nameKey, pickerData.filename)
+            root.jsonData.set(indexKey, pickerData.index)
+        }
+    }
+
     Kirigami.FormLayout {
         anchors.fill: parent
 
@@ -199,6 +223,32 @@ DatabaseEntryPage {
         JsonSoundViewer {
             key: "item_se"
             Kirigami.FormData.label: "Item:"
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Vehicles"
+        }
+
+        JsonCharSetViewer {
+            Kirigami.FormData.label: "Boat:"
+            nameKey: "boat_name"
+            indexKey: "boat_index"
+            showTransparency: false
+        }
+
+        JsonCharSetViewer {
+            Kirigami.FormData.label: "Ship:"
+            nameKey: "ship_name"
+            indexKey: "ship_index"
+            showTransparency: false
+        }
+
+        JsonCharSetViewer {
+            Kirigami.FormData.label: "Airship:"
+            nameKey: "airship_name"
+            indexKey: "airship_index"
+            showTransparency: false
         }
     }
 }
