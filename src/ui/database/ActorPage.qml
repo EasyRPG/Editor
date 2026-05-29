@@ -12,6 +12,15 @@ import org.easyrpg.editor as Ez
 DatabaseEntryPage {
     id: root
 
+    Models.ListModel {
+        id: equipmentModel
+        Models.ListElement { key: "weapon_id"; label: "Weapon:"; type: 1 }
+        Models.ListElement { key: "shield_id"; label: "Shield:"; type: 2 }
+        Models.ListElement { key: "armor_id"; label: "Armor:"; type: 3 }
+        Models.ListElement { key: "helmet_id"; label: "Helmet:"; type: 4 }
+        Models.ListElement { key: "accessory_id"; label: "Accessory:"; type: 5 }
+    }
+
     Kirigami.FormLayout {
         anchors.fill: parent
 
@@ -66,6 +75,31 @@ DatabaseEntryPage {
                 jsonData: root.jsonData
                 key: "critical_hit_chance"
                 enabled: critical_hit_cb.checked
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Equipment"
+        }
+
+        Repeater {
+            id: equipmentRepeater
+            model: equipmentModel
+
+            Ez.ComboBox {
+                readonly property var repdata: equipmentRepeater.model.get(index)
+
+                jsonData: root.jsonData
+                key: "initial_equipment/" + repdata.key
+                Kirigami.FormData.label: repdata.label
+                model: {
+                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(repdata.type);
+                    let list = Ez.ProjectData.database().list("items");
+                    list.fallbackString = "(None)";
+                    filter.sourceModel = list;
+                    return filter;
+                }
             }
         }
     }

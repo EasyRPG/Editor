@@ -324,14 +324,17 @@ set(EDITOR_SOURCES
 
 set(EDITOR_QML_UI
 	src/ui/common/CheckBox.qml
+	src/ui/common/ComboBox.qml
+	src/ui/common/RadioButton.qml
 	src/ui/common/SpinBox.qml
 	src/ui/common/TextField.qml
 	src/ui/MainWindow.qml
-	src/ui/database/DatabaseWindow.qml
 	src/ui/database/ActorPage.qml
+	src/ui/database/AttributePage.qml
 	src/ui/database/DatabaseEntryListPage.qml
 	src/ui/database/DatabaseEntryPage.qml
 	src/ui/database/DatabasePage.qml
+	src/ui/database/DatabaseWindow.qml
 	src/ui/database/ItemPage.qml
 	src/ui/database/SkillPage.qml
 	src/ui/database/VocabularyPage.qml

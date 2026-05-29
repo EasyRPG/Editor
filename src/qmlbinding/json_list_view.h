@@ -28,6 +28,8 @@
 class JsonListView : public QAbstractListModel {
 	Q_OBJECT
 	QML_ELEMENT
+	Q_PROPERTY(int fallbackValue MEMBER m_fallbackValue NOTIFY fallbackValueChanged)
+	Q_PROPERTY(QString fallbackString MEMBER m_fallbackString NOTIFY fallbackStringChanged)
 
 public:
 	enum RoleNames {
@@ -59,11 +61,19 @@ public:
 	JsonView* view() const { return m_view; }
 	void setView(JsonView* view) { m_view = view; }
 
+	bool hasFallback() const {
+		return !m_fallbackString.isEmpty();
+	}
+
 signals:
 	void dataChanged();
+	void fallbackValueChanged();
+	void fallbackStringChanged();
 
 protected:
 	JsonView* m_view = nullptr;
+	int m_fallbackValue = 0;
+	QString m_fallbackString;
 };
 
 template<typename LCFTYPE>
@@ -82,14 +92,13 @@ public:
 	std::vector<LCFTYPE>* data() const { return m_data; }
 	void setData(std::vector<LCFTYPE>* data) { m_data = data; }
 
-
 private:
 	std::vector<LCFTYPE>* m_data = nullptr;
 };
 
 template<typename LCFTYPE>
 inline int JsonListViewT<LCFTYPE>::rowCount(const QModelIndex &parent) const {
-	return m_data->size();
+	return m_data->size() + (hasFallback() ? 1 : 0);
 }
 
 template<typename LCFTYPE>
@@ -98,7 +107,6 @@ inline QVariant JsonListViewT<LCFTYPE>::data(const QModelIndex &index, int role)
 	    return QVariant();
 	}
 
-	QVariant value;
 	std::string role_str;
 
 	switch (role) {
@@ -116,27 +124,43 @@ inline QVariant JsonListViewT<LCFTYPE>::data(const QModelIndex &index, int role)
 		case Qt::DisplayRole: {
 			auto id = data(index, IdRole);
 			auto name = data(index, NameRole);
-			auto s = QString("%1: %2").arg(id.toInt(), 4, u'0').arg(name.toString());
-			qDebug() << s;
+			auto s = QString("%1: %2").arg(id.toInt(), 4, 10, u'0').arg(name.toString());
 			return QVariant::fromValue(s);
 		}
 		default:
 			return QVariant();
 	}
 
-	role_str = std::format("/{}/{}", index.row(), role_str);
+	if (hasFallback() && index.row() == 0) {
+		switch (role) {
+			case NameRole:
+				return QVariant::fromValue(m_fallbackString);
+			case IdRole:
+				return QVariant::fromValue(m_fallbackValue);
+			default:
+				return {};
+		}
+	}
+
+	// Shift row back in case of fallback
+	int row = index.row();
+	if (hasFallback()) {
+		--row;
+	}
+
+	role_str = std::format("/{}/{}", row, role_str);
 
 	auto res = glz::get<lcf::DBString>(*m_data, role_str);
 	if (res.has_value()) {
-		value = QVariant::fromValue(ToQString(res.value()));
+		return QVariant::fromValue(ToQString(res.value()));
 	}
 
 	auto res2 = glz::get<int>(*m_data, role_str);
 	if (res2.has_value()) {
-		value = QVariant::fromValue(res2.value());
+		return QVariant::fromValue(res2.value().get());
 	}
 
-	return value;
+	return {};
 }
 
 template<typename LCFTYPE>

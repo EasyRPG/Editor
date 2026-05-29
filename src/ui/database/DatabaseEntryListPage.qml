@@ -33,17 +33,17 @@ Kirigami.ScrollablePage {
         }
 
         delegate: Controls.ItemDelegate {
-            required property int listindex
+            required property int index
             required property string name
 
     		width: ListView.view.width
-            text: (listindex+1).toString().padStart(4, '0') + ": " + name
+            text: (index+1).toString().padStart(4, '0') + ": " + name
 
-            highlighted: entryList.currentIndex === listindex
+            highlighted: entryList.currentIndex === index
 
             action: Controls.Action {
                 onTriggered: {
-                    entryList.currentIndex = listindex
+                    entryList.currentIndex = index
                 }
             }
         }
@@ -65,7 +65,8 @@ Kirigami.ScrollablePage {
             //console.log("Pushing:", root.targetPage);
             pageStack.push(Qt.resolvedUrl(root.targetPage), {
                 // Use the index passed to the function
-                jsonData: jsonData.subtree("/" + index)
+                jsonData: jsonData.subtree("/" + index),
+                objIndex: index
             });
         }
     }

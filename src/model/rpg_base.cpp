@@ -18,6 +18,6 @@
 
 #include "rpg_base.h"
 
-RpgBase::RpgBase(ProjectData &project) : m_project(project) {
+RpgBase::RpgBase(ProjectData &project) : m_project(&project) {
 
 }

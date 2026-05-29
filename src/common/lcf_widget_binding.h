@@ -79,7 +79,7 @@ namespace LcfWidgetBinding {
 			data.obj() = static_cast<T>(checkBox->isChecked());
 		};
 
-		QWidget::connect(checkBox, &QCheckBox::stateChanged, parent, callback);
+		QWidget::connect(checkBox, &QCheckBox::checkStateChanged, parent, callback);
 	}
 
 	template<typename T>

@@ -29,6 +29,7 @@
 class Json : public QObject {
 	Q_OBJECT
 	QML_ELEMENT
+	QML_UNCREATABLE("Json is an abstract base class")
 
 public:
 	explicit Json(QObject* parent = nullptr) : QObject(parent) {}

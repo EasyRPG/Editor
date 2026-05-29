@@ -17,24 +17,25 @@
 
 #include "actor.h"
 #include <lcf/rpg/item.h>
+#include "common/image_loader.h"
 #include "ui/database/actor_widget.h"
 #include "common/dbstring.h"
 #include "common/sortfilter_proxy_models.h"
 
 ActorModel::ActorModel(ProjectData& project, lcf::rpg::Actor& data) :
-	RpgBase(project), m_data(data) {
+	RpgBase(project), m_data(&data) {
 }
 
 lcf::rpg::Actor& ActorModel::data() {
-	return m_data;
+	return *m_data;
 }
 
 QPixmap ActorModel::preview() {
-	QString path = m_project.project().findFile("FaceSet", ToQString(m_data.face_name), FileFinder::FileType::Image);
+	QString path = m_project->project().findFile("FaceSet", ToQString(m_data->face_name), FileFinder::FileType::Image);
 	if (!path.isEmpty()) {
 		QPixmap faceSet = ImageLoader::Load(path);
-		int x = (m_data.face_index % 4) * 48;
-		int y = (m_data.face_index / 4) * 48;
+		int x = (m_data->face_index % 4) * 48;
+		int y = (m_data->face_index / 4) * 48;
 
 		return faceSet.copy(x, y, 48, 48);
 	} else {
@@ -46,11 +47,11 @@ QPixmap ActorModel::preview() {
 }
 
 const lcf::rpg::Actor& ActorModel::data() const {
-        return m_data;
+	return *m_data;
 }
 
 bool ActorModel::IsItemUsable(const lcf::rpg::Item& item) const {
-	int query_idx = m_data.ID - 1;
+	int query_idx = m_data->ID - 1;
 	auto* query_set = &item.actor_set;
 	/*TODO if (Player::IsRPG2k3() && Data::system.equipment_setting == lcf::rpg::System::EquipmentSetting_class) {
 		auto* cls = GetClass();
@@ -69,10 +70,10 @@ bool ActorModel::IsItemUsable(const lcf::rpg::Item& item) const {
 	return (*query_set)[query_idx];
 }
 
-QSortFilterProxyModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type type) {
-	std::vector<int> indices;
+QAbstractItemModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type type, QObject* parent) {
+	std::vector<int> indices = {0}; // Include (None)
 
-	for (const auto& item : m_project.database().items) {
+	for (const auto& item : m_project->database().items) {
 		if (item.type != type || !IsItemUsable(item)) {
 			continue;
 		}
@@ -80,5 +81,11 @@ QSortFilterProxyModel* ActorModel::CreateEquipmentFilter(lcf::rpg::Item::Type ty
 		indices.push_back(item.ID);
 	}
 
-	return new SortFilterProxyModelIdFilter(indices);
+	auto filter = new SortFilterProxyModelIdFilter(indices, parent);
+
+	if (!parent) {
+        QQmlEngine::setObjectOwnership(filter, QQmlEngine::JavaScriptOwnership);
+    }
+
+	return filter;
 }

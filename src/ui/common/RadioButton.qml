@@ -5,16 +5,18 @@ import QtQuick
 import QtQuick.Controls as Controls
 import org.easyrpg.editor as Ez
 
-Controls.CheckBox {
+Controls.RadioButton {
     id: root
 
     property string key
     property Ez.JsonView jsonData
 
-    onToggled: {
-    	if (jsonData !== null && key !== "") {
-    		jsonData.set(key, checked);
-    	}
+    property int value
+
+    onCheckedChanged: {
+        if (checked && jsonData !== null && key !== "") {
+            jsonData.set(key, value)
+        }
     }
 
     Component.onCompleted: {
@@ -22,10 +24,6 @@ Controls.CheckBox {
     }
 
     function onDataChanged() {
-    	if (jsonData !== null && key !== "") {
-    		checked = jsonData.boolean(key);
-    	} else {
-    		checked = false;
-    	}
+        checked = (jsonData.num(key) === value)
     }
 }

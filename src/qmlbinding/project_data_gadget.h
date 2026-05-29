@@ -23,6 +23,7 @@
 #include <lcf/rpg/fwd.h>
 #include <QObject>
 
+class ActorModel;
 class JsonView;
 
 /**
@@ -48,6 +49,8 @@ public:
     Q_INVOKABLE QString findFileOrDefault(const QString& filename);
     Q_INVOKABLE QString findDirectory(const QString& dir) const;
     Q_INVOKABLE QString findDirectory(const QString& baseDir, const QString& dir) const;
+
+	Q_INVOKABLE ActorModel actorModel(int actor_index);
 
 	QString projectPath() const;
 
