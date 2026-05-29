@@ -19,26 +19,26 @@ DatabaseEntryPage {
         Models.ListElement { value: 3; text: "Switch" }
     }
 
-    Kirigami.FormLayout {
+    Ez.FormLayout {
         anchors.fill: parent
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "name"
-            Kirigami.FormData.label: "Name:"
+            Kirigami.FormData.label: "Name"
         }
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "description"
-            Kirigami.FormData.label: "Description:"
+            Kirigami.FormData.label: "Description"
         }
 
         Ez.ComboBox {
             id: cbType
             jsonData: root.jsonData
             key: "type"
-            Kirigami.FormData.label: "Type: "
+            Kirigami.FormData.label: "Type"
             model: typeModel
         }
     }

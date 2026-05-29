@@ -14,11 +14,11 @@ DatabaseEntryPage {
 
     Models.ListModel {
         id: equipmentModel
-        Models.ListElement { key: "weapon_id"; label: "Weapon:"; type: 1 }
-        Models.ListElement { key: "shield_id"; label: "Shield:"; type: 2 }
-        Models.ListElement { key: "armor_id"; label: "Armor:"; type: 3 }
-        Models.ListElement { key: "helmet_id"; label: "Helmet:"; type: 4 }
-        Models.ListElement { key: "accessory_id"; label: "Accessory:"; type: 5 }
+        Models.ListElement { key: "weapon_id"; label: "Weapon"; type: 1 }
+        Models.ListElement { key: "shield_id"; label: "Shield"; type: 2 }
+        Models.ListElement { key: "armor_id"; label: "Armor"; type: 3 }
+        Models.ListElement { key: "helmet_id"; label: "Helmet"; type: 4 }
+        Models.ListElement { key: "accessory_id"; label: "Accessory"; type: 5 }
     }
 
     /*property Ez.PickerData charsetPickerData: Ez.PickerData {
@@ -35,7 +35,7 @@ DatabaseEntryPage {
         }
     }*/
 
-    Kirigami.FormLayout {
+    Ez.FormLayout {
         id: form1
         Layout.fillWidth: true
 
@@ -47,19 +47,19 @@ DatabaseEntryPage {
         Ez.TextField {
             jsonData: root.jsonData
             key: "name"
-            Kirigami.FormData.label: "Name:"
+            Kirigami.FormData.label: "Name"
             Layout.fillWidth: true
         }
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "title"
-            Kirigami.FormData.label: "Title:"
+            Kirigami.FormData.label: "Title"
             Layout.fillWidth: true
         }
 
         RowLayout {
-            Kirigami.FormData.label: "Level:"
+            Kirigami.FormData.label: "Level"
 
             Controls.Label {
                 text: "From:"
@@ -81,7 +81,7 @@ DatabaseEntryPage {
         }
 
         RowLayout {
-            Kirigami.FormData.label: "Crit:"
+            Kirigami.FormData.label: "Crit"
             Ez.CheckBox {
                 id: critical_hit_cb
                 jsonData: root.jsonData
@@ -107,7 +107,7 @@ DatabaseEntryPage {
 
         Ez.FaceSetViewer {
             id: faceViewer
-            Kirigami.FormData.label: "Face:"
+            Kirigami.FormData.label: "Face"
 
             filename: root.jsonData.str("face_name")
             cellIndex: root.jsonData.num("face_index")
@@ -127,7 +127,7 @@ DatabaseEntryPage {
 
         Ez.CharSetViewer {
             id: charViewer
-            Kirigami.FormData.label: "Character:"
+            Kirigami.FormData.label: "Character"
 
             spin: true
             walk: true

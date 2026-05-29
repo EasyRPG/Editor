@@ -14,24 +14,24 @@ DatabaseEntryPage {
 
     Models.ListModel {
         id: rateModel
-        Models.ListElement { key: "a_rate"; label: "A Rate:" }
-        Models.ListElement { key: "b_rate"; label: "B Rate:" }
-        Models.ListElement { key: "c_rate"; label: "C Rate:" }
-        Models.ListElement { key: "d_rate"; label: "D Rate:" }
-        Models.ListElement { key: "e_rate"; label: "E Rate:" }
+        Models.ListElement { key: "a_rate"; label: "A Rate" }
+        Models.ListElement { key: "b_rate"; label: "B Rate" }
+        Models.ListElement { key: "c_rate"; label: "C Rate" }
+        Models.ListElement { key: "d_rate"; label: "D Rate" }
+        Models.ListElement { key: "e_rate"; label: "E Rate" }
     }
 
-    Kirigami.FormLayout {
+    Ez.FormLayout {
         anchors.fill: parent
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "name"
-            Kirigami.FormData.label: "Name:"
+            Kirigami.FormData.label: "Name"
         }
 
         ColumnLayout {
-            Kirigami.FormData.label: "Attribute Type:"
+            Kirigami.FormData.label: "Attribute Type"
             Kirigami.FormData.buddyFor: radio_physical
             Ez.RadioButton {
                 id: radio_physical
