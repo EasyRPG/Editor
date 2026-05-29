@@ -25,23 +25,23 @@ DatabaseEntryPage {
             Ez.TextField {
                 jsonData: root.jsonData
                 key: "name"
-                Kirigami.FormData.label: "Name"
+                Kirigami.FormData.label: qsTr("Name")
             }
 
             ColumnLayout {
-                Kirigami.FormData.label: "Attribute Type"
+                Kirigami.FormData.label: qsTr("Attribute Type")
                 Kirigami.FormData.buddyFor: radio_physical
                 Ez.RadioButton {
                     id: radio_physical
                     jsonData: root.jsonData
                     key: "type"
-                    text: "Physical"
+                    text: qsTr("Physical")
                     value: 0
                 }
                 Ez.RadioButton {
                     jsonData: root.jsonData
                     key: "type"
-                    text: "Magical"
+                    text: qsTr("Magical")
                     value: 1
                 }
             }
@@ -56,50 +56,50 @@ DatabaseEntryPage {
             Ez.SpinBox {
                 jsonData: root.jsonData
                 key: "a_rate"
-                Kirigami.FormData.label: "A Rate"
+                Kirigami.FormData.label: qsTr("A Rate")
                 from: -9999
                 to: 9999
-                suffix: "%"
+                suffix: qsTr("%")
                 Layout.fillWidth: true
             }
 
             Ez.SpinBox {
                 jsonData: root.jsonData
                 key: "b_rate"
-                Kirigami.FormData.label: "B Rate"
+                Kirigami.FormData.label: qsTr("B Rate")
                 from: -9999
                 to: 9999
-                suffix: "%"
+                suffix: qsTr("%")
                 Layout.fillWidth: true
             }
 
             Ez.SpinBox {
                 jsonData: root.jsonData
                 key: "c_rate"
-                Kirigami.FormData.label: "C Rate"
+                Kirigami.FormData.label: qsTr("C Rate")
                 from: -9999
                 to: 9999
-                suffix: "%"
+                suffix: qsTr("%")
                 Layout.fillWidth: true
             }
 
             Ez.SpinBox {
                 jsonData: root.jsonData
                 key: "d_rate"
-                Kirigami.FormData.label: "D Rate"
+                Kirigami.FormData.label: qsTr("D Rate")
                 from: -9999
                 to: 9999
-                suffix: "%"
+                suffix: qsTr("%")
                 Layout.fillWidth: true
             }
 
             Ez.SpinBox {
                 jsonData: root.jsonData
                 key: "e_rate"
-                Kirigami.FormData.label: "E Rate"
+                Kirigami.FormData.label: qsTr("E Rate")
                 from: -9999
                 to: 9999
-                suffix: "%"
+                suffix: qsTr("%")
                 Layout.fillWidth: true
             }
         }

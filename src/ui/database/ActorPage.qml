@@ -30,22 +30,22 @@ DatabaseEntryPage {
             Ez.TextField {
                 jsonData: root.jsonData
                 key: "name"
-                Kirigami.FormData.label: "Name"
+                Kirigami.FormData.label: qsTr("Name")
                 Layout.fillWidth: true
             }
 
             Ez.TextField {
                 jsonData: root.jsonData
                 key: "title"
-                Kirigami.FormData.label: "Title"
+                Kirigami.FormData.label: qsTr("Title")
                 Layout.fillWidth: true
             }
 
             RowLayout {
-                Kirigami.FormData.label: "Level"
+                Kirigami.FormData.label: qsTr("Level")
 
                 Controls.Label {
-                    text: "From"
+                    text: qsTr("From")
                 }
 
                 Ez.SpinBox {
@@ -54,7 +54,7 @@ DatabaseEntryPage {
                 }
 
                 Controls.Label {
-                    text: "To"
+                    text: qsTr("To")
                 }
 
                 Ez.SpinBox {
@@ -64,7 +64,7 @@ DatabaseEntryPage {
             }
 
             RowLayout {
-                Kirigami.FormData.label: "Crit"
+                Kirigami.FormData.label: qsTr("Critical Hit Rate")
                 Ez.CheckBox {
                     id: critical_hit_cb
                     jsonData: root.jsonData
@@ -72,7 +72,7 @@ DatabaseEntryPage {
                 }
 
                 Controls.Label {
-                    text: "One in"
+                    text: qsTr("One in")
                     enabled: critical_hit_cb.checked
                 }
 
@@ -92,7 +92,7 @@ DatabaseEntryPage {
 
             Ez.FaceSetViewer {
                 id: faceViewer
-                Kirigami.FormData.label: "Face"
+                Kirigami.FormData.label: qsTr("Face")
 
                 filename: root.jsonData.str("face_name")
                 cellIndex: root.jsonData.num("face_index")
@@ -112,7 +112,7 @@ DatabaseEntryPage {
 
             Ez.CharSetViewer {
                 id: charViewer
-                Kirigami.FormData.label: "Character"
+                Kirigami.FormData.label: qsTr("Character")
 
                 spin: true
                 walk: true
@@ -147,11 +147,11 @@ DatabaseEntryPage {
                 Layout.fillWidth: true
                 jsonData: root.jsonData
                 key: "initial_equipment/weapon_id"
-                Kirigami.FormData.label: "Weapon"
+                Kirigami.FormData.label: qsTr("Weapon")
                 model: {
                     let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(1);
                     let list = Ez.ProjectData.database().list("items");
-                    list.fallbackString = "(None)";
+                    list.fallbackString = qsTr("(None)");
                     filter.sourceModel = list;
                     return filter;
                 }
@@ -161,11 +161,11 @@ DatabaseEntryPage {
                 Layout.fillWidth: true
                 jsonData: root.jsonData
                 key: "initial_equipment/shield_id"
-                Kirigami.FormData.label: "Shield"
+                Kirigami.FormData.label: qsTr("Shield")
                 model: {
                     let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(2);
                     let list = Ez.ProjectData.database().list("items");
-                    list.fallbackString = "(None)";
+                    list.fallbackString = qsTr("(None)");
                     filter.sourceModel = list;
                     return filter;
                 }
@@ -175,11 +175,11 @@ DatabaseEntryPage {
                 Layout.fillWidth: true
                 jsonData: root.jsonData
                 key: "initial_equipment/armor_id"
-                Kirigami.FormData.label: "Armor"
+                Kirigami.FormData.label: qsTr("Armor")
                 model: {
                     let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(3);
                     let list = Ez.ProjectData.database().list("items");
-                    list.fallbackString = "(None)";
+                    list.fallbackString = qsTr("(None)");
                     filter.sourceModel = list;
                     return filter;
                 }
@@ -189,11 +189,11 @@ DatabaseEntryPage {
                 Layout.fillWidth: true
                 jsonData: root.jsonData
                 key: "initial_equipment/helmet_id"
-                Kirigami.FormData.label: "Helmet"
+                Kirigami.FormData.label: qsTr("Helmet")
                 model: {
                     let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(4);
                     let list = Ez.ProjectData.database().list("items");
-                    list.fallbackString = "(None)";
+                    list.fallbackString = qsTr("(None)");
                     filter.sourceModel = list;
                     return filter;
                 }
@@ -203,11 +203,11 @@ DatabaseEntryPage {
                 Layout.fillWidth: true
                 jsonData: root.jsonData
                 key: "initial_equipment/accessory_id"
-                Kirigami.FormData.label: "Accessory"
+                Kirigami.FormData.label: qsTr("Accessory")
                 model: {
                     let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(5);
                     let list = Ez.ProjectData.database().list("items");
-                    list.fallbackString = "(None)";
+                    list.fallbackString = qsTr("(None)");
                     filter.sourceModel = list;
                     return filter;
                 }

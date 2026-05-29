@@ -18,13 +18,13 @@ DatabaseEntryPage {
         Ez.TextField {
             jsonData: root.jsonData
             key: "name"
-            Kirigami.FormData.label: "Name"
+            Kirigami.FormData.label: qsTr("Name")
         }
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "description"
-            Kirigami.FormData.label: "Description"
+            Kirigami.FormData.label: qsTr("Description")
         }
     }
 }
