@@ -325,6 +325,7 @@ set(EDITOR_SOURCES
 set(EDITOR_QML_UI
 	src/ui/common/CheckBox.qml
 	src/ui/common/ComboBox.qml
+	src/ui/common/FormLayout.qml
 	src/ui/common/PickerData.qml
 	src/ui/common/RadioButton.qml
 	src/ui/common/SpinBox.qml

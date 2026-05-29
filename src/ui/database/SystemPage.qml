@@ -71,7 +71,7 @@ DatabaseEntryPage {
         }
     }
 
-    Kirigami.FormLayout {
+    Ez.FormLayout {
         anchors.fill: parent
 
         Kirigami.Separator {
@@ -121,42 +121,42 @@ DatabaseEntryPage {
 
         JsonMusicViewer {
             key: "title_music"
-            Kirigami.FormData.label: "Title:"
+            Kirigami.FormData.label: "Title"
         }
 
         JsonMusicViewer {
             key: "gameover_music"
-            Kirigami.FormData.label: "Game Over:"
+            Kirigami.FormData.label: "Game Over"
         }
 
         JsonMusicViewer {
             key: "inn_music"
-            Kirigami.FormData.label: "Inn:"
+            Kirigami.FormData.label: "Inn"
         }
 
         JsonMusicViewer {
             key: "boat_music"
-            Kirigami.FormData.label: "Boat:"
+            Kirigami.FormData.label: "Boat"
         }
 
         JsonMusicViewer {
             key: "ship_music"
-            Kirigami.FormData.label: "Ship:"
+            Kirigami.FormData.label: "Ship"
         }
 
         JsonMusicViewer {
             key: "airship_music"
-            Kirigami.FormData.label: "Airship:"
+            Kirigami.FormData.label: "Airship"
         }
 
         JsonMusicViewer {
             key: "battle_music"
-            Kirigami.FormData.label: "Battle:"
+            Kirigami.FormData.label: "Battle"
         }
 
         JsonMusicViewer {
             key: "battle_end_music"
-            Kirigami.FormData.label: "Battle End:"
+            Kirigami.FormData.label: "Battle End"
         }
 
         Kirigami.Separator {
@@ -167,62 +167,62 @@ DatabaseEntryPage {
 
         JsonSoundViewer {
             key: "cursor_se"
-            Kirigami.FormData.label: "Cursor:"
+            Kirigami.FormData.label: "Cursor"
         }
 
         JsonSoundViewer {
             key: "decision_se"
-            Kirigami.FormData.label: "Decision:"
+            Kirigami.FormData.label: "Decision"
         }
 
         JsonSoundViewer {
             key: "cancel_se"
-            Kirigami.FormData.label: "Cancel:"
+            Kirigami.FormData.label: "Cancel"
         }
 
         JsonSoundViewer {
             key: "buzzer_se"
-            Kirigami.FormData.label: "Buzzer:"
+            Kirigami.FormData.label: "Buzzer"
         }
 
         JsonSoundViewer {
             key: "battle_se"
-            Kirigami.FormData.label: "Battle:"
+            Kirigami.FormData.label: "Battle"
         }
 
         JsonSoundViewer {
             key: "escape_se"
-            Kirigami.FormData.label: "Escape:"
+            Kirigami.FormData.label: "Escape"
         }
 
         JsonSoundViewer {
             key: "enemy_attack_se"
-            Kirigami.FormData.label: "Enemy Attack:"
+            Kirigami.FormData.label: "Enemy Attack"
         }
 
         JsonSoundViewer {
             key: "enemy_damaged_se"
-            Kirigami.FormData.label: "Enemy Damaged:"
+            Kirigami.FormData.label: "Enemy Damaged"
         }
 
         JsonSoundViewer {
             key: "actor_damaged_se"
-            Kirigami.FormData.label: "Actor Damaged:"
+            Kirigami.FormData.label: "Actor Damaged"
         }
 
         JsonSoundViewer {
             key: "dodge_se"
-            Kirigami.FormData.label: "Dodge:"
+            Kirigami.FormData.label: "Dodge"
         }
 
         JsonSoundViewer {
             key: "enemy_death_se"
-            Kirigami.FormData.label: "Enemy Death:"
+            Kirigami.FormData.label: "Enemy Death"
         }
 
         JsonSoundViewer {
             key: "item_se"
-            Kirigami.FormData.label: "Item:"
+            Kirigami.FormData.label: "Item"
         }
 
         Kirigami.Separator {
@@ -231,21 +231,21 @@ DatabaseEntryPage {
         }
 
         JsonCharSetViewer {
-            Kirigami.FormData.label: "Boat:"
+            Kirigami.FormData.label: "Boat"
             nameKey: "boat_name"
             indexKey: "boat_index"
             showTransparency: false
         }
 
         JsonCharSetViewer {
-            Kirigami.FormData.label: "Ship:"
+            Kirigami.FormData.label: "Ship"
             nameKey: "ship_name"
             indexKey: "ship_index"
             showTransparency: false
         }
 
         JsonCharSetViewer {
-            Kirigami.FormData.label: "Airship:"
+            Kirigami.FormData.label: "Airship"
             nameKey: "airship_name"
             indexKey: "airship_index"
             showTransparency: false

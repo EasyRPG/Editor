@@ -15,7 +15,7 @@ DatabaseEntryPage {
     // Just for demonstration
     // The finished Ui should not be auto-generated :)
 
-    Kirigami.FormLayout {
+    Ez.FormLayout {
         anchors.fill: parent
 
         Repeater {

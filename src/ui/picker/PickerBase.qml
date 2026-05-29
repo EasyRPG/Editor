@@ -80,14 +80,14 @@ Kirigami.Page {
             }
         }
 
-        Kirigami.FormLayout {
+        Ez.FormLayout {
             id: formLayout
             Layout.alignment: Qt.AlignTop
 
             Controls.TextField {
                 id: nameInput
                 text: root.pickerData.filename
-                Kirigami.FormData.label: "Name:"
+                Kirigami.FormData.label: "Name"
                 visible: false
             }
         }
