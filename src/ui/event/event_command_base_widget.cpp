@@ -39,7 +39,7 @@ void EventCommandBaseWidget::setData(lcf::rpg::EventCommand* cmd) {
 		auto idx = widget->objectName().indexOf("_argX");
 		if (idx != -1) {
 			connect(widget, &QLineEdit::textEdited, this,
-					[=] (auto text) {
+					[=, this] (auto text) {
 				cmd->string = lcf::DBString(ToDBString(text));
 				stringParameterChanged(text);
 			});
@@ -150,7 +150,7 @@ void EventCommandBaseWidget::connectParameterHandler(QButtonGroup* group, int in
 	Q_ASSERT_X(button, "connectParameterHandler", "No AbstractButton with this parameter value");
 
 	connect(group, QOverload<QAbstractButton*, bool>::of(&QButtonGroup::buttonToggled), this,
-		[=](QAbstractButton*, bool checked) {
+		[=, this](QAbstractButton*, bool checked) {
 
 		if (checked) {
 			int id = group->checkedId();
@@ -169,7 +169,7 @@ void EventCommandBaseWidget::connectParameterHandler(RpgComboBoxBase* combo, int
 	resizeCommandList(index);
 
 	connect(combo->comboBox(), QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-		[=](int selected_index){
+		[=, this](int selected_index){
 		m_cmd->parameters[index] = selected_index + 1;
 		emit parameterChanged(index, selected_index + 1);
 	});
@@ -183,7 +183,7 @@ void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index, 
 	resizeCommandList(index);
 
 	connect(spin, qOverload<int>(&QSpinBox::valueChanged), this,
-			[=] (int new_value) {
+			[=, this] (int new_value) {
 		m_cmd->parameters[index] = new_value;
 		emit parameterChanged(index, new_value);
 	});
@@ -196,10 +196,10 @@ void EventCommandBaseWidget::connectParameterHandler(QSpinBox *spin, int index, 
 void EventCommandBaseWidget::connectParameterHandler(QCheckBox* check, int index, bool set_value) {
 	resizeCommandList(index);
 
-	connect(check, qOverload<int>(&QCheckBox::stateChanged), this,
-			[=] (int new_value) {
-		m_cmd->parameters[index] = new_value;
-		emit parameterChanged(index, new_value);
+	connect(check, &QCheckBox::checkStateChanged, this,
+			[=, this] (Qt::CheckState state) {
+		m_cmd->parameters[index] = (state == Qt::Checked ? 1 : 0);
+		emit parameterChanged(index, (state == Qt::Checked ? 1 : 0));
 	});
 
 	if (set_value) {
@@ -211,7 +211,7 @@ void EventCommandBaseWidget::connectParameterHandler(QSlider* slider, int index,
 	resizeCommandList(index);
 
 	connect(slider, qOverload<int>(&QSlider::valueChanged), this,
-			[=] (int new_value) {
+			[=, this] (int new_value) {
 		m_cmd->parameters[index] = new_value;
 		emit parameterChanged(index, new_value);
 	});

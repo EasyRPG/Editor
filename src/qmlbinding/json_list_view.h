@@ -104,12 +104,12 @@ private:
 };
 
 template<typename LCFTYPE>
-inline int JsonListViewT<LCFTYPE>::rowCount(const QModelIndex &parent) const {
+inline int JsonListViewT<LCFTYPE>::rowCount(const QModelIndex& /*parent*/) const {
 	return m_data->size() + (hasFallback() ? 1 : 0);
 }
 
 template<typename LCFTYPE>
-inline QVariant JsonListViewT<LCFTYPE>::data(const QModelIndex &index, int role) const {
+inline QVariant JsonListViewT<LCFTYPE>::data(const QModelIndex& index, int role) const {
 	if (!index.isValid() || index.row() >= rowCount(index)) {
 	    return QVariant();
 	}
@@ -171,7 +171,7 @@ inline QVariant JsonListViewT<LCFTYPE>::data(const QModelIndex &index, int role)
 }
 
 template<typename LCFTYPE>
-inline bool JsonListViewT<LCFTYPE>::insertRows(int row, int count, const QModelIndex &parent) {
+inline bool JsonListViewT<LCFTYPE>::insertRows(int row, int /*count*/, const QModelIndex& /*parent*/) {
 	if (row < 0 || row > rowCount()) {
 		return false;
 	}

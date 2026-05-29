@@ -16,12 +16,12 @@ import org.easyrpg.editor as Ez
 Kirigami.ApplicationWindow {
     id: root
 
-    width: 1024
-    height: 600
+    width: Kirigami.Units.gridUnit * 74
+    height: Kirigami.Units.gridUnit * 41
 
     title: "EasyRPG Editor - Database"
 
-    pageStack.defaultColumnWidth: 200
+    pageStack.defaultColumnWidth: Kirigami.Units.gridUnit * 11
 
     /** Database of the current project */
     property Ez.JsonView jsonData: Ez.ProjectData.database()

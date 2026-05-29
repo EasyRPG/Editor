@@ -354,8 +354,8 @@ void MainWindow::ImportProject(const QDir& src_dir, QDir& target_dir, bool conve
 		if (convert_xyz && info.dir().dirName() != MUSIC && info.dir().dirName() != SOUND)
 		{
 			QFile file(dest_file);
-			file.open(QIODevice::ReadOnly);
-			if (file.read(4) == "XYZ1")
+			bool success = file.open(QIODevice::ReadOnly);
+			if (success && file.read(4) == "XYZ1")
 			{
 				QString conv_path = target_dir.path() + "/" + info.dir().dirName() + "/" + info.completeBaseName() + ".png";
 				if (convertXYZtoPNG(file, conv_path))
@@ -494,9 +494,9 @@ void MainWindow::on_actionDatabaseNew_triggered() {
 	auto engine = core().qmlEngine();
 
 	// Inject ProjectData into the QML
-    auto* projectGadget = engine->singletonInstance<ProjectDataGadget*>(
-        "org.easyrpg.editor", "ProjectData"
-    );
+	auto* projectGadget = engine->singletonInstance<ProjectDataGadget*>(
+		"org.easyrpg.editor", "ProjectData"
+	);
 
 	projectGadget->setProjectData(&core().project()->projectData());
 
@@ -686,7 +686,7 @@ bool MainWindow::removeDir(const QString & dirName, const QString &root)
 				QMessageBox::warning(this,
 									 tr("An error ocurred"),
 									 QString(tr("Could't delete %1")).arg(info.absoluteFilePath()),
-									 QMessageBox::Ok, 0);
+									 QMessageBox::Ok);
 				return false;
 			}
 		}
@@ -817,7 +817,7 @@ void MainWindow::on_actionProjectOpen_triggered()
 	m_settings.setValue(DEFAULT_DIR_KEY,dlg.getDefaultDir());
 }
 
-void MainWindow::on_actionJukebox_triggered(bool disconnect)
+void MainWindow::on_actionJukebox_triggered(bool)
 {
 
 }

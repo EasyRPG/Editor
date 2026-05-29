@@ -26,8 +26,7 @@ Kirigami.ScrollablePage {
     Connections {
         target: jsonData
         function onValueChanged(jsonPtr) {
-            if (objIndex >= 0 && jsonPtr.endsWith("/name")) {
-                console.log(jsonPtr);
+            if (objIndex >= 0 && jsonPtr == "/name") {
                 root.title = jsonData.str("name");
             }
         }

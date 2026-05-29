@@ -171,13 +171,13 @@ void TimerOperandWidget::attach(EventCommandBaseWidget& base_widget, ProjectData
 	base_widget.connectParameterHandler(m_comboVar, idx_value, op == 1);
 
 	connect(m_spinSec, qOverload<int>(&QSpinBox::valueChanged), this,
-			[=] (int new_value) {
+			[=, this] (int new_value) {
 		int seconds = m_spinMin->value() * 60 + new_value;
 		parameterChanged(m_operation.value, seconds);
 	});
 
 	connect(m_spinMin, qOverload<int>(&QSpinBox::valueChanged), this,
-			[=] (int new_value) {
+			[=, this] (int new_value) {
 		int seconds = new_value * 60 + m_spinSec->value();
 		parameterChanged(m_operation.value, seconds);
 	});
