@@ -26,6 +26,24 @@ QHash<int, QByteArray> JsonListView::roleNames() const {
 	roles[IndexRole] = "index";
     return roles;
 }
+void JsonListView::onValueChanged(QString jsonPtr) {
+	// No filtering required as the JsonView we listen on already does this
+	// ptr looks like this: /INDEX/VALUE/
+	// extract the index and notify a row change
+
+	int slash_idx = jsonPtr.indexOf('/', 1);
+	if (slash_idx != -1) {
+		bool ok;
+		int row = jsonPtr.mid(1, slash_idx - 1).toInt(&ok);
+		if (ok) {
+			if (hasFallback()) {
+				row++;
+			}
+			QModelIndex idx = index(row, 0);
+			emit QAbstractListModel::dataChanged(idx, idx);
+		}
+	}
+}
 
 QString JsonListView::str(QString jsonPtr) const {
 	return m_view->str(jsonPtr);

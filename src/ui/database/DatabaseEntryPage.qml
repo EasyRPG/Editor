@@ -22,6 +22,23 @@ Kirigami.ScrollablePage {
     /** When the object comes from a list, contains the index. Otherwise -1. */
     property int objIndex: -1
 
+    // Update the Page title when the name changes
+    Connections {
+        target: jsonData
+        function onValueChanged(jsonPtr) {
+            if (objIndex >= 0 && jsonPtr.endsWith("/name")) {
+                console.log(jsonPtr);
+                root.title = jsonData.str("name");
+            }
+        }
+    }
+
+    onJsonDataChanged: {
+        if (objIndex >= 0) {
+            root.title = jsonData.str("name");
+        }
+    }
+
     // TODO: Not used. Just for testing
     property bool showActions: false
 

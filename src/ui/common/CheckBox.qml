@@ -11,6 +11,9 @@ Controls.CheckBox {
     property string key
     property Ez.JsonView jsonData
 
+    onKeyChanged: onDataChanged()
+    onJsonDataChanged: onDataChanged()
+
     onToggled: {
         if (jsonData !== null && key !== "") {
             jsonData.set(key, checked);

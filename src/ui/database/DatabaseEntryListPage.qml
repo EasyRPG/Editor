@@ -54,14 +54,11 @@ Kirigami.ScrollablePage {
 
         var pageStack = applicationWindow().pageStack
 
-        // Reuse the already loaded Ui when item type (key) stays the same
-        if (pageStack.lastItem.key !== root.key) {
-            while (pageStack.depth > 2) {
-                pageStack.pop();
-            }
-        }
-
-        if (pageStack.depth <= 2) {
+        // Reuse the already loaded Ui
+        if (pageStack.depth > 2) {
+            pageStack.lastItem.jsonData = jsonData.subtree(index);
+            pageStack.lastItem.objIndex = index;
+        } else {
             //console.log("Pushing:", root.targetPage);
             pageStack.push(Qt.resolvedUrl(root.targetPage), {
                 // Use the index passed to the function

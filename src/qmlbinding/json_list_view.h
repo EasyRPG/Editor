@@ -65,6 +65,9 @@ public:
 		return !m_fallbackString.isEmpty();
 	}
 
+public slots:
+	void onValueChanged(QString jsonPtr);
+
 signals:
 	void dataChanged();
 	void fallbackValueChanged();
@@ -82,6 +85,10 @@ public:
 	explicit JsonListViewT(QObject* parent, std::vector<LCFTYPE>* data, JsonView* view) :
 	JsonListView(parent), m_data(data) {
 		m_view = view;
+		assert(view);
+
+		// Listen to all changes in the attached JsonView object
+		connect(view, &JsonView::valueChanged, this, &JsonListView::onValueChanged);
 	}
 
 	// QAbstractListModel overrides

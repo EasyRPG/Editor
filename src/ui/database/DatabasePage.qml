@@ -18,6 +18,8 @@ Kirigami.ScrollablePage {
     /** Database of the current project */
     property Ez.JsonView jsonData
 
+    title: "Database"
+
     /**
      * name: Text shown to the user
      * key: JSON pointer to access the list items of this category
@@ -94,12 +96,14 @@ Kirigami.ScrollablePage {
 
         if (item.single === true) {
             pageStack.push(Qt.resolvedUrl(item.targetPage), {
-                "jsonData": jsonData.subtree(item.key)
+                "jsonData": jsonData.subtree(item.key),
+                "title": item.name
             })
         } else {
             pageStack.push(Qt.resolvedUrl("DatabaseEntryListPage.qml"), {
                 "jsonData": jsonData.list(item.key),
-                "targetPage": item.targetPage
+                "targetPage": item.targetPage,
+                "title": item.name
             })
         }
     }

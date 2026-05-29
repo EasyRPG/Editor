@@ -120,6 +120,8 @@ void JsonT<LCFTYPE>::set(QString jsonPtr, const QVariant& value) {
 
 	if (!ok) {
 		qDebug() << QString("Json::set: Assignment of type %1 failed for path %2").arg(value.typeName()).arg(jsonPtr);
+	} else {
+		emit valueChanged(jsonPtr);
 	}
 }
 

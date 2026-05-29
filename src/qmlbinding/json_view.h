@@ -34,7 +34,7 @@ class JsonView : public QObject {
 	Q_PROPERTY(QString pathPrefix READ pathPrefix WRITE setPathPrefix NOTIFY pathPrefixChanged)
 
 public:
-	explicit JsonView(QObject* parent = nullptr) : QObject(parent) {}
+	explicit JsonView(QObject* parent = nullptr);
 
 	// documentation: see json.h
 
@@ -93,6 +93,10 @@ public:
 
 signals:
 	void pathPrefixChanged();
+	void valueChanged(QString jsonPtr);
+
+public slots:
+	void onValueChanged(QString jsonPtr);
 
 private:
 	QString m_pathPrefix;
