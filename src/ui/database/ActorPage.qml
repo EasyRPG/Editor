@@ -12,162 +12,200 @@ import org.easyrpg.editor as Ez
 DatabaseEntryPage {
     id: root
 
-    Models.ListModel {
-        id: equipmentModel
-        Models.ListElement { key: "weapon_id"; label: "Weapon"; type: 1 }
-        Models.ListElement { key: "shield_id"; label: "Shield"; type: 2 }
-        Models.ListElement { key: "armor_id"; label: "Armor"; type: 3 }
-        Models.ListElement { key: "helmet_id"; label: "Helmet"; type: 4 }
-        Models.ListElement { key: "accessory_id"; label: "Accessory"; type: 5 }
+    Ez.GridLaneLayout {
+        id: cardLayout
+
+        model: [
+            card_general,
+            card_graphics,
+            card_equipment
+        ]
     }
 
-    /*property Ez.PickerData charsetPickerData: Ez.PickerData {
-        index: charsetViewer.characterIndex
-        Component.onCompleted: filename = charsetViewer.filename
+    Component {
+        id: card_general
+        Ez.Card {
+            title: qsTr("General")
+
+            Ez.TextField {
+                jsonData: root.jsonData
+                key: "name"
+                Kirigami.FormData.label: "Name"
+                Layout.fillWidth: true
+            }
+
+            Ez.TextField {
+                jsonData: root.jsonData
+                key: "title"
+                Kirigami.FormData.label: "Title"
+                Layout.fillWidth: true
+            }
+
+            RowLayout {
+                Kirigami.FormData.label: "Level"
+
+                Controls.Label {
+                    text: "From"
+                }
+
+                Ez.SpinBox {
+                    jsonData: root.jsonData
+                    key: "initial_level"
+                }
+
+                Controls.Label {
+                    text: "To"
+                }
+
+                Ez.SpinBox {
+                    jsonData: root.jsonData
+                    key: "final_level"
+                }
+            }
+
+            RowLayout {
+                Kirigami.FormData.label: "Crit"
+                Ez.CheckBox {
+                    id: critical_hit_cb
+                    jsonData: root.jsonData
+                    key: "critical_hit"
+                }
+
+                Controls.Label {
+                    text: "One in"
+                    enabled: critical_hit_cb.checked
+                }
+
+                Ez.SpinBox {
+                    jsonData: root.jsonData
+                    key: "critical_hit_chance"
+                    enabled: critical_hit_cb.checked
+                }
+            }
+        }
     }
 
-    property Component charsetPickerComponent: Ez.ImagePicker {
-        onAccepted: {
-            charsetViewer.filename = pickerData.filename
-            charsetViewer.characterIndex = pickerData.index
-            root.jsonData.set("character_name", pickerData.filename)
-            root.jsonData.set("character_index", pickerData.index)
-        }
-    }*/
+    Component {
+        id: card_graphics
+        Ez.Card {
+            title: qsTr("Graphics")
 
-    Ez.FormLayout {
-        id: form1
-        Layout.fillWidth: true
+            Ez.FaceSetViewer {
+                id: faceViewer
+                Kirigami.FormData.label: "Face"
 
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "General"
-        }
+                filename: root.jsonData.str("face_name")
+                cellIndex: root.jsonData.num("face_index")
 
-        Ez.TextField {
-            jsonData: root.jsonData
-            key: "name"
-            Kirigami.FormData.label: "Name"
-            Layout.fillWidth: true
-        }
+                pickerData: Ez.PickerData {
+                    index: faceViewer.cellIndex
+                    Component.onCompleted: filename = faceViewer.filename
+                }
 
-        Ez.TextField {
-            jsonData: root.jsonData
-            key: "title"
-            Kirigami.FormData.label: "Title"
-            Layout.fillWidth: true
-        }
-
-        RowLayout {
-            Kirigami.FormData.label: "Level"
-
-            Controls.Label {
-                text: "From:"
+                onAccepted: {
+                    faceViewer.filename = pickerData.filename
+                    faceViewer.cellIndex = pickerData.index
+                    root.jsonData.set("face_name", pickerData.filename)
+                    root.jsonData.set("face_index", pickerData.index)
+                }
             }
 
-            Ez.SpinBox {
-                jsonData: root.jsonData
-                key: "initial_level"
-            }
+            Ez.CharSetViewer {
+                id: charViewer
+                Kirigami.FormData.label: "Character"
 
-            Controls.Label {
-                text: "To:"
-            }
+                spin: true
+                walk: true
+                filename: root.jsonData.str("character_name")
+                cellIndex: root.jsonData.num("character_index")
+                transparent: root.jsonData.boolean("transparent")
 
-            Ez.SpinBox {
-                jsonData: root.jsonData
-                key: "final_level"
+                pickerData: Ez.PickerData {
+                    index: charViewer.cellIndex
+                    transparent: charViewer.transparent
+                    Component.onCompleted: filename = charViewer.filename
+                }
+
+                onAccepted: {
+                    charViewer.filename = pickerData.filename
+                    charViewer.cellIndex = pickerData.index
+                    charViewer.transparent = pickerData.transparent
+                    root.jsonData.set("character_name", pickerData.filename)
+                    root.jsonData.set("character_index", pickerData.index)
+                    root.jsonData.set("transparent", pickerData.transparent)
+                }
             }
         }
+    }
 
-        RowLayout {
-            Kirigami.FormData.label: "Crit"
-            Ez.CheckBox {
-                id: critical_hit_cb
-                jsonData: root.jsonData
-                key: "critical_hit"
-            }
-
-            Controls.Label {
-                text: "One in:"
-                enabled: critical_hit_cb.checked
-            }
-
-            Ez.SpinBox {
-                jsonData: root.jsonData
-                key: "critical_hit_chance"
-                enabled: critical_hit_cb.checked
-            }
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Graphics"
-        }
-
-        Ez.FaceSetViewer {
-            id: faceViewer
-            Kirigami.FormData.label: "Face"
-
-            filename: root.jsonData.str("face_name")
-            cellIndex: root.jsonData.num("face_index")
-
-            pickerData: Ez.PickerData {
-                index: faceViewer.cellIndex
-                Component.onCompleted: filename = faceViewer.filename
-            }
-
-            onAccepted: {
-                faceViewer.filename = pickerData.filename
-                faceViewer.cellIndex = pickerData.index
-                root.jsonData.set("face_name", pickerData.filename)
-                root.jsonData.set("face_index", pickerData.index)
-            }
-        }
-
-        Ez.CharSetViewer {
-            id: charViewer
-            Kirigami.FormData.label: "Character"
-
-            spin: true
-            walk: true
-            filename: root.jsonData.str("character_name")
-            cellIndex: root.jsonData.num("character_index")
-            transparent: root.jsonData.boolean("transparent")
-
-            pickerData: Ez.PickerData {
-                index: charViewer.cellIndex
-                transparent: charViewer.transparent
-                Component.onCompleted: filename = charViewer.filename
-            }
-
-            onAccepted: {
-                charViewer.filename = pickerData.filename
-                charViewer.cellIndex = pickerData.index
-                charViewer.transparent = pickerData.transparent
-                root.jsonData.set("character_name", pickerData.filename)
-                root.jsonData.set("character_index", pickerData.index)
-                root.jsonData.set("transparent", pickerData.transparent)
-            }
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Equipment"
-        }
-
-        Repeater {
-            id: equipmentRepeater
-            model: equipmentModel
+    Component {
+        id: card_equipment
+        Ez.Card {
+            title: qsTr("Equipment")
 
             Ez.ComboBox {
-                readonly property var repdata: equipmentRepeater.model.get(index)
                 Layout.fillWidth: true
                 jsonData: root.jsonData
-                key: "initial_equipment/" + repdata.key
-                Kirigami.FormData.label: repdata.label
+                key: "initial_equipment/weapon_id"
+                Kirigami.FormData.label: "Weapon"
                 model: {
-                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(repdata.type);
+                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(1);
+                    let list = Ez.ProjectData.database().list("items");
+                    list.fallbackString = "(None)";
+                    filter.sourceModel = list;
+                    return filter;
+                }
+            }
+
+            Ez.ComboBox {
+                Layout.fillWidth: true
+                jsonData: root.jsonData
+                key: "initial_equipment/shield_id"
+                Kirigami.FormData.label: "Shield"
+                model: {
+                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(2);
+                    let list = Ez.ProjectData.database().list("items");
+                    list.fallbackString = "(None)";
+                    filter.sourceModel = list;
+                    return filter;
+                }
+            }
+
+            Ez.ComboBox {
+                Layout.fillWidth: true
+                jsonData: root.jsonData
+                key: "initial_equipment/armor_id"
+                Kirigami.FormData.label: "Armor"
+                model: {
+                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(3);
+                    let list = Ez.ProjectData.database().list("items");
+                    list.fallbackString = "(None)";
+                    filter.sourceModel = list;
+                    return filter;
+                }
+            }
+
+            Ez.ComboBox {
+                Layout.fillWidth: true
+                jsonData: root.jsonData
+                key: "initial_equipment/helmet_id"
+                Kirigami.FormData.label: "Helmet"
+                model: {
+                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(4);
+                    let list = Ez.ProjectData.database().list("items");
+                    list.fallbackString = "(None)";
+                    filter.sourceModel = list;
+                    return filter;
+                }
+            }
+
+            Ez.ComboBox {
+                Layout.fillWidth: true
+                jsonData: root.jsonData
+                key: "initial_equipment/accessory_id"
+                Kirigami.FormData.label: "Accessory"
+                model: {
+                    let filter = Ez.ProjectData.actorModel(root.objIndex).CreateEquipmentFilter(5);
                     let list = Ez.ProjectData.database().list("items");
                     list.fallbackString = "(None)";
                     filter.sourceModel = list;
