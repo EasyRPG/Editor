@@ -13,10 +13,10 @@ DatabaseEntryPage {
 
     Models.ListModel {
         id: typeModel
-        Models.ListElement { value: 0; text: "Normal" }
-        Models.ListElement { value: 1; text: "Teleport" }
-        Models.ListElement { value: 2; text: "Escape" }
-        Models.ListElement { value: 3; text: "Switch" }
+        Models.ListElement { value: 0; text: qsTr("Normal") }
+        Models.ListElement { value: 1; text: qsTr("Teleport") }
+        Models.ListElement { value: 2; text: qsTr("Escape") }
+        Models.ListElement { value: 3; text: qsTr("Switch") }
     }
 
     Ez.FormLayout {
@@ -25,20 +25,20 @@ DatabaseEntryPage {
         Ez.TextField {
             jsonData: root.jsonData
             key: "name"
-            Kirigami.FormData.label: "Name"
+            Kirigami.FormData.label: qsTr("Name")
         }
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "description"
-            Kirigami.FormData.label: "Description"
+            Kirigami.FormData.label: qsTr("Description")
         }
 
         Ez.ComboBox {
             id: cbType
             jsonData: root.jsonData
             key: "type"
-            Kirigami.FormData.label: "Type"
+            Kirigami.FormData.label: qsTr("Type")
             model: typeModel
         }
     }

@@ -76,7 +76,7 @@ DatabaseEntryPage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Title"
+            Kirigami.FormData.label: qsTr("Title")
         }
 
         JsonImageViewer {
@@ -86,7 +86,7 @@ DatabaseEntryPage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Game Over"
+            Kirigami.FormData.label: qsTr("Game Over")
         }
 
         JsonImageViewer {
@@ -96,7 +96,7 @@ DatabaseEntryPage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "System"
+            Kirigami.FormData.label: qsTr("System")
         }
 
         JsonImageViewer {
@@ -106,7 +106,7 @@ DatabaseEntryPage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "System 2"
+            Kirigami.FormData.label: qsTr("System 2")
         }
 
         JsonImageViewer {
@@ -116,136 +116,135 @@ DatabaseEntryPage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Music"
+            Kirigami.FormData.label: qsTr("Music")
         }
 
         JsonMusicViewer {
             key: "title_music"
-            Kirigami.FormData.label: "Title"
+            Kirigami.FormData.label: qsTr("Title")
         }
 
         JsonMusicViewer {
             key: "gameover_music"
-            Kirigami.FormData.label: "Game Over"
+            Kirigami.FormData.label: qsTr("Game Over")
         }
 
         JsonMusicViewer {
             key: "inn_music"
-            Kirigami.FormData.label: "Inn"
+            Kirigami.FormData.label: qsTr("Inn")
         }
 
         JsonMusicViewer {
             key: "boat_music"
-            Kirigami.FormData.label: "Boat"
+            Kirigami.FormData.label: qsTr("Boat")
         }
 
         JsonMusicViewer {
             key: "ship_music"
-            Kirigami.FormData.label: "Ship"
+            Kirigami.FormData.label: qsTr("Ship")
         }
 
         JsonMusicViewer {
             key: "airship_music"
-            Kirigami.FormData.label: "Airship"
+            Kirigami.FormData.label: qsTr("Airship")
         }
 
         JsonMusicViewer {
             key: "battle_music"
-            Kirigami.FormData.label: "Battle"
+            Kirigami.FormData.label: qsTr("Battle")
         }
 
         JsonMusicViewer {
             key: "battle_end_music"
-            Kirigami.FormData.label: "Battle End"
+            Kirigami.FormData.label: qsTr("Battle End")
         }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Sound"
+            Kirigami.FormData.label: qsTr("Sound")
         }
-
 
         JsonSoundViewer {
             key: "cursor_se"
-            Kirigami.FormData.label: "Cursor"
+            Kirigami.FormData.label: qsTr("Cursor")
         }
 
         JsonSoundViewer {
             key: "decision_se"
-            Kirigami.FormData.label: "Decision"
+            Kirigami.FormData.label: qsTr("Decision")
         }
 
         JsonSoundViewer {
             key: "cancel_se"
-            Kirigami.FormData.label: "Cancel"
+            Kirigami.FormData.label: qsTr("Cancel")
         }
 
         JsonSoundViewer {
             key: "buzzer_se"
-            Kirigami.FormData.label: "Buzzer"
+            Kirigami.FormData.label: qsTr("Buzzer")
         }
 
         JsonSoundViewer {
             key: "battle_se"
-            Kirigami.FormData.label: "Battle"
+            Kirigami.FormData.label: qsTr("Battle")
         }
 
         JsonSoundViewer {
             key: "escape_se"
-            Kirigami.FormData.label: "Escape"
+            Kirigami.FormData.label: qsTr("Escape")
         }
 
         JsonSoundViewer {
             key: "enemy_attack_se"
-            Kirigami.FormData.label: "Enemy Attack"
+            Kirigami.FormData.label: qsTr("Enemy Attack")
         }
 
         JsonSoundViewer {
             key: "enemy_damaged_se"
-            Kirigami.FormData.label: "Enemy Damaged"
+            Kirigami.FormData.label: qsTr("Enemy Damaged")
         }
 
         JsonSoundViewer {
             key: "actor_damaged_se"
-            Kirigami.FormData.label: "Actor Damaged"
+            Kirigami.FormData.label: qsTr("Actor Damaged")
         }
 
         JsonSoundViewer {
             key: "dodge_se"
-            Kirigami.FormData.label: "Dodge"
+            Kirigami.FormData.label: qsTr("Dodge")
         }
 
         JsonSoundViewer {
             key: "enemy_death_se"
-            Kirigami.FormData.label: "Enemy Death"
+            Kirigami.FormData.label: qsTr("Enemy Death")
         }
 
         JsonSoundViewer {
             key: "item_se"
-            Kirigami.FormData.label: "Item"
+            Kirigami.FormData.label: qsTr("Item")
         }
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Vehicles"
+            Kirigami.FormData.label: qsTr("Vehicles")
         }
 
         JsonCharSetViewer {
-            Kirigami.FormData.label: "Boat"
+            Kirigami.FormData.label: qsTr("Boat")
             nameKey: "boat_name"
             indexKey: "boat_index"
             showTransparency: false
         }
 
         JsonCharSetViewer {
-            Kirigami.FormData.label: "Ship"
+            Kirigami.FormData.label: qsTr("Ship")
             nameKey: "ship_name"
             indexKey: "ship_index"
             showTransparency: false
         }
 
         JsonCharSetViewer {
-            Kirigami.FormData.label: "Airship"
+            Kirigami.FormData.label: qsTr("Airship")
             nameKey: "airship_name"
             indexKey: "airship_index"
             showTransparency: false
