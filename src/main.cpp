@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 	// Kirigami only loads a custom style when using a static build
 	// Lets wait for upstream to improve this
 #if defined(KIRIGAMI_STATIC)
-    // Default to org.kde.breeze style (from qqc2-breeze style)
+	// Default to org.kde.breeze style (from qqc2-breeze style)
 	if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
 		const char* fstyle = "KIRIGAMI_FORCE_STYLE";
 		if (qEnvironmentVariableIsEmpty(fstyle) || qEnvironmentVariableIntValue(fstyle) > 0) {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 	// setup qml engine
-	auto engine = core().qmlEngine();
+	//auto engine = core().qmlEngine();
 
 	/*engine->loadFromModule("org.easyrpg.editor", "MainWindow");
 	if (engine->rootObjects().isEmpty()) {

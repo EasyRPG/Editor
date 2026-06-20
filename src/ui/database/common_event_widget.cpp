@@ -56,7 +56,7 @@ void CommonEventWidget::setData(lcf::rpg::CommonEvent* common_event) {
 	updateComboSwitchEnabled();
 }
 
-void CommonEventWidget::on_comboTrigger_currentIndexChanged(int index) {
+void CommonEventWidget::on_comboTrigger_currentIndexChanged(int /*index*/) {
 	updateComboSwitchEnabled();
 }
 

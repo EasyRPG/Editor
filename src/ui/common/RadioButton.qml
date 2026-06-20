@@ -13,6 +13,9 @@ Controls.RadioButton {
 
     property int value
 
+    onKeyChanged: onDataChanged()
+    onJsonDataChanged: onDataChanged()
+
     onCheckedChanged: {
         if (checked && jsonData !== null && key !== "") {
             jsonData.set(key, value)

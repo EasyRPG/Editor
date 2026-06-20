@@ -112,7 +112,7 @@ bool OpenProjectDialog::removeDir(const QString & dirName)
 				QMessageBox::warning(this,
 									 tr("An error ocurred"),
 									 QString(tr("Could't delete %1")).arg(info.absoluteFilePath()),
-									 QMessageBox::Ok, 0);
+									 QMessageBox::Ok);
 				return false;
 			}
 		}

@@ -69,8 +69,6 @@ void AttributeWidget::on_currentAttributeChanged(lcf::rpg::Attribute *attribute)
 	}
 	m_current = attribute;
 
-	auto& database = m_project.database();
-
 	LcfWidgetBinding::bind(ui->lineName, attribute->name);
 	LcfWidgetBinding::bind(m_buttonGroupType, attribute->type);
 	LcfWidgetBinding::bind(ui->spinA, attribute->a_rate);

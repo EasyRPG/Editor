@@ -83,4 +83,7 @@ public:
 	 * @return JSON string
 	 */
 	Q_INVOKABLE virtual QString toJson(QString jsonPtr) const = 0;
+
+signals:
+	void valueChanged(QString jsonPtr);
 };

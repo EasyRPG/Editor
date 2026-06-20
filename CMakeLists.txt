@@ -325,10 +325,10 @@ set(EDITOR_SOURCES
 set(EDITOR_QML_UI
 	src/ui/common/CheckBox.qml
 	src/ui/common/ComboBox.qml
+	src/ui/common/PickerData.qml
 	src/ui/common/RadioButton.qml
 	src/ui/common/SpinBox.qml
 	src/ui/common/TextField.qml
-	src/ui/MainWindow.qml
 	src/ui/database/ActorPage.qml
 	src/ui/database/AttributePage.qml
 	src/ui/database/DatabaseEntryListPage.qml
@@ -337,23 +337,46 @@ set(EDITOR_QML_UI
 	src/ui/database/DatabaseWindow.qml
 	src/ui/database/ItemPage.qml
 	src/ui/database/SkillPage.qml
+	src/ui/database/SystemPage.qml
 	src/ui/database/VocabularyPage.qml
+	src/ui/MainWindow.qml
+	src/ui/picker/CharSetPicker.qml
+	src/ui/picker/FaceSetPicker.qml
+	src/ui/picker/ImagePicker.qml
+	src/ui/picker/MusicPicker.qml
+	src/ui/picker/PickerBase.qml
+	src/ui/picker/SoundPicker.qml
+	src/ui/viewer/CharSetViewer.qml
+	src/ui/viewer/FaceSetViewer.qml
+	src/ui/viewer/FileViewerBase.qml
+	src/ui/viewer/ImageViewer.qml
+	src/ui/viewer/MusicViewer.qml
+	src/ui/viewer/SoundViewer.qml
+	src/ui/viewer/ViewerBase.qml
 )
 
 set(EDITOR_QML_INTERFACE
+	src/qmlbinding/directory_model.cpp
+	src/qmlbinding/directory_model.h
 	src/qmlbinding/json_internals/json_t_database.cpp
 	src/qmlbinding/json_internals/json_t_impl.h
 	src/qmlbinding/json_internals/json_t_map.cpp
 	src/qmlbinding/json_internals/json_t_treemap.cpp
-	src/qmlbinding/json.h
 	src/qmlbinding/json_list_view.cpp
 	src/qmlbinding/json_list_view.h
 	src/qmlbinding/json_t.h
 	src/qmlbinding/json_view.cpp
 	src/qmlbinding/json_view.h
+	src/qmlbinding/json.h
 	src/qmlbinding/lcf_glaze.h
 	src/qmlbinding/project_data_gadget.cpp
 	src/qmlbinding/project_data_gadget.h
+	src/ui/picker/charset_painted_item.cpp
+	src/ui/picker/charset_painted_item.h
+	src/ui/picker/faceset_painted_item.cpp
+	src/ui/picker/faceset_painted_item.h
+	src/ui/picker/sprite_painted_item.cpp
+	src/ui/picker/sprite_painted_item.h
 )
 
 # Dependencies
@@ -423,6 +446,7 @@ target_include_directories(${EXE_NAME}
 	PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 		${CMAKE_CURRENT_SOURCE_DIR}/src/qmlbinding  # Required by QML build step
+		${CMAKE_CURRENT_SOURCE_DIR}/src/ui/picker   # QML painted items
 	INTERFACE
 		$<BUILD_INTERFACE:${AUTOGEN_INCLUDE_DIR}>
 )

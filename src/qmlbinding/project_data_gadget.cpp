@@ -16,6 +16,7 @@
  */
 
 #include "project_data_gadget.h"
+#include "common/image_loader.h"
 #include "model/actor.h"
 #include "model/project.h"
 #include "json_view.h"
@@ -25,24 +26,24 @@ ProjectDataGadget::ProjectDataGadget(QObject* parent) : QObject(parent) {
 }
 
 void ProjectDataGadget::setProjectData(ProjectData* data) {
-    if (m_data == data) return;
+	if (m_data == data) return;
 
-    m_data = data;
+	m_data = data;
 
-    if (m_data) {
-        m_database_json.setData(&m_data->database());
-        m_treemap_json.setData(&m_data->treeMap());
-    }
+	if (m_data) {
+		m_database_json.setData(&m_data->database());
+		m_treemap_json.setData(&m_data->treeMap());
+	}
 
-    emit projectDataChanged();
+	emit projectDataChanged();
 }
 
 JsonView* ProjectDataGadget::database() {
-    return m_data ? qvariant_cast<JsonView*>(m_database_json.subtree("/")) : nullptr;
+	return m_data ? qvariant_cast<JsonView*>(m_database_json.subtree("/")) : nullptr;
 }
 
 JsonView* ProjectDataGadget::treeMap() {
-    return m_data ? qvariant_cast<JsonView*>(m_treemap_json.subtree("/")) : nullptr;
+	return m_data ? qvariant_cast<JsonView*>(m_treemap_json.subtree("/")) : nullptr;
 }
 
 QString ProjectDataGadget::findFile(const QString& filename, FileFinder::FileType type) const {
@@ -63,6 +64,15 @@ QString ProjectDataGadget::findDirectory(const QString& dir) const {
 
 QString ProjectDataGadget::findDirectory(const QString& baseDir, const QString& dir) const {
 	return m_data->project().findDirectory(baseDir, dir);
+}
+
+QPixmap ProjectDataGadget::loadImage(const QString& dir, const QString& filename) const {
+	QString file = findFile(dir, filename, FileFinder::FileType::Image);
+	if (file.isEmpty()) {
+		return {};
+	}
+
+	return ImageLoader::Load(file);
 }
 
 ActorModel ProjectDataGadget::actorModel(int actor_index) {

@@ -21,19 +21,41 @@ DatabaseEntryPage {
         Models.ListElement { key: "accessory_id"; label: "Accessory:"; type: 5 }
     }
 
+    /*property Ez.PickerData charsetPickerData: Ez.PickerData {
+        index: charsetViewer.characterIndex
+        Component.onCompleted: filename = charsetViewer.filename
+    }
+
+    property Component charsetPickerComponent: Ez.ImagePicker {
+        onAccepted: {
+            charsetViewer.filename = pickerData.filename
+            charsetViewer.characterIndex = pickerData.index
+            root.jsonData.set("character_name", pickerData.filename)
+            root.jsonData.set("character_index", pickerData.index)
+        }
+    }*/
+
     Kirigami.FormLayout {
-        anchors.fill: parent
+        id: form1
+        Layout.fillWidth: true
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "General"
+        }
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "name"
             Kirigami.FormData.label: "Name:"
+            Layout.fillWidth: true
         }
 
         Ez.TextField {
             jsonData: root.jsonData
             key: "title"
             Kirigami.FormData.label: "Title:"
+            Layout.fillWidth: true
         }
 
         RowLayout {
@@ -80,6 +102,57 @@ DatabaseEntryPage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Graphics"
+        }
+
+        Ez.FaceSetViewer {
+            id: faceViewer
+            Kirigami.FormData.label: "Face:"
+
+            filename: root.jsonData.str("face_name")
+            cellIndex: root.jsonData.num("face_index")
+
+            pickerData: Ez.PickerData {
+                index: faceViewer.cellIndex
+                Component.onCompleted: filename = faceViewer.filename
+            }
+
+            onAccepted: {
+                faceViewer.filename = pickerData.filename
+                faceViewer.cellIndex = pickerData.index
+                root.jsonData.set("face_name", pickerData.filename)
+                root.jsonData.set("face_index", pickerData.index)
+            }
+        }
+
+        Ez.CharSetViewer {
+            id: charViewer
+            Kirigami.FormData.label: "Character:"
+
+            spin: true
+            walk: true
+            filename: root.jsonData.str("character_name")
+            cellIndex: root.jsonData.num("character_index")
+            transparent: root.jsonData.boolean("transparent")
+
+            pickerData: Ez.PickerData {
+                index: charViewer.cellIndex
+                transparent: charViewer.transparent
+                Component.onCompleted: filename = charViewer.filename
+            }
+
+            onAccepted: {
+                charViewer.filename = pickerData.filename
+                charViewer.cellIndex = pickerData.index
+                charViewer.transparent = pickerData.transparent
+                root.jsonData.set("character_name", pickerData.filename)
+                root.jsonData.set("character_index", pickerData.index)
+                root.jsonData.set("transparent", pickerData.transparent)
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "Equipment"
         }
 
@@ -89,7 +162,7 @@ DatabaseEntryPage {
 
             Ez.ComboBox {
                 readonly property var repdata: equipmentRepeater.model.get(index)
-
+                Layout.fillWidth: true
                 jsonData: root.jsonData
                 key: "initial_equipment/" + repdata.key
                 Kirigami.FormData.label: repdata.label

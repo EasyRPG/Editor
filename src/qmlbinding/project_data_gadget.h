@@ -22,6 +22,7 @@
 #include "model/project_data.h"
 #include <lcf/rpg/fwd.h>
 #include <QObject>
+#include <QPixmap>
 
 class ActorModel;
 class JsonView;
@@ -37,25 +38,27 @@ class ProjectDataGadget : public QObject
 	Q_PROPERTY(QString projectPath READ projectPath)
 
 public:
-    explicit ProjectDataGadget(QObject* parent = nullptr);
+	explicit ProjectDataGadget(QObject* parent = nullptr);
 
-    void setProjectData(ProjectData* data);
+	void setProjectData(ProjectData* data);
 
-    Q_INVOKABLE JsonView* database();
-    Q_INVOKABLE JsonView* treeMap();
+	Q_INVOKABLE JsonView* database();
+	Q_INVOKABLE JsonView* treeMap();
 
-    Q_INVOKABLE QString findFile(const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
-    Q_INVOKABLE QString findFile(const QString& dir, const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
-    Q_INVOKABLE QString findFileOrDefault(const QString& filename);
-    Q_INVOKABLE QString findDirectory(const QString& dir) const;
-    Q_INVOKABLE QString findDirectory(const QString& baseDir, const QString& dir) const;
+	Q_INVOKABLE QString findFile(const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
+	Q_INVOKABLE QString findFile(const QString& dir, const QString& filename, FileFinder::FileType type = FileFinder::FileType::Default) const;
+	Q_INVOKABLE QString findFileOrDefault(const QString& filename);
+	Q_INVOKABLE QString findDirectory(const QString& dir) const;
+	Q_INVOKABLE QString findDirectory(const QString& baseDir, const QString& dir) const;
+
+	Q_INVOKABLE QPixmap loadImage(const QString& dir, const QString& filename) const;
 
 	Q_INVOKABLE ActorModel actorModel(int actor_index);
 
 	QString projectPath() const;
 
 signals:
-    void projectDataChanged();
+	void projectDataChanged();
 
 private:
 	ProjectData* m_data = nullptr;

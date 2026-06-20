@@ -345,7 +345,7 @@ void ActorWidget::on_listStatusRanks_clicked() {
 	}
 
 	int index = ui->listStatusRanks->currentRow();
-	if (m_current->state_ranks.size() <= index) {
+	if (static_cast<int>(m_current->state_ranks.size()) <= index) {
 		for (int i = m_current->state_ranks.size(); i <= index; i++) {
 			m_current->state_ranks.push_back(2);
 		}
@@ -355,7 +355,7 @@ void ActorWidget::on_listStatusRanks_clicked() {
 	m_current->state_ranks[index] = rank;
 	ui->listStatusRanks->item(index)->setIcon(QIcon(QString(":/ranks/rank%1").arg(rank)));
 
-	if (index == m_current->state_ranks.size() - 1 && rank == 2) {
+	if (index == static_cast<int>(m_current->state_ranks.size()) - 1 && rank == 2) {
 		m_current->state_ranks.pop_back();
 		for (int i = m_current->state_ranks.size() - 1; i >= 0; i--) {
 			if (m_current->state_ranks[i] == 2) {
@@ -373,7 +373,7 @@ void ActorWidget::on_listAttributeRanks_clicked() {
 	}
 
 	int index = ui->listAttributeRanks->currentRow();
-	if (m_current->attribute_ranks.size() <= index) {
+	if (static_cast<int>(m_current->attribute_ranks.size()) <= index) {
 		for (int i = m_current->attribute_ranks.size(); i <= index; i++) {
 			m_current->attribute_ranks.push_back(2);
 		}
@@ -383,7 +383,7 @@ void ActorWidget::on_listAttributeRanks_clicked() {
 	m_current->attribute_ranks[index] = rank;
 	ui->listAttributeRanks->item(index)->setIcon(QIcon(QString(":/ranks/rank%1").arg(rank)));
 
-	if (index == m_current->attribute_ranks.size() - 1 && rank == 2) {
+	if (index == static_cast<int>(m_current->attribute_ranks.size()) - 1 && rank == 2) {
 		m_current->attribute_ranks.pop_back();
 		for (int i = m_current->attribute_ranks.size() - 1; i >= 0; i--) {
 			if (m_current->attribute_ranks[i] == 2) {

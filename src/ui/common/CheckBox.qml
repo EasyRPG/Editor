@@ -11,10 +11,13 @@ Controls.CheckBox {
     property string key
     property Ez.JsonView jsonData
 
+    onKeyChanged: onDataChanged()
+    onJsonDataChanged: onDataChanged()
+
     onToggled: {
-    	if (jsonData !== null && key !== "") {
-    		jsonData.set(key, checked);
-    	}
+        if (jsonData !== null && key !== "") {
+            jsonData.set(key, checked);
+        }
     }
 
     Component.onCompleted: {
@@ -22,10 +25,10 @@ Controls.CheckBox {
     }
 
     function onDataChanged() {
-    	if (jsonData !== null && key !== "") {
-    		checked = jsonData.boolean(key);
-    	} else {
-    		checked = false;
-    	}
+        if (jsonData !== null && key !== "") {
+            checked = jsonData.boolean(key);
+        } else {
+            checked = false;
+        }
     }
 }

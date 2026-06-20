@@ -26,7 +26,7 @@ Kirigami.ScrollablePage {
 
     ListView {
         id: entryList
-    	model: root.jsonData
+        model: root.jsonData
 
         onCurrentIndexChanged: {
             root.selectEntry(currentIndex)
@@ -36,7 +36,7 @@ Kirigami.ScrollablePage {
             required property int index
             required property string name
 
-    		width: ListView.view.width
+            width: ListView.view.width
             text: (index+1).toString().padStart(4, '0') + ": " + name
 
             highlighted: entryList.currentIndex === index
@@ -54,18 +54,15 @@ Kirigami.ScrollablePage {
 
         var pageStack = applicationWindow().pageStack
 
-        // Reuse the already loaded Ui when item type (key) stays the same
-        if (pageStack.lastItem.key !== root.key) {
-            while (pageStack.depth > 2) {
-                pageStack.pop();
-            }
-        }
-
-        if (pageStack.depth <= 2) {
+        // Reuse the already loaded Ui
+        if (pageStack.depth > 2) {
+            pageStack.lastItem.jsonData = jsonData.subtree(index);
+            pageStack.lastItem.objIndex = index;
+        } else {
             //console.log("Pushing:", root.targetPage);
             pageStack.push(Qt.resolvedUrl(root.targetPage), {
                 // Use the index passed to the function
-                jsonData: jsonData.subtree("/" + index),
+                jsonData: jsonData.subtree(index),
                 objIndex: index
             });
         }
