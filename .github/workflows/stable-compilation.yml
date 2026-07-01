@@ -25,7 +25,7 @@ jobs:
       image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.10
       options: --privileged
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v6
       with:
         bundle: EasyRPG-Editor.flatpak
@@ -76,12 +76,12 @@ jobs:
 
       - &clone
         name: Clone Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         if: github.event.inputs.git-ref == ''
 
       - &cloneref
         name: Clone Repository (with custom ref)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         if: github.event.inputs.git-ref != ''
         with:
           ref: ${{ github.event.inputs.git-ref }}
