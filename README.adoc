@@ -60,8 +60,8 @@ Step-by-step instructions:
 
 [source,shell]
 ---------------------------------------
-cmake .        # generate Makefile
-cmake --build  # compile the executable
+cmake .          # generate Makefile
+cmake --build .  # compile the executable
 ---------------------------------------
 
 
