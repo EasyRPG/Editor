@@ -15,26 +15,21 @@
  * along with EasyRPG Editor. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "rpg_graphics_view.h"
-#include <QMouseEvent>
-#include <memory>
+#pragma once
 
-RpgGraphicsViewBase::RpgGraphicsViewBase(QWidget* parent) : QGraphicsView(parent) {
-	setScene(new QGraphicsScene(this));
-}
+#include <QWidget>
+#include "picker_child_widget.h"
 
-void RpgGraphicsViewBase::enableTimer() {
-	m_timer = std::make_unique<QTimer>();
-	QObject::connect(m_timer.get(), &QTimer::timeout, scene(), &QGraphicsScene::advance);
-	m_timer->start(1000 / 33);
-}
+class QGraphicsScene;
+class QGraphicsPixmapItem;
 
-void RpgGraphicsViewBase::mousePressEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton && m_item) {
-		const auto& p = mapToScene(event->pos());
-		if (m_item->boundingRect().contains(p)) {
-			emit clicked(p);
-		}
-	}
-	QGraphicsView::mousePressEvent(event);
-}
+class PickerChipsetWidget : public PickerChildWidget {
+	Q_OBJECT
+public:
+	PickerChipsetWidget(QWidget* parent = nullptr) : PickerChildWidget(parent) {}
+
+	void imageChanged(QPixmap image) override;
+
+private:
+	QGraphicsPixmapItem* m_pixmap = nullptr;
+};

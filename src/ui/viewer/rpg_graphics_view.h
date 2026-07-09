@@ -27,6 +27,7 @@
 
 #include "charset_graphics_item.h"
 #include "faceset_graphics_item.h"
+#include "tile_graphics_item.h"
 
 class RpgGraphicsViewBase : public QGraphicsView {
 	Q_OBJECT
@@ -79,4 +80,5 @@ public:
 
 using CharSetGraphicsView = RpgGraphicsView<CharSetGraphicsItem>;
 using FaceSetGraphicsView = RpgGraphicsView<FaceSetGraphicsItem>;
+using TileGraphicsView = RpgGraphicsView<TileGraphicsItem>;
 using PixmapGraphicsView = RpgGraphicsView<QGraphicsPixmapItem>;
