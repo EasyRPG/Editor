@@ -25,9 +25,16 @@ https://wiki.easyrpg.org
 == Requirements
 
 - {liblcf} for RPG Maker data reading.
-- {qt6} (>= 6.10)
-- Qt Multimedia
-- Qt SVG
+- {qt6} (>= 6.10.1) (Widgets, QtQuick/QML, Multimedia and SVG)
+- ECM for additional CMake functionality.
+- Kirigami for additional QML Widgets.
+- QQC2 Breeze Style for QML styling.
+- KDDockWidgets for floating windows and docking.
+- zlib for XYZ image support.
+- Glaze for converting LCF data to JSON and binding to QML.
+
+Optional dependencies:
+
 - Qt Linguist (optional, for translation)
 
 == Daily builds
@@ -54,15 +61,35 @@ https://easyrpg.org/downloads/editor/
 
 Building requirements:
 
-- CMake >= 3.15
+- A C++23 capable compiler.
+- CMake >= 3.15 (>= 3.23 to use the provided CMake presets)
 
 Step-by-step instructions:
 
 [source,shell]
 ---------------------------------------
-cmake .          # generate Makefile
-cmake --build .  # compile the executable
+cmake -S . -B build   # generate the build system
+cmake --build build   # compile the executable
 ---------------------------------------
+
+Another option is to use CMake presets:
+
+---------------------------------------
+cmake --preset TYPE          # generate the build system
+cmake --build --preset TYPE  # compile the executable
+---------------------------------------
+
+Possible values for `TYPE` are `debug`, `relwithdebinfo` and `release`.
+
+If liblcf is not installed on the system, either add `-DEDITOR_BUILD_LIBLCF=ON`
+to the configure step to build it as part of the project, or use one of the
+`liblcf-TYPE` presets (e.g. `liblcf-debug`).
+
+The non-Qt dependencies can be installed and built automatically with vcpkg.
+This requires vcpkg to be installed and the `VCPKG_ROOT` environment variable
+to be set to its installation directory. Due to its sheer size, Qt6 itself is
+not managed by vcpkg and must still be provided separately (e.g. as a system
+package). The corresponding presets are `vcpkg-TYPE` and `vcpkg-liblcf-TYPE`.
 
 
 == Running EasyRPG Editor
