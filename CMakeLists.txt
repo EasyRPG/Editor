@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
-cmake_policy(SET CMP0091 NEW) # Support MSVC_RUNTIME_LIBRARY
+cmake_minimum_required(VERSION 3.23...4.4 FATAL_ERROR)
 
 project(EasyRPG_Editor VERSION 0.1.0 LANGUAGES CXX)
 

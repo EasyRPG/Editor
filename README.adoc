@@ -35,7 +35,7 @@ https://wiki.easyrpg.org
 
 Optional dependencies:
 
-- Qt Linguist (optional, for translation)
+- Qt Linguist (for translation)
 
 == Daily builds
 
@@ -62,7 +62,7 @@ https://easyrpg.org/downloads/editor/
 Building requirements:
 
 - A C++23 capable compiler.
-- CMake >= 3.15 (>= 3.23 to use the provided CMake presets)
+- CMake >= 3.23
 
 Step-by-step instructions:
 
