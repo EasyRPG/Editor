@@ -45,7 +45,7 @@ Kirigami.ScrollablePage {
 
     actions: [
         Kirigami.Action {
-            text: "Cancel"
+            text: qsTr("Cancel")
             icon.name: "cancel"
             onTriggered: {
                 applicationWindow().pageStack.pop()
@@ -54,7 +54,7 @@ Kirigami.ScrollablePage {
             visible: showActions
         },
         Kirigami.Action {
-            text: "Select"
+            text: qsTr("Select")
             icon.name: "confirm"
             onTriggered: {
                 applicationWindow().pageStack.pop()

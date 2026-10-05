@@ -19,7 +19,7 @@ Kirigami.ApplicationWindow {
     width: Kirigami.Units.gridUnit * 74
     height: Kirigami.Units.gridUnit * 41
 
-    title: "EasyRPG Editor - Database"
+    title: qsTr("EasyRPG Editor - Database")
 
     pageStack.defaultColumnWidth: Kirigami.Units.gridUnit * 11
 

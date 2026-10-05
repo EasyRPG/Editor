@@ -12,57 +12,95 @@ import org.easyrpg.editor as Ez
 DatabaseEntryPage {
     id: root
 
-    Models.ListModel {
-        id: rateModel
-        Models.ListElement { key: "a_rate"; label: "A Rate:" }
-        Models.ListElement { key: "b_rate"; label: "B Rate:" }
-        Models.ListElement { key: "c_rate"; label: "C Rate:" }
-        Models.ListElement { key: "d_rate"; label: "D Rate:" }
-        Models.ListElement { key: "e_rate"; label: "E Rate:" }
+    Ez.GridLaneLayout {
+        id: cardLayout
+        model: [card_general, card_dmg]
     }
 
-    Kirigami.FormLayout {
-        anchors.fill: parent
+    Component {
+        id: card_general
+        Ez.Card {
+            title: qsTr("General")
 
-        Ez.TextField {
-            jsonData: root.jsonData
-            key: "name"
-            Kirigami.FormData.label: "Name:"
-        }
-
-        ColumnLayout {
-            Kirigami.FormData.label: "Attribute Type:"
-            Kirigami.FormData.buddyFor: radio_physical
-            Ez.RadioButton {
-                id: radio_physical
+            Ez.TextField {
                 jsonData: root.jsonData
-                key: "type"
-                text: "Physical"
-                value: 0
+                key: "name"
+                Kirigami.FormData.label: qsTr("Name")
             }
-            Ez.RadioButton {
-                jsonData: root.jsonData
-                key: "type"
-                text: "Magical"
-                value: 1
+
+            ColumnLayout {
+                Kirigami.FormData.label: qsTr("Attribute Type")
+                Kirigami.FormData.buddyFor: radio_physical
+                Ez.RadioButton {
+                    id: radio_physical
+                    jsonData: root.jsonData
+                    key: "type"
+                    text: qsTr("Physical")
+                    value: 0
+                }
+                Ez.RadioButton {
+                    jsonData: root.jsonData
+                    key: "type"
+                    text: qsTr("Magical")
+                    value: 1
+                }
             }
         }
+    }
 
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "Damage Multipliers"
-        }
-
-        Repeater {
-            model: rateModel
+    Component {
+        id: card_dmg
+        Ez.Card {
+            title: qsTr("Damage Multipliers")
 
             Ez.SpinBox {
                 jsonData: root.jsonData
-                key: model.key
-                Kirigami.FormData.label: model.label
+                key: "a_rate"
+                Kirigami.FormData.label: qsTr("A Rate")
                 from: -9999
                 to: 9999
-                suffix: "%"
+                suffix: qsTr("%")
+                Layout.fillWidth: true
+            }
+
+            Ez.SpinBox {
+                jsonData: root.jsonData
+                key: "b_rate"
+                Kirigami.FormData.label: qsTr("B Rate")
+                from: -9999
+                to: 9999
+                suffix: qsTr("%")
+                Layout.fillWidth: true
+            }
+
+            Ez.SpinBox {
+                jsonData: root.jsonData
+                key: "c_rate"
+                Kirigami.FormData.label: qsTr("C Rate")
+                from: -9999
+                to: 9999
+                suffix: qsTr("%")
+                Layout.fillWidth: true
+            }
+
+            Ez.SpinBox {
+                jsonData: root.jsonData
+                key: "d_rate"
+                Kirigami.FormData.label: qsTr("D Rate")
+                from: -9999
+                to: 9999
+                suffix: qsTr("%")
+                Layout.fillWidth: true
+            }
+
+            Ez.SpinBox {
+                jsonData: root.jsonData
+                key: "e_rate"
+                Kirigami.FormData.label: qsTr("E Rate")
+                from: -9999
+                to: 9999
+                suffix: qsTr("%")
+                Layout.fillWidth: true
             }
         }
     }

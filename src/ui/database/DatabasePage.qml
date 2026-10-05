@@ -18,7 +18,7 @@ Kirigami.ScrollablePage {
     /** Database of the current project */
     property Ez.JsonView jsonData
 
-    title: "Database"
+    title: qsTr("Database")
 
     /**
      * name: Text shown to the user
@@ -29,33 +29,33 @@ Kirigami.ScrollablePage {
     ListModel {
         id: pageModel
         ListElement {
-            name: "Actors"
+            name: qsTr("Actors")
             key: "actors"
             targetPage: "ActorPage.qml"
         }
         ListElement {
-            name: "Items"
+            name: qsTr("Items")
             key: "items"
             targetPage: "ItemPage.qml"
         }
         ListElement {
-            name: "Skills"
+            name: qsTr("Skills")
             key: "skills"
             targetPage: "SkillPage.qml"
         }
         ListElement {
-            name: "Attributes"
+            name: qsTr("Attributes")
             key: "attributes"
             targetPage: "AttributePage.qml"
         }
         ListElement {
-            name: "System"
+            name: qsTr("System")
             key: "system"
             targetPage: "SystemPage.qml"
             single: true
         }
         ListElement {
-            name: "Vocabulary"
+            name: qsTr("Vocabulary")
             key: "terms"
             targetPage: "VocabularyPage.qml"
             single: true
