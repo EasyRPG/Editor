@@ -18,6 +18,8 @@
 #include "core.h"
 #include "ui/main_window.h"
 #include <QApplication>
+#include <QCommandLineParser>
+#include <QDir>
 #include <QSplashScreen>
 #include <QTranslator>
 #include <QTimer>
@@ -104,9 +106,23 @@ int main(int argc, char *argv[]) {
 	s.showMessage("Loading main window...");
 	app.processEvents();
 	MainWindow w;
-	s.showMessage("Loading last project...");
-	app.processEvents();
-	w.LoadLastProject();
+
+	// a project folder on the command line, else the last opened project
+	QCommandLineParser parser;
+	parser.setApplicationDescription("EasyRPG Editor");
+	parser.addHelpOption();
+	parser.addPositionalArgument("project", QCoreApplication::translate("main", "Project folder to open (EasyRPG or RPG Maker 2000/2003)."), "[project]");
+	parser.process(app);
+	const QStringList args = parser.positionalArguments();
+	if (!args.isEmpty()) {
+		s.showMessage("Loading project...");
+		app.processEvents();
+		w.LoadProject(QDir(args.first()).absolutePath());
+	} else {
+		s.showMessage("Loading last project...");
+		app.processEvents();
+		w.LoadLastProject();
+	}
 	s.clearMessage();
 	w.show();
 #ifndef NDEBUG
