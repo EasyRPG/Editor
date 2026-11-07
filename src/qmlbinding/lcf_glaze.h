@@ -18,7 +18,11 @@
 #pragma once
 
 #include <QString>
+// glaze uses `emit` as a name, which Qt defines as a keyword macro
+#pragma push_macro("emit")
+#undef emit
 #include <glaze/glaze.hpp>
+#pragma pop_macro("emit")
 #include <lcf/dbbitarray.h>
 #include <lcf/dbstring.h>
 #include <lcf/rpg/database.h>

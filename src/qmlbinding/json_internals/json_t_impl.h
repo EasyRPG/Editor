@@ -21,7 +21,11 @@
 
 #include <QObject>
 #include <QVariant>
+// glaze uses `emit` as a name, which Qt defines as a keyword macro
+#pragma push_macro("emit")
+#undef emit
 #include <glaze/json/generic.hpp>
+#pragma pop_macro("emit")
 
 #include "common/dbstring.h"
 #include "lcf_glaze.h"
